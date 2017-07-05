@@ -14,6 +14,7 @@ $(function(){
     selectTargetBranchData($("#targetBranchId").val());
 });
 var gridHandel = new GridClass();
+var gridName = "gridEditRequireOrder";
 function initDatagridEditRequireOrder(){
     gridHandel.setGridName("gridEditRequireOrder");
 	var formId = $("#formId").val();
@@ -122,6 +123,13 @@ function initDatagridEditRequireOrder(){
             updateFooter();
         }
     });
+
+    var param = {
+        distributionPrice:["price","amount","taxAmount"],
+        salePrice:["salePrice","saleAmount"]
+    }
+    priceGrantUtil.grantPrice(gridName,param);
+
 }
 //合计
 function updateFooter(){
@@ -154,16 +162,14 @@ function exportDetail(param){
 
 // 查询要货机构的资料
 function selectTargetBranchData(targetBranchId){
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/common/branches/selectTargetBranchData",
         data:{
             branchesId : targetBranchId
-        },
-        type:"post",
-        success:function(data){
-            $("#address").html(data.address);
-            $("#contacts").html(data.contacts);
-            $("#mobile").html(data.mobile);
         }
+    },function(data){
+        $("#address").html(data.address);
+        $("#contacts").html(data.contacts);
+        $("#mobile").html(data.mobile);
     });
 }

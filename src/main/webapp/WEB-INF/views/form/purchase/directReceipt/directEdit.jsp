@@ -53,11 +53,9 @@
 			<div class="ub umar-t10">
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-70 ut-r">供应商:</div>
-					<input class="uinp" name="supplierId" id="supplierId" type="hidden" value="${form.supplierId}"> <input
-						class="uinp ub ub-f1"  id="supplierName" type="text" onclick="selectSupplier()"
-						value="${form.supplierName}" readonly="readonly">
-					<div class="uinp-more" onclick="selectSupplier()">...</div>
-
+					<input class="uinp" name="supplierId" id="supplierId" type="hidden" value="${form.supplierId}"> 
+					<input class="uinp ub ub-f1"  id="supplierName" type="text" <c:if test="${form.status == 0}">onclick="selectSupplier()"</c:if> value="${form.supplierName}" readonly="readonly">
+					<c:if test="${form.status == 0}"><div class="uinp-more" onclick="selectSupplier()">...</div></c:if>
 				</div>
 				<i class="ub ub-ac uc-red">*</i>
 				<div class="ub ub-ac uselectw uw-300 umar-l10">

@@ -204,6 +204,9 @@ function initDatagridStockLead(){
 
     });
 
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["price","amount"])
+    }
     gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
@@ -231,11 +234,11 @@ function onChangeRealNum(newV,oldV) {
 
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchaseSpec');
     if(!purchaseSpecValue){
-        messager("没有配送规格,请审查");
+        $_jxc.alert("没有配送规格,请审查");
         return;
     }
     if(parseFloat(purchaseSpecValue)==0.0){
-        messager("配送规格不能为0");
+        $_jxc.alert("配送规格不能为0");
         return;
     }
     
@@ -281,11 +284,11 @@ function totleChangePrice(newV,oldV) {
 	}
 	 
     if(!purchaseSpecValue){
-        messager("没有配送规格,请审查");
+        $_jxc.alert("没有配送规格,请审查");
         return;
     }
     if(parseFloat(purchaseSpecValue)==0.0){
-        messager("配送规格不能为0");
+        $_jxc.alert("配送规格不能为0");
         return;
     }
     
@@ -329,7 +332,7 @@ function selectGoods(searchKey){
 	var branchId = $("#branchId").val();
     // 判定发货分店是否存在
     if($("#branchId").val()==""){
-        messager("请选择机构");
+        $_jxc.alert("请选择机构");
         return;
     }
 
@@ -374,19 +377,14 @@ function selectStockAndPrice(branchId,data){
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
-    	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-    		 var setdata=setTion(result);
-    		setDataValue(setdata);
-    	},
-    	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+   		 var setdata=setTion(result);
+   		setDataValue(setdata);
     });
 }
 // 二次查询设置值
@@ -444,7 +442,7 @@ function addStockLead() {
         grid:gridHandel.getRows(),
     }
     if(!gFunComparisonArray(oldData,newData)){
-        $.messager.confirm("提示","单据未保存，是否取消编辑并新增?",function(r){
+        $_jxc.confirm("单据未保存，是否取消编辑并新增?",function(r){
         	if(r){
         		toAddTab("新增领用单", contextPath + "/stock/lead/add");
         	}
@@ -476,20 +474,20 @@ function saveStockLead(){
     $(gridHandel.getGridName()).datagrid("loadData",rows);
   // 判定表格不能为空
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
    var isCheckResult = true;
    $.each(rows,function(i,v){
 	   v["rowNo"] = i+1;
     	if(!v["skuCode"]){
-             messager("第"+(i+1)+"行，货号不能为空");
+             $_jxc.alert("第"+(i+1)+"行，货号不能为空");
              isCheckResult = false;
              return false;
         };
       
         /*if(parseFloat(v["stockNum"])-parseFloat(v["realNum"])<0){
-        	messager("领用数量不允许超过当前库存数量！");
+        	$_jxc.alert("领用数量不允许超过当前库存数量！");
         	isCheckResult = false;
           	return false;
         }*/
@@ -498,7 +496,7 @@ function saveStockLead(){
     
     $.each(rows,function(i,v){
    	 if(!v["realNum"]){
-            messager("第"+(i+1)+"行，数量不能为空");
+            $_jxc.alert("第"+(i+1)+"行，数量不能为空");
             isCheckResult = false;
             return false;
         };
@@ -515,22 +513,17 @@ function saveStockLead(){
             stockFormDetailList:rows
         };
     var req = JSON.stringify(reqObj);
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/stock/lead/save",
-        type:"POST",
         data:req,
-        contentType:"application/json",
-        success:function(result){
-            if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
-                	location.href = contextPath +"/stock/lead/edit?id=" + result["formId"];
-                });
-            }else{
-               successTip(result['message']);
-            }
-        },
-        error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+        contentType:"application/json"
+    },function(result){
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+            	location.href = contextPath +"/stock/lead/edit?id=" + result["formId"];
+            });
+        }else{
+           $_jxc.alert(result['message']);
         }
     });
 }
@@ -553,7 +546,7 @@ function searchBranch(){
 	        grid:gridHandel.getRows(),
 	    }
 	    if(!gFunComparisonArray(oldData,newData)){
-	    	$.messager.confirm('提示','修改领用机构后会清空明细，需要重新录入，是否要修改？',function(r){
+	    	$_jxc.confirm('修改领用机构后会清空明细，需要重新录入，是否要修改？',function(r){
 			    if (r){
 			    	$("#branchId").val(data.branchesId);
 					$("#branchName").val("["+data.branchCode+"]"+data.branchName);
@@ -580,7 +573,7 @@ function importHandel(type){
 	    // 判定发货分店是否存在
 		// JIANGSHAO
 	    if($("#branchId").val()==""){
-	        messager("请选择机构");
+	        $_jxc.alert("请选择机构");
 	        return;
 	    }
 	    
@@ -658,7 +651,7 @@ function getImportData(data){
     var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,{});
 
     $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
-    messager("导入成功");
+    $_jxc.alert("导入成功");
 }
 
 /**
@@ -667,7 +660,7 @@ function getImportData(data){
 function exportData(){
 	var length = $("#"+dataGridId).datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -685,11 +678,11 @@ function exportData(){
 function exportExcel(){
 	var length = $("#"+dataGridId).datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	$("#queryForm").attr("action",contextPath+"/stock/lead/exportList");

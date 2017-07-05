@@ -53,7 +53,7 @@ function initDataGrid() {
 function exportData(){
 	var length = $('#dataList').datagrid('getData').rows.length;
 	if(length == 0){
-        messager("无数据可导");
+        $_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -71,7 +71,7 @@ function exportExcel(){
 	$("#queryForm").form({
 		success : function(result){
 			var dataObj=eval("("+result+")");
-            messager(dataObj.message);
+            $_jxc.alert(dataObj.message);
 		}
 	});
 	$("#queryForm").attr("action",contextPath+"/common/brand/exportList");
@@ -142,7 +142,7 @@ function resetForm(){
 function deleteBrand(){
 	var rows =$("#dataList").datagrid("getChecked");
 	if($("#dataList").datagrid("getChecked").length <= 0){
-		 messager('请选中一行进行删除！','提示');
+		 $_jxc.alert('请选中一行进行删除！');
 		return null;
 	}
 	 var ids='';
@@ -150,26 +150,21 @@ function deleteBrand(){
 	    	ids+=v.id+",";
 	    });
 	
-	$.messager.confirm('提示','是否要删除选中数据',function(data){
+	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/common/brand/deleteBrand",
-		    	type:"POST",
 		    	data:{
 		    		ids:ids
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-                        messager("删除成功");
-		    		}else{
-                        messager(result['message']);
-		    		}
-		    		$("#dataList").datagrid('reload');
-		    	},
-		    	error:function(result){
-                    messager("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		
+	    		if(result['code'] == 0){
+                    $_jxc.alert("删除成功");
+	    		}else{
+                    $_jxc.alert(result['message']);
+	    		}
+	    		$("#dataList").datagrid('reload');
 		    });
 		}
 	});

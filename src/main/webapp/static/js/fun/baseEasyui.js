@@ -564,7 +564,7 @@ function rowIsNull(row) {
 	} else {
 		$.messager.show({
 			title : "提示",
-			msg : "请选择行数据！",
+			msg : "请选择一条数据！",
 			position : "topCenter",
 			timeout : 1500,
 			showType : 'slide',
@@ -985,3 +985,176 @@ function formatDate(dateValue, pattern){
 function selectMonth(){  
     WdatePicker({ dateFmt:'yyyy-MM', isShowToday: false, isShowClear: false });  
 }  
+
+
+
+/*----------------jxc util  ---------------------------*/
+
+/*----------------jxc component js start  ---------------------------*/
+var $_jxc = {
+	
+	/**
+	 * bwp 07/06/07
+	 * 进销存机构类型枚举对象(参照后台BranchesTypeEnum.java类设置)
+	 * @returns
+	 * <br/>demo
+	 * <br/>$_jxc.branchTypeEnum.HEAD_QUARTERS
+	 */	
+	branchTypeEnum:{
+		HEAD_QUARTERS:0,     //总部
+		BRANCH_COMPANY:1,    //分公司
+		LOGISTICS:2,         //物流中心
+		OWN_STORES:3,        //自营店
+		FRANCHISE_STORE_B:4, //加盟店
+		FRANCHISE_STORE_C:5  //加盟店 
+	},
+	
+	/**
+	 * bwp 07/05/24
+	 * alert 提示组件
+	 * @param msg   提示信息
+	 * @param title 提示标题 可以不传
+	 * @param cb    回调 可以不传
+	 * @returns
+	 * <br/>demo: $_jxc.alert('处理失败',function(){})
+	 */
+	alert:function(msg,cb,title,icon){
+		if (msg == 'success') msg = '操作成功';
+		$.messager.alert(title||'提示',msg,icon||"info",function(){
+			if (typeof cb == 'function') {
+		    	cb();
+            }
+		});
+	},
+	/**
+	 * bwp 07/05/26
+	 * confirm 提示组件
+	 * @param msg   提示信息
+	 * @param cb    回调事件
+	 * @param title 提示标题 可以不传
+	 * @returns
+	 * <br/>demo:
+	 * <br/> $_jxc.confirm('是否删除？',function(r){
+	 * 	    	if(r){
+	 * 				alert('您选择了确认')	
+	 * 			}
+	 * 		})
+	 */
+	confirm:function(msg,cb,title){
+		$.messager.confirm(title||'确认',msg||'',function(r){    
+		    if (typeof cb == 'function') {
+		    	cb(r);
+            }
+		});  
+	},
+	
+	/**
+	 * bwp 07/05/26
+	 * 对ajax请求做了封装，统一项目的ajax请求。
+	 * @namespace jQuery扩展封装
+	 * @param params 对ajax变动频繁的参数 以对象方式入参 {url:'abc',type:'POST',dataType:'json'}
+	 * @param {successCb} 成功回调 必传 
+	 * @param {errorCb} 错误回调 不传的话安装默认方式处理
+	 * <br/>demo:
+	 * <br/>$_jxc.ajax({
+	    	url:contextPath + '/settle/supplierChain'
+	    },function(result){
+	    	
+	    },function(err){
+	    	
+	    })
+	 */
+	ajax:function(params, successCb, errorCb,$btns){
+		gFunStartLoading();
+		if ($btns){
+			$btns.forEach(function(btnObj,index){
+				$(btnObj).prop("disabled","disabled");
+			})
+        }
+		//ajax参数
+		var defaultParams = {
+            type: 'POST',
+            dataType: 'JSON',
+		}
+		
+		defaultParams = $.extend(defaultParams,params);
+		
+		//成功回调
+		defaultParams['success'] = function(result){
+			gFunEndLoading();
+			if ($btns){
+    			$btns.forEach(function(btnObj,index){
+    				$(btnObj).removeProp("disabled");
+    			})
+            }
+			if (typeof successCb == 'function') {
+				successCb(result);
+            }
+		}
+		//错误回调
+		defaultParams['error'] = function(err){
+			gFunEndLoading();
+			if ($btns){
+    			$btns.forEach(function(btnObj,index){
+    				$(btnObj).removeProp("disabled");
+    			})
+            }
+			if (typeof errorCb == 'function') {
+				errorCb(err);
+            }else{
+            	$_jxc.alert("请求发送失败或服务器处理失败");
+            }
+		}
+		
+		//异步之前
+		defaultParams['beforeSend'] = function(XHR){
+			var sts = new Date().getTime();
+            //url = url ? (url.indexOf('?')>-1 ? url + '&_t='+ sts : url + '?_t='+sts):url
+		}
+		defaultParams['complete'] = function() {
+            // Handle the complete event
+        }
+		
+		$.ajax(defaultParams);
+	},
+
+	isStringNull:function (str) {
+        if(!str) return true;
+        if(str.trim() == "") return true;
+        if (str.length == 0) return true;
+        if (str.replace(/(^s*)|(s*$)/g, "").length ==0) return true;
+        return false;
+	},
+	
+	/**
+	 * bwp 07/06/05
+	 * 对可输入的 机构 供应商 或者制单人这类可以输入又可以弹窗选择的输入表单 编辑表单时选择处理情况hidden表单的值
+	 * <br/>例如 [0001]默认供应商 注：表单dom 父元素加一个 .form-group class样式以确定作用范围
+	 * @namespace 编辑表单时选择处理情况hidden表单的值 
+	 * @param obj 表单对象
+	 * @param domIds 而外要处理的 dom元素id值
+	 * demo1:
+	 * <div class='ub ub-ac'>
+	 * <input class='uinp ub ub-f1' type='text' id='branchName' name='branchName' onblur='$_jxc.clearHideInpOnEdit(this)'/>
+	 * </div>
+	 * demo2:
+	 * <div class='ub ub-ac form-group'>
+	 * 	<div class='ub'>
+	 * 		<input class='uinp ub ub-f1' type='text' id='branchName' name='branchName' onblur='$_jxc.clearHideInpOnEdit(this)'/>
+	 * 	</div>
+	 * </div>
+	 */
+	clearHideInpOnEdit:function(obj,domIds){
+		//父元素
+		var _editGroup = $(obj).closest('.form-group');
+		if(_editGroup.length < 1){
+			_editGroup = $(obj).parent('.ub');
+		}
+		//隐藏域表单
+		$(_editGroup).find('input[type="hidden"]').val('');
+	}
+	
+	
+}
+
+/*----------------jxc component js end  ---------------------------*/

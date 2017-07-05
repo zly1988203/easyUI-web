@@ -19,15 +19,15 @@ function save(){
     var isValid = true;
 
     if($('#addbranchName').val()===""){
-        messager("请选择机构");
+        $_jxc.alert("请选择机构");
         isValid = false;
 	}
 
     if($("#formAdd #scope").combobox('getValue')===''){
-        messager("请选择盘点范围");
+        $_jxc.alert("请选择盘点范围");
         isValid = false;
     }else if($("#formAdd #scope").combobox('getValue')==='1' && $('#formAdd #categoryShows').val()===""){
-        messager("请选择类别");
+        $_jxc.alert("请选择类别");
         isValid = false;
 	}
 
@@ -36,7 +36,7 @@ function save(){
         return;
     }
 
-    $.messager.confirm('系统提示',"<p>盘点前务必补录遗漏的单据，审核未审核的业务单据（如：收货单、调出/入单、盘点差异单库存调整单等）。</p>" +
+    $_jxc.confirm("<p>盘点前务必补录遗漏的单据，审核未审核的业务单据（如：收货单、调出/入单、盘点差异单库存调整单等）。</p>" +
 		"<div class='uc umar-l40 umar-b20'>暂停出入库业务，是否继续保存？</div>",function(r){
         if (r){
             saveDataHandel();
@@ -48,26 +48,21 @@ function save(){
 }
 
 function saveDataHandel() {
-    gFunStartLoading();
+//    gFunStartLoading();
     var formObj = $('#formAdd').serializeObject();
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/stocktaking/apply/saveStocktakingBatch",
-		type : "POST",
-		data : formObj,
-		success : function(result) {
-            gFunEndLoading();
-			if(result.code == 0){
-				alertTip(result.message, queryForm);
-				applyAddcallback();
-			}else{
-				$('#saveBtn').removeAttr("disabled");
-				alertTip(result.message);
-			}
-		
-		},
-		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+		data : formObj
+	},function(result){
+//        gFunEndLoading();
+		if(result.code == 0){
+			alertTip(result.message, queryForm);
+			applyAddcallback();
+		}else{
+			$('#saveBtn').removeAttr("disabled");
+			alertTip(result.message);
 		}
+		
 	});
 }
 

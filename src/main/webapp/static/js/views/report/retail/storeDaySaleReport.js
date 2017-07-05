@@ -1,9 +1,448 @@
 $(function(){
 	//开始和结束时间
     $("#saleTime").val(dateUtil.getCurrentDate().format("yyyy-MM"));
-    initDatagridRequire();
+    //成本价权限判断
+    if(!hasCostPrice){
+    	initDataWithoutCostPrice()
+    }else{
+    	initDatagridRequire();
+    }
 });
 var gridHandel = new GridClass();
+
+//初始化表格 没有成本价权限
+function initDataWithoutCostPrice(){
+    dg = $("#storeDaySale").datagrid({
+        method:'post',
+        align:'right',
+        //toolbar: '#tb',     //工具栏 id为tb
+        singleSelect:false,  //单选  false多选
+        rownumbers:true,    //序号
+        pagination:true,    //分页
+        fitColumns:true,    //每列占满
+        fit:true,            //占满
+        showFooter:true,
+		height:'100%',
+		pageSize:50,
+		width:'100%',
+        columns:[[
+			{field:'branchName',title:'店铺名称',width: '220px',align:'left', rowspan:2},
+            {field:'oneflag',title:'1号',width: '200px',align:'left',colspan:1},
+            {field:'oneflag',title:'2号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'3号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'4号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'5号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'6号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'7号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'8号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'9号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'10号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'11号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'12号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'13号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'14号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'15号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'16号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'17号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'18号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'19号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'20号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'21号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'22号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'23号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'24号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'25号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'26号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'27号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'28号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'29号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'30号',width:'200px',align:'left',colspan:1},
+            {field:'oneflag',title:'31号',width:'200px',align:'left',colspan:1}
+        ],[ 
+            {field:'saleAmount1',title:'销售额',width: '200px',align:'right',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount2',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount3',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount4',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount5',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount6',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount7',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount8',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount9',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount10',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount11',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount12',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount13',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount14',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount15',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount16',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount17',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount18',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            
+            },
+            {field:'saleAmount19',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount20',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount21',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount22',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount23',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount24',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount25',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount26',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            
+            },
+            {field:'saleAmount27',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount28',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount29',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount30',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+            {field:'saleAmount31',title:'销售额',align:'right',width: '200px',rowspan:1,
+            	formatter:function(value,row,index){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            	 editor:{
+                     type:'numberbox',
+                     options:{
+                     	disabled:true,
+                         precision:2
+                     }
+                 }
+            },
+        ]],
+        onLoadSuccess:function(data){
+            gridHandel.setDatagridHeader("center");
+           
+        }       
+    });
+   // queryForm();
+}
+
+
 //初始化表格
 function initDatagridRequire(){
     dg = $("#storeDaySale").datagrid({
@@ -812,7 +1251,7 @@ function initDatagridRequire(){
 //查询入库单
 function queryForm(){
  if($("#branchName").val()==""){
-    messager("请选择店铺名称");
+    $_jxc.alert("请选择店铺名称");
     return;
  } 
  $("#startCount").attr("value",null);
@@ -842,7 +1281,7 @@ var dg;
 function exportData(){
 	var length = $('#storeDaySale').datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -859,17 +1298,17 @@ function exportData(){
 function exportExcel(){
 	var length = $("#storeDaySale").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
+	
 	$("#queryForm").form({
 		success : function(data){
 			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
+				$_jxc.alert("导出数据成功！");
 			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});

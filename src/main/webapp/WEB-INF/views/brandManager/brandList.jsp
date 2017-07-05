@@ -8,7 +8,7 @@
 <title>品牌管理</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/brandManager/brandList.js"></script>
+<script src="${ctx}/static/js/views/brandManager/brandList.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>

@@ -127,7 +127,12 @@ function initDatagridRequireOrdersDO(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    //queryForm();
+
+    var param = {
+        distributionPrice:["amount"],
+    }
+    priceGrantUtil.grantPrice(tableIdName,param);
+
 }
 
 //加载配送入库单
@@ -196,6 +201,10 @@ function initDatagridRequireOrdersDI(){
 		}
 	});
 	//queryForm();
+    var param = {
+        distributionPrice:["amount"],
+    }
+    priceGrantUtil.grantPrice(tableIdName,param);
 }
 
 //新增入库单
@@ -241,24 +250,19 @@ function delDeliverForm(){
 	if(rowIsNull(row)){
 		return null;
 	}
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
-		    	type:"POST",
 		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    			dg.datagrid('reload');
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
+		    	data:JSON.stringify(ids)
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("删除成功");
+	    			dg.datagrid('reload');
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

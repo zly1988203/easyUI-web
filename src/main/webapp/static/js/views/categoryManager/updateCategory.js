@@ -8,26 +8,21 @@ function save() {
 	}
     if($('#categoryName').val().trim()===""){
         $('#saveCategory').removeAttr("disabled");
-        messager("请输入类别名称");
+        $_jxc.alert("请输入类别名称");
         return;
     }
 
 	var formObj = $('#formAdd').serializeObject();
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/common/category/updateCategory",
-		type : "POST",
-		data : formObj,
-		success : function(result) {
-			if(result.code == 0){
-				alertTip(result.message, reloadList);
-				closeDialogHandel();
-			}else{
-				$('#saveCategory').removeAttr("disabled");
-                messager(result.message);
-			}
-		},
-		error : function(result) {
-            messager("请求发送失败或服务器处理失败");
+		data : formObj
+	},function(result){
+		if(result.code == 0){
+			alertTip(result.message, reloadList);
+			closeDialogHandel();
+		}else{
+			$('#saveCategory').removeAttr("disabled");
+            $_jxc.alert(result.message);
 		}
 	});
 }

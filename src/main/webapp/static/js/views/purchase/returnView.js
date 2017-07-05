@@ -23,7 +23,7 @@ $(function(){
 var gridHandel = new GridClass();
 function initDatagridEditOrder(){
 	var formId = $("#formId").val();
-
+	gridHandel.setGridName('gridEditOrder');
     $("#gridEditOrder").datagrid({
         //title:'普通表单-用键盘操作',
 //        method:'get',
@@ -134,10 +134,21 @@ function initDatagridEditOrder(){
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
+            updateFooter();
         }
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridEditOrder",["price","amount","taxAmount"])
+    }
 }
 
+
+//合计
+function updateFooter(){
+    var fields = {largeNum:0,realNum:0,amount:0,taxAmount:0,isGift:0, };
+    var argWhere = {name:'isGift',value:""}
+    gridHandel.updateFooter(fields,argWhere);
+}
 
 function returnAdd(){
 	toAddTab("新增采购退货单",contextPath + "/form/purchase/returnAdd");

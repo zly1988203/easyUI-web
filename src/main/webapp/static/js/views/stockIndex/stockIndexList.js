@@ -136,7 +136,7 @@ function onChangeStockBegin(newV,oldV){
 		return;
 	}
 	if(parseFloat(newV) > maxNum ){
-		messager('库存上限输入值最大为  '+maxNum);
+		$_jxc.alert('库存上限输入值最大为  '+maxNum);
 		return;
 	}
 }
@@ -147,7 +147,7 @@ function onChangeStockEnd(newV,oldV){
 		return;
 	}
 	if(parseFloat(newV) > maxNum ){
-		messager('库存下限输入值最大为  '+maxNum);
+		$_jxc.alert('库存下限输入值最大为  '+maxNum);
 		return;
 	}
 }
@@ -164,7 +164,7 @@ function openStockDialog(value,index){
 	$("#detailBranchId").val(currentData.branchCode);
 	tempGridData.rows = [currentData];
 	tempGridData.list = [currentData];
-	console.log('tempGridData',tempGridData)
+	
 	gridHandelDetail.setLoadData(tempGridData);
 	$('#detailDailog').dialog('open');
 
@@ -180,37 +180,34 @@ function saveDetailStock(){
 	$("#detailStockTarget").datagrid("endEdit", gridHandelDetail.getSelectRowIndex());
 	var detGridData = gridHandelDetail.getRows()[0];
 	if(parseFloat(detGridData.upperLimit) > maxNum){
-		messager('库存上限输入值最大为  '+maxNum);
+		$_jxc.alert('库存上限输入值最大为  '+maxNum);
 		return;
 	}
 	if(parseFloat(detGridData.lowerLimit) > maxNum){
-		messager('库存下限输入值最大为  '+maxNum);
+		$_jxc.alert('库存下限输入值最大为  '+maxNum);
 		return;
 	}
 	if(parseFloat(detGridData.upperLimit) < parseFloat(detGridData.lowerLimit) ){
-		messager('库存上限不能小于库存下限');
+		$_jxc.alert('库存上限不能小于库存下限');
 		return;
 	}
 
 	var reqObj = JSON.stringify([detGridData]);
 	// 调用后台保存方法，成功提示
-	$.ajax({
-        type: "POST",
+	$_jxc.ajax({
         url: contextPath+"/stock/index/saveStockIndex",
-        data: {"data":reqObj},
-        dataType: "json",
-        success: function(data){
-			if (data.code == 0) {
-				$("#stockIndexList").datagrid('updateRow',{
-					index: detailIndex,
-					row: {lowerLimit: detGridData.lowerLimit,upperLimit:detGridData.upperLimit}
-				});
-				successTip('修改成功');
-				closeDetailDialog();
-			} else {
-				// 失败提示
-				$.messager.alert('提示', data.message);
-			}
+        data: {"data":reqObj}
+	},function(data){
+		if (data.code == 0) {
+			$("#stockIndexList").datagrid('updateRow',{
+				index: detailIndex,
+				row: {lowerLimit: detGridData.lowerLimit,upperLimit:detGridData.upperLimit}
+			});
+			$_jxc.alert('修改成功');
+			closeDetailDialog();
+		} else {
+			// 失败提示
+			$_jxc.alert(data.message);
 		}
 	});
 
@@ -219,7 +216,7 @@ function saveDetailStock(){
 //查询
 function queryForm(){
 	if($("#branchName").val()=="" && $("#skuCode").val()=="" ){
-        messager("请选择机构或输入条码");
+        $_jxc.alert("请选择机构或输入条码");
         return;
     } 
 	var fromObjStr = $('#queryForm').serializeObject();

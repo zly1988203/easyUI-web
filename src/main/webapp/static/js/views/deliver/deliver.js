@@ -163,7 +163,7 @@ function initDatagridRequireOrder(){
                 formatter:function(value,row,index){
                     var str = "";
                     if(row.isFooter){
-                        str ='<div class="ub ub-pc" style="color:red;">起订金额：'+ $("#minAmount").val() +'</div> '
+                        str ='<div id ="spanMinAmount" class="ub ub-pc" style="color:red;">起订金额：'+ $("#minAmount").val() +'</div> '
                     }else{
                         str = value;
                     }
@@ -443,6 +443,12 @@ function initDatagridRequireOrder(){
     	                         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
     }
+
+    var param = {
+        distributionPrice:["price","amount","taxAmount"],
+    }
+    priceGrantUtil.grantPrice(gridName,param);
+
 }
 
 
@@ -454,7 +460,7 @@ function onChangeLargeNum(newV,oldV){
 	//if(!oldV)return;
 	if("" == newV){
 		m = 2;
-		 messager("商品箱数输入有误");
+		 $_jxc.alert("商品箱数输入有误");
 		 gridHandel.setFieldValue('largeNum',oldV); 
 	     return;
 	}
@@ -469,7 +475,7 @@ function onChangeLargeNum(newV,oldV){
     }
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'distributionSpec');
     if(!purchaseSpecValue){
-        messager("没有配送规格,请审查");
+        $_jxc.alert("没有配送规格,请审查");
         return;
     }
 
@@ -494,7 +500,7 @@ function onChangeRealNum(newV,oldV,event) {
 	//if(!oldV)return;
 	if("" == newV){
 		n= 2;
-		 messager("商品数量输入有误");
+		 $_jxc.alert("商品数量输入有误");
 		 gridHandel.setFieldValue('applyNum',oldV);
 	     return;
 	}
@@ -509,7 +515,7 @@ function onChangeRealNum(newV,oldV,event) {
     }
     var purchaseSpecValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'distributionSpec');
     if(!purchaseSpecValue){
-        messager("没有配送规格,请审查");
+        $_jxc.alert("没有配送规格,请审查");
         $(this).event.stopPropagation();
         // $(this).stopPropagation();
         return;
@@ -517,7 +523,7 @@ function onChangeRealNum(newV,oldV,event) {
     
     var tempNum = parseFloat(newV).toFixed(4)/parseFloat(purchaseSpecValue).toFixed(4);
     if(parseInt(tempNum) != tempNum){
-        messager("输入的数量必须是商品规格("+purchaseSpecValue+")的整数倍");
+        $_jxc.alert("输入的数量必须是商品规格("+purchaseSpecValue+")的整数倍");
         gridHandel.setFieldValue('applyNum',0.0000);
         gridHandel.setSelectFieldName("applyNum");
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
@@ -579,7 +585,7 @@ function onSelectIsGift(data){
     }else{
         var targetIsGift = gridHandel.getFieldTarget('isGift');
         $(targetIsGift).combobox('select', data.id=='1'?'0':'1');
-        messager(data.id=='1'?'已存在相同赠品':'已存在相同商品');
+        $_jxc.alert(data.id=='1'?'已存在相同赠品':'已存在相同商品');
     }
 }
 //合计
@@ -608,7 +614,7 @@ function selectGoods(searchKey){
 	var targetBranchId = $("#targetBranchId").val();
     //判定发货分店是否存在
     if($("#sourceBranchId").val()==""){
-        messager("请先选择发货机构");
+        $_jxc.alert("请先选择发货机构");
         return;
     }
     
@@ -663,14 +669,14 @@ function setDataValue(data,fromClick) {
         var isCheck ={isGift:1};   //只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck,ifReset);
         $("#"+gridName).datagrid("loadData",newRows);
-    if(deliverStatus === 'add') {
-        gridHandel.setLoadFocus();
-        setTimeout(function(){
-            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("largeNum");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-        },100)
-    }
+        if(deliverStatus === 'add') {
+            gridHandel.setLoadFocus();
+            setTimeout(function(){
+                gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+                gridHandel.setSelectFieldName("largeNum");
+                gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+            },100)
+        }
 }
 
 //查询库存
@@ -688,27 +694,22 @@ function selectStockAndPrice(data,fromClick){
 		};
 		GoodsStockVo.goodsSkuVo[i] = temp;
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/queryAlreadyNum",
-    	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-            $.each(data,function(i,val){
-                $.each(result.data,function(j,obj){
-                    if(val.skuId==obj.skuId){
-                        data[i].alreadyNum = obj.alreadyNum;
-                        data[i].daySaleNum = obj.daySaleNum;
-                        data[i].monthSaleNum = obj.monthSaleNum;
-                    }
-                })
-            })
-    		setDataValue(data,fromClick);
-    	},
-    	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+        $.each(data,function(i,val){
+            $.each(result.data,function(j,obj){
+                if(val.skuId==obj.skuId){
+                    data[i].alreadyNum = obj.alreadyNum;
+                    data[i].daySaleNum = obj.daySaleNum;
+                    data[i].monthSaleNum = obj.monthSaleNum;
+                }
+            })
+        })
+		setDataValue(data,fromClick);
     });
 }
 
@@ -720,18 +721,18 @@ function suggestSelectGoods(){
 	
     //判定发货分店是否存在
     if(sourceBranchId==""){
-        messager("请先选择发货机构");
+        $_jxc.alert("请先选择发货机构");
         return;
     }
     
     if(targetBranchId==""){
-    	messager("请先选择要货机构");
+    	$_jxc.alert("请先选择要货机构");
     	return;
     }
     
     var targetBranchType = $("#targetBranchType").val();
     if(targetBranchType==='0'){
-        messager("要货机构不能选择总部");
+        $_jxc.alert("要货机构不能选择总部");
         return;
     }
     		
@@ -740,21 +741,16 @@ function suggestSelectGoods(){
     		sourceBranchId:sourceBranchId,
     		targetBranchId:targetBranchId
         };
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/form/deliverFormList/getDeliverSuggestNumItemList",
-    	type : "POST",
-    	data : jsonData,
-    	success:function(result){
-    		 console.log('建议商品',result);
-    		 if(result.length > 0){
-    			 selectStockAndPrice(result,'suggestSelectGoods');
-    		 }else{
-    			 $.messager.alert('提示','暂无建议订货商品','',function(){});
-    		 }
-    	},
-    	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
-    	}
+    	data : jsonData
+    },function(result){
+   		 
+   		 if(result.length > 0){
+   			 selectStockAndPrice(result,'suggestSelectGoods');
+   		 }else{
+   			 $_jxc.alert('暂无建议订货商品',function(){});
+   		 }
     });
 }
 
@@ -784,23 +780,23 @@ function saveOrder(){
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
     $.each(rows,function(i,v){
         if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+            $_jxc.alert("第"+(i+1)+"行，货号不能为空");
             isCheckResult = false;
             return false;
         };
         if(v["largeNum"]<=0){
-            messager("第"+(i+1)+"行，箱数必须大于0");
+            $_jxc.alert("第"+(i+1)+"行，箱数必须大于0");
             isCheckResult = false;
             return false;
         }
         if(v["applyNum"]<=0){
-            messager("第"+(i+1)+"行，数量必须大于0");
+            $_jxc.alert("第"+(i+1)+"行，数量必须大于0");
             isCheckResult = false;
             return false;
         }
@@ -843,38 +839,32 @@ function saveOrder(){
     	}
     	reqObj.deliverFormListVo[i] = temp;
 	});
-    gFunStartLoading();
-    $.ajax({
+//    gFunStartLoading();
+    $_jxc.ajax({
         url:contextPath+"/form/deliverForm/insertDeliverForm",
-        type:"POST",
         contentType:"application/json",
-        data:JSON.stringify(reqObj),
-        success:function(result){
-        	 gFunEndLoading();
-            if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
-                    location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-                });
-            }else{
-                var strResult = "";
-                if (result.dataList) {
-                    $.each(result.dataList,function(i,item){
-                        strResult += item.goodsName+" ,库存数量： "+item.number+",";
-                    })
-                }
-                //successTip(result['message'] +","+strResult);
-            	new publicErrorDialog({
-                    width:380,
-                    height:220,
-            		"title":"保存失败",
-            		"error":result['message']+strResult
-            	});
-            }
-        },
-        error:function(result){
-        	gFunEndLoading();
-            successTip("请求发送失败或服务器处理失败");
-        }
+        data:JSON.stringify(reqObj)
+    },function(result){
+//       	 gFunEndLoading();
+       if(result['code'] == 0){
+           $_jxc.alert("操作成功！",function(){
+               location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+           });
+       }else{
+           var strResult = "";
+           if (result.dataList) {
+               $.each(result.dataList,function(i,item){
+                   strResult += item.goodsName+" ,库存数量： "+item.number+",";
+               })
+           }
+           //$_jxc.alert(result['message'] +","+strResult);
+       	new publicErrorDialog({
+               width:380,
+               height:220,
+       		"title":"保存失败",
+       		"error":result['message']+strResult
+       	});
+       }
     });
 }
 
@@ -907,23 +897,23 @@ function updateOrder(){
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
     $.each(rows,function(i,v){
         if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+            $_jxc.alert("第"+(i+1)+"行，货号不能为空");
             isCheckResult = false;
             return false;
         };
         if(v["largeNum"]<=0){
-            messager("第"+(i+1)+"行，箱数必须大于0");
+            $_jxc.alert("第"+(i+1)+"行，箱数必须大于0");
             isCheckResult = false;
             return false;
         }
         if(v["applyNum"]<=0){
-            messager("第"+(i+1)+"行，数量必须大于0");
+            $_jxc.alert("第"+(i+1)+"行，数量必须大于0");
             isCheckResult = false;
             return false;
         }
@@ -970,36 +960,30 @@ function updateOrder(){
     	reqObj.deliverFormListVo[i] = temp;
 	});
     
-    gFunStartLoading();
-    $.ajax({
+//    gFunStartLoading();
+    $_jxc.ajax({
         url:contextPath+"/form/deliverForm/updateDeliverForm",
-        type:"POST",
         contentType:"application/json",
         data:JSON.stringify(reqObj),
-        success:function(result){
-            gFunEndLoading();
-            if(result['code'] == 0){
-            	$.messager.alert("操作提示", "操作成功！", "info");
-                oldData = {
-                    targetBranchId:$("#targetBranchId").val(), // 要活分店id
-                    sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-                    validityTime:$("#validityTime").val(),      //生效日期
-                    remark:$("#remark").val(),                  // 备注
-                    formNo:$("#formNo").val(),                 // 单号
-                }
-                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-            		return $.extend(true,{},obj);//返回对象的深拷贝
-            	});
-            	$.messager.alert("操作提示", "操作成功！", "info",function(){
-    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + $("#formId").val();
-    			});
-            }else{
-                successTip(result['message']);
+    },function(result){
+//        gFunEndLoading();
+        if(result['code'] == 0){
+        	$_jxc.alert("操作成功！");
+            oldData = {
+                targetBranchId:$("#targetBranchId").val(), // 要活分店id
+                sourceBranchId:$("#sourceBranchId").val(), //发货分店id
+                validityTime:$("#validityTime").val(),      //生效日期
+                remark:$("#remark").val(),                  // 备注
+                formNo:$("#formNo").val(),                 // 单号
             }
-        },
-        error:function(result){
-            gFunEndLoading();
-            successTip("请求发送失败或服务器处理失败");
+            oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+        		return $.extend(true,{},obj);//返回对象的深拷贝
+        	});
+        	$_jxc.alert("操作成功！",function(){
+				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + $("#formId").val();
+			});
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -1021,38 +1005,32 @@ function check(){
     }
 
     if(!gFunComparisonArray(oldData,newData)){
-        messager("数据有修改，请先保存再审核");
+        $_jxc.alert("数据有修改，请先保存再审核");
         return;
     }
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-            gFunStartLoading();
-			$.ajax({
+//            gFunStartLoading();
+			$_jxc.ajax({
 		    	url : contextPath+"/form/deliverForm/check",
-		    	type : "POST",
 		    	data : {
 		    		deliverFormId : $("#formId").val(),
 		    		deliverType : 'DA'
-		    	},
-		    	success:function(result){
-                    gFunEndLoading();
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-		    			});
-		    		}else{
-		            	new publicErrorDialog({
-                            width:380,
-                            height:220,
-		            		"title":"审核失败",
-		            		"error":result['message']
-		            	});
-		    		}
-		    	},
-		    	error:function(result){
-                    gFunEndLoading();
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+//                gFunEndLoading();
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+	    			});
+	    		}else{
+	            	new publicErrorDialog({
+                        width:380,
+                        height:220,
+	            		"title":"审核失败",
+	            		"error":result['message']
+	            	});
+	    		}
 		    });
 		}
 	});
@@ -1062,24 +1040,19 @@ function check(){
 function delDeliverForm(){
 	var ids = [];
 	ids.push($("#formId").val());
-	$.messager.confirm('提示','是否要删除单据',function(data){
+	$_jxc.confirm('是否要删除单据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
-		    	type:"POST",
 		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
-		    	success:function(result){
-		    		if(result['code'] == 0){
-                        toRefreshIframeDataGrid("form/deliverForm/viewsDA","deliverFormList");
-		    			toClose();
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
+		    	data:JSON.stringify(ids)
+		    },function(result){
+	    		if(result['code'] == 0){
+                    toRefreshIframeDataGrid("form/deliverForm/viewsDA","deliverFormList");
+	    			toClose();
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -1108,9 +1081,9 @@ function selectTargetBranch(){
         if (data.type != '1' && data.type != '0') {
         	getSourceBranch(data.branchesId);
         }
-        if (data.type == '1') {
+        if (data.type == '1' || data.type == '0') {
         	$("#salesman").val(data.salesman);
-        	$("#spanMinAmount").html(data.minAmount);
+        	$("#spanMinAmount").html('起订金额：' + data.minAmount);
         	$("#minAmount").val(data.minAmount);
         	$("#sourceBranchId").val('');
             $("#sourceBranchName").val('');
@@ -1119,30 +1092,64 @@ function selectTargetBranch(){
 }
 
 function getSourceBranch(branchesId) {
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/form/deliverForm/getSourceBranch",
-    	type : "POST",
     	data : {
     		branchesId : branchesId,
-    	},
-    	success:function(result){
-    		if(result['code'] == 0){
-    			$("#sourceBranchId").val(result['sourceBranchId']);
-                $("#sourceBranchName").val(result['sourceBranchName']);
-                $("#validityTime").val(new Date(result['validityTime']).format('yyyy-MM-dd'));
-                $("#salesman").val(result['salesman']);
-                $("#spanMinAmount").html(result['minAmount']);
-                $("#minAmount").val(result['minAmount']);
-    		}else{
-    			successTip(result['message']);
-    		}
-    	},
-    	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+		if(result['code'] == 0){
+			$("#sourceBranchId").val(result['sourceBranchId']);
+            $("#sourceBranchName").val(result['sourceBranchName']);
+            $("#validityTime").val(new Date(result['validityTime']).format('yyyy-MM-dd'));
+            $("#salesman").val(result['salesman']);
+            $("#spanMinAmount").html('起订金额：' + result['minAmount']);
+            $("#minAmount").val(result['minAmount']);
+            $("#isMinAmount").val(result['isMinAmount']);
+		}else{
+			$_jxc.alert(result['message']);
+		}
     });
 }
 
+// 查询发货机构起订金额
+function getSourceMinAmount(sourceMinAmount){
+	// 要货机构配置:是否启用起订金额(0:不控制,1:按门店起订金额控制,2:按仓库起订金额控制)
+	// 进入新增页面初始化配置值
+	var isMinAmount = $("#isMinAmount").val();
+	// 如果没有值表示已经重新选择要货机构,需求重新获取要货机构配置
+	if(!isMinAmount){
+		// 查看要货机构配置
+		var branchId =  $("#targetBranchId").val();
+		$_jxc.ajax({
+			url : contextPath+"/form/deliverForm/queryBranchSpecById",
+			data : {branchId : branchId}
+		},function(result){
+			console.log(result);
+			if(result['code'] == 0){
+				// 要货机构配置:是否启用起订金额(0:不控制,1:按门店起订金额控制,2:按仓库起订金额控制)
+				isMinAmount = result['spceVo'].isMinAmount;
+				// 如果要货机构配置为按仓库起订金额配置，则取出发货机构对应的起订金额
+				//（发货机构为要货机构父级或父级对应的仓库，则发货机构的起订金额与要货机构的仓库起订金额一致；
+				// 如果发货机构为同区域的其他非父级仓库时，则发货机构的起订金额与要货机构的仓库起订金额可能不一致，则获取发货机构的起订金额）
+				if(isMinAmount === 2){
+					$("#spanMinAmount").html('起订金额：' + sourceMinAmount);
+					$("#minAmount").val(sourceMinAmount);
+				}
+			}else{
+				$_jxc.alert(result['message']);
+			}
+		});
+	}else{
+		// 如果要货机构配置为按仓库起订金额配置，则取出发货机构对应的起订金额
+		//（发货机构为要货机构父级或父级对应的仓库，则发货机构的起订金额与要货机构的仓库起订金额一致；
+		// 如果发货机构为同区域的其他非父级仓库时，则发货机构的起订金额与要货机构的仓库起订金额可能不一致，则获取发货机构的起订金额）
+		if(isMinAmount === 2){
+			$("#spanMinAmount").html('起订金额：' + sourceMinAmount);
+			$("#minAmount").val(sourceMinAmount);
+		}
+	}
+}
 /**
  * 发货机构
  */
@@ -1155,6 +1162,9 @@ function selectSourceBranch(){
                 //$("#sourceBranchName").val(data.branchName);
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
+                //alert(data.stockMinAmount);
+                // 刷新起订金额
+                getSourceMinAmount(data.stockMinAmount);
             }
         },'DZ',$("#targetBranchId").val(),'',1);
 	} else {
@@ -1164,6 +1174,9 @@ function selectSourceBranch(){
                 //$("#sourceBranchName").val(data.branchName);
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
                 gridHandel.setLoadData([$.extend({},gridDefault)]);
+                //alert(data.stockMinAmount);
+                // 刷新起订金额
+                getSourceMinAmount(data.stockMinAmount);
             }
         },'DA',$("#targetBranchId").val(),'',1);
     }
@@ -1176,7 +1189,7 @@ function toImportproduct(type){
 	// 发货机构id
     var sourceBranchId = $("#sourceBranchId").val();
     if(sourceBranchId === '' || sourceBranchId === null){
-        messager("请先选择发货机构");
+        $_jxc.alert("请先选择发货机构");
         return;
     }
     var param = {
@@ -1209,27 +1222,22 @@ function selectStockAndPriceImport(data){
         };
         GoodsStockVo.goodsSkuVo[i] = temp;
     });
-    $.ajax({
+    $_jxc.ajax({
         url : contextPath+"/goods/goodsSelect/queryAlreadyNum",
-        type : "POST",
         data : {
             goodsStockVo : JSON.stringify(GoodsStockVo)
-        },
-        success:function(result){
-            $.each(data,function(i,val){
-                $.each(result.data,function(j,obj){
-                    if(val.skuId==obj.skuId){
-                        data[i].alreadyNum = obj.alreadyNum;
-                        data[i].daySaleNum = obj.daySaleNum;
-                        data[i].monthSaleNum = obj.monthSaleNum;
-                    }
-                })
-            })
-            updateListData(data);
-        },
-        error:function(result){
-            successTip("请求发送失败或服务器处理失败");
         }
+    },function(result){
+        $.each(data,function(i,val){
+            $.each(result.data,function(j,obj){
+                if(val.skuId==obj.skuId){
+                    data[i].alreadyNum = obj.alreadyNum;
+                    data[i].daySaleNum = obj.daySaleNum;
+                    data[i].monthSaleNum = obj.monthSaleNum;
+                }
+            })
+        })
+        updateListData(data);
     });
 }
 
@@ -1270,4 +1278,3 @@ function back(){
 function addDeliverForm(){
 	toAddTab("新增要货单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DA");
 }
-

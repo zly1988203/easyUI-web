@@ -90,33 +90,28 @@ function add(){
 function deleteData(){
 	var rows =$("#dataListGrid").datagrid("getChecked");
 	if($("#dataListGrid").datagrid("getChecked").length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
+		 $_jxc.alert('请选中一行进行删除！');
 		return null;
 	}
 	 var ids='';
 	 $.each(rows,function(i,v){
 	    	ids+=v.id+",";
 	    });
-	$.messager.confirm('提示','是否确定要删除选中的礼品',function(data){
+	$_jxc.confirm('是否确定要删除选中的礼品?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/integral/giftManager/delete",
-		    	type:"POST",
 		    	data:{
 		    		ids:ids
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    		$("#dataListGrid").datagrid('reload');
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("删除成功");
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
+	    		$("#dataListGrid").datagrid('reload');
 		    });
 		}
 	});

@@ -98,6 +98,9 @@ function initDatagridRequireOrders(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice("deliverFormList",["price","amount"])
+    }
 }
 
 
@@ -109,7 +112,7 @@ function queryForm(){
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
 	if(!(startDate && endDate)){
-		$.messager.alert('提示', '日期不能为空');
+		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
@@ -127,7 +130,7 @@ function queryForm(){
 var branchId;
 function selectBranches(){
 	new publicAgencyService(function(data){
-//        $("#branchId").val(data.branchesId);
+        //$("#branchId").val(data.branchesId);
         //$("#branchName").val(data.branchName);
         $("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},'',branchId);
@@ -156,7 +159,7 @@ var dg;
 function exportData(){
 	var length = $('#deliverFormList').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({

@@ -43,7 +43,23 @@ $(function(){
 	$(document).on('click','#weekday .ubcheckweek',function(){
 	//点击取消切换方法执行
 	  weekCheckDay();
-	})
+	});
+	
+	//机构选择初始化
+	$('#branchComponent').branchSelect({
+		param:{
+			type:'NOTREE', //左侧没有树
+			selectType:1,  //多选
+			formType:'DP'
+		},
+		//过滤数据
+		loadFilter:function(data){
+			data.forEach(function(obj,index){
+				obj.branchIds = obj.branchesId;
+			});
+			return data;
+		}
+	});
 
 });
 
@@ -73,17 +89,17 @@ var activityId;
 //编辑请求数据
 function  editstart(selectType){
 	activityId = $("#activityId").val();
-	$.ajax({
+	$_jxc.ajax({
 	      url:contextPath+"/sale/activity/get?activityId="+activityId,
 	      type:"get",
-	      contentType:'application/json',
-	      success:function(data){
+	      contentType:'application/json'
+	  },function(data){
 	    	  if(data['code'] == 0){
 	    		var listinfo=data['obj'];
 	    		 //console.log(data);
 	    		 
 	    		if(undefined == listinfo){
-	    			 successTip("服务器返回数据异常.");
+	    			 $_jxc.alert("服务器返回数据异常.");
 	    			return;
 	    		}  
 	    		    
@@ -177,7 +193,10 @@ function  editstart(selectType){
 					  //其他类型请求
 					  else{
 						 
-						 initmangeDatagrid(activityId);
+						  //非组合特价类型 时初始化 
+						 if(activtype != 6){
+							 initmangeDatagrid(activityId);
+						 } 
 						 //折扣类型赋值
 			    		 if(activtype==2){
 			    		   activityScopedis=listinfo.activityScope;
@@ -186,17 +205,17 @@ function  editstart(selectType){
 			    		}else if(activtype==1){
 			    			//设置批量特价不显示 除了activtype==1
 			    			 $('.special').removeClass('unhide');
+			    		}else if(activtype==6){
+			    			//组合特价
+			    			initDatagridCompose();
+			    			initmangeDatagrid(activityId);
 			    		}
 					  }
 
 	              }else{
 	             
-	            	  successTip(data['message']);
+	            	  $_jxc.alert(data['message']);
 	          }
-	      },
-	      error:function(result){
-	          successTip("请求发送失败或服务器处理失败");
-	      }
 	  });
 }
 //select 选择切换
@@ -622,7 +641,7 @@ function initDatagridmmsTJ(activityId){
                 	});
                }
      	   }
-     	   //console.log('data1334',data);	   
+     	      
      	   $(_this).datagrid('resize',{width:'100%',height:'300px'})
      	   
     	  gridHandelT.setDatagridHeader("center");
@@ -634,7 +653,7 @@ function initDatagridmmsTJ(activityId){
 function changeLimitCount(newV,oldV){
 	var _this = this;
 	if(parseFloat(newV||0) > 9999.99){
-		$.messager.alert('提示','买满数量不得大于9999.99','',function(){
+		$_jxc.alert('买满数量不得大于9999.99',function(){
 			$(_this).numberbox('setValue',(oldV||0));
 		});
 	}
@@ -644,7 +663,7 @@ function changeLimitCount(newV,oldV){
 function changeLimitAmount(newV,oldV){
 	var _this = this;
 	if(parseFloat(newV||0) > 9999.99){
-		$.messager.alert('提示','买满金额不得大于9999.99','',function(){
+		$_jxc.alert('买满金额不得大于9999.99',function(){
 			$(_this).numberbox('setValue',(oldV||0));
 		});
 	}
@@ -924,7 +943,7 @@ function initDatagridmmjComLG(activityId){
 function changeGiftNum(newV,oldV){
 	var _this = this;
 	if(parseFloat(newV||0) > 9999.99){
-		$.messager.alert('提示','赠品数量不得大于9999.99','',function(){
+		$_jxc.alert('赠品数量不得大于9999.99',function(){
 			$(_this).numberbox('setValue',(oldV||0));
 		});
 	}
@@ -935,7 +954,7 @@ function changeGiftPrice(newV,oldV){
 	var _this = this;
 	var tempPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
 	if(parseFloat(newV||0) > parseFloat(tempPrice||0)){
-		$.messager.alert('提示','新增金额不得大于零售价','',function(){
+		$_jxc.alert('新增金额不得大于零售价',function(){
 			$(_this).numberbox('setValue',(oldV||0));
 		});
 	}
@@ -1186,6 +1205,9 @@ function initDatagridSpecial(){
 				
 	  }
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("saleMangeadd",["purchasePrice","oldSaleRate","newSaleRate"])
+    }
     //gridHandel.setLoadData([$.extend({},gridDefault)]) 
 }
 
@@ -1524,8 +1546,10 @@ function initDatagridoneZk(){
   		}
       }
     });
-    
-    //gridHandel.setLoadData([$.extend({},gridDefault)])
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("saleMangeadd",["purchasePrice","oldSaleRate","newSaleRate"])
+    }
     
    }
 
@@ -1716,6 +1740,9 @@ function initDatagridOddtj(){
 				
 		 }
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("saleMangeadd",["purchasePrice","oldSaleRate","newSaleRate"])
+    }
     gridHandel.setLoadData([$.extend({},gridDefault)])
 }
 //改变偶数特价 计算新毛利率
@@ -2213,16 +2240,7 @@ function initDatagridCompose(){
 			            return
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			    },
-//			    editor:{
-//			        type:'numberbox',
-//			        options:{
-//			            disabled:true,
-//			            min:0,
-//			            precision:2,
-//			
-//			        }
-//			    },
+			    }
 			},
 			{field: 'limitCount', title: '组合数量', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -2282,17 +2300,22 @@ function initDatagridCompose(){
 		},
        onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-				
-		 }
+			if(data.rows && data.rows.length > 0){
+				if(!oldData["grid"]){
+					oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+						return $.extend(true,{},obj);//返回对象的深拷贝
+					});
+				}
+			}	
+	   }
   });
-  gridHandel.setLoadData([$.extend({},gridDefault)])
 }
 
 
 //查询入库单
 function queryForm(){
 	if($("#branchName").val()==""){
-        messager("请选择店铺名称");
+        $_jxc.alert("请选择店铺名称");
         return;
     } 
 	var fromObjStr = $('#queryFormEditAct').serializeObject();
@@ -2503,7 +2526,7 @@ function selectGoodsComG(searchKey){
 function selectGoodsG(searchKey){
 	var gradRows = $("#mmsgradedList").datagrid('getChecked');
 	if(gradRows.length <= 0){
-		$.messager.alert('提示','请先选择买满条件');
+		$_jxc.alert('请先选择买满条件');
 		return;
 	}
 	
@@ -2628,33 +2651,33 @@ function saveActivity(){
   $("#saleMangeadd").datagrid("loadData",rows);
   
   if(rows.length==0){
-      messager("表格不能为空");
+      $_jxc.alert("表格不能为空");
       return;
   }
   
   	if(!$("#startTime").val() || !$("#endTime").val()){
-		messager("<活动时间>不能为空");
+		$_jxc.alert("<活动时间>不能为空");
 		return;
 	}
 	
 	if(!$("#dailyStartTime").val() || !$("#dailyStartTime").val()){
-		messager("<活动时段>不能为空");
+		$_jxc.alert("<活动时段>不能为空");
 		return;
 	}
 	  
     if(!$("#activityName").val()){
-	    messager("<活动名称>不能为空");
+	    $_jxc.alert("<活动名称>不能为空");
 	    return;
 	}
 	
 	
 	if(!$("#branchName").val().trim()){
-		messager("<活动分店>不能为空");
+		$_jxc.alert("<活动分店>不能为空");
 		return;
 	}
 	
 	if(!$("#weeklyActivityDay").val().trim()){
-	  messager("<活动日>不能为空");
+	  $_jxc.alert("<活动日>不能为空");
 	  return;
 	}	
   
@@ -2664,18 +2687,18 @@ function saveActivity(){
 	  for(var i=0;i<rows.length;i++){
 		  var v = rows[i];
 		  if(!v["skuCode"]){
-	          messager("第"+(i+1)+"行，货号不能为空");
+	          $_jxc.alert("第"+(i+1)+"行，货号不能为空");
 	          isCheckResult = false;
 	          return false;
 	      };
 	      if(!v["saleAmount"] || v["saleAmount"]=='0.00'){
-	          messager("第"+(i+1)+"行，促销价不能为空或0");
+	          $_jxc.alert("第"+(i+1)+"行，促销价不能为空或0");
 	          isCheckResult = false;
 	          return false;
 	      };
 	      
 	      if(parseFloat(v["price"]) <= parseFloat(v["saleAmount"])){
-	          messager("第"+(i+1)+"行，促销价要小于原价");
+	          $_jxc.alert("第"+(i+1)+"行，促销价要小于原价");
 	          isCheckResult = false;
 	          return false;
 	      };
@@ -2692,17 +2715,17 @@ function saveActivity(){
 		  for(var i=0;i<rows.length;i++){
 			  var v = rows[i];
 		      if(!v["skuCode"]){
-		          messager("第"+(i+1)+"行，货号不能为空");
+		          $_jxc.alert("第"+(i+1)+"行，货号不能为空");
 		          isCheckResult = false;
 		          return false;
 		      };
 		      if(!v["discount"] || v["discount"]=='0.00'){
-		          messager("第"+(i+1)+"行，折扣不能为空");
+		          $_jxc.alert("第"+(i+1)+"行，折扣不能为空");
 		          isCheckResult = false;
 		          return false;
 		      };
 		      if(parseFloat(v["discount"])>=10 || parseFloat(v["discount"]<=0)){
-		          messager("第"+(i+1)+"行，折扣值在0~10之间");
+		          $_jxc.alert("第"+(i+1)+"行，折扣值在0~10之间");
 		          isCheckResult = false;
 		          return false;
 		      };
@@ -2713,7 +2736,7 @@ function saveActivity(){
 		  for(var i=0;i<rows.length;i++){
 			  var v = rows[i];
 			  if(!v["discount"] || v["discount"]=='0.00'){
-		          messager("第"+(i+1)+"行，折扣不能为空或0");
+		          $_jxc.alert("第"+(i+1)+"行，折扣不能为空或0");
 		          isCheckResult = false;
 		          return false;
 		      };
@@ -2725,17 +2748,17 @@ function saveActivity(){
 		  for(var i=0;i<rows.length;i++){
 			  var v = rows[i];
 		      if(!v["categoryName"]){
-		          messager("第"+(i+1)+"行，商品类别不能为空");
+		          $_jxc.alert("第"+(i+1)+"行，商品类别不能为空");
 		          isCheckResult = false;
 		          return false;
 		      };
 		      if(!v["discount"] || v["discount"]=='0.00'){
-		          messager("第"+(i+1)+"行，折扣不能为空或0");
+		          $_jxc.alert("第"+(i+1)+"行，折扣不能为空或0");
 		          isCheckResult = false;
 		          return false;
 		      };
 		      if(parseFloat(v["discount"])>=10 || parseFloat(v["discount"]<=0)){
-		          messager("第"+(i+1)+"行，折扣值在0~10之间");
+		          $_jxc.alert("第"+(i+1)+"行，折扣值在0~10之间");
 		          isCheckResult = false;
 		          return false;
 		      };
@@ -2750,18 +2773,18 @@ function saveActivity(){
 	  for(var i=0;i<rows.length;i++){
 		  var v = rows[i];
 	      if(!v["skuCode"]){
-	          messager("第"+(i+1)+"行，货号不能为空");
+	          $_jxc.alert("第"+(i+1)+"行，货号不能为空");
 	          isCheckResult = false;
 	          return false;
 	      };
 	      if(v["saleAmount"] === "" || undefined == v["saleAmount"]){
-	          messager("第"+(i+1)+"行，偶数特价不能为空");
+	          $_jxc.alert("第"+(i+1)+"行，偶数特价不能为空");
 	          isCheckResult = false;
 	          return false;
 	      };
 	      
 	      if(parseFloat(v["price"]) <= parseFloat(v["saleAmount"])){
-	          messager("第"+(i+1)+"行，偶数特价要小于原价");
+	          $_jxc.alert("第"+(i+1)+"行，偶数特价要小于原价");
 	          isCheckResult = false;
 	          return false;
 	      };
@@ -2774,18 +2797,18 @@ function saveActivity(){
 	  for(var i=0;i<rows.length;i++){
 		  var v = rows[i];
 	      if(!v["skuCode"]){
-	          messager("第"+(i+1)+"行，货号不能为空");
+	          $_jxc.alert("第"+(i+1)+"行，货号不能为空");
 	          isCheckResult = false;
 	          return false;
 	      };
 	      if(v["saleAmount"] === "" || undefined === v["saleAmount"]){
-	          messager("第"+(i+1)+"行，换购价不能为空");
+	          $_jxc.alert("第"+(i+1)+"行，换购价不能为空");
 	          isCheckResult = false;
 	          return false;
 	      };
 	      
 	      if(parseFloat(v["price"]) <= parseFloat(v["saleAmount"])){
-	          messager("第"+(i+1)+"行，换购价要小于原价");
+	          $_jxc.alert("第"+(i+1)+"行，换购价要小于原价");
 	          isCheckResult = false;
 	          return false;
 	      };
@@ -2800,13 +2823,13 @@ function saveActivity(){
 	  var setrows=$('#salesetmj').datagrid('getRows');
 		  if(activityScopemj=="0"){  
 			  if(setrows.length==0){
-			      messager("满减设置表格不能为空");
+			      $_jxc.alert("满减设置表格不能为空");
 			      return;
 			  }
 			  for(var i=0;i<rows.length;i++){
 				  var v = rows[i];
 			      if(!v["skuCode"]){
-			          messager("第"+(i+1)+"行，货号不能为空");
+			          $_jxc.alert("第"+(i+1)+"行，货号不能为空");
 			          isCheckResult = false;
 			          return false;
 			      };
@@ -2814,18 +2837,18 @@ function saveActivity(){
 			  for(var i=0;i<setrows.length;i++){
 				  var v = setrows[i];
 				  if(!v["limitAmount"] || v["limitAmount"]=='0.00'){
-			          messager("第"+(i+1)+"行，买满金额不能为空或0");
+			          $_jxc.alert("第"+(i+1)+"行，买满金额不能为空或0");
 			          isCheckResult = false;
 			          return false;
 			      };
 			      if(!v["discountPrice"] || v["discountPrice"]=='0.00'){
-			          messager("第"+(i+1)+"行，优惠额不能为空或0");
+			          $_jxc.alert("第"+(i+1)+"行，优惠额不能为空或0");
 			          isCheckResult = false;
 			          return false;
 			      };
 			      
 			      if(parseFloat(v["limitAmount"]) < parseFloat(v["discountPrice"])){
-			    	  messager("第"+(i+1)+"行，买满金额不能小于优惠额");
+			    	  $_jxc.alert("第"+(i+1)+"行，买满金额不能小于优惠额");
 			          isCheckResult = false;
 			          return false;
 			      }
@@ -2834,13 +2857,13 @@ function saveActivity(){
 		 }
 		  else if(activityScopemj=="1"){
 			  if(setrows.length==0){
-			      messager("满减设置表格不能为空");
+			      $_jxc.alert("满减设置表格不能为空");
 			      return;
 			  }
 			  for(var i=0;i<rows.length;i++){
 				  var v = rows[i];
 			      if(!v["categoryName"]){
-			          messager("第"+(i+1)+"行，商品类别不能为空");
+			          $_jxc.alert("第"+(i+1)+"行，商品类别不能为空");
 			          isCheckResult = false;
 			          return false;
 			      };
@@ -2848,18 +2871,18 @@ function saveActivity(){
 			  for(var i=0;i<setrows.length;i++){
 				  var v = setrows[i];
 				  if(!v["limitAmount"] || v["limitAmount"]=='0.00'){
-			          messager("第"+(i+1)+"行，买满金额不能为空或0");
+			          $_jxc.alert("第"+(i+1)+"行，买满金额不能为空或0");
 			          isCheckResult = false;
 			          return false;
 			      };
 			      if(!v["discountPrice"] || v["discountPrice"]=='0.00'){
-			          messager("第"+(i+1)+"行，优惠额不能为空或0");
+			          $_jxc.alert("第"+(i+1)+"行，优惠额不能为空或0");
 			          isCheckResult = false;
 			          return false;
 			      };
 			      
 			      if(parseFloat(v["limitAmount"]||0) < parseFloat(v["discountPrice"]||0)){
-			    	  messager("第"+(i+1)+"行，买满金额不能小于优惠额");
+			    	  $_jxc.alert("第"+(i+1)+"行，买满金额不能小于优惠额");
 			          isCheckResult = false;
 			          return false;
 			      }
@@ -2870,18 +2893,18 @@ function saveActivity(){
 			  for(var i=0;i<rows.length;i++){
 				  var v = rows[i];
 			      if(!v["limitAmount"] || v["limitAmount"]=='0.00'){
-			          messager("第"+(i+1)+"行，买满金额不能为空");
+			          $_jxc.alert("第"+(i+1)+"行，买满金额不能为空");
 			          isCheckResult = false;
 			          return false;
 			      };
 			      if(!v["discountPrice"] || v["discountPrice"]=='0.00'){
-			          messager("第"+(i+1)+"行，优惠额不能为空或0");
+			          $_jxc.alert("第"+(i+1)+"行，优惠额不能为空或0");
 			          isCheckResult = false;
 			          return false;
 			      };
 			      
 			      if(parseFloat(v["limitAmount"]||0) < parseFloat(v["discountPrice"]||0)){
-			    	  messager("第"+(i+1)+"行，买满金额不能小于优惠额");
+			    	  $_jxc.alert("第"+(i+1)+"行，买满金额不能小于优惠额");
 			          isCheckResult = false;
 			          return false;
 			      }
@@ -2897,30 +2920,30 @@ function saveActivity(){
 	  for(var i=0;i<rows.length;i++){
 		  var v = rows[i];
 	      if(!v["skuCode"]){
-	          messager("第"+(i+1)+"行，货号不能为空");
+	          $_jxc.alert("第"+(i+1)+"行，货号不能为空");
 	          isCheckResult = false;
 	          return false;
 	      };
 	      if(!v["limitCount"] || v["limitCount"]=='0.00'){
-	          messager("第"+(i+1)+"行，组合数量不能为空或0");
+	          $_jxc.alert("第"+(i+1)+"行，组合数量不能为空或0");
 	          isCheckResult = false;
 	          return false;
 	      };
 	      
 	      if(!v["saleAmount"] || v["saleAmount"]=='0.00'){
-	          messager("第"+(i+1)+"行，组合特价不能为空或0");
+	          $_jxc.alert("第"+(i+1)+"行，组合特价不能为空或0");
 	          isCheckResult = false;
 	          return false;
 	      };
 	      
 	      if(parseFloat(v["price"]) <= parseFloat(v["saleAmount"])){
-	          messager("第"+(i+1)+"行，换购价要小于原价");
+	          $_jxc.alert("第"+(i+1)+"行，换购价要小于原价");
 	          isCheckResult = false;
 	          return false;
 	      };
 	      
 	      if(!v["groupNum"] || parseInt(v["groupNum"]) <= 0 || parseInt(v["groupNum"]) > 3){
-	          messager("第"+(i+1)+"行，组号只能是1,2,3");
+	          $_jxc.alert("第"+(i+1)+"行，组号只能是1,2,3");
 	          isCheckResult = false;
 	          return false;
 	      };
@@ -2936,7 +2959,7 @@ function saveActivity(){
 	  }
 	  
 	  if(!flag){
-		  messager("组号不能全部相同");
+		  $_jxc.alert("组号不能全部相同");
           isCheckResult = false;
           return false;
 	  }
@@ -2950,7 +2973,7 @@ function saveActivity(){
 	  if(mmstype == '1'){
 		  var lbRows = gridHandelB.getRowsWhere({categoryName:'1'});
 		  if(lbRows.length <= 0){
-			  $.messager.alert('提示','请选择类别！','',function(){});
+			  $_jxc.alert('请选择类别！',function(){});
 			  return;
 		  }
 		  setRows = lbRows;
@@ -2958,7 +2981,7 @@ function saveActivity(){
 	  if(mmstype == '0'){
 		  var spRows = gridHandelG.getRowsWhere({skuName:'1'});
 		  if(spRows.length <= 0){
-			  $.messager.alert('提示','请选择商品！','',function(){});
+			  $_jxc.alert('请选择商品！',function(){});
 			  return; 
 		  }
 		  setRows = spRows;
@@ -2976,32 +2999,32 @@ function saveActivity(){
 	  
 	  //买满条件 梯度检查
 	  var tjRows = gridHandelT.getRows();
-	  console.log('tjRows',tjRows);
+	  
 	  if(tjRows.length <= 0){
-		  $.messager.alert('提示','请设置买满条件！','',function(){});
+		  $_jxc.alert('请设置买满条件！',function(){});
 		  return;
 	  }
 	  for(var i = 0; i<tjRows.length ; i++){
 		  var mmsTJObj = tjRows[i];
 		  if(gridTitleName == '买满金额' && parseFloat(mmsTJObj.limitAmount||0)<= 0){
-			$.messager.alert('提示','第'+(i+1)+'行，买满金额不能小于等于0','',function(){});
+			$_jxc.alert('第'+(i+1)+'行，买满金额不能小于等于0',function(){});
 			return false;
 		  }
 		  if(gridTitleName == '买满数量' && parseFloat(mmsTJObj.limitCount||0)<= 0){
-			$.messager.alert('提示','第'+(i+1)+'行，买满数量不能小于等于0','',function(){});
+			$_jxc.alert('第'+(i+1)+'行，买满数量不能小于等于0',function(){});
 			return false;
 		  }
 		  
 		  if(!(mmsTJObj.giftPoList && mmsTJObj.giftPoList.length >0)){
-			  $.messager.alert('提示','买满条件第'+(i+1)+'行，未选择赠品！','',function(){});
+			  $_jxc.alert('买满条件第'+(i+1)+'行，未选择赠品！',function(){});
 			  return false;
 		  }else{
 			  var gifts = mmsTJObj.giftPoList;
 			  for(var x = 0; x < gifts.length ; x++){
 				  var gifObj = gifts[x];
-				  console.log('gifObj',JSON.stringify(gifObj));
+				  
 				  if(gifObj && gifObj.giftNum <= 0){
-					  $.messager.alert('提示','买满条件第'+(i+1)+'行，存在赠品数量小于等于0','',function(){});
+					  $_jxc.alert('买满条件第'+(i+1)+'行，存在赠品数量小于等于0',function(){});
 					  return;
 				  }
 			  }
@@ -3262,34 +3285,23 @@ function saveDataHandel(rows,setrows){
 	  delete reqObj.id;
 	  temUrl = contextPath+"/sale/activity/save";
   }
-  //console.log(req);
-  //return;
-  gFunStartLoading();
-  
-  $.ajax({
+
+  $_jxc.ajax({
       url:temUrl,
-      type:"POST",
       contentType:'application/json',
-      data:req,
-      success:function(result){
-    	  //console.log(result)
-    	  gFunEndLoading();
-    	  if(result['code'] == 0){
-              $.messager.alert("操作提示", "操作成功！", "info",function(){
-            	  var actId = $("#activityId").val();
-            	  if(sUrl == 'toCopy'){
-            		  actId = result["activityId"];
-            	  }
-            	  console.log('actId',actId);
-            	  location.href = contextPath +"/sale/activity/edit?activityId="+actId;
-              });
-          }else{
-              successTip(result['message']);
-          }
-      },
-      error:function(result){
-    	  gFunEndLoading();
-          successTip("请求发送失败或服务器处理失败");
+      data:req
+  },function(result){
+	  if(result['code'] == 0){
+          $_jxc.alert("操作成功！",function(){
+        	  var actId = $("#activityId").val();
+        	  if(sUrl == 'toCopy'){
+        		  actId = result["activityId"];
+        	  }
+        	  
+        	  location.href = contextPath +"/sale/activity/edit?activityId="+actId;
+          });
+      }else{
+          $_jxc.alert(result['message']);
       }
   });
 }
@@ -3298,7 +3310,7 @@ function saveDataHandel(rows,setrows){
 function check(){
 	var activityId = $("#activityId").val();
 	if(sUrl == 'toCopy'){
-		$.messager.alert('提示','请先保存数据');
+		$_jxc.alert('请先保存数据');
 		return;
 	}
 	//活动类型
@@ -3322,7 +3334,7 @@ function check(){
 				mjlbgrid:gridHandel.getRows()
 			};
 			if(!gFunComparisonArray(commonOldData,temNewData)){
-				messager("数据已修改，请先保存再审核");
+				$_jxc.alert("数据已修改，请先保存再审核");
 				return false;
 			}
 		}else{
@@ -3343,7 +3355,7 @@ function check(){
 		}
 		
 		if(!gFunComparisonArray(mmscomOldData,mmscomNewData)){
-			messager("数据已修改，请先保存再审核");
+			$_jxc.alert("数据已修改，请先保存再审核");
 			return false;
 		}
 		
@@ -3356,33 +3368,25 @@ function check(){
 		
 	}
 	
-	//console.log('oldData',oldData);
-	//console.log('newData',newData);
-	
 	if(!gFunComparisonArray(oldData,newData)){
-		messager("数据已修改，请先保存再审核");
+		$_jxc.alert("数据已修改，请先保存再审核");
 		return false;
 	}
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url : contextPath+"/sale/activity/check",
-		    	type : "POST",
 		    	data : {
 		    		activityId:$("#activityId").val(),
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
-		    			});
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -3414,28 +3418,6 @@ function StrweekCheckDay(weekstr){
 		$("#weekcheckbox"+val).prop("checked",true);
 	})
 	
-}
-/**
- * 分店列表 0 单选,1  多选
- */
-
-function selectBranch() {
-	new publicBranchService(function(data) {
-		var branchesId="";
-		var branchName="";
-		$.each(data,function(i,k){
-			branchesId=k.branchesId+","+branchesId;
-			branchName+="["+k.branchCode+"]"+k.branchName+",";
-		})
-		branchesId = branchesId.substring(0,branchesId.length - 1);
-		branchName = branchName.substring(0,branchName.length - 1);
-		$("#branchIds").val(branchesId);// id
-		$("#branchName").val(branchName);
-		$("#areaName").val("自定义");
-		$("#areaInput").val("");
-		//清空列表数据
-		$('#addModifyPriceGrid').datagrid('loadData', {total: 0, rows:  [$.extend({},gridDefault)]});  
-	},1, null, 'DP');
 }
 
 //类别选择
@@ -3478,7 +3460,7 @@ function toImportproduct(type){
 	var branchIds = $("#branchIds").val();
 	// 发货机构id
     if(!branchIds){
-        messager("请先活动分店");
+        $_jxc.alert("请先活动分店");
         return;
     }
     
@@ -3486,7 +3468,7 @@ function toImportproduct(type){
     
     //只支持特价、折扣、偶数特价类型的活动
     if(activityType!=='1' && activityType!=='2' && activityType!=='3'){
-    	 messager("只支持特价、折扣、偶数特价类型的活动");
+    	 $_jxc.alert("只支持特价、折扣、偶数特价类型的活动");
          return;
     }
     

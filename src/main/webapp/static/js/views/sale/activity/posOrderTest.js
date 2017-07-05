@@ -159,7 +159,7 @@ function delLineHandel(event){
 function selectGoods(searchKey){
     var branchId = $("#branchId").val();
     if(!branchId){
-    	messager("请先选择结算机构");
+    	$_jxc.alert("请先选择结算机构");
         return;
     }
     var param = {
@@ -216,7 +216,7 @@ function saveItemHandel(){
 
     var rows = gridHandel.getRows();
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
@@ -225,7 +225,7 @@ function saveItemHandel(){
     $.each(rows,function(i,v){
         v["num"] = i+1;
         if(!v["skuName"]){
-            messager("第"+(i+1)+"行，货号不正确");
+            $_jxc.alert("第"+(i+1)+"行，货号不正确");
             isCheckResult = false;
             return false;
         };
@@ -262,7 +262,7 @@ function saveDataHandel(rows){
     var salesmanId = $("#salesmanId").val();
     
 	if(!salesmanId){
-		messager("收银员不能为空");
+		$_jxc.alert("收银员不能为空");
 		return ;
 	}
 	
@@ -297,7 +297,7 @@ function saveDataHandel(rows){
         contentType:'application/json',
         data:req,
         success:function(result){
-        	console.log(result);
+        	
         	if(result.code == 0){
         		$("#textDialog").dialog('open');
         		
@@ -361,12 +361,12 @@ function saveDataHandel(rows){
             	
             	$("#goodsList").html(line);
         	}else{
-        		messager(result.message);
+        		$_jxc.alert(result.message);
         	}
            
         },
         error:function(result){
-        	console.log(result);
+        	
         }
     });
 
@@ -407,10 +407,10 @@ function pay(){
 		contentType:'application/json',
 		data:req,
 		success:function(result){
-			console.log(result);
+			
 		},
 		error:function(result){
-			console.log(result);
+			
 		}
 	});
 }

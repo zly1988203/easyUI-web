@@ -282,10 +282,18 @@ function initDatagridArchives(){
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
-        	priceGrantUtil.grantPrice("gridArchives");
-        }
 
+        }
 });
+    var param = {
+        wholesalePrice:["wholesalePrice"],
+        purchasePrice:["purchasePrice"],
+        distributionPrice:["distributionPrice"],
+        costPrice:["costPrice"],
+        vipPrice:["vipPrice"],
+        salePrice:["salePrice"],
+    }
+    priceGrantUtil.grantPrice("gridArchives",param);
 }
 
 
@@ -342,8 +350,8 @@ function addGoodsView(){
 	}
 }
 var  dalogTemp;
-var dialogHeight = $(window).height()*(4/5);
-var dialogWidth = $(window).width()*(5/9);
+var dialogHeight = 660;//$(window).height()*(4/5);
+var dialogWidth = 950;//$(window).width()*(5/9);
 var dialogLeft = $(window).width()*(1/5);
 //打开Dialog
 function openDialog(argUrl,argTitle,argType,params) {
@@ -351,7 +359,7 @@ function openDialog(argUrl,argTitle,argType,params) {
         href: argUrl,
          width: dialogWidth,
         height: dialogHeight,
-        left:dialogLeft,
+//        left:dialogLeft,
         title: argTitle,
         closable: true,
         resizable: true,
@@ -379,7 +387,7 @@ function closeDialog(){
 //复制
 function copyGoodsView(){
 	if($("#gridArchives").datagrid("getSelections").length <= 0){
-        $.messager.alert('提示','请选中一行进行复制新增商品！');
+        $_jxc.alert('请选中一行进行复制新增商品！');
         return false;
     }else{
     	var selectionRow = $("#gridArchives").datagrid("getSelections");
@@ -399,19 +407,17 @@ function delGoods(){
 	var row = $("#gridArchives").datagrid('getSelected');
 	if(rowIsNull(row)) return;
 	//判断是否被引用
-	parent.$.messager.confirm('提示', '是否确认删除？', function(data){
+	$_jxc.confirm('是否确认删除？', function(data){
 		if (data){
-			$.ajax({
-				type:'POST',
+			$_jxc.ajax({
 				url:contextPath+"/common/operateGoods/delGoods",
-				data:{"id":row.id},
-				success: function(data){
-					if(data.code == 0){
-						$("#gridArchives").datagrid('reload');
-						$.messager.alert('提示',"删除成功");
-					}else{
-						$.messager.alert('提示',data.message);
-					}
+				data:{"id":row.id}
+			},function(data){
+				if(data.code == 0){
+					$("#gridArchives").datagrid('reload');
+					$_jxc.alert("删除成功");
+				}else{
+					$_jxc.alert(data.message);
 				}
 			});
 		} 
@@ -424,7 +430,7 @@ function delGoods(){
 function exportData(){
 	var length = $('#gridArchives').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -442,7 +448,7 @@ function exportExcel(){
 	$("#formGoodsArchives").form({
 		success : function(result){
 			var dataObj=eval("("+result+")");
-			successTip(dataObj.message);
+			$_jxc.alert(dataObj.message);
 		}
 	});
 	$("#formGoodsArchives").attr("action",contextPath+"/common/operateGoods/exportGoods");

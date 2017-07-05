@@ -2,14 +2,30 @@
 package com.okdeer.jxc.controller;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.handler.PriceGrantHandler;
+import com.okdeer.jxc.common.parser.DataAccessParser;
+import com.okdeer.jxc.common.parser.MapAccessParser;
+import com.okdeer.jxc.common.parser.vo.KeyExtendVo;
+import com.okdeer.jxc.common.report.DataRecord;
+import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.PriceGrantUtil;
 import com.okdeer.jxc.utils.UserUtil;
@@ -49,12 +65,12 @@ public class BaseController<T> {
 	 * @Fields SUCCESS : success
 	 */
 	protected static final String SUCCESS = "success";
-	
+
 	/**
 	 * @Fields PAGE_500 : 500页面
 	 */
 	protected static final String PAGE_500 = "/error/500";
-	
+
 	/**
 	 * @Fields error_Msg : 500页面错误提示消息key值
 	 */
@@ -65,7 +81,7 @@ public class BaseController<T> {
 	
 	protected static Integer LIMIT_MIN_COUNT = 100;//如果数据导出pageSize没传的话，默认导出100条
 	
-	protected static Integer LIMIT_REQ_COUNT = 5000;//一次请求的数据量
+	protected static Integer LIMIT_REQ_COUNT = 2000;//一次请求的数据量
 
 	/**
 	 * @Description: 获取当前用户信息
@@ -162,10 +178,9 @@ public class BaseController<T> {
 	 * @author liwb
 	 * @date 2016年8月22日
 	 */
-	protected void exportListForXLSX(HttpServletResponse response,
-			List<?> dataList, String fileName, String templateName) {
-		ReportExcelUtil.exportListForXLSX(response, dataList, fileName,
-				templateName);
+	protected void exportListForXLSX(HttpServletResponse response, List<?> dataList, String fileName,
+			String templateName) {
+		ReportExcelUtil.exportListForXLSX(response, dataList, fileName, templateName);
 	}
 
 	/**
@@ -177,10 +192,9 @@ public class BaseController<T> {
 	 * @author liwb
 	 * @date 2016年8月22日
 	 */
-	protected void exportPageForXLSX(HttpServletResponse response,
-			List<?> dataList, String fileName, String templateName) {
-		ReportExcelUtil.exportPageForXLSX(response, dataList, fileName,
-				templateName);
+	protected void exportPageForXLSX(HttpServletResponse response, List<?> dataList, String fileName,
+			String templateName) {
+		ReportExcelUtil.exportPageForXLSX(response, dataList, fileName, templateName);
 	}
 
 	/**
@@ -194,11 +208,193 @@ public class BaseController<T> {
 	 * @date 2016年8月31日
 	 */
 	@SuppressWarnings("hiding")
-	protected <T> List<T> parseExcel(String fileName, InputStream is,
-			String[] fields, T entity) {
+	protected <T> List<T> parseExcel(String fileName, InputStream is, String[] fields, T entity) {
 		return ExcelReaderUtil.readExcel(fileName, is, fields, entity);
 	}
-	
+
+	/**
+	 * @Description: 获取当前机构类型权限列表
+	 * @return
+	 * @author liwb
+	 * @date 2017年2月16日
+	 */
+	protected List<BranchTypeEnum> getCurrTypeList() {
+		List<BranchTypeEnum> typeList = new ArrayList<BranchTypeEnum>();
+		Integer branchType = getCurrBranchType();
+
+		// 总部有所有类型权限
+		if (BranchTypeEnum.HEAD_QUARTERS.getCode().equals(branchType)) {
+			typeList = Arrays.asList(BranchTypeEnum.values());
+		}
+
+		// 分公司有除总部以外的所有权限
+		else if (BranchTypeEnum.BRANCH_OFFICE.getCode().equals(branchType)) {
+			for (BranchTypeEnum type : BranchTypeEnum.values()) {
+				if (!BranchTypeEnum.HEAD_QUARTERS.equals(type)) {
+					typeList.add(type);
+				}
+			}
+		}
+
+		// 其它只有当前类型的权限
+		else {
+			BranchTypeEnum currType = BranchTypeEnum.enumValueOf(branchType);
+			typeList.add(currType);
+		}
+		return typeList;
+	}
+
+	/**
+	 * @Description: 验证导出集合数据
+	 * @param list
+	 * @author liwb
+	 * @date 2017年5月24日
+	 */
+	protected RespJson validateExportList(List<?> list) {
+		if (CollectionUtils.isEmpty(list)) {
+			return RespJson.error("无数据可导");
+		}
+
+		if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
+			return RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE + "条数据");
+		}
+
+		return RespJson.success();
+	}
+
+	/**
+	 * @Description: 跳转到错误页面
+	 * @param errorMsg 错误信息
+	 * @return
+	 * @author liwb
+	 * @date 2017年5月25日
+	 */
+	protected ModelAndView toErrorPage(String errorMsg) {
+		ModelAndView mv = new ModelAndView("error/info");
+		mv.addObject("errorMsg", errorMsg);
+		return mv;
+	}
+
+	/**
+	 * 过滤价格权限数据（单个vo）
+	 * @param data 要过滤的vo对象
+	 */
+	protected void cleanAccessData(Object data) {
+	    if(data == null){
+	        return;
+	    }
+		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
+		DataAccessParser parser = new DataAccessParser(data.getClass(), forbiddenSets);
+		parser.cleanDataObject(data);
+	}
+
+	/**
+	 * 过滤价格权限数据（vo list）
+	 * @param datas 要过滤的vo对象
+	 */
+	protected void cleanAccessData(List<? extends Object> datas) {
+	    if(CollectionUtils.isEmpty(datas)){
+	        return;
+	    }
+		Class<?> cls = datas.get(0).getClass();
+		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
+		DataAccessParser parser = new DataAccessParser(cls, forbiddenSets);
+		parser.cleanDataObjects(datas);
+	}
+	/**
+     * 过滤价格权限数据（vo list）
+     * @param datas 要过滤的vo对象
+     */
+	protected void cleanAccessData(PageUtils<? extends Object> page) {
+	    if(CollectionUtils.isNotEmpty(page.getFooter())){
+	        cleanAccessData(page.getFooter());
+	    }
+	    if(CollectionUtils.isNotEmpty(page.getList())){
+	        cleanAccessData(page.getList());
+	    }
+	    if(CollectionUtils.isNotEmpty(page.getRows())){
+	        cleanAccessData(page.getRows());
+	    }
+	}
+
+	/**
+	 * 过滤价格权限数据（单个map）
+	 * @param extendVos 要过滤的数据key与关联key列表
+	 * @param dataMap 要过滤的数据
+	 */
+	protected void cleanDataMap(String keyStr, DataRecord data) {
+	    if(StringUtils.isBlank(keyStr) || data == null || data.size() == 0){
+	        return;
+	    }
+		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
+		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
+		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
+		parser.cleanDataMap(data);
+	}
+
+	/**
+	 * 过滤价格权限数据（单个map）
+	 * @param extendVos 要过滤的数据key与关联key列表
+	 * @param dataMap 要过滤的数据
+	 */
+	protected void cleanDataMap(String keyStr, Map<String, Object> data) {
+	    if(StringUtils.isBlank(keyStr) || data == null || data.size() == 0){
+	        return;
+	    }
+		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
+		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
+		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
+		parser.cleanDataMap(data);
+	}
+
+	/**
+	 * 过滤价格权限数据（map集合）
+	 * @param extendVos 要过滤的数据key与关联key列表
+	 * @param dataMaps 要过滤的数据
+	 */
+	protected void cleanDataMaps(String keyStr, List<DataRecord> datas) {
+	    if(StringUtils.isBlank(keyStr) || CollectionUtils.isEmpty(datas)){
+	        return;
+	    }
+		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
+		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
+		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
+		parser.cleanDataMap(datas);
+	}
+
+	/**
+	* 
+	* @Description: 转换过滤权限字段
+	* @param keyStr
+	* @return List
+	* @date 2017年6月9日
+	*/
+	private List<KeyExtendVo> parserPriceKey(String keyStr) {
+		List<KeyExtendVo> keyList = new ArrayList<KeyExtendVo>();
+		if (StringUtils.isBlank(keyStr)) {
+			return keyList;
+		}
+		String[] tempArrKey = keyStr.split("#");
+		for (int i = 0; i < tempArrKey.length; i++) {
+			KeyExtendVo keyVo = new KeyExtendVo();
+
+			String tempKeyStr = tempArrKey[i];
+			String key = tempKeyStr.substring(0, tempKeyStr.indexOf(":"));
+			// 设置属性
+			keyVo.setKey(key);
+			String extKeysStr = tempKeyStr.substring(tempKeyStr.indexOf(":") + 1);
+			String[] extKeysArr = extKeysStr.split(",");
+			Set<String> extKeys = new HashSet<String>();
+			for (int j = 0; j < extKeysArr.length; j++) {
+				extKeys.add(extKeysArr[j]);
+			}
+			// 设置属性
+			keyVo.setExtKeys(extKeys);
+			keyList.add(keyVo);
+		}
+		return keyList;
+	}
+
 	/**
 	 * 限制导出数据的起始数量
 	 * @return
@@ -222,5 +418,4 @@ public class BaseController<T> {
 		}
 		return endCount;
 	}
-	
 }

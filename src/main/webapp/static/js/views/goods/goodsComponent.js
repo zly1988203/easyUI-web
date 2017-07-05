@@ -225,7 +225,12 @@ function initDatagridResultOrder(){
             updateFooter();
         }
     });
-   
+
+
+    if(hasPurchasePrice==false){
+        var fieldArr = ["purchasePrice","amount"]
+        priceGrantUtil.grantPurchasePrice("gridOrdersresult",fieldArr)
+    }
 }
 
 //queryForm 表单提交
@@ -285,7 +290,7 @@ function selectGoods(searchKey){
 	var viewrows=$("#gridOrdersview").datagrid("getRows");
 	console.log(viewrows);
 	  if(viewrows==0){
-		messager("请选择捆绑商品");
+		$_jxc.alert("请选择捆绑商品");
 		 return;
 	   }
 	   var param = {goodsTypeList:'0,1,2',key:searchKey}
@@ -330,22 +335,23 @@ function selectGoods(searchKey){
 //根据选中skuid查询价格、库存
 function selectView(data){
      var searchskuId=data.id
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/component/queryComponent",
-    	type : "POST",
-    	data : {"skuId":searchskuId},
-    	success:function(result){
-    	    if(result.length>0){
-    	     setDataValue(result);
-    		}
-    	    else{
-    	     //result.length <0 清空数据	
-    	     $("#gridOrdersresult").datagrid('loadData', { total: 0, rows: [] });
-    	    }
-    	},
-    	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
-    	}
+    	data : {"skuId":searchskuId}
+    },function(result){
+	    if(result.length>0){
+	        $.each(result,function (index,item) {
+                //进价金额=成分数量*进货价
+                item.amount = (parseFloat(item.purchasePrice)*parseFloat(item.componentNum)).toFixed(4);
+                //售价金额=成分数量*零售价
+                item.salePricemoney = (parseFloat(item.salePrice)*parseFloat(item.componentNum)).toFixed(4);
+            })
+	     setDataValue(result);
+		}
+	    else{
+	     //result.length <0 清空数据	
+	     $("#gridOrdersresult").datagrid('loadData', { total: 0, rows: [] });
+	    }
     });
 }
 //二次查询设置值
@@ -389,19 +395,19 @@ function saveResultOrder(){
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
     $.each(rows,function(i,v){
         if(!v["skuCode"]){
-            messager("第"+(i+1)+"行，货号不能为空");
+            $_jxc.alert("第"+(i+1)+"行，货号不能为空");
             isCheckResult = false;
             return false;
         };
         if(v["componentNum"]<=0){
         	
-            messager("第"+(i+1)+"行，成分数量必须大于0");
+            $_jxc.alert("第"+(i+1)+"行，成分数量必须大于0");
             isCheckResult = false;
             return false;
         };
@@ -439,21 +445,16 @@ function saveDataHandel(rows){
     }; 
     var goodsJson = JSON.stringify(reqObj);
     console.log(goodsJson);
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/goods/component/saveComponent",
-        type:"POST",
-        data:{"goodsJson":goodsJson},
-        success:function(result){
-            if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info",function(){
-                    //location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
-                });
-            }else{
-                successTip(result['message']);
-            }
-        },
-        error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+        data:{"goodsJson":goodsJson}
+    },function(result){
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+                //location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
+            });
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 

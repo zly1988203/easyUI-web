@@ -8,7 +8,7 @@ $(function(){
 function initdgOrderList(){
 	var guideNo = $("#guideNo").val();
 	if(!guideNo){
-		successTip("数据异常！");
+		$_jxc.alert("数据异常！");
 		return;
 	}
 	
@@ -55,12 +55,16 @@ function initdgOrderList(){
             
         }
     });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("dgGuideOrderList",["amount"])
+    }
 }
 
 function chekData(){
 	var rows =$("#dgGuideOrderList").datagrid("getChecked");
 	if(rows.length==0){
-		successTip("请选择行数据！");
+		$_jxc.alert("请选择行数据！");
 		return null;
 	}
 	var formIds='';
@@ -68,21 +72,19 @@ function chekData(){
     	formIds+=v.formId+",";
     });
     
-    $.messager.confirm('提示','确认审核所有所选数据？',function(data){
+    $_jxc.confirm('确认审核所有所选数据？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/purchase/batchCheck",
 		    	type:"POST",
 		    	data:{
 		    		formIds:formIds,
 		    		status : 1
-		    	},
-		    	success:function(result){
-		    		successTip(result.message, $("#dgGuideOrderList"));
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		$_jxc.alert(result.message, function(){
+	    			$("#dgGuideOrderList").datagrid('reload');	
+	    		});
 		    });
 		}
 	});
@@ -93,7 +95,7 @@ function chekData(){
 function delData(){
 	var rows =$("#dgGuideOrderList").datagrid("getChecked");
 	if(rows.length==0){
-		successTip("请选择行数据！");
+		$_jxc.alert("请选择行数据！");
 		return null;
 	}
 	var formIds='';
@@ -101,20 +103,17 @@ function delData(){
     	formIds+=v.formId+",";
     });
 	
-	$.messager.confirm('提示','是否要删除选中数据',function(data){
+	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/purchase/delete",
-		    	type:"POST",
 		    	data:{
 		    		formIds:formIds
-		    	},
-		    	success:function(result){
-		    		successTip(result.message, $("#dgGuideOrderList"));
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		$_jxc.alert(result.message,function(){
+	    			$("#dgGuideOrderList").datagrid('reload');
+	    		});
 		    });
 		}
 	});

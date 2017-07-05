@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +20,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -42,9 +45,11 @@ import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.enums.SaleWayEnum;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -77,8 +82,6 @@ import com.okdeer.jxc.goods.qo.GoodsBranchPriceQo;
 import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
-
-import net.sf.json.JSONObject;
 
 /**
  * ClassName: PurchaseFormController 
@@ -158,6 +161,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		String formId = vo.getId();
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
+		cleanAccessData(form);
 		model.addAttribute("form", form);
 		return "form/purchase/receiptAdd";
 	}
@@ -216,6 +220,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		}
 
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
+		cleanAccessData(page);
 		return page;
 	}
 
@@ -248,6 +253,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		}
 
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
+		cleanAccessData(page);
 		return page;
 	}
 
@@ -454,6 +460,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			return RespJson.error("无法通过此id查询到数据，数据可能已被删除");
 		}
 		RespJson resp = RespJson.success();
+		cleanAccessData(form);
 		resp.put("obj", form);
 		return resp;
 	}
@@ -472,9 +479,14 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		RespJson resp = new RespJson();
 		if (StringUtils.isNotBlank(formIds)) {
 			String[] arr = formIds.split(",");
-			for (int i = 0; i < arr.length; i++) {
-				resp = purchaseFormServiceApi.delete(arr[i], user.getId());
-			}
+//			for (int i = 0; i < arr.length; i++) {
+//				resp = purchaseFormServiceApi.delete(arr[i], user.getId());
+//			}
+			try {
+                resp = purchaseFormServiceApi.deleteByIds(Arrays.asList(arr), user.getId());
+            } catch (BusinessException e) {
+                return RespJson.posBusinessError(e.getMessage());
+            }
 		}
 		return resp;
 	}
@@ -505,6 +517,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		}
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
+		cleanAccessData(page);
 		return page;
 	}
 
@@ -1167,6 +1180,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			 * added by zhangqin on 2016-12-01 14:36 end
 			 */
 		}
+		cleanDataMap(PriceAccessConstant.PURCHASE_FORM, replaceMap);
 		return replaceMap;
 	}
 
@@ -1177,6 +1191,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@Override
 	protected List<PurchaseFormDetailPO> getPrintDetail(String formNo) {
 		List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetail(formNo).getList();
+		cleanAccessData(list);
 		return list;
 	}
 
@@ -1346,6 +1361,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				templateName = ExportExcelConstant.RETURN_FORM;
 			}
 			// 导出Excel
+			cleanAccessData(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("GoodsPriceAdjustController:exportList:", e);

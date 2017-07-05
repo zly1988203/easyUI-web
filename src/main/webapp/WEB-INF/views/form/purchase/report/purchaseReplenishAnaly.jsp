@@ -7,11 +7,11 @@
     <title>门店补货分析</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-	<script src="${ctx}/static/js/views/purchase/report/purchaseReplenishAnaly.js"></script>
+	<script src="${ctx}/static/js/views/purchase/report/purchaseReplenishAnaly.js?V=${versionNo}"></script>
     
 </head>
-<body class="ub uw uh ufs-14 uc-black">
-    <div class="ub ub-ver ub-f1 umar-4 upad-4">
+<body class="uw uh ufs-14 uc-black ">
+    <div class="ub ub-ver uw ub-f1 uh upad-8 box-border">
     	<form id="queryForm" action="" method="post">
 	        <div class="ub ub-ac">
 	            <div class="ubtns"> 

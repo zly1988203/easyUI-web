@@ -208,27 +208,24 @@ function updateStatus(status) {
 	var rowStatus = rowData.status;
 	if (rowStatus == status) {
 		var message = status == 0 ? "已经启用!" : "已经禁用!";
-		successTip(message);
+		$_jxc.alert(message);
 		return;
 	}
 
 	var userId = rowData.id
 
 	var uri = status == 0 ? "enableUser" : "disableUser";
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/system/user/" + uri,
-		type : "POST",
 		data : {
 			"userId" : userId
-		},
-		dataType : "json",
-		success : function(result) {
-			if (result) {
-				successTip(result.message, $("#dg"));
-			}
-		},
-		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+		}
+	},function(result){
+        if(result['code'] == 0){
+			$_jxc.alert("操作成功")
+		}else {
+            $_jxc.alert(result.message);
+            $("#dg").datagrid('reload');
 		}
 	});
 }

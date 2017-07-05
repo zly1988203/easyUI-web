@@ -7,7 +7,7 @@ var branchId="";
 var isDirect = "";
 function initSupplierView(param){
 	
-	
+	console.log('param',param)
 	
 	var supplierCodeOrName = param.supplierCodeOrName;
 	
@@ -21,6 +21,7 @@ function initSupplierView(param){
 	if(!branchId){
 		branchId=$("#branchId").val();
 	}
+	
 	
     gFunSetEnterKey(supplierSearch);
     saleWayNot=$("#saleWayNot").val();

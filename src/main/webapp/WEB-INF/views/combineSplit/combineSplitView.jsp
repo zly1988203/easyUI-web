@@ -11,7 +11,7 @@
     <script>
     	var edit = '${stockFormVo.status}';
     </script>
-	<script  src="${ctx}/static/js/views/combineSplit/combineSplitView.js?1=1"></script>
+	<script  src="${ctx}/static/js/views/combineSplit/combineSplitView.js?V=${versionNo}"></script>
 	<style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>

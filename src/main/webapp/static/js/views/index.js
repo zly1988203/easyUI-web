@@ -380,6 +380,7 @@ function openMsg(){
 			$("#sumOne").hide();
 			$("#sumTwo").hide();
 			$("#sumOther").hide();
+			$("#sumThree").hide();
 			var datas = data.data;
 			for(var key in datas){
 				if(key==="sumOne"){
@@ -397,12 +398,17 @@ function openMsg(){
 						$("#sumOther").show();
 						continue;
 					}
+				}else if(key==="sumThree"){
+					if(datas[key]<=0){
+						$("#sumThree").show();
+						continue;
+					}
 				}
 				if(datas[key]===0){
 					$("#"+key+"").parents(".msg-li").first().hide();
 				}else{
 					$("#"+key+"").parents(".msg-li").first().show();
-					if(!(key==="sumOne"||key==="sumTwo"||key==="sumOther"))
+					if(!(key==="sumOne"||key==="sumTwo"||key==="sumOther"||key==="sumThree"))
 					$("#"+key+"").text(datas[key]);
 				}
 			}

@@ -143,7 +143,7 @@ function initDatagridByFormNo(){
             	formatter:function(value,row,index){
             		var hrefStr = '';
             		if(row.id){
-        				hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/returnEdit?report=close&formId='+row.id+'")'
+        				hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/orderEdit?report=close&formId='+row.id+'")'
         				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             		}else{
             			return "";
@@ -193,7 +193,9 @@ function initDatagridByFormNo(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
-    
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridOrders",["purchaseAmount","receiptAmount","notAmount"])
+    }
 }
 
 //初始化表格
@@ -257,6 +259,9 @@ function initDatagridBySupplier(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridOrders",["purchaseAmount","receiptAmount","notAmount"])
+    }
 }
 
 //初始化表格
@@ -320,6 +325,9 @@ function initDatagridByCategory(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridOrders",["purchaseAmount","receiptAmount","notAmount"])
+    }
 }
 
 
@@ -389,6 +397,9 @@ function initDatagridBySku(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridOrders",["purchaseAmount","receiptAmount","notAmount"])
+    }
 }
 
 function query(){
@@ -444,7 +455,7 @@ function resetForm(){
 function exportData(){
 	var length = $('#gridOrders').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -462,7 +473,7 @@ function exportExcel(){
 	$("#queryForm").form({
 		success : function(result){
 			var dataObj=eval("("+result+")");
-			successTip(dataObj.message);
+			$_jxc.alert(dataObj.message);
 		}
 	});
 	$("#queryForm").attr("action",contextPath+"/report/purchase/exportList");

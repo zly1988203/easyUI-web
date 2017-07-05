@@ -5,7 +5,7 @@
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.6/ZeroClipboard.min.js" ></script>
 <style>
 	
-	.dialog-button { text-align:center;background-color:rgb(255,255,255); }
+	.dialog-button { text-align:center;background-color:rgb(255,255,255);margin:auto; }
 	.window .window-body {
 		border-width: 0px;
 	}

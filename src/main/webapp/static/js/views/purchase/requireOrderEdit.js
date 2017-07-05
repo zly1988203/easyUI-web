@@ -231,7 +231,7 @@ function onChangeDatagridEdit(rowIndex){
     var edRealNum = $('#gridEditRequireOrder').datagrid('getEditor', {index:rowIndex,field:"realNum"});
     var purchaseSpecValue = gridHandel.getFieldData('gridEditRequireOrder',rowIndex,'purchaseSpec');
     if(!purchaseSpecValue){
-        messager("没有商品规格,请审查");
+        $_jxc.alert("没有商品规格,请审查");
         return;
     }
     $(edLargeNum.target).numberbox({ onChange: function (newV,oldV) {
@@ -350,7 +350,7 @@ function selectGoods(searchKey){
         };
 
         var newRows = gFunUpdateKey(rows,keyNames);
-        console.log(newRows);
+        
         $("#gridEditRequireOrder").datagrid("loadData",newRows);
         
         gridHandel.setLoadFocus();
@@ -431,7 +431,7 @@ function saveItemHandel(){
 	console.log(branchId);
 	console.log(deliverTime);
 	console.log(remarks);
-    console.log(rows);
+    
     
     var detailList = tableArrayFormatter(rows,"detailList");
     console.log(detailList);
@@ -446,20 +446,15 @@ function saveItemHandel(){
 		amount:amount,
 	}, detailList);
     
-    $.ajax({
+    $_jxc.ajax({
     	url:contextPath+"/form/purchase/updateOrder",
-    	type:"POST",
-    	data:reqObj,
-    	success:function(result){
-            console.log(result);
-            if(result['code'] == 0){
-                $.messager.alert("操作提示", "操作成功！", "info");
-            }else{
-                successTip(result['message']);
-            }
-        },
-        error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+    	data:reqObj
+    },function(result){
+        
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！");
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -467,28 +462,23 @@ function saveItemHandel(){
 //审核
 function check(){
 	var id = $("#formId").val();
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/purchase/check",
-		    	type:"POST",
 		    	data:{
 		    		formId:id,
 		    		status:1
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/form/purchase/orderEdit?formId=" + id;
-		    			});
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/form/purchase/orderEdit?formId=" + id;
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

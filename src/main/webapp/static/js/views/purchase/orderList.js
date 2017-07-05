@@ -23,12 +23,14 @@ function changeStatus(){
 
 //初始化默认条件
 function initConditionParams(){
-    
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 }
 
+
+
 var gridHandel = new GridClass();
+var gridName = "gridOrders";
 //初始化表格
 function initDatagridOrders(){
 	gridHandel.setGridName("gridOrders");
@@ -100,7 +102,11 @@ function initDatagridOrders(){
 		}
     });
     query();
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(gridName,["amount"])
+    }
 }
+
 function orderAdd(){
 	toAddTab("新增采购订单",contextPath + "/form/purchase/orderAdd");
 }
@@ -116,7 +122,7 @@ function query(){
 function orderDelete(){
 	var rows =$("#gridOrders").datagrid("getChecked");
 	if($("#gridOrders").datagrid("getChecked").length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
+		 $_jxc.alert('请选中一行进行删除！');
 		return null;
 	}
 	 var formIds='';
@@ -124,26 +130,22 @@ function orderDelete(){
 	    	formIds+=v.id+",";
 	    });
 	
-	$.messager.confirm('提示','是否要删除选中数据',function(data){
+	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/purchase/delete",
 		    	type:"POST",
 		    	data:{
 		    		formIds:formIds
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    		$("#gridOrders").datagrid('reload');
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("删除成功");
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
+	    		$("#gridOrders").datagrid('reload');
 		    });
 		}
 	});
@@ -175,6 +177,6 @@ function printPreview() {
     if(rows.length == 1){
         toPrintPreview('PA','/form/purchase/','gridOrders');
     }else{
-        messager('请选择一行数据.')
+        $_jxc.alert('请选择一行数据.')
     }
 }

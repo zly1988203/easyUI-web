@@ -370,7 +370,7 @@ function selectBranches() {
 			branchesId=k.branchesId+","+branchesId;
 		})
 		branchesId = branchesId.substring(0,branchesId.length - 1);
-		$.messager.confirm('提示', '是否引入所选机构未引入的商品', function(data) {
+		$_jxc.confirm('是否引入所选机构未引入的商品?', function(data) {
 			if (data) {
 				branchesLeadInto(branchesId);
 			}
@@ -381,28 +381,23 @@ function selectBranches() {
 function branchesLeadInto(branchesId){
 	var skuIds = getSkuIds();
 	if (skuIds == ''){
-		messager("未选择商品");
+		$_jxc.alert("未选择商品");
 		return;
 	}
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/branch/operateGoods/branchesLeadInto",
-		type : "POST",
 		data : {
 			'branchesId' : branchesId,
 			'skuIds' : skuIds
-		},
-		success : function(result) {
-			if (result['code'] == 0) {
-				messager("启用成功");
-			} else {
-				messager(result['message']);
-			}
-			var dg = $("#gridOrders");
-			dg.datagrid('reload');
-		},
-		error : function(result) {
-			messager("请求发送失败或服务器处理失败");
 		}
+	},function(result){
+		if (result['code'] == 0) {
+			$_jxc.alert("启用成功");
+		} else {
+			$_jxc.alert(result['message']);
+		}
+		var dg = $("#gridOrders");
+		dg.datagrid('reload');
 	});
 }
 
@@ -426,7 +421,7 @@ function enable() {
 	var dg = $("#gridOrders");
 	var rows = dg.datagrid("getSelections");
 	if (!rows || rows.length == 0) {
-		messager("未选择商品");
+		$_jxc.alert("未选择商品");
 		return;
 	}
 	var skuIds = '';
@@ -436,7 +431,7 @@ function enable() {
 		var row = rows[i];
 		skuIds += row.skuId + ',';
 	}
-	$.messager.confirm('提示', '是否要启用已选择的商品', function(data) {
+	$_jxc.confirm('是否要启用已选择的商品?', function(data) {
 		if (data) {
 			enableAjax(skuIds, branchId, contextPath + "/branch/operateGoods/enable");
 		}
@@ -444,25 +439,20 @@ function enable() {
 }
 
 function enableAjax(skuIds, branchId, url) {
-	$.ajax({
+	$_jxc.ajax({
 		url : url,
-		type : "POST",
 		data : {
 			skuIds : skuIds,
 			branchId : branchId
-		},
-		success : function(result) {
-			if (result['code'] == 0) {
-				messager("启用成功");
-			} else {
-				messager(result['message']);
-			}
-			var dg = $("#gridOrders");
-			dg.datagrid('reload');
-		},
-		error : function(result) {
-			messager("请求发送失败或服务器处理失败");
 		}
+	},function(result){
+		if (result['code'] == 0) {
+			$_jxc.alert("启用成功");
+		} else {
+			$_jxc.alert(result['message']);
+		}
+		var dg = $("#gridOrders");
+		dg.datagrid('reload');
 	});
 }
 
@@ -471,7 +461,7 @@ function eliminate() {
 	var dg = $("#gridOrders");
 	var rows = dg.datagrid("getSelections");
 	if (!rows || rows.length == 0) {
-		messager("未选择商品");
+		$_jxc.alert("未选择商品");
 		return;
 	}
 	var goodsStoreSkuIds = '';
@@ -479,33 +469,28 @@ function eliminate() {
 	for ( var i in rows) {
 		var row = rows[i];
 		if (row.actual != null && row.actual != 0) {
-			messager(branchName + "机构的" + row.skuName + "商品库存不为0,不能进行淘汰操作");
+			$_jxc.alert(branchName + "机构的" + row.skuName + "商品库存不为0,不能进行淘汰操作");
 			return;
 		}
 		goodsStoreSkuIds += row.skuId + ',';
 	}
 	var branchId = $("#branchId").val();
-	$.messager.confirm('提示', '是否要淘汰该商品', function(data) {
+	$_jxc.confirm('是否要淘汰该商品?', function(data) {
 		if (data) {
-			$.ajax({
+			$_jxc.ajax({
 				url : contextPath + "/branch/operateGoods/eliminateGoodsStoreSku",
-				type : "POST",
 				data : {
 					goodsStoreSkuIds : goodsStoreSkuIds,
 					branchId : branchId
-				},
-				success : function(result) {
-					console.log(result);
-					if (result['code'] == 0) {
-						messager("淘汰商品成功");
-					} else {
-						messager(result['message']);
-					}
-					dg.datagrid('reload');
-				},
-				error : function(result) {
-					messager("请求发送失败或服务器处理失败");
 				}
+			},function(result){
+				
+				if (result['code'] == 0) {
+					$_jxc.alert("淘汰商品成功");
+				} else {
+					$_jxc.alert(result['message']);
+				}
+				dg.datagrid('reload');
 			});
 		}
 	});
@@ -516,37 +501,32 @@ function recovery() {
 	var dg = $("#gridOrders");
 	var rows = dg.datagrid("getSelections");
 	if (!rows || rows.length == 0) {
-		messager("未选择商品");
+		$_jxc.alert("未选择商品");
 		return;
 	}
 	var params = '';
 	for ( var i in rows) {
 		var row = rows[i];
 		if (row.actual == null) {
-			messager(row.branchName + "机构的" + row.skuName + "商品库存不存在,不能进行恢复操作");
+			$_jxc.alert(row.branchName + "机构的" + row.skuName + "商品库存不存在,不能进行恢复操作");
 			return;
 		}
 		params += row.id + "," + row.skuId + ',' + row.branchId + "|";
 	}
-	$.messager.confirm('提示', '是否要恢复该商品', function(data) {
+	$_jxc.confirm('是否要恢复该商品?', function(data) {
 		if (data) {
-			$.ajax({
+			$_jxc.ajax({
 				url : contextPath + "/branch/operateGoods/recoveryGoodsStoreSku",
-				type : "POST",
 				data : {
 					skuObjs : params
-				},
-				success : function(result) {
-					if (result['code'] == 0) {
-						messager("恢复商品成功");
-					} else {
-						messager(result['message']);
-					}
-					dg.datagrid('reload');
-				},
-				error : function(result) {
-					messager("请求发送失败或服务器处理失败");
 				}
+			},function(result){
+				if (result['code'] == 0) {
+					$_jxc.alert("恢复商品成功");
+				} else {
+					$_jxc.alert(result['message']);
+				}
+				dg.datagrid('reload');
 			});
 		}
 	});
@@ -613,7 +593,7 @@ function toImportproduct(type){
     var branchId = $("#branchId").val();
     var status = $("#status_3").val();
     if(!branchId){
-        messager("请先选择收货机构");
+        $_jxc.alert("请先选择收货机构");
         return;
     }
     var param = {

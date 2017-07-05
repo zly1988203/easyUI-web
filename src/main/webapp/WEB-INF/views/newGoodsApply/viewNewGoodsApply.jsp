@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<script src="${ctx}/static/js/views/newGoodsApply/viewNewGoodsApply.js"></script>
+<script src="${ctx}/static/js/views/newGoodsApply/viewNewGoodsApply.js?V=${versionNo}"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">

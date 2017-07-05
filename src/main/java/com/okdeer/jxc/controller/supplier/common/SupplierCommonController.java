@@ -24,6 +24,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.supplier.entity.Supplier;
+import com.okdeer.jxc.supplier.entity.SupplierExt;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
@@ -61,7 +62,7 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 	public String views(HttpServletRequest req, Model model) {
 		String saleWayNot = req.getParameter("saleWayNot");
 		String isDirect = req.getParameter("isDirect");
-		if("purchase".equals(saleWayNot)) {
+		if("purchase".equals(saleWayNot) || "chain".equals(saleWayNot)) {
 			model.addAttribute("saleWayNot", saleWayNot);
 		}
 		if (StringUtils.isNotBlank(isDirect)) {
@@ -93,22 +94,17 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 			if(StringUtils.isNullOrEmpty(branchId)){
 				// begin added by lijy02 2016.9.12:添加过滤条件
 				branchId = UserUtil.getCurrBranchId();
-
 				// end added by lijy02
 			}
-			if (branchId != null) {
+			if (StringUtils.isNotBlank(branchId)) {
 				qo.setBranchId(branchId);
-				Branches branches = branchesService
-						.getBranchInfoById(branchId);
-				if (branches != null && branches.getParentId() != null) {
+				Branches branches = branchesService.getBranchInfoById(branchId);
+				if (branches != null && StringUtils.isNotBlank(branches.getParentId())) {
 					// 如果机构类型不是 0 1 需要查询他们的分公司 找到他们分公司的供应商
 					if (branches.getType() != 0 && branches.getType() != 1) {
 						// 查询店铺的分公司
-
-						if (branches != null && branches.getParentId() != null) {
-							// 把父级的id加入条件查询分公司的供应商
-							qo.setBranchId(branches.getParentId());
-						}
+					    // 把父级的id加入条件查询分公司的供应商
+					    qo.setBranchId(branches.getParentId());
 					}
 				}
 			}
@@ -145,7 +141,7 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 
 	/**
 	 * 
-	 * @Description: TODO
+	 * @Description: 获得供应商信息
 	 * @param id
 	 * @return
 	 * @author xiaoj02
@@ -158,6 +154,23 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 		RespJson respJson = RespJson.success();
 		respJson.put("supplier", supplier);
 		return respJson;
+	}
+	
+	/***
+	 * 
+	 * @Description: 获得供应商扩展信息
+	 * @param id 供应商ID
+	 * @return RespJson
+	 * @author xuyq
+	 * @date 2017年5月27日
+	 */
+	@RequestMapping(value = "getSupplierExtById")
+	@ResponseBody
+	public RespJson getSupplierExtById(String supplierId) {
+	    SupplierExt supplierExt = supplierService.getSupplierExtById(supplierId);
+	    RespJson respJson = RespJson.success();
+	    respJson.put("supplierExt", supplierExt);
+	    return respJson;
 	}
 
 }

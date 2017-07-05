@@ -7,7 +7,7 @@
     <div class="ub ub-ver ub-pc ub-ac uw uh ub-f1" >
 
             <div class="ub uw uh ub-f1">
-        		<div class="ub  umar-r4 uw-160 uscroll" style="border-right: 1px solid #c9c9c9;">
+        		<div id="treeAgencyArea"  class="ub  umar-r4 uw-160 uscroll" style="border-right: 1px solid #c9c9c9;">
                     <div class="zTreeDemoBackground left">
                         <ul id="treeAgency" class="ztree"></ul>
                     </div>
@@ -21,6 +21,7 @@
                             	<input type="hidden" name="branchId" value="${vo.branchId}" />
                             	<input type="hidden" name="branchType" value="${vo.branchType}" />
                             	<input type="hidden" name="isOpenStock" value="${vo.isOpenStock}" />
+                            	<input type="hidden" name="scope" value="${vo.scope}" />
                                 <input name="nameOrCode" class="usearch uinp ub ub-f1" type="text" />
                                 <div class="ubtn umar-l20 umar-r10"  onclick="agencySearch()">查询</div>
                                 <div class="ub ub-ac ">

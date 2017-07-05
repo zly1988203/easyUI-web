@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.common.utils.BooleanUtils;
@@ -77,6 +78,7 @@ public class PricingQueryController  extends ReportController{
 			for(DataRecord dataRecord:reportList){
 				formatter(dataRecord);
 			}
+			cleanDataMaps(PriceAccessConstant.PRICING_QUERY, reportList);
 			exportListForXLSX(response, reportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("调价单导出查询异常:", e);

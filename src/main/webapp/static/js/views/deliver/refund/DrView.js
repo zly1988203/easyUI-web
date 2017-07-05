@@ -106,6 +106,9 @@ function initDatagridStoreYHOrder(){
             updateFooter();
         },
     });
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["price","amount","taxAmount"])
+    }
 }
 
 //合计

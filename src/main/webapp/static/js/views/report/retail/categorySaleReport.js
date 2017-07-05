@@ -70,7 +70,7 @@ function initDatagridRequire(){
 //查询入库单
 function queryForm(){
 	if($("#branchName").val()==""){
-        messager("请选择店铺名称");
+        $_jxc.alert("请选择店铺名称");
         return;
     } 
 	$("#startCount").attr("value",null);
@@ -97,7 +97,7 @@ var dg;
 function exportData(){
 	var length = $('#categorySale').datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -115,17 +115,17 @@ function exportData(){
 function exportExcel(){
 	var length = $("#categorySale").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
+	
 	$("#queryForm").form({
 		success : function(data){
 			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
+				$_jxc.alert("导出数据成功！");
 			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});

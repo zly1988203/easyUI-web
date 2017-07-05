@@ -121,6 +121,10 @@ function initDatagridRequireOrders(){
 		}
     });
     queryForm();
+    var param = {
+        distributionPrice:["price","amount","taxAmount"],
+    }
+    priceGrantUtil.grantPrice("deliverFormList",param);
 }
 
 //新增要货单
@@ -154,31 +158,26 @@ function delDeliverForm(){
 	var dg = $("#deliverFormList");
 	var row = dg.datagrid("getChecked");
 	if(row.length <= 0){
-		$.messager.alert('提示','未选择要删除的单据！');
+		$_jxc.alert('未选择要删除的单据！');
 		return;
 	}
 	var ids = [];
 	for(var i=0; i<row.length; i++){
 		ids.push(row[i].deliverFormId);
 	}
-	$.messager.confirm('提示','是否要删除选中数据',function(data){
+	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/deliverForm/deleteDeliverForm",
-		    	type:"POST",
 		    	contentType:"application/json",
-		    	data:JSON.stringify(ids),
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    			dg.datagrid('reload');
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
+		    	data:JSON.stringify(ids)
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("删除成功");
+	    			dg.datagrid('reload');
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -229,28 +228,23 @@ function selectTargetBranch(){
 	},'DY','');
 }
 function getSourceBranch(branchesId) {
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/form/deliverForm/getSourceBranch",
-    	type : "POST",
     	data : {
     		branchesId : branchesId,
-    	},
-    	success:function(result){
-    		if(result['code'] == 0){
-    			$("#sourceBranchId").val(result['sourceBranchId']);
+    	}
+    },function(result){
+		if(result['code'] == 0){
+			$("#sourceBranchId").val(result['sourceBranchId']);
 //                $("#sourceBranchName").val(result['sourceBranchName']);
-                $("#sourceBranchName").val("["+result['sourceBranchCode']+"]"+result['sourceBranchName']);
+            $("#sourceBranchName").val("["+result['sourceBranchCode']+"]"+result['sourceBranchName']);
 //                $("#validityTime").val(new Date(result['validityTime']).format('yyyy-MM-dd'));
 //                $("#salesman").val(result['salesman']);
 //                $("#spanMinAmount").html(result['minAmount']);
 //                $("#minAmount").val(result['minAmount']);
-    		}else{
-    			successTip(result['message']);
-    		}
-    	},
-    	error:function(result){
-    		successTip("请求发送失败或服务器处理失败");
-    	}
+		}else{
+			$_jxc.alert(result['message']);
+		}
     });
 }
 /**

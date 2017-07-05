@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -68,6 +69,7 @@ public class NewGoodsSaleAnalysisController extends ReportController {
 			// 模板名称，包括后缀名
 			List<DataRecord> dataList = newGoodsSaleAnalysisService.getList(map);
 
+			cleanDataMaps(PriceAccessConstant.NEW_GOODS_SALE_ANALYSIS, dataList);
 			exportListForXLSX(response, dataList, reportFileName, templateName);
 		} catch (Exception e) {
 			LOG.error("新品销售分析导出失败", e);

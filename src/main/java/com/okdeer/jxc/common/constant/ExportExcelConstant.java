@@ -187,6 +187,39 @@ public interface ExportExcelConstant {
 	 * 商品档案导出模板
 	 */
 	String SUPPLIER_EXPORT_EXCEL = "supplierExport.xlsx";
+	
+	/*** 机构信息导出模板  */
+	String BRANCH_EXPORT_TEMPLATE = "branchExportTemplate.xlsx";
+	
+	/*** 财务代码导出模板  */
+	String FINANCE_CODE_EXPORT_TEMPLATE = "financeCodeExportTemplate.xlsx";
+	
+	/*** 门店费用汇总导出模板  */
+	String STORE_CHARGE_TOTAL_EXPORT_TEMPLATE = "storeChargeTotalExportTemplate.xlsx";
+	
+	/*** 门店费用明细导出模板  */
+	String STORE_CHARGE_DETAIL_EXPORT_TEMPLATE = "storeChargeDetailExportTemplate.xlsx";
+	
+	/*** 日盈亏平衡分析导出模板  */
+	String BEY_DAY_ANALYSIS_EXPORT_TEMPLATE = "beyDayAnalysisExportTemplate.xlsx";
+	
+	/*** 月盈亏平衡分析导出模板  */
+	String BEY_MONTH_ANALYSIS_EXPORT_TEMPLATE = "beyMonthAnalysisExportTemplate.xlsx";
+	
+	/*** 门店费用详情列表导出模板  */
+	String STORE_CHARGE_MAIN_EXPORT_TEMPLATE = "storeChargeMainExportTemplate.xlsx";
+	
+	/*** 系统操作日志列表导出模板  */
+	String SYS_OPERATE_LOG_EXPORT_TEMPLATE = "sysOperateLogExportTemplate.xlsx";
+	
+	/*** 线上订单查询列表导出模板  */
+	String ONLINE_ORDER_SEARCH_LIST_EXPORT_TEMPLATE = "onlineOrderSearchListExportTemplate.xlsx";
+	
+	/*** 线上订单商品信息列表导出模板  */
+	String ONLINE_ORDER_GOODS_DETAIL_EXPORT_TEMPLATE = "onlineOrderGoodsDetailExportTemplate.xlsx";
+	
+	/*** 门店费用详情导入模板  */
+	String STORE_CHARGE_MAIN_IMPORT_TEMPLATE = "storeChargeMainImportTemplate.xlsx";
 
 	/**
 	 * 成本调价单导出模板
@@ -601,4 +634,78 @@ public interface ExportExcelConstant {
 	
 	/*** 偶数特价活动商品引入条码导入模板  */
 	String ACTIVITY_EVEN_GOODS_BARCODE_TEMPLATE = "activityEvenGoodsBarCodeTemplate.xlsx";
+	
+	/**
+	 * 一开通交易明细
+	 */
+	String ICC_CARD_TRADING_DETAIL = "iccCardTradingDetail.xlsx" ;
+	/**
+	 * 一卡通交易汇总
+	 */
+	String ICC_CARD_SUM_TRADING_DETAIL = "iccCardSumTradingDetail.xlsx";
+	
+	/**
+	 * 一卡通账户管理
+	 */
+	String ICC_CARD_ACCOUNT_MANAGEMENT = "iccCardAccountManagement.xlsx";
+
+	/**
+	 * 加盟店到期账款
+	 */
+	String FRANCHISE_ACCOUNT1 = "FranchiseAccount1.xlsx";
+	/**
+	 * 加盟店历史往来账款
+	 */
+	String FRANCHISE_ACCOUNT2 = "FranchiseAccount2.xlsx";
+	/**
+	 * 加盟店未收账款汇总
+	 */
+	String FRANCHISE_ACCOUNT3 = "FranchiseAccount3.xlsx";
+	/**
+	 * 加盟店未收账款明细
+	 */
+	String FRANCHISE_ACCOUNT4 = "FranchiseAccount4.xlsx";
+	/**
+	 * 加盟店已收账款明细
+	 */
+	String FRANCHISE_ACCOUNT5 = "FranchiseAccount5.xlsx";
+	/**
+	 * 加盟店预收账款明细
+	 */
+	String FRANCHISE_ACCOUNT6 = "FranchiseAccount6.xlsx";
+
+	/**
+	 * 到期账款
+	 */
+    String EXPIRE_ACCOUNTS_PAYABLE = "expireAccountsPayable.xlsx";
+    
+    /**
+     * 历史往来账款
+     */
+    String DEALINGS_ACCOUNTS_PAYABLE = "dealingsAccountsPayable.xlsx";
+    
+    /**
+     * 未付款账款汇总
+     */
+    String UNPAID_ACCOUNTS_PAYABLE = "unpaidAccountsPayable.xlsx";
+    
+    /**
+     * 未付款账款明细
+     */
+    String UNPAID_ACCOUNTS_PAYABLE_DETAIL = "unpaidAccountsPayableDetail.xlsx";
+
+    /**
+     * 已付账款汇总
+     */
+    String PAID_ACCOUNTS_PAYABLE = "paidAccountsPayable.xlsx";
+    
+    /**
+     * 已付账款明细
+     */
+    String PAID_ACCOUNTS_PAYABLE_DETAIL = "paidAccountsPayableDetail.xlsx";
+    
+    /**
+     * 预付账款明细
+     */
+    String ADVANCE_ACCOUNTS_PAYABLE_DETAIL = "advanceAccountsPayableDetail.xlsx";
 }

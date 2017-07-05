@@ -426,8 +426,15 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 							for (GoodsSelect objGoods : list) {
 								GoodsSelectByCostPrice obj = (GoodsSelectByCostPrice) objGoods;
 								BigDecimal newCostprice = obj.getNewCostPrice();
+								BigDecimal diffMoney = obj.getDiffMoney();
 								if (newCostprice == null) {
 									obj.setNewCostPrice(obj.getCostPrice());
+								}
+								if(diffMoney == null){
+									BigDecimal costPrice = obj.getCostPrice() != null ? obj.getCostPrice() : new BigDecimal(0);
+									BigDecimal actual = StringUtils.isNotEmpty(obj.getActual()) ? new BigDecimal(obj.getActual()) : new BigDecimal(0);
+									BigDecimal tempBig = newCostprice.subtract(costPrice).multiply(actual);
+									obj.setDiffMoney(tempBig);
 								}
 							}
 						}

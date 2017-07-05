@@ -104,18 +104,29 @@ function initNewGoodsTotalAnalysiGrid() {
             },
             {field: 'grossProfitRate', title: '毛利率', width:80, align: 'right',
 				formatter:function(value,row,index){
-					if(!value || value == 0){
+					if(!value && value !=0){
 						return '';
 					}
 					return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
 				}
 			},
-			{field: 'sellOut', title: '售罄率', width:80, align: 'right'}
+			{field: 'sellOut', title: '售罄率', width:80, align: 'right',
+				formatter:function(value,row,index){
+					if(!value && value !=0){
+						return '';
+					}
+					return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
+				}
+			}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(datagridName,["costPrice","costAmount","grossProfit","grossProfitRate"])
+    }
 }
 
 
@@ -126,7 +137,7 @@ function purchaseTotalCx(){
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
 	if(!(startDate && endDate)){
-		$.messager.alert('提示', '日期不能为空');
+		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	$("#startCount").attr("value",null);
@@ -146,7 +157,7 @@ var dg;
 function exportData(){
 	var length = $("#"+datagridName).datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -167,22 +178,22 @@ function exportExcel(){
 	var branchCompleCode = $("#branchCompleCode").val();
 	var categoryType=$('input[name="searchType"]:checked ').val();
 	if(!(startDate && endDate)){
-		$.messager.alert('提示', '日期不能为空');
+		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	/*if(categoryType!='branchTotal'){
 		if(!branchName){
-			$.messager.alert('提示', '店铺名不能为空');
+			$_jxc.alert('店铺名不能为空');
 			return ;
 		}
 	}*/
 	var length = $("#"+datagridName).datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	if(length>10000){
-		$.messager.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	$("#queryForm").attr("action",contextPath+'/report/newGoodsSaleAnalysis/exportExcelList');

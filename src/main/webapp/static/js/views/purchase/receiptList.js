@@ -176,6 +176,9 @@ function initDatagridOrders(){
 		}
     });
    // query();
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(tableIdName,["amount"])
+	}
 }
 
 
@@ -221,6 +224,10 @@ function initDatagridFormPA(){
         	$('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
         },
     });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(tableIdName,["amount"])
+    }
 }
 
 
@@ -242,7 +249,7 @@ function receiptDelete(){
 	}
 	var rows =$("#"+tableIdName).datagrid("getChecked");
 	if($("#"+tableIdName).datagrid("getChecked").length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
+		 $_jxc.alert('请选中一行进行删除！');
 		return null;
 	}
 	 var formIds='';
@@ -251,26 +258,21 @@ function receiptDelete(){
 	    });
 	
 	
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/purchase/delete",
-		    	type:"POST",
 		    	data:{
 		    		formIds:formIds
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    		dg.datagrid('reload');
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("删除成功");
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
+	    		$("#"+tableIdName).datagrid('reload');
 		    });
 		}
 	});
@@ -308,6 +310,6 @@ function printPreview() {
 	if(rows.length == 1){
         toPrintPreview('PI','/form/purchase/',tableIdName);
 	}else{
-		messager('请选择一行数据.')
+		$_jxc.alert('请选择一行数据.')
 	}
 }

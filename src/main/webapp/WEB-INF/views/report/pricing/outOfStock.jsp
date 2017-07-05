@@ -8,7 +8,7 @@
 <title>配送缺货率分析</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/pricing/outOfStock.js"></script>
+<script src="${ctx}/static/js/views/report/pricing/outOfStock.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -19,10 +19,10 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
-	            <shiro:hasPermission name="JxcSaleFlow:search">
+	            <shiro:hasPermission name="JxcOutOfStock:search">
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 	            </shiro:hasPermission>
-	            <shiro:hasPermission name="JxcSaleFlow:export">
+	            <shiro:hasPermission name="JxcOutOfStock:export">
 	           		<input type="hidden" id="startCount" name="startCount" />
 					<input type="hidden" id="endCount" name="endCount" />
 	                <div class="ubtns-item" onclick="exportData()">导出</div>

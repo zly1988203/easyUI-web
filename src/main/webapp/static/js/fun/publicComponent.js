@@ -8,8 +8,10 @@ var top = $(window).height()/3;
 var dialogHeight = $(window).height()*(2/3);
 var left = $(window).width()/4;
 
-function messager(msg,title){
-	$.messager.alert(title||'提示',msg);
+function messager(msg,title,cb){
+	$.messager.alert(title||'提示',msg,function(){
+		if(cb)cb
+	});
     /*$.messager.show({
         title:title||'系统提示',
         msg:msg,
@@ -150,12 +152,20 @@ function toChangeDatetime(index){
   * @param callback
  */
 function publicUploadFileService(callback,params){
+	
+	var dalogTitle = "导入";
+	if(params.title){
+		dalogTitle = params.title;
+	}else{
+		dalogTitle = params.type==1?"导入条码":"导入货号"
+	}
+	
     //公有属性
     var  dalogTemp = $('<div id="uploadFile"/>').dialog({
         href:contextPath + "/common/uploadFile",
         width:480,
         height:320,
-        title:params.type==1?"导入条码":"导入货号",
+        title:dalogTitle,
         closable:true,
         resizable:true,
         onClose:function(){
@@ -259,8 +269,9 @@ function publicRoleService(callback, branchCompleCode, branchType){
     }
 }
 
+
 //公共组件-机构选择
-function publicAgencyService(callback,formType,branchId, branchType,isOpenStock){
+function publicAgencyService(callback,formType,branchId, branchType,isOpenStock,scope){
 	if(!formType){
 		formType="";
 	}
@@ -273,10 +284,13 @@ function publicAgencyService(callback,formType,branchId, branchType,isOpenStock)
 	if(!isOpenStock){
 		isOpenStock="";
 	}
+	if(!scope){
+		scope="";
+	}
     //公有属性
     var  dalogTemp = $('<div/>').dialog({
     	href:contextPath + "/common/branches/viewComponent?formType="+ 
-    		formType + "&branchId=" +branchId+ "&branchType="+branchType + "&isOpenStock="+isOpenStock,
+    		formType + "&branchId=" +branchId+ "&branchType="+branchType + "&isOpenStock="+isOpenStock+ "&scope="+scope,
         width:680,
         height:$(window).height()*(2/3),
         title:"机构选择",
@@ -295,11 +309,8 @@ function publicAgencyService(callback,formType,branchId, branchType,isOpenStock)
         callback(data);
         $(dalogTemp).panel('destroy');
     }
-    //调用方式
-    //new publicAgencyService(function(data){
-    //    console.log(data);
-    //});
 }
+
 
 /**
  * 公共组件-选择机构
@@ -540,9 +551,16 @@ function publicSupplierService(callback,newParam) {
 }
 
 //公共组件-选择操作员
-function publicOperatorService(callback) {
+var dalogTemp = null;
+function publicOperatorService(callback,param) {
+    if(typeof (param) === "undefined"){
+        param = {
+            type:0
+        }
+    }
+
     //公有属性
-    var dalogTemp = $('<div/>').dialog({
+    var dialogDiv = {
         href: contextPath + "/system/user/views?type=operate",
         width: 680,
         height: dialogHeight,
@@ -553,18 +571,32 @@ function publicOperatorService(callback) {
             $(dalogTemp).panel('destroy');
         },
         modal: true,
-        onLoad: function () {
+    }
+
+    if(param.type==1){
+        dialogDiv["buttons"] = [{
+            text:'确定',
+            handler:function(){
+                publicOperatorGetCheck(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(dalogTemp).panel('destroy');
+            }
+        }];
+    }else{
+        dialogDiv["onLoad"] = function () {
             initOperatorCallBack(callBackHandel)
-        },
-    });
+        };
+    }
+
+    dalogTemp = $('<div/>').dialog(dialogDiv);
+
     function callBackHandel(data){
         callback(data);
         $(dalogTemp).panel('destroy');
     }
-    //调用方式
-    //new publicOperatorService(function(data){
-    //    console.log(data);
-    //});
 }
 
 //公共组件-字典
@@ -832,6 +864,88 @@ function publicGoodsServiceHandel(param,callback){
     }
 }
 
+//费用选择
+function publicCostService(param,callback){
+	//默认参数属性
+	var oldParm = {isRadio:1};
+	//只有一条数据时 直接返回
+	param =  $.extend(oldParm,param);
+	if(param.key){
+		param.nameOrCode = param.key;
+		$_jxc.ajax({
+			url:contextPath+'/common/chargeSelect/getChargeComponentList',
+			data:param
+		},function(data){
+			
+			if(data&&data.rows&&data.rows.length==1){
+				callback(data.rows);
+			}else{
+				publicCostServiceHandel(param,callback);
+			}
+		})
+	}else{
+		publicCostServiceHandel(param,callback);
+	}
+	
+	
+}
+
+function publicCostServiceHandel(param,callback){
+	var url = contextPath + "/common/chargeSelect/viewChargeComponent?type="+ param.type||'';
+	var dalogParam = {
+	    	title:"费用选择",
+	        href:url,
+	        width:680,
+	        height:$(window).height()*(2/3),
+	        closable:true,
+	        resizable:true,
+	        onClose:function(){
+	        	 $(dalogObj).dialog('destroy');
+	        	 dalogObj = null;
+	        },
+	        modal:true,
+	        onLoad:function(){
+	        	initChargeView(param);
+	            initChargeCallBack(callBackHandel)
+	        }
+	        
+	    };
+		
+		if(param.isRadio != 0){
+			dalogParam["buttons"] =[{
+	            text:'确定',
+	            handler:function(){
+	                getCheckCost();
+	            }
+	        },{
+	            text:'取消',
+	            handler:function(){
+	                $(dalogObj).dialog('destroy');
+	                dalogObj = null;
+	            }
+	        }];
+	    }
+		
+		var dalogObj = $('<div/>').dialog(dalogParam);
+		
+	    function callBackHandel(data){
+	        callback(data);
+	        $(dalogObj).panel('destroy');
+	    }
+	    
+	    function getCheckCost(){
+	        publicCostGetCheckCost(function(data){
+	            if(data.length==0){
+	                $_jxc.alert("请选择数据");
+	                return;
+	            }
+	            callback(data);
+	            $(dalogObj).panel('destroy');
+	        });
+	    }
+}
+
+
 //公共组件-公共方法
 //关闭
 function toClose(){
@@ -905,6 +1019,13 @@ function GridClass(){
                             case 37: //左键
                                 var field = getLRFiledName('left');
                                 var target = _this.getFieldTarget(field);
+                                while($(target).prop('readonly') || $(target).prop('disabled'))
+                                {
+                                	_this.setSelectFieldName(field);
+                                    field = getLRFiledName('left');
+                                	target = _this.getFieldTarget(field);
+                                }
+                                
                                 if(target){
                                     _this.setFieldFocus(target);
                                     _this.setSelectFieldName(field);
@@ -926,10 +1047,7 @@ function GridClass(){
                                 	//防止快速点击时 二次弹框
                                 	if($("#"+gridName).closest("body").find('div.window-mask').length > 0)return;
                                     var target = _this.getFieldTarget(selectFieldName);
-//                                    var field = getLRFiledName('right');
-//                                    _this.setSelectFieldName(field);
                                     params.enterCallBack($(target).textbox('getValue'));
-                                    //selectGoods();
                                 }else{
                                     var row = _this.getEditRow(gridName,rowIndex);
                                     if(row.length>0&&row[row.length-1].field==selectFieldName){
@@ -947,16 +1065,29 @@ function GridClass(){
                                     }else{
                                         var field = getLRFiledName('right');
                                         var target = _this.getFieldTarget(field);
-                                        if(target){
-                                            _this.setFieldFocus(target);
-                                            _this.setSelectFieldName(field);
+                                        while($(target).prop('readonly') || $(target).prop('disabled'))
+                                        {
+                                        	_this.setSelectFieldName(field);
+                                            field = getLRFiledName('right');
+                                        	target = _this.getFieldTarget(field);
                                         }
+                                        if(target){
+                                    		_this.setFieldFocus(target);
+                                    		_this.setSelectFieldName(field);
+                                        }
+                                        
                                     }
                                 }
                                 break;
                             case 39: //右键
                                 var field = getLRFiledName('right');
                                 var target = _this.getFieldTarget(field);
+                                while($(target).prop('readonly') || $(target).prop('disabled'))
+                                {
+                                	_this.setSelectFieldName(field);
+                                    field = getLRFiledName('right');
+                                	target = _this.getFieldTarget(field);
+                                }
                                 if(target){
                                     _this.setFieldFocus(target);
                                     _this.setSelectFieldName(field);
@@ -995,7 +1126,7 @@ function GridClass(){
                 keyBlur:function (jq) {
                     
                 }
-            })
+            });
     }
     /**
      * 获取左右边单元名称
@@ -1181,7 +1312,7 @@ function GridClass(){
         var rows = $('#'+gridName).datagrid('getRows');
         $.each(vals,function(key,val){
             rows[rowIndex][key] = val;
-        })
+        });
     }
     /**
      * 获取单元格非编辑框值
@@ -1214,7 +1345,7 @@ function GridClass(){
                 _this.setSelectFieldName(row[1].field);
                 _this.setFieldFocus(_this.getFieldTarget(row[1].field));
             }
-        },10)
+        },10);
     }
 
     /**
@@ -1225,7 +1356,7 @@ function GridClass(){
     this.getFieldTarget = function(fieldName){
         var ed  = $('#'+gridName).datagrid('getEditor', {index:rowIndex,field:fieldName});
         if(ed&&ed.target){
-            return ed.target
+            return ed.target;
         }
         return null;
     }
@@ -1246,7 +1377,7 @@ function GridClass(){
     this.setBeginRow = function(argRowIndex){
         $('#'+gridName).datagrid('endEdit', rowIndex);                  //结束之前的编辑
         rowIndex = argRowIndex;
-        $('#'+gridName).datagrid('selectRow', rowIndex)
+        $('#'+gridName).datagrid('selectRow', rowIndex);
         $('#'+gridName).datagrid('beginEdit', rowIndex);
     }
     /**
@@ -1307,7 +1438,7 @@ function GridClass(){
         $("#"+gridName).datagrid("deleteRow",index);
         setTimeout(function(){
             $("#"+gridName).datagrid("loadData",$("#"+gridName).datagrid("getRows"));
-        },10)
+        },10);
     }
     /**
      * 结束编辑当前行
@@ -1354,12 +1485,20 @@ function GridClass(){
     }
     
 	this.getColumnOption = function(fieldName){
-		var opts = $('#'+gridName).datagrid('getColumnOption',fieldName)
+		var opts = $('#'+gridName).datagrid('getColumnOption',fieldName);
 		if(opts){
 			return opts;
 		}
 		return null;
 	}
+	
+	/**
+	 * bwp 获取 表格底部统计栏数据
+	 */
+	this.getFooterRow = function(){
+		return $('#'+gridName).datagrid('getFooterRows');
+	}
+	
 
 }
 
@@ -1437,7 +1576,7 @@ function gFunFormatData(arrs,config){
  */
 function gFunComparisonArray(arg1,arg2){
     var arr1 = JSON.stringify(arg1);
-    var arr2 = JSON.stringify(arg2)
+    var arr2 = JSON.stringify(arg2);
     return arr1==arr2;
 }
 /**
@@ -1740,7 +1879,9 @@ $.extend($.fn.validatebox.defaults.rules, {
     },
     ip: {// 验证IP地址
         validator: function (value) {
-            return /d+.d+.d+.d+/i.test(value);
+            //return /^((1?\d?\d|(2([0-4]\d|5[0-5])))\.){3}(1?\d?\d|(2([0-4]\d|5[0-5])))$/.test(value);
+        	 var re =  /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/   
+             return re.test(value);   
         },
         message: 'IP地址格式不正确'
     },
@@ -1772,6 +1913,17 @@ $.extend($.fn.validatebox.defaults.rules, {
             }
         },
         message: '两次输入的密码不一致！'
+    },
+    port: {
+        validator: function (value, param) {
+            var parten=/^(\d)+$/g;
+            if(parten.test(value)&&parseInt(value)<=65535&&parseInt(value)>=0){
+                return true;
+            }else{
+                return false;
+            }
+        },
+        message: '端口在0到65535之间！'
     }
 });
 
@@ -1990,7 +2142,7 @@ function checkUtil(){
 		var temObj={};
 		$('#'+formId+' input[data-check="true"]').each(function(index,obj){
 			temObj[""+$(obj).attr('name')+""]=$(obj).val();
-		}) 
+		});
 		return temObj;
 	}
 	
@@ -2043,3 +2195,1111 @@ function publicErrorDialog(param){
         }
     });
 }
+
+/*----------------jxc component js start  ---------------------------*/
+
+/*-----------------------机构选择 start-------------------------------*/
+
+/**
+ * 	var _branchParam = {
+		//数据格式化	
+		textFomatter:function(data){
+			return "["+data.branchCode+"]"+data.branchName;
+		},
+		//ajax扩展参数
+		param:{
+			type:'NOTREE',//没有树  默认左侧有树
+			selectType:1,//选择模式默认单选    1-->多选
+			branchTypesStr:$_jxc.branchTypeEnum.HEAD_QUARTERS+','+$_jxc.branchTypeEnum.BRANCH_COMPANY
+		},
+		//依赖条件 relyOnId 为空
+		relyOnId:'supplierId',
+		//依赖条件 异常提示
+		relyError:'请选择供应商',
+		//选择数据成功回调
+		onLoadSuccess:function(data){
+			
+		},
+		//return false 结束逻辑
+		onShowBefore:function(obj){
+//			console.log('------------进入重写的 onShowBefore -----------',obj);
+			return true;
+		},
+		//失去焦点
+		onblur:function(ev){
+			
+		},
+		//keyup事件
+		onkeyup:function(ev){
+			
+		}
+	}
+ */
+/**
+ * bwp 07/06/09  机构选择组件
+ * @namespace 编辑表单时选择处理情况hidden表单的值 
+ * @param obj 表单对象
+ * demo:
+ * <br/> $('#branchComponent').branchSelect();
+ */
+$.fn.branchSelect = function(param){
+	//元素绑定失败
+	if($(this).length == 0){
+		console.error('机构选择组件绑定失败');
+		return;
+	}
+	var _this = this;
+	if(typeof param == 'undefined')param = {};
+	
+	//默认参数对象
+	var _default = {
+		param:{
+			
+		},	
+		/**
+		 * 处理一些选择组件前的校验
+		 * return false 结束逻辑
+		 */
+		onShowBefore:function(arg){
+			return true;
+		},
+		/**
+		 * 格式化数据 显示数据
+		 */
+		textFomatter:function(data){
+			return "["+data.branchCode+"]"+data.branchName;
+		},
+		/**
+		 * 数据过滤
+		 */
+		loadFilter:function(data){
+			
+			return data;
+		},
+		/**
+		 * dom 渲染之后
+		 */
+		onAfterRender:function(data){
+			
+		},
+		/**
+		 * 格式化数据 显示数据
+		 */
+		onLoadSuccess:function(data){
+			
+			//返回NO时 输入动作没匹配到数据 
+			if(data == 'NO'){
+				//匹配到多数据 弹窗但未选择的情况下 设置清空
+				if(!$($(_this).find('input[type="hidden"]').eq(0)).val()){
+					$_jxc.clearHideInpOnEdit($(_this).find('input[type="text"]'));
+					$(_this).find('input[type="text"]').val("");
+				}
+			}else{
+				data = _default.loadFilter(data);
+				_default.setDataOfDom(data);
+				_default.onAfterRender(data);
+			}
+		},
+		//显示机构信息
+		showComponentMsg:function(ev){
+			var _editInput = $(this);
+			//点击【...】 按钮 
+			if($(_editInput).hasClass('uinp-more')){
+				_editInput = $(_editInput).parent('.ub').find('input[type="text"]');
+			}
+			//input置灰  则return;
+			if($(_editInput).hasClass('uinp-no-more') || $(_editInput).prop('disabled'))return;
+			
+			//判断前置条件
+			if(_default.relyOnId && !$.trim($('#'+_default.relyOnId).val())){
+				$_jxc.alert(_default.relyError);
+				return false;
+			}
+			
+			//处理onShowBefore (避免用户重载 )
+			if(!_default.onShowBefore(this))return;
+				
+			_default.getComponentDetail();
+			
+		},
+		//失去焦点事件
+		onblur:function(ev){
+			var nameOrCode = $.trim($(this).val())||'';
+			//重新编辑时 清空隐藏域 避免没选择数据就关闭窗口
+			if($(_this).data('oldData') && nameOrCode && $(_this).data('oldData') != nameOrCode)$_jxc.clearHideInpOnEdit($(this));
+			
+			//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
+			if(ev.keyCode && ev.keyCode != 13){
+				return;
+			}
+			
+			//未输入值时，直接返回，无需查询
+			if('' == nameOrCode){
+				$_jxc.clearHideInpOnEdit($(this));
+				return;
+			}
+			
+			//未发生变化 return;
+			if(nameOrCode &&  $(_this).data('oldData') == nameOrCode)return;
+			
+			//获取数据
+			_default.getComponentDetail(nameOrCode);
+			
+		},
+		//键盘事件
+		onkeyup:function(ev){
+			var nameOrCode = $.trim($(this).val())||'';
+			//重新编辑时 清空隐藏域 避免没选择数据就关闭窗口
+			if($(_this).data('oldData') && nameOrCode && $(_this).data('oldData') != nameOrCode)$_jxc.clearHideInpOnEdit($(this));
+			
+			//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
+			if(ev.keyCode && ev.keyCode != 13){
+				return;
+			}
+			
+			//未输入值时，直接返回，无需查询
+			if('' == nameOrCode){
+				$_jxc.clearHideInpOnEdit($(this));
+				return;
+			}
+			
+			//未发生变化 return;
+			if(nameOrCode && $(_this).data('oldData') == nameOrCode)return;
+			
+			//自动失去焦点
+			$(this).blur();
+			
+			//_default.getComponentDetail(nameOrCode);
+			
+		},
+		/**
+		 * 设置dom元素值
+		 */
+		setDataOfDom:function(data){
+			//根据name赋值
+			$(_this).find('input').each(function(index,ob){
+				if(ob){
+					var inputName = $(ob).attr('name');
+					var inputType = $(ob).attr('type');
+					$(ob).val(setValue(inputName,inputType))
+				}
+			})
+			
+			function setValue(inputName,type){
+				//多选时 返回数组
+				if(data.constructor == Array){
+					var _str = [];
+					data.forEach(function(obj,index){
+						if(type == 'text'){
+							_str.push(_default.textFomatter(obj));
+						}else{
+							_str.push(obj[inputName])
+						}
+					});
+					return _str.join(',');
+				}else{
+					//单选返回对象
+					if(type == 'text'){
+						$(_this).data('oldData',_default.textFomatter(data));
+						return  _default.textFomatter(data);
+					}else{
+						return data[inputName];
+					}
+				}
+			}
+		},
+		/**
+		 * 初始化事件绑定
+		 */
+		initDomEvent:function(){
+			//$(this) 返回的是一个 dom 数组
+			$(_this).each(function(index,elt){
+				if(elt){
+				    //判断输入框(有且只有一个)
+					var editInput = $(elt).find('input[type="text"]');
+					//是否readonly 
+					var readonlyFlag = $(editInput).prop('readonly');
+					//是否disabled
+					var disableFlag = $(editInput).prop('disabled');
+					//是否置灰
+					var disableCss = $(editInput).hasClass('uinp-no-more');
+					
+					//置灰状态下 结束 逻辑
+					if((disableCss && readonlyFlag) || disableFlag )return;
+					
+					//只读绑定 点击事件
+					if(readonlyFlag){
+						//绑定 显示 机构选择事件
+						$(editInput).on('click',_default.showComponentMsg)
+					}else{
+						//非 只读 绑定 blur keyup 事件
+						$(editInput).on('blur',_default.onblur);
+						$(editInput).on('keyup',_default.onkeyup);
+					}
+					// 【...】 按钮绑定事件
+					$(elt).find('.uinp-more').on('click',_default.showComponentMsg)
+				}
+			})
+		},
+		/**
+		 * 获取组件信息
+		 */
+		getComponentDetail:function(nameOrCode){
+			var param = $.extend({},_default.param);
+			if(nameOrCode){
+				param.nameOrCode = nameOrCode;
+			}
+			publicBranchesService(param,_default.onLoadSuccess);
+		}	
+	}
+	
+	_default = $.extend(_default,param);
+	
+	_default.initDomEvent();
+	
+}
+
+/**
+ * bwp 07/06/08 
+ * 机构选择公用方法 回车或失去焦点后，查询机构
+ * <br/>1 精确匹配时 自动补全 【xxxx】+机构名称
+ * <br/>2 匹配到多条 弹窗选择  
+ * <br/>3 空匹配时  清除输入
+ * @param param  参数对象
+ * @param callback 回调
+ * <br/>demo:
+ * <br/>参照：advanceList.jsp advanceList.js
+ */
+function publicBranchesService(param,callback){
+	//默认参数
+	var _defParam = {
+		type:null,    //没有树  默认左侧有树   'NOTREE' -->左侧没有树
+		selectType:null //数据选择模式类型  null/''/0-->单选(默认)   1多选
+ 	} 
+	
+	param =  $.extend(_defParam,param);
+	
+	if(param.nameOrCode){
+		
+		var _ajaxParam = $.extend({},param);
+		
+		_ajaxParam.page = 1;
+		_ajaxParam.rows = 10;
+		
+		var _nameOrCode = _ajaxParam.nameOrCode
+		//避免用户直接输入完整格式: [编号]名称
+		var reg = /\[\d{5}\]/;
+		if(reg.test(_nameOrCode)){
+			//取出[]里的编号，默认取已第一个[]里的值
+			reg = /\[(\d{5})\]/;
+			arr = reg.exec(_nameOrCode);
+			_ajaxParam.nameOrCode = arr[1];
+		}
+		
+		//业务参数 不传后台
+		delete _ajaxParam.type;
+		delete _ajaxParam.selectType;
+		
+		$_jxc.ajax({
+			url:contextPath+'/common/branches/getComponentList',
+			data:_ajaxParam
+		},function(data){
+			if(data&&data.rows){
+				//精确匹配到只有一条数据时立即返回
+				if(data.rows.length==1){
+					callback(data.rows[0]);
+				}else if(data.rows.length>1){
+					//匹配到多条时 弹窗选择
+					publicBranchesServiceHandel(param,callback);
+				}else{
+					//没有匹配数据时 返回字符串方便判断
+					callback('NO');
+				}
+			}else{
+				//没有匹配数据时 返回字符串方便判断
+				callback('NO');
+			}
+		})
+	}else{
+		publicBranchesServiceHandel(param,callback);
+	}
+	
+}
+
+function publicBranchesServiceHandel(param,callback){
+	
+	//公有属性
+	var dialogObj = {
+		href:contextPath + "/common/branches/viewComponent?formType="+ 
+    		(param.formType||'') + "&branchId=" +(param.branchId||'')+ "&branchType="+(param.branchType||'') + "&isOpenStock="+(param.isOpenStock||'')+ "&scope="+(param.scope||''),
+        width:680,
+        height:$(window).height()*(2/3),
+        title:"机构选择",
+        closable:true,
+        resizable:true,
+        onClose:function(){
+        	callback('NO');
+            $(dalogTemp).panel('destroy');
+            dalogTemp = null;
+        },
+        modal:true,
+        onLoad:function(){
+            initAgencyView(param);
+            initAgencyCallBack(callBackHandel)
+        }
+	}
+	
+	//多选
+	if(param.selectType == 1){
+		dialogObj["buttons"] = [{
+            text:'确定',
+            handler:function(){
+            	publicBranchGetChecks(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(dalogTemp).panel('destroy');
+            }
+        }];
+	}
+	
+	
+    var  dalogTemp = $('<div/>').dialog(dialogObj);
+    function callBackHandel(data){
+        callback(data);
+        $(dalogTemp).panel('destroy');
+        dalogTemp = null;
+    } 
+}
+
+/*-----------------------机构选择 end-------------------------------*/
+
+/*-----------------------供应商选择 start-------------------------------*/
+
+/**
+ * 	var _supplierParam = {
+		//数据格式化	
+		textFomatter:function(data){
+			return "["+data.supplierCode+"]"+data.supplierName;
+		},
+		//ajax扩展参数
+		param:{
+			
+		},
+		//依赖条件 relyOnId 为空
+		relyOnId:'"branchId"',
+		//依赖条件 异常提示
+		relyError:'请选择机构',
+		//选择数据成功回调
+		onLoadSuccess:function(data){
+			
+		},
+		//return false 结束逻辑
+		onShowBefore:function(obj){
+//			console.log('------------进入重写的 onShowBefore -----------',obj);
+			return true;
+		},
+		//失去焦点
+		onblur:function(ev){
+			
+		},
+		//keyup事件
+		onkeyup:function(ev){
+			
+		}
+	}
+ */
+/**
+ * bwp 07/06/09  供应商选择组件
+ * @namespace 
+ * @param obj 表单对象
+ * demo:
+ * <br/> $('#supplierComponent').supplierSelect();
+ */
+$.fn.supplierSelect = function(param){
+	//元素绑定失败
+	if($(this).length == 0){
+		console.error('供应商选择组件绑定失败');
+		return;
+	}
+	var _this = this;
+	if(typeof param == 'undefined')param = {};
+	
+	//默认参数对象
+	var _default = {
+		param:{
+			
+		},
+		/**
+		 * 处理一些选择组件前的校验
+		 * return false 结束逻辑
+		 */
+		onShowBefore:function(arg){
+			return true;
+		},
+		/**
+		 * 格式化数据 显示数据
+		 */
+		textFomatter:function(data){
+			return "["+data.supplierCode+"]"+data.supplierName;
+		},
+		/**
+		 * 数据过滤
+		 */
+		loadFilter:function(data){
+			
+			return data;
+		},
+		/**
+		 * dom 渲染之后
+		 */
+		onAfterRender:function(data){
+			
+		},
+		/**
+		 * 格式化数据 显示数据
+		 */
+		onLoadSuccess:function(data){
+			//返回NO时 输入动作没匹配到数据 
+			if(data == 'NO'){
+				//匹配到多数据 弹窗但未选择的情况下 设置清空
+				if(!$($(_this).find('input[type="hidden"]').eq(0)).val()){
+					$_jxc.clearHideInpOnEdit($(_this).find('input[type="text"]'));
+					$(_this).find('input[type="text"]').val("");
+				}
+			}else{
+				data = _default.loadFilter(data);
+				_default.setDataOfDom(data);
+				_default.onAfterRender(data);
+			}
+		},
+		//显示供应商信息
+		showComponentMsg:function(ev){
+			var _editInput = $(this);
+			//点击【...】 按钮 
+			if($(_editInput).hasClass('uinp-more')){
+				_editInput = $(_editInput).parent('.ub').find('input[type="text"]');
+			}
+			//input置灰  则return;
+			if($(_editInput).hasClass('uinp-no-more') || $(_editInput).prop('disabled'))return;
+			
+			//判断前置条件
+			if(_default.relyOnId && !$.trim($('#'+_default.relyOnId).val())){
+				$_jxc.alert(_default.relyError);
+				return false;
+			}
+			
+			//处理onShowBefore (避免用户重载 )
+			if(!_default.onShowBefore(this))return;
+				
+			_default.getComponentDetail();
+			
+		},
+		//失去焦点事件
+		onblur:function(ev){
+			var nameOrCode = $.trim($(this).val())||'';
+			//重新编辑时 清空隐藏域 避免没选择数据就关闭窗口
+			if($(_this).data('oldData') && nameOrCode && $(_this).data('oldData') != nameOrCode)$_jxc.clearHideInpOnEdit($(this));
+			
+			//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
+			if(ev.keyCode && ev.keyCode != 13){
+				return;
+			}
+			
+			//未输入值时，直接返回，无需查询
+			if('' == nameOrCode){
+				$_jxc.clearHideInpOnEdit($(this));
+				return;
+			}
+			
+			//未发生变化 return;
+			if(nameOrCode &&  $(_this).data('oldData') == nameOrCode)return;
+			
+			//获取数据
+			_default.getComponentDetail(nameOrCode);
+		},
+		//键盘事件
+		onkeyup:function(ev){
+			var nameOrCode = $.trim($(this).val())||'';
+			//重新编辑时 清空隐藏域 避免没选择数据就关闭窗口
+			if($(_this).data('oldData') && nameOrCode && $(_this).data('oldData') != nameOrCode)$_jxc.clearHideInpOnEdit($(this));
+			
+			//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
+			if(ev.keyCode && ev.keyCode != 13){
+				return;
+			}
+			
+			//未输入值时，直接返回，无需查询
+			if('' == nameOrCode){
+				$_jxc.clearHideInpOnEdit($(this));
+				return;
+			}
+			
+			//未发生变化 return;
+			if(nameOrCode && $(_this).data('oldData') == nameOrCode)return;
+			
+			//自动失去焦点
+			$(this).blur();
+			
+			//_default.getComponentDetail(nameOrCode);
+		},
+		/**
+		 * 设置dom元素值
+		 */
+		setDataOfDom:function(data){
+			//根据name赋值
+			$(_this).find('input').each(function(index,ob){
+				if(ob){
+					var inputName = $(ob).attr('name');
+					var inputType = $(ob).attr('type');
+					$(ob).val(setValue(inputName,inputType))
+				}
+			})
+			
+			function setValue(inputName,type){
+				if(data.constructor == Array){
+					var _str = [];
+					data.forEach(function(obj,index){
+						if(type == 'text'){
+							_str.push(_default.textFomatter(obj));
+						}else{
+							_str.push(obj[inputName]);
+						}
+					});
+					return _str.join(',');
+				}else{
+					if(type == 'text'){
+						$(_this).data('oldData',_default.textFomatter(data));
+						return  _default.textFomatter(data);
+					}else{
+						return data[inputName];
+					}
+				}
+			}
+		},
+		/**
+		 * 初始化事件绑定
+		 */
+		initDomEvent:function(){
+			//$(this) 返回的是一个 dom 数组
+			$(_this).each(function(index,elt){
+				if(elt){
+				    //判断输入框(有且只有一个)
+					var editInput = $(elt).find('input[type="text"]');
+					//是否readonly 
+					var readonlyFlag = $(editInput).prop('readonly');
+					//是否disabled
+					var disableFlag = $(editInput).prop('disabled');
+					//是否置灰
+					var disableCss = $(editInput).hasClass('uinp-no-more');
+					
+					//置灰状态下 结束 逻辑
+					if((disableCss && readonlyFlag) || disableFlag )return;
+					
+					//只读绑定 点击事件
+					if(readonlyFlag){
+						//绑定 显示 机构选择事件
+						$(editInput).on('click',_default.showComponentMsg)
+					}else{
+						//非 只读 绑定 blur keyup 事件
+						$(editInput).on('blur',_default.onblur);
+						$(editInput).on('keyup',_default.onkeyup);
+					}
+					// 【...】 按钮绑定事件
+					$(elt).find('.uinp-more').on('click',_default.showComponentMsg)
+				}
+			})
+		},	
+		/**
+		 * 获取组件信息
+		 */
+		getComponentDetail:function(nameOrCode){
+			var param = $.extend({},_default.param);
+			if(nameOrCode){
+				param.supplierNameOrsupplierCode = nameOrCode;
+			}
+			publicSuppliersService(param,_default.onLoadSuccess)
+		}	
+	}
+	
+	_default = $.extend(_default,param);
+	
+	_default.initDomEvent();
+	
+}
+
+/**
+ * bwp 07/06/08 
+ * 供应商选择公用方法 回车或失去焦点后，查询供应商
+ * <br/>1 精确匹配时 自动补全 【xxxx】+供应商名称
+ * <br/>2 匹配到多条 弹窗选择  
+ * <br/>3 空匹配时  清除输入
+ * @param param  参数对象
+ * @param callback 回调
+ * <br/>demo:
+ * <br/>参照：advanceList.jsp advanceList.js
+ */
+function publicSuppliersService(param,callback){
+	//默认参数
+	var _defParam = {
+		supplierNameOrsupplierCode:'',
+        branchId:'',
+        saleWayNot:'',
+        isDirect:''
+ 	}
+	
+	param =  $.extend(_defParam,param);
+	
+	if(param.supplierNameOrsupplierCode){
+		param.page = 1;
+		param.rows = 10;
+		var _nameOrCode = param.supplierNameOrsupplierCode
+		//避免用户直接输入完整格式: [编号]名称
+		var reg = /\[\d{6}\]/;
+		if(reg.test(_nameOrCode)){
+			//取出[]里的编号，默认取已第一个[]里的值
+			reg = /\[(\d{6})\]/;
+			arr = reg.exec(_nameOrCode);
+			param.supplierNameOrsupplierCode = arr[1];
+		}
+		$_jxc.ajax({
+			url:contextPath+'/common/supplier/getComponentList',
+			data:param
+		},function(data){
+			if(data&&data.rows){
+				//精确匹配到只有一条数据时立即返回
+				if(data.rows.length==1){
+					callback(data.rows[0]);
+				}else if(data.rows.length>1){
+					//匹配到多条时 弹窗选择
+					publicSuppliersServiceHandel(param,callback);
+				}else{
+					//没有匹配数据时 返回字符串方便判断
+					callback('NO');
+				}
+			}else{
+				//没有匹配数据时 返回字符串方便判断
+				callback('NO');
+			}
+		})
+	}else{
+		publicSuppliersServiceHandel(param,callback);
+	}
+	
+}
+
+function publicSuppliersServiceHandel(param,callback){
+	//公有属性
+    var supplierDalog = $('<div/>').dialog({
+    	 href: contextPath + "/common/supplier/views?saleWayNot="+param.saleWayNot+"&isDirect="+param.isDirect,
+         width: 600,
+         height: dialogHeight,
+         title: "选择供应商",
+         closable: true,
+         resizable: true,
+         onClose: function(){
+        	 callback('NO');
+             $(this).dialog('destroy');
+             supplierDalog = null;
+         },
+         modal: true,
+         onLoad: function () {
+             initSupplierView(param);
+             initSupplierCallBack(callBackHandel)
+         },
+    });
+    function callBackHandel(data){
+        callback(data);
+        $(supplierDalog).panel('destroy');
+        supplierDalog = null;
+    }
+}
+
+/*-----------------------供应商选择 end-------------------------------*/
+
+/*-----------------------操作人选择 start-------------------------------*/
+
+/**
+ * 	var _operatorParam = {
+		//数据格式化	
+		textFomatter:function(data){
+			return "["+data.userCode+"]"+data.userName;
+		},
+		//ajax扩展参数
+		param:{
+			selectType:1,//选择模式默认单选    1-->多选
+		},
+		loadFilter:function(data){
+			data.createUserId = data.id;
+			return data;
+			data.forEach(function(obj,inx){
+				obj.createUserId = obj.id;
+			});
+			return data;
+		}
+		//依赖条件 relyOnId 为空
+		relyOnId:'"branchId"',
+		//依赖条件 异常提示
+		relyError:'请选择机构',
+		//选择数据成功回调
+		onLoadSuccess:function(data){
+			
+		},
+		//return false 结束逻辑
+		onShowBefore:function(obj){
+//			console.log('------------进入重写的 onShowBefore -----------',obj);
+			return true;
+		},
+		//失去焦点
+		onblur:function(ev){
+			
+		},
+		//keyup事件
+		onkeyup:function(ev){
+			
+		}
+	}
+ */
+/**
+ * bwp 07/06/09  操作人选择组件
+ * @namespace 
+ * @param obj 表单对象
+ * demo:
+ * <br/> 
+ * $('#operatorComponent').operatorSelect({
+		loadFilter:function(data){
+			data.createUserId = data.id;
+			return data;
+		}
+	});
+ */
+
+$.fn.operatorSelect = function(param){
+	//元素绑定失败
+	if($(this).length == 0){
+		console.error('供应商选择组件绑定失败');
+		return;
+	}
+	var _this = this;
+	if(typeof param == 'undefined')param = {};
+	
+	//默认参数对象
+	var _default = {
+		param:{
+			
+		},
+		/**
+		 * 处理一些选择组件前的校验
+		 * return false 结束逻辑
+		 */
+		onShowBefore:function(arg){
+			return true;
+		},
+		/**
+		 * 格式化数据 显示数据
+		 */
+		textFomatter:function(data){
+			return "["+data.userCode+"]"+data.userName;
+		},
+		/**
+		 * 数据过滤
+		 */
+		loadFilter:function(data){
+			
+			return data;
+		},
+		/**
+		 * dom 渲染之后
+		 */
+		onAfterRender:function(data){
+			
+		},
+		/**
+		 * 格式化数据 显示数据
+		 */
+		onLoadSuccess:function(data){
+			//返回NO时 输入动作没匹配到数据 
+			if(data == 'NO'){
+				//匹配到多数据 弹窗但未选择的情况下 设置清空
+				if(!$($(_this).find('input[type="hidden"]').eq(0)).val()){
+					$_jxc.clearHideInpOnEdit($(_this).find('input[type="text"]'));
+					$(_this).find('input[type="text"]').val("");
+				}
+			}else{
+				data = _default.loadFilter(data);
+				_default.setDataOfDom(data);
+				_default.onAfterRender(data);
+			}
+		},
+		//显示操作员信息
+		showComponentMsg:function(ev){
+			var _editInput = $(this);
+			//点击【...】 按钮 
+			if($(_editInput).hasClass('uinp-more')){
+				_editInput = $(_editInput).parent('.ub').find('input[type="text"]');
+			}
+			//input置灰  则return;
+			if($(_editInput).hasClass('uinp-no-more') || $(_editInput).prop('disabled'))return;
+			
+			//判断前置条件
+			if(_default.relyOnId && !$.trim($('#'+_default.relyOnId).val())){
+				$_jxc.alert(_default.relyError);
+				return false;
+			}
+			
+			//处理onShowBefore (避免用户重载 )
+			if(!_default.onShowBefore(this))return;
+				
+			_default.getComponentDetail();
+			
+		},
+		//失去焦点事件
+		onblur:function(ev){
+			var nameOrCode = $.trim($(this).val())||'';
+			//重新编辑时 清空隐藏域 避免没选择数据就关闭窗口
+			if($(_this).data('oldData') && nameOrCode && $(_this).data('oldData') != nameOrCode)$_jxc.clearHideInpOnEdit($(this));
+			
+			//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
+			if(ev.keyCode && ev.keyCode != 13){
+				return;
+			}
+			
+			//未输入值时，直接返回，无需查询
+			if('' == nameOrCode){
+				$_jxc.clearHideInpOnEdit($(this));
+				return;
+			}
+			
+			//未发生变化 return;
+			if(nameOrCode &&  $(_this).data('oldData') == nameOrCode)return;
+			
+			//获取数据
+			_default.getComponentDetail(nameOrCode);
+			
+		},
+		//键盘事件
+		onkeyup:function(ev){
+			var nameOrCode = $.trim($(this).val())||'';
+			//重新编辑时 清空隐藏域 避免没选择数据就关闭窗口
+			if($(_this).data('oldData') && nameOrCode && $(_this).data('oldData') != nameOrCode)$_jxc.clearHideInpOnEdit($(this));
+			
+			//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
+			if(ev.keyCode && ev.keyCode != 13){
+				return;
+			}
+			
+			//未输入值时，直接返回，无需查询
+			if('' == nameOrCode){
+				$_jxc.clearHideInpOnEdit($(this));
+				return;
+			}
+			
+			//未发生变化 return;
+			if(nameOrCode && $(_this).data('oldData') == nameOrCode)return;
+			
+			//自动失去焦点
+			$(this).blur();
+			
+			//_default.getComponentDetail(nameOrCode);
+			
+		},
+		/**
+		 * 设置dom元素值
+		 */
+		setDataOfDom:function(data){
+			//根据name赋值
+			$(_this).find('input').each(function(index,ob){
+				if(ob){
+					var inputName = $(ob).attr('name');
+					var inputType = $(ob).attr('type');
+					$(ob).val(setValue(inputName,inputType))
+				}
+			})
+			
+			function setValue(inputName,type){
+				if(data.constructor == Array){
+					var _str = [];
+					data.forEach(function(obj,index){
+						if(type == 'text'){
+							_str.push(_default.textFomatter(obj));
+						}else{
+							_str.push(obj[inputName]);
+						}
+					});
+					return _str.join(',');
+				}else{
+					if(type == 'text'){
+						$(_this).data('oldData',_default.textFomatter(data));
+						return  _default.textFomatter(data);
+					}else{
+						return data[inputName];
+					}
+				}
+			}
+		},
+		/**
+		 * 初始化事件绑定
+		 */
+		initDomEvent:function(){
+			//$(this) 返回的是一个 dom 数组
+			$(_this).each(function(index,elt){
+				if(elt){
+				    //判断输入框(有且只有一个)
+					var editInput = $(elt).find('input[type="text"]');
+					//是否readonly 
+					var readonlyFlag = $(editInput).prop('readonly');
+					//是否disabled
+					var disableFlag = $(editInput).prop('disabled');
+					//是否置灰
+					var disableCss = $(editInput).hasClass('uinp-no-more');
+					
+					//置灰状态下 结束 逻辑
+					if((disableCss && readonlyFlag) || disableFlag )return;
+					
+					//只读绑定 点击事件
+					if(readonlyFlag){
+						//绑定 显示 机构选择事件
+						$(editInput).on('click',_default.showComponentMsg)
+					}else{
+						//非 只读 绑定 blur keyup 事件
+						$(editInput).on('blur',_default.onblur);
+						$(editInput).on('keyup',_default.onkeyup);
+					}
+					// 【...】 按钮绑定事件
+					$(elt).find('.uinp-more').on('click',_default.showComponentMsg)
+				}
+			})
+		},
+		/**
+		 * 获取组件信息
+		 */
+		getComponentDetail:function(nameOrCode){
+			var param = $.extend({},_default.param);
+			if(nameOrCode){
+				param.nameOrCode = nameOrCode;
+			}
+			publicOperatorsService(param,_default.onLoadSuccess)
+		}
+			
+	}
+	
+	_default = $.extend(_default,param);
+	
+	_default.initDomEvent();
+	
+}
+/**
+ * bwp 07/06/08 
+ * 操作人选择公用方法 回车或失去焦点后，查询供应商
+ * <br/>1 精确匹配时 自动补全 【xxxx】+供应商名称
+ * <br/>2 匹配到多条 弹窗选择  
+ * <br/>3 空匹配时  清除输入
+ * @param param  参数对象
+ * @param callback 回调
+ * <br/>demo:
+ * <br/>参照：advanceList.jsp advanceList.js
+ */
+function publicOperatorsService(param,callback){
+	//默认参数
+	var _defParam = {
+		selectType:0,           //0 单选弹框底部没有【确认】【取消】按钮   1反之
+		isOpenStock:null,
+		formType:null,
+		nameOrCode:null
+ 	}
+	
+	param =  $.extend(_defParam,param);
+	
+	if(param.nameOrCode){
+		
+		var _ajaxParam = $.extend({},param);
+		
+		_ajaxParam.page = 1;
+		_ajaxParam.rows = 10;
+		var _nameOrCode = param.nameOrCode
+		//避免用户直接输入完整格式: [xxxxx]名称
+		var reg = /\[\S*\]/;
+		if(reg.test(_nameOrCode)){
+			//取出[]里的编号，默认取已第一个[]里的值
+			reg = /\[(\S*)\]/;
+			arr = reg.exec(_nameOrCode);
+			_ajaxParam.nameOrCode = arr[1];
+		}
+		//业务参数 不传后台
+		delete _ajaxParam.selectType;
+		
+		$_jxc.ajax({
+			url:contextPath+'/system/user/getOperator',
+			data:_ajaxParam
+		},function(data){
+			if(data&&data.rows){
+				//精确匹配到只有一条数据时立即返回
+				if(data.rows.length==1){
+					callback(data.rows[0]);
+				}else if(data.rows.length>1){
+					//匹配到多条时 弹窗选择
+					publicOperatorsServiceHandel(param,callback);
+				}else{
+					//没有匹配数据时 返回字符串方便判断
+					callback('NO');
+				}
+			}else{
+				//没有匹配数据时 返回字符串方便判断
+				callback('NO');
+			}
+		})
+	}else{
+		publicOperatorsServiceHandel(param,callback);
+	}
+	
+}
+
+function publicOperatorsServiceHandel(param,callback){
+
+    var dialogDiv = {
+        href: contextPath + "/system/user/views?type=operate",
+        width: 680,
+        height: dialogHeight,
+        title: "选择操作员",
+        closable: true,
+        resizable: true,
+        onClose: function () {
+        	callback('NO');
+            $(operatordialog).panel('destroy');
+            operatordialog = null;
+        },
+        modal: true,
+    }
+
+    dialogDiv["onLoad"] = function () {
+    	initOperatorView(param);
+        initOperatorCallBack(callBackHandel);
+    };
+    
+    if(param.selectType==1){
+        dialogDiv["buttons"] = [{
+            text:'确定',
+            handler:function(){
+                publicOperatorGetCheck(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(operatordialog).panel('destroy');
+            }
+        }];
+    }
+
+    var operatordialog = $('<div/>').dialog(dialogDiv);
+
+    function callBackHandel(data){
+        callback(data);
+        $(operatordialog).panel('destroy');
+    }
+}
+
+/*-----------------------操作人选择 end-------------------------------*/
+
+
+/*----------------jxc component js end  ---------------------------*/

@@ -13,6 +13,7 @@ $(function(){
 var gridHandel = new GridClass();
 //初始化表格
 var dg;
+var gridName = "marketWater";
 function initDatagridRequireOrders(){
 	gridHandel.setGridName("marketWater");
 	dg= $("#marketWater").datagrid({
@@ -157,6 +158,16 @@ function initDatagridRequireOrders(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(gridName,["oldPurPrice","newPurPrice"])
+	}
+    if(hasDistributionPrice==false){
+        priceGrantUtil.grantDistributionPrice(gridName,["oldDcPrice","newDcPrice"])
+    }
+    if(hasWholesalePrice==false){
+        priceGrantUtil.grantWholesalePrice(gridName,["oldWsPrice","newWsPrice"])
+    }
+
 }
 
 
@@ -168,7 +179,7 @@ function queryForm(){
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
 	if(!(startDate && endDate)){
-		$.messager.alert('提示', '日期不能为空');
+		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
@@ -226,7 +237,7 @@ var resetForm = function(){
 function exportData(){
 	var length = $('#marketWater').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({

@@ -8,7 +8,7 @@
 <title>收银流水</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/cash/cashFlowReport.js"></script>
+<script src="${ctx}/static/js/views/report/cash/cashFlowReport.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -54,6 +54,8 @@
 				            <option value="" selected="selected">全部</option>
 				            <option value="A">销售</option>
 				            <option value="B">退货</option>
+				            <option value="D">充值</option>
+				            <option value="E">售卡</option>
 				        </select>
                 </div>  
             </div>

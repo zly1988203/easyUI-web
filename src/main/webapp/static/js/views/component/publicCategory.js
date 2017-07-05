@@ -23,7 +23,7 @@ function initCategoryView(param){
 function publicCategoryGetCheck(cb){
     var row =  $("#gridCategory").datagrid("getChecked");
     if(amount > 0 && row.length > amount){
-        messager("类型已选择"+row.length+"个,不能超过"+amount+"个");
+        $_jxc.alert("类型已选择"+row.length+"个,不能超过"+amount+"个");
         return;
     }
     cb(row);

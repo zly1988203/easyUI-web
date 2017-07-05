@@ -125,6 +125,8 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 		LOG.debug("DeliverFormListController.export:" + formNo);
 		try {
 			List<DeliverFormList> exportList = queryDeliverFormListServiceApi.getDeliverList(formNo);
+	         // 过滤数据权限字段
+            cleanAccessData(exportList);
 			String fileName = "";
 			String templateName = "";
 

@@ -9,6 +9,7 @@ $(function(){
     }
 });
 var gridHandel = new GridClass();
+var gridName= "gridEditOrder";
 function initDatagridEditOrder(){
 	var formId = $("#formId").val();
     gridHandel.setGridName("gridEditOrder");
@@ -119,6 +120,9 @@ function initDatagridEditOrder(){
             updateFooter();
         }
     });
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["price","amount","taxAmount"])
+    }
 }
 //合计
 function updateFooter(){
@@ -137,27 +141,22 @@ function orderAdd(){
 
 function stop(){
 	var id = $("#formId").val();
-	$.messager.confirm('提示','是否终止此单据？',function(data){
+	$_jxc.confirm('是否终止此单据？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/form/purchase/stop",
-		    	type:"POST",
 		    	data:{
 		    		formId:id
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/form/purchase/orderEdit?formId=" + id;
-		    			});
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/form/purchase/orderEdit?formId=" + id;
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

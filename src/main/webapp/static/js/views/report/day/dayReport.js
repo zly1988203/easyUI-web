@@ -14,6 +14,7 @@ function initConditionParams(){
 }
 
 var gridHandel = new GridClass();
+var gridName= "dayReport";
 //初始化表格
 function initDatagridDay(){
 	gridHandel.setGridName("dayReport");
@@ -61,19 +62,19 @@ function initDatagridDay(){
                     }
                 }},
             {field:'beginCostAmount',title:'期初成本金额',width:'130px',align:'right',
-                	formatter:function(value,row,index){
-    				    if(value || value ==0){
-    				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
-    				    }
-    				},
-                	editor:{
-                        type:'numberbox',
-                        options:{
-                        	disabled:true,
-                            min:0,
-                            precision:1
-                        }
-                    }},
+            	formatter:function(value,row,index){
+				    if(value || value ==0){
+				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
+				    }
+				},
+            	editor:{
+                    type:'numberbox',
+                    options:{
+                    	disabled:true,
+                        min:0,
+                        precision:1
+                    }
+                }},
             {field:'beginSaleAmount',title:'期初销售金额',width:'130px',align:'right',
                     	formatter:function(value,row,index){
                     		 if(value || value ==0){
@@ -289,6 +290,23 @@ function initDatagridDay(){
 			gridHandel.setDatagridHeader("center");
 		}
     });
+
+    /*if(hasCostPrice==false){
+    	var fieldArr = ["costAmount","beginCostAmount","dcoAmount",
+			"dciAmount","costChangeAmount","otherAmount","endCostAmount","endSaleAmount"
+		]
+        priceGrantUtil.grantCostPrice(gridName,fieldArr)
+    }*/
+    
+    var param = {
+			//期初成本价->beginCostPrice  期末成本价-->endCostPrice   销售成本金额->costAmount  采购收货金额->piAmount 采购退货金额->prAmount	采购直送收货金额->pmAmount
+		costPrice:["costAmount","beginCostAmount","costChangeAmount","otherAmount","endCostAmount","purchaseAmount"],
+		//配送出库金额	配送入库金额
+		distributionPrice:['dcoAmount','dciAmount']			
+	}
+	
+	priceGrantUtil.grantPrice(gridName,param);
+
 }
 
 
@@ -316,7 +334,7 @@ var dg;
 function exportData(){
 	var length = $('#dayReport').datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -334,17 +352,17 @@ function exportData(){
 function exportExcel(){
 	var length = $("#dayReport").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
+	
 	$("#queryForm").form({
 		success : function(data){
 			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
+				$_jxc.alert("导出数据成功！");
 			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});

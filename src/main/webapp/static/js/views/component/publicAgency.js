@@ -7,16 +7,51 @@ var nameOrCode=null;
 var formType=null;
 var branchId=null;
 var branchType=null;
+var branchTypesStr=null;
 var isOpenStock=null;
-function initAgencyView(){
+var scope=null;
+var type=null;     //NOTREE 左边没有树
+var selectType=null;//0 单选  1多选
+function initAgencyView(param){
+
 	nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
 	formType=$("#formAgency :hidden[name=deliverFormType]").val();
 	branchId=$("#formAgency :hidden[name=branchId]").val();
 	branchType=$("#formAgency :hidden[name=branchType]").val();
 	isOpenStock=$("#formAgency :hidden[name=isOpenStock]").val();
+	scope=$("#formAgency :hidden[name=scope]").val();
+	
+	//新组件方法会传此参数 
+	if(param){
+		if(param.nameOrCode){
+			nameOrCode = param.nameOrCode;
+			$("#formAgency :text[name=nameOrCode]").val(nameOrCode);
+		}
+		if(param.branchTypesStr){
+			branchTypesStr = param.branchTypesStr;
+		}
+		if(param.isOpenStock){
+			isOpenStock = param.isOpenStock;
+			$("#formAgency :hidden[name=isOpenStock]").val(isOpenStock);
+		}
+		if(param.scope){
+			scope = param.scope;
+			$("#formAgency :hidden[name=scope]").val(scope);
+		}
+		selectType = param.selectType;
+		//扩展的publicBranchesServiceHandel initAgencyView(param) 
+		//param=空,param.type=空,param.type=NOTREE下  初始化左边的树
+		type = (param.type||'').toUpperCase();
+	}
 	
     gFunSetEnterKey(agencySearch);
-    initTreeAgency(); //初始树
+    if((param && type != 'NOTREE') || !param){
+    	$('#treeAgencyArea').removeClass('unhide');
+    	initTreeAgency(); //初始树
+    }else{
+    	$('#treeAgencyArea').addClass('unhide');
+    }
+    
     initDatagridAgency(); //初始化表格
 }
 var agencyCallBack ;
@@ -69,7 +104,9 @@ function zTreeOnClick(event, treeId, treeNode) {
     		formType:formType,
     		branchId:branchId,
     		branchType:branchType,
-    		isOpenStock:isOpenStock
+    		branchTypesStr:branchTypesStr,
+    		isOpenStock:isOpenStock,
+    		scope:scope
     };
     $("#gridAgency").datagrid("options").method = "post";
     $("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',
@@ -78,17 +115,9 @@ function zTreeOnClick(event, treeId, treeNode) {
 
 //初始化表格
 function initDatagridAgency(){
-	//var formType="";
-	//var branchId="";
-	//if($("#deliverFormType").val()){
-	//	formType=$("#deliverFormType").val();
-	//}
-	//if($("#branchId").val()){
-	//	branchId=$("#branchId").val();
-	//}
-    $("#gridAgency").datagrid({
-        //title:'普通表单-用键盘操作',
-        method:'POST',
+	
+	var datagridObj = {
+		method:'POST',
         align:'center',
         url:contextPath+'/common/branches/getComponentList',
         queryParams:{
@@ -96,7 +125,9 @@ function initDatagridAgency(){
         	formType:formType,
     		branchId:branchId,
     		isOpenStock:isOpenStock,
-    		branchType:branchType
+    		scope:scope,
+    		branchType:branchType,
+    		branchTypesStr:branchTypesStr
         },
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
@@ -107,32 +138,52 @@ function initDatagridAgency(){
         showFooter:true,
         height:'100%',
         width:'100%',
+        idField:'branchCode',
         columns:[[
+            {field:'cb',checkbox:true,hidden:selectType == 1?false:true},    
             {field:'branchCode',title:'编码',width:100,align:'left'},
             {field:'branchName',title:'名称',width:100,align:'left'},
-             {field:'contacts',title:'联系人',width:100,align:'left'},
-             {field:'mobile',title:'电话',width:100,align:'left'},
+            {field:'contacts',title:'联系人',width:100,align:'left',hidden:type=='NOTREE'?true:false},
+            {field:'mobile',title:'电话',width:100,align:'left',hidden:type=='NOTREE'?true:false},
         ]],
         onLoadSuccess : function() {
        	 $('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
-       },
-        onClickRow:agencyClickRow,
-    });
+        }
+	}
+	
+	//单选模式
+	if(selectType != 1){
+		datagridObj['onClickRow'] = agencyClickRow;
+	}else{
+		//多选模式
+		datagridObj['singleSelect'] = false;
+	}	
+	
+    $("#gridAgency").datagrid(datagridObj);
 }
 /*
- * 
+ * 多选模式下 【确定】按钮回调
  */
-function publicGoodsGetCheckGoods(cb){
+function publicBranchGetChecks(cb){
     var row =  $("#gridAgency").datagrid("getChecked");
     cb(row);
 }
 //搜索
 function agencySearch(){
 	nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
+	//去空格处理
+	nameOrCode=$.trim(nameOrCode)||'';
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
 	//点击搜索清除左侧数据
-	$("#gridAgency").datagrid("options").queryParams = {nameOrCode:nameOrCode,formType:formType,branchId:branchId,branchType:branchType,isOpenStock:isOpenStock};
+	$("#gridAgency").datagrid("options").queryParams = {
+		nameOrCode:nameOrCode,
+		formType:formType,
+		branchId:branchId,
+		branchType:branchType,
+		branchTypesStr:branchTypesStr,
+		isOpenStock:isOpenStock,
+		scope:scope};
 //	$("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode,nameOrCode:nameOrCode,formType:$("#formType").val(),branchId:$("#branchId").val()};
 	$("#gridAgency").datagrid("options").method = "post";
 	$("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',

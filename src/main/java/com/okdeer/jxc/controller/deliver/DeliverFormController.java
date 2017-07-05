@@ -18,8 +18,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +42,7 @@ import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.ImportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
@@ -79,6 +78,8 @@ import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
 
+import net.sf.json.JSONObject;
+
 /**
  * ClassName: DeliverFormController 
  * @Description: 配送单（调拨单）
@@ -106,7 +107,13 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 
 	@Reference(version = "1.0.0", check = false)
 	private DeliverConfigServiceApi deliverConfigServiceApi;
-
+	
+    /**
+     * BranchSpecService
+     */
+    @Reference(version = "1.0.0", check = false)
+    private BranchSpecServiceApi branchSpecService;
+    
 	@Autowired
 	private OrderNoUtils orderNoUtils;
 
@@ -236,7 +243,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		String deliverType = vo.getDeliverType();
 		model.addAttribute("user", user);
 		BranchesGrow branchesGrow = branchesServiceApi.queryBranchesById(user.getBranchId());
-		branchesGrow.setMinAmount(branchesGrow.getTargetBranchMinAmount());
+		//branchesGrow.setMinAmount(branchesGrow.getTargetBranchMinAmount());
 		Integer type = branchesGrow.getTargetBranchType();
 		if (FormType.DA.toString().equals(deliverType)) {
 			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type.intValue()) {
@@ -333,7 +340,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		if (DeliverAuditStatusEnum.WAIT_CHECK.getName().equals(form.getStatus())) {
 			if (FormType.DA.toString().equals(form.getFormType())) {
 				Branches branches = branchesServiceApi.getBranchInfoById(form.getTargetBranchId());
-				model.addAttribute("minAmount", branches.getMinAmount());
+				model.addAttribute("minAmount", form.getMinAmount());
 				model.addAttribute("targetBranchType", branches.getType());
 				model.addAttribute("salesman", branches.getSalesman() == null ? "" : branches.getSalesman());
 				return "form/deliver/deliverEdit";
@@ -438,6 +445,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				}
 			}
 			PageUtils<DeliverForm> deliverForms = queryDeliverFormServiceApi.queryLists(vo);
+			// 过滤数据权限字段
+            cleanAccessData(deliverForms);
 			LOG.debug(LogConstant.PAGE, deliverForms.toString());
 			return deliverForms;
 		} catch (Exception e) {
@@ -743,10 +752,30 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				branchesGrow.getSourceBranchValidityNumDays() == 0 ? SysConstant.VALIDITY_DAY : branchesGrow
 						.getSourceBranchValidityNumDays()));
 		respJson.put("salesman", branchesGrow.getSalesman());
-		respJson.put("minAmount", branchesGrow.getTargetBranchMinAmount());
+		respJson.put("minAmount", branchesGrow.getMinAmount());
 		return respJson;
 	}
-
+    /***
+     * 
+     * @Description: 查询机构配置
+     * @param branchId branchId
+     * @return RespJson
+     * @author xuyq
+     * @date 2017年6月2日
+     */
+    @RequestMapping(value = "queryBranchSpecById", method = RequestMethod.POST)
+    @ResponseBody
+    public RespJson queryBranchSpecById(String branchId) {
+        RespJson resp = RespJson.success();
+        try {
+            BranchSpecVo spceVo = branchSpecService.queryByBranchId(branchId);
+            resp.put("spceVo", spceVo);
+        } catch (Exception e) {
+            LOG.error("查询机构配置异常:{}", e);
+            resp = RespJson.error("查询机构配置异常");
+        }
+        return resp;
+    }
 	/**
 	 * @Description: 终止
 	 * @param vo  
@@ -800,7 +829,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("_有效期限", deliverForm.getValidityTime() != null ? deliverForm.getValidityTime() : "");
 		replaceMap.put("validityTime", deliverForm.getValidityTime() != null ? deliverForm.getValidityTime() : "");
 		// 备注
-		replaceMap.put("_备注", deliverForm.getTargetBranchRemark() != null ? deliverForm.getTargetBranchRemark() : "");
+		replaceMap.put("_备注", deliverForm.getRemark() != null ? deliverForm.getRemark() : "");
 		replaceMap.put("targetBranchRemark",
 				deliverForm.getTargetBranchRemark() != null ? deliverForm.getTargetBranchRemark() : "");
 		// 制单人员
@@ -837,17 +866,17 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("_联系电话", deliverForm.getMobile() != null ? deliverForm.getMobile() : "");
 		replaceMap.put("mobile", deliverForm.getMobile() != null ? deliverForm.getMobile() : "");
 		// 返利
-		replaceMap.put("_返利", BigDecimalUtils.formatTwoDecimal(deliverForm.getAddRebateMoney()));
-		replaceMap.put("addRebateMoney", BigDecimalUtils.formatTwoDecimal(deliverForm.getAddRebateMoney()));
+		replaceMap.put("_返利", BigDecimalUtils.formatTwoDecimal(deliverForm.getAddRebateMoney()).toString());
+		replaceMap.put("addRebateMoney", BigDecimalUtils.formatTwoDecimal(deliverForm.getAddRebateMoney()).toString());
 		// 折扣
-		replaceMap.put("_折扣", BigDecimalUtils.formatTwoDecimal(deliverForm.getRebateMoney()));
-		replaceMap.put("rebateMoney", BigDecimalUtils.formatTwoDecimal(deliverForm.getRebateMoney()));
+		replaceMap.put("_折扣", BigDecimalUtils.formatTwoDecimal(deliverForm.getRebateMoney()).toString());
+		replaceMap.put("rebateMoney", BigDecimalUtils.formatTwoDecimal(deliverForm.getRebateMoney()).toString());
 		// 人民币总金额大写
 		replaceMap.put("_人民币总金额大写", NumberToCN.number2CNMontrayUnit(deliverForm.getAmount()));
 		replaceMap.put("amountCN", NumberToCN.number2CNMontrayUnit(deliverForm.getAmount()));
 		// 总金额
-		replaceMap.put("_总金额", BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
-		replaceMap.put("amount", BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()));
+		replaceMap.put("_总金额", BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()).toString());
+		replaceMap.put("amount", BigDecimalUtils.formatTwoDecimal(deliverForm.getAmount()).toString());
 
 		replaceMap.put("daRemark", deliverForm.getDaRemark() != null ? deliverForm.getDaRemark() : "");
 
@@ -878,7 +907,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 					deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(),
 							"yyyy-MM-dd") : "");
 		}
-
+		cleanDataMap(PriceAccessConstant.DELIVER_FORM, replaceMap);
 		return replaceMap;
 	}
 
@@ -888,7 +917,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@Override
 	protected List<DeliverFormList> getPrintDetail(String formNo) {
-		return queryDeliverFormListServiceApi.getDeliverListById(formNo);
+	    List<DeliverFormList> dfList = queryDeliverFormListServiceApi.getDeliverListById(formNo);
+	    // 过滤数据权限字段
+        cleanAccessData(dfList);
+		return dfList;
 	}
 
 	// end by lijy02

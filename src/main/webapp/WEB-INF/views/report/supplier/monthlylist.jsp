@@ -7,7 +7,7 @@
     <title>供应商进销存月报表</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-    <script  src="${ctx}/static/js/views/report/supplier/monthList.js"></script>
+    <script  src="${ctx}/static/js/views/report/supplier/monthList.js?V=${versionNo}"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>

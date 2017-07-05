@@ -11,6 +11,6 @@
 <body>
 	<!--end tab-header-form -->
 	<table id="activitydg"></table>
-	<script src="${ctx}/static/js/views/component/publicActivity.js"></script>
+	<script src="${ctx}/static/js/views/component/publicActivity.js?V=${versionNo}"></script>
 </body>
 </html>

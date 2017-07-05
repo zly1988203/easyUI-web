@@ -138,7 +138,7 @@ function addStockReimburse() {
 function deleteStockReimburse(){
 	var rows =$("#stockReimburseList").datagrid("getChecked");
 	if(rows.length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
+		 $_jxc.alert('请选中一行进行删除！');
 		return null;
 	}
 	
@@ -154,29 +154,24 @@ function deleteStockReimburse(){
 	})
     
     if(flag){
-    	messager('已经审核的单据不可以删除！');
+    	$_jxc.alert('已经审核的单据不可以删除！');
     	return;
     }
-	$.messager.confirm('提示','是否要删除选中数据',function(data){
+	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/stock/reimburse/delete",
-		    	type:"POST",
 		    	data:{
 		    		ids:tempIds
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    		$("#stockReimburseList").datagrid('reload');
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("删除成功");
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
+	    		$("#stockReimburseList").datagrid('reload');
 		    });
 		}
 	});
@@ -205,7 +200,7 @@ function selectOperator() {
 // 打印
 function printList() {
 	var fromObjStr = $('#queryForm').serialize();
-	console.log(fromObjStr);
+	
 	parent.addTabPrint("StockReimbursePrint","报损单列表打印",contextPath+"/stock/reimburse/print?"+fromObjStr);
 }
 

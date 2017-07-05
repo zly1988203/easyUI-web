@@ -94,6 +94,10 @@ function initDatagridRequireOrders(){
         
     });
     queryForm();
+
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice("costFromList",["totalMoney"])
+    }
 }
 
 //新增入库单
@@ -107,7 +111,7 @@ function queryForm(){
 	$("#costFromList").datagrid("options").method = "post";
 	$("#costFromList").datagrid('options').url = contextPath + '/cost/costAdjust/queryList';
 	$("#costFromList").datagrid('load', fromObjStr);
-	//console.log(fromObjStr);
+	//
 }
 
 //删除
@@ -117,26 +121,21 @@ function delStockForm(){
 	if(rowIsNull(row)){
 		return null;
 	}
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/cost/costAdjust/deleteCostForm",
-		    	type:"POST",
 		    	data:{
 		    		formId : row.deliverFormId
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-                        messager("删除成功");
-		    			dg.datagrid('reload');
-		    		}else{
-                        messager(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-                    messager("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		
+	    		if(result['code'] == 0){
+                    $_jxc.alert("删除成功");
+	    			dg.datagrid('reload');
+	    		}else{
+                    $_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -179,7 +178,7 @@ function exportExcel(){
 	$("#queryForm").form({
 		success : function(data){
 			if(data.code > 0){
-				$.messager.alert('提示',data.message);
+				$_jxc.alert(data.message);
 			}
 		}
 	});
@@ -191,11 +190,11 @@ function exportExcel(){
 
 	var length = $("#goodsTab").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	$("#queryForm").attr("action",contextPath+"/goods/report/exportList");

@@ -309,7 +309,7 @@ function selectSupplier(){
 //选择商品
 function selectGoods(searchKey){
 	if(!$("#branchId").val()){
-		 messager("请选择机构");
+		 $_jxc.alert("请选择机构");
 	     return;
 	}
     var param = {
@@ -329,7 +329,7 @@ function selectGoods(searchKey){
         }
         var setdata=setTion(data);
         //selectStockAndPrice(branchId,setdata);
-        gridHandel.setLoadFocus();
+        // gridHandel.setLoadFocus();
       
     });
 }
@@ -347,7 +347,7 @@ var dg;
 function exportData(){
 	var length = $('#poolSaleReport').datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -365,17 +365,17 @@ function exportData(){
 function exportExcel(){
 	var length = $("#poolSaleReport").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
+	
 	$("#queryForm").form({
 		success : function(data){
 			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
+				$_jxc.alert("导出数据成功！");
 			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});

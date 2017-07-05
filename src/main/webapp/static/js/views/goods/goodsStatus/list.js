@@ -77,7 +77,7 @@ $(function(){
 //状态切换
 $(document).on("click","input[name='status']",function(){
 	var statusValue = $("input[name='status']:checked").val();
-	console.log('statusValue',statusValue)
+	
 	switch(statusValue){
 		case '0': //正常
 			//
@@ -318,7 +318,7 @@ function query(){
 	var skuBarCode = $("#skuBarCode").val();
 	var skuName = $("#skuName").val();
 	if(!branchName && !skuBarCode && !skuName){
-		messager("机构与条码或名称必须输入其中一个条件.");
+		$_jxc.alert("机构与条码或名称必须输入其中一个条件.");
 		return;
 	}
 	//将左侧查询条件设置缓存中
@@ -374,7 +374,7 @@ function importHandel(type,obj){
 	    //判定发货分店是否存在  
 		//JIANGSHAO
 	    if($("#branchId").val()==""){   
-	        messager("请选择机构");
+	        $_jxc.alert("请选择机构");
 	        return;
 	    } 
 	    var param = {
@@ -397,10 +397,10 @@ function update(type,obj){
 	if($(obj).hasClass('ubtns-item-disabled'))return;
 	var rows = $('#goodsStatus').datagrid('getChecked');
 	if(rows.length == 0){
-		$.messager.alert('提示','请至少选中一行！');
+		$_jxc.alert('请至少选中一行！');
 		return;
 	}
-	console.log(rows);
+	
 	var flag = false;
 	var ids = '';
 	$.each(rows,function(i,v){
@@ -413,30 +413,27 @@ function update(type,obj){
 		ids+=v.branchSkuId+",";
 	});
 	if(flag){
-		$.messager.alert('提示','淘汰商品库存必须为0！');
+		$_jxc.alert('淘汰商品库存必须为0！');
 		return;
 	}
-	$.messager.confirm('提示','是否要处理选中数据',function(data){
+	$_jxc.confirm('是否要处理选中数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/goods/status/updateGoodsStatus",
-		    	type:"POST",
 		    	data:{
 		    		ids:ids,
 		    		type:type
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			initTreeArchives();
-		    			successTip("success",dg);
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		
+	    		if(result['code'] == 0){
+	    			initTreeArchives();
+	    			$_jxc.alert("success",function(){
+	    				dg.datagrid('reload');
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

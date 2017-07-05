@@ -1,5 +1,5 @@
 $(function(){
-
+	initCheck();
 });
 
 
@@ -14,6 +14,22 @@ function searchBranchInfo (){
 		$("#addUserForm #branchCodeSpan").text("S"+data.branchCode);
 		$("#addUserForm #opBranchCode").val(data.branchCode);
 		$("#addUserForm #branchNameCode").val("["+data.branchCode+"]"+data.branchName);
+
+        if(data.type > 3){
+            $("#purchase_price").prop("disabled","disabled");
+            $("#purchase_price").removeProp("checked");
+        }else {
+            $("#purchase_price").removeProp("disabled");
+            // $("#purchase_price").removeProp("checked");
+		}
+
+        $("#addUserForm #opRoleId").val("");
+        $("#addUserForm #opRoleCode").val("");
+        $("#addUserForm #roleCodeOrName").val("");
+        $("#maxDiscountRadio").numberbox("setValue",100);
+        $("#maxDiscountRadio").numberbox({readonly: true});
+
+
 	},"","");
 }
 
@@ -23,7 +39,7 @@ function searchBranchInfo (){
 function searchRole (){
 	var opBranchCompleCode = $("#addUserForm #opBranchCompleCode").val();
 	if(!opBranchCompleCode){
-		successTip("请先选择机构！");
+		$_jxc.alert("请先选择机构！");
 		return;
 	}
 	
@@ -41,6 +57,7 @@ function searchRole (){
 			$("#maxDiscountRadio").numberbox("setValue",100);
 			$("#maxDiscountRadio").numberbox({readonly: true});
 		}
+
 	}, opBranchCompleCode, opBranchType);
 }
 
@@ -48,25 +65,46 @@ function searchRole (){
  * 新增用户
  */
 function addUser(){	
-	var reqObj=$('#addUserForm').serializeObject();
+	
+	var reqObj = $('#addUserForm').serializeObject();
 	var isValid = $("#addUserForm").form('validate');
-	if(!isValid){
+	if (!isValid) {
 		return;
 	}
+	
+	var priceGrantArray = new Array();
+	$(':checkbox[name="priceGrants"]:checked').each(function(){    
+		priceGrantArray.push($(this).val());    
+	});  
+	
+	var priceGrantStr = priceGrantArray.join(",");
+	reqObj.priceGrantStr = priceGrantStr;
+	
+	var url = contextPath + "/system/user/addUser";
+	var param = reqObj;
+	ajaxSubmit(url,param,function(result){
+        if(result){
+            alertTip(result.message, reloadDataGrid);
+        }
+	});
+}
 
-	$.ajax({
-        url:contextPath+"/system/user/addUser",
-        type:"POST",
-        data:reqObj,
-        success:function(result){
-        	if(result){
-				alertTip(result.message, reloadDataGrid);
-			}
-        },
-        error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+function initCheck() {
+    // 进价
+    $("#purchase_price").on("click", function() {
+        if($("#purchase_price").is(":checked")){
+            $("#cost_price").prop("checked","checked")
+		}else {
+            $("#cost_price").removeProp("checked")
+		}
+
+    });
+    // 成本价
+    $("#cost_price").on("click", function() {
+        if($("#cost_price").is(":checked") && $("#addUserForm #opBranchType").val() <= 3){
+            $("#purchase_price").prop("checked","checked")
+        }else {
+            $("#purchase_price").removeProp("checked")
         }
     });
 }
-
-

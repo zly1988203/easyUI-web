@@ -8,7 +8,7 @@
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
  
-	<script src="${ctx}/static/js/views/goods/branchgoods/list.js"></script>
+	<script src="${ctx}/static/js/views/goods/branchgoods/list.js?V=${versionNo}"></script>
     <style>
     .ubtns .hide{display:none!important;}
     .show{display:block!important;}
@@ -50,7 +50,9 @@
 	                <shiro:hasPermission name="JxcGoodsIntroduce:enabled">
 	                	<div class="ubtns-item ub-enable" id="important_div" onclick="enable()">引入</div>
 	                </shiro:hasPermission>
-					<%--  <div class="ubtns-item ub-enable" id="selectBranches" style="width: 100px;" onclick="selectBranches()">机构批量引入</div> --%>
+					<shiro:hasPermission name="JxcGoodsIntroduce:batchEnable">
+						<div class="ubtns-item ub-enable" id="selectBranches" style="width: 100px;" onclick="selectBranches()">机构批量引入</div>
+					</shiro:hasPermission>
 	                <shiro:hasPermission name="JxcGoodsIntroduce:eliminate">
 	                   <div class="ubtns-item ub-eliminate" id="eliminate_div" onclick="eliminate()">淘汰</div>
 	                </shiro:hasPermission>

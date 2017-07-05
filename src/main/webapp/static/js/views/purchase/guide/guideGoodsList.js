@@ -325,12 +325,16 @@ function initPurchaseGuideGoodsListDg(){
             
         }
     });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("dgGuideGoodsList",["purchasePrice","totalAmount"])
+    }
 }
 
 function actualStockChange(newVal,oldVal){
 	 var purchasePrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'purchasePrice');
 		
-		gridHandel.setFieldValue('totalAmount',purchasePrice*newVal);  
+		gridHandel.setFieldValue('totalAmount',purchasePrice*newVal);
 }
 
 //删除一行
@@ -377,13 +381,13 @@ function nextStep (){
 	 });
 	 
 	 if(gridRows.length==0){
-		 successTip("商品数据为空!");
+		 $_jxc.alert("商品数据为空!");
 		 return;
 	 }
 
 	 if(indexs.length > 0){
 
-         $.messager.confirm('系统提示',"<p>第" +JSON.stringify(indexs) +"行共"+indexs.length+"行数据订货数量为0,</p>" +
+         $_jxc.confirm("<p>第" +JSON.stringify(indexs) +"行共"+indexs.length+"行数据订货数量为0,</p>" +
              "<div class='uc umar-l40 umar-b20'>是否移除并继续生产订单？</div>",function(r){
              if (r){
                  saveDataHandel(gridRows);
@@ -399,25 +403,19 @@ function nextStep (){
 
 }
 
-function saveDataHandel (gridRows) {
-    $.ajax({
+function saveDataHandel(gridRows) {
+    $_jxc.ajax({
         url:contextPath+"/form/purchaseGuide/generFormList",
-        type:"POST",
         contentType:"application/json",
-        data:JSON.stringify(gridRows),
-        success:function(result){
-            if(result.code == 0){
-
-                var guideNo = result.data;
-                //提交参数并跳转到第三步
-                location.href = contextPath+"/form/purchaseGuide/toGuideOrderList?guideNo="+guideNo;
-                //$.StandardPost(contextPath+"/form/purchaseGuide/guideOrderList", {guideNo:guideNo});
-            }else{
-                successTip(result.message);
-            }
-        },
-        error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+        data:JSON.stringify(gridRows)
+    },function(result){
+        if(result.code == 0){
+            var guideNo = result.data;
+            //提交参数并跳转到第三步
+            location.href = contextPath+"/form/purchaseGuide/toGuideOrderList?guideNo="+guideNo;
+            //$.StandardPost(contextPath+"/form/purchaseGuide/guideOrderList", {guideNo:guideNo});
+        }else{
+            $_jxc.alert(result.message);
         }
     });
 }

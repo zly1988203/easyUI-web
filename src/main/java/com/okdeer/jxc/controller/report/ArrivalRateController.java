@@ -88,6 +88,8 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 			//2、汇总查询
 			List<ArrivalRateVo> footer = arrivalRateService.findArrivalRateSum(qo);
 			arrivalRateReport.setFooter(footer);
+			// 过滤数据权限字段
+			cleanAccessData(arrivalRateReport);
 			return arrivalRateReport;
 		} catch (Exception e) {
 			LOG.error("到货率分析查询异常:", e);
@@ -130,6 +132,7 @@ public class ArrivalRateController extends BaseController<PurchaseForm>{
 				}else if(qo.getType()==Constant.THREE){
 					templateName = ExportExcelConstant.ARRIVAL_RATE_GOODS_REPORT;
 				}
+				cleanAccessData(list);
 				exportListForXLSX(response, list, fileName, templateName);
 			}else{
 				RespJson json = RespJson.error("无数据可导");

@@ -20,6 +20,8 @@ import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.settle.supplier.service.SupplierSettleService;
+import com.okdeer.jxc.settle.supplier.vo.SupplierSettleVo;
 import com.okdeer.jxc.utils.UserUtil;
 
 @Controller
@@ -38,6 +40,12 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	@Reference(version = "1.0.0", check = false)
 	private BranchesServiceApi branchesServiceApi;
 
+    /**
+     * SupplierSettleService
+     */
+    @Reference(version = "1.0.0", check = false)
+    private SupplierSettleService supplierSettleService;
+    
 	/**
 	 * 
 	 * @Description: 跳转销售设置页面
@@ -157,6 +165,14 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 			if(!resp.isSuccess()){
 				return resp;
 			}
+	        SupplierSettleVo settleVo = new SupplierSettleVo();
+	        settleVo.setIsContainChildren("1");
+	        settleVo.setBranchCompleCode(vo.getBranchId());
+	        int unChNum = supplierSettleService.querySettleStatusNum(settleVo);
+	        if (unChNum > 0) {
+	            return RespJson.error("当前机构及下属机构存在未审核的结算单，不能修改对账模式!");
+	        }
+	        
 			// 额外复制
 			vo.setBranchId(UserUtil.getCurrBranchId());
 			vo.setUpdateUserId(UserUtil.getCurrUserId());

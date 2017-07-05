@@ -88,6 +88,31 @@ function initGoodsInfo(skuId,branchId){
 		$("#createTime").val(createTime.format("yyyy-MM-dd hh:mm:ss"));
 		setGrossProfit();
 	});
+    hidePageElement();
+}
+
+function hidePageElement() {
+    if(hasPurchasePrice==false){
+        $("#formEdit #purchasePrice").parent().addClass("uhide");
+        $("#formEdit #inputTax").parent().addClass("uhide");
+
+    }
+    if(hasWholesalePrice==false){
+        $("#formEdit #wholesalePrice").parent().addClass("uhide");
+    }
+
+    if(hasDistributionPrice==false){
+        $("#formEdit #distributionPrice").parent().addClass("uhide");
+    }
+
+    if(hasCostPrice==false){
+        $("#formEdit #grossProfit").parent().addClass("uhide");
+        $("#formEdit #grossProfitPercent").parent().addClass("uhide");
+    }
+
+
+
+
 }
 
 //毛利值 = 零售价-进货价
@@ -164,7 +189,7 @@ function checkSupplierRate(obj){
 function saveProp() {
 	$('#btnSave').attr("disabled","disabled");
 	var isValid = $("#formEdit").form('validate');
-	console.log('isValid',isValid);
+	
 	if (!isValid) {
 		$('#btnSave').removeAttr("disabled");
 		return;
@@ -172,12 +197,12 @@ function saveProp() {
 	
 	if($('#purchaseSpec').val()=="0.00"){
 		$('#btnSave').removeAttr("disabled");
-		messager("进货规格不能为0!");
+		$_jxc.alert("进货规格不能为0!");
 		return;
 	}
 	if($('#distributionSpec').val()=="0.00"){
 		$('#btnSave').removeAttr("disabled");
-		messager("配送规格不能为0!");
+		$_jxc.alert("配送规格不能为0!");
 		return;
 	}
 	
@@ -209,21 +234,16 @@ function saveProp() {
 
 function submitForm(){
 	var formObj = $('#formEdit').serializeObject();
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/branch/goods/branchGoodsPropSave",
-		type : "POST",
-		data : formObj,
-		success : function(result) {
-			$('#btnSave').removeAttr("disabled");
-			if(result){
-				successTip("保存成功");
-			}else{
-				//$('#btnSave').removeAttr("disabled");
-				successTip("保存失败");
-			}
-		},
-		error : function(result) {
-			successTip("请求发送失败或服务器处理失败");
+		data : formObj
+	},function(result){
+		$('#btnSave').removeAttr("disabled");
+		if(result){
+			$_jxc.alert("保存成功");
+		}else{
+			//$('#btnSave').removeAttr("disabled");
+			$_jxc.alert("保存失败");
 		}
 	});
 }
@@ -268,6 +288,7 @@ function submitForm(){
  }
  
  var gridHandel = new GridClass();
+ var gridPriceName = "dgPrice";
  function initDatagridEditRequireOrder(){
 	 gridHandel.setGridName("dgPrice");
 	 
@@ -382,11 +403,22 @@ function submitForm(){
 	        }
 
 	    });
+
+     var param = {
+         wholesalePrice:["wholesalePrice"],
+         purchasePrice:["purchasePrice"],
+         distributionPrice:["distributionPrice"],
+         costPrice:["costPrice"],
+         vipPrice:["vipPrice"],
+         salePrice:["salePrice"],
+     }
+
+     priceGrantUtil.grantPrice(gridPriceName,param);
  }
  
  function onChangeCoefficient(newV,oldV){
      if(newV > 999.90 || newV < 0.10){
-    	 successTip("安全系数在0.10到999.90之间");
+    	 $_jxc.alert("安全系数在0.10到999.90之间");
     	 gridHandel.setFieldSpinnerValue('safetyCoefficient',0.10);
     	 return;
     }
@@ -416,21 +448,16 @@ function submitForm(){
 			newData[i] = temp;
 	 }
 	 
-	 $.ajax({
+	 $_jxc.ajax({
 	        url:contextPath+"/goods/report/saveBranchsafetyCoefficient",
-	        type:"POST",
 	        contentType:"application/json",
-	        data:JSON.stringify(newData),
-	        success:function(result){
-	            if(result['code'] == 0){
-	                $.messager.alert("操作提示", "操作成功！");
-	            }else{
-	                successTip(result['message'] +","+strResult);
-	            }
-	        },
-	        error:function(result){
-	            successTip("请求发送失败或服务器处理失败");
-	        }
+	        data:JSON.stringify(newData)
+	    },function(result){
+            if(result['code'] == 0){
+                $_jxc.alert("操作成功！");
+            }else{
+                $_jxc.alert(result['message'] +","+strResult);
+            }
 	    });
  }
  

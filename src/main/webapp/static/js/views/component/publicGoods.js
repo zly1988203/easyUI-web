@@ -328,9 +328,17 @@ $(
                     idField:'skuCode',
                     onLoadSuccess : function() {
                         //gridHandel.setDatagridHeader();
-                        priceGrantUtil.grantPrice("gridGoods");
                     }
                 });
+                var param = {
+                        wholesalePrice:["wholesalePrice"],
+                        purchasePrice:["purchasePrice"],
+                        distributionPrice:["distributionPrice"],
+                        costPrice:["costPrice"],
+                        vipPrice:["vipPrice"],
+                        salePrice:["salePrice"],
+                }
+                priceGrantUtil.grantPrice("gridGoods",param);
             }
 //选择单行
             goodsClickRow = function(rowIndex, rowData){

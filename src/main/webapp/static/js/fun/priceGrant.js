@@ -11,6 +11,7 @@ var hasPurchasePrice = false;
 var hasWholesalePrice = false;
 var hasLowestPrice = false;
 var hasDistributionPrice = false;
+var hasCostPrice = false;
 
 
 //计算价格权限 sale_price,cost_price,vip_price,purchase_price,wholesale_price,lowest_price,distribution_price
@@ -21,12 +22,6 @@ $(function(){
 	if(priceGrantStr){
 		priceGrantArray = priceGrantStr.split(",");
 	}else{
-		hasSalePrice = true;
-		hasVipPrice = true;
-		hasPurchasePrice = true;
-		hasWholesalePrice = true;
-		hasLowestPrice = true;
-		hasDistributionPrice = true;
 		return;
 	}
 	
@@ -49,9 +44,12 @@ $(function(){
 		    case "lowest_price": // 最低售价
 		    	hasLowestPrice = true;
 				break;
-		    case "distribution_price": // 最低售价
+		    case "distribution_price": // 配送价
 		    	hasDistributionPrice = true;
 				break;
+                case "cost_price": // 成本价
+                    hasCostPrice = true;
+                    break;
 		    default:
 				break;
 		    }
@@ -95,16 +93,22 @@ var priceGrantUtil = {
 	},
 	
 	/**
-	 * 过滤采购价，如果列名为空数组，则默认为purchasePrice列名
+	 * 过滤采购价 进货价，如果列名为空数组，则默认为purchasePrice列名
 	 * @param datagridId
-	 * @param fieldArr
+	 * @param fieldArr[]
+	 * @param outFieldArr[]
 	 */
-	grantPurchasePrice : function(datagridId, fieldArr){
+	grantPurchasePrice : function(datagridId, fieldArr,outFieldArr){
 		if(isEmptyArray(fieldArr)){
-			fieldArr = [ "purchasePrice" ];
+			fieldArr = [ "purchasePrice"];
 		}
 		if(hasPurchasePrice==false){
-			datagridCommon.hideDataGridColumn(datagridId, fieldArr);
+			if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
+                $.each(outFieldArr,function (index,item) {
+                    fieldArr.splice($.inArray(item,fieldArr),1);
+                })
+			}
+            datagridCommon.hideDataGridColumn(datagridId, fieldArr);
 		}
 	},
 	
@@ -113,11 +117,16 @@ var priceGrantUtil = {
 	 * @param datagridId
 	 * @param fieldArr
 	 */
-	grantWholesalePrice : function(datagridId, fieldArr){
+	grantWholesalePrice : function(datagridId, fieldArr,outFieldArr){
 		if(isEmptyArray(fieldArr)){
-			fieldArr = [ "wholesalePrice" ];
+            fieldArr = [ "wholesalePrice"];
 		}
 		if(hasWholesalePrice==false){
+            if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
+                $.each(outFieldArr,function (index,item) {
+                    fieldArr.splice($.inArray(item,fieldArr),1);
+                })
+            }
 			datagridCommon.hideDataGridColumn(datagridId, fieldArr);
 		}
 	},
@@ -141,27 +150,75 @@ var priceGrantUtil = {
 	 * @param datagridId
 	 * @param fieldArr
 	 */
-	grantDistributionPrice : function(datagridId, fieldArr){
+	grantDistributionPrice : function(datagridId, fieldArr,outFieldArr){
 		if(isEmptyArray(fieldArr)){
-			fieldArr = [ "distributionPrice" ];
+			fieldArr = [ "distributionPrice"];
 		}
 		if(hasDistributionPrice==false){
+            if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
+                $.each(outFieldArr,function (index,item) {
+                    fieldArr.splice($.inArray(item,fieldArr),1);
+                })
+            }
 			datagridCommon.hideDataGridColumn(datagridId, fieldArr);
 		}
 	},
+
+	/*
+	* 成本价
+	*
+	* */
+	grantCostPrice : function (datagridId,fieldArr,outFieldArr) {
+        if(isEmptyArray(fieldArr)){
+            fieldArr = [ "costPrice"];
+        }
+        if(hasCostPrice==false){
+            if(typeof(outFieldArr) != "undefined" && outFieldArr.length > 0 ){
+                $.each(outFieldArr,function (index,item) {
+                    fieldArr.splice($.inArray(item,fieldArr),1);
+                })
+            }
+            datagridCommon.hideDataGridColumn(datagridId, fieldArr);
+        }
+    },
 	
 	/**
 	 * 过滤所有价格权限，默认列名依次为 salePrice,vipPrice,purchasePrice,wholesalePrice,lowestPrice,distributionPrice
 	 * @param datagridId 数据表格ID
+	 * param {
+	 * 		salePrice:[],
+	 * 	vipPrice:[],
+	 * wholesalePrice:[],
+	 * purchasePrice:[],
+	 * distributionPrice:[],
+	 * costPrice:[],
+	 * lowestPrice:[],
+	 * outFieldArr:[]
+	 * }
 	 */
-	grantPrice : function(datagridId){
+	grantPrice : function(datagridId,param){
 		var _this = this;
-		_this.grantSalePrice(datagridId);
-		_this.grantVipPrice(datagridId);
-		_this.grantPurchasePrice(datagridId);
-		_this.grantWholesalePrice(datagridId);
-		_this.grantLowestPrice(datagridId);
-		_this.grantDistributionPrice(datagridId);
+		if(typeof(param.salePrice) != "undefined"){
+            _this.grantSalePrice(datagridId,param.salePrice,param.outFieldArr);
+		}
+		if(typeof(param.vipPrice) != "undefined"){
+            _this.grantVipPrice(datagridId,param.vipPrice,param.outFieldArr);
+		}
+        if(typeof(param.wholesalePrice) != "undefined"){
+            _this.grantWholesalePrice(datagridId,param.wholesalePrice,param.outFieldArr);
+        }
+        if(typeof(param.purchasePrice) != "undefined"){
+            _this.grantPurchasePrice(datagridId,param.purchasePrice,param.outFieldArr);
+        }
+        if(typeof(param.distributionPrice) != "undefined"){
+            _this.grantDistributionPrice(datagridId,param.distributionPrice,param.outFieldArr);
+        }
+        if(typeof(param.costPrice) != "undefined"){
+            _this.grantCostPrice(datagridId,param.costPrice,param.outFieldArr);
+        }
+        if(typeof(param.lowestPrice) != "undefined"){
+            _this.grantLowestPrice(datagridId,param.lowestPrice,param.outFieldArr);
+        }
 	},
 		
 };

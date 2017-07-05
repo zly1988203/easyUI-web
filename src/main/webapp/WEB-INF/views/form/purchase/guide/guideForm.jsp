@@ -7,7 +7,7 @@
     <title>采购向导——条件筛选</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-     <script  src="${ctx}/static/js/views/purchase/guide/guideForm.js?1=1"></script>
+     <script  src="${ctx}/static/js/views/purchase/guide/guideForm.js?V=${versionNo}"></script>
     
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
@@ -17,6 +17,7 @@
         	<shiro:hasPermission name="JxcPurchaseGuide:nextStep">
                 <div id="btnNext" class="ubtns-item" onclick="nextStep()">下一步</div>
             </shiro:hasPermission>
+            <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 			<div class="ubtns-item" onclick="toClose()">关闭</div>
         </div>
     </div>

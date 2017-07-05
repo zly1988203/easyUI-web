@@ -31,6 +31,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">供应商:</div>
 					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
+					<input type="hidden" name="saleWay" id="saleWay" /> 
 					<input id="supplierName" class="uinp  easyui-validatebox"  type="text"
 						onclick="selectSupplier()">
 					<div class="uinp-more" onclick="selectSupplier()">...</div>

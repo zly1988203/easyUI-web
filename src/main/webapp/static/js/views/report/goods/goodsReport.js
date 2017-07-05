@@ -148,6 +148,7 @@ function gridReload(gridName,httpParams,selectTypeName){
 
 //初始化表格
 var dg;
+var gridName = "goodsTab";
 function initDatagridOrders(){
 	dg=$("#goodsTab").datagrid({
 		//title:'普通表单-用键盘操作',
@@ -308,6 +309,15 @@ function initDatagridOrders(){
 		          enableRowContextMenu: false
 
 	});
+    var param = {
+        wholesalePrice:["wholesalePrice"],
+        purchasePrice:["purchasePrice","inputTax"],
+        distributionPrice:["distributionPrice"],
+        costPrice:["costPrice","profitAmtRate"],
+        vipPrice:["vipPrice"],
+        salePrice:["salePrice"],
+    }
+    priceGrantUtil.grantPrice(gridName,param);
 }
 
 /**
@@ -366,7 +376,7 @@ function selectSkuCode(){
 function exportData(){
 	var length = $('#goodsTab').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -384,7 +394,7 @@ function exportExcel(){
 	$("#queryForm").form({
 		success : function(result){
 			var dataObj=eval("("+result+")");
-			successTip(dataObj.message);
+			$_jxc.alert(dataObj.message);
 		}
 	});
 	//获取左侧缓存查询数据
@@ -448,8 +458,8 @@ function printReport(){
 
 //对话框
 var dialogTemp;
-var dialogHeight = $(window).height()*(4/5);
-var dialogWidth = $(window).width()*(5/9);
+var dialogHeight = 670;//$(window).height()*(4/5);
+var dialogWidth = 950;//$(window).width()*(5/9);
 //打开对话框
 function openDialog(argUrl, argTitle, skuId,branchId) {
 	dialogTemp = $('<div/>').dialog({

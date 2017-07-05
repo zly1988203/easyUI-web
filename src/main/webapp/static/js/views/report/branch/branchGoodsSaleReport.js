@@ -158,6 +158,7 @@ function gridReload(gridName,httpParams,selectTypeName){
 
 //初始化表格
 var dg;
+var datagridId = 'goodsTab';
 function initDatagridOrders(){
 	dg=$("#goodsTab").datagrid({
 		//title:'普通表单-用键盘操作',
@@ -175,7 +176,7 @@ function initDatagridOrders(){
 	              {field:'skuCode',title:'货号',width:'120px',align:'left'},
 		          {field:'skuName',title:'商品名称'}, 
 		          {field:"barCode",title:"条码",sortable:true,tooltip:true,width:100},
-		          {field:"barCodes",title:"附条码",sortable:true,tooltip:true,width:80},
+		          /*{field:"barCodes",title:"附条码",sortable:true,tooltip:true,width:80},*/
 		          {field:"spec",title:"规格",sortable:true,tooltip:true,width:80},
 		          {field:"unit",title:"单位",sortable:true,tooltip:true,width:80},
 		          {field:"purchaseSpec",title:"进货规格",sortable:true,tooltip:true,width:80,align:'left',
@@ -216,7 +217,7 @@ function initDatagridOrders(){
 						return "0.00";
 					}
 				},
-		          {field:"wholesalePrice",title:"批发价",sortable:true,tooltip:true,width:80,align:'right',
+		         /* {field:"wholesalePrice",title:"批发价",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 						  if (row.skuId == null) {
 							  return;
@@ -226,20 +227,8 @@ function initDatagridOrders(){
 		        		  }
 		        		  return "0.00";
 		        	  }
-		          },
-				{field:"fastDeliver",title:"配送方式 ",sortable:true,tooltip:true,width:80,align:'left',
-					formatter : function(value,row,index){
-						if (row.skuId == null) {
-							return;
-						}
-						if(value == 0){
-							return "常规";
-						} else {
-							return "直送";
-						}
-					}
-				},
-				{field:"verageStoreSales",title:"平均单店销售量",sortable:true,tooltip:true,width:80,align:'right',
+		          },*/
+				{field:"verageStoreSales",title:"平均单店销售量",sortable:true,tooltip:true,width:100,align:'right',
 					formatter : function(value,row,index){
 						if (row.skuId == null) {
 							return;
@@ -303,8 +292,20 @@ function initDatagridOrders(){
 			{field:"twoCategoryName",title:"中类",sortable:true,tooltip:true,width:80,align:'left'},
 			{field:"threeCategoryName",title:"小类",sortable:true,tooltip:true,width:80,align:'left'},
 			{field:"vaildity",title:"保质期",sortable:true,tooltip:true,width:80,align:'left'},
+			{field:"fastDeliver",title:"配送方式 ",sortable:true,tooltip:true,width:80,align:'left',
+				formatter : function(value,row,index){
+					if (row.skuId == null) {
+						return;
+					}
+					if(value == 0){
+						return "常规";
+					} else {
+						return "直送";
+					}
+				}
+			},
 			{field:"brandName",title:"品牌",sortable:true,tooltip:true,width:80,align:'left'},
-			{field:"createTime",title:"建档时间",sortable:true,tooltip:true,width:120,align: 'center',
+			{field:"createDataTime",title:"建档时间",sortable:true,tooltip:true,width:120,align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
 						return new Date(value).format('yyyy-MM-dd hh:mm');
@@ -315,19 +316,18 @@ function initDatagridOrders(){
 			{field:"remark",title:"备注",sortable:true,tooltip:true,width:80,align:'left'}
 		     ]] ,
 		toolBar : "#tg_tb",
-		          /*  onBeforeLoad:function(param){
-   			var categoryCodeTree = $("#categoryCodeTree").val();
-   			if(categoryCodeTree==null || categoryCodeTree==""){
-   				return false;
-   			}
-   			return true;
-   		}, */
-		          enableHeaderClickMenu: false,
-		          enableHeaderContextMenu: false,
-		          enableRowContextMenu: false
-
+        enableHeaderClickMenu: false,
+        enableHeaderContextMenu: false,
+        enableRowContextMenu: false
 
 	});
+	
+	var param = {
+			costPrice:["purchasePrice"],
+			distributionPrice:['distributionPrice']
+	}
+		
+	priceGrantUtil.grantPrice(datagridId,param);
 }
 
 /**

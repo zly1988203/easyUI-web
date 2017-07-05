@@ -160,22 +160,17 @@ function deleteRole(){
     
     var roleId=rowData.id
     
-    parent.$.messager.confirm('提示', '是否确认删除？此操作删除不可恢复', function(data){
+    $_jxc.confirm('是否确认删除？此操作删除不可恢复', function(data){
     	if(!data){
     		return;
     	}
-    	$.ajax({
+    	$_jxc.ajax({
             url:contextPath+"/system/role/deleteRole",
-            type:"POST",
-            data:{"roleId":roleId},
-            dataType:"json",  
-            success:function(result){
-                if(result){
-                    successTip(result.message, $("#dg"));
-                }
-            },
-            error:function(result){
-                successTip("请求发送失败或服务器处理失败");
+            data:{"roleId":roleId}
+        },function(result){
+            if(result){
+                $_jxc.alert(result.message);
+                $("#dg").datagrid('reload');
             }
         });
     });

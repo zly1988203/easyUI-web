@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
@@ -27,6 +30,7 @@ import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.stock.service.StocktakingApplyServiceApi;
 import com.okdeer.jxc.stock.service.StocktakingOperateServiceApi;
 import com.okdeer.jxc.stock.vo.StocktakingBatchVo;
+import com.okdeer.jxc.stock.vo.StocktakingDifferenceDetailVo;
 import com.okdeer.jxc.stock.vo.StocktakingDifferenceVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
@@ -56,7 +60,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	/**
 	 * @Fields stocktakingOperateServiceApi : stocktakingOperateServiceApi
 	 */
-	@Reference(version = "1.0.0", check = false)
+	@Reference(version = "1.0.0", check = false, retries=0)
 	private StocktakingOperateServiceApi stocktakingOperateServiceApi;
 
 	/**
@@ -94,6 +98,8 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			}
 			LOG.debug(LogConstant.OUT_PARAM, vo);
 			PageUtils<StocktakingBatchVo> stocktakingBatchList = stocktakingApplyServiceApi.getStocktakingBatchList(vo);
+			// 过滤数据权限字段
+            cleanAccessData(stocktakingBatchList);
 			LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
 			return stocktakingBatchList;
 		} catch (Exception e) {
@@ -151,7 +157,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	 */
 	@RequestMapping(value = "/stocktakingDifferenceList", method = RequestMethod.GET)
 	@ResponseBody
-	public PageUtils<StocktakingDifferenceVo> stocktakingDifferenceList(StocktakingBatchVo vo,
+	public PageUtils<StocktakingDifferenceDetailVo> stocktakingDifferenceList(StocktakingBatchVo vo,
 	        @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 	        @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 	    try {
@@ -163,8 +169,26 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	        }
 	        LOG.debug(LogConstant.OUT_PARAM, vo);
 	        PageUtils<StocktakingDifferenceVo> stocktakingBatchList = stocktakingOperateServiceApi.getStocktakingDifferencePageList(vo);
-	        LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
-	        return stocktakingBatchList;
+	        // 重新处理VO:优化传递到页面JSON大小，去掉不用字段
+            List<StocktakingDifferenceVo> diffList = stocktakingBatchList.getList();
+            String listJson = JSONArray.toJSONString(diffList);
+            List<StocktakingDifferenceDetailVo> diffDetailList = JSONArray.parseArray(listJson,StocktakingDifferenceDetailVo.class);
+            
+            List<StocktakingDifferenceVo> diffFooter = stocktakingBatchList.getFooter();
+            String footerJson = JSONArray.toJSONString(diffFooter);
+            List<StocktakingDifferenceDetailVo> diffFooterList = JSONArray.parseArray(footerJson,StocktakingDifferenceDetailVo.class);
+            // 重新组织 PageUtils
+	        PageUtils<StocktakingDifferenceDetailVo> diffDetailPageList = PageUtils.emptyPage();
+	        // 复制分页属性值
+	        BeanUtils.copyProperties(diffDetailPageList, stocktakingBatchList);
+	        diffDetailPageList.setRows(diffDetailList);
+	        diffDetailPageList.setList(diffDetailList);
+	        diffDetailPageList.setFooter(diffFooterList);
+	        
+	        LOG.debug(LogConstant.PAGE, diffDetailPageList.toString());
+	        return diffDetailPageList;
+//	        LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
+//	        return stocktakingBatchList;
 	    } catch (Exception e) {
 	        LOG.error("盘点申请查询列表信息异常:{}", e);
 	    }
@@ -204,6 +228,8 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			if (printList.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
+			// 过滤数据权限字段
+			cleanAccessData(printList);
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("startDate", StringUtils.isBlank(vo.getCreateTime()) ? "" : vo.getCreateTime());
 			map.put("endDate", StringUtils.isBlank(vo.getCreateTime()) ? "" : vo.getCreateTime());
@@ -290,10 +316,16 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			vo.setValidUserName(user.getUserName());
 			vo.setValidTime(DateUtils.getCurrFullStr());
 			return stocktakingOperateServiceApi.auditDiffDispose(vo);
-		} catch (Exception e) {
+		} catch (RpcException e) {
+            LOG.error("审核差异处理信息异常:{}", e);
+            respJson = RespJson.error("审核差异处理信息异常");
+        } catch (RuntimeException e) {
 			LOG.error("审核差异处理信息异常:{}", e);
-			respJson = RespJson.error("审核差异处理信息异常");
-		}
+			respJson = RespJson.error(e.getMessage());
+		} catch (Exception e) {
+            LOG.error("审核差异处理信息异常:{}", e);
+            respJson = RespJson.error("审核差异处理信息异常");
+        }
 		return respJson;
 	}
 	
@@ -316,6 +348,8 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 		RespJson resp = RespJson.success();
 		try {
 			List<StocktakingDifferenceVo> diffList = stocktakingOperateServiceApi.getStocktakingDifferenceList(batchId);
+			// 过滤数据权限字段
+            cleanAccessData(diffList);
 			String fileName = batchNo + "差异详情" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.STOCKTAKING_DIFFDETAIL;
 			exportListForXLSX(response, diffList, fileName, templateName);

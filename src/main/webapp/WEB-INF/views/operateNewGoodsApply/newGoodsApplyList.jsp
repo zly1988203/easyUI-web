@@ -7,7 +7,7 @@
     <title>运营-新品申请</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-    <script  src="${ctx}/static/js/views/operateNewGoodsApply/newGoodsApply.js"></script>
+    <script  src="${ctx}/static/js/views/operateNewGoodsApply/newGoodsApply.js?V=${versionNo}"></script>
 </head>
 
 <body class="ub uw uh ufs-14 uc-black">

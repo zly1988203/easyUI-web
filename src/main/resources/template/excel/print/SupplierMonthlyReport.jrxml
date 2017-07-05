@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-04-05T20:01:51 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PaymentOrder" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="9aa590ec-4b5f-4eaa-bb10-b5ce33e01e43">
 	<property name="ireport.zoom" value="2.253944402704733"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="1088"/>
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -479,7 +477,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{endCostAmount}==null?"":new BigDecimal($F{endStock}).setScale(2, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{endCostAmount}==null?"":new BigDecimal($F{endCostAmount}).setScale(2, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="810" y="0" width="1" height="26" uuid="a440ea1d-111b-4f1e-96d9-a2969dea3839">

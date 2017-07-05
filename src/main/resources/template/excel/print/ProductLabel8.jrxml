@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProductSalesPlan" language="groovy" columnCount="4" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="204" leftMargin="14" rightMargin="11" topMargin="21" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" uuid="00831878-d208-460c-a1e1-15e96cc9ea5e">
 	<property name="ireport.zoom" value="4.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="107"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["D:\\workspace_kasa\\PrintTest\\src\\com\\test\\"]]></defaultValueExpression>
@@ -16,6 +16,7 @@
 	<field name="spec" class="java.lang.String"/>
 	<field name="unit" class="java.lang.String"/>
 	<field name="originPlace" class="java.lang.String"/>
+	<field name="promotionPrice" class="java.math.BigDecimal"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -26,7 +27,7 @@
 				<textElement textAlignment="Center">
 					<font size="24"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{salePrice}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{promotionPrice}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="71" y="29" width="24" height="14" uuid="587cdc15-7710-454f-b218-847a8bfc7ee3"/>

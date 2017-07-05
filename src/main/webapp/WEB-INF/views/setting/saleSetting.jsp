@@ -24,16 +24,23 @@
 					style="width: 100%; height: 500px;">
 					<div title="销售设置" id="orderSpec" style="padding: 20px;">
 						<div class="ub ub-ver ub-f1 uw uh ufs-14 uc-black">
+							<div class="ub ub-ac upad-b16 ">
+								<div class="umar-r10 uw-120 ut-r">抹零设置:</div>
+								<div class="ub uw-110 ub-ac umar-r10">
+									<label><input class="" type="radio" id="centComputeType0" name="centComputeType" value="0" /><span>四舍五入到角</span></label>
+								</div>
+								<div class="ub uw-110 ub-ac umar-r10">
+									<label><input class="" type="radio" id="centComputeType1" name="centComputeType" value="1" /><span>角以下抹去</span></label>
+								</div>
+							</div>
 
 							<div class="ub ub-ac">
-								<div class="umar-r10 uw-70 ut-r">抹零设置:</div>
-								<div class="ub ub-ac umar-r10">
-									<input class="ub" type="radio" id="centComputeType0"
-										name="centComputeType" value="0" /><span>四舍五入到角</span>
+								<div class="umar-r10 uw-120 ut-r">线上订单确认收货:</div>
+								<div class="ub uw-110 ub-ac umar-r10">
+									<label><input type="radio" id="receivingSetting0" name="receivingSetting" value="0" /><span>启用</span></label>
 								</div>
-								<div class="ub ub-ac umar-r10">
-									<input class="ub" type="radio" id="centComputeType1"
-										name="centComputeType" value="1" /><span>角以下抹去</span>
+								<div class="ub uw-110 ub-ac umar-r10">
+									<label> <input type="radio" id="receivingSetting1" name="receivingSetting" value="1" /><span>不启用</span></label>
 								</div>
 							</div>
 
@@ -102,12 +109,19 @@
 	function init(data) {
 		//获取值
 		var centComputeType = data.centComputeType;
+		var receivingSetting = data.receivingSetting;
 		$("#branchId").val(data.branchId);
 		//页面赋值
 		if (centComputeType == 0) {
 			$("#centComputeType0").attr("checked", "true");
 		} else {
 			$("#centComputeType1").attr("checked", "true");
+		}
+		
+		if(receivingSetting == 0){
+			$("#receivingSetting0").attr("checked","true");
+		}else{
+			$("#receivingSetting1").attr("checked","true");
 		}
 		indexTab = 0;
 	}
@@ -124,7 +138,8 @@
 		var url = "";
 		if (indexTab == 0) {
 			obj.branchId = $("#branchId").val();
-			obj.centComputeType = $('input:radio:checked').val();
+			obj.centComputeType = $('input[name="centComputeType"]:checked').val();
+			obj.receivingSetting = $('input[name="receivingSetting"]:checked').val();
 			url = contextPath + "/branchSetting/save";
 		} else if (indexTab == 1) {
 			var specBranchId = $("#specBranchId").val();

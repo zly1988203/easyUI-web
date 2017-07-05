@@ -11,7 +11,8 @@ var options_nomal = [
 					{value:'11',text:'标准促销价签(72*32.5mm 4*6 无底色)'},
 					 {value:'4',text:'促销（85*40mm无底 1*7）'},
 					{value:'18',text:'二维码促销价签无底(60*32mm 3*9)'},
-					{value:'20',text:'二维码促销价签无底(60*30mm 3*9)'}
+					{value:'20',text:'二维码促销价签无底(60*30mm 3*9)'},
+					 {value:'22',text:'二维码促销价签无底(合肥60*30mm 3*9)'}
 					];
 var options_promotion = [
                          
@@ -23,7 +24,8 @@ var options_promotion = [
                          {value:'2',text:'正常（85*40mm有底 2*7）'},
      					{value:'3',text:'正常（85*40mm无底 1*7）'},
                          {value:'17',text:'二维码价签无底(60*32mm 3*9)'},
-                         {value:'19',text:'二维码价签无底(60*32mm 3*9)'}
+                         {value:'19',text:'二维码价签无底(60*30mm 3*9)'},
+                         {value:'21',text:'二维码价签无底(合肥60*30mm 3*9)'}
      					];
 
 $(function(){
@@ -52,7 +54,7 @@ function changeDiscount(newV,oldV){
 }
 
 function initjiaqType(){
-	$(document).on('mousedown','.jiaqType .radioItemLabel',function(){
+	$(document).on('mousedown','.jiaqType .radioItemLable',function(){
 		var _this = $(this).children('.radioItem');
 		var changeType = function(){
 			_this.prop("checked",true);
@@ -233,7 +235,7 @@ function onChangeSalePrice(newV,oldV){
 	var promotionPrice = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'promotionPrice');
 
 	if($('#priceType').val() === '1' && parseFloat(promotionPrice) > parseFloat(newV)){
-		  messager("销售价不能小于促销价");
+		  $_jxc.alert("销售价不能小于促销价");
 		  gridHandel.setFieldValue('salePrice',oldV);
 	        return;
 	}
@@ -248,7 +250,7 @@ function onChangePromotionPrice(newV,oldV){
 	
 	var salePriceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'salePrice');
 	if($('#priceType').val() === '1' && parseFloat(newV) > parseFloat(salePriceVal)){
-		  messager("促销价不能大于销售价");
+		  $_jxc.alert("促销价不能大于销售价");
 		  gridHandel.setFieldValue('promotionPrice',oldV);
 	        return;
 	}
@@ -276,7 +278,7 @@ function updateListData(data){
 	    var argWhere ={skuCode:1};  //验证重复性
 	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
 	    var newRows = gridHandel.checkDatagrid(data,rows,argWhere,isCheck);
-         console.log(newRows);
+         
 	    $("#pricePrint").datagrid("loadData",data);
 	}
 
@@ -348,7 +350,7 @@ function printtable(){
 			window.open(contextPath + "/print/printGoodsView"); 
 		}
 		else {
-			messager("打印数据不能为空！");
+			$_jxc.alert("打印数据不能为空！");
 			return;
 		}
 
@@ -366,6 +368,7 @@ function chooseproduct(){
         branchId:$("#branchId").val(),
         supplierId:'',
         flag:'0',
+        statuses : '0,1,2'//包括正常、停售、停购的商品
     }
     new publicGoodsServiceTem(param,function(data){
 
@@ -428,24 +431,19 @@ function selectActivity(){
 
 function getActivityGoods(data){
 	if(data){
-		$.ajax({
+		$_jxc.ajax({
 	    	url:contextPath+"/sale/activitySelect/getDetail?activityId="+data.id,
-	    	type:"GET",
-	    	success:function(result){
-	    		
-	    		if(result['code'] == 0){
-	    			var tempData = result.data;
-	    			var startDate = tempData.startTime + " " +tempData.dailyStartTime;
-	    			var endDate = tempData.endTime + " " +tempData.dailyEndTime;
-	    			result.data.datetime = startDate+"--"+endDate;
-	    			 $("#pricePrint").datagrid("loadData",result.data);
-	    		}else{
-	    			successTip(result['message']);
-	    		}
-	    	},
-	    	error:function(result){
-	    		successTip("请求发送失败或服务器处理失败");
-	    	}
+	    	type:"GET"
+	    },function(result){
+    		if(result['code'] == 0){
+    			var tempData = result.data;
+    			var startDate = tempData.startTime + " " +tempData.dailyStartTime;
+    			var endDate = tempData.endTime + " " +tempData.dailyEndTime;
+    			result.data.datetime = startDate+"--"+endDate;
+    			 $("#pricePrint").datagrid("loadData",result.data);
+    		}else{
+    			$_jxc.alert(result['message']);
+    		}
 	    });
 	}
 }

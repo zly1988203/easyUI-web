@@ -7,6 +7,22 @@ $(function() {
 	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	initPurReportDetailGrid();
+	
+	//机构选择初始化
+	$('#branchComponent').branchSelect();
+	
+	//供应商选择初始化
+	$('#supplierComponent').supplierSelect({
+		param:{
+			saleWayNot:"purchase"
+		},
+		//数据过滤
+		loadFilter:function(data){
+			data.supplierId = data.id;
+			return data;
+		}
+	});
+	
 });
 var gridHandel = new GridClass();
 /**
@@ -24,6 +40,7 @@ var gridHandel = new GridClass();
  * @param queryType
  */
 var dg;
+var gridName= "purReportDetail";
 function initPurReportDetailGrid(queryType) {
 	gridHandel.setGridName("purReportDetail");
     dg= $("#purReportDetail").datagrid({
@@ -55,10 +72,13 @@ function initPurReportDetailGrid(queryType) {
             	formatter:function(value,row,index){
             		var hrefStr = '';
             		if(row.formId){
-            			hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/receiptEdit?report=close&formId='+row.formId+'")';
-            			if(row.type=="PI"){
+            			if(row.formType=="PI"){
+            				hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/receiptEdit?report=close&formId='+row.formId+'")';
             				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
-            			}else{
+            			}else if(row.formType=="PM"){
+            				hrefStr='parent.addTab("详情","'+contextPath+'/directReceipt/edit?report=close&formId='+row.formId+'")'
+            				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+            			}else if(row.formType=="PR"){
             				hrefStr='parent.addTab("详情","'+contextPath+'/form/purchase/returnEdit?report=close&formId='+row.formId+'")'
             				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
             			}
@@ -144,6 +164,10 @@ function initPurReportDetailGrid(queryType) {
 			//updateFooter();
 		}
     });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
+    }
 }
 //合计
 function updateFooter(){
@@ -162,14 +186,19 @@ function purchaseDetailCx(){
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
 	if(!(startDate && endDate)){
-		$.messager.alert('提示', '日期不能为空');
+		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	/*if(!branchName){
-		$.messager.alert('提示', '机构名不能为空');
+		$_jxc.alert('提示', '机构名不能为空');
 		return ;
 	}*/
 	var formData = $("#queryForm").serializeObject();
+	
+	//0615 修复 19632 BUG bwp
+	formData.branchName = formData.branchName.substring(formData.branchName.lastIndexOf(']')+1);
+    formData.supplierName = formData.supplierName.substring(formData.supplierName.lastIndexOf(']')+1);
+    
 	$("#purReportDetail").datagrid("options").queryParams = formData;
 	$("#purReportDetail").datagrid("options").method = "post";
 	$("#purReportDetail").datagrid("options").url =  contextPath+"/report/purchase/getPurReportDetail";
@@ -185,12 +214,12 @@ function exportDetails(){
 	var endDate = $("#txtEndDate").val();
 	var branchName = $("#branchName").val();
 	if(!(startDate && endDate)){
-		$.messager.alert('提示', '日期不能为空');
+		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	var length = $('#purReportDetail').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -215,30 +244,6 @@ function exportExcel(){
 
 }
 
-
-
-
-/**
- * 机构列表下拉选
- */
-function searchBranch (){
-	new publicAgencyService(function(data){
-//		$("#branchId").val(data.branchesId);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},"","");
-}
-/**
- * 供应商公共组件
- */
-function searchSupplier(){
-	var param = {
-			saleWayNot:"purchase"
-	}
-	new publicSupplierService(function(data){
-//		$("#supplierId").val(data.id);
-		$("#supplierName").val(data.supplierName);
-	},param);
-}
 /**
  * 商品类别
  */

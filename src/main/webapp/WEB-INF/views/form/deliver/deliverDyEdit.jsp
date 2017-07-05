@@ -9,7 +9,7 @@
     <title>直送要货单-编辑</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/deliver/deliverDy.js?V=${versionNo}"></script>
-	<script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
+	<script src="${ctx}/static/js/views/deliver/deliverExport.js?V=${versionNo}"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -19,7 +19,9 @@
             <div class="ubtns">
 				<div class="ubtns-item" onclick="addDeliverForm()">新增</div>
 				<div class="ubtns-item" onclick="updateOrder()">保存</div>
+				<shiro:hasPermission name="JxcDeliverDY:audit">
 				<div class="ubtns-item" onclick="check()">审核</div>
+				</shiro:hasPermission>
 				<div class="ubtns-item-disabled" >终止</div>
 				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
 				<shiro:hasPermission name="JxcDeliverDY:suggest">

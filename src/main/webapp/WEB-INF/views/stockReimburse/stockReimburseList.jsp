@@ -7,8 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>报损单</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
-<script src="${ctx}/static/js/views/stockReimburse/stockReimburseList.js"></script>
+<script src="${ctx}/static/js/views/stockReimburse/stockReimburseList.js?V=${versionNo}"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;

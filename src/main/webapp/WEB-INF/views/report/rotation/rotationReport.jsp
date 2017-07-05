@@ -8,7 +8,7 @@
 <title>库存周转率报表</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/rotation/rotationReport.js?v=1.255"></script>
+<script src="${ctx}/static/js/views/report/rotation/rotationReport.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell {
 	text-align: center !important;

@@ -7,7 +7,7 @@
     <title>采购向导——商品清单</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script src="${ctx}/static/js/views/purchase/guide/guideGoodsList.js"></script>
+    <script src="${ctx}/static/js/views/purchase/guide/guideGoodsList.js?V=${versionNo}"></script>
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">

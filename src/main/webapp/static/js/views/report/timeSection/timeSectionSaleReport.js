@@ -34,15 +34,15 @@ function selectBranches() {
  */
 function queryForm(){
 	if($("#branchName").val()==""){
-        messager("请选择机构");
+        $_jxc.alert("请选择机构");
         return;
     } 
 	if($("#startTime").val()==""){
-		messager("请选择开始时间");
+		$_jxc.alert("请选择开始时间");
 		return;
 	} 
 	if($("#endTime").val()==""){
-		messager("请选择结束时间");
+		$_jxc.alert("请选择结束时间");
 		return;
 	} 
 	var oldBranchName = $("#oldBranchName").val();
@@ -54,7 +54,7 @@ function queryForm(){
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
+	
 	$("#sectionSellReport").datagrid("options").method = "post";
 	$("#sectionSellReport").datagrid('options').url = contextPath + '/report/sectionSell/getTimeSectionSellReportList';
 	$("#sectionSellReport").datagrid('load', fromObjStr);
@@ -200,7 +200,7 @@ var dg;
 function exportData(){
 	var length = $('#sectionSellReport').datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -218,17 +218,17 @@ function exportData(){
 function exportExcel(){
 	var length = $("#sectionSellReport").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
+	
 	$("#queryForm").form({
 		success : function(data){
 			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
+				$_jxc.alert("导出数据成功！");
 			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});
@@ -242,11 +242,11 @@ function exportExcel(){
 function printReport(){
 	var length = $("#sectionSellReport").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
+	
 	var param=setParams("queryForm");
 	console.log(param);
 	parent.addTabPrint("库存周转率","打印",contextPath+"/report/rotation/printRotaRateReport?" + param);

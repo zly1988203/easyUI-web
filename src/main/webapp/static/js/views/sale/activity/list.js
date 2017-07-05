@@ -150,7 +150,7 @@ function copyActivity(){
 	if(selectedObj){
 		toAddTab("复制促销活动",contextPath + "/sale/activity/toCopy?from=toCopy&activityId="+selectedObj.id);
 	}else{
-		$.messager.alert('提示','请选择一个活动记录');
+		$_jxc.alert('请选择一个活动记录');
 	}
 }
 
@@ -159,29 +159,24 @@ function delActivity(){
 	var dg = $("#saleMange");
 	var row = dg.datagrid("getSelected");
 	if(!row || (row && row.length <= 0)){
-		$.messager.alert('提示','请选择一个活动记录');
+		$_jxc.alert('请选择一个活动记录');
 		return;
 	}
 	console.log(row.id);
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/sale/activity/delete",
-		    	type:"POST",
 		    	data:{
 		    		activityId : row.id
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    			dg.datagrid('reload');
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("删除成功");
+	    			dg.datagrid('reload');
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -199,25 +194,21 @@ var resetForm = function() {
 // 终止
 function stop(){
 	var activityId = $("#activityId").val();
-	$.messager.confirm('提示','是否终止此活动？',function(data){
+	$_jxc.confirm('是否终止此活动？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 				url : contextPath+"/sale/activity/stop",
 				type : "POST",
 				data : {
 					activityId:$("#activityId").val(),
-				},
-				success:function(result){
-					if(result['code'] == 0){
-						$.messager.alert("操作提示", "操作成功！", "info",function(){
-							location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
-						});
-					}else{
-						successTip(result['message']);
-					}
-				},
-				error:function(result){
-					successTip("请求发送失败或服务器处理失败");
+				}
+			},function(result){
+				if(result['code'] == 0){
+					$_jxc.alert("操作成功！",function(){
+						location.href = contextPath +"/sale/activity/edit?activityId="+activityId;
+					});
+				}else{
+					$_jxc.alert(result['message']);
 				}
 			});
 		}

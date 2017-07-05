@@ -146,6 +146,10 @@ function initDatagridEditOrder(){
             updateFooter();
         }
     });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridEditOrder",["price","amount","taxAmount"])
+    }
 }
 //合计
 function updateFooter(){

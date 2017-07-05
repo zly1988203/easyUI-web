@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,7 @@ import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.enums.GoodsStatusEnum;
 import com.okdeer.jxc.common.enums.GoodsTypeEnum;
@@ -64,6 +66,8 @@ import com.okdeer.jxc.goods.service.NewGoodsApplyServiceApi;
 import com.okdeer.jxc.supplier.entity.Supplier;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
+import com.okdeer.jxc.system.entity.SysOperateLog;
+import com.okdeer.jxc.system.service.SysOperateLogService;
 import com.okdeer.jxc.utils.UserUtil;
 
 import net.sf.json.JSONObject;
@@ -85,23 +89,28 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 
 	@Reference(version = "1.0.0", check = false)
 	private NewGoodsApplyServiceApi newGoodsApplyService;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	private GoodsBrandServiceApi goodsBrandService;
 
 	@Reference(version = "1.0.0", check = false)
 	private SupplierServiceApi supplierService;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSkuServiceApi goodsSkuService;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	private BranchesServiceApi branchesServiceApi;
-	
+
 	@Autowired
 	private NewGoodsApplyImportComponent newGoodsApplyImportComponent;
+
 	@Reference(version = "1.0.0", check = false)
 	private GoodsBarcodeService goodsBarcodeService;
+
+	@Reference(version = "1.0.0", check = false)
+	private SysOperateLogService sysOperateLogService;
+
 	/**
 	 * 
 	 * @Description: 新品申请调整页面
@@ -125,17 +134,16 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	 */
 	@RequestMapping(value = "queryNewGoodsApply", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<NewGoodsApply> queryNewGoodsApply(
-			NewGoodsApplyQo qo,String categoryCode1,String brandId1,String supplierId1,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+	public PageUtils<NewGoodsApply> queryNewGoodsApply(NewGoodsApplyQo qo, String categoryCode1, String brandId1,
+			String supplierId1, @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		if(StringUtils.isNotBlank(categoryCode1)){
+		if (StringUtils.isNotBlank(categoryCode1)) {
 			qo.setCategoryCode(categoryCode1);
 		}
-		if(StringUtils.isNotBlank(brandId1)){
+		if (StringUtils.isNotBlank(brandId1)) {
 			qo.setBrandId(brandId1);
 		}
-		if(StringUtils.isNotBlank(supplierId1)){
+		if (StringUtils.isNotBlank(supplierId1)) {
 			qo.setSupplierId(supplierId1);
 		}
 		if (qo.getEndTime() != null) {
@@ -143,10 +151,12 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		}
 		// 默认当前机构
 		qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-		
+
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
 		PageUtils<NewGoodsApply> page = newGoodsApplyService.queryPageByParams(qo);
+        // 过滤数据权限字段
+        cleanAccessData(page);
 		return page;
 	}
 
@@ -162,33 +172,33 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	public String addGoods(Model model, HttpServletRequest request) {
 		model.addAttribute("date", DateUtils.getCurrSmallRStr());
 		model.addAttribute("action", "create");
-		
-		//品牌查询
-		GoodsBrandQo  brand = new GoodsBrandQo();
+
+		// 品牌查询
+		GoodsBrandQo brand = new GoodsBrandQo();
 		brand.setBrandCodeOrName("其他");
 		brand.setPageNumber(Constant.ONE);
 		brand.setPageSize(Constant.ONE);
 		PageUtils<GoodsBrand> goodsBrands = goodsBrandService.queryLists(brand);
 		model.addAttribute("goodsBrand", goodsBrands.getList().get(0));
-		
-		//供应商查询
+
+		// 供应商查询
 		String branchId = "";
 		List<Supplier> suppliers = new ArrayList<Supplier>();
 		Integer branchType = UserUtil.getCurrBranchType();
-		if(branchType.compareTo(BranchTypeEnum.SELF_STORE.getCode()) == 0 
-		 ||branchType.compareTo(BranchTypeEnum.FRANCHISE_STORE_B.getCode()) == 0 
-		 ||branchType.compareTo(BranchTypeEnum.FRANCHISE_STORE_C.getCode()) == 0 ){
+		if (branchType.compareTo(BranchTypeEnum.SELF_STORE.getCode()) == 0
+				|| branchType.compareTo(BranchTypeEnum.FRANCHISE_STORE_B.getCode()) == 0
+				|| branchType.compareTo(BranchTypeEnum.FRANCHISE_STORE_C.getCode()) == 0) {
 			branchId = UserUtil.getCurrBranchId();
 			suppliers = findSupplier(branchId);
-			if(CollectionUtils.isEmpty(suppliers)){
-				Branches branches =	branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
+			if (CollectionUtils.isEmpty(suppliers)) {
+				Branches branches = branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
 				suppliers = findSupplier(branches.getParentId());
 			}
-		}else{
+		} else {
 			branchId = UserUtil.getCurrBranchId();
 			suppliers = findSupplier(branchId);
 		}
-		
+
 		model.addAttribute("supplier", suppliers.get(0));
 		// 将计价方式，商品状态，商品类型的枚举放入model中
 		addEnum(model);
@@ -197,8 +207,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		String rootCategoryCode = request.getParameter("rootCategoryCode");
 		if (StringUtils.isNotEmpty(rootCategoryCode)) {
 			GoodsSku sku = new GoodsSku();
-			sku.setSkuCode(goodsSkuService.getSkuCodeByPricingType(
-					PricingTypeEnum.ORDINARY, rootCategoryCode));
+			sku.setSkuCode(goodsSkuService.getSkuCodeByPricingType(PricingTypeEnum.ORDINARY, rootCategoryCode));
 			model.addAttribute("data", sku);
 		}
 		return "newGoodsApply/addNewGoodsApply";
@@ -214,7 +223,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		List<Supplier> list = suppliers.getList();
 		return list;
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 商品复制跳转页
@@ -261,7 +270,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		addEnum(model);
 
 		NewGoodsApplyEnum examineStatus = sku.getExamineStatus();
-		if(NewGoodsApplyEnum.EXAMINE_PASS.equals(examineStatus)){
+		if (NewGoodsApplyEnum.EXAMINE_PASS.equals(examineStatus)) {
 			return "newGoodsApply/viewNewGoodsApply";
 		}
 		return "newGoodsApply/updateNewGoodsApply";
@@ -283,6 +292,11 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			NewGoodsApply sku = newGoodsApplyService.selectByPrimaryKey(id);
 			sku.setSaleWayName(SaleWayEnum.getValue(sku.getSaleWay()));
 			RespJson jesp = RespJson.success();
+			NewGoodsApplyEnum examineStatus = sku.getExamineStatus();
+            if (NewGoodsApplyEnum.EXAMINE_PASS.equals(examineStatus)) {
+                // 过滤数据权限字段
+                cleanAccessData(sku);
+            }
 			jesp.put("_data", sku);
 			return jesp;
 		} else {
@@ -302,8 +316,6 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		return "archive/goods/chooseCategory";
 	}
 
-	
-
 	/**
 	 * 
 	 * @Description: 新增商品
@@ -319,35 +331,34 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			String errorMessage = validate.getFieldError().getDefaultMessage();
 			return RespJson.error(errorMessage);
 		}
-		if(StringUtils.isEmpty(sku.getCategoryCode())){
+		if (StringUtils.isEmpty(sku.getCategoryCode())) {
 			return RespJson.error("请选择商品类别！");
 		}
 		try {
 			// 如果非普通商品没有设置条码，则把当前商品代码
-			if (StringUtils.isEmpty(sku.getBarCode())
-					&& !PricingTypeEnum.ORDINARY.equals(sku.getPricingType())) {
+			if (StringUtils.isEmpty(sku.getBarCode()) && !PricingTypeEnum.ORDINARY.equals(sku.getPricingType())) {
 				sku.setBarCode(sku.getSkuCode());
 			}
 			BigDecimal price = BigDecimal.ZERO;
-			if (sku.getSalePrice()==null) {
+			if (sku.getSalePrice() == null) {
 				sku.setSalePrice(price);
 			}
-			if (sku.getVipPrice()==null || sku.getVipPrice().compareTo(price)==0) {
+			if (sku.getVipPrice() == null || sku.getVipPrice().compareTo(price) == 0) {
 				sku.setVipPrice(sku.getSalePrice());
 			}
-			if (sku.getPurchasePrice()==null) {
+			if (sku.getPurchasePrice() == null) {
 				sku.setPurchasePrice(price);
 			}
-			if (sku.getDistributionPrice()==null) {
+			if (sku.getDistributionPrice() == null) {
 				sku.setDistributionPrice(price);
 			}
-			if (sku.getWholesalePrice()==null) {
+			if (sku.getWholesalePrice() == null) {
 				sku.setWholesalePrice(price);
 			}
-			if (sku.getLowestPrice()==null) {
+			if (sku.getLowestPrice() == null) {
 				sku.setLowestPrice(price);
 			}
-			//申请机构
+			// 申请机构
 			sku.setBranchId(UserUtil.getCurrBranchId());
 			sku.setCreateUserId(UserUtil.getCurrUserId());
 			sku.setId(UuidUtils.getUuid());
@@ -372,33 +383,36 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	 */
 	@RequestMapping(value = "updateGoods", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson copyGoods(@Valid NewGoodsApply sku, BindingResult validate) {
+	public RespJson updateGoods(@Valid NewGoodsApply sku, BindingResult validate) {
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
 			return RespJson.error(errorMessage);
 		}
 		try {
 			BigDecimal price = BigDecimal.ZERO;
-			if (sku.getSalePrice()==null) {
+			if (sku.getSalePrice() == null) {
 				sku.setSalePrice(price);
 			}
-			if (sku.getVipPrice()==null) {
+			if (sku.getVipPrice() == null) {
 				sku.setVipPrice(price);
 			}
-			if (sku.getPurchasePrice()==null) {
+			if (sku.getPurchasePrice() == null) {
 				sku.setPurchasePrice(price);
 			}
-			if (sku.getDistributionPrice()==null) {
+			if (sku.getDistributionPrice() == null) {
 				sku.setDistributionPrice(price);
 			}
-			if (sku.getWholesalePrice()==null) {
+			if (sku.getWholesalePrice() == null) {
 				sku.setWholesalePrice(price);
 			}
-			if (sku.getLowestPrice()==null) {
+			if (sku.getLowestPrice() == null) {
 				sku.setLowestPrice(price);
 			}
-			 newGoodsApplyService.updateByPrimaryKey(sku);
-			 return RespJson.success();
+			
+			sku.setUpdateTime(new Date());
+			sku.setUpdateUserId(getCurrUserId());
+			newGoodsApplyService.updateByPrimaryKey(sku);
+			return RespJson.success();
 		} catch (Exception e) {
 			LOG.error("修改商品异常:", e);
 			return RespJson.error(e.toString());
@@ -417,34 +431,90 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	public RespJson delete(String ids) {
 		RespJson resp = RespJson.success();
 		try {
-		if (StringUtils.isNotBlank(ids)) {
-			String[] arr = ids.split(",");
-			//1 校验新品状态
-			List<String> idList = Arrays.asList(arr);
-			List<Integer> examineStatusList = new ArrayList<Integer>();
-			examineStatusList.add(Constant.ONE);
-			examineStatusList.add(Constant.TWO);
-			List<NewGoodsApply> list = newGoodsApplyService.selectByIds(idList,examineStatusList);
-			StringBuffer sb = new StringBuffer();
-			for (NewGoodsApply newGoodsApply:list) {
-					sb.append(newGoodsApply.getSkuName()+",");
-			  }
-			if(StringUtils.isNotBlank(sb)){
-				resp = RespJson.error("商品名称：【"+sb.substring(0, sb.length()-1)+"】状态为已审核，不能删除!");
-				return resp;
+			if (StringUtils.isNotBlank(ids)) {
+				String[] arr = ids.split(",");
+				// 1 校验新品状态
+				List<String> idList = Arrays.asList(arr);
+				List<Integer> examineStatusList = new ArrayList<Integer>();
+				examineStatusList.add(Constant.ONE);
+				examineStatusList.add(Constant.TWO);
+				List<NewGoodsApply> list = newGoodsApplyService.selectByIds(idList, examineStatusList);
+				StringBuffer sb = new StringBuffer();
+				for (NewGoodsApply newGoodsApply : list) {
+					sb.append(newGoodsApply.getSkuName() + ",");
+				}
+				if (StringUtils.isNotBlank(sb)) {
+					resp = RespJson.error("商品名称：【" + sb.substring(0, sb.length() - 1) + "】状态为已审核，不能删除!");
+					return resp;
+				}
+				
+				List<NewGoodsApply> oplist = newGoodsApplyService.selectByIds(idList);
+
+				// 2 删除新品
+				newGoodsApplyService.deleteByIds(idList);
+
+				// 操作日志
+				addOpLog(oplist);
 			}
-			
-			//2 删除新品
-			newGoodsApplyService.deleteByIds(idList);
-		    }
 		} catch (ServiceException e) {
 			LOG.error("删除新品申请异常：", e);
 			resp = RespJson.error("删除新品申请异常!");
 		}
 		return resp;
 	}
-	
-	
+
+	/**
+	 * @Description: 操作日志
+	 * @param list
+	 * @author liwb
+	 * @date 2017年6月22日
+	 */
+	private void addOpLog(List<NewGoodsApply> list) {
+
+		if (CollectionUtils.isEmpty(list)) {
+			return;
+		}
+
+		SysOperateLog opLog = null;
+		List<SysOperateLog> oplogList = new ArrayList<SysOperateLog>();
+		for (NewGoodsApply goods : list) {
+			opLog = buildOpLog(3, goods, "删除新品");
+			oplogList.add(opLog);
+		}
+		sysOperateLogService.batchAddSysOpLog(oplogList);
+	}
+
+	/**
+	 * @Description: 构建新品操作日志
+	 * @param operateType
+	 * @param currUserId
+	 * @param branchId
+	 * @param skuId
+	 * @param content
+	 * @return
+	 * @author liwb
+	 * @date 2017年6月22日
+	 */
+	private SysOperateLog buildOpLog(Integer operateType, NewGoodsApply goods, String content) {
+		String branchId = goods.getBranchId();
+		// 为空则默认为总部
+		branchId = StringUtils.isBlank(branchId) ? SysConstant.MANAGER_BRANCH_ID : branchId;
+
+		String title = goods.getSkuName();
+		// 组装系统操作日志数据
+		SysOperateLog opLog = new SysOperateLog();
+		opLog.setId(UuidUtils.getUuid());
+		opLog.setBranchId(branchId);
+		opLog.setOperateName("新品申请");
+		opLog.setOperateType(operateType);
+		opLog.setTitle(title);
+		opLog.setContent(content);
+		opLog.setCreateUserId(getCurrUserId());
+		opLog.setCreateTime(new Date());
+
+		return opLog;
+	}
+
 	/**
 	 * 审核新品申请
 	 * @param ids
@@ -469,7 +539,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		}
 		return resp;
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 抽取出来需要放入model中键值对
@@ -495,45 +565,45 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	 */
 	@RequestMapping(value = "checkBarCodeByOrdinary", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson checkBarCodeByOrdinary(String barCode,String skuName,  String id) {
-		
+	public RespJson checkBarCodeByOrdinary(String barCode, String skuName, String id) {
+
 		String currBranchId = UserUtil.getCurrBranchId();
-		if(StringUtils.isNotBlank(barCode)){
-			//1、校验标准库商品条码重复
+		if (StringUtils.isNotBlank(barCode)) {
+			// 1、校验标准库商品条码重复
 			/**
 			 * 2.4 新增条码表，判断是否重复要在条码表取值
 			 */
-			boolean isExistsBarCode =goodsBarcodeService.barCodeIsExist(barCode,id);//   goodsSkuService.isExistsBarCodeByOrdinary(barCode.trim(),id);
+			boolean isExistsBarCode = goodsBarcodeService.barCodeIsExist(barCode, id);// goodsSkuService.isExistsBarCodeByOrdinary(barCode.trim(),id);
 			if (isExistsBarCode) {
 				RespJson json = RespJson.error("商品条码在标准库重复");
 				json.put("_data", barCode);
 				return json;
-			} 
-			//2、校验新品申请库商品条码重复
-			Integer barCodeSum = newGoodsApplyService.queryCountByBarCode(barCode.trim(), id,currBranchId);
-			if(barCodeSum>0){
+			}
+			// 2、校验新品申请库商品条码重复
+			Integer barCodeSum = newGoodsApplyService.queryCountByBarCode(barCode.trim(), id, currBranchId);
+			if (barCodeSum > 0) {
 				RespJson json = RespJson.error("商品条码在新品申请中重复");
 				json.put("_data", barCode);
 				return json;
 			}
 		}
-		if(StringUtils.isNotBlank(skuName)){
-			//3、校验标准库商品名称重复
+		if (StringUtils.isNotBlank(skuName)) {
+			// 3、校验标准库商品名称重复
 			boolean isExistsSkuName = goodsSkuService.isExistsBySkuName(skuName.trim(), id);
 			if (isExistsSkuName) {
 				RespJson json = RespJson.error("商品名称在标准库重复");
 				json.put("_data", barCode);
 				return json;
-			} 
-			
-			//4、校验新品申请库商品名称重复
-			Integer skuNameSum = newGoodsApplyService.queryCountBySkuName(skuName.trim(), id,currBranchId);
-			if(skuNameSum>0){
+			}
+
+			// 4、校验新品申请库商品名称重复
+			Integer skuNameSum = newGoodsApplyService.queryCountBySkuName(skuName.trim(), id, currBranchId);
+			if (skuNameSum > 0) {
 				RespJson json = RespJson.error("商品名称在新品申请中重复");
 				json.put("_data", barCode);
 				return json;
 			}
-		}else{
+		} else {
 			RespJson json = RespJson.error("商品名称为空");
 			json.put("_data", barCode);
 			return json;
@@ -573,8 +643,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	public String getSkuCode(String pricingType, String categoryCode) {
 		PricingTypeEnum type = PricingTypeEnum.enumNameOf(pricingType);
 		goodsSkuService.getSkuCodeByPricingType(type, categoryCode);
-		String code = goodsSkuService.getSkuCodeByPricingType(type,
-				categoryCode);
+		String code = goodsSkuService.getSkuCodeByPricingType(type, categoryCode);
 		return code;
 	}
 
@@ -594,7 +663,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		String barCode = goodsSkuService.getBarCode(type, SkuCode);
 		return barCode;
 	}
-	
+
 	/**
 	 * @Description: 导出
 	 * @param qo
@@ -605,33 +674,34 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	 */
 	@RequestMapping(value = "exportGoods", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson exportGoods(NewGoodsApplyQo qo,String categoryCode1,String brandId1,String supplierId1,
+	public RespJson exportGoods(NewGoodsApplyQo qo, String categoryCode1, String brandId1, String supplierId1,
 			HttpServletResponse response) {
 		try {
-			if(StringUtils.isNotBlank(categoryCode1)){
+			if (StringUtils.isNotBlank(categoryCode1)) {
 				qo.setCategoryCode(categoryCode1);
 			}
-			if(StringUtils.isNotBlank(brandId1)){
+			if (StringUtils.isNotBlank(brandId1)) {
 				qo.setBrandId(brandId1);
 			}
-			if(StringUtils.isNotBlank(supplierId1)){
+			if (StringUtils.isNotBlank(supplierId1)) {
 				qo.setSupplierId(supplierId1);
 			}
 			if (qo.getEndTime() != null) {
 				qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
 			}
 			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			
+
 			List<NewGoodsApply> list = newGoodsApplyService.queryListByParams(qo);
 			if (CollectionUtils.isNotEmpty(list)) {
 				handleDateReport(list);
 				if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
-					RespJson json = RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
-							+ "条数据");
+					RespJson json = RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE + "条数据");
 					return json;
 				}
 				String fileName = "新品申请导出" + "_" + DateUtils.getCurrSmallStr();
 				String templateName = ExportExcelConstant.NEW_GOODS_APPLY_REPORT;
+				// 过滤数据权限字段
+		        cleanAccessData(list);
 				exportListForXLSX(response, list, fileName, templateName);
 			} else {
 				RespJson json = RespJson.error("无数据可导");
@@ -648,18 +718,19 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	// 导出数据特殊处理
 	private List<NewGoodsApply> handleDateReport(List<NewGoodsApply> exportList) {
 		for (NewGoodsApply vo : exportList) {
-			if(vo.getSalePrice()!=null && vo.getSalePrice().compareTo(BigDecimal.ZERO) ==1 && vo.getPurchasePrice()!=null){
+			if (vo.getSalePrice() != null && vo.getSalePrice().compareTo(BigDecimal.ZERO) == 1
+					&& vo.getPurchasePrice() != null) {
 				BigDecimal marginTax = vo.getSalePrice().subtract(vo.getPurchasePrice());
 				marginTax = marginTax.multiply(new BigDecimal(100));
-				BigDecimal val =marginTax.divide(vo.getSalePrice(),2,BigDecimal.ROUND_HALF_UP);
-				vo.setMarginTax(val+"%");
-			}else{
+				BigDecimal val = marginTax.divide(vo.getSalePrice(), 2, BigDecimal.ROUND_HALF_UP);
+				vo.setMarginTax(val + "%");
+			} else {
 				vo.setMarginTax("00.00%");
 			}
 		}
 		return exportList;
 	}
-	
+
 	/**
 	 * 商品导入
 	 * @param file
@@ -681,39 +752,38 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			}
 			// 文件流
 			InputStream is = file.getInputStream();
-			
+
 			// 获取文件名
 			String fileName = file.getOriginalFilename();
 
-			//当前导入用户id
+			// 当前导入用户id
 			String userId = UserUtil.getCurrUserId();
-			
-			//当前导入机构id
+
+			// 当前导入机构id
 			String branchId = UserUtil.getCurrBranchId();
 
-			String[] field =  new String[] {
-					"skuName","barCode","purchasePrice","salePrice","vipPrice","distributionPrice","wholesalePrice",
-					"categoryCode","spec","unit","purchaseSpec","distributionSpec","brandCode","vaildity",
-					"originPlace","pricingType","type","managerStock","fastDeliver","allowActivity","allowAdjust","remark"
-					};
-			
+			String[] field = new String[] { "skuName", "barCode", "purchasePrice", "salePrice", "vipPrice",
+					"distributionPrice", "wholesalePrice", "categoryCode", "spec", "unit", "purchaseSpec",
+					"distributionSpec", "brandCode", "vaildity", "originPlace", "pricingType", "type", "managerStock",
+					"fastDeliver", "allowActivity", "allowAdjust", "remark" };
+
 			GoodsSelectImportVo<GoodsSelect> vo = newGoodsApplyImportComponent.importSelectGoods(fileName, is, field,
-					new GoodsSelectByPurchase(), branchId, userId , type, "/goods/newGoodsApply/downloadErrorFile",
+					new GoodsSelectByPurchase(), branchId, userId, type, "/goods/newGoodsApply/downloadErrorFile",
 					new GoodsSelectImportBusinessValid() {
 
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
 							for (JSONObject obj : excelListSuccessData) {
 								String type = obj.getString("type");
-								boolean managerStock= obj.getString("managerStock").equals("是");
+								boolean managerStock = obj.getString("managerStock").equals("是");
 								GoodsTypeEnum typeEnum = GoodsTypeEnum.ORDINARY;
 								if (!StringUtils.isBlank(type)) {
 									typeEnum = GoodsTypeEnum.enumValueOf(type);
 								}
-								if(typeEnum==GoodsTypeEnum.BIND && managerStock){
+								if (typeEnum == GoodsTypeEnum.BIND && managerStock) {
 									obj.element("error", "捆绑商品不可以管理库存");
 								}
-								if(typeEnum==GoodsTypeEnum.AUTOMATICTRANSFER && managerStock){
+								if (typeEnum == GoodsTypeEnum.AUTOMATICTRANSFER && managerStock) {
 									obj.element("error", "自动转货不可以管理库存");
 								}
 							}
@@ -748,8 +818,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		return respJson;
 
 	}
-	
-	
+
 	/**
 	 * @author xiaoj02
 	 * @date 2016年10月15日
@@ -757,15 +826,14 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 	@RequestMapping(value = "downloadErrorFile")
 	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
 		String reportFileName = "错误数据";
-		String[] headers = new String[] { "商品名称","条形码","进货价","零售价","会员价","配送价","批发价","小类编码",
-				                          "规格","库存单位","采购规格","配送规格","品牌编码","保质期天数","产地","计价方式",
-				                          "商品类型","备注"};
-		String[] columns = new String[] {"skuName","barCode","purchasePrice","salePrice","vipPrice","distributionPrice","wholesalePrice",
-									     "categoryCode","spec","unit","purchaseSpec","distributionSpec","brandCode","vaildity",
-									     "originPlace","pricingType","type","remark"};
+		String[] headers = new String[] { "商品名称", "条形码", "进货价", "零售价", "会员价", "配送价", "批发价", "小类编码", "规格", "库存单位",
+				"采购规格", "配送规格", "品牌编码", "保质期天数", "产地", "计价方式", "商品类型", "备注" };
+		String[] columns = new String[] { "skuName", "barCode", "purchasePrice", "salePrice", "vipPrice",
+				"distributionPrice", "wholesalePrice", "categoryCode", "spec", "unit", "purchaseSpec",
+				"distributionSpec", "brandCode", "vaildity", "originPlace", "pricingType", "type", "remark" };
 		newGoodsApplyImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
-	
+
 	/**
 	 * @Description: 新品申请导入模板下载
 	 * @param response
@@ -784,6 +852,5 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 			LOG.error("新品申请导入模板下载异常", e);
 		}
 	}
-	
 
 }

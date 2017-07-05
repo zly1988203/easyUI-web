@@ -26,7 +26,7 @@ function fileUrlChange(event){
  */
 function toUploadHandel(){
     if(!$("#file").val()){
-        messager('请选择文件！','提示');
+        $_jxc.alert('请选择文件！');
         return;
     }
     var formData = new FormData();
@@ -43,7 +43,7 @@ function toUploadHandel(){
         success : function(data) {
             gFunEndLoading();
             if(data.code==0){
-            	messager("文件上传成功");
+            	$_jxc.alert("文件上传成功");
             	 $('#uploadFile').panel('destroy');
                 uploadTemplateCallBack(data.filePath);
             }else{

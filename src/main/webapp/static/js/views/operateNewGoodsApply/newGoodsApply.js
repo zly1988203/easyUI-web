@@ -335,9 +335,19 @@ function initDatagridArchives(){
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");
-        	priceGrantUtil.grantPrice("gridArchives");
+
         }
 });
+
+    var param = {
+        wholesalePrice:["wholesalePrice"],
+        purchasePrice:["purchasePrice"],
+        distributionPrice:["distributionPrice"],
+        costPrice:["costPrice"],
+        vipPrice:["vipPrice"],
+        salePrice:["salePrice"]
+    }
+    priceGrantUtil.grantPrice("gridArchives",param);
 }
 
 
@@ -394,8 +404,8 @@ function addGoodsView(){
 
 //打开Dialog
 var  dalogTemp;
-var dialogHeight = $(window).height()*(4/5);
-var dialogWidth = $(window).width()*(5/9);
+var dialogHeight = 590;//$(window).height()*(4/5)
+var dialogWidth = 950;//$(window).width()*(5/9)
 function openDialog(argUrl,argTitle,argType,params) {
     dalogTemp = $('<div/>').dialog({
         href: argUrl,
@@ -427,11 +437,11 @@ function closeDialog(){
 //复制
 function copyGoodsView(){
 	if($("#gridArchives").datagrid("getSelections").length <= 0){
-        $.messager.alert('提示','请选中一行进行复制新增商品！');
+        $_jxc.alert('请选中一行进行复制新增商品！');
         return false;
     }
 	if($("#gridArchives").datagrid("getChecked").length > 1){
-		 $.messager.alert('提示','请选中一行进行复制新增商品！');
+		 $_jxc.alert('请选中一行进行复制新增商品！');
 		return false;
 	}
 	
@@ -448,7 +458,7 @@ function copyGoodsView(){
 function delGoods(){
 	var rows =$("#gridArchives").datagrid("getChecked");
 	if($("#gridArchives").datagrid("getChecked").length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
+		 $_jxc.alert('请选中一行进行删除！');
 		return null;
 	}
 	 var ids='';
@@ -461,28 +471,23 @@ function delGoods(){
   		}
     });
     if(goodsSkuName){
-		$.messager.alert('提示','商品名称:【'+goodsSkuName+'】审核通过,不能删除');
+		$_jxc.alert('商品名称:【'+goodsSkuName+'】审核通过,不能删除');
 		return 
 	}
-	$.messager.confirm('提示','是否要删除选中数据',function(data){
+	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/goods/operateNewGoodsApply/delGoods",
-		    	type:"POST",
 		    	data:{
 		    		ids:ids
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$("#gridArchives").datagrid('reload');
-						$.messager.alert('提示',"删除成功");
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$("#gridArchives").datagrid('reload');
+					$_jxc.alert("删除成功");
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -492,7 +497,7 @@ function delGoods(){
 function auditingGoods(){
 	var rows =$("#gridArchives").datagrid("getChecked");
 	if($("#gridArchives").datagrid("getChecked").length <= 0){
-		$.messager.alert('提示','请选中一行进行审核！');
+		$_jxc.alert('请选中一行进行审核！');
 		return null;
 	}
 	var ids='';
@@ -505,28 +510,23 @@ function auditingGoods(){
 	});
 	if(goodsSkuName){
 		goodsSkuName = goodsSkuName.substring(0 , goodsSkuName.length-1);
-		$.messager.alert('提示','商品名称:【'+goodsSkuName+'】已审核通过');
+		$_jxc.alert('商品名称:【'+goodsSkuName+'】已审核通过');
 		return 
 	}
 	
-	$.messager.confirm('提示','是否确定审核通过选中商品',function(data){
+	$_jxc.confirm('是否确定审核通过选中商品?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 				url:contextPath+"/goods/operateNewGoodsApply/auditingGoods",
-				type:"POST",
 				data:{
 					ids:ids
-				},
-				success:function(result){
-					if(result['code'] == 0){
-						$.messager.alert('提示',"审核成功");
-						$("#gridArchives").datagrid('reload');
-					}else{
-						successTip(result['message']);
-					}
-				},
-				error:function(result){
-					successTip("请求发送失败或服务器处理失败");
+				}
+			},function(result){
+				if(result['code'] == 0){
+					$_jxc.alert("审核成功");
+					$("#gridArchives").datagrid('reload');
+				}else{
+					$_jxc.alert(result['message']);
 				}
 			});
 		}
@@ -540,7 +540,7 @@ function auditingGoods(){
 function exportData(){
 	var length = $('#gridArchives').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -558,7 +558,7 @@ function exportExcel(){
 	$("#formGoodsArchives").form({
 		success : function(result){
 			var dataObj=eval("("+result+")");
-			successTip(dataObj.message);
+			$_jxc.alert(dataObj.message);
 		}
 	});
 	$("#formGoodsArchives").attr("action",contextPath+"/goods/operateNewGoodsApply/exportGoods");

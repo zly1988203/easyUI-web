@@ -408,7 +408,7 @@ public class RoleController extends BaseController<RoleController> {
 		try {
 			
 			// 删除角色信息
-			respJson = sysRoleService.deleteRole(roleId, getCurrBranchId());
+			respJson = sysRoleService.deleteRole(roleId, getCurrBranchId(), getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("删除角色异常：", e);
 			respJson = RespJson.error("删除角色异常!");

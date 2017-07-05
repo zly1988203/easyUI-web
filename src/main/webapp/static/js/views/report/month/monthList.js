@@ -3,7 +3,6 @@
  * 库存调整-列表
  */
 $(function(){
-	
 	initDatagridYueJXC();
 	branchId = $("#branchId").val();
 });
@@ -167,16 +166,27 @@ function initDatagridYueJXC(){
 		]], 
 		onLoadSuccess:function(data){
 			if($("#createBranchId").val()&&data.total<=0)
-				messager("该机构可能未月结,请先月结!");
+				$_jxc.alert("该机构可能未月结,请先月结!");
 		}
 
 	});
+
+    
+    var param = {
+		costPrice:["costAmount","beginCostAmount","dcoAmount",
+		            "dciAmount","costChangeAmount","otherAmount","endCostAmount",
+					"endSaleAmount","profitMargin","profitAmount","purchaseAmount",
+					"costPrice"],
+		distributionPrice:['dciAmount','dcoAmount']
+	}
+	
+	priceGrantUtil.grantPrice(datagridId,param);
 }
 
 //查询
 function queryForm(){
 	if($("#branchName").val()=="" && $("#skuCode").val()=="" ){
-        messager("请选择机构或输入条码");
+        $_jxc.alert("请选择机构或输入条码");
         return;
     } 
 	var fromObjStr = $('#queryForm').serializeObject();
@@ -221,7 +231,7 @@ function exportData(){
 	dg = gridYueJXCList;
 	var length = gridYueJXCList.datagrid('getData').total;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -239,17 +249,17 @@ function exportData(){
 function exportExcel(){
 	var length = gridYueJXCList.datagrid('getData').total;
 	if(length == 0){
-		successTip('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	console.log(fromObjStr);
+	
 	$("#queryForm").form({
 		success : function(data){
 			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
+				$_jxc.alert("导出数据成功！");
 			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});
@@ -261,7 +271,7 @@ function exportExcel(){
 var printReport = function(){
 	var length = gridYueJXCList.datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var queryParams =  urlEncode($("#queryForm").serializeObject());

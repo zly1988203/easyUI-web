@@ -52,7 +52,7 @@ function initDatagridsupplierList(){
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
-        pageSize:10,
+        pageSize:50,
         //fitColumns:true,    //每列占满
         fit:true,            //占满
         showFooter:true,
@@ -153,9 +153,11 @@ function copyHandel(){
         resizable: true,
         onClose: function () {
             $(addDalogTemp).panel('destroy');
+            addDalogTemp = null;
         },
         modal: true,
         onLoad: function () {
+            selectParamInit();
         }
     });
 }
@@ -177,9 +179,16 @@ function editHandel(id){
         resizable: true,
         onClose: function () {
             $(editDalogTemp).panel('destroy');
+            editDalogTemp = null;
         },
         modal: true,
         onLoad: function () {
+            //供应商区域选择事件
+            bindSupplierAreaSelect();
+
+            //初始化下拉框选中值
+            selectParamInit();
+            // onChangeSaleWay();
         }
     })
 }
@@ -191,7 +200,7 @@ function editHandel(id){
 function exportData(){
 	var length = $('#gridSupplierArchiveList').datagrid('getData').rows.length;
 	if(length == 0){
-		successTip("无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	$('#exportWin').window({
@@ -228,22 +237,20 @@ function delHandel(){
     
     var supplierId=rowData.id
     
-    parent.$.messager.confirm('提示', '是否确认删除？此操作删除不可恢复', function(data){
+    $_jxc.confirm('是否确认删除？此操作删除不可恢复', function(data){
     	if(!data){
     		return;
     	}
-    	$.ajax({
+    	$_jxc.ajax({
             url:contextPath+"/supplier/deleteSupplier",
             type:"POST",
             data:{"supplierId":supplierId},
-            dataType:"json",  
-            success:function(result){
-                if(result){
-                    successTip(result.message, $("#gridSupplierArchiveList"));
-                }
-            },
-            error:function(result){
-                successTip("请求发送失败或服务器处理失败");
+            dataType:"json"  
+        },function(result){
+            if(result){
+                $_jxc.alert(result.message,function(){
+                	$("#gridSupplierArchiveList").datagrid('reload');	
+                });
             }
         });
     });
@@ -275,7 +282,6 @@ function searchLeftHandel(){
 }
 function reloadListHandel(){
     $("#gridSupplierArchiveList").datagrid('reload');
-    closeDialogHandel();
 }
 function closeDialogHandel(){
     if(addDalogTemp){
@@ -323,5 +329,12 @@ function selectParamInit(){
 	if(freezeBusiness){
 		$("#stampfreezeBusinesssType").val(freezeBusiness);
 	}
+
+    var saleWay = 	$('#saleWay').combobox("getValue");
+    if(saleWay != "C"){
+        $("#minAmountDiv").addClass("unhide");
+    }else{
+        $("#minAmountDiv").removeClass("unhide");
+    }
 	
 }

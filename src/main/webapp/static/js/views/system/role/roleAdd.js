@@ -10,7 +10,7 @@ $(function(){
 function searchBranchInfo (){
 	var branchType = $(':radio[name=branchType]:checked').val();
 	if(!branchType){
-		successTip("请先选择角色类型！");
+		$_jxc.alert("请先选择角色类型！");
 		return;
 	}
 	
@@ -88,27 +88,22 @@ function addRole(){
 	var branchType = $(':radio[name=branchType]:checked').val();
 	var isCommonRole = $(':radio[name=isCommonRole]:checked').val();
 	if(!branchType){
-		successTip("角色类型为空！");
+		$_jxc.alert("角色类型为空！");
 		return;
 	}
 	
 	if(isCommonRole==0 && !$("#opBranchId").val()){
-		successTip("所属机构为空！");
+		$_jxc.alert("所属机构为空！");
 		return;
 	}
 
-	$.ajax({
+	$_jxc.ajax({
         url:contextPath+"/system/role/addRole",
-        type:"POST",
-        data:reqObj,
-        success:function(result){
-        	if(result){
-				alertTip(result.message, reloadDataGrid);
-				initTreeRoles();
-			}
-        },
-        error:function(result){
-            successTip("请求发送失败或服务器处理失败");
-        }
+        data:reqObj
+    },function(result){
+    	if(result){
+			alertTip(result.message, reloadDataGrid);
+			initTreeRoles();
+		}
     });
 }

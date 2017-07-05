@@ -7,7 +7,7 @@
     <title>收货单</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/purchase/receiptList.js"></script>
+	<script src="${ctx}/static/js/views/purchase/receiptList.js?V=${versionNo}"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -82,7 +82,7 @@
         
       <div class="ub ub-f1  umar-t8 umar-b8">
             <div id="tabs" class="easyui-tabs" data-options="fit:true,border:false,tabWidth:120,tabHeight:25" style="">
-	            <div title="待处理采购订单" data-options="tabWidth:158" id="pending" style="height: auto;">
+	            <div title="待处理采购订单" data-options="tabWidth:158"  id="pending" style="height: auto;">
 	                <table id="receiptOrderList"></table>
 	            </div> 
 	            <div title="采购收货单" id="processed" style="padding: 5px; height: auto;">

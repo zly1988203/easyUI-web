@@ -41,7 +41,7 @@ function setModifyPrice(thisPanel){
     var selectVal3 = $("#select3 option:selected").val().trim();  //+-*/
     var inputPrice = $("#inputPrice").val().trim();
     if(inputPrice == "" || inputPrice == 0){
-        $.messager.alert('提示','自定义计算值不能为零!');
+        $_jxc.alert('自定义计算值不能为零!');
         return false;
     }
     //新的数组

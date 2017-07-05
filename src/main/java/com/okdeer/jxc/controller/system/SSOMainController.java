@@ -151,7 +151,7 @@ public class SSOMainController extends BaseController<SSOMainController> {
 			return "修改密码失败";
 		}
 	}
-
+	
 	/**
 	 * 当前登录用户的权限集合
 	 */

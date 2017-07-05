@@ -9,7 +9,7 @@
     <title>要货单状态跟踪明细</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/report/deliver/DaListView.js"></script>
+	<script src="${ctx}/static/js/views/report/deliver/DaListView.js?V=${versionNo}"></script>
 	<script src="${ctx}/static/js/views/deliver/deliverExport.js"></script>
     
 </head>

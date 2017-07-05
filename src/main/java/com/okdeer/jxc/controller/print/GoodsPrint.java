@@ -13,6 +13,9 @@ import java.text.MessageFormat;
 
 import org.springframework.beans.factory.annotation.Value;
 
+import com.okdeer.jxc.common.annotation.DataAccess;
+import com.okdeer.jxc.common.constant.Constant;
+
 /**
  * ClassName: GoodsSelectVo 
  * @Description: 商品选择VO
@@ -65,51 +68,61 @@ public class GoodsPrint implements Serializable {
 	/**
 	 * @Fields purchasePrice : 进价（采购价）
 	 */
+	@DataAccess(key = Constant.PURCHASE_PRICE)
 	private BigDecimal purchasePrice;
 
 	/**
 	 * @Fields salePrice : 销售价
 	 */
+	@DataAccess(key = Constant.SALE_PRICE)
 	private BigDecimal salePrice;
 
 	/**
 	 * @Fields wholesalePrice : 批发价
 	 */
+	@DataAccess(key = Constant.WHOLESALE_PRICE)
 	private BigDecimal wholesalePrice;
 
 	/**
 	 * @Fields vipPrice : 会员价
 	 */
+	@DataAccess(key = Constant.VIP_PRICE)
 	private BigDecimal vipPrice;
 
 	/**
 	 * @Fields distributionPrice : 配送价
 	 */
+	@DataAccess(key = Constant.DISTRIBUTION_PRICE)
 	private BigDecimal distributionPrice;
 
 	/**
 	 * @Fields oldPurPrice : 旧采购价
 	 */
+	@DataAccess(key = Constant.PURCHASE_PRICE)
 	private BigDecimal oldPurPrice;
 
 	/**
 	 * @Fields oldSalePrice : 旧销售价
 	 */
+	@DataAccess(key = Constant.SALE_PRICE)
 	private BigDecimal oldSalePrice;
 
 	/**
 	 * @Fields oldWsPrice : 旧批发价
 	 */
+	@DataAccess(key = Constant.WHOLESALE_PRICE)
 	private BigDecimal oldWsPrice;
 
 	/**
 	 * @Fields oldVipPrice : 旧会员价
 	 */
+	@DataAccess(key = Constant.VIP_PRICE)
 	private BigDecimal oldVipPrice;
 
 	/**
 	 * @Fields oldDcPrice : 旧配送价
 	 */
+	@DataAccess(key = Constant.DISTRIBUTION_PRICE)
 	private BigDecimal oldDcPrice;
 
 	/**
@@ -120,6 +133,7 @@ public class GoodsPrint implements Serializable {
 	/**
 	 * @Fields promotionPrice : 促销价格
 	 */
+	@DataAccess(key = Constant.SALE_PRICE)
 	private BigDecimal promotionPrice;
 
 	/**

@@ -86,44 +86,31 @@ function directAdd(){
 function directDelete(){
 	var rows = $("#"+gridName).datagrid("getChecked");
 	if($("#"+gridName).datagrid("getChecked").length <= 0){
-		 $.messager.alert('提示','请选中一行进行删除！');
+		 $_jxc.alert('请选中一行进行删除！');
 		return null;
 	}
 	
     var formIds = [];
 	var flag = true;
 	rows.forEach(function(data,index){
-		var status = data.status;
-    	if(status == 0){
-    		formIds.push(data.id);
-	   		flag = false;
-    	}
+		formIds.push(data.id);
 	});
-    if(flag){
-    	messager('已经审核的单据不可以删除！');
-    	return;
-    }
 	
-	$.messager.confirm('提示','是否要删除选中数据',function(data){
+	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/directReceipt/delete",
-		    	type:"POST",
 		    	data:{
 		    		formIds:formIds
-		    	},
-		    	success:function(result){
-		    		console.log(result);
-		    		if(result['code'] == 0){
-		    			successTip("删除成功");
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    		$("#"+gridName).datagrid('reload');
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("删除成功");
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
+	    		$("#"+gridName).datagrid('reload');
 		    });
 		}
 	});
@@ -181,7 +168,7 @@ function initDirectDatagrid(){
 //打印
 function printList() {
 	var fromObjStr = $('#queryForm').serialize();
-	console.log(fromObjStr);
+	
 	parent.addTabPrint("DirectReceiptPrint","直送收货单列表打印",contextPath+"/directReceipt/print?"+fromObjStr);
 }
 

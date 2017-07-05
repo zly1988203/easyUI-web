@@ -413,6 +413,10 @@
 
 .umar-t24 {
   margin-top: 24px; }
+  
+  .umar-r22 {
+  margin-right: 22px; }
+  
 
 .umar-r24 {
   margin-right: 24px; }
@@ -1236,11 +1240,17 @@
 .uw-60 {
   width: 60px; }
 
+.uw-62 {
+  width: 62px; }
+
 .uh-64 {
   height: 64px; }
 
 .uw-64 {
   width: 64px; }
+
+.uw-66 {
+  width: 66px; }
 
 .uh-68 {
   height: 68px; }
@@ -2282,9 +2292,14 @@
 
 .uw-636 {
   width: 636px; }
-  
-    .uw-850 {
+.uw-800 {
   width: 850px; }
+  
+.uw-850 {
+  width: 850px; }
+  
+.uw-880 {
+  width: 880px; }
   
   .uw-1130 {
   width: 1130px; }
@@ -2325,6 +2340,9 @@
 
 .uhide {
   display: none !important; }
+  
+  .uvisibility {
+  visibility: hidden !important; }
 
 .opa-0 {
   opacity: 0; }

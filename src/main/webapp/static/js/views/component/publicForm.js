@@ -51,20 +51,16 @@ function formClickRow(rowIndex, rowData){
 //获取单据详情
 function getItemData(formId){
 
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+'/form/purchaseSelect/getPurchaseForm?formId='+formId,
-        type:'get',
-        success:function(result){
-            if(result['code'] == 0){
-                if(formCallBack){
-                    formCallBack(result);
-                }
-            }else{
-                messager(result['message']);
+        type:'get'
+    },function(result){
+        if(result['code'] == 0){
+            if(formCallBack){
+                formCallBack(result);
             }
-        },
-        error:function(data){
-            messager("请求发送失败或服务器处理失败");
+        }else{
+            $_jxc.alert(result['message']);
         }
     })
 
@@ -113,6 +109,10 @@ function initDatagridForm(type){
         },
         onClickRow:formClickRow,
     });
+
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice("gridForm",["amount"])
+    }
 }
 //初始化表格 单据选择（调拨）
 function initDatagridDeliverForm(type){

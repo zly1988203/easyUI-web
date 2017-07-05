@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>商品状态查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/goods/goodsStatus/list.js"></script>
+<script src="${ctx}/static/js/views/goods/goodsStatus/list.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub  ub-f1 umar-4 upad-4">
@@ -29,18 +29,34 @@
 		<form id="queryForm" method="post">
 			<div class="ub ub-ac">
 				<div class="ubtns">
+				    <shiro:hasPermission name="JxcGoodsStatus:search">
 					<div class="ubtns-item" onclick="query()">查询</div>
-					<!-- <div class="ubtns-item" onclick="printReport()">打印</div> -->
-					
+					</shiro:hasPermission>
+				    <shiro:hasPermission name="JxcGoodsStatus:importBySkuCode">
 					<div class="ubtns-item importbtn" id="importSkuCode" onclick="importHandel(0,this)">导入货号</div>
+					</shiro:hasPermission>
+				    <shiro:hasPermission name="JxcGoodsStatus:importByBarCode">
                     <div class="ubtns-item importbtn" id="importBarCode" onclick="importHandel(1,this)">导入条码</div>
+					</shiro:hasPermission>
+				    <shiro:hasPermission name="JxcGoodsStatus:stopBuying">
 					<div class="ubtns-item" id="btn_stop01" onclick="update(0,this)">停购</div>
+					</shiro:hasPermission>
+				    <shiro:hasPermission name="JxcGoodsStatus:stopSale">
 					<div class="ubtns-item" id="btn_stop02" onclick="update(1,this)">停售</div>
+					</shiro:hasPermission>
+				    <shiro:hasPermission name="JxcGoodsStatus:eliminate">
 					<div class="ubtns-item" id="btn_weedout01" onclick="update(2,this)">淘汰</div>
+					</shiro:hasPermission>
+				    <shiro:hasPermission name="JxcGoodsStatus:eliminationWizard">
 					<div class="ubtns-item" id="btn_weedout02" onclick="outGuide(this)">淘汰向导</div>
+					</shiro:hasPermission>
+				    <shiro:hasPermission name="JxcGoodsStatus:stopBuyingWizard">
 					<div class="ubtns-item" id="btn_stopout" onclick="stopGuide(this)">停购向导</div>
+					</shiro:hasPermission>
+				    <shiro:hasPermission name="JxcGoodsStatus:back">
 					<div class="ubtns-item-disabled" id="recover" onclick="update(3,this)">恢复</div>
-                                        <div class="ubtns-item" onclick="resetFrom()">重置</div>
+					</shiro:hasPermission>
+                    <div class="ubtns-item" onclick="resetFrom()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 			</div>

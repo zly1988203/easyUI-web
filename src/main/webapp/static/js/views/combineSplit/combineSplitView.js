@@ -190,7 +190,7 @@ function updateFooter(){
 //监听商品数量
 function onChangeRealNum(newV,oldV) {
 	if("" == newV){
-	  messager("商品数量输入有误");
+	  $_jxc.alert("商品数量输入有误");
 	  gridHandel.setFieldValue('realNum',oldV);
       return;
 	}else if(newV > maxNum){
@@ -210,23 +210,18 @@ function onChangeRealNum(newV,oldV) {
 function deleteCombineSplit(){
 	var id = $("#formId").val();
 	var ids = [id];
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/stock/combineSplit/deleteCombineSplit",
-		    	type:"POST",
 		    	data:{
 		    		ids : ids
-		    	},
-		    	success:function(result){
-                    messager(result['message']);
-		    		if(result['code'] == 0){
-		    			back();
-		    		}
-		    	},
-		    	error:function(result){
-                    messager("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+                $_jxc.alert(result['message']);
+	    		if(result['code'] == 0){
+	    			back();
+	    		}
 		    });
 		}
 	});
@@ -237,18 +232,18 @@ function deleteCombineSplit(){
 function saveCombineSplit(){
 	var mainNum = $("#totalNum").numberbox('getValue');
 	if(!mainNum || !$.trim(mainNum)){
-		messager("请输入主商品数量");
+		$_jxc.alert("请输入主商品数量");
 		return;
 	}
 	if(parseFloat(mainNum)==0){
-		messager("主商品数量不能为0");
+		$_jxc.alert("主商品数量不能为0");
 		return;
 	}
 	$("#"+splicViewGID).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     var isCheckResult = true;
@@ -261,7 +256,7 @@ function saveCombineSplit(){
     });
     if(isCheckResult){
         if(isChcekPrice){
-            $.messager.confirm('系统提示',"新单价存在为0，是否确定保存",function(r){
+            $_jxc.confirm("新单价存在为0，是否确定保存?",function(r){
                 if (r){
                     saveDataHandel(rows);
                 }
@@ -339,22 +334,17 @@ function saveDataHandel(rows){
             remark:remark,
             stockFormDetailList:tempRows
         };
-    console.log('组合单',JSON.stringify(jsonData));
-    $.ajax({
+    
+    $_jxc.ajax({
         url:contextPath+"/stock/combineSplit/updateCombineSplit",
-        type:"POST",
-        data:{"data":JSON.stringify(jsonData)},
-        success:function(result){
-            if(result['code'] == 0){
-    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-    				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
-    			});
-            }else{
-                messager(result['message']);
-            }
-        },
-        error:function(result){
-            messager("请求发送失败或服务器处理失败");
+        data:{"data":JSON.stringify(jsonData)}
+    },function(result){
+        if(result['code'] == 0){
+			$_jxc.alert("操作成功！",function(){
+				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
+			});
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -370,30 +360,25 @@ function auditCombineSplit(){
     }
     
     if(!gFunComparisonArray(oldData,newData)){
-        messager("数据已修改，请先保存再审核");
+        $_jxc.alert("数据已修改，请先保存再审核");
         return;
     }
     
-	$.messager.confirm('提示','是否审核通过？',function(data){
+	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url : contextPath+"/stock/combineSplit/auditCombineSplit",
-		    	type : "POST",
 		    	data : {
 		    		id : id
-		    	},
-		    	success:function(result){
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
-		    			});
-		    		}else{
-                        messager(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-                    messager("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/stock/combineSplit/combineSplitView?id="+id;
+	    			});
+	    		}else{
+                    $_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});

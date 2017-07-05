@@ -125,6 +125,9 @@ function initDatagridEditRequireOrder(){
 		          }
 	});
 
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice("gridEditRequireOrder",["oldCostPrice","costPrice"])
+    }
 }
 
 //合计
@@ -147,18 +150,13 @@ function selectStockAndPrice(branchId,data){
 		GoodsStockVo.goodsSkuVo[i] = temp;
 		
 	});
-	$.ajax({
+	$_jxc.ajax({
     	url : contextPath+"/goods/goodsSelect/selectStockAndPriceToDo",
-    	type : "POST",
     	data : {
     		goodsStockVo : JSON.stringify(GoodsStockVo)
-    	},
-    	success:function(result){
-    		setDataValue(result);
-    	},
-    	error:function(result){
-            messager("请求发送失败或服务器处理失败");
     	}
+    },function(result){
+    	setDataValue(result);
     });
 }
 //二次查询设置值
@@ -212,19 +210,19 @@ function back(){
 function exportExcel(){
 	var length = $("#gridEditRequireOrder").datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert("提示","无数据可导");
+		$_jxc.alert("无数据可导");
 		return;
 	}
 	if(length>10000){
-		$.messager.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+		$_jxc.alert('提示',"当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	$("#searchForm").form({
 		success : function(data){
 			if(data==null){
-				$.messager.alert('提示',"导出数据成功！");
+				$_jxc.alert("导出数据成功！");
 			}else{
-				$.messager.alert('提示',JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});

@@ -109,6 +109,8 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 			}
 			tradeOrderCountVos.setFooter(footer);
 
+			// 过滤数据权限字段
+			cleanAccessData(tradeOrderCountVos);
 			LOG.debug(LogConstant.PAGE, tradeOrderCountVos.toString());
 			return tradeOrderCountVos;
 		} catch (Exception e) {
@@ -143,6 +145,8 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 			TradeOrderCountVo tradeOrderCountVo = tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
 			tradeOrderCountVo.setBranchName("合计：");
 			exportList.add(tradeOrderCountVo);
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
 			String fileName = "店铺销售排名";
 			String templateName = ExportExcelConstant.TRADE_ORDER_COUNT_REPORT;
 			// 导出Excel

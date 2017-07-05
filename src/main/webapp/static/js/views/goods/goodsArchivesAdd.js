@@ -62,7 +62,29 @@ function initGoodsView(data,flag){
 			minMaxSalePrice();
 		}
 	});
+    // hidePageElement();
+
 }
+
+function hidePageElement() {
+    if(hasPurchasePrice==false){
+        $("#formGoodsArchivesAdd #purchasePrice").parent().addClass("uhide");
+        $("#formGoodsArchivesAdd #inputTax").parent().addClass("uhide");
+    }
+    if(hasWholesalePrice==false){
+        $("#formGoodsArchivesAdd #wholesalePrice").parent().addClass("uhide");
+    }
+
+    if(hasDistributionPrice==false){
+        $("#formGoodsArchivesAdd #distributionPrice").parent().addClass("uhide");
+    }
+
+    if(hasCostPrice==false){
+        $("#formGoodsArchivesAdd #grossProfit").parent().addClass("uhide");
+        $("#formGoodsArchivesAdd #grossProfitPercent").parent().addClass("uhide");
+    }
+}
+
 //获取列表复制的值
 function getSelectionRow(data){
 	selectionRow = data;//getQueryString("data") == "" ? "" : getQueryString("data");
@@ -188,17 +210,13 @@ function floatNumberLimit(obj){
 //根据商品名称获取助记码
 function getMemoryCode(){
 	var reqObj = {"skuName":$("#skuName").val()};
-	$.ajax({
+	$_jxc.ajax({
 		url:contextPath+"/common/goods/getMemoryCode",
-		type:"POST",
 		data:reqObj,
-		success:function(result){
-			//console.log(result);
-			$("#memoryCode").val(result); //助记码
-		},
-		error:function(result){
-			console.log(result);
-		}
+		dataType:'text'
+	},function(result){
+		//
+		$("#memoryCode").val(result); //助记码
 	});
 }
 
@@ -238,7 +256,7 @@ function getSkuCode(pricingType,categoryCode){
 //			getBarCodeVal(pricingType, result);
 //		},
 //		error:function(result){
-//			console.log(result);
+//			
 //		}
 //	});
 }
@@ -274,7 +292,7 @@ function getBarCode(pricingType,skuCode){
 //			//$("#barCode").val(result).attr("readonly","readonly");  //条码
 //		},
 //		error:function(result){
-//			console.log(result);
+//			
 //		}
 //	});
 }
@@ -384,25 +402,25 @@ function saveGoodsArchives(){
 
     if($('#skuName').val().trim()===""){
         $('#saveGoodsArchives').removeAttr("disabled");
-        messager("请输入商品名称");
+        $_jxc.alert("请输入商品名称");
         return;
     }
 	
 	if($('#purchaseSpec').val()=="0.00"){
 		$('#saveGoodsArchives').removeAttr("disabled");
-		messager("进货规格不能为0!");
+		$_jxc.alert("进货规格不能为0!");
 		return;
 	}
 	
 	if($("#distributionSpec").val()=== '0.00'){
 		$('#saveGoodsArchives').removeAttr("disabled");
-		messager("配送规格不能为0");
+		$_jxc.alert("配送规格不能为0");
 		return;
 	}
 	
 	if(parseFloat($("#vipPrice").val()) > parseFloat($("#salePrice").val())){
 		$('#saveGoodsArchives').removeAttr("disabled");
-		messager("会员价不能大于零售价");
+		$_jxc.alert("会员价不能大于零售价");
 		return;
 	}
 	
@@ -411,21 +429,16 @@ function saveGoodsArchives(){
 	var barCode = $("#barCode").val();
 	if(pricingType == "ORDINARY"){// 普通商品需要校验条码是否重复
 		var reqObj = reqObj = {"barCode":barCode, "id":$("#id").val()};
-		$.ajax({
+		$_jxc.ajax({
 			url:contextPath+"/common/goods/checkBarCodeByOrdinary",
-			type:"POST",
 			data:reqObj,
-			async:false, 
-			success:function(result){
-				if(result.code == 0){
-					submitForm();
-				}else{
-					$('#saveGoodsArchives').removeAttr("disabled");
-                    messager(result.message);
-				}
-			},
-			error:function(result){
-				console.log(result);
+			async:false
+		},function(result){
+			if(result.code == 0){
+				submitForm();
+			}else{
+				$('#saveGoodsArchives').removeAttr("disabled");
+                $_jxc.alert(result.message);
 			}
 		});
 	}else{
@@ -441,10 +454,10 @@ function submitForm(){
 			if(JSON.parse(data).code == 0){
 				closeDialog();
 				openDialog(contextPath+"/common/goods/updateGoodsView?id="+JSON.parse(data).id,"修改商品档案","edit",JSON.parse(data).id);
-				messager("保存成功");
+				$_jxc.alert("保存成功");
 			}else{
 				$('#saveGoodsArchives').removeAttr("disabled");
-				messager(JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});

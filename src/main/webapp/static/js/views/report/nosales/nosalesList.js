@@ -66,7 +66,7 @@ function initDatagridWXKCML(){
 //查询
 function queryForm(){
 	if($("#branchName").val()=="" && $("#skuCode").val()=="" ){
-        messager("请选择机构或输入条码");
+        $_jxc.alert("请选择机构或输入条码");
         return;
     } 
 	var fromObjStr = $('#queryForm').serializeObject();

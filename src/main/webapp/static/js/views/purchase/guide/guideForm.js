@@ -297,20 +297,20 @@ function nextStep (){
 	var branchCodeName = $("#branchCodeName").val();
 	
 	if(!branchId){
-        messager("请选择机构信息");
+        $_jxc.alert("请选择机构信息");
 		$('#btnNext').removeAttr("disabled");
 		return;
 	}
 	
 	if(branchType==0){
-        messager("不能选择总部类型的机构");
+        $_jxc.alert("不能选择总部类型的机构");
 		$('#btnNext').removeAttr("disabled");
 		return;
 	}
 	
 	if($('#guideType').val() != '1' && $('#guideType').val() != "2"){
 		if($('#startTime').val() ==="" || $('#endTime').val() === ""){
-			messager("请选择要货日期");
+			$_jxc.alert("请选择要货日期");
 			$('#btnNext').removeAttr("disabled");
 			return;
 		}
@@ -319,7 +319,7 @@ function nextStep (){
 	var categoryCodeName = $("#categoryCodeName").val();
 	var categoryCode = $("#categoryCode").val();
 	if(categoryCodeName && !categoryCode){
-        messager("商品类别信息不存在，请重新筛选！");
+        $_jxc.alert("商品类别信息不存在，请重新筛选！");
 		$('#btnNext').removeAttr("disabled");
 		return;
 	}
@@ -327,7 +327,7 @@ function nextStep (){
 	var supplierCodeName = $("#supplierCodeName").val(); 
 	var supplierId = $("#supplierId").val();
 	if(supplierCodeName && !supplierId){
-        messager("供应商信息不存在，请重新筛选！");
+        $_jxc.alert("供应商信息不存在，请重新筛选！");
 		$('#btnNext').removeAttr("disabled");
 		return;
 	}

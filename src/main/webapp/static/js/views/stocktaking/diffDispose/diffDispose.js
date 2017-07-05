@@ -33,7 +33,7 @@ $(function(){
         $('#btndelete').addClass('uinp-no-more');
         $('#btndelete').prop('disabled','disabled ')
 	}else{
-		  messager("数据查询异常");
+		  $_jxc.alert("数据查询异常");
 		  toClose();
 	}
 	initOperateDataGrid(url);
@@ -104,11 +104,6 @@ function initOperateDataGrid(url){
 			},
             {field:'stocktakingNum',title:'盘点数量',width:'100px',align:'right',
                 formatter:function(value,row,index){
-//                    if(row.isFooter){
-//                    	console.log('row.isFooter stocktakingNum',parseFloat(value||0).toFixed(4) )
-//                    	$('#sumStocktakingNum').val(parseFloat(value||0).toFixed(4));
-//                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-//                    }
                     if(!value){
                         row["stocktakingNum"] = parseFloat(value||0).toFixed(2);
                     }
@@ -259,7 +254,7 @@ function initOperateDataGrid(url){
                 	})
         		}
         		if(!gFunComparisonArray(oldData,newData)){
-        			$.messager.alert('提示','数据已经修改请先保存');
+        			$_jxc.alert('数据已经修改请先保存');
         			$(page).pagination('options').pageNumber = oldParam.page;
         			$(page).pagination('options').pageSize = oldParam.rows;
         			$(page).pagination('refresh');
@@ -301,6 +296,10 @@ function initOperateDataGrid(url){
     	 gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
     	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
     }
+
+    if(hasCostPrice==false){
+        priceGrantUtil.grantCostPrice(gridName,["snapshootCostPrice","costAmount","stocktakingCostAmount","profitLossCostAmount"])
+    }
 }
 
 //listen page change
@@ -314,28 +313,22 @@ function initPage(page){
 	}
 }
 function initQueryData(url){
-	$.ajax({
+	$_jxc.ajax({
     	url:url,
-    	type:"GET",
-    	success:function(result){
-            gFunStartLoading();
-            if(result && result.length > 0){
-                $("#"+gridName).datagrid("loadData",result);
-            }else{
-                gFunEndLoading();
-            }
-
-    	},
-    	error:function(result){
+    	type:"GET"
+    },function(result){
+        gFunStartLoading();
+        if(result && result.length > 0){
+            $("#"+gridName).datagrid("loadData",result);
+        }else{
             gFunEndLoading();
-    		successTip("请求发送失败或服务器处理失败");
-    	}
+        }
     });
 }
 
 function reasonChange(newVal,oldVal){
     if(undefined != newVal && newVal.trim().length > 40){
-        messager('原因最多输入40个字符')
+        $_jxc.alert('原因最多输入40个字符')
         newVal = newVal.substr(0,40);
     }
     gridHandel.setFieldTextValue('differenceReason',newVal);
@@ -354,23 +347,18 @@ function updateFooter(){
 function deleteDiffDispose(){
 	var batchId = $("#batchId").val();
 	var ids = [batchId];
-	$.messager.confirm('提示','是否要删除此条数据',function(data){
+	$_jxc.confirm('是否要删除此条数据?',function(data){
 		if(data){
-			$.ajax({
+			$_jxc.ajax({
 		    	url:contextPath+"/stocktaking/diffDispose/deleteStocktakingBatch",
-		    	type:"POST",
 		    	data:{
 		    		ids : ids
-		    	},
-		    	success:function(result){
-		    		successTip(result['message']);
-		    		if(result['code'] == 0){
-		    			back();
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
 		    	}
+		    },function(result){
+	    		$_jxc.alert(result['message']);
+	    		if(result['code'] == 0){
+	    			back();
+	    		}
 		    });
 		}
 	});
@@ -388,11 +376,11 @@ function back(){
 function printDiffDispose(){
 	var length = $("#"+gridName).datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
-	var fromObjStr = $('#searchForm').serializeObject();
-	var param=setParams("searchForm");
+	var fromObjStr = $('#diffForm').serializeObject();
+	var param=setParams("diffForm");
 	parent.addTabPrint("差异详情","打印",contextPath+"/stocktaking/diffDispose/printDiffDispose?" + param);
 }
 
@@ -428,7 +416,7 @@ function saveDiffDispose(){
     });
 
     if(rows.length==0){
-        messager("表格不能为空");
+        $_jxc.alert("表格不能为空");
         return;
     }
     
@@ -437,7 +425,7 @@ function saveDiffDispose(){
     
     if(isCheckResult){
         if(isChcekPrice){
-            $.messager.confirm('系统提示',"盘点数存在为0，是否确定保存",function(r){
+            $_jxc.confirm('系统提示',"盘点数存在为0，是否确定保存",function(r){
                 if (r){
                     saveDataHandel(newRows);
                 }
@@ -463,22 +451,17 @@ function saveDataHandel(rows){
 			remark:remark,
 			diffDetailList:rows
         };
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/stocktaking/diffDispose/saveDiffDispose",
-        type:"POST",
-        data:{"data":JSON.stringify(jsonData)},
-        success:function(result){
-        	gFunEndLoading();
-            if(result['code'] == 0){
-    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
-    			});
-            }else{
-                successTip(result['message']);
-            }
-        },
-        error:function(result){
-            successTip("请求发送失败或服务器处理失败");
+        data:{"data":JSON.stringify(jsonData)}
+    },function(result){
+//    	gFunEndLoading();
+        if(result['code'] == 0){
+			$_jxc.alert("操作成功！",function(){
+				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
+			});
+        }else{
+            $_jxc.alert(result['message']);
         }
     });
 }
@@ -500,7 +483,7 @@ function auditDiffDispose(){
     }
 
     if(!gFunComparisonArray(oldData,newData)){
-        messager("数据已修改，请先保存");
+        $_jxc.alert("数据已修改，请先保存");
         return;
     }
 
@@ -517,26 +500,21 @@ function auditDiffDispose(){
 			batchNo:batchNo,
             sumStocktakingNum:sumStocktakingNum
         };
-	$.messager.confirm('提示','是否审核通过？',function(r){
+	$_jxc.confirm('是否审核通过？',function(r){
 		if(r){
-			gFunStartLoading();
-			$.ajax({
+//			gFunStartLoading();
+			$_jxc.ajax({
 		    	url : contextPath+"/stocktaking/diffDispose/auditDiffDispose",
-		    	type : "POST",
-		    	data:{"data":JSON.stringify(jsonData)},
-		    	success:function(result){
-		    		gFunEndLoading();
-		    		if(result['code'] == 0){
-		    			$.messager.alert("操作提示", "操作成功！", "info",function(){
-		    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
-		    			});
-		    		}else{
-		    			successTip(result['message']);
-		    		}
-		    	},
-		    	error:function(result){
-		    		successTip("请求发送失败或服务器处理失败");
-		    	}
+		    	data:{"data":JSON.stringify(jsonData)}
+		    },function(result){
+//	    		gFunEndLoading();
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/stocktaking/diffDispose/stocktakingBatchView?id="+result['batchId'];
+	    			});
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
 		    });
 		}
 	});
@@ -547,14 +525,14 @@ function auditDiffDispose(){
 function exportData(){
 	var length = dg.datagrid('getData').total;
 	if(length == 0){
-		$.messager.alert('提示',"没有数据");
+		$_jxc.alert("没有数据");
 		return;
 	}
 	var fromObjStr = $('#diffForm').serializeObject();
-	console.log(fromObjStr);
+	
 	$("#diffForm").form({
 		success : function(data){
-			successTip(data.message);
+			$_jxc.alert(data.message);
 		}
 	});
 	$("#diffForm").attr("action",contextPath+"/stocktaking/diffDispose/exportDiffDetailList?"+fromObjStr);

@@ -9,7 +9,7 @@
 <title>采购订单-新增</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/purchase/orderAdd.js?V=v2.5.6"></script>
+<script src="${ctx}/static/js/views/purchase/orderAdd.js?V=${versionNo}"></script>
 
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">

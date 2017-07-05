@@ -36,7 +36,27 @@ function initGoodsEditView(id){
     $('#type').change(function(){
         typeChange();
     });
+    hidePageElement();
 }
+
+function hidePageElement() {
+    if(hasPurchasePrice==false){
+        $("#formGoodsArchivesAdd #purchasePrice").parent().addClass("uhide");
+        $("#formGoodsArchivesAdd #inputTax").parent().addClass("uhide");
+    }
+    if(hasWholesalePrice==false){
+        $("#formGoodsArchivesAdd #wholesalePrice").parent().addClass("uhide");
+    }
+
+    if(hasDistributionPrice==false){
+        $("#formGoodsArchivesAdd #distributionPrice").parent().addClass("uhide");
+    }
+    if(hasCostPrice==false){
+        $("#formGoodsArchivesAdd #grossProfit").parent().addClass("uhide");
+        $("#formGoodsArchivesAdd #grossProfitPercent").parent().addClass("uhide");
+    }
+}
+
 
 function typeChange(){
     var pricingType = 	$('#type').val();
@@ -63,16 +83,12 @@ function typeChange(){
 //根据商品名称获取助记码
 function getMemoryCode(){
 	var reqObj = {"skuName":$("#skuName").val()};
-	$.ajax({
+	$_jxc.ajax({
 		url:contextPath+"/common/goods/getMemoryCode",
-		type:"POST",
 		data:reqObj,
-		success:function(result){
-			$("#memoryCode").val(result); //助记码
-		},
-		error:function(result){
-			console.log(result);
-		}
+		dataType:'text'
+	},function(result){
+		$("#memoryCode").val(result); //助记码
 	});
 }
 
@@ -113,20 +129,15 @@ function getSkuCodeVal(){
  */
 function getSkuCode(pricingType,categoryCode){
 	var reqObj = {"pricingType":pricingType,"categoryCode":categoryCode};
-	$.ajax({
+	$_jxc.ajax({
 		url:contextPath+"/common/goods/getSkuCode",
-		type:"POST",
-		data:reqObj,
-		success:function(result){
-			console.log("货号==",result);
-			$("#skuCode").val(result); //货号
+		data:reqObj
+	},function(result){
+		console.log("货号==",result);
+		$("#skuCode").val(result); //货号
 
-			//计价/计重商品自动生成条码
-			getBarCodeVal(pricingType, result);
-		},
-		error:function(result){
-			console.log(result);
-		}
+		//计价/计重商品自动生成条码
+		getBarCodeVal(pricingType, result);
 	});
 }
 
@@ -151,17 +162,12 @@ function getBarCodeVal(pricingType, skuCode){
  */
 function getBarCode(pricingType,skuCode){
 	var reqObj = {"pricingType":pricingType,"SkuCode":skuCode};
-	$.ajax({
+	$_jxc.ajax({
 		url:contextPath+"/common/goods/getBarCode",
-		type:"POST",
-		data:reqObj,
-		success:function(result){
-			console.log("条码==",result);
-			$("#barCode").val(result).attr("readonly","readonly");  //条码
-		},
-		error:function(result){
-			console.log(result);
-		}
+		data:reqObj
+	},function(result){
+		console.log("条码==",result);
+		$("#barCode").val(result).attr("readonly","readonly");  //条码
 	});
 }
 
@@ -327,18 +333,13 @@ function checkBarCodeByOrdinary(){
 	var result = false;
 	var reqObj = {"barCode":$("#barCode").val(), "id":$("#id").val()};
 
-	$.ajax({
+	$_jxc.ajax({
 		url:contextPath+"/common/goods/checkBarCodeByOrdinary",
-		type:"POST",
 		asyn:false,
-		data:reqObj,
-		success:function(result){
-			if(result.code == 0){ //条码不重复
-				result = true;
-			}
-		},
-		error:function(result){
-			console.log(result);
+		data:reqObj
+	},function(result){
+		if(result.code == 0){ //条码不重复
+			result = true;
 		}
 	});
 	return result;
@@ -357,25 +358,25 @@ function saveGoodsArchives(){
 
     if($('#skuName').val().trim()===""){
         $('#updateGoodsArchives').removeAttr("disabled");
-        messager("请输入商品名称");
+        $_jxc.alert("请输入商品名称");
         return;
     }
 	
 	if($("#purchaseSpec").val()=== '0.00'){
 		$('#updateGoodsArchives').removeAttr("disabled");
-		messager("进货规格不能为0!");
+		$_jxc.alert("进货规格不能为0!");
 		return;
 	}
 	
 	if($("#distributionSpec").val()=== '0.00'){
 		$('#updateGoodsArchives').removeAttr("disabled");
-		messager("配送规格不能为0");
+		$_jxc.alert("配送规格不能为0");
 		return;
 	}
 	
 	if(parseFloat($("#vipPrice").val()) > parseFloat($("#salePrice").val())){
 		$('#updateGoodsArchives').removeAttr("disabled");
-		messager("会员价不能大于零售价");
+		$_jxc.alert("会员价不能大于零售价");
 		return;
 	}
 
@@ -385,21 +386,16 @@ function saveGoodsArchives(){
 	if(pricingType == "ORDINARY"){// 普通商品需要校验条码是否重复
 		var reqObj = reqObj = {"barCode":barCode, "id":$("#id").val()};
 
-		$.ajax({
+		$_jxc.ajax({
 			url:contextPath+"/common/goods/checkBarCodeByOrdinary",
-			type:"POST",
 			data:reqObj,
-			async:false, 
-			success:function(result){
-				if(result.code == 0){
-					submitForm();
-				}else{
-					$('#updateGoodsArchives').removeAttr("disabled");
-					messager(result.message);
-				}
-			},
-			error:function(result){
-				console.log(result);
+			async:false
+		},function(result){
+			if(result.code == 0){
+				submitForm();
+			}else{
+				$('#updateGoodsArchives').removeAttr("disabled");
+				$_jxc.alert(result.message);
 			}
 		});
 
@@ -417,12 +413,12 @@ function submitForm(){
 		url:url,
 		success:function(data){
 			if(JSON.parse(data).code == 0){
-				messager("保存成功");
+				$_jxc.alert("保存成功");
 				goodsSearch();
 				closeDialog();
 			}else{
 				$('#updateGoodsArchives').removeAttr("disabled");
-				messager(JSON.parse(data).message);
+				$_jxc.alert(JSON.parse(data).message);
 			}
 		}
 	});
@@ -574,14 +570,14 @@ function changeBarCode (newVal,oldVal){
 	if(newVal.trim() != ""){
 		barCode = checkNum({value:newVal})
 		if(barCode==""){
-			messager("请输入数字,最多只能是16位数字")
+			$_jxc.alert("请输入数字,最多只能是16位数字")
 			return;
 		}else{
 			checkRepeat(newVal,oldVal);
 		}
 	}else{
 		//gridHandel.setFieldTextValue('barCode',oldVal);
-		messager("请输入条码,最多只能是16位数字")
+		$_jxc.alert("请输入条码,最多只能是16位数字")
 		return;
 	}
 }
@@ -605,7 +601,7 @@ function checkRepeat(newVal){
 	if(flag){
 		gridHandel.setFieldValue('barCode',newVal.substr(0,20));
 	}else {
-		messager("条码"+newVal.substr(0,20)+"重复");
+		$_jxc.alert("条码"+newVal.substr(0,20)+"重复");
 		return;
 	}
 }
@@ -615,11 +611,11 @@ function inserRow(){
 	if($("#newBarCode").val().trim() != ""){
 		barCode = checkNum({value:$("#newBarCode").val()})
 		if(barCode==""){
-			messager("请输入数字,最多只能是20位数字")
+			$_jxc.alert("请输入数字,最多只能是20位数字")
 			return;
 		}
 	}else{
-		messager("请输入条码,最多只能是20位数字")
+		$_jxc.alert("请输入条码,最多只能是20位数字")
 		return;
 	}
 
@@ -645,7 +641,7 @@ function inserRow(){
 		rows.push(newRow);
 		$('#dgPrice').datagrid('loadData',rows);
 	}else{
-		messager("条码不能重复");
+		$_jxc.alert("条码不能重复");
 		return;
 	}
 }
@@ -671,7 +667,7 @@ function saveBarCode(){
 	 var skuCode= $("#skuCode").val();
 	 for(var i = 0;i < data.length;i++){
 		 if(data[i].barCode in map){
-			 messager("条码"+data[i].barCode+"重复");
+			 $_jxc.alert("条码"+data[i].barCode+"重复");
 			 return;
 		 }
 		 map[data[i].barCode] = data[i].barCode;
@@ -683,21 +679,16 @@ function saveBarCode(){
 			newData[i] = temp;
 	 }
 	 
-	 $.ajax({
+	 $_jxc.ajax({
 	        url:contextPath+"/goods/goodsBarcode/saveSkuBarCode",
-	        type:"POST",
 	        contentType:"application/json",
-	        data:JSON.stringify(newData),
-	        success:function(result){
-	            if(result['code'] == 0){
-	                messager("操作成功！");
-	            }else{
-	                successTip(result['message']);
-	            }
-	        },
-	        error:function(result){
-	            successTip("请求发送失败或服务器处理失败");
-	        }
+	        data:JSON.stringify(newData)
+	    },function(result){
+            if(result['code'] == 0){
+                $_jxc.alert("操作成功！");
+            }else{
+                $_jxc.alert(result['message']);
+            }
 	    });
 }
 

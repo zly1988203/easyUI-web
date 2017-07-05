@@ -9,8 +9,8 @@
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/goods/goodsBatchUpdate.js?V=${versionNo}"></script>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
-	<div class="ub ub-ver ub-f1 umar-4 ubor">
+<body class=" uw uh ufs-14 uc-black">
+	<div class="ub ub-ver uh umar-4 ubor">
 		<!-- 操作/筛选 区域 begin -->
 		<div class="umar-4 upad-4">
 			<form id="queryForm">
@@ -21,7 +21,7 @@
 						<shiro:hasPermission name="JxcGoodsBatchUpdate:save">
 							<div class="ubtns-item" onclick="importExcel(0)">导入货号</div>
 							<div class="ubtns-item" onclick="importExcel(1)">导入条码</div>
-							<div class="ubtns-item" onclick="save()">修改</div>
+							<div class="ubtns-item" onclick="save()">保存</div>
 						</shiro:hasPermission>
 						<div class="ubtns-item" onclick="toClose()">关闭</div>
 					</div>

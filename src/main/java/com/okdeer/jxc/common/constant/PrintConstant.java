@@ -196,4 +196,14 @@ public interface PrintConstant {
 	 * @Fields MONTHLY_REPORT : 月进销存报表
 	 */
 	String MONTHLY_REPORT = "MonthlyReport.jrxml";
+	
+	/**
+	 * 一开通交易明细
+	 */
+	String ICC_CARD_TRADING_DETAIL = "iccCardTradingDetail.jrxml";
+	
+	/**
+	 * 一卡通交易汇总
+	 */
+	String ICC_CARD_SUM_TRADING_DETAIL = "iccCardSumTradingDetail.jrxml";
 }

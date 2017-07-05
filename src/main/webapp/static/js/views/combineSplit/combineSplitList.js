@@ -97,9 +97,9 @@ function addCombineSplit(){
 //删单
 function deleteCombineSplit(){
 	var rows = $('#combineSplitList').datagrid('getChecked');
-	console.log('rows',rows);
+	
 	if(rows.length <= 0){
-        messager('没有单据可以删除，请选择一笔单据再删除？','提示');
+        $_jxc.alert('没有单据可以删除，请选择一笔单据再删除？');
 		return;
 	}
 	var tempIds = [];
@@ -115,27 +115,22 @@ function deleteCombineSplit(){
 	})
     
     if(flag){
-    	messager('已经审核的单据不可以删除！');
+    	$_jxc.alert('已经审核的单据不可以删除！');
     	return;
     }
 	
     if(tempIds.length > 0){
-        $.messager.confirm('提示','单据删除后将无法恢复，确认是否删除？',function(r){
+        $_jxc.confirm('单据删除后将无法恢复，确认是否删除？',function(r){
             if (r){
             	//删除单据
-            	gFunStartLoading();
-            	$.ajax({
-                    type: "POST",
+            	$_jxc.ajax({
                     url: contextPath+"/stock/combineSplit/deleteCombineSplit",
-                    data: {"ids":tempIds},
-                    dataType: "json",
-                    success: function(data){
-                    	gFunEndLoading();
-                    	if(data.code == 0){
-                            messager(data['message']);
-                    		queryForm();
-                    	}
-                    }
+                    data: {"ids":tempIds}
+                },function(data){
+                	if(data.code == 0){
+                        $_jxc.alert(data['message']);
+                		queryForm();
+                	}
                 });
             }
         });
