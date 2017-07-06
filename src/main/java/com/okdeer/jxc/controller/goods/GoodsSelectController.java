@@ -247,6 +247,15 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		String targetBranchId = paramVo.getTargetBranchId();
 		List<GoodsSelect> suppliers = null;
 		try {
+			//多商品状态查询
+			if(StringUtils.isNotBlank(paramVo.getStatuses())){
+				List<Integer> statusList = new ArrayList<>();
+				for(String temp : paramVo.getStatuses().split(",")){
+					statusList.add(Integer.valueOf(temp));
+				}
+				paramVo.setStatusList(statusList);
+			}
+			
 			if (FormType.DA.name().equals(type)||FormType.DD.name().equals(type)||FormType.DY.name().equals(type)) {
 				GoodsSelectVo vo = new GoodsSelectVo();
 				vo.setIsManagerStock(1);
@@ -256,6 +265,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				vo.setPageNumber(1);
 				vo.setPageSize(50);
 				vo.setFormType(type);
+				vo.setStatusList(paramVo.getStatusList());
 				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
 				suppliers = goodsSelects.getList();
 			}
