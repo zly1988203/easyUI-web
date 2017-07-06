@@ -113,7 +113,7 @@ function initsupChkAccountList(){
 			{field: 'branchNameFull', title: '机构名称', width: '140px', align: 'left'},
 			{field: 'supplierCode', title: '供应商编号', width: '140px', align: 'left'},
 			{field: 'supplierName', title: '供应商名称', width: '140px', align: 'left'},
-			{field: 'payableAmount', title: '单据金额', width: '80px', align: 'right',
+			{field: 'unpayAmount', title: '单据金额', width: '80px', align: 'right',
 				formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
