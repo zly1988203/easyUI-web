@@ -842,6 +842,7 @@ function selectForm(){
             //供应商
             $("#supplierId").val(data.form.supplierId);
             $("#supplierName").val(data.form.supplierName);
+            $("#saleWay").val(data.form.saleWay);
             //收货机构
             $("#branchId").val(data.form.branchId);
             $("#branchName").val(data.form.branchName);
