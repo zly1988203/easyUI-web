@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -305,9 +306,12 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 				// 条码
 				field = new String[] { "barCode", "realNum", "largeNum" };
 			}
+			
+			List<Integer> statusList = Arrays.asList(0 , 1, 2);
+			
 			GoodsSelectImportVo<GoodsSelectByStockAdjust> vo = goodsSelectImportComponent.importSelectGoodsWithStock(
 					fileName, is, field, new GoodsSelectByStockAdjust(), branchId, user.getId(), type,
-					"/stock/reimburse/downloadErrorFile", new GoodsSelectImportBusinessValid() {
+					"/stock/reimburse/downloadErrorFile", statusList, new GoodsSelectImportBusinessValid() {
 
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
@@ -564,5 +568,5 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 	protected BranchSpecServiceApi getBranchSpecService() {
 		return null;
 	}
-
+	
 }

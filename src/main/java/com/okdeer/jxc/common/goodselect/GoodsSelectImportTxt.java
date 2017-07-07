@@ -149,7 +149,7 @@ public class GoodsSelectImportTxt {
 				dbList1 = new ArrayList<GoodsSelect>();
 			}else{
 				//根据货号查询商品
-				dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid);
+				dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid, null);
 				//-----------------------------新增一校验成功数据为准--------------------------//
 				List<JSONObject> successData = stocktakingGoodsImportHandle.getExcelListSuccessData();
 				for (int i = 0; i < successData.size(); i++) {

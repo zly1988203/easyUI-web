@@ -77,7 +77,7 @@ public class GoodsSelectImportComponent {
 			GoodsSelectImportBusinessValid businessValid, Map<String, String> map_branchid) {
 		String[] branchIds = {branchId};
 		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, false,
-				errorFileDownloadUrlPrefix, businessValid, map_branchid);
+				errorFileDownloadUrlPrefix, businessValid, map_branchid, null);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class GoodsSelectImportComponent {
 			InputStream is, String[] fields, T entity, String[] branchId, String userId, 
 			String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
 		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchId, userId, type, false,
-				errorFileDownloadUrlPrefix, businessValid, null);
+				errorFileDownloadUrlPrefix, businessValid, null, null);
 	}
 
 	/**
@@ -122,8 +122,35 @@ public class GoodsSelectImportComponent {
 			String type, String errorFileDownloadUrlPrefix ,GoodsSelectImportBusinessValid businessValid) {
 		String[] branchIds = {branchId};
 		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, true,
-				errorFileDownloadUrlPrefix, businessValid, null);
+				errorFileDownloadUrlPrefix, businessValid, null, null);
 	}
+	
+	/**
+	 * 导入excel，查询商品和库存(单个机构)
+	 * @param fileName 文件名，用于识别excel文件版本
+	 * @param is	文件流
+	 * @param fields	属性数组，excel数据列所对应实体类属性
+	 * @param entity	业务实体类
+	 * @param branchId 机构
+	 * @param userId 用户
+	 * @param type 导入类型，（0货号、1条码）
+	 * @param errorFileDownloadUrlPrefix  失败文件下载地址前缀
+	 * @param businessValid 业务验证回调
+	 * @param statusList 商品状态列表
+	 * @return
+	 * @author xiaoj02
+	 * @date 2016年10月15日
+	 */
+	public <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsWithStock(String fileName, 
+			InputStream is, String[] fields, T entity, String branchId, String userId, 
+			String type, String errorFileDownloadUrlPrefix , List<Integer> statusList,
+			GoodsSelectImportBusinessValid businessValid) {
+		String[] branchIds = {branchId};
+		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, true,
+				errorFileDownloadUrlPrefix, businessValid, null, statusList);
+	}
+	
+	
 	/**
 	 * 导入excel，查询商品和库存(单个机构)
 	 * @param fileName 文件名，用于识别excel文件版本
@@ -144,9 +171,9 @@ public class GoodsSelectImportComponent {
 			GoodsSelectImportBusinessValid businessValid,Map<String, String> map_branchid) {
 		String[] branchIds = {branchId};
 		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchIds, userId, type, true,
-				errorFileDownloadUrlPrefix, businessValid, map_branchid);
+				errorFileDownloadUrlPrefix, businessValid, map_branchid, null);
 	}
-
+	
 	/**
 	 * 导入excel，查询商品和库存(多个机构)
 	 * @param fileName 文件名，用于识别excel文件版本
@@ -166,7 +193,7 @@ public class GoodsSelectImportComponent {
 			InputStream is, String[] fields, T entity, String[] branchId, String userId, String type,
 			String errorFileDownloadUrlPrefix, GoodsSelectImportBusinessValid businessValid) {
 		return importSelectGoodsMultiBranch(fileName, is, fields, entity, branchId, userId, type, true,
-				errorFileDownloadUrlPrefix, businessValid, null);
+				errorFileDownloadUrlPrefix, businessValid, null, null);
 	}
 
 
@@ -178,7 +205,7 @@ public class GoodsSelectImportComponent {
 	private <T extends GoodsSelect> GoodsSelectImportVo<T> importSelectGoodsMultiBranch(String fileName,
 			InputStream is, String[] fields, T entity, String[] branchId, String userId, String type,
 			Boolean withStock, String errorFileDownloadUrlPrefix, GoodsSelectImportBusinessValid businessValid,
-			Map<String, String> map_branchid) {
+			Map<String, String> map_branchid, List<Integer> statusList) {
 		//读取excel
 		List<JSONObject> excelList = ExcelReaderUtil.readExcel(fileName, is, fields);
 
@@ -202,7 +229,7 @@ public class GoodsSelectImportComponent {
 				dbList1 = new ArrayList<GoodsSelect>();
 			}else{
 				//根据货号查询商品
-				dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid);
+				dbList = goodsSelectServiceApi.queryListBySkuCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid,statusList);
 				//-----------------------------新增一校验成功数据为准--------------------------//
 				List<JSONObject> successData = goodsSelectImportHandle.getExcelListSuccessData();
 				for (int i = 0; i < successData.size(); i++) {
@@ -230,7 +257,7 @@ public class GoodsSelectImportComponent {
 				dbList1 = new ArrayList<GoodsSelect>();
 			}else{
 				//根据条码查询商品，过滤掉条码重复的商品
-				dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid);
+				dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid,statusList);
 
 				//---------------------------新增一校验成功数据为准----------------------------//
 
