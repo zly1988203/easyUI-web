@@ -1345,7 +1345,7 @@ function initDatagridCompose(){
 			{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
 			{field:'unit',title:'单位',width:'60px',align:'left'},
 			{field:'spec',title:'规格',width:'90px',align:'left'},
-			 {field:'price',title:'单价',width:'80px',align:'right',
+			{field:'price',title:'单价',width:'80px',align:'right',
 			    formatter:function(value,row,index){
 			        if(row.isFooter){
 			            return
