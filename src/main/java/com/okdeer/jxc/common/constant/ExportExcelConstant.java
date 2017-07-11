@@ -247,6 +247,11 @@ public interface ExportExcelConstant {
 	String GOODSREPORT = "GoodsReport.xlsx";
 	
 	/**
+	* @Fields GOODSREPORT : 物流商品查询
+	*/
+	String GOODSLOGISTICSREPORT = "GoodsLogisticsReport.xlsx";
+	
+	/**
 	* @Fields BRANCHGOODSSALEREPORT : 分公司商品查询分析
 	*/
 	String BRANCHGOODSSALEREPORT = "BranchGoodsSaleReport.xlsx";
