@@ -13,7 +13,7 @@
     var oldBtype='${branchesGrow.targetBranchType}';
     var oldBname='${branchesGrow.targetBranchName}';
     </script>
-	<script src="${ctx}/static/js/views/deliver/DoAdd.js?V=${versionNo}"></script>
+	<script src="${ctx}/static/js/views/deliver/DoAdd.js?V=V2.6.3"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
