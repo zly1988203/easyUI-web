@@ -14,6 +14,13 @@ $(function(){
     	initDatagridRequire();
     	$('#rotationReport').datagrid({data:[]}); 
     })
+    
+    $('#branchComponent').branchSelect({
+		//ajax请求参数
+		param:{
+			formType:'BF'
+		}
+	});
 });
 
 function getFiledsList(){
@@ -203,17 +210,6 @@ function getFiledsList(){
 }
 
 /**
- * 机构名称
- */
-function selectBranches() {
-	new publicAgencyService(function(data) {
-		$("#branchId").val(data.branchesId);
-		$("#branchCompleCode").val(data.branchCompleCode);
-		$("#branchName").val(data.branchName);
-		$("#oldBranchName").val(data.branchName);
-	}, 'BF', '');
-}
-/**
  * 重置
  */
 var resetForm = function() {
@@ -226,8 +222,10 @@ var resetForm = function() {
 function queryForm(){
 	$("#startCount").val('');
 	$("#endCount").val('');
-	if($("#branchName").val()==""){
-        $_jxc.alert("请选择机构");
+	var branchName = $("#branchName").val();
+	var skuCode = $("#skuCode").val();
+	if(branchName=="" && skuCode ==""){
+        $_jxc.alert("请选择机构或输入商品货号，条码");
         return;
     } 
 	if($("#startTime").val()==""){
@@ -238,17 +236,6 @@ function queryForm(){
 		$_jxc.alert("请选择结束时间");
 		return;
 	} 
-	var oldBranchName = $("#oldBranchName").val();
-	var branchName = $("#branchName").val();
-	var oldSkuName = $("#oldSkuName").val();
-	var skuName = $("#skuName").val();
-	if(oldBranchName && oldBranchName != branchName){
-		$("#branchId").val('');
-	}
-	
-	if(oldSkuName && oldSkuName != skuName){
-		$("#skuId").val('');
-	}
 	
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
