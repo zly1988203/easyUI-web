@@ -801,7 +801,8 @@ function check(){
  * 收货机构
  */
 function selectBranches(){
-    if (sourceBranchType != '0' && sourceBranchType != '1') {
+	// 如果收货机构为空，发货机构为总部或分公司则可以选择机构
+    if (sourceBranchType != '0' && sourceBranchType != '1' && sourceBranchType != '2') {
         return;
     }
     if ($("#referenceNo").val() != '') {
