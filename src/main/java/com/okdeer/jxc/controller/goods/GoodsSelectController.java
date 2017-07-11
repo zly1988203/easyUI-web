@@ -256,7 +256,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				paramVo.setStatusList(statusList);
 			}
 			
-			if (FormType.DA.name().equals(type)||FormType.DD.name().equals(type)||FormType.DY.name().equals(type)) {
+			if (FormType.DA.name().equals(type)||FormType.DD.name().equals(type)||FormType.DY.name().equals(type)||FormType.DR.name().equals(type)) {
 				GoodsSelectVo vo = new GoodsSelectVo();
 				vo.setIsManagerStock(1);
 				vo.setTargetBranchId(targetBranchId);
@@ -266,7 +266,12 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				vo.setPageSize(50);
 				vo.setFormType(type);
 				vo.setStatusList(paramVo.getStatusList());
-				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
+				PageUtils<GoodsSelect> goodsSelects = PageUtils.emptyPage();
+				if(FormType.DR.name().equals(type)){
+				    goodsSelects = goodsSelectServiceApi.getGoodsListDR(vo);
+				}else{
+				    goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
+				}
 				suppliers = goodsSelects.getList();
 			}
 			else {
