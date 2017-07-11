@@ -242,19 +242,23 @@ function initSupChkAcoAdd(){
         ]],
         onCheck:function(rowIndex,rowData){
         	rowData.checked = true;
+        	updateFooter();
         },
         onUncheck:function(rowIndex,rowData){
         	rowData.checked = false;
+        	updateFooter();
         },
         onCheckAll:function(rows){
         	$.each(rows,function(index,item){
         		item.checked = true;
         	})
+        	updateFooter();
         },
         onUncheckAll:function(rows){
         	$.each(rows,function(index,item){
         		item.checked = false;
         	})
+        	updateFooter();
         },
         onClickCell:function(rowIndex,field,value){
         	gridHandel.setBeginRow(rowIndex);
@@ -319,12 +323,12 @@ function changeDisAmount(vewV,oldV){
 	
 	gridHandel.setFieldsData({unpayAmount:_payableAmount - vewV});
 	
-	updateFooter()
+	updateFooter();
 }
 //合计
 function updateFooter(){
     var fields = {payableAmount:0,discountAmount:0,unpayAmount:0};
-    var argWhere = {}
+    var argWhere = {name:'checked',value:true}
     gridHandel.updateFooter(fields,argWhere);
 }
 

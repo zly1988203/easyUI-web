@@ -108,9 +108,9 @@
                     <input class="uinp" type="text" value="${form.daRemark}" readonly="readonly">
                 </div>
                 
-                <div class="ub ub-ac  uw-300 umar-l20">
+                <div class="ub ub-ac uw-500 umar-l20">
                     <div class="umar-r10 uw-70 ut-r">收货地址:</div>
-                    <div class="utxt" id="address"></div>
+                    <div class="utxt" id="address" style="width:auto"></div>
                 </div>
 
            </div>
@@ -120,7 +120,7 @@
                     <input class="uinp" type="text" id="addRebateMoney" name="addRebateMoney" value="${form.addRebateMoney}" readonly="readonly" />
                 </div>
                 
-               <div class="ub ub-ac  uw-850 umar-l20">
+               <div class="ub ub-ac uw-604 umar-l20">
                     <div class="umar-r10 uw-70 ut-r">备注:</div>
                     <input class="uinp ub ub-f1" type="text" id="remark" name="remark" value="${form.remark}" readonly="readonly" />
                </div>

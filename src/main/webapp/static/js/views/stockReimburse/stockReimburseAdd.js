@@ -342,6 +342,7 @@ function selectGoods(searchKey){
         branchId:branchId,
         supplierId:'',
         flag:'0',
+        statuses : '0,1,2'//包括正常、停售、停购的商品
     }
     new publicGoodsServiceTem(param,function(data){
         if(searchKey){
