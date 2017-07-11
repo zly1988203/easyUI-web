@@ -41,6 +41,14 @@
 						<input class="ub" type="radio" id="storesPriceSpec1" name="storesPriceSpec" value="1" checked="checked" />
 						<label for="storesPriceSpec1">门店配送价</label>
 					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="storesPriceSpec2" name="storesPriceSpec" value="2" />
+						<label for="storesPriceSpec2">要货机构成本价</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="storesPriceSpec3" name="storesPriceSpec" value="3"/>
+						<label for="storesPriceSpec3">发货机构成本价</label>
+					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r">自营店要货价格取值:</div>
@@ -224,7 +232,11 @@
 			$("#storesPriceSpec1").attr("checked", "true");
 		} else if (storesPriceSpec === '0') {
 			$("#storesPriceSpec0").attr("checked", "true");
-		}
+		}else if (storesPriceSpec === '2') {
+            $("#storesPriceSpec2").attr("checked", "true");
+        }else if (storesPriceSpec === '3') {
+            $("#storesPriceSpec3").attr("checked", "true");
+        }
 
 		if (dyPriceSpec === null || dyPriceSpec === '0' || dyPriceSpec === '') {
 			$("#dyPriceSpec0").attr("checked", "true");
