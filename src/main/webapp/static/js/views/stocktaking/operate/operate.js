@@ -44,13 +44,163 @@ $(function(){
         $('#btnImport').prop('disabled','disabled ')
 	}
 	initOperateDataGrid();
+	//表格切换
+	$('input[name="goodsType"]').on('change',function(){
+		initOperateDataGrid();
+	})
  }
 )
 
 var gridHandel = new GridClass();
 var dg;
+//构造grid columns
+function getColumns(){
+	//报表类型_repType 1(已知商品) 2(未知商品) 
+	var _repType = $('input[name="goodsType"]:checked').val();
+	var defaultCoumns = [
+		{field:'ck',checkbox:true,hidden:isdisabled},
+		{field:'cz',title:'操作',width:'60px',align:'center',hidden:isdisabled,
+		    formatter : function(value, row,index) {
+		        var str = "";
+		        if(row.isFooter){
+		            
+		        }else{
+		            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+		                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
+		        }
+		        return str;
+		    }
+		},
+        {field:'rowNo',hidden:'true'},
+        {field:'skuId',hidden:'true'},
+        {field:'barCode',hidden:'true'},
+        {field:'skuCode',title:'货号',width: '70px',align:'left',
+        	formatter:function(value,row,index){
+        		if(row.isFooter){
+        			return '<div class="ub ub-pc">合计</div> '
+        		}
+        		return value;
+        	},
+        	editor:{
+                type:'textbox',
+                options:{
+                	disabled:isdisabled,
+                }
+        	}
+        },
+        {field:'skuName',title:'商品名称',width:'200px',align:'left'},
+
+        {field:'unit',title:'单位',width:'60px',align:'left'},
+        {field:'spec',title:'规格',width:'90px',align:'left'},
+        {field:'stocktakingNum',title:'实际盘点数量',width:'100px',align:'right',
+            formatter:function(value,row,index){
+                if(row.isFooter){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+                if(!value){
+                    row["stocktakingNum"] = parseFloat(value||0).toFixed(2);
+                }
+                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            },
+            editor:{
+                type:'numberbox',
+                options:{
+                	disabled:isdisabled,
+                    min:0,
+                    precision:4,
+                    onChange: onChangeStockNum,
+                }
+            }
+        },
+        {field:'price',title:'零售价',width:'100px',align:'right',
+            formatter:function(value,row,index){
+                if(row.isFooter){
+                    return
+                }
+                if(!row.price){
+                	row.price = parseFloat(value||0).toFixed(2);
+                }
+                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            },
+
+        
+        },
+        {field:'amount',title:'零售金额',width:'100px',align:'right',
+            formatter : function(value, row, index) {
+                if(row.isFooter){
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+
+                if(!row.amount){
+                	row.amount = parseFloat(value||0).toFixed(2);
+                }
+                
+                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            },
+            editor:{
+                type:'numberbox',
+                options:{
+                    disabled:true,
+                    min:0,
+                    precision:4,
+                }
+            }
+        }
+    ];
+	
+	//未知商品
+	if(_repType == 2){
+		defaultCoumns = [
+			{field:'ck',checkbox:true},
+			{field:'cz',title:'操作',width:'60px',align:'center',
+			    formatter : function(value, row,index) {
+			        var str = "";
+			        if(row.isFooter){
+			            
+			        }else{
+			            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+			                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
+			        }
+			        return str;
+			    }
+			},
+			{field:'barCode',title:'条码',width: '70px',align:'left',
+				formatter:function(value,row,index){
+					if(row.isFooter){
+						return '<div class="ub ub-pc">合计</div> '
+					}
+					return value;
+				},
+				editor:{
+			        type:'textbox',
+				}
+			},
+			{field:'stocktakingNum',title:'实际盘点数量',width:'100px',align:'right',
+	            formatter:function(value,row,index){
+	                if(row.isFooter){
+	                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	                }
+	                if(!value){
+	                    row["stocktakingNum"] = parseFloat(value||0).toFixed(2);
+	                }
+	                return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+	            },
+	            editor:{
+	                type:'numberbox',
+	                options:{
+	                	disabled:isdisabled,
+	                    min:0,
+	                    precision:4,
+	                    onChange: onChangeStockNum,
+	                }
+	            }
+	        }
+		 ]
+	}
+	return [defaultCoumns];
+}
 function initOperateDataGrid(){
-	 gridHandel.setGridName(gridName);
+	 	gridHandel.setGridName(gridName);
 	    gridHandel.initKey({
 	        firstName:'skuCode',
 	        enterName:'skuCode',
@@ -64,7 +214,7 @@ function initOperateDataGrid(){
 	                },100)
 	            }else{
 	            	branchId = $("#sourceBranchId").val();
-	                selectGoods(arg);
+	            	selectGoods(arg);
 	            }
 	        },
 	    })
@@ -78,96 +228,7 @@ function initOperateDataGrid(){
         showFooter:true,
         height:'100%',
         width:'100%',
-        columns:[[
-			{field:'ck',checkbox:true,hidden:isdisabled},
-			{field:'cz',title:'操作',width:'60px',align:'center',hidden:isdisabled,
-			    formatter : function(value, row,index) {
-			        var str = "";
-			        if(row.isFooter){
-			            
-			        }else{
-			            str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-			                '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-			        }
-			        return str;
-			    }
-			},
-            {field:'rowNo',hidden:'true'},
-            {field:'skuId',hidden:'true'},
-            {field:'barCode',hidden:'true'},
-            {field:'skuCode',title:'货号',width: '70px',align:'left',
-            	formatter:function(value,row,index){
-            		if(row.isFooter){
-            			return '<div class="ub ub-pc">合计</div> '
-            		}
-            		return value;
-            	},
-            	editor:{
-	                type:'textbox',
-	                options:{
-	                	disabled:isdisabled,
-	                }
-            	}
-            },
-            {field:'skuName',title:'商品名称',width:'200px',align:'left'},
-
-            {field:'unit',title:'单位',width:'60px',align:'left'},
-            {field:'spec',title:'规格',width:'90px',align:'left'},
-            {field:'stocktakingNum',title:'实际盘点数量',width:'100px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    if(!value){
-                        row["stocktakingNum"] = parseFloat(value||0).toFixed(2);
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                    	disabled:isdisabled,
-                        min:0,
-                        precision:4,
-                        onChange: onChangeStockNum,
-                    }
-                }
-            },
-            {field:'price',title:'零售价',width:'100px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    if(!row.price){
-                    	row.price = parseFloat(value||0).toFixed(2);
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-
-            
-            },
-            {field:'amount',title:'零售金额',width:'100px',align:'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-
-                    if(!row.amount){
-                    	row.amount = parseFloat(value||0).toFixed(2);
-                    }
-                    
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-                    }
-                }
-            }
-        ]],
+        columns:getColumns(),
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);

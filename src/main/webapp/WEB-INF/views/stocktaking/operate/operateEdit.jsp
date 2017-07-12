@@ -80,6 +80,21 @@
                </div>
                </c:if>
            </div>
+           <div class="ub umar-t8 ">
+           	 <div class="ub ub-ac umar-r40">
+		        <div class="umar-r10 uw-70 ut-r">已知商品:</div>
+                   <div class="ub ub-ac umar-r10">
+					<label>
+						<input type="radio" name="goodsType" value="1" checked="checked"/><span>已知商品</span>
+					</label>
+                   </div>
+                   <div class="ub ub-ac umar-r10">
+					<label>
+						<input type="radio" name="goodsType" value="2" /><span>未知商品</span>
+					</label>
+                   </div>
+		     </div>
+           </div>
            <div class="ub umar-t8">
                <div class="ub ub-ac uw-592 ">
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
