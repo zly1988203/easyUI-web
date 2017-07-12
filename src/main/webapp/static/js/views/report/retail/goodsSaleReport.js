@@ -34,25 +34,25 @@ function initDatagridRequire(){
               {field:'skuCode',title: '货号', width: '55px', align: 'left'},
 			{field: 'skuName', title: '商品名称', width: '185px', align: 'left'},
 			{field: 'barCode', title: '条码', width: '100px', align: 'left'},
-            {field: 'costPrice', title: '成本价', width: '80px', align: 'right',
-            	formatter:function(value,row,index){
-            		 if(row.isFooter){
-                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                     }
-                    if(!value){
-                    	row["costPrice"] = 0.00;
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                    	disabled:true,
-                        min:0,
-                        precision:2
-                    }
-                }
-            },
+//            {field: 'costPrice', title: '成本价', width: '80px', align: 'right',
+//            	formatter:function(value,row,index){
+//            		 if(row.isFooter){
+//                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+//                     }
+//                    if(!value){
+//                    	row["costPrice"] = 0.00;
+//                    }
+//                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+//                },
+//                editor:{
+//                    type:'numberbox',
+//                    options:{
+//                    	disabled:true,
+//                        min:0,
+//                        precision:2
+//                    }
+//                }
+//            },
             {field: 'originalAmount', title: '原价金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		 if(row.isFooter){
