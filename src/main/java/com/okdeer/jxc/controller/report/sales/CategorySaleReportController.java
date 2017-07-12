@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
@@ -18,12 +17,11 @@ public class CategorySaleReportController extends ReportController {
 
 	@RequestMapping(value = "view")
 	public String view() {
-		return "report/sale/goodSaleDetailReport";
+		return "report/sale/categorySaleReport";
 	}
 
 	@Override
 	public ReportService getReportService() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -35,25 +33,21 @@ public class CategorySaleReportController extends ReportController {
 
 	@Override
 	public String getFileName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String[] getHeaders() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String[] getColumns() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void formatter(DataRecord dataRecord) {
-		// TODO Auto-generated method stub
 
 	}
 
