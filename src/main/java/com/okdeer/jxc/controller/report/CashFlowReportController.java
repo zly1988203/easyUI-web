@@ -114,7 +114,8 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 	private CashFlowReportQo getParmas(CashFlowReportQo qo) {
 		
 		if (qo.getEndTime() != null) {
-			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			// qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+		    qo.setEndTime(DateUtils.getNextMinute(qo.getEndTime()));
 		}
 
 		// 如果没有修改所选机构等信息，则去掉该参数

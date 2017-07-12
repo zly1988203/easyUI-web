@@ -260,7 +260,8 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 	// 封装请求参数
 	private SaleFlowReportQo getDefultParmas(SaleFlowReportQo qo) {
 		if (qo.getEndTime() != null) {
-			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			// qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+		    qo.setEndTime(DateUtils.getNextMinute(qo.getEndTime()));
 		}
 		// 如果没有修改所选机构等信息，则去掉该参数
 		String branchNameOrCode = qo.getBranchNameOrCode();

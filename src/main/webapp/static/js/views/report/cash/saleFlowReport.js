@@ -4,8 +4,8 @@
 var pageSize = 50;
 $(function(){
     //开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    $("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd hh:mm"));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd hh:mm"));
   
 
     //初始化列表
