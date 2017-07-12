@@ -109,13 +109,18 @@ public class MessageController {
 		permissions.put("JxcSupplierCheck:audit", "jxcSupplierCheck");
 		//供应商结算单
 		permissions.put("JxcSupplierSettle:audit", "jxcSupplierSettle");
+		//供应商往来账款
+		permissions.put("JxcSupplierAc:export", "jxcSupplierAc");
+
 		//加盟店预收款单
 		permissions.put("JxcFranchiseAdvance:audit", "jxcFranchiseAdvance");
 		//加盟店费用单
 		permissions.put("JxcFranchiseCharge:audit", "jxcFranchiseCharge");
 		//加盟店结算单
 		permissions.put("JxcFranchiseSettle:audit", "jxcFranchiseSettle");
-		
+		//加盟店往来账款
+		permissions.put("JxcFranchiseAc:export", "jxcFranchiseAc");
+
 		//公告
 		permissions.put("jxcSystemNotice:view", "jxcSystemNotice");
 

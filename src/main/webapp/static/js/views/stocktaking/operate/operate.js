@@ -44,8 +44,22 @@ $(function(){
         $('#btnImport').prop('disabled','disabled ')
 	}
 	initOperateDataGrid();
+
 	//表格切换
 	$('input[name="goodsType"]').on('change',function(){
+        if(dg){
+            $("#"+gridName).datagrid('options').url = '';
+        }
+        $("#"+gridName).datagrid('loadData',[]);
+        $("#"+gridName).datagrid('reloadFooter',[]);
+        //报表类型_repType 1(已知商品) 2(未知商品)
+        var _repType = $('input[name="goodsType"]:checked').val();
+
+        if(_repType == 2){//未知商品
+            url = contextPath +"/stocktaking/operate/stocktakingFormUnknownDetailList?formId=" + formId;
+        }else{
+            url = contextPath +"/stocktaking/operate/stocktakingFormDetailList?formId=" + formId;
+        }
 		initOperateDataGrid();
 	})
  }
@@ -73,7 +87,6 @@ function getColumns(){
 		},
         {field:'rowNo',hidden:'true'},
         {field:'skuId',hidden:'true'},
-        {field:'barCode',hidden:'true'},
         {field:'skuCode',title:'货号',width: '70px',align:'left',
         	formatter:function(value,row,index){
         		if(row.isFooter){
@@ -89,7 +102,7 @@ function getColumns(){
         	}
         },
         {field:'skuName',title:'商品名称',width:'200px',align:'left'},
-
+        {field:'barCode',title:'条码',width: '100px',align:'left'},
         {field:'unit',title:'单位',width:'60px',align:'left'},
         {field:'spec',title:'规格',width:'90px',align:'left'},
         {field:'stocktakingNum',title:'实际盘点数量',width:'100px',align:'right',
@@ -218,7 +231,9 @@ function initOperateDataGrid(){
 	            }
 	        },
 	    })
-	    
+        if(dg){
+            $("#"+gridName).datagrid('options').url = '';
+        }
 	   dg = $("#"+gridName).datagrid({
         method:'get',
     	url:url,
