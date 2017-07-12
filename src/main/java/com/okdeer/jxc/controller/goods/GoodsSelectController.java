@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONArray;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -144,7 +145,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 					vo.setBranchIds(Arrays.asList(branchId.split(",")));
 				}
 			}
-			
+
 			//多商品状态查询
 			if(StringUtils.isNotBlank(vo.getStatuses())){
 				List<Integer> statusList = new ArrayList<>();
@@ -156,7 +157,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 
 			//如果formType 是属于配送中的数据 说明不需要管理库存
 			if(FormType.DA.name().equals(vo.getFormType())||FormType.DO.name().equals(vo.getFormType())
-			        ||FormType.DY.name().equals(vo.getFormType())
+					||FormType.DY.name().equals(vo.getFormType())
 					||FormType.DI.name().equals(vo.getFormType())||FormType.DR.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())) {
 				vo.setIsManagerStock(1);
 			}
@@ -172,7 +173,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDR(vo);
 				return goodsSelects;
 			}
-			
+
 			//如果是促销活动页面查询商品，需要过滤掉不参加促销的商品
 			if(FormType.PX.name().equals(vo.getFormType())){
 				vo.setAllowActivity(true);
@@ -197,7 +198,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			}else{
 				suppliers = goodsSelectServiceApi.queryLists(vo);
 			}
-			return suppliers;
+			return replaceBarCode(suppliers,vo);
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:{}", e);
 		}
@@ -215,9 +216,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		//2、判断选择机构类型为店铺还是分公司,type : 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
 		if(type ==Constant.THREE || type ==Constant.FOUR || type ==Constant.FIVE){
 			Integer count = goodsSupplierBranchServiceApi.queryCountByBranchIdAndSupplierId(branchId, supplierId);
-            if (count == 0) {
-			    //2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
-			    vo.setParentId(branches.getParentId());
+			if (count == 0) {
+				//2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
+				vo.setParentId(branches.getParentId());
 			} else {
 				vo.setParentId(branchId);
 			}
@@ -225,7 +226,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			vo.setParentId(branchId);
 		}
 		suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
-		return suppliers;
+		return  replaceBarCode(suppliers,vo);
 	}
 
 
@@ -255,7 +256,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				}
 				paramVo.setStatusList(statusList);
 			}
-			
+
 			if (FormType.DA.name().equals(type)||FormType.DD.name().equals(type)||FormType.DY.name().equals(type)) {
 				GoodsSelectVo vo = new GoodsSelectVo();
 				vo.setIsManagerStock(1);
@@ -288,7 +289,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				if (branchId.indexOf(",") != -1) {
 					branchIds = Arrays.asList(branchId.split(","));
 					branchId = "";
-				//查询多机构，要把当前机构赋值为空
+					//查询多机构，要把当前机构赋值为空
 					paramVo.setBranchId(null);
 				}
 				// 根据有无skuCodes传来数据 空表示是导入货号 有数据表示导入数据
@@ -296,20 +297,20 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				paramVo.setAllowAdjustPrice(allowAdjustPrice);
 				paramVo.setBranchIds(branchIds);
 				if(FormType.PM.name().equals(type)){
-				    // 如果为直送收货，且供应商不是主供应商时，查询出其他供就商也存在的商品
-				    paramVo.setPageNumber(1);
-				    paramVo.setPageSize(1);
-				    suppliers = queryPurchaseGoods(paramVo).getList();
+					// 如果为直送收货，且供应商不是主供应商时，查询出其他供就商也存在的商品
+					paramVo.setPageNumber(1);
+					paramVo.setPageSize(1);
+					suppliers = queryPurchaseGoods(paramVo).getList();
 				}else{
-				    // 采购订单，采购退货输入货号或条码时，只匹配机构自己引入的商品
-				    if(FormType.PA.name().equals(type) || FormType.PR.name().equals(type)){
-				        paramVo.setSupplierId(null);
-				    }
-				    suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
+					// 采购订单，采购退货输入货号或条码时，只匹配机构自己引入的商品
+					if(FormType.PA.name().equals(type) || FormType.PR.name().equals(type)){
+						paramVo.setSupplierId(null);
+					}
+					suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
 				}
 			}
 			LOG.debug("根据货号查询商品:{}" ,suppliers.toString());
-			return suppliers;
+			return  replaceBarCode(suppliers,paramVo);
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:{}", e);
 		}
@@ -580,6 +581,44 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	@RequestMapping(value = "goPublicComfirmDialog")
 	public String goPublicComfirmDialog() {
 		return "component/publicComfirmDialog";
+	}
+	private PageUtils<GoodsSelect> replaceBarCode(PageUtils<GoodsSelect> page,GoodsSelectVo vo){
+		if(page==null||CollectionUtils.isEmpty(page.getList())){
+			return page;
+		}
+		//改变对象值
+		replaceBarCode(page.getList(),vo);
+		return page;
+	}
+	//
+	private List<GoodsSelect> replaceBarCode(List<GoodsSelect> list,GoodsSelectVo vo){
+		if(CollectionUtils.isEmpty(list)){
+			return list;
+		}
+		HashMap<String, GoodsSelect> map=new HashMap<>();
+		for(GoodsSelect goods:list){
+			if(StringUtils.isNotEmpty(goods.getBarCodes())){
+				String[] barCodes= goods.getBarCodes().split(",");
+				for(String str:barCodes){
+					map.put(str, goods);
+				}
+			}
+		}
+		if(!CollectionUtils.isEmpty(vo.getBarCodes())){
+			for(String barCode:vo.getBarCodes()){
+				if(map.containsKey(barCode)){
+					map.get(barCode).setBarCode(barCode);
+				}
+			}
+		}
+		if(!CollectionUtils.isEmpty(vo.getSkuCodesOrBarCodes())){
+			for(String barCode:vo.getSkuCodesOrBarCodes()){
+				if(map.containsKey(barCode)){
+					map.get(barCode).setBarCode(barCode);
+				}
+			}
+		}
+		return list;
 	}
 
 }
