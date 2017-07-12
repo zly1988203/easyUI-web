@@ -615,9 +615,9 @@ function saveModifyPriceOrder() {
 //                                $("#createUserDate").text(data.createUserDate);
 //                                $("#id").val(data.goodsPriceForm.id);
 //                                $("#saveModifyPriceOrder").attr("onclick","updateModifyPriceOrder();");
+                            	//保存成功后 跳转页面
+                            	window.location.href = contextPath+"/goods/priceAdjust/showDetail?formNo="+data.goodsPriceForm.formNo
                             });
-                            //保存成功后 跳转页面
-                            window.location.href = contextPath+"/goods/priceAdjust/showDetail?formNo="+data.goodsPriceForm.formNo
                         } else {
                             // 失败提示
                             $_jxc.alert(data.message);
@@ -695,9 +695,9 @@ function updateModifyPriceOrder() {
                             addModifyPriceGridDg.datagrid('load');
                             $("#formNo").text(data.goodsPriceForm.formNo);
                             $("#formNoInput").val(data.goodsPriceForm.formNo);*/
+                        	//修改成功后跳转
+                        	window.location.href = contextPath+"/goods/priceAdjust/showDetail?formNo="+formData.formNo;
                         });
-                        //修改成功后跳转
-                        window.location.href = contextPath+"/goods/priceAdjust/showDetail?formNo="+formData.formNo;
                     } else {
                         // 失败提示
                         $_jxc.alert(data.message);
