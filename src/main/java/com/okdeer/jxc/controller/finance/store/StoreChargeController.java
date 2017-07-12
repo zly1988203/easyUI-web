@@ -108,7 +108,7 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 
 		// 构建查询参数
 		buildSearchParams(qo);
-
+		qo.setChargeType(Integer.valueOf(0));
 		LOG.debug("查询门店费用条件：{}", qo);
 
 		try {
@@ -160,6 +160,7 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			StoreChargeVo vo = GsonUtils.fromJson(jsonText, StoreChargeVo.class);
 			vo.setCreateUserId(super.getCurrUserId());
 
+			vo.setChargeType(Integer.valueOf(0));
 			return storeChargeService.addStoreCharge(vo);
 
 		} catch (Exception e) {
