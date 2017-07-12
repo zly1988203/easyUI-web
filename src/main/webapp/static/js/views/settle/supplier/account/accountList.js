@@ -26,6 +26,9 @@ $(function(){
 			return data;
 		}
 	});
+    if(getUrlQueryString('message')=='0'){
+        queryForm();
+    }
 })
 
 var datagirdID = 'supAccountList';

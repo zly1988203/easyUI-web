@@ -38,6 +38,7 @@ function initDgTakeStockOperate(){
             		return '未知类型：'+ value;
             	}
             }},
+			{field:'skuNum',title: '品项数', width: 100, align: 'center'},
 			{field: 'branchCode', title: '机构编码', width: 100, align: 'left'},
 			{field: 'branchName', title: '机构名称', width: 120, align: 'left'},
 			{field: 'batchNo', title: '盘点批号', width: 180, align: 'left'},

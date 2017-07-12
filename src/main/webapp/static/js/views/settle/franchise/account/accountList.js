@@ -13,7 +13,10 @@ $(function(){
 			+ ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
 		}
 	});
-	
+
+    if(getUrlQueryString('message')=='0'){
+        queryForm();
+    }
 })
 
 var datagirdID = 'fraAccountList';

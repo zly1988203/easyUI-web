@@ -145,10 +145,13 @@
 				   					<shiro:hasPermission name="JxcSupplierChain:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('联营账款单','settle/supplierChain/chainList?message=0');closeMsg();">联营账款单（<em class="uc-red" id="jxcSupplierChain">...</em>）</a></li></shiro:hasPermission>
 				   					<shiro:hasPermission name="JxcSupplierCheck:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('供应商对账单','settle/supplierCheck/checkList?message=0');closeMsg();">供应商对账单（<em class="uc-red" id="jxcSupplierCheck">...</em>）</a></li></shiro:hasPermission>
 				   					<shiro:hasPermission name="JxcSupplierSettle:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('供应商结算单','settle/supplierSettle/settleList?message=0');closeMsg();">供应商结算单（<em class="uc-red" id="jxcSupplierSettle">...</em>）</a></li></shiro:hasPermission>
-				   					<shiro:hasPermission name="JxcFranchiseAdvance:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('加盟店预收款单','settle/franchiseCharge/advanceList?message=0');closeMsg();">加盟店预收款单（<em class="uc-red" id="jxcFranchiseAdvance">...</em>）</a></li></shiro:hasPermission>
+				   					<shiro:hasPermission name="JxcSupplierAc:export"><li class="msg-li"><a class="" href="javascript:openNewTab('供应商往来账款','settle/supplierAccountCurrent/accountCurrentList?message=0');closeMsg();">供应商往来账款（<em class="uc-red" id="jxcSupplierAc">...</em>）</a></li></shiro:hasPermission>
+
+									<shiro:hasPermission name="JxcFranchiseAdvance:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('加盟店预收款单','settle/franchiseCharge/advanceList?message=0');closeMsg();">加盟店预收款单（<em class="uc-red" id="jxcFranchiseAdvance">...</em>）</a></li></shiro:hasPermission>
 				   					<shiro:hasPermission name="JxcFranchiseCharge:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('加盟店费用单','settle/franchiseCharge/chargeList?message=0');closeMsg();">加盟店费用单（<em class="uc-red" id="jxcFranchiseCharge">...</em>）</a></li></shiro:hasPermission>
 				   					<shiro:hasPermission name="JxcFranchiseSettle:audit"><li class="msg-li"><a class="" href="javascript:openNewTab('加盟店结算单','settle/franchiseSettle/settleList?message=0');closeMsg();">加盟店结算单（<em class="uc-red" id="jxcFranchiseSettle">...</em>）</a></li></shiro:hasPermission>
-				   					
+				   					<shiro:hasPermission name="JxcFranchiseAc:export"><li class="msg-li"><a class="" href="javascript:openNewTab('加盟店往来账款','settle/franchiseAccountCurrent/list?message=0');closeMsg();">加盟店往来账款（<em class="uc-red" id="jxcFranchiseAc">...</em>）</a></li></shiro:hasPermission>
+
 				   					
 				   					<li class="msg-li" id="sumOther" style="display: none;">暂无提醒事项！</li>
 				   				</ul>
