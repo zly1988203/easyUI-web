@@ -4,7 +4,7 @@
  *@Date: 2017年7月12日 
  *@Copyright: ©2014-2020 www.okdeer.com Inc. All rights reserved. 
  */    
-package com.okdeer.jxc.controller.finance.store;  
+package com.okdeer.jxc.controller.report.target;  
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,17 +27,17 @@ import com.okdeer.jxc.controller.BaseController;
  */
 
 @RestController
-@RequestMapping("finance/storePlan")
+@RequestMapping("target/storePlan")
 public class StorePlanController extends BaseController<StorePlanController> {
 	
 	@RequestMapping(value = "toManager")
 	public ModelAndView toManager() {
-		return new ModelAndView("finance/storePlan/storePlanList");
+		return new ModelAndView("report/target/storePlan/storePlanList");
 	}
 
 	@RequestMapping(value = "toAdd")
 	public ModelAndView toAdd() {
-		return new ModelAndView("finance/storePlan/storePlanAdd");
+		return new ModelAndView("report/target/storePlan/storePlanAdd");
 	}
 
 	@RequestMapping(value = "toEdit")
@@ -49,7 +49,7 @@ public class StorePlanController extends BaseController<StorePlanController> {
 
 //		StoreChargePo po = storeChargeService.getStoreChargeById(formId);
 //
-		ModelAndView mv = new ModelAndView("finance/storePlan/storePlanEdit");
+		ModelAndView mv = new ModelAndView("report/target/storePlan/storePlanEdit");
 //		mv.addObject("form", po);
 //
 //		// 待审核
