@@ -757,25 +757,7 @@ function suggestSelectGoods(){
 
 //保存
 function saveOrder(){
-    //商品总数量
-    var totalNum = 0;
-    //总金额
-    var amount=0;
-	// 要活分店id
-	var targetBranchId = $("#targetBranchId").val();
-	//发货分店id
-    var sourceBranchId = $("#sourceBranchId").val();
-    //生效日期
-    var validityTime = $("#validityTime").val();
-    // 备注
-    var remark = $("#remark").val();
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
-
-    var footerRows = $("#"+gridName).datagrid("getFooterRows");
-    if(footerRows){
-        totalNum = parseFloat(footerRows[0]["applyNum"]||0.0).toFixed(4);
-        amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
-    }
 
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
@@ -805,72 +787,146 @@ function saveOrder(){
     if(!isCheckResult){
         return;
     }
-    var saveData = JSON.stringify(rows);
-    var reqObj = {
-    	formType:'DA',
-    	sourceBranchId:sourceBranchId,
-        targetBranchId:targetBranchId,
-        validityTime:validityTime,
-        totalNum:totalNum,
-        amount:amount,
-        remark:remark,
-        branchCode:branchCode,
-        deliverFormListVo : []
-    };
+    var minAmount = $("#minAmount").val();
+    var _footerRow = gridHandel.getFooterRow();
+    var formAmount = _footerRow[0].amount||0;
+
+    if(parseFloat(minAmount) > parseFloat(formAmount)){
+    	$_jxc.confirm('您的要货单金额低于起订金额，起订金额为：' + minAmount +',是否继续保存？',function(data){
+    		if(data){
+    			saveDeliverForm(rows);
+    		}
+    	});
+    }else{
+    	saveDeliverForm(rows);
+    }
     
-    $.each(rows,function(i,data){
-    	var temp = {
-    		skuId : data.skuId,
-    		skuCode : data.skuCode,
-    		skuName : data.skuName,
-    		barCode : data.barCode,
-    		spec : data.spec,
-    		rowNo : data.rowNo,
-    		applyNum : data.applyNum,
-    		largeNum : data.largeNum,
-    		price : data.price,
-    		priceBack : data.priceBack,
-    		amount : data.amount,
-    		inputTax : data.inputTax,
-    		isGift : data.isGift,
-    		remark : data.remark,
-    		originPlace : data.originPlace,
-    		distributionSpec : data.distributionSpec
-    	}
-    	reqObj.deliverFormListVo[i] = temp;
-	});
-//    gFunStartLoading();
-    $_jxc.ajax({
-        url:contextPath+"/form/deliverForm/insertDeliverForm",
-        contentType:"application/json",
-        data:JSON.stringify(reqObj)
-    },function(result){
-//       	 gFunEndLoading();
-       if(result['code'] == 0){
-           $_jxc.alert("操作成功！",function(){
-               location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
-           });
-       }else{
-           var strResult = "";
-           if (result.dataList) {
-               $.each(result.dataList,function(i,item){
-                   strResult += item.goodsName+" ,库存数量： "+item.number+",";
-               })
-           }
-           //$_jxc.alert(result['message'] +","+strResult);
-       	new publicErrorDialog({
-               width:380,
-               height:220,
-       		"title":"保存失败",
-       		"error":result['message']+strResult
-       	});
-       }
-    });
 }
 
+function saveDeliverForm(rows){
+    //商品总数量
+    var totalNum = 0;
+    //总金额
+    var amount=0;
+	// 要活分店id
+	var targetBranchId = $("#targetBranchId").val();
+	//发货分店id
+    var sourceBranchId = $("#sourceBranchId").val();
+    //生效日期
+    var validityTime = $("#validityTime").val();
+    // 备注
+    var remark = $("#remark").val();
+    var footerRows = $("#"+gridName).datagrid("getFooterRows");
+    if(footerRows){
+        totalNum = parseFloat(footerRows[0]["applyNum"]||0.0).toFixed(4);
+        amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
+    }
+	var saveData = JSON.stringify(rows);
+	var reqObj = {
+			formType:'DA',
+			sourceBranchId:sourceBranchId,
+			targetBranchId:targetBranchId,
+			validityTime:validityTime,
+			totalNum:totalNum,
+			amount:amount,
+			remark:remark,
+			branchCode:branchCode,
+			deliverFormListVo : []
+	};
+	
+	$.each(rows,function(i,data){
+		var temp = {
+				skuId : data.skuId,
+				skuCode : data.skuCode,
+				skuName : data.skuName,
+				barCode : data.barCode,
+				spec : data.spec,
+				rowNo : data.rowNo,
+				applyNum : data.applyNum,
+				largeNum : data.largeNum,
+				price : data.price,
+				priceBack : data.priceBack,
+				amount : data.amount,
+				inputTax : data.inputTax,
+				isGift : data.isGift,
+				remark : data.remark,
+				originPlace : data.originPlace,
+				distributionSpec : data.distributionSpec
+		}
+		reqObj.deliverFormListVo[i] = temp;
+	});
+	$_jxc.ajax({
+		url:contextPath+"/form/deliverForm/insertDeliverForm",
+		contentType:"application/json",
+		data:JSON.stringify(reqObj)
+	},function(result){
+		if(result['code'] == 0){
+			$_jxc.alert("操作成功！",function(){
+				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
+			});
+		}else{
+			var strResult = "";
+			if (result.dataList) {
+				$.each(result.dataList,function(i,item){
+					strResult += item.goodsName+" ,库存数量： "+item.number+",";
+				})
+			}
+			//$_jxc.alert(result['message'] +","+strResult);
+			new publicErrorDialog({
+				width:380,
+				height:220,
+				"title":"保存失败",
+				"error":result['message']+strResult
+			});
+		}
+	});
+}
 
 //修改订单
 function updateOrder(){
+    var rows = gridHandel.getRowsWhere({skuName:'1'});
+    $(gridHandel.getGridName()).datagrid("loadData",rows);
+    if(rows.length==0){
+        $_jxc.alert("表格不能为空");
+        return;
+    }
+    var isCheckResult = true;
+    $.each(rows,function(i,v){
+        if(!v["skuCode"]){
+            $_jxc.alert("第"+(i+1)+"行，货号不能为空");
+            isCheckResult = false;
+            return false;
+        };
+        if(v["largeNum"]<=0){
+            $_jxc.alert("第"+(i+1)+"行，箱数必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+        if(v["applyNum"]<=0){
+            $_jxc.alert("第"+(i+1)+"行，数量必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+        v["rowNo"] = i+1;
+    });
+    if(!isCheckResult){
+        return;
+    }
+    var minAmount = $("#minAmount").val();
+    var _footerRow = gridHandel.getFooterRow();
+    var formAmount = _footerRow[0].amount||0;
+    if(parseFloat(minAmount) > parseFloat(formAmount)){
+    	$_jxc.confirm('您的要货单金额低于起订金额，起订金额为：' + minAmount +',是否继续保存？',function(data){
+    		if(data){
+    			updateDeliverForm(rows);
+    		}
+    	});
+    }else{
+    	updateDeliverForm(rows);
+    }
+}
+
+function updateDeliverForm(rows){
     //商品总数量
     var totalNum = 0;
     //总金额
@@ -893,99 +949,69 @@ function updateOrder(){
         totalNum = parseFloat(footerRows[0]["applyNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
-
-    var rows = gridHandel.getRowsWhere({skuName:'1'});
-    $(gridHandel.getGridName()).datagrid("loadData",rows);
-    if(rows.length==0){
-        $_jxc.alert("表格不能为空");
-        return;
-    }
-    var isCheckResult = true;
-    $.each(rows,function(i,v){
-        if(!v["skuCode"]){
-            $_jxc.alert("第"+(i+1)+"行，货号不能为空");
-            isCheckResult = false;
-            return false;
-        };
-        if(v["largeNum"]<=0){
-            $_jxc.alert("第"+(i+1)+"行，箱数必须大于0");
-            isCheckResult = false;
-            return false;
-        }
-        if(v["applyNum"]<=0){
-            $_jxc.alert("第"+(i+1)+"行，数量必须大于0");
-            isCheckResult = false;
-            return false;
-        }
-        v["rowNo"] = i+1;
-    });
-    if(!isCheckResult){
-        return;
-    }
-    var saveData = JSON.stringify(rows);
-    //var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
-    var reqObj = {
-    	sourceBranchId : sourceBranchId,
-    	deliverFormId : $("#formId").val(),
-        targetBranchId : targetBranchId,
-        validityTime : validityTime,
-        totalNum : totalNum,
-        amount : amount,
-        remark : remark,
-        formType : "DA",
-        formNo : formNo,
-        deliverFormListVo : []
-       };
     
-    $.each(rows,function(i,data){
-    	var temp = {
-    		skuId : data.skuId,
-    		skuCode : data.skuCode,
-    		skuName : data.skuName,
-    		barCode : data.barCode,
-    		spec : data.spec,
-    		rowNo : data.rowNo,
-    		applyNum : data.applyNum,
-    		largeNum : data.largeNum,
-    		price : data.price,
-    		priceBack : data.priceBack,
-    		amount : data.amount,
-    		inputTax : data.inputTax,
-    		isGift : data.isGift,
-    		remark : data.remark,
-    		originPlace : data.originPlace,
-    		distributionSpec : data.distributionSpec,
-    		formId : data.formId
-    	}
-    	reqObj.deliverFormListVo[i] = temp;
+	var saveData = JSON.stringify(rows);
+	//var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
+	var reqObj = {
+			sourceBranchId : sourceBranchId,
+			deliverFormId : $("#formId").val(),
+			targetBranchId : targetBranchId,
+			validityTime : validityTime,
+			totalNum : totalNum,
+			amount : amount,
+			remark : remark,
+			formType : "DA",
+			formNo : formNo,
+			deliverFormListVo : []
+	};
+	
+	$.each(rows,function(i,data){
+		var temp = {
+				skuId : data.skuId,
+				skuCode : data.skuCode,
+				skuName : data.skuName,
+				barCode : data.barCode,
+				spec : data.spec,
+				rowNo : data.rowNo,
+				applyNum : data.applyNum,
+				largeNum : data.largeNum,
+				price : data.price,
+				priceBack : data.priceBack,
+				amount : data.amount,
+				inputTax : data.inputTax,
+				isGift : data.isGift,
+				remark : data.remark,
+				originPlace : data.originPlace,
+				distributionSpec : data.distributionSpec,
+				formId : data.formId
+		}
+		reqObj.deliverFormListVo[i] = temp;
 	});
-    
-//    gFunStartLoading();
-    $_jxc.ajax({
-        url:contextPath+"/form/deliverForm/updateDeliverForm",
-        contentType:"application/json",
-        data:JSON.stringify(reqObj),
-    },function(result){
-//        gFunEndLoading();
-        if(result['code'] == 0){
-        	$_jxc.alert("操作成功！");
-            oldData = {
-                targetBranchId:$("#targetBranchId").val(), // 要活分店id
-                sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-                validityTime:$("#validityTime").val(),      //生效日期
-                remark:$("#remark").val(),                  // 备注
-                formNo:$("#formNo").val(),                 // 单号
-            }
-            oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-        		return $.extend(true,{},obj);//返回对象的深拷贝
-        	});
-        	$_jxc.alert("操作成功！",function(){
+	
+	$_jxc.ajax({
+		url:contextPath+"/form/deliverForm/updateDeliverForm",
+		contentType:"application/json",
+		data:JSON.stringify(reqObj),
+	},function(result){
+		if(result['code'] == 0){
+			$_jxc.alert("操作成功！");
+			oldData = {
+					targetBranchId:$("#targetBranchId").val(), // 要活分店id
+					sourceBranchId:$("#sourceBranchId").val(), //发货分店id
+					validityTime:$("#validityTime").val(),      //生效日期
+					remark:$("#remark").val(),                  // 备注
+					formNo:$("#formNo").val(),                 // 单号
+			}
+			oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+				return $.extend(true,{},obj);//返回对象的深拷贝
+			});
+			$_jxc.alert("操作成功！",function(){
 				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + $("#formId").val();
 			});
-        }else{
-            $_jxc.alert(result['message']);
-        }
-    });
+		}else{
+			$_jxc.alert(result['message']);
+		}
+	});
 }
 
 
