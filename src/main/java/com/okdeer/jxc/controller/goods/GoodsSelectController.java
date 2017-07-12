@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONArray;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -197,6 +198,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			}else{
 				suppliers = goodsSelectServiceApi.queryLists(vo);
 			}
+			//用查询条件的国际码替换主条码
+			replaceBarCode(suppliers,vo);
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:{}", e);
@@ -225,6 +228,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			vo.setParentId(branchId);
 		}
 		suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+		//用查询条件的国际码替换主条码
+		replaceBarCode(suppliers,vo);
 		return suppliers;
 	}
 
@@ -314,6 +319,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				}
 			}
 			LOG.debug("根据货号查询商品:{}" ,suppliers.toString());
+			//用查询条件的国际码替换主条码
+			replaceBarCode(suppliers,paramVo);
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询商品选择数据出现异常:{}", e);
@@ -343,6 +350,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			goodsVo.setPricingType(99);
 			LOG.info("vo:" + goodsVo.toString());
 			List<GoodsSelect> list = goodsSelectServiceApi.queryScaleGoods(goodsVo);
+			//用查询条件的国际码替换主条码
+			replaceBarCode(list,goodsVo);
 			msg.setData(list);
 			return msg;
 		} catch (Exception e) {
@@ -544,7 +553,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<GoodsSelect> suppliers = goodsSelectServiceApi.queryGoodsSkuLists(vo);
-			return suppliers;
+			return replaceBarCode(suppliers,vo);
 		} catch (Exception e) {
 			LOG.error("标准查询商品选择数据出现异常:{}", e);
 		}
@@ -586,5 +595,62 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 	public String goPublicComfirmDialog() {
 		return "component/publicComfirmDialog";
 	}
-
+	/**
+	 * @Description: 替换国际码，用输入的国际码替换商品主条码
+	 * @param page
+	 * @param vo
+	 * @return   
+	 * @return PageUtils<GoodsSelect>  
+	 * @throws
+	 * @author yangyq02
+	 * @date 2017年7月12日
+	 */
+	private PageUtils<GoodsSelect> replaceBarCode(PageUtils<GoodsSelect> page,GoodsSelectVo vo){
+		if(page==null||CollectionUtils.isEmpty(page.getList())){
+			return page;
+		}
+		//改变对象值
+		replaceBarCode(page.getList(),vo);
+		return page;
+	}
+	//
+	/**
+	 * @Description: 替换国际码，用输入的国际码替换商品主条码
+	 * @param list
+	 * @param vo
+	 * @return   
+	 * @return List<GoodsSelect>  
+	 * @throws
+	 * @author yangyq02
+	 * @date 2017年7月12日
+	 */
+	private List<GoodsSelect> replaceBarCode(List<GoodsSelect> list,GoodsSelectVo vo){
+		if(CollectionUtils.isEmpty(list)){
+			return list;
+		}
+		HashMap<String, GoodsSelect> map=new HashMap<>();
+		for(GoodsSelect goods:list){
+			if(StringUtils.isNotEmpty(goods.getBarCodes())){
+				String[] barCodes= goods.getBarCodes().split(",");
+				for(String str:barCodes){
+					map.put(str, goods);
+				}
+			}
+		}
+		if(!CollectionUtils.isEmpty(vo.getBarCodes())){
+			for(String barCode:vo.getBarCodes()){
+				if(map.containsKey(barCode)){
+					map.get(barCode).setBarCode(barCode);
+				}
+			}
+		}
+		if(!CollectionUtils.isEmpty(vo.getSkuCodesOrBarCodes())){
+			for(String barCode:vo.getSkuCodesOrBarCodes()){
+				if(map.containsKey(barCode)){
+					map.get(barCode).setBarCode(barCode);
+				}
+			}
+		}
+		return list;
+	}
 }
