@@ -17,7 +17,7 @@
   <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-            <div class="ubtns-item" onclick="addOperate()">新增</div>
+             <div class="ubtns-item" onclick="addOperate()">新增</div>
              <shiro:hasPermission name="JxcCostAdjust:add">
                 <div class="ubtns-item" onclick="saveStocktakingForm(1)">保存</div>
              </shiro:hasPermission>
@@ -76,9 +76,22 @@
                    <div class="utxt"></div>
                </div>
            </div>
-           
+           <div class="ub umar-t8 unhide" >
+           	 <div class="ub ub-ac umar-r40 " >
+		        <div class="umar-r10 uw-70 ut-r">已知商品:</div>
+                   <div class="ub ub-ac umar-r10">
+					<label>
+						<input type="radio" name="goodsType" value="1" checked="checked"/><span>已知商品</span>
+					</label>
+                   </div>
+                   <div class="ub ub-ac umar-r10">
+					<label>
+						<input type="radio" name="goodsType" value="2" /><span>未知商品</span>
+					</label>
+                   </div>
+		    </div>
+           </div>
            <div class="ub umar-t8">
-           
                <div class="ub ub-ac uw-592" >
                    <div class="umar-r10 uw-70 ut-r">备注:</div>
                    <input class="uinp ub ub-f1" type="text" id="remark" name="remark" maxlength="40">
