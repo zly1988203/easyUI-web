@@ -505,7 +505,7 @@ function onSelectIsGift(data){
             //$(targetPrice).numberbox('disable');
         }else{
             //$(targetPrice).numberbox('enable');
-            var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'priceBack');
+            var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
             }
