@@ -75,7 +75,6 @@ public class StorePlanController extends BaseController<StorePlanController> {
 		Branches branch = branchService.getBranchInfoById(branchId);
 		
 		Integer year = Integer.valueOf(monthStr.substring(0, 4));
-		
 
 		ModelAndView mv = new ModelAndView("report/plan/storePlan/storePlanEdit");
 		mv.addObject("branch", branch);

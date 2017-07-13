@@ -40,7 +40,7 @@ function initStorePlanList(){
                 	 if(updatePermission && row.branchId && value){
                 		 strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'门店计划详细\',\''+ contextPath +'/target/storePlan/toEdit?branchId='+ row.branchId +'&monthStr='+ value +'\')">' + value + '</a>';
                 	 }else{
-                		 strHtml = "";
+                		 strHtml = value;
                 	 }
                     return strHtml;
                 }

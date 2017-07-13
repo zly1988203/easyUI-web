@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>新增门店计划</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/report/plan/storePlan/storePlanMain.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/report/plan/storePlan/storePlanMain.js?V=${versionNo}2"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -15,6 +15,7 @@
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4 upad-4">
 		<form id="queryForm" action="" method="post">
+			<input type='hidden' id="chargeStatus" value="add">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="addPlan()">新增</div>
