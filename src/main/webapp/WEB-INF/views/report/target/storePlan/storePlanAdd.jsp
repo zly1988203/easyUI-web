@@ -35,7 +35,7 @@
                 <div class="ub  ub-ac umar-l120">
                 	<div class="umar-r10 uw-80 ut-r">年度:</div>
                     <div class="ub ub-ac umar-l20">
-		              	<input class="Wdate"  readonly="readonly" name="planTime" id="planTime" onclick="selectMonth()"  />
+		              	<input class="Wdate"  readonly="readonly" name="year" id="year" onFocus="WdatePicker({dateFmt:'yyyy',onpicked:selecYear})"  />
 		            </div>
 		            <div class="ub ub-ac uc-red">*</div>
                 </div>
