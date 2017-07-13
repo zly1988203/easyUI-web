@@ -1,6 +1,6 @@
 
 //月份间隔
-var monthMargin = 4;
+var monthMargin = 6;
 
 $(function(){
 	//开始和结束时间
@@ -152,7 +152,7 @@ function initStorePlanList(){
         ]],
         onClickCell:function(rowIndex,field,value){
         	if(!checkBranch())return;
-        	if(!checkIfEdit(rowIndex+1))return;
+        	//if(!checkIfEdit(rowIndex+1))return;
             gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
             var target = gridHandel.getFieldTarget(field);
@@ -278,32 +278,38 @@ function checkIfEdit(month){
 	var _year = $('#year').val();
 	
 	var _dat = new Date();
-	
-	if(_year > _dat.getFullYear()) return true;
-	
+	var _curYear = _dat.getFullYear();
 	//当前月份
 	var _curMonth = _dat.getMonth()+1;
 	
-	console.log('_curMonth',_curMonth);
+	if(_year > _curYear || (_curYear == _year && month >= _curMonth) ) return true;
 	
 	//不可编辑的时间
-	_dat.setMonth(_curMonth - (monthMargin + 2));
+	/*_dat.setMonth(_curMonth - (monthMargin + 2));
 	
 	console.log(_dat);
 	
 	var _tarMonth = _dat.getMonth()+1;
 	
-	console.log('_tarMonth',_tarMonth);
+	console.log('_tarMonth',_tarMonth);*/
 	
-	var　＿lastMargin = 0;
-	if(_year < _dat.getFullYear()){
-		＿lastMargin = 12 - month;
+	//跨年
+	var lastMargin = 0;
+	if(_year < _curYear){
+		lastMargin = 12 - month;
+		lastMargin += _curMonth-1;
+		//月跨度 monthMargin 个月以前 
+		if(lastMargin >= _tarMonth){
+			$_jxc.alert('不可编辑'+monthMargin+'月以前的计划');
+			return false
+		}
+	}else{
+		if(month <= _tarMonth){
+			$_jxc.alert('不可编辑'+monthMargin+'月以前的计划');
+			return false
+		}
 	}
 	
-	if(month <= _tarMonth){
-		$_jxc.alert('不可编辑'+monthMargin+'月以前的计划');
-		return false
-	}
 	return true;
 }
 
