@@ -287,14 +287,6 @@ function checkIfEdit(month){
 	
 	if(_year > _curYear || (_curYear == _year && month >= _curMonth) ) return true;
 	
-	//不可编辑的时间
-	/*_dat.setMonth(_curMonth - (monthMargin + 2));
-	
-	console.log(_dat);
-	
-	var _tarMonth = _dat.getMonth()+1;
-	
-	console.log('_tarMonth',_tarMonth);*/
 	
 	//跨年
 	var lastMargin = 0;
@@ -302,12 +294,14 @@ function checkIfEdit(month){
 		lastMargin = 12 - month;
 		lastMargin += _curMonth-1;
 		//月跨度 monthMargin 个月以前 
-		if(lastMargin >= _tarMonth){
+		if(lastMargin >= monthMargin){
 			$_jxc.alert('不可编辑'+monthMargin+'月以前的计划');
-			return false
+			return false;
 		}
-	}else{
-		if(month <= _tarMonth){
+	}
+	
+	if(_year == _curYear && month < _curMonth ){
+		if(_curMonth - month > monthMargin ){
 			$_jxc.alert('不可编辑'+monthMargin+'月以前的计划');
 			return false
 		}

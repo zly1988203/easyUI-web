@@ -31,8 +31,8 @@ function initStorePlanList(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-            {field:'branchCode',title:'机构编号',width: 120,align:'center'},
-            {field:'branchName',title:'机构名称',width: 120,align:'center'},
+            {field:'branchCode',title:'机构编号',width: 120,align:'left'},
+            {field:'branchName',title:'机构名称',width: 120,align:'left'},
             {field:'monthStr',title:'月份',align:'center',width: 80,
             	formatter:function(value,row,index){
             		 var strHtml = "";
