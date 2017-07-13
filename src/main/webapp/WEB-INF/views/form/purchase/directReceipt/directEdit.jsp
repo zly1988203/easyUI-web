@@ -122,6 +122,9 @@
 			<table id="gridDirectDetail"></table>
 		</div>
 	</div>
-
+    <!-- 是否有改价权限 -->
+    <shiro:hasPermission name="JxcDirectReceipt:updatePrice">
+        <input type="hidden" id="allowUpdatePrice" />
+    </shiro:hasPermission>
 </body>
 </html>

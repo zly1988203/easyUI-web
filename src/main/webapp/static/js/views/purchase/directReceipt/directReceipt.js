@@ -12,8 +12,13 @@ var gridName = "gridDirectDetail";
 var oldData = {};
 var isdisabled = false;
 var url;
-
+var isEdit = true;
 $(function(){
+    //是否允许改价
+    var allowUpdatePrice = $('#allowUpdatePrice').val();
+    if('undefined' != typeof(allowUpdatePrice)){
+    	isEdit = false;
+    }
 	//当前页面状态 新增 修改 审核
 	directStatus = $('#directStatus').val();
 	//修改页面的单据id
@@ -207,7 +212,7 @@ function initDirectDataGrid(){
                    options:{
                        min:0,
                        precision:4,
-                       disabled:true,
+                       disabled:isEdit,
                        onChange:onChangePrice
                    }
                }
@@ -473,7 +478,9 @@ function onSelectIsGift(data){
             gridHandel.setFieldValue('price',0);
             
         }else{
-            $(targetPrice).numberbox('enable');
+        	if(isEdit == false){
+        		$(targetPrice).numberbox('enable');
+        	}
             var oldPrice =  $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
             //realNum 数量
             var _realNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
