@@ -49,6 +49,13 @@ function changeType(){
 			skuCodeOrBarCodeOff();
 			branchOn();
 			initCategoryGrid();
+		} else if (a=="branchSkuTotal") {
+			//  按店铺商品汇总
+    		skuNameOn();
+    		categoryOn();
+    		skuCodeOrBarCodeOn();
+    		branchOn();
+    		initBranchSkuTotalAnalysiGrid();
 		}
     	$("#goodsTotalAnalysi").datagrid('loadData', { total: 0, rows: [] });
     	$('#goodsTotalAnalysi').datagrid({showFooter:false});
@@ -137,6 +144,86 @@ function onChangeCategoryType(newV,oldV){
 }
 var gridHandel = new GridClass();
 var gridName = "goodsTotalAnalysi";
+/**
+ * 初始化表格按  店铺商品汇总
+ * @param queryType
+ */
+function initBranchSkuTotalAnalysiGrid() {
+	gridHandel.setGridName("goodsTotalAnalysi");
+	dg =  $("#goodsTotalAnalysi").datagrid({
+		//title:'普通表单-用键盘操作',
+		method: 'post',
+		align: 'center',
+		//url: "",
+		//toolbar: '#tb',     //工具栏 id为tb
+		singleSelect: false,  //单选  false多选
+		rownumbers: true,    //序号
+		pagination: true,    //分页
+		//fitColumns:true,    //占满
+		showFooter:true,
+		pageSize : 50,
+		pageList : [20,50,100],//可以设置每页记录条数的列表
+		showFooter:true,
+		height:'100%',
+		columns: [[
+		           {field: 'branchCode', title: '店铺编号', width:85, align: 'left'},
+		           {field: 'branchName', title: '店铺名称', width:185, align: 'left'},
+		           {field: 'categoryName', title: '商品大类', width:95, align: 'left'},
+		           {field: 'skuCode', title: '货号', width:55, align: 'left'},
+		           {field: 'skuName', title: '商品名称', width:185, align: 'left'},
+		           {field: 'barCode', title: '条码', width:100, align: 'left'},
+		           {field: 'spec', title: '规格', width:45, align: 'left'},
+		           {field: 'unit', title: '单位', width:45, align: 'left'},
+		           {field: 'saleNum', title: '销售数量', width:80, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
+		           {field: 'saleAmount', title: '销售金额', width:80, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
+		           {field: 'costAmount', title: '成本金额', width:80, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
+		           {field: 'grossProfit', title: '毛利', width:80, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.isFooter){
+		        			   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        		   }
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
+		           {field: 'grossProfitRate', title: '毛利率（%）', width:80, align: 'right',
+		        	   formatter:function(value,row,index){
+		        		   if(row.grossProfitRate===''){
+		        			   return '';
+		        		   }
+		        		   return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
+		        	   }
+		           }
+		           ]],
+		           onLoadSuccess:function(data){
+		        	   gridHandel.setDatagridHeader("center");
+		        	   //updateFooter();
+		           }
+	});
+	if(hasCostPrice==false){
+		priceGrantUtil.grantCostPrice(gridName,["costAmount","grossProfit","grossProfitRate"])
+	}
+}
 /**
  * 初始化表格按  商品
  * @param queryType

@@ -152,7 +152,10 @@ public class GoodsTotalAnalsiController extends ReportController {
 			}else if("branchTotal".equals(map.get("searchType"))){
 				reportFileName="商品销售汇总分析"+ timeStr+"店铺汇总";
 				templateName="GoodsAnalysiByBranch.xlsx";
-			}
+			}else if("branchSkuTotal".equals(map.get("searchType"))){
+                reportFileName="商品销售汇总分析"+ timeStr+"店铺商品汇总";
+                templateName="GoodsAnalysiByBranchSku.xlsx";
+            }
 			// 模板名称，包括后缀名
 			List<DataRecord> dataList=goodsTotalAnalsiServiceApi.getList(map);
 			DataRecord data = goodsTotalAnalsiServiceApi.getExportTotal(map);
