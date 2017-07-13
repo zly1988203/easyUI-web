@@ -2,7 +2,8 @@
 //月份间隔
 var monthMargin = 6;
 var chargeStatus = "add";
-var url;
+var _urlMonthStr = getUrlQueryString('monthStr');
+var gridUrl;
 $(function(){
 	chargeStatus = $('#chargeStatus').val();
 	//开始和结束时间
@@ -25,7 +26,7 @@ $(function(){
     	var branchId = $("#branchId").val();
     	var year = $("#year").val();
     	//方式一
-		url = contextPath + "/target/storePlan/getStorePlanListByYear?branchId="+branchId+"&year="+year;
+    	gridUrl = contextPath + "/target/storePlan/getStorePlanListByYear?branchId="+branchId+"&year="+year;
 		
 		initStorePlanList();
 		
@@ -76,7 +77,7 @@ function initStorePlanList(){
     dg = $("#"+datagridId).datagrid({
         method:'post',
         align:'right',
-        url:url,
+        url:gridUrl,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -379,10 +380,12 @@ function savePlan(){
 		return ;
 	}
 	
+	var _branchId = $('#branchId').val()||'';
+	var _temYear = parseInt($('#year').val()||0);
 	//异步参数
 	var _reqObj = {
-		branchId:$('#branchId').val()||'',
-		year: parseInt($('#year').val()||0),
+		branchId:_branchId,
+		year: _temYear,
 		itemList:_rows
 	};
 	
@@ -403,7 +406,11 @@ function savePlan(){
 	$_jxc.ajax(param,function (result) {
         if(result['code'] == 0){
             $_jxc.alert("保存成功！",function(){
-                location.href = contextPath + "/finance/storeCharge/toEdit?formId=" + result.data.formId;
+            	if(chargeStatus === "add"){
+            		location.href = contextPath + "/target/storePlan/toEdit?branchId=" + _branchId+"&monthStr="+_temYear+"-01";
+            	}else if(chargeStatus === "edit"){
+            		location.href = contextPath + "/target/storePlan/toEdit?branchId=" + _branchId+"&monthStr="+_urlMonthStr;
+                }
             });
         }else{
             $_jxc.alert(result['message'])
