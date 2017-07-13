@@ -87,6 +87,7 @@ function initStorePlanList(){
 		width:'100%',
         columns:[[
             {field:'month',hidden:true},     
+            {field:'id',hidden:true},     
             {field:'monthStr',title:'月份',align:'left',width: 120,
             	formatter:function(value,row,index){
             		if(row.isFooter){
