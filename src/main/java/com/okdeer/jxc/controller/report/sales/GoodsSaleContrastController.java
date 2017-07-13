@@ -33,8 +33,8 @@ public class GoodsSaleContrastController extends BaseController<GoodsSaleContras
 	 * @author zuowm
 	 * @date 2017年7月13日
 	 */
-	@RequestMapping(value = "/list")
-	public String list() {
+	@RequestMapping
+	public String index() {
 		LOG.info("GoodsSaleContrastController start....");
 		return "report/sales/goodsSaleContrast";
 	}

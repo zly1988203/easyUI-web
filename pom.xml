@@ -29,6 +29,7 @@
 		<ca.version>1.2.4-SNAPSHOT</ca.version>
 		<yscapi.version>0.0.3-SNAPSHOT</yscapi.version>
 		<jbarcode.version>0.2.8</jbarcode.version>
+		<facade.report.version>0.0.1-SNAPSHOT</facade.report.version>
 	</properties>
 
 	<dependencies>
@@ -76,6 +77,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<dependency>
+			<groupId>com.okdeer.retail</groupId>
+			<artifactId>retail-facade-report</artifactId>
+			<version>${facade.report.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.okdeer.base</groupId>
 			<artifactId>okdeer-base-web</artifactId>
@@ -87,21 +95,11 @@
 			<version>2.0.2</version>
 		</dependency>
 
-		<!-- <dependency>
-			<groupId>com</groupId>
-			<artifactId>yscapi</artifactId>
-			<version>${yscapi.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.okdeer.ca</groupId>
-			<artifactId>okdeer-ca-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.okdeer.ca</groupId>
-			<artifactId>okdeer-ca-common</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>com</groupId> <artifactId>yscapi</artifactId> 
+			<version>${yscapi.version}</version> </dependency> <dependency> <groupId>com.okdeer.ca</groupId> 
+			<artifactId>okdeer-ca-api</artifactId> <version>1.0.0-SNAPSHOT</version> 
+			</dependency> <dependency> <groupId>com.okdeer.ca</groupId> <artifactId>okdeer-ca-common</artifactId> 
+			<version>1.0.0-SNAPSHOT</version> </dependency> -->
 		<dependency>
 			<groupId>com.yschome</groupId>
 			<artifactId>cloudy_file</artifactId>
@@ -273,59 +271,59 @@
 			<artifactId>barbecue</artifactId>
 			<version>1.5-beta1</version>
 		</dependency>
-	<!-- itextpdf begin -->
+		<!-- itextpdf begin -->
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
-			 <version>5.5.9</version>
+			<version>5.5.9</version>
 		</dependency>
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itext-asian</artifactId>
-			 <version>5.2.0</version>
+			<version>5.2.0</version>
 		</dependency>
 		<!-- itextpdf end -->
 		<dependency>
-		  <groupId>org.jbarcode</groupId>
-		  <artifactId>jbarcode</artifactId>
-		  <version>0.2.8</version>
+			<groupId>org.jbarcode</groupId>
+			<artifactId>jbarcode</artifactId>
+			<version>0.2.8</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-validator</artifactId>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>org.glassfish.web</groupId>
-		    <artifactId>el-impl</artifactId>
-		    <version>2.2</version>
-		    <exclusions>
-		    	<exclusion>
-			    	<groupId>javax.el</groupId>
-	    			<artifactId>javax.el-api</artifactId>
-    			</exclusion>
-		    </exclusions>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>el-impl</artifactId>
+			<version>2.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.el</groupId>
+					<artifactId>javax.el-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
-		    <groupId>javax.el</groupId>
-		    <artifactId>javax.el-api</artifactId>
-		    <version>3.0.0</version>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+			<version>3.0.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.jayway.jsonpath</groupId>
-		    <artifactId>json-path</artifactId>
-		    <scope>test</scope>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
-          <groupId>com.google.zxing</groupId>
-          <artifactId>core</artifactId>
-          <version>2.2</version>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>2.2</version>
 		</dependency>
-	<dependency>
-           <groupId>com.google.zxing</groupId>
-           <artifactId>javase</artifactId>
-          <version>2.2</version>
- </dependency>
-		
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>2.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
@@ -367,82 +365,79 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
-			<!-- <plugin>
-				<groupId>org.codehaus.sonar</groupId>
-				<artifactId>sonar-maven3-plugin</artifactId>
-			</plugin> -->
-			
-			 <plugin>
-		<!-- YUI Compressor Maven压缩插件 -->
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>yuicompressor-maven-plugin</artifactId>
-        <version>1.5.1</version> 
-		<configuration>
-			<!-- 读取js,css文件采用UTF-8编码 -->
-			<encoding>UTF-8</encoding>
-			<!-- 不显示js可能的错误 -->
-			<jswarn>false</jswarn>
-			<!-- 若存在已压缩的文件，会先对比源文件是否有改动
-				有改动便压缩，无改动就不压缩 -->
-			<force>false</force>
-			<!-- 在指定的列号后插入新行 -->
-			<linebreakpos>-1</linebreakpos>
-			<!-- 压缩之前先执行聚合文件操作 -->
-			<preProcessAggregates>true</preProcessAggregates>
-			<!-- 压缩后保存文件后缀 -->
-			<nosuffix>true</nosuffix> 
-			<!-- 源目录，即需压缩的根目录 -->
-			<sourceDirectory>${basedir}/src/main/webapp/static</sourceDirectory>
-			<!-- 压缩js和css文件 -->
-			<includes>
-				<include>**/*.js</include>
-				<include>**/*.css</include>
-			</includes>
-			<!-- 以下目录和文件不会被压缩 -->
-			<excludes>
-				<exclude>**/*.min.js</exclude>
-				<exclude>**/*.min.css</exclude>
-				<exclude>**/gulpfile.js</exclude>
-			</excludes>
-			<!-- 压缩后输出文件目录 -->
-			<outputDirectory>${basedir}/src/main/webapp/static</outputDirectory>
-		</configuration>
-      </plugin>
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-surefire-plugin</artifactId>
-			<configuration>
-		        <skip>false</skip>
-		        <testFailureIgnore>true</testFailureIgnore>
-		    </configuration>
-		</plugin>
-		<plugin>
-			<groupId>org.jacoco</groupId>
-			<artifactId>jacoco-maven-plugin</artifactId>
-			<version>0.7.9</version>
-			<configuration>
-				<destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-				<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
-			</configuration>
-			<executions>
-				<execution>
-					<id>pre-unit-test</id>
-					<goals>
-						<goal>prepare-agent</goal>
-					</goals>
-				</execution>
-				<execution>
-					<id>post-unit-test</id>
-					<phase>prepare-package</phase>
-					<goals>
-						<goal>report</goal>
-					</goals>
-					<configuration>
-						<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
-					</configuration>
-				</execution>
-			</executions>
-		</plugin>
+			<!-- <plugin> <groupId>org.codehaus.sonar</groupId> <artifactId>sonar-maven3-plugin</artifactId> 
+				</plugin> -->
+
+			<plugin>
+				<!-- YUI Compressor Maven压缩插件 -->
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
+				<version>1.5.1</version>
+				<configuration>
+					<!-- 读取js,css文件采用UTF-8编码 -->
+					<encoding>UTF-8</encoding>
+					<!-- 不显示js可能的错误 -->
+					<jswarn>false</jswarn>
+					<!-- 若存在已压缩的文件，会先对比源文件是否有改动 有改动便压缩，无改动就不压缩 -->
+					<force>false</force>
+					<!-- 在指定的列号后插入新行 -->
+					<linebreakpos>-1</linebreakpos>
+					<!-- 压缩之前先执行聚合文件操作 -->
+					<preProcessAggregates>true</preProcessAggregates>
+					<!-- 压缩后保存文件后缀 -->
+					<nosuffix>true</nosuffix>
+					<!-- 源目录，即需压缩的根目录 -->
+					<sourceDirectory>${basedir}/src/main/webapp/static</sourceDirectory>
+					<!-- 压缩js和css文件 -->
+					<includes>
+						<include>**/*.js</include>
+						<include>**/*.css</include>
+					</includes>
+					<!-- 以下目录和文件不会被压缩 -->
+					<excludes>
+						<exclude>**/*.min.js</exclude>
+						<exclude>**/*.min.css</exclude>
+						<exclude>**/gulpfile.js</exclude>
+					</excludes>
+					<!-- 压缩后输出文件目录 -->
+					<outputDirectory>${basedir}/src/main/webapp/static</outputDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>false</skip>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.9</version>
+				<configuration>
+					<destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+					<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>pre-unit-test</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>post-unit-test</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
