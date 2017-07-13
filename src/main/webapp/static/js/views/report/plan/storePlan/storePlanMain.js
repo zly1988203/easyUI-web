@@ -2,24 +2,38 @@
 //月份间隔
 var monthMargin = 6;
 var chargeStatus = "add";
-
+var url;
 $(function(){
 	chargeStatus = $('#chargeStatus').val();
-	
 	//开始和结束时间
     $("#year").val(dateUtil.getCurrentDate().format("yyyy"));
-    initStorePlanList();
-    //机构选择初始化
-    $('#branchSelect').branchSelect({
-    	param:{
-			branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
-		},
-    	onAfterRender:function(data){
-    		//修改机构重设表格数据
-    		gridHandel.setLoadData(getInitDate())
-    	}
-    });
-    
+    //新增
+    if(chargeStatus == 'add'){
+    	initStorePlanList();
+    	//机构选择初始化
+    	$('#branchSelect').branchSelect({
+    		param:{
+    			branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+    		},
+    		onAfterRender:function(data){
+    			//修改机构重设表格数据
+    			//gridHandel.setLoadData(getInitDate())
+    		}
+    	});
+    }else if(chargeStatus == 'edit'){
+    	//编辑
+    	var branchId = $("#branchId").val();
+    	var year = $("#year").val();
+    	//方式一
+		url = contextPath + "/target/storePlan/getStorePlanListByYear?branchId="+branchId+"&year="+year;
+		
+		initStorePlanList();
+		
+    	//方式二
+//		$("#"+datagridId).datagrid('options').queryParams = {"branchId":branchId,"year":year}
+//		$("#"+datagridId).datagrid('options').url = contextPath + "/target/storePlan/getStorePlanListByYear";
+//		$("#"+datagridId).datagrid('load');
+    }
     
 });
 
@@ -62,6 +76,7 @@ function initStorePlanList(){
     dg = $("#"+datagridId).datagrid({
         method:'post',
         align:'right',
+        url:url,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -154,7 +169,7 @@ function initStorePlanList(){
             }
         ]],
         onClickCell:function(rowIndex,field,value){
-        	if(!checkBranch())return;
+        	// if(!checkBranch())return;
         	//if(!checkIfEdit(rowIndex+1))return;
             gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
@@ -396,7 +411,7 @@ function savePlan(){
 	
 }
 
-//查询入库单
+/*//查询入库单
 function queryForm(){
 	 if($("#branchName").val()==""){
 	    $_jxc.alert("请选择店铺名称");
@@ -408,7 +423,7 @@ function queryForm(){
 	$("#"+datagridId).datagrid("options").method = "post";
 	$("#"+datagridId).datagrid('options').url = contextPath + '/storeDaySale/report/getStoreDaySaleList';
 	$("#"+datagridId).datagrid('load', fromObjStr);
-}
+}*/
 
 
 //新增门店计划
