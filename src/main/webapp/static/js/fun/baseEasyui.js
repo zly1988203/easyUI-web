@@ -1015,11 +1015,17 @@ function selectMonth(){
 var $_jxc = {
 	
 	/**
+	 * bwp 07/07/13
+	 * 数字金额最大值
+	 */
+	MAXNUMBER:999999.99,
+	/**
 	 * bwp 07/06/07
 	 * 进销存机构类型枚举对象(参照后台BranchesTypeEnum.java类设置)
 	 * @returns
 	 * <br/>demo
 	 * <br/>$_jxc.branchTypeEnum.HEAD_QUARTERS
+	 * branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
 	 */	
 	branchTypeEnum:{
 		HEAD_QUARTERS:0,     //总部
@@ -1067,6 +1073,52 @@ var $_jxc = {
 		    	cb(r);
             }
 		});  
+	},
+	
+	
+	/**
+	 * bwp 07/07/06
+	 * dialog组件封装
+	 * http://www.jeasyui.com/documentation/index.php
+	 * @param param   参数对象 请阅读easyui文档 
+	 * @returns
+	 * <br/>demo:
+	 * $_jxc.dialog({
+	 *    target:''
+	 * 	  title: 'My Dialog',
+	 *    href:'xxxx/xxx/xxx',
+	 *    buttons:[{
+				text:'保存',
+				handler:function(){...}
+			},{
+				text:'关闭',
+				handler:function(){...}
+			}]
+	 * })
+	 */
+	dialog:function(param){
+		var _dialog_param = {
+			title: 'My Dialog',    
+		    width: 200,    
+		    height: 200,    
+		    closed: false,//定义是否在初始化的时候关闭面板。
+		    cache: false, //True to cache the panel content that loaded from href.
+		    modal: true, //定义是否将窗体显示为模式化窗口。
+		    onClose:function(){
+		    	if(param && param.target){
+		    		
+		    	}else{
+		    		$(_dialogObj).panel('destroy');
+		    		_dialogObj = null;
+		    	}
+		    },
+		}
+		
+		_dialog_param = $.extend(_dialog_param,param)
+		
+		var _dialogObj = $(_dialog_param.target || '<div />').dialog(_dialog_param);
+		return _dialogObj;
+		
 	},
 	
 	/**
@@ -1174,6 +1226,8 @@ var $_jxc = {
 		//隐藏域表单
 		$(_editGroup).find('input[type="hidden"]').val('');
 	}
+	
+	
 	
 	
 }
