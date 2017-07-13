@@ -1,5 +1,6 @@
 
-var maxNUMBER = 999999.99;
+//月份间隔
+var monthMargin = 4;
 
 $(function(){
 	//开始和结束时间
@@ -28,7 +29,7 @@ function selecYear(){
 function getInitDate(){
 	var source_data = [];
 	var _dataV = $('#year').val();
-	var _year = _dataV.split('-')[0];
+	var _year = _dataV;
 	for(var i = 1;i <= 12; i++){
 		source_data.push({
 			    month:i,
@@ -151,6 +152,7 @@ function initStorePlanList(){
         ]],
         onClickCell:function(rowIndex,field,value){
         	if(!checkBranch())return;
+        	if(!checkIfEdit(rowIndex+1))return;
             gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
             var target = gridHandel.getFieldTarget(field);
@@ -175,8 +177,8 @@ function changeOnDatePrice(newV,oldV){
 		return;
 	}
 	
-	if(newV > maxNUMBER){
-		$_jxc.alert('金额不得大于 '+maxNUMBER);
+	if(newV > $_jxc.MAXNUMBER){
+		$_jxc.alert('金额不得大于 '+$_jxc.MAXNUMBER);
 		editErrorOD = true;
 		$(this).numberbox('setValue',oldV);
 		return;
@@ -193,8 +195,8 @@ function changeUpDatePrice(newV,oldV){
 		editErrorUD = false;
 		return;
 	}
-	if(newV > maxNUMBER){
-		$_jxc.alert('金额不得大于 '+maxNUMBER);
+	if(newV > $_jxc.MAXNUMBER){
+		$_jxc.alert('金额不得大于 '+$_jxc.MAXNUMBER);
 		editErrorUD = true;
 		$(this).numberbox('setValue',oldV)
 	}
@@ -210,8 +212,8 @@ function changeDatePrice(newV,oldV){
 		editError = false;
 		return;
 	}
-	if(newV > maxNUMBER){
-		$_jxc.alert('金额不得大于 '+maxNUMBER);
+	if(newV > $_jxc.MAXNUMBER){
+		$_jxc.alert('金额不得大于 '+$_jxc.MAXNUMBER);
 		editError = true;
 		$(this).numberbox('setValue',oldV)
 	}
@@ -241,7 +243,7 @@ function calculateMoney(){
 //根据月份计算
 function getNumberByMonth(month,number){
 	var _dataV = $('#year').val();
-	var _year = _dataV.split('-')[0];//年
+	var _year = _dataV;//年
 	if(month == 2){
 		//平年 28天月
 		if(0 == _year%4 && (_year%100 !=0 || _year%400 == 0)){
@@ -249,7 +251,6 @@ function getNumberByMonth(month,number){
 		}else{
 			return parseFloat(number)*28;
 		}
-		
 	}
 	//31天月
 	if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12 ){
@@ -268,6 +269,42 @@ function checkBranch(){
 	    return false;
 	 } 
 	 return true;
+}
+
+//校验是否可以编辑
+function checkIfEdit(month){
+	console.log('month',month);
+	
+	var _year = $('#year').val();
+	
+	var _dat = new Date();
+	
+	if(_year > _dat.getFullYear()) return true;
+	
+	//当前月份
+	var _curMonth = _dat.getMonth()+1;
+	
+	console.log('_curMonth',_curMonth);
+	
+	//不可编辑的时间
+	_dat.setMonth(_curMonth - (monthMargin + 2));
+	
+	console.log(_dat);
+	
+	var _tarMonth = _dat.getMonth()+1;
+	
+	console.log('_tarMonth',_tarMonth);
+	
+	var　＿lastMargin = 0;
+	if(_year < _dat.getFullYear()){
+		＿lastMargin = 12 - month;
+	}
+	
+	if(month <= _tarMonth){
+		$_jxc.alert('不可编辑'+monthMargin+'月以前的计划');
+		return false
+	}
+	return true;
 }
 
 //合计
