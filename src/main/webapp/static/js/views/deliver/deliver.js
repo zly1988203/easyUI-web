@@ -496,8 +496,14 @@ function onChangeLargeNum(newV,oldV){
     updateFooter();
 }
 //监听商品数量
+//不符合规格标示 bug 20079 要货申请选择商品规格大于1的商品，先输入数量为1，然后再输入箱数为1后，不会自动计算数量
+var errroPur = false;
 function onChangeRealNum(newV,oldV,event) {
-	//if(!oldV)return;
+	//bug 20079 要货申请选择商品规格大于1的商品，先输入数量为1，然后再输入箱数为1后，不会自动计算数量
+	if(errroPur){
+		errroPur = false;
+		return;
+	}
 	if("" == newV){
 		n= 2;
 		 $_jxc.alert("商品数量输入有误");
@@ -524,6 +530,8 @@ function onChangeRealNum(newV,oldV,event) {
     var tempNum = parseFloat(newV).toFixed(4)/parseFloat(purchaseSpecValue).toFixed(4);
     if(parseInt(tempNum) != tempNum){
         $_jxc.alert("输入的数量必须是商品规格("+purchaseSpecValue+")的整数倍");
+        //bug 20079 要货申请选择商品规格大于1的商品，先输入数量为1，然后再输入箱数为1后，不会自动计算数量 
+        errroPur = true;
         gridHandel.setFieldValue('applyNum',0.0000);
         gridHandel.setSelectFieldName("applyNum");
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
