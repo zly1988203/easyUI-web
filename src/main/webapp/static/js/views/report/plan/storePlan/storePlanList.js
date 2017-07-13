@@ -1,6 +1,11 @@
 $(function(){
 	//开始和结束时间
-    $("#saleTime").val(dateUtil.getCurrentDate().format("yyyy-MM"));
+	$("#startTime").val(dateUtil.getCurrentYearFirstDate().format("yyyy-MM"));
+    $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM"));
+    
+    $("#branchCodeName").val(sessionBranchCodeName);
+    $("#branchCompleCode").val(sessionBranchCompleCode);
+    
     initStorePlanList();
     
     //机构选择初始化
@@ -11,6 +16,7 @@ var gridHandel = new GridClass();
 var datagridId = 'storePlanList';
 //初始化表格 没有成本价权限
 function initStorePlanList(){
+	var updatePermission = $("#updatePermission").html().trim();
     dg = $("#"+datagridId).datagrid({
         method:'post',
         align:'right',
@@ -25,62 +31,68 @@ function initStorePlanList(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-            {field:'branchCode',title:'机构编号',width: 120,align:'right'},
-            {field:'branchName',title:'机构名称',width: 120,align:'right'},
-            {field:'month',title:'月份',align:'right',width: 80,
+            {field:'branchCode',title:'机构编号',width: 120,align:'center'},
+            {field:'branchName',title:'机构名称',width: 120,align:'center'},
+            {field:'monthStr',title:'月份',align:'center',width: 80,
             	formatter:function(value,row,index){
-            		value = '2017-01';
-                    return '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'门店计划详细\',\''+ contextPath +'/settle/supplierSettle/settleEdit?id='+ row.id +'\')">' + value + '</a>';
+            		 var strHtml = "";
+
+                	 if(updatePermission && row.branchId && value){
+                		 strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'门店计划详细\',\''+ contextPath +'/target/storePlan/toEdit?branchId='+ row.branchId +'&monthStr='+ value +'\')">' + value + '</a>';
+                	 }else{
+                		 strHtml = "";
+                	 }
+                    return strHtml;
                 }
             },
-            {field:'monthAmount',title:'月目标销额',align:'right',width: 100,
+            {field:'targetSaleAmount',title:'月目标销额',align:'right',width: 100,
             	formatter:function(value,row,index){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'up_monthAmount',title:'线下月目标销额',align:'right',width: 100,
+            {field:'offlineTargetSaleAmount',title:'线下月目标销额',align:'right',width: 100,
             	formatter:function(value,row,index){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'top_monthAmount',title:'线上月目标销额',align:'right',width: 100,
+            {field:'onlineTargetSaleAmount',title:'线上月目标销额',align:'right',width: 100,
             	formatter:function(value,row,index){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'cost_month',title:'月目标成本',align:'right',width: 100,
+            {field:'targetCostAmount',title:'月目标成本',align:'right',width: 100,
             	formatter:function(value,row,index){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'done_count',title:'总完成额',align:'right',width: 100,
+            {field:'saleAmount',title:'总完成额',align:'right',width: 100,
             	formatter:function(value,row,index){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'done_rate',title:'总完成率',align:'right',width: 100,
+            {field:'totalComplePercentStr',title:'总完成率',align:'right',width: 100,
+            	formatter:function(value,row,index){
+                    return '<b>'+value+'</b>';
+                }
+            },
+            {field:'offlineSaleAmount',title:'线下完成额',align:'right',width: 100,
             	formatter:function(value,row,index){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'up_doneAmount',title:'线下完成额',align:'right',width: 100,
+            {field:'offlineComplePercentStr',title:'线下完成率',align:'right',width: 100,
+            	formatter:function(value,row,index){
+            		return '<b>'+value+'</b>';
+                }
+            },
+            {field:'onlineSaleAmount',title:'线上完成额',align:'right',width: 100,
             	formatter:function(value,row,index){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'up_doneRate',title:'线下完成率',align:'right',width: 100,
+            {field:'onlineComplePercentStr',title:'线上完成率',align:'right',width: 100,
             	formatter:function(value,row,index){
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
-            },
-            {field:'top_doneAmount',title:'线上完成额',align:'right',width: 100,
-            	formatter:function(value,row,index){
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
-            },
-            {field:'top_doneRate',title:'线上完成率',align:'right',width: 100,
-            	formatter:function(value,row,index){
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return '<b>'+value+'</b>';
                 }
             }
         ]],
@@ -95,62 +107,26 @@ function initStorePlanList(){
 
 //查询入库单
 function queryForm(){
-	 if($("#branchName").val()==""){
+	 if($("#branchCodeName").val()==""){
 	    $_jxc.alert("请选择店铺名称");
 	    return;
 	 } 
 	var fromObjStr = $('#queryForm').serializeObject();
-	// 去除编码
-	fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+	if($('#isShowZero').is(':checked')) {
+		var isShowZero = $("#isShowZero").val();
+		fromObjStr.isShowZero = isShowZero;
+	}else{
+		fromObjStr.isShowZero = null;
+	}
+	
 	$("#"+datagridId).datagrid("options").method = "post";
-	$("#"+datagridId).datagrid('options').url = contextPath + '/storeDaySale/report/getStoreDaySaleList';
+	$("#"+datagridId).datagrid('options').url = contextPath + '/target/storePlan/getStorePlanList';
 	$("#"+datagridId).datagrid('load', fromObjStr);
 }
 
 //新增门店计划
 function addPlan(){
 	toAddTab("新增门店计划",contextPath + "/target/storePlan/toAdd");
-}
-
-/**
- * 导出
- */
-function exportData(){
-	var length = $('#storeDaySale').datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
-/**
- * 导出
- */
-function exportExcel(){
-	var length = $("#"+datagridId).datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("没有数据");
-		return;
-	}
-	var fromObjStr = $('#queryForm').serializeObject();
-	
-	$("#queryForm").form({
-		success : function(data){
-			if(data==null){
-				$_jxc.alert("导出数据成功！");
-			}else{
-				$_jxc.alert(JSON.parse(data).message);
-			}
-		}
-	});
-	$("#queryForm").attr("action",contextPath+"/storeDaySale/report/exportList?"+fromObjStr);
-	$("#queryForm").submit();
 }
 
 /**

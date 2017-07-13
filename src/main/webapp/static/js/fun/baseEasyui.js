@@ -463,6 +463,27 @@ var dateUtil = {
         //返回
         return startStop;
     },
+    
+    /***
+     * 得到本年的第一天
+     *
+     */
+    getCurrentYearFirstDate:function () {
+    	var currentYearFirstDate = this.getCurrentYear()[0];
+        
+        return currentYearFirstDate;
+    },
+    
+    /***
+     * 得到本年的最后一天
+     *
+     */
+    getCurrentYearLastDate:function () {
+    	var currentYearLastDate = this.getCurrentYear()[1];
+        
+        return currentYearLastDate;
+    },
+    
     /**
      * //如果数据小于10.加一个0
      * @param date

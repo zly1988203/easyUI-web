@@ -112,7 +112,7 @@ public class StorePlanController extends BaseController<StorePlanController> {
 			qo.setBranchCompleCode(super.getCurrBranchCompleCode());
 		}
 
-		qo.setEndTime(DateUtils.getDayAfter(qo.getEndTime()));
+		qo.setEndTime(DateUtils.addMonths(qo.getEndTime(), 1));
 	}
 	
 	@RequestMapping(value = "getStorePlanListByYear", method = RequestMethod.POST)
