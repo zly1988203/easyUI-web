@@ -154,9 +154,9 @@
 					</div>
 
 					<!-- <div class="ub ub-ac umar-r10">
-	<input class="radioItem" type="radio" name="orderStatus"
-	id="status2" value="2" /><label for="status2">待配送</label>
-	</div> -->
+						<input class="radioItem" type="radio" name="orderStatus"
+							id="status2" value="2" /><label for="status2">待配送</label>
+					</div> -->
 
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="orderStatus"
