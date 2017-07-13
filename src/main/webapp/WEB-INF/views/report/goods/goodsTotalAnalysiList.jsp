@@ -71,6 +71,10 @@
 			            <label>
 			                <input class="radioItem" type="radio" name="searchType" value="branchTotal" />店铺汇总</label>
 			        </div>
+			        <div class="ub ub-ac umar-r10">
+			            <label>
+			                <input class="radioItem" type="radio" name="searchType" value="branchSkuTotal" />店铺商品汇总</label>
+			        </div>
 			    </div>
 			</div>
 			<div class="ub umar-t8">
