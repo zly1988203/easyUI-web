@@ -8,7 +8,7 @@
 <title>门店计划</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/target/storePlan/storePlanList.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/report/plan/storePlan/storePlanList.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
