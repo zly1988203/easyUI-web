@@ -1,4 +1,4 @@
-﻿(function ($) {
+﻿﻿(function ($) {
     $.fn.createPages = function(options,jsonReplace) {
     	//明细列头
         function createThead(jqPage, columns) {
@@ -192,8 +192,16 @@
                             val = fmt(row[field], row);
                         }                        
                     }
-                    if(col.title=="箱数"||col.title=="数量"||col.title=="进价"||col.title=="金额"||col.title=="税率"||col.title=="税额"||col.title=="单价"||col.title=="成本价"){
+                    if(col.title=="箱数"||col.title=="数量"||col.title=="金额"||col.title=="税率"||col.title=="税额"||col.title=="单价"||col.title=="成本价"){
                         val = parseFloat(val||0).toFixed(2);
+                    }
+                    if(col.title=="进价"){
+                    	var page = $.helper.getUrlVar('page');
+                    	var fixed = 2;
+                    	if(page==='PASheet'||page==='PISheet'||page==='PRSheet'){
+                    		fixed = 4;
+                    	}
+                    	val = parseFloat(val||0).toFixed(fixed);
                     }
                     td.html(val);
                     td.appendTo(tr);

@@ -122,9 +122,9 @@ function initDatagridEditOrder(){
                         return;
                     }
                     if(!row.price){
-                    	row.price = parseFloat(value||0).toFixed(2);
+                    	row.price = parseFloat(value||0).toFixed(4);
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
