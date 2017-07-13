@@ -1,8 +1,11 @@
 
 //月份间隔
 var monthMargin = 6;
+var chargeStatus = "add";
 
 $(function(){
+	chargeStatus = $('#chargeStatus').val();
+	
 	//开始和结束时间
     $("#year").val(dateUtil.getCurrentDate().format("yyyy"));
     initStorePlanList();
@@ -346,6 +349,9 @@ function savePlan(){
 			obj.dayavgSaleAmount = obj.dayavgSaleAmount+"";
 			obj.monthCostAmount = obj.monthCostAmount+"";
 			obj.monthSaleAmount = obj.monthSaleAmount+"";
+			obj.dayavgSaleAmountOnline = obj.dayavgSaleAmountOnline+"";
+			obj.dayavgSaleAmountOffline = obj.dayavgSaleAmountOffline+"";
+			obj.dayavgCostAmount = obj.dayavgCostAmount+"";
 			
 			if(parseFloat(obj.dayavgSaleAmountOnline||0) > 0 || parseFloat(obj.dayavgSaleAmountOffline||0) > 0 || parseFloat(obj.dayavgCostAmount||0) > 0 ){
 				_errorFlag = true;
@@ -360,19 +366,33 @@ function savePlan(){
 	//异步参数
 	var _reqObj = {
 		branchId:$('#branchId').val()||'',
-		year:$('#year').val()||'',
+		year: parseInt($('#year').val()||0),
 		itemList:_rows
 	};
+	
+	var url = "";
+    if(chargeStatus === "add"){
+        url = contextPath + "/target/storePlan/addStorePlan";
+    }else if(chargeStatus === "edit"){
+    	url = contextPath + "/target/storePlan/updateStorePlan";
+    }
+	
+	var param = {
+        url:url,
+        data:JSON.stringify(_reqObj),
+        contentType:'application/json',
+    }
 	//console.log('_rows',_reqObj);
-	$_jxc.ajax({
-		url:contextPath + "/target/storePlan/dd",
-		data:JSON.stringify(_reqObj)
-	},function(data){
-		
-	})
 	
-	
-	
+	$_jxc.ajax(param,function (result) {
+        if(result['code'] == 0){
+            $_jxc.alert("保存成功！",function(){
+                location.href = contextPath + "/finance/storeCharge/toEdit?formId=" + result.data.formId;
+            });
+        }else{
+            $_jxc.alert(result['message'])
+        }
+    });
 	
 }
 
@@ -394,47 +414,6 @@ function queryForm(){
 //新增门店计划
 function addPlan(){
 	toAddTab("新增门店计划",contextPath + "/target/storePlan/toAdd");
-}
-
-/**
- * 导出
- */
-function exportData(){
-	var length = $('#storeDaySale').datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
-/**
- * 导出
- */
-function exportExcel(){
-	var length = $("#"+datagridId).datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("没有数据");
-		return;
-	}
-	var fromObjStr = $('#queryForm').serializeObject();
-	
-	$("#queryForm").form({
-		success : function(data){
-			if(data==null){
-				$_jxc.alert("导出数据成功！");
-			}else{
-				$_jxc.alert(JSON.parse(data).message);
-			}
-		}
-	});
-	$("#queryForm").attr("action",contextPath+"/storeDaySale/report/exportList?"+fromObjStr);
-	$("#queryForm").submit();
 }
 
 /**
