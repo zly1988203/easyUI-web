@@ -40,7 +40,6 @@ $(function(){
                     saleWay:$("#saleWay").val(),
                     remark:$("#remark").val(),
         }
-
 		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 		$('#already-examine').css('display','none');
 		$('#btnCheck').css('display','black');
@@ -57,6 +56,8 @@ $(function(){
 	}else if(directStatus === '1'){
 		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 		isdisabled = true;
+		//已审核 不给编辑
+		isEdit = true;
 		$('#already-examine').css('display','black');
         $('#remark').prop('readOnly','readOnly');
         $('#btnSave').addClass("uinp-no-more");
