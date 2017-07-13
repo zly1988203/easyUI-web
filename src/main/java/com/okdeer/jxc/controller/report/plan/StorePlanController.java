@@ -4,7 +4,7 @@
  *@Date: 2017年7月12日 
  *@Copyright: ©2014-2020 www.okdeer.com Inc. All rights reserved. 
  */    
-package com.okdeer.jxc.controller.report.target;  
+package com.okdeer.jxc.controller.report.plan;  
 
 import java.util.List;
 
@@ -55,12 +55,12 @@ public class StorePlanController extends BaseController<StorePlanController> {
 	
 	@RequestMapping(value = "toManager")
 	public ModelAndView toManager() {
-		return new ModelAndView("report/target/storePlan/storePlanList");
+		return new ModelAndView("report/plan/storePlan/storePlanList");
 	}
 
 	@RequestMapping(value = "toAdd")
 	public ModelAndView toAdd() {
-		return new ModelAndView("report/target/storePlan/storePlanAdd");
+		return new ModelAndView("report/plan/storePlan/storePlanAdd");
 	}
 
 	@RequestMapping(value = "toEdit")
@@ -77,7 +77,7 @@ public class StorePlanController extends BaseController<StorePlanController> {
 		Integer year = Integer.valueOf(monthStr.substring(0, 4));
 		
 
-		ModelAndView mv = new ModelAndView("report/target/storePlan/storePlanEdit");
+		ModelAndView mv = new ModelAndView("report/plan/storePlan/storePlanEdit");
 		mv.addObject("branch", branch);
 		mv.addObject("monthStr", monthStr);
 		mv.addObject("year", year);
