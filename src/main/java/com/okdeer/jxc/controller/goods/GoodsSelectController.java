@@ -145,7 +145,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 					vo.setBranchIds(Arrays.asList(branchId.split(",")));
 				}
 			}
-			
+
 			//多商品状态查询
 			if(StringUtils.isNotBlank(vo.getStatuses())){
 				List<Integer> statusList = new ArrayList<>();
@@ -157,7 +157,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 
 			//如果formType 是属于配送中的数据 说明不需要管理库存
 			if(FormType.DA.name().equals(vo.getFormType())||FormType.DO.name().equals(vo.getFormType())
-			        ||FormType.DY.name().equals(vo.getFormType())
+					||FormType.DY.name().equals(vo.getFormType())
 					||FormType.DI.name().equals(vo.getFormType())||FormType.DR.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())) {
 				vo.setIsManagerStock(1);
 			}
@@ -173,7 +173,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDR(vo);
 				return goodsSelects;
 			}
-			
+
 			//如果是促销活动页面查询商品，需要过滤掉不参加促销的商品
 			if(FormType.PX.name().equals(vo.getFormType())){
 				vo.setAllowActivity(true);
@@ -218,9 +218,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		//2、判断选择机构类型为店铺还是分公司,type : 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
 		if(type ==Constant.THREE || type ==Constant.FOUR || type ==Constant.FIVE){
 			Integer count = goodsSupplierBranchServiceApi.queryCountByBranchIdAndSupplierId(branchId, supplierId);
-            if (count == 0) {
-			    //2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
-			    vo.setParentId(branches.getParentId());
+			if (count == 0) {
+				//2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
+				vo.setParentId(branches.getParentId());
 			} else {
 				vo.setParentId(branchId);
 			}
@@ -260,7 +260,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				}
 				paramVo.setStatusList(statusList);
 			}
-			
+
 			if (FormType.DA.name().equals(type)||FormType.DD.name().equals(type)||FormType.DY.name().equals(type)||FormType.DR.name().equals(type)) {
 				GoodsSelectVo vo = new GoodsSelectVo();
 				vo.setIsManagerStock(1);
@@ -273,9 +273,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				vo.setStatusList(paramVo.getStatusList());
 				PageUtils<GoodsSelect> goodsSelects = PageUtils.emptyPage();
 				if(FormType.DR.name().equals(type)){
-				    goodsSelects = goodsSelectServiceApi.getGoodsListDR(vo);
+					goodsSelects = goodsSelectServiceApi.getGoodsListDR(vo);
 				}else{
-				    goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
+					goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
 				}
 				suppliers = goodsSelects.getList();
 			}
@@ -298,7 +298,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				if (branchId.indexOf(",") != -1) {
 					branchIds = Arrays.asList(branchId.split(","));
 					branchId = "";
-				//查询多机构，要把当前机构赋值为空
+					//查询多机构，要把当前机构赋值为空
 					paramVo.setBranchId(null);
 				}
 				// 根据有无skuCodes传来数据 空表示是导入货号 有数据表示导入数据
@@ -306,16 +306,16 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				paramVo.setAllowAdjustPrice(allowAdjustPrice);
 				paramVo.setBranchIds(branchIds);
 				if(FormType.PM.name().equals(type)){
-				    // 如果为直送收货，且供应商不是主供应商时，查询出其他供就商也存在的商品
-				    paramVo.setPageNumber(1);
-				    paramVo.setPageSize(1);
-				    suppliers = queryPurchaseGoods(paramVo).getList();
+					// 如果为直送收货，且供应商不是主供应商时，查询出其他供就商也存在的商品
+					paramVo.setPageNumber(1);
+					paramVo.setPageSize(1);
+					suppliers = queryPurchaseGoods(paramVo).getList();
 				}else{
-				    // 采购订单，采购退货输入货号或条码时，只匹配机构自己引入的商品
-				    if(FormType.PA.name().equals(type) || FormType.PR.name().equals(type)){
-				        paramVo.setSupplierId(null);
-				    }
-				    suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
+					// 采购订单，采购退货输入货号或条码时，只匹配机构自己引入的商品
+					if(FormType.PA.name().equals(type) || FormType.PR.name().equals(type)){
+						paramVo.setSupplierId(null);
+					}
+					suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
 				}
 			}
 			LOG.debug("根据货号查询商品:{}" ,suppliers.toString());
@@ -648,6 +648,25 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			for(String barCode:vo.getSkuCodesOrBarCodes()){
 				if(map.containsKey(barCode)){
 					map.get(barCode).setBarCode(barCode);
+				}
+			}
+		}
+		//模糊匹配的计算
+		if(StringUtils.isNotEmpty(vo.getGoodsInfo())){
+			for(GoodsSelect goods:list){
+				int count=0;
+				String tempBar=null;
+				if(StringUtils.isNotEmpty(goods.getBarCodes())){
+					String[] barCodes= goods.getBarCodes().split(",");
+					for(String barCode:barCodes){
+						if(barCode.indexOf(vo.getGoodsInfo())!=-1){
+							tempBar=barCode;
+							count++;
+						}
+					}
+					if(count==1){
+						goods.setBarCode(tempBar);
+					}
 				}
 			}
 		}
