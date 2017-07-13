@@ -3,30 +3,42 @@ var maxNUMBER = 999999.99;
 
 $(function(){
 	//开始和结束时间
-    $("#planTime").val(dateUtil.getCurrentDate().format("yyyy-MM"));
+    $("#year").val(dateUtil.getCurrentDate().format("yyyy"));
     initStorePlanList();
     //机构选择初始化
     $('#branchSelect').branchSelect({
+    	param:{
+			branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+		},
     	onAfterRender:function(data){
     		//修改机构重设表格数据
     		gridHandel.setLoadData(getInitDate())
     	}
     });
+    
+    
 });
+
+//选择年份
+function selecYear(){ 
+	//初始化表格
+	gridHandel.setLoadData(getInitDate())
+}
 
 function getInitDate(){
 	var source_data = [];
-	var _dataV = $('#planTime').val();
+	var _dataV = $('#year').val();
 	var _year = _dataV.split('-')[0];
 	for(var i = 1;i <= 12; i++){
 		source_data.push({
-				month:_year+'-'+(i<10?'0'+i:i),
-				monthAmount:0,
-				dateAmount:0,
-				cost_monthCount:0,
-				on_datePrice:0,
-				up_dataPrice:0,
-				cost_data:0
+			    month:i,
+			    monthStr:_year+'-'+(i<10?'0'+i:i),
+				monthSaleAmount:0,
+				dayavgSaleAmount:0,
+				monthCostAmount:0,
+				dayavgSaleAmountOnline:0,
+				dayavgSaleAmountOffline:0,
+				dayavgCostAmount:0
 			});
 	}
 	return source_data;
@@ -40,7 +52,7 @@ function initStorePlanList(){
 	gridHandel.setGridName(datagridId);
 	
 	gridHandel.initKey({
-		firstName:'on_datePrice',
+		firstName:'dayavgSaleAmountOnline',
 	});
 	
     dg = $("#"+datagridId).datagrid({
@@ -55,7 +67,8 @@ function initStorePlanList(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-            {field:'month',title:'月份',align:'left',width: 120,
+            {field:'month',hidden:true},     
+            {field:'monthStr',title:'月份',align:'left',width: 120,
             	formatter:function(value,row,index){
             		if(row.isFooter){
             			return '<p class="ub ub-ac ub-pe uc-red">年目标销售合计:</p>';
@@ -63,7 +76,7 @@ function initStorePlanList(){
             		return value;
             	}
             },
-            {field:'monthAmount',title:'月目标销额合计',align:'right',width: 120,
+            {field:'monthSaleAmount',title:'月目标销额合计',align:'right',width: 120,
             	formatter:function(value,row,index){
             		if(row.isFooter){
             			return '<b class="ub ub-ac " id="yearCount">1000</b>';
@@ -71,7 +84,7 @@ function initStorePlanList(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'dateAmount',title:'日均目标销售合计',align:'right',width: 120,
+            {field:'dayavgSaleAmount',title:'日均目标销售合计',align:'right',width: 120,
             	formatter:function(value,row,index){
             		if(row.isFooter){
             			return '<p class="ub ub-ac ub-pe uc-red">线上目标销售合计:</p>';
@@ -79,7 +92,7 @@ function initStorePlanList(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'cost_monthCount',title:'月目标成本合计',align:'right',width: 120,
+            {field:'monthCostAmount',title:'月目标成本合计',align:'right',width: 120,
             	formatter:function(value,row,index){
             		if(row.isFooter){
             			return '<b class="ub ub-ac " id="onCount">1000</b>';
@@ -87,7 +100,7 @@ function initStorePlanList(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'on_datePrice',title:'线上日均销售金额',align:'right',width: 120,
+            {field:'dayavgSaleAmountOnline',title:'线上日均销售金额',align:'right',width: 120,
             	formatter:function(value,row,index){
             		if(row.isFooter){
             			return '<p class="ub ub-ac ub-pe uc-red">线下目标销售合计:</p>';
@@ -103,7 +116,7 @@ function initStorePlanList(){
                 	}
                 }
             },
-            {field:'up_dataPrice',title:'线下日均目标销售金额',align:'right',width: 120,
+            {field:'dayavgSaleAmountOffline',title:'线下日均目标销售金额',align:'right',width: 120,
             	formatter:function(value,row,index){
             		if(row.isFooter){
             			return '<b class="ub ub-ac " id="upCount">1000</b>';
@@ -119,7 +132,7 @@ function initStorePlanList(){
                 	}
                 }
             },
-            {field:'cost_data',title:'日均目标成本金额',align:'right',width: 120,
+            {field:'dayavgCostAmount',title:'日均目标成本金额',align:'right',width: 120,
             	formatter:function(value,row,index){
             		if(row.isFooter){
             			return '';
@@ -144,7 +157,7 @@ function initStorePlanList(){
             if(target){
                 gridHandel.setFieldFocus(target);
             }else{
-                gridHandel.setSelectFieldName("on_datePrice");
+                gridHandel.setSelectFieldName("dayavgSaleAmountOnline");
             }
         },
         onLoadSuccess:function(data){
@@ -205,29 +218,29 @@ function changeDatePrice(newV,oldV){
 	
 	//设值 月目标成本合计
 	var _month = gridHandel.getSelectRowIndex()+1;
-	gridHandel.setFieldsData({cost_monthCount:getNumberByMonth(_month,newV)});
+	gridHandel.setFieldsData({monthCostAmount:getNumberByMonth(_month,newV)});
 }
 
 //计算相关价格
 function calculateMoney(){
 	//线上
-	var _onPriceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'on_datePrice');
+	var _onPriceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'dayavgSaleAmountOnline');
 	//线下
-	var _upPriceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'up_dataPrice');
+	var _upPriceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'dayavgSaleAmountOffline');
 	
 	var _temPrice = parseFloat(_onPriceValue)+parseFloat(_upPriceValue);
 
 	//设值 日均目标销售合计
-	gridHandel.setFieldsData({dateAmount:_temPrice});
+	gridHandel.setFieldsData({dayavgSaleAmount:_temPrice});
 	  
 	//设值 月目标销售合计
 	var _month = gridHandel.getSelectRowIndex()+1;
-	gridHandel.setFieldsData({monthAmount:getNumberByMonth(_month,_temPrice)});
+	gridHandel.setFieldsData({monthSaleAmount:getNumberByMonth(_month,_temPrice)});
 }
 
 //根据月份计算
 function getNumberByMonth(month,number){
-	var _dataV = $('#planTime').val();
+	var _dataV = $('#year').val();
 	var _year = _dataV.split('-')[0];//年
 	if(month == 2){
 		//平年 28天月
@@ -271,9 +284,9 @@ function updateFooter(){
     var _rows = gridHandel.getRows();
     _rows.forEach(function(obj,index){
     	if(obj){
-    		_yearCount += parseFloat(obj.monthAmount||0);
-    		_onCount   += getNumberByMonth(index+1,parseFloat(obj.on_datePrice||0));
-    		_upCount   += getNumberByMonth(index+1,parseFloat(obj.up_dataPrice||0));
+    		_yearCount += parseFloat(obj.monthSaleAmount||0);
+    		_onCount   += getNumberByMonth(index+1,parseFloat(obj.dayavgSaleAmountOnline||0));
+    		_upCount   += getNumberByMonth(index+1,parseFloat(obj.dayavgSaleAmountOffline||0));
     	}
     });
     		
@@ -291,7 +304,13 @@ function savePlan(){
 	var _errorFlag = false;
 	_rows.forEach(function(obj,index){
 		if(obj){
-			if(parseFloat(obj.on_datePrice||0) > 0 || parseFloat(obj.up_dataPrice||0) > 0 || parseFloat(obj.cost_data||0) > 0 ){
+			
+			//数字转字符串
+			obj.dayavgSaleAmount = obj.dayavgSaleAmount+"";
+			obj.monthCostAmount = obj.monthCostAmount+"";
+			obj.monthSaleAmount = obj.monthSaleAmount+"";
+			
+			if(parseFloat(obj.dayavgSaleAmountOnline||0) > 0 || parseFloat(obj.dayavgSaleAmountOffline||0) > 0 || parseFloat(obj.dayavgCostAmount||0) > 0 ){
 				_errorFlag = true;
 			}
 		}
@@ -301,7 +320,22 @@ function savePlan(){
 		return ;
 	}
 	
-	console.log('_rows',_rows)
+	//异步参数
+	var _reqObj = {
+		branchId:$('#branchId').val()||'',
+		year:$('#year').val()||'',
+		itemList:_rows
+	};
+	//console.log('_rows',_reqObj);
+	$_jxc.ajax({
+		url:contextPath + "/target/storePlan/dd",
+		data:JSON.stringify(_reqObj)
+	},function(data){
+		
+	})
+	
+	
+	
 	
 }
 
