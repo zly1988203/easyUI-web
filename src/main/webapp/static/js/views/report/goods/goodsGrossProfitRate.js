@@ -3,6 +3,10 @@
  * 商品毛利率报表
  */
 $(function() {
+    //开始和结束时间
+	$("#txtStartDate").val(dateUtil.getPreMonthDate().format("yyyy-MM-dd"));
+	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	
 	//选择报表类型
 	initGoodsTotalAnalysiGrid();
 	
@@ -44,8 +48,8 @@ function initGoodsTotalAnalysiGrid() {
            {field: 'spec', title: '规格', width:65, align: 'left'},
            {field: 'purchasePrice', title: '进货价', width:120, align: 'left'},
            {field: 'salePrice', title: '商品售价', width:120, align: 'left'},        
-           {field: 'grossProfitRate', title: '毛利率', width:120, align: 'left'},
-           {field: 'realGrossProfitRate', title: '实际毛利率', width:120, align: 'left'},
+           {field: 'grossProfitRateStr', title: '毛利率', width:120, align: 'left'},
+           {field: 'realGrossProfitRateStr', title: '实际毛利率', width:120, align: 'left'},
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -73,7 +77,7 @@ function query(){
 	var formData = $("#queryForm").serializeObject();
 	$("#"+gridName).datagrid("options").queryParams = formData;
 	$("#"+gridName).datagrid("options").method = "post";
-	$("#"+gridName).datagrid("options").url =  contextPath+"/report/goodsTotalAnalysi/reportListPage";
+	$("#"+gridName).datagrid("options").url =  contextPath+"/report/goodsGrossProfitRate/list";
 	$("#"+gridName).datagrid("load");
 }
 var dg;
@@ -110,7 +114,7 @@ function exportExcel(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	$("#queryForm").attr("action",contextPath+'/report/goodsTotalAnalysi/exportGoodsAnalsisExcel');
+	$("#queryForm").attr("action",contextPath+'/report/goodsGrossProfitRate/exportList');
 	$("#queryForm").submit();	
 }
 

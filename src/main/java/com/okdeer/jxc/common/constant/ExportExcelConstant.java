@@ -713,4 +713,9 @@ public interface ExportExcelConstant {
      * 预付账款明细
      */
     String ADVANCE_ACCOUNTS_PAYABLE_DETAIL = "advanceAccountsPayableDetail.xlsx";
+    
+	/**
+	 * @Fields 商品毛利率报表
+	 */
+	String GOODS_GROSS_PROFIT_RATE = "goodsGrossProfitRate.xlsx";
 }
