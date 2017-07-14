@@ -6,27 +6,24 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.io.Files;
+import com.okdeer.jxc.common.goodselect.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.enums.OperateTypeEnum;
-import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
-import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
-import com.okdeer.jxc.common.goodselect.GoodsSelectImportTxt;
-import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -68,6 +65,12 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 	 */
 	@Autowired
 	private GoodsSelectImportTxt goodsSelectImportTxt;
+
+	@Autowired
+	private GoodsSelectImportComponent goodsSelectImportComponent;
+
+	@Resource
+	private StringRedisTemplate redisTemplateTmp;
 
 	/**
 	 * 
@@ -202,11 +205,15 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 				// 新增
 				vo.setCreateUserId(user.getId());
 				vo.setCreateUserName(user.getUserName());
+				//String jsonText = redisTemplateTmp.opsForValue().get("jxc_goodsSelectImport_" + UserUtil.getCurrentUser().getId());
+				//List<Map<String,String>> unknownSKU = JsonMapper.nonEmptyMapper().fromJson(jsonText, List.class);
 				return stocktakingOperateServiceApi.saveStocktakingForm(vo);
 			} else {
 				// 修改
 				vo.setUpdateUserId(user.getId());
 				vo.setUpdateUserName(user.getUserName());
+				//String jsonText = redisTemplateTmp.opsForValue().get("jxc_goodsSelectImport_" + UserUtil.getCurrentUser().getId());
+				//List<Map<String,String>> unknownSKU = JsonMapper.nonEmptyMapper().fromJson(jsonText, List.class);
 				return stocktakingOperateServiceApi.updateStocktakingForm(vo);
 			}
 		} catch (Exception e) {
@@ -252,11 +259,18 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 		RespJson respJson = RespJson.success();
 		try {
 			if (file == null || file.isEmpty()) {
-				return RespJson.error("文件为空");
+				return RespJson.error("文件为空!");
 			}
 			if (StringUtils.isBlank(batchId)) {
-				return RespJson.error("文件导入盘点批次为空");
+				return RespJson.error("文件导入盘点批次为空!");
 			}
+			String fileExtension = Files.getFileExtension(file.getOriginalFilename());
+			if (!StringUtils.equalsIgnoreCase(fileExtension,"txt")
+					&& !StringUtils.equalsIgnoreCase(fileExtension,"xlsx")
+					&& !StringUtils.equalsIgnoreCase(fileExtension,"xls")){
+				return RespJson.error("文件格式错误,只支持txt,xls,xlsx文件导入!");
+			}
+
 			InputStream is = file.getInputStream();
 			// 获取文件名
 			String fileName = file.getOriginalFilename();
@@ -269,55 +283,99 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 				// 条码
 				field = new String[] { "barCode", "stocktakingNum" };
 			}
-			GoodsSelectImportVo<GoodsSelectByStockTaking> vo = goodsSelectImportTxt.importSelectGoodsWithStockTxt(
-					fileName, is, field, new GoodsSelectByStockTaking(), branchId, user.getId(), type,
-					"/stocktaking/operate/downloadErrorFile", new GoodsSelectImportBusinessValid() {
 
-						@Override
-						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
-							for (JSONObject obj : excelListSuccessData) {
-								double stocktakingNum = 0;
-								String errorStr = "盘点数量必须为0到" + ExportExcelConstant.MAXNUM + "的数字";
-								// 校验空
-								if (obj.get("stocktakingNum") == null || obj.get("stocktakingNum") == null) {
-									obj.element("error", errorStr);
-									continue;
-								}
-								// 校验上限
-								String upperLimit = obj.getString("stocktakingNum");
-								try {
-									stocktakingNum = Double.parseDouble(upperLimit);
-									if (stocktakingNum < 0 || stocktakingNum > ExportExcelConstant.MAXNUM) {
+			GoodsSelectImportVo<GoodsSelectByStockTaking> vo;
+			if(StringUtils.equalsIgnoreCase(fileExtension,"txt")) {
+				vo = goodsSelectImportTxt.importSelectGoodsWithStockTxt(
+						fileName, is, field, new GoodsSelectByStockTaking(), branchId, user.getId(), type,
+						"/stocktaking/operate/downloadErrorFile", new GoodsSelectImportBusinessValid() {
+
+							@Override
+							public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+								for (JSONObject obj : excelListSuccessData) {
+									double stocktakingNum = 0;
+									String errorStr = "盘点数量必须为0到" + ExportExcelConstant.MAXNUM + "的数字";
+									// 校验空
+									if (obj.get("stocktakingNum") == null || obj.get("stocktakingNum") == null) {
 										obj.element("error", errorStr);
+										continue;
 									}
-								} catch (Exception e) {
-									obj.element("error", errorStr);
-									LOG.error("数字转换异常:", e);
+									// 校验上限
+									String upperLimit = obj.getString("stocktakingNum");
+									try {
+										stocktakingNum = Double.parseDouble(upperLimit);
+										if (stocktakingNum < 0 || stocktakingNum > ExportExcelConstant.MAXNUM) {
+											obj.element("error", errorStr);
+										}
+									} catch (Exception e) {
+										obj.element("error", errorStr);
+										LOG.error("数字转换异常:", e);
+									}
 								}
 							}
-						}
 
-						/**
-						 * (non-Javadoc)
-						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
-						 */
-						@Override
-						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
-								List<JSONObject> excelListErrorData) {
-							LOG.debug("formatter");
-						}
+							/**
+							 * (non-Javadoc)
+							 *
+							 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#formatter(java.util.List)
+							 */
+							@Override
+							public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
+												  List<JSONObject> excelListErrorData) {
+								LOG.debug("formatter");
+							}
 
-						/**
-						 * (non-Javadoc)
-						 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
-						 */
-						@Override
-						public void errorDataFormatter(List<JSONObject> list) {
-							LOG.debug("errorDataFormatter");
-						}
+							/**
+							 * (non-Javadoc)
+							 *
+							 * @see com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid#errorDataFormatter(java.util.List)
+							 */
+							@Override
+							public void errorDataFormatter(List<JSONObject> list) {
+								LOG.debug("errorDataFormatter");
+							}
 
-					},batchId);
+						}, batchId);
+			}else{
+				vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field,
+						new GoodsSelectByStockTaking(), branchId, user.getId(), type, "/stocktaking/operate/download/errors",
+						new GoodsSelectImportBusinessValid() {
 
+							@Override
+							public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
+								for (JSONObject obj : excelListSuccessData) {
+									double stocktakingNum = 0;
+									String errorStr = "盘点数量必须为0到" + ExportExcelConstant.MAXNUM + "的数字";
+									// 校验空
+									if (obj.get("stocktakingNum") == null || obj.get("stocktakingNum") == null) {
+										obj.element("error", errorStr);
+										continue;
+									}
+									// 校验上限
+									String upperLimit = obj.getString("stocktakingNum");
+									try {
+										stocktakingNum = Double.parseDouble(upperLimit);
+										if (stocktakingNum < 0 || stocktakingNum > ExportExcelConstant.MAXNUM) {
+											obj.element("error", errorStr);
+										}
+									} catch (Exception e) {
+										obj.element("error", errorStr);
+										LOG.error("数字转换异常:", e);
+									}
+								}
+							}
+
+							@Override
+							public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData, List<JSONObject> excelListErrorData) {
+								LOG.debug("formatter");
+							}
+
+							@Override
+							public void errorDataFormatter(List<JSONObject> list) {
+								LOG.debug("errorDataFormatter");
+							}
+						},null);
+			}
 			// 作金额计算
 			List<GoodsSelectByStockTaking> stcoktakingVos = vo.getList();
 			for (GoodsSelectByStockTaking staking : stcoktakingVos) {
@@ -366,7 +424,22 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 
 		goodsSelectImportTxt.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
-	
+
+	@RequestMapping(value = "/download/errors")
+	public void downloadErrorsFile(String code, String type, HttpServletResponse response) {
+		String reportFileName = "错误数据";
+		String[] headers;
+		String[] columns;
+		if (StringUtils.equalsIgnoreCase(GoodsSelectImportHandle.TYPE_SKU_CODE, type)) {
+			headers = new String[] { "货号", "盘点数量" };
+			columns = new String[] { "skuCode", "stocktakingNum" };
+		} else {
+			headers = new String[] { "条码", "盘点数量" };
+			columns = new String[] { "barCode", "stocktakingNum" };
+		}
+		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
+	}
+
 	/**
 	 * @Description: 导出
 	 * @param response
@@ -395,5 +468,24 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 			resp = RespJson.error("盘点详细列表导出异常");
 		}
 		return resp;
+	}
+
+
+	@RequestMapping(value = "/export/templ")
+	public void exportTemp(HttpServletResponse response, String type) {
+		try {
+			String fileName;
+			String templateName;
+			if (StringUtils.equalsIgnoreCase(GoodsSelectImportHandle.TYPE_SKU_CODE, type)) {
+				fileName = "盘点单货号导入模板";
+				templateName = ExportExcelConstant.OVERDUE_APPROVED_SKUCODE_TEMPLE;
+			} else {
+				fileName = "盘点单条码导入模板";
+				templateName = ExportExcelConstant.OVERDUE_APPROVED_BARCODE_TEMPLE;
+			}
+			exportListForXLSX(response, null, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("查看调价订单导入模板异常", e);
+		}
 	}
 }
