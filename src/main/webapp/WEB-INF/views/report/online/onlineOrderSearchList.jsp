@@ -153,10 +153,10 @@
 							id="status1" value="1" /><label for="status1">待发货 </label>
 					</div>
 
-					<!-- <div class="ub ub-ac umar-r10">
+					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="orderStatus"
 							id="status2" value="2" /><label for="status2">待配送</label>
-					</div> -->
+					</div>
 
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="orderStatus"
