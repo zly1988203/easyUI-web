@@ -614,11 +614,11 @@ function importStocktakingForm(type){
 	}
     var param = {
         url:contextPath+"/stocktaking/operate/importStocktakingForm",
-        tempUrl:'',
+        tempUrl:contextPath+"/stocktaking/operate/export/templ",
         type:type,
         branchId:branchId,
         batchId:batchId,
-        isBtnTemple:false
+        isBtnTemple:true
     }
     new publicUploadFileService(function(data){
         updateListData(data);
