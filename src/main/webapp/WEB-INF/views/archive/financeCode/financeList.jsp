@@ -64,5 +64,33 @@
 
 
 	</div>
+	
+	<!-- 机构运营费用  start -->
+	<div id="operatorDialog" >
+    	<div class="uw uh ufs-14 uc-black none" id="operatorDialog-area">
+	    	<div class="ub ub-ver uw upad-4 box-border " >
+	    		<div class="ub uw ">
+	    			<div class="ubtns">
+						<div class="ubtns-item" onclick="saveCost()">保存</div>
+		                <div class="ubtns-item" onclick="closeOperationDialog()">关闭</div>
+		            </div>
+	    		</div>
+	    		<div class="ub uline umar-t8"></div>
+	    		<!-- 后台记得修改name值  并记得修改 js 逻辑-->
+	    		<form class="ub ub-f1 ub-ver ub-ac umar-t8" id="costForm">
+		            <div class="ub ub-ac  umar-t20" style="margin-left:-16px;">
+		                <div class="umar-r10 uw-90 ut-r">类型:</div>
+		                <div class="utxt">机构运营费用</div>
+		            </div>
+		            <div class="ub ub-ac  umar-t20" style="margin-left:-16px;">
+		                <div class="umar-r10 uw-90 ut-r">名称:</div>
+		                <input class="uinp ub ub-f1" name="costName" id="costName" type="text" > 
+		            </div>
+	    		</form>			
+	    	</div>
+    	</div>
+    </div>
+    <!-- 机构运营费用  end -->
+    
 </body>
 </html>

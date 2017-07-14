@@ -99,16 +99,79 @@ function initGridFinanceList() {
 }
 
 function addFinanceCode() {
-    if(null ==selectNode || selectNode.isParent){
-        $_jxc.alert("请选择具体的分类!");
-        return;
-    }
-    var param = {
-        type:"add",
-        dictTypeId: selectNode.id,
-    }
-    openFinanceDialog(param);
+	//console.log('selectNode',selectNode)
+	var _code = selectNode.code;
+	//机构运营费用 101005 2.7
+	if(_code == '101005'){
+		opendOperationDialog();
+	}else{
+		//原始逻辑
+		if(null ==selectNode || selectNode.isParent){
+			$_jxc.alert("请选择具体的分类!");
+			return;
+		}
+		var param = {
+				type:"add",
+				dictTypeId: selectNode.id,
+		}
+		openFinanceDialog(param);
+	}
 }
+
+/**---------------------------------2.7机构运营费用   start------------------------**/
+//机构运营费用弹窗
+var brDialog;
+function opendOperationDialog(){
+	brDialog = $_jxc.dialog({
+		target:'#operatorDialog',
+		title: '机构运营费用新增', 
+		width:500,
+		height:300,
+		onBeforeOpen:function(){
+			$('#operatorDialog-area').removeClass('none');
+		},
+		onClose:function(){
+			$('#operatorDialog-area').addClass('none');
+	    }
+	})
+}
+
+
+//机构运营费用弹窗 --> 关闭
+function closeOperationDialog(){
+	$(brDialog).dialog('close');
+	$('#costForm')[0].reset();
+}
+
+//保存机构运营费用
+function saveCost(){
+	var _costName = $.trim($('#costName').val())||'';
+	if(!_costName){
+		$_jxc.alert('运营费用名称不能为空');
+		return;
+	}
+	var treeObj = $.fn.zTree.getZTreeObj("treefinances");
+	var newNode = {text:_costName};
+	newNode = treeObj.addNodes(selectNode, newNode);
+	
+	closeOperationDialog();
+}
+
+//删除 机构运营费用 子节点
+function delCostItem(){
+	console.log('selectNode',selectNode);
+	
+//	var param = {
+//		url:'xxx',
+//		data:'',
+//	}
+//	$_jxc.ajax(param,function(result){
+//		
+//	})
+}
+
+/**---------------------------------2.7机构运营费用   end------------------------**/
+
 
 function updateFinanceCode(id,value,label,remark) {
     var param = {
@@ -163,11 +226,23 @@ function queryFinanceCode(){
 
 
 function delFinanceCode() {
-    var rows = $("#"+gridName).datagrid("getChecked");
-    if(rows.length <= 0){
-        $_jxc.alert('请勾选数据！');
-        return;
-    }
+	var rows = $("#"+gridName).datagrid("getChecked");
+	if(rows.length <= 0){
+		var _parenNode =  selectNode.getParentNode();
+		//机构运营费用 code: "101005"
+		if(_parenNode.code == '101005'){
+			var _text = selectNode.text;
+			$_jxc.confirm('确认删除【'+_text+'】节点数据?',function(r){
+				if(r){
+					delCostItem();
+				}
+			})
+			return;
+		}else{
+			$_jxc.alert('请勾选数据！');
+			return;
+		}
+	}
 
     var ids='';
     $.each(rows,function(i,v){

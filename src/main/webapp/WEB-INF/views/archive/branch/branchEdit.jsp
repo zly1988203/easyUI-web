@@ -226,8 +226,7 @@
 
 	</div>
 
-	<div title="机构费用" class="upad-8" data-options="fit:true,border:false"
-		style="width: 100%; display: none;">
+	<div title="设备折旧费用" class="upad-8" data-options="fit:true,border:false" style="width: 100%; display: none;">
 		<div class="ub ub-ac upad-8">
 			<div class="ubtns">
 				<button class="ubtns-item" onclick="saveBranchCost()">保存</button>
@@ -235,12 +234,31 @@
 			</div>
 		</div>
 		<div class="ub uline"></div>
-
-
 		<table id="gridFitmentCost" class="umar-t10 upad-8"></table>
+	</div>
+	
+	<div title="累计摊销费用" class="upad-8" data-options="fit:true,border:false" style="width: 100%; display: none;">
+		<div class="ub ub-ac upad-8">
+			<div class="ubtns">
+				<button class="ubtns-item" onclick="saveBranchCost()">保存</button>
+				<button class="ubtns-item" onclick="closeDialogHandel()">关闭</button>
+			</div>
+		</div>
+		<div class="ub uline"></div>
 		<table id="gridEquipmentCost" class="umar-t10 upad-8"></table>
+	</div>
+	
+	<div title="长期待摊费用" class="upad-8" data-options="fit:true,border:false" style="width: 100%; display: none;">
+		<div class="ub ub-ac upad-8">
+			<div class="ubtns">
+				<button class="ubtns-item" onclick="saveBranchCost()">保存</button>
+				<button class="ubtns-item" onclick="closeDialogHandel()">关闭</button>
+			</div>
+		</div>
+		<div class="ub uline"></div>
+		<!-- <table id="gridFitmentCost" class="umar-t10 upad-8"></table>
+		<table id="gridEquipmentCost" class="umar-t10 upad-8"></table> -->
 		<table id="gridAmortizeCost" class="umar-t10 upad-8"></table>
-
 	</div>
 
 </div>
