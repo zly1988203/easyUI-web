@@ -17,6 +17,7 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsBarcode;
 import com.okdeer.jxc.goods.qo.GoodsBarcodeQo;
 import com.okdeer.jxc.goods.service.GoodsBarcodeService;
+import com.okdeer.jxc.goods.vo.GoodsBarcodeVo;
 import com.okdeer.jxc.utils.UserUtil;
 
 @Controller
@@ -51,15 +52,22 @@ public class GoodsBarcodeController extends BaseController<GoodsBarcodeControlle
 	@ResponseBody
 	public RespJson saveSkuBarCode(@RequestBody String json){
 		try{
-			List<GoodsBarcode> list=JSON.parseArray(json, GoodsBarcode.class);
+            GoodsBarcodeVo goodsBarcodeVo = JSON.parseObject(json, GoodsBarcodeVo.class);
+            if(goodsBarcodeVo == null){
+                return RespJson.error("附加条码保存异常！");
+            }
+            List<GoodsBarcode> list = goodsBarcodeVo.getBarCodelist();
+			/* List<GoodsBarcode> list=JSON.parseArray(json, GoodsBarcode.class);
 			if(CollectionUtils.isEmpty(list)){
 				return RespJson.error("附加条码不允许为空！");
-			}
-			for(GoodsBarcode barCode:list){
-				barCode.setUpdateUserId(UserUtil.getCurrUserId());
-				barCode.setCreateUserId(UserUtil.getCurrUserId());
-			}
-			return	goodsBarcodeService.saveGoodsBarcode(list, list.get(0).getSkuId());
+			}*/
+            if(CollectionUtils.isNotEmpty(list)){
+                for(GoodsBarcode barCode:list){
+                    barCode.setUpdateUserId(UserUtil.getCurrUserId());
+                    barCode.setCreateUserId(UserUtil.getCurrUserId());
+                }
+            }
+			return	goodsBarcodeService.saveGoodsBarcode(list, goodsBarcodeVo.getSkuId());
 		}catch(RuntimeException e){
 			return RespJson.error(e.getMessage());
 		}catch(Exception e){
