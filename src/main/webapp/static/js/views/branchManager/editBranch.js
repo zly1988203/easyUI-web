@@ -91,18 +91,22 @@ function initGridFitmentCost() {
     $("#gridFitmentCost").datagrid({
         align:'center',
         rownumbers:true,    //序号
-        height:'30%',
+        height:'400px',
         width:'99%',
+        showFooter:true,
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',
                 formatter : function(value, row,index) {
+                	if(row.isFooter){
+			             return '<div class="ub ub-pc">合计</div> '
+			         }
                     var str =  '<a name="add" class="add-line" data-gridName="gridFitmentCost" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
                         '&nbsp;&nbsp;<a name="del" class="del-line" data-gridName="gridFitmentCost" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
 
                     return str;
                 },
             },
-            {field: 'costName', title: '装修费用', width: 180, align: 'left',
+            {field: 'costName', title: '设备折旧', width: 180, align: 'left',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return;
@@ -120,7 +124,7 @@ function initGridFitmentCost() {
                     }
                 }
             },
-            {field: 'costAmount', title: '金额', width: 180, align: 'right',
+            {field: 'costAmount', title: '金额', width: 120, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -134,15 +138,39 @@ function initGridFitmentCost() {
                         max:999999.99,
                         prompt:"最大金额999999.99",
                         precision:2,
+                        onChange:changeCostAmount
                     }
                 },
             },
-            {field: 'createUserName', title: '操作人', width: 120, align: 'left'},
-            {field: 'createTime', title: '操作日期', width: 180, align: 'left',
+            {field: 'costTime', title: '均摊年限', width: 80, align: 'right',
                 formatter : function(value, row, index) {
-                    return formatDate(value);
+                    if(row.isFooter){
+                        return '';
+                    }
+                    return '<b>'+parseInt(value||0)+'</b>';
                 },
-            }
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:1,
+                        precision:0
+                    }
+                },
+            },
+            {field: 'createTime', title: '起算时间', width: 150, align: 'center',
+                editor:{
+                    type:'datebox',
+                    options:{
+                    	formatter:function(date){
+                    		var y = date.getFullYear();
+                    		var m = date.getMonth()+1;
+                    		var d = date.getDate();
+                    		return y+'-'+(d<10?'0'+d:d);
+                    	}
+                    }
+                },
+            },
+            {field: 'remark', title: '备注', width: 120, align: 'left',editor:'textbox'},
         ]],
         onClickCell:function(rowIndex,field,value){
             gridFitmentCostHandel.setBeginRow(rowIndex);
@@ -156,10 +184,26 @@ function initGridFitmentCost() {
         },
         onLoadSuccess : function(data) {
             gridFitmentCostHandel.setDatagridHeader("center");
+            updateFitmentCostFooter();
         }
     })
 
 }
+
+//设备折旧费用 
+function changeCostAmount(){
+	updateFitmentCostFooter();
+}
+
+//设备折旧费用 合计
+function updateFitmentCostFooter(){
+	var fields = {costAmount:0};
+    var argWhere = {}
+    gridFitmentCostHandel.updateFooter(fields,argWhere);
+}
+
+
+
 
 function costNameChange1(newVal,oldVal){
     // if($_jxc.isStringNull(newVal)){
@@ -181,18 +225,22 @@ function initGridEquipmentCost() {
     $("#gridEquipmentCost").datagrid({
         align:'center',
         rownumbers:true,    //序号
-        height:'30%',
+        height:'400px',
         width:'99%',
+        showFooter:true,
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',
                 formatter : function(value, row,index) {
+                	if(row.isFooter){
+			             return '<div class="ub ub-pc">合计</div> '
+			         }
                     var str =  '<a name="add" class="add-line" data-gridName="gridEquipmentCost" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
                         '&nbsp;&nbsp;<a name="del" class="del-line" data-gridName="gridEquipmentCost" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
 
                     return str;
                 },
             },
-            {field: 'costName', title: '设备费用', width: 180, align: 'left',
+            {field: 'costName', title: '累计摊销', width: 180, align: 'left',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return;
@@ -210,7 +258,7 @@ function initGridEquipmentCost() {
                     }
                 }
             },
-            {field: 'costAmount', title: '金额', width: 180, align: 'right',
+            {field: 'costAmount', title: '金额', width: 120, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -224,15 +272,39 @@ function initGridEquipmentCost() {
                         max:999999.99,
                         prompt:"最大金额999999.99",
                         precision:2,
+                        onChange:changeEquipmentAmount
                     }
                 },
             },
-            {field: 'createUserName', title: '操作人', width: 120, align: 'left'},
-            {field: 'createTime', title: '操作日期', width: 180, align: 'left',
+            {field: 'costTime', title: '均摊年限', width: 80, align: 'right',
                 formatter : function(value, row, index) {
-                    return formatDate(value);
+                    if(row.isFooter){
+                        return '';
+                    }
+                    return '<b>'+parseInt(value||0)+'</b>';
                 },
-            }
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:1,
+                        precision:0
+                    }
+                },
+            },
+            {field: 'createTime', title: '起算时间', width: 150, align: 'center',
+                editor:{
+                    type:'datebox',
+                    options:{
+                    	formatter:function(date){
+                    		var y = date.getFullYear();
+                    		var m = date.getMonth()+1;
+                    		var d = date.getDate();
+                    		return y+'-'+(d<10?'0'+d:d);
+                    	}
+                    }
+                },
+            },
+            {field: 'remark', title: '备注', width: 120, align: 'left',editor:'textbox'},
         ]],
         onClickCell:function(rowIndex,field,value){
             gridEquipmentCostHandel.setBeginRow(rowIndex);
@@ -246,6 +318,7 @@ function initGridEquipmentCost() {
         },
         onLoadSuccess : function(data) {
             gridEquipmentCostHandel.setDatagridHeader("center");
+            updateEquipmentCostFooter();
         }
     })
 
@@ -266,23 +339,39 @@ function costNameChange2(newVal,oldVal){
     gridEquipmentCostHandel.setFieldTextValue('costName',newVal);
 }
 
+//累计摊销费用
+function changeEquipmentAmount(){
+	updateEquipmentCostFooter();
+}
+
+//累计摊销费用 合计
+function updateEquipmentCostFooter(){
+	var fields = {costAmount:0};
+    var argWhere = {}
+    gridEquipmentCostHandel.updateFooter(fields,argWhere);
+}
+
 function initGridAmortizeCost() {
     gridAmortizeCostHandel.setGridName("gridAmortizeCost");
     $("#gridAmortizeCost").datagrid({
         align:'center',
         rownumbers:true,    //序号
-        height:'30%',
+        height:'400px',
         width:'99%',
+        showFooter:true,
         columns:[[
             {field:'cz',title:'操作',width:'60px',align:'center',
                 formatter : function(value, row,index) {
+                	if(row.isFooter){
+			             return '<div class="ub ub-pc">合计</div> '
+			         }
                     var str =  '<a name="add" class="add-line" data-gridName="gridAmortizeCost" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
                         '&nbsp;&nbsp;<a name="del" class="del-line" data-gridName="gridAmortizeCost" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
 
                     return str;
                 },
             },
-            {field: 'costName', title: '摊销费用', width: 180, align: 'left',
+            {field: 'costName', title: '长期待摊费用', width: 180, align: 'left',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return;
@@ -300,7 +389,7 @@ function initGridAmortizeCost() {
                     }
                 }
             },
-            {field: 'costAmount', title: '金额', width: 180, align: 'right',
+            {field: 'costAmount', title: '金额', width: 120, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -314,14 +403,39 @@ function initGridAmortizeCost() {
                         max:999999.99,
                         prompt:"最大金额999999.99",
                         precision:2,
+                        onChange:changeAmortizeAmount
                     }
                 },
             },
-            {field: 'createUserName', title: '操作人', width: 120, align: 'left'},
-            {field: 'createTime', title: '操作日期', width: 180, align: 'left',                formatter : function(value, row, index) {
-                return formatDate(value);
+            {field: 'costTime', title: '均摊年限', width: 80, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '';
+                    }
+                    return '<b>'+parseInt(value||0)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:1,
+                        precision:0
+                    }
+                },
             },
-            }
+            {field: 'createTime', title: '起算时间', width: 150, align: 'center',
+                editor:{
+                    type:'datebox',
+                    options:{
+                    	formatter:function(date){
+                    		var y = date.getFullYear();
+                    		var m = date.getMonth()+1;
+                    		var d = date.getDate();
+                    		return y+'-'+(d<10?'0'+d:d);
+                    	}
+                    }
+                },
+            },
+            {field:'remark', title: '备注', width: 120, align: 'left',editor:'textbox'},
         ]],
         onClickCell:function(rowIndex,field,value){
             gridAmortizeCostHandel.setBeginRow(rowIndex);
@@ -335,6 +449,7 @@ function initGridAmortizeCost() {
         },
         onLoadSuccess : function(data) {
             gridAmortizeCostHandel.setDatagridHeader("center");
+            updateAmortizeCostFooter();
         }
     })
 
@@ -354,6 +469,19 @@ function costNameChange3(newVal,oldVal){
     }
     gridAmortizeCostHandel.setFieldTextValue('costName',newVal);
 }
+
+//累计摊销费用
+function changeAmortizeAmount(){
+	updateAmortizeCostFooter();
+}
+
+//累计摊销费用 合计
+function updateAmortizeCostFooter(){
+	var fields = {costAmount:0};
+    var argWhere = {}
+    gridAmortizeCostHandel.updateFooter(fields,argWhere);
+}
+
 
 function initGridBranchCost() {
     initGridFitmentCost();
