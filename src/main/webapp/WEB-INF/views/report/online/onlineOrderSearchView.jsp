@@ -116,7 +116,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">送货电话:</div>
 					<input class="uinp uinp-no-more" readOnly="readOnly" name="phone"
-						id="phone" type="text" value="#{po.carrierDriverPhone }">
+						id="phone" type="text" value="${po.carrierDriverPhone }">
 				</div>
 
 				<div class="ub ub-ac">
