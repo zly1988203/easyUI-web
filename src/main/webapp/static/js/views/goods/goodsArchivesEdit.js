@@ -678,11 +678,14 @@ function saveBarCode(){
 		    	}
 			newData[i] = temp;
 	 }
-	 
+	 var reqObj = {
+			 skuId : skuId,
+			 barCodelist:newData
+	 };
 	 $_jxc.ajax({
 	        url:contextPath+"/goods/goodsBarcode/saveSkuBarCode",
 	        contentType:"application/json",
-	        data:JSON.stringify(newData)
+	        data:JSON.stringify(reqObj)
 	    },function(result){
             if(result['code'] == 0){
                 $_jxc.alert("操作成功！");
