@@ -39,6 +39,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.form.enums.FormStatus;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByStockAdjust;
 import com.okdeer.jxc.stock.service.StockAdjustServiceApi;
@@ -103,6 +104,9 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 	public String edit(String id, HttpServletRequest request) {
 		StockFormVo stockFormVo = stockAdjustServiceApi.getStcokFormInfo(id);
 		request.setAttribute("stockFormVo", stockFormVo);
+		if (FormStatus.CHECK_SUCCESS.getValue().equals(stockFormVo.getStatus())) {
+		    return "/stockAdjust/check";
+        }
 		return "/stockAdjust/edit";
 	}
 

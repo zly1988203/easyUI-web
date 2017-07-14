@@ -8,7 +8,7 @@
 <title>库存周转率报表</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/rotation/rotationReport.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/report/rotation/rotationReport.js?V=V2.6.3"></script>
 <style>
 .datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -41,22 +41,25 @@
 			</div>
 			<div class="ub uline umar-t8"></div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-300 ">
+				<div class="ub ub-ac uw-300 " id="branchComponent">
 					<div class="umar-r10 uw-70 ut-r">机构名称:</div>
 					<input type="hidden" id="branchId" name="branchId" /> 
 					<input type="hidden" id="branchCompleCode" name="branchCompleCode" /> 
-					<input type="hidden" id="oldBranchName" name="oldBranchName" /> 
-					<input class="uinp ub ub-f1" type="text" id="branchName"
+					<input class="uinp ub ub-f1" type="text" id="branchName" 
 						name="branchName" />
-					<div class="uinp-more" onclick="selectBranches()">...</div>
+					<div class="uinp-more">...</div>
 				</div>
 				<div class="ub ub-ac  umar-l20">
-					<div class="umar-r10 uw-70 ut-r">商品选择:</div>
-					<input type="hidden" name="skuId" id="skuId" />
-					<input type="hidden" name="oldSkuName" id="oldSkuName" />
-					<input class="uinp ub ub-f1" type="text" name="skuName" id="skuName">
-					<div class="uinp-more" onclick="selectGoods()">...</div>
+					<div class="umar-r10 uw-70 ut-r">货号/条码:</div>
+					<input type="text" name="skuCode" id="skuCode" class="uinp" placeholder="输入货号、条码" maxlength="20">
 				</div>
+<!-- 				<div class="ub ub-ac  umar-l20"> -->
+<!-- 					<div class="umar-r10 uw-70 ut-r">商品选择:</div> -->
+<!-- 					<input type="hidden" name="skuId" id="skuId" /> -->
+<!-- 					<input type="hidden" name="oldSkuName" id="oldSkuName" /> -->
+<!-- 					<input class="uinp ub ub-f1" type="text" name="skuName" id="skuName"> -->
+<!-- 					<div class="uinp-more" onclick="selectGoods()">...</div> -->
+<!-- 				</div> -->
 				<div class="ub ub-ac umar-l10">
 					<div class="umar-r10 uw-70 ut-r">报表类型</div>
 					<div class="ub ub-ac umar-r10">
