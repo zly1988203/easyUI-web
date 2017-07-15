@@ -61,9 +61,9 @@
 	    			<div class="ub ub-ac  umar-t20" id="branchComponent">
 		                <div class="umar-r10 uw-80 ut-r">所属分公司:</div>
 		                <input type="hidden" name="branchId" id="branchId" type="text" > 
-		                <input class="uinp ub ub-f1" name="branchName" id="branchName" type="text" > 
-		                <div class="uinp-more">...</div>
-		                <div class="ub ub-ac uc-red">*</div>
+		                <input class="uinp ub ub-f1" name="branchName" id="branchName" type="text"  readonly="readonly"> 
+		                <div class="uinp-more" id="umore">...</div>
+		            	<div class="ub ub-ac uc-red">*</div>
 		            </div>
 		            <div class="ub ub-ac  umar-t20" style="margin-left:-16px;">
 		                <div class="umar-r10 uw-90 ut-r">机构组合编号:</div>
