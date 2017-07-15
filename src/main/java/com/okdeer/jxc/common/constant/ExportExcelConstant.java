@@ -718,4 +718,9 @@ public interface ExportExcelConstant {
 	 * @Fields 商品毛利率报表
 	 */
 	String GOODS_GROSS_PROFIT_RATE = "goodsGrossProfitRate.xlsx";
+	
+	/**
+	 * @Fields 时段销售对比分析报表
+	 */
+	String PERIOD_SALE_CONTRAST = "periodSaleContrast.xlsx";
 }
