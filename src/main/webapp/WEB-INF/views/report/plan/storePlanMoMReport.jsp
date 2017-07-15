@@ -8,7 +8,7 @@
 <title>时段销售对比分析</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/plan/storePlanMoMReport.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/report/plan/storePlanMoMReport.js?V=${versionNo}2"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
      
@@ -27,15 +27,16 @@
 	            </div>
 	           	<!-- 引入时间选择控件 -->
 	           <div class="ub ub-ac umar-l20">
-	              	<input class="Wdate"  readonly="readonly" name="saleTime" id="saleTime" onclick="selectMonth()"  />
+	              	<input class="Wdate"  readonly="readonly" name="rptDate" id="rptDate" onclick="selectMonth()"  />
 	            </div>
             </div>
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
                 <div class="ub  ub-ac" id="branchSelect">
                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
-                   <input class="uinp ub ub-f1" type="hidden" id="branchId" name="branchId">
-                   <input class="uinp ub ub-f1" type="text" id="branchName"  name="branchName">
+                   <input type="hidden" id="branchCompleCode" name="branchCompleCode">
+                   <input class="uinp ub ub-f1" type="text" id="branchCodeName"  name="branchCodeName"
+                   		readonly="readonly">
                    <div class="uinp-more">...</div>
                 </div>
             </div>

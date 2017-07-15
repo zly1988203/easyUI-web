@@ -217,7 +217,7 @@ function initDatagridOrders(){
 						return "0.00";
 					}
 				},
-		         /* {field:"wholesalePrice",title:"批发价",sortable:true,tooltip:true,width:80,align:'right',
+		        {field:"salePrice",title:"零售价",sortable:true,tooltip:true,width:80,align:'right',
 		        	  formatter : function(value,row,index){
 						  if (row.skuId == null) {
 							  return;
@@ -227,7 +227,7 @@ function initDatagridOrders(){
 		        		  }
 		        		  return "0.00";
 		        	  }
-		          },*/
+		          },
 				{field:"verageStoreSales",title:"平均单店销售量",sortable:true,tooltip:true,width:100,align:'right',
 					formatter : function(value,row,index){
 						if (row.skuId == null) {
@@ -434,16 +434,16 @@ function setLocalStorage(){
 function query(){
 
 	if($("#branchName").val() == null || $("#branchName").val() == ''){
-		messager("请选择机构");
+		$_jxc.alert("请选择机构");
 		return;
 	}
 	if($("#branchId").val() == null || $("#branchId").val() == ''){
-		messager("请选择机构");
+		$_jxc.alert("请选择机构");
 		return;
 	}
 
 	if ($("#branchId").val() == '0') {
-		messager("请选择分公司机构");
+		$_jxc.alert("请选择分公司机构");
 		return;
 	}
 

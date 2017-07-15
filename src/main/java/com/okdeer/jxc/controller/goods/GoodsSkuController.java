@@ -317,6 +317,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 			sku.setUpdateUserId(UserUtil
 					.getCurrentUser().getId());
 			sku.setDisabled(Disabled.VALID.ordinal());
+			sku.setSkuOpSign(Constant.STRING_ONE);
 			RespJson json = goodsSkuService.addGoodsSku(sku, UserUtil
 					.getCurrentUser().getId());
 			return json;

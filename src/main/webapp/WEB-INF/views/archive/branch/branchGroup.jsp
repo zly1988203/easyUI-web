@@ -24,7 +24,7 @@
 	        <div class="ub umar-t8">
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">关键字:</div>
-	                <input class="uinp uninputs" name="storeInfos" id="storeInfos" type="text" placeholder="输入门店名称查询"> 
+	                <input class="uinp uninputs" name="groupInfo" id="groupInfo" type="text" placeholder="输入门店名称查询"> 
 	            </div>
 	        </div>
         </form>
@@ -61,17 +61,17 @@
 	    			<div class="ub ub-ac  umar-t20" id="branchComponent">
 		                <div class="umar-r10 uw-80 ut-r">所属分公司:</div>
 		                <input type="hidden" name="branchId" id="branchId" type="text" > 
-		                <input class="uinp ub ub-f1" name="branchName" id="branchName" type="text" > 
-		                <div class="uinp-more">...</div>
-		                <div class="ub ub-ac uc-red">*</div>
+		                <input class="uinp ub ub-f1" name="branchName" id="branchName" type="text"  readonly="readonly"> 
+		                <div class="uinp-more" id="umore">...</div>
+		            	<div class="ub ub-ac uc-red">*</div>
 		            </div>
 		            <div class="ub ub-ac  umar-t20" style="margin-left:-16px;">
 		                <div class="umar-r10 uw-90 ut-r">机构组合编号:</div>
-		                <input class="uinp ub ub-f1 uinp-no-more" readonly="readonly" name="branchComCode" id="branchComCode" type="text" > 
+		                <input class="uinp ub ub-f1 uinp-no-more" readonly="readonly" name="groupNo" id="groupNo" type="text" > 
 		            </div>
 		            <div class="ub ub-ac  umar-t20" style="margin-left:-16px;">
 		                <div class="umar-r10 uw-90 ut-r">机构组合名称:</div>
-		                <input class="uinp ub ub-f1" name="branchComName" id="branchComName" type="text" > 
+		                <input class="uinp ub ub-f1" name="groupName" id="groupName" type="text" > 
 		            </div>
 		            <div class="ub ub-ac  umar-t20" style="margin-left:-7px;">
 		                <div class="umar-r10 uw-80 ut-r">备注:</div>

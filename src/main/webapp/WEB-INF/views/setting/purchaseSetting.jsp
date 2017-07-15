@@ -80,12 +80,12 @@
 					init(result.data);
 				}else{
 					disableSaveBtn();
-					successTip(result.message);
+					$_jxc.alert(result.message);
 				}
 			},
 			error : function(result) {
 				disableSaveBtn();
-				successTip("请求发送失败或服务器处理失败");
+				$_jxc.alert("请求发送失败或服务器处理失败");
 			}
 		});
 		
@@ -176,11 +176,11 @@
 				if (result['code'] == 0) {
 					messager("保存成功！");
 				} else {
-					successTip(result['message']);
+					$_jxc.alert(result['message']);
 				}
 			},
 			error : function(data) {
-				successTip("请求发送失败或服务器处理失败");
+				$_jxc.alert("请求发送失败或服务器处理失败");
 			}
 		});
 		$("#settingForm").submit();

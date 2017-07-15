@@ -62,6 +62,9 @@ public abstract class ReportController extends BaseController<T> {
 	@ResponseBody
 	public List<DataRecord> reportList(HttpServletRequest request) {
 		List<DataRecord> list = getReportService().getList(getParam(request));
+		for(DataRecord dataRecord:list){
+			formatter(dataRecord);
+		}
 		return list;
 	}
 
@@ -71,6 +74,9 @@ public abstract class ReportController extends BaseController<T> {
 			@RequestParam(value = "page", defaultValue = PAGE_NO) Integer page,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) Integer rows) {
 		PageUtils<DataRecord> list = getReportService().getListPage(getParam(request), page, rows);
+		for(DataRecord dataRecord:list.getList()){
+			formatter(dataRecord);
+		}
 		String keyStr = null;
 		// 调价查询
 		if (PriceAccessConstant.PRICING_QUERY_CONTROLLER.equals(getClassName())) {

@@ -165,13 +165,13 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			// 要货单商品资料查询、价格查询
 			if (FormType.DA.name().equals(vo.getFormType())||FormType.DD.name().equals(vo.getFormType())||FormType.DY.name().equals(vo.getFormType())) {
 				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
-				return goodsSelects;
+				return replaceBarCode(goodsSelects,vo);
 			}
 
 			//退货单
 			if(FormType.DR.name().equals(vo.getFormType())){
 				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDR(vo);
-				return goodsSelects;
+				return replaceBarCode(goodsSelects,vo);
 			}
 
 			//如果是促销活动页面查询商品，需要过滤掉不参加促销的商品

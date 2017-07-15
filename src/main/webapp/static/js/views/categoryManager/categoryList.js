@@ -251,8 +251,8 @@ var addDalogTemp;
 function addCategory(){
 	var categoryLevel = $("#level").val();
 	var parentCategoryId = $("#parentId").val();
-	if(categoryLevel == 3){
-        $_jxc.alert("三级分类下不能新增子分类!");
+	if(categoryLevel == 4){
+        $_jxc.alert("四级分类下不能新增子分类!");
 		return;
 	}
 	if(!parentCategoryId){
