@@ -90,12 +90,12 @@
 					init(result.data);
 				} else {
 					disableSaveBtn();
-					successTip(result.message);
+					$_jxc.alert(result.message);
 				}
 			},
 			error : function(result) {
 				disableSaveBtn();
-				successTip("请求发送失败或服务器处理失败");
+				$_jxc.alert("请求发送失败或服务器处理失败");
 			}
 		});
 		loadTabs();
@@ -144,12 +144,12 @@
 		} else if (indexTab == 1) {
 			var specBranchId = $("#specBranchId").val();
 			if (specBranchId == "") {
-				messager("请先选择机构");
+				$_jxc.alert("请先选择机构");
 				return;
 			}
 			var receiptMobile = $("#receiptMobile").val();
 			if (receiptMobile == "") {
-				messager("请输入电话号码");
+				$_jxc.alert("请输入电话号码");
 				return;
 			}
 			obj.branchId = specBranchId;
@@ -165,13 +165,13 @@
 			success : function(result) {
 				gFunEndLoading();
 				if (result['code'] == 0) {
-					messager("保存成功！");
+					$_jxc.alert("保存成功！");
 				} else {
-					successTip(result['message']);
+					$_jxc.alert(result['message']);
 				}
 			},
 			error : function(result) {
-				successTip("请求发送失败或服务器处理失败");
+				$_jxc.alert("请求发送失败或服务器处理失败");
 			}
 		});
 	}
@@ -203,7 +203,7 @@
 						}
 					},
 					error : function(result) {
-						successTip("请求发送失败或服务器处理失败");
+						$_jxc.alert("请求发送失败或服务器处理失败");
 					}
 				});
 	}

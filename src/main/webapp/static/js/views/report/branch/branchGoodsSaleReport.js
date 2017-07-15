@@ -434,16 +434,16 @@ function setLocalStorage(){
 function query(){
 
 	if($("#branchName").val() == null || $("#branchName").val() == ''){
-		messager("请选择机构");
+		$_jxc.alert("请选择机构");
 		return;
 	}
 	if($("#branchId").val() == null || $("#branchId").val() == ''){
-		messager("请选择机构");
+		$_jxc.alert("请选择机构");
 		return;
 	}
 
 	if ($("#branchId").val() == '0') {
-		messager("请选择分公司机构");
+		$_jxc.alert("请选择分公司机构");
 		return;
 	}
 

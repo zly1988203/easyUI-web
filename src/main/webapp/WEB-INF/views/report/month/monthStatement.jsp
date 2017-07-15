@@ -68,7 +68,7 @@
 			        	$("#maxRptDate").html(maxRptDate);
 			        },
 			        error:function(result){
-			            successTip("请求发送失败或服务器处理失败");
+			            $_jxc.alert("请求发送失败或服务器处理失败");
 			        }
 			    });
 		   }
@@ -87,12 +87,12 @@
 			    
 			   	var branchId = $("#branchId").val();
 			    if(branchId===""){
-			        messager("请选择机构");
+			        $_jxc.alert("请选择机构");
 			        isValid = false;
 				}
 			   	var rptDate = $("#rptDate").val();
 			    if(rptDate===""){
-			        messager("请选择月结期间");
+			        $_jxc.alert("请选择月结期间");
 			        isValid = false;
 				}
 			    if (!isValid) {
