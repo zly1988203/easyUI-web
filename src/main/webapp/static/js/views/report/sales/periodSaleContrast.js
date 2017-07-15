@@ -26,22 +26,14 @@ function initDataTimeSaleReport(){
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
-        data:[
-              {project:'销售额',times:'早班（07:00:00--15:00:00)',monthCount:3000,oneyue:10},
-              {project:'销售额',times:'中班（15:00:00--23:00:00)',monthCount:6000,oneyue:20},
-              {project:'销售额',times:'夜班（23:00:00--07:00:00)',monthCount:1200,oneyue:30},
-              {project:'退货额',times:'早班（07:00:00--15:00:00)',monthCount:3000,oneyue:10},
-              {project:'退货额',times:'中班（15:00:00--23:00:00)',monthCount:6000,oneyue:20},
-              {project:'退货额',times:'夜班（23:00:00--07:00:00)',monthCount:1200,oneyue:30}
-             ],
         showFooter:true,
 		height:'100%',
 		pageSize:50,
 		width:'100%',
 		columns:[[
-			{field:'project',title:'项目',width: 90,align:'center',rowspan:2},
-			{field:'times',title:'时段',width: '200px',align:'center',rowspan:2},
-			{field:'monthCount',title:'月均销售',width: 90,align:'right',rowspan:2,
+			{field:'bizType',title:'项目',width: 90,align:'center',rowspan:2},
+			{field:'classesStr',title:'时段',width: '200px',align:'center',rowspan:2},
+			{field:'monthAvgSale',title:'月均销售',width: 90,align:'right',rowspan:2,
 				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
@@ -49,133 +41,133 @@ function initDataTimeSaleReport(){
 			{field:'branchName2',title:'当年销售情况',width: 90,align:'center',colspan:12},
 			{field:'branchName3',title:'上年销售情况',width: 90,align:'center',colspan:12}
         ],[ 
-            {field:'oneyue',title:'1月',width: 90,align:'right',
+           {field:'thisOne',title:'1月',width: 90,align:'right',
+           	formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				}
+           },
+           {field:'thisTwo',title:'2月',width: 90,align:'right',
+           	formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				}
+           },
+           {field:'thisThree',title:'3月',width: 90,align:'right',
+           	formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				}
+           },
+           {field:'thisFour',title:'4月',width: 90,align:'right',
+           	formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				}
+           },
+           {field:'thisFive',title:'5月',width: 90,align:'right',
+           	formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				}
+           },
+           {field:'thisSix',title:'6月',width: 90,align:'right',
+           	formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				}
+           },
+           {field:'thisSever',title:'7月',width: 90,align:'right',
+           	formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				}
+           },
+           {field:'thisEight',title:'8月',width: 90,align:'right',
+           	formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				}
+           },
+           {field:'thisNine',title:'9月',width: 90,align:'right',
+           	formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				}
+           },
+           {field:'thisTen',title:'10月',width: 90,align:'right',
+           	formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				}
+           },
+           {field:'thisEleven',title:'11月',width: 90,align:'right',
+           	formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				}
+           },
+           {field:'thisTwelve',title:'12月',width: 90,align:'right',
+           	formatter:function(value,row,index){
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+				}
+           },
+            {field:'lastOne',title:'1月',width: 90,align:'right',
             	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
             },
-            {field:'twoyue',title:'2月',width: 90,align:'right',
+            {field:'lastTwo',title:'2月',width: 90,align:'right',
             	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
             },
-            {field:'threeyue',title:'3月',width: 90,align:'right',
+            {field:'lastThree',title:'3月',width: 90,align:'right',
             	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
             },
-            {field:'fouryue',title:'4月',width: 90,align:'right',
+            {field:'lastFour',title:'4月',width: 90,align:'right',
             	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
             },
-            {field:'fiveyue',title:'5月',width: 90,align:'right',
+            {field:'lastFive',title:'5月',width: 90,align:'right',
             	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
             },
-            {field:'sixyue',title:'6月',width: 90,align:'right',
+            {field:'lastSix',title:'6月',width: 90,align:'right',
             	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
             },
-            {field:'sevenyue',title:'7月',width: 90,align:'right',
+            {field:'lastSever',title:'7月',width: 90,align:'right',
             	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
             },
-            {field:'eightyue',title:'8月',width: 90,align:'right',
+            {field:'lastEight',title:'8月',width: 90,align:'right',
             	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
             },
-            {field:'nightyue',title:'9月',width: 90,align:'right',
+            {field:'lastNine',title:'9月',width: 90,align:'right',
             	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
             },
-            {field:'tenyue',title:'10月',width: 90,align:'right',
+            {field:'lastTen',title:'10月',width: 90,align:'right',
             	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
             },
-            {field:'elevenyue',title:'11月',width: 90,align:'right',
+            {field:'lastEleven',title:'11月',width: 90,align:'right',
             	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
             },
-            {field:'twelyue',title:'12月',width: 90,align:'right',
+            {field:'lastTwelve',title:'12月',width: 90,align:'right',
             	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
-            },
-            {field:'oneyuelast',title:'1月',width: 90,align:'right',
-            	formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-				}
-            },
-            {field:'twoyuelast',title:'2月',width: 90,align:'right',
-            	formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-				}
-            },
-            {field:'threeyuelast',title:'3月',width: 90,align:'right',
-            	formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-				}
-            },
-            {field:'fouryuelast',title:'4月',width: 90,align:'right',
-            	formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-				}
-            },
-            {field:'fiveyuelast',title:'5月',width: 90,align:'right',
-            	formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-				}
-            },
-            {field:'sixyuelast',title:'6月',width: 90,align:'right',
-            	formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-				}
-            },
-            {field:'sevenyuelast',title:'7月',width: 90,align:'right',
-            	formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-				}
-            },
-            {field:'eightyuelast',title:'8月',width: 90,align:'right',
-            	formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-				}
-            },
-            {field:'nightyuelast',title:'9月',width: 90,align:'right',
-            	formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-				}
-            },
-            {field:'tenyuelast',title:'10月',width: 90,align:'right',
-            	formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-				}
-            },
-            {field:'elevenyuelast',title:'11月',width: 90,align:'right',
-            	formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-				}
-            },
-            {field:'twelyuelast',title:'12月',width: 90,align:'right',
-            	formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-				}
-            },
+            }
         ]],
         onLoadSuccess:function(data){
         	var merges = getMergesData(data.rows);
 			for(var i=0; i<merges.length; i++){
 				$(this).datagrid('mergeCells',{
 					index: merges[i].index,
-					field: 'project',
+					field: 'bizType',
 					rowspan: merges[i].rowspan
 				});
 			}
@@ -202,7 +194,7 @@ function getMergesData(sc_data){
             //跨行
             ne_item = {
                 index:0,
-                project:arg.project,
+                groupType:arg.groupType,
                 rowspan:1
             };
             ne_data.push(ne_item);
@@ -214,7 +206,7 @@ function getMergesData(sc_data){
         
         var _flag = false; //标识符
         ne_data.forEach(function(obc,inc){
-            if(obc.project === arg.project){
+            if(obc.groupType === arg.groupType){
                 _flag = true;
                 obc.rowspan++; //跨行累计
                 no_Num++;      //游标累计
@@ -225,7 +217,7 @@ function getMergesData(sc_data){
             //下一个统计项
             var nne_item = {
                 index:++no_Num,
-                project:arg.project,
+                groupType:arg.groupType,
                 rowspan:1
             };
             _currentObj = nne_item;
@@ -409,7 +401,7 @@ function queryForm(){
 	$("#"+datagridId).datagrid("options").method = "post";
 	//时段
 	if(serviceType == 'timeSale'){
-		$("#"+datagridId).datagrid('options').url = contextPath + '/storeDaySale/report/getStoreDaySaleList';
+		$("#"+datagridId).datagrid('options').url = contextPath + '/report/periodSaleContrast/list';
 	}else{
 		$("#"+datagridId).datagrid('options').url = contextPath + '/storeDaySale/report/getStoreDaySaleList';
 	}
@@ -419,7 +411,7 @@ function queryForm(){
 /**
  * 导出
  */
-function exportData(){
+/*function exportData(){
 	var length = $('#storeDaySale').datagrid('getData').total;
 	if(length == 0){
 		$_jxc.alert("无数据可导");
@@ -432,16 +424,16 @@ function exportData(){
 	$("#exportWin").show();
 	$("#totalRows").html(dg.datagrid('getData').total);
 	$("#exportWin").window("open");
-}
+}*/
 /**
  * 导出
  */
 function exportExcel(){
-	var length = $("#"+datagridId).datagrid('getData').total;
+	/*var length = $("#"+datagridId).datagrid('getData').total;
 	if(length == 0){
 		$_jxc.alert("没有数据");
 		return;
-	}
+	}*/
 	var fromObjStr = $('#queryForm').serializeObject();
 	
 	$("#queryForm").form({
@@ -453,7 +445,7 @@ function exportExcel(){
 			}
 		}
 	});
-	$("#queryForm").attr("action",contextPath+"/storeDaySale/report/exportList?"+fromObjStr);
+	$("#queryForm").attr("action",contextPath+"/report/periodSaleContrast/exportList?"+fromObjStr);
 	$("#queryForm").submit();
 }
 
