@@ -94,7 +94,7 @@ public class StorePlanDayTrackReportController extends BaseController<StorePlanD
 
 			LOG.debug("查询门店计划日跟踪表条件：{}", qo);
 
-			String timeStr = DateUtils.getSmallStr(qo.getStartTime()) + "-" + DateUtils.getSmallStr(qo.getEndTime());
+			String timeStr = DateUtils.getSmallStr(qo.getRptDate());
 
 			// 导出文件名称，不包括后缀名
 			String reportFileName = "门店计划日跟踪表" + timeStr;
