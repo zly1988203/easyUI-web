@@ -28,15 +28,24 @@ function initDatagridStoreList(){
         showFooter:true,
 		height:'380px',
 		width:'100%',
-        columns:[[        
-            {field:'branchComCode',title:'机构组合编号',width:'140px',align:'left'},
-            {field:'branchComName',title:'机构组合名称',width:'140px',align:'left'},
-            {field:'brancName',title:'所属分公司',width:'120px',align:'left'},
-            {field:'isBranchName',title:'是否已设置成分商品',width:'120px',align:'center'},
+        columns:[[
+			{field:'id',title:'机构组合编号',width:'140px',align:'left',hidden:true},
+            {field:'groupNo',title:'机构组合编号',width:'140px',align:'left'},
+            {field:'groupName',title:'机构组合名称',width:'140px',align:'left'},
+            {field:'branchName',title:'所属分公司',width:'120px',align:'left'},
+            {field:'hasMemeberStr',title:'是否已设置成分商品',width:'120px',align:'center'},
             {field:'createUserName',title:'创建人',width:'120px',align:'left'},
-            {field:'createTime',title:'创建时间',width:'120px',align:'left'},
+            {field:'createTime',title:'创建时间',width:'120px',align:'left',
+	            formatter:function(value,row,index){
+	        		return formatDate(value);
+	        	}
+            },
             {field:'updateUserName',title:'修改人',width:'120px',align:'left'},
-            {field:'updateTime',title:'修改时间',width:'120px',align:'left'},
+            {field:'updateTime',title:'修改时间',width:'120px',align:'left',
+	            formatter:function(value,row,index){
+	        		return formatDate(value);
+	        	}
+            },
             {field:'remark',title:'备注',width:'180px',align:'left'},
         ]],
         onSelect:function(rowIndex,rowData){
@@ -93,8 +102,8 @@ function initDatagridStoreView(){
             },
             {field:'branchCode',title:'机构编号',width: '140px',align:'left',editor:'textbox'},
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
-            {field:'branchCompany',title:'所属分公司',width:'140px',align:'left'},
-            {field:'branchArea',title:'所属区域',width:'140px',align:'left'}
+            {field:'parentBranchName',title:'所属分公司',width:'140px',align:'left'},
+            {field:'branchAreaName',title:'所属区域',width:'140px',align:'left'}
         ]],
         onClickCell:function(rowIndex,field,value){
         	gridHandelDet.setBeginRow(rowIndex);
@@ -119,7 +128,7 @@ function query(){
 	//$("#"+gridStoreDetailId).datagrid('loadData', { total: 0, rows: [] });
 	$("#"+gridStoreViewId).datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#"+gridStoreViewId).datagrid("options").method = "post";
-	$("#"+gridStoreViewId).datagrid("options").url = contextPath+'/goods/component/queryList';
+	$("#"+gridStoreViewId).datagrid("options").url = contextPath+'/branch/branchGroup/queryList';
 	$("#"+gridStoreViewId).datagrid("load");
 }
 
@@ -189,15 +198,29 @@ function saveBranchComMsg(){
 		$_jxc.alert('所属分公司信息不能为空');
 		return;
 	}
-	if(!_paramObj.branchComName){
+	if(!_paramObj.groupName){
 		$_jxc.alert('机构组合名称不能为空');
 		return;
 	}
 	
 	_paramObj.branchName =  _paramObj.branchName.substr(_paramObj.branchName.indexOf(']')+1);
 	console.log('_paramObj',_paramObj);
+	debugger;
 	//ajax后台保存数据
-	
+	 $_jxc.ajax({
+			 contentType:"application/json",
+		     dataType:'json',
+	        url:contextPath+"/branch/branchGroup/saveBranchGroup",
+	        data:JSON.stringify(_paramObj),
+	    },function(result){
+	        if(result['code'] == 0){
+	            $_jxc.alert("操作成功！",function(){
+	                //  location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
+	            });
+	        }else{
+	            $_jxc.alert(result['message']);
+	        }
+	    });
 }
 
 //机构组合商品新增 弹窗 --> 关闭
@@ -215,10 +238,11 @@ function checkData(){
 		$_jxc.alert("请选择机构组合");
 		return false;
 	}
-	if(selectBranch && !selectBranch.branchComName){
+	if(selectBranch && !selectBranch.groupName){
 		$_jxc.alert("所选的机构组合名称不能为空");
 		return false;
 	}
+	return true;
 }
 
 //选择机构
@@ -244,11 +268,11 @@ function selectBranchs(searchKey){
 
 //根据选中skuid查询价格、库存
 function selectView(data){
-	return;
+	debugger;
     var searchskuId=data.id
 	$_jxc.ajax({
-    	url : contextPath+"/goods/component/queryComponent",
-    	data : {"skuId":searchskuId}
+    	url : contextPath+"/branch/branchGroup/queryGrouBranch",
+    	data : {"groupId":searchskuId}
     },function(result){
     	$("#"+gridStoreDetailId).datagrid("loadData",result);
     });
@@ -258,9 +282,9 @@ function selectView(data){
 function saveBranchsView(){
 	//数据校验
 	if(!checkData())return;
-	
+	debugger;
     $("#"+gridStoreDetailId).datagrid("endEdit", gridHandelDet.getSelectRowIndex());
-    var rows = gridHandel.getRowsWhere({branchName:'1'});
+    var rows = gridHandelDet.getRowsWhere({branchName:'1'});
     if(rows.length==0){
         $_jxc.alert("机构信息不能为空");
         return;
@@ -284,20 +308,22 @@ function saveBranchsView(){
 function saveDataHandel(rows){
 	//获取选中产品id
 	var viewRows = $('#'+gridStoreViewId).datagrid('getSelected');
-	var checkskuCode=viewRows.skuId;
+	var id=viewRows.id;
     var reqObj = {
-    	skuId:checkskuCode,
-    	detailList:rows
+    	id:id,
+    	branchList:rows
     }; 
     var goodsJson = JSON.stringify(reqObj);
     console.log(goodsJson);
     $_jxc.ajax({
-        url:contextPath+"/goods/component/saveComponent",
-        data:{"goodsJson":goodsJson}
+		 contentType:"application/json",
+		 dataType:'json',
+        url:contextPath+"/branch/branchGroup/saveGroupBranch",
+        data:goodsJson,
     },function(result){
         if(result['code'] == 0){
             $_jxc.alert("操作成功！",function(){
-                //location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
+              <!--  location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];-->
             });
         }else{
             $_jxc.alert(result['message']);

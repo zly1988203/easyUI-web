@@ -118,7 +118,7 @@ function purchaseTotalCx(){
 	var formData = $("#queryForm").serializeObject();
 	$("#"+gridName).datagrid("options").queryParams = formData;
 	$("#"+gridName).datagrid("options").method = "post";
-	$("#"+gridName).datagrid("options").url =  contextPath+"/report/goodsTotalAnalysi/reportListPage";
+	$("#"+gridName).datagrid("options").url =  contextPath+"/report/sale/categorySaleReport/reportListPage";
 	$("#"+gridName).datagrid("load");
 }
 
@@ -161,7 +161,7 @@ function exportExcel(){
 		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
-	$("#queryForm").attr("action",contextPath+'/report/goodsTotalAnalysi/exportGoodsAnalsisExcel');
+	$("#queryForm").attr("action",contextPath+'/report/sale/categorySaleReport/exportExcel');
 	$("#queryForm").submit();	
 }
 /**
