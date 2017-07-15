@@ -6,8 +6,6 @@ $(function(){
     initDatagridStoreList();
     initDatagridStoreView();
     
-    //新增机构组合机构选择 初始化
-    $('#branchComponent').branchSelect();
 });
 var gridDefault = {};
 var gridHandel = new GridClass();
@@ -56,7 +54,8 @@ function initDatagridStoreList(){
 			removeData(data);
 			gridHandel.setDatagridHeader("center");
 			if (data.rows.length > 0) {  
-				$("#"+gridStoreDetailId).datagrid('loadData', [{},{}]);
+				//$("#"+gridStoreDetailId).datagrid('loadData', [{},{}]);
+				$(this).datagrid('selectRow',0);
 			} 
 		}
     });
@@ -175,18 +174,38 @@ function delStoreComp(){
 //机构组合商品  
 var brDialog;
 function showBranchDialog(obj){
+	console.log(obj);
 	brDialog = $_jxc.dialog({
 		target:'#branchDialog',
-		title: '机构组合商品新增', 
+		title: obj?'机构组合编辑':'机构组合新增', 
 		width:600,
 		height:400,
 		onBeforeOpen:function(){
 			$('#branchDialog-area').removeClass('none');
+			//编辑时 form赋值
+			if(obj){
+				$('#branchId').val(obj.branchId||'');
+				$('#branchName').val('['+(obj.branchCode||"")+']'+obj.branchName);
+				$('#groupName').val(obj.groupName||'');
+				$('#groupNo').val(obj.groupNo||'');
+				$('#remark').val(obj.remark||'');
+				$('#branchForm').append('<input type="hidden" name="id" id="id" value="'+obj.id+'">');
+				$('#umore').addClass('unhide');
+			}else{
+				//新增机构组合机构选择 初始化
+			    $('#branchComponent').branchSelect({
+			    	param:{
+			    		branchTypesStr:$_jxc.branchTypeEnum.HEAD_QUARTERS + ',' + $_jxc.branchTypeEnum.BRANCH_COMPANY
+			    	}
+			    });
+			    $('#branchForm')[0].reset();
+			    $('#umore').removeClass('unhide');
+			    $('#id').remove();
+			}
 			
 		},
 		onClose:function(){
 			$('#branchDialog-area').addClass('none');
-			
 	    }
 	})
 }
@@ -205,11 +224,10 @@ function saveBranchComMsg(){
 	
 	_paramObj.branchName =  _paramObj.branchName.substr(_paramObj.branchName.indexOf(']')+1);
 	console.log('_paramObj',_paramObj);
-	debugger;
 	//ajax后台保存数据
 	 $_jxc.ajax({
-			 contentType:"application/json",
-		     dataType:'json',
+			contentType:"application/json",
+		    dataType:'json',
 	        url:contextPath+"/branch/branchGroup/saveBranchGroup",
 	        data:JSON.stringify(_paramObj),
 	    },function(result){
@@ -250,8 +268,9 @@ function selectBranchs(searchKey){
 	//数据校验
 	//if(!checkData())return;
 	var param = {
-		//type:'',没有树  默认左侧有树   'NOTREE' -->左侧没有树
 		selectType:1, //数据选择模式类型  null/''/0-->单选(默认)   1多选
+		//门店
+		branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C,
 		nameOrCode:searchKey
 	}
 	publicBranchesService(param,function(result){
@@ -266,9 +285,8 @@ function selectBranchs(searchKey){
 }
 
 
-//根据选中skuid查询价格、库存
+//根据选中机构分组机构信息
 function selectView(data){
-	debugger;
     var searchskuId=data.id
 	$_jxc.ajax({
     	url : contextPath+"/branch/branchGroup/queryGrouBranch",
@@ -282,7 +300,7 @@ function selectView(data){
 function saveBranchsView(){
 	//数据校验
 	if(!checkData())return;
-	debugger;
+	
     $("#"+gridStoreDetailId).datagrid("endEdit", gridHandelDet.getSelectRowIndex());
     var rows = gridHandelDet.getRowsWhere({branchName:'1'});
     if(rows.length==0){
@@ -316,14 +334,14 @@ function saveDataHandel(rows){
     var goodsJson = JSON.stringify(reqObj);
     console.log(goodsJson);
     $_jxc.ajax({
-		 contentType:"application/json",
-		 dataType:'json',
+		contentType:"application/json",
+		dataType:'json',
         url:contextPath+"/branch/branchGroup/saveGroupBranch",
         data:goodsJson,
     },function(result){
         if(result['code'] == 0){
             $_jxc.alert("操作成功！",function(){
-              <!--  location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];-->
+              /*<!--  location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];-->*/
             });
         }else{
             $_jxc.alert(result['message']);
