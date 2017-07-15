@@ -1,16 +1,71 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Jason
-  Date: 2017/7/14
-  Time: 17:20
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>供应商进货报表</title>
+<%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
+<script src="${ctx}/static/js/views/report/supplier/stocklist.js?V=${versionNo}"></script>
+<style>
+.datagrid-header-row .datagrid-cell{text-align: center!important;}
+</style>
 </head>
-<body>
-
+<body class="ub uw uh ufs-14 uc-black">
+<div class="ub ub-ver ub-f1 umar-4 upad-4">
+		<form id="queryForm" action="" method="post">
+			<div class="ub ub-ac">
+	            <div class="ubtns">
+	                <div class="ubtns-item" onclick="query()">查询</div>
+	                <div class="ubtns-item" onclick="exportData()">导出</div>
+				    <div class="ubtns-item" >打印</div>
+	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
+	                <div class="ubtns-item" onclick="toClose()">关闭</div>
+	            </div>
+	             <!-- 引入时间选择控件 -->
+	           <div class="ub ub-ac">
+	            	<div class="umar-r4 uw-80 ut-r">日期:</div>
+	       			<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
+	           </div>
+            </div>
+	        <div class="ub uline umar-t8"></div>
+	        <div class="ub umar-t8">
+			    <div class="ub ub-ac umar-r40" id="branchSelects">
+			        <div class="umar-r10 uw-70 ut-r">机构名称:</div>
+			        <input class="uinp" type="hidden" id="branchId" name="branchId">
+			        <input class="uinp" type="text" id="branchName" name="branchName">
+			        <div class="uinp-more">...</div>
+			    </div>
+			    
+			    <div class="ub ub-ac umar-r40" id="supplierComponent">
+			        <div class="umar-r10 uw-70 ut-r">供应商:</div>
+                	<input class="uinp" name="supplierId" id="supplierId"type="hidden">
+					<input class="uinp ub ub-f1" id="supplierName" type="text">
+					<div class="uinp-more">...</div>
+			    </div>
+			    
+			    <div id="categoryNameDiv" class="ub ub-ac umar-r40">
+			        <div class="umar-r10 uw-70 ut-r">商品类别:</div>
+			        <input type="text" name="categoryCode" id="categoryCode" class="uinp " maxlength="50" />
+			        <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
+			    </div>
+			</div>
+			<div class="ub umar-t8">
+			    <div class="ub ub-ac umar-r40">
+			        <div class="umar-r10 uw-70 ut-r">货号/条码:</div>
+			        <input type="text" name="skuCodeOrBarCode" id="skuCodeOrBarCode" class="uinp" />
+			    </div>
+			    <div class="ub ub-ac umar-r40">
+			        <div class="umar-r10 uw-70 ut-r">商品名称:</div>
+			        <input type="text" name="skuName" id="skuName" class="uinp" />
+			    </div>
+			</div>
+       	</form>
+        <div class="ub ub-f1 umar-t20">
+			 <table id="goodsStockList"></table>
+		</div>
+    </div>
 </body>
 </html>
