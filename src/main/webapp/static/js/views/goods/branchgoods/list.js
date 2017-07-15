@@ -367,7 +367,7 @@ function selectBranch() {
  */
 function selectBranches() {
 	if (getSkuIds() == ''){
-		messager("未选择商品");
+		$_jxc.alert("未选择商品");
 		return;
 	}
 	var branchTypesStr;
@@ -388,7 +388,7 @@ function selectBranches() {
 		branchId : branchId,
 		formType:formType
 	}
-	publicBranchesServiceHandel(param,function(data){
+	publicBranchesService(param,function(data){
 		if(data == 'NO')return;
 		var branchesId="";
 		var flag = true;
@@ -403,53 +403,35 @@ function selectBranches() {
 			}
 		});
 		if (flag) {
-			messager("商品引入时未选择所属分公司:" + $("#branchName").val());
+			$_jxc.alert("商品引入时未选择所属分公司:" + $("#branchName").val());
 			return;
 		}
 		branchesId = branchesId.substring(0,branchesId.length - 1);
-		$.messager.confirm('提示', '是否引入所选机构未引入的商品', function(data) {
+		$_jxc.confirm('是否引入所选机构未引入的商品', function(data) {
 			if (data) {
 				branchesLeadInto(branchesId);
 			}
 		});
 	})
-	/*new publicBranchService(function(data) {
-		var branchesId="";
-		$.each(data,function(i,k){
-			branchesId=k.branchesId+","+branchesId;
-		})
-		branchesId = branchesId.substring(0,branchesId.length - 1);
-		$.messager.confirm('提示', '是否引入所选机构未引入的商品', function(data) {
-			if (data) {
-				branchesLeadInto(branchesId);
-			}
-		});
-	},1);*/
 }
 
 function branchesLeadInto(branchesId){
 	var skuIds = getSkuIds();
-	gFunStartLoading('正在引入，请稍后...');
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/branch/goods/branchesLeadInto",
 		type : "POST",
 		data : {
 			'branchesId' : branchesId,
 			'skuIds' : skuIds
-		},
-		success : function(result) {
-			gFunEndLoading();
-			if (result['code'] == 0) {
-				messager(result.data);
-			} else {
-				messager(result['message']);
-			}
-			var dg = $("#gridOrders");
-			dg.datagrid('reload');
-		},
-		error : function(result) {
-			messager("请求发送失败或服务器处理失败");
 		}
+	},function(result){
+		if (result['code'] == 0) {
+			$_jxc.alert(result.data);
+		} else {
+			$_jxc.alert(result['message']);
+		}
+		var dg = $("#gridOrders");
+		dg.datagrid('reload');
 	});
 }
 

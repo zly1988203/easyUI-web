@@ -173,12 +173,12 @@
 					init(result.data);
 				}else{
 					disableSaveBtn();
-					successTip(result.message);
+					$_jxc.alert(result.message);
 				}
 			},
 			error : function(result) {
 				disableSaveBtn();
-				successTip("请求发送失败或服务器处理失败");
+				$_jxc.alert("请求发送失败或服务器处理失败");
 			}
 		});
 		
@@ -286,7 +286,7 @@
 	function save() {
 		
 		if($('#dosheetTemplate').val() === ""){
-			messager("自定义模板未上传.");
+			$_jxc.alert("自定义模板未上传.");
 			return;
 		}
 		
@@ -299,14 +299,14 @@
 				var result = JSON.parse(data);
 				gFunEndLoading();
 				if (result['code'] == 0) {
-					messager("保存成功！");
+					$_jxc.alert("保存成功！");
 					//location.reload();
 				} else {
-					successTip(result['message']);
+					$_jxc.alert(result['message']);
 				}
 			},
 			error : function(data) {
-				successTip("请求发送失败或服务器处理失败");
+				$_jxc.alert("请求发送失败或服务器处理失败");
 			}
 		});
 		

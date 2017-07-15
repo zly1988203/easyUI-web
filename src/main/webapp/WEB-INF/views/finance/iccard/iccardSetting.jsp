@@ -92,7 +92,7 @@
 <script type="application/javascript">
 	$(function () {
         <c:if test="${user.branchId eq '0'}" >
-        	successTip('总部不可以设置!');
+        	$_jxc.alert('总部不可以设置!');
         	disableSaveBtn();
 		</c:if>
     });

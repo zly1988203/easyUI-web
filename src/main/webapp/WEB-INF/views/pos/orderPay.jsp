@@ -45,14 +45,14 @@ $("#posOrderPayForm").form({
 		gFunEndLoading();
            if(result['code'] == 0){
         	   gFunEndLoading();
-               messager("处理成功！");
+               $_jxc.alert("处理成功！");
            }else{
-               successTip(result['message']);
+               $_jxc.alert(result['message']);
                gFunEndLoading();
            }
        } ,error:function(data){
     	   gFunEndLoading();
-           successTip("请求发送失败或服务器处理失败");
+           $_jxc.alert("请求发送失败或服务器处理失败");
        }
 });
 

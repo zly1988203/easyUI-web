@@ -34,7 +34,7 @@
 	function sureExportExcel(){
 		var choose = $('input[name="chose"]:checked').val();
 		if(choose == null){
-			successTip("请选择导出项");
+			$_jxc.alert("请选择导出项");
 			return;
 		}
 		
@@ -59,7 +59,7 @@
 				endRow = 20000;
 			}
 			if (endRow > 20000) {
-				successTip("最大导出20000条");
+				$_jxc.alert("最大导出20000条");
 				return;
 			}
 		}
@@ -68,14 +68,14 @@
 			stratRow = $("#startRow").val();
 			endRow = $("#endRow").val();
 			if ((endRow - stratRow + 1) > 20000) {
-				successTip("最大导出20000条");
+				$_jxc.alert("最大导出20000条");
 				return;
 			}
 			if(!stratRow || !endRow ){
-				successTip("请填写页面范围");
+				$_jxc.alert("请填写页面范围");
 				return;
 			}else if(parseInt(endRow) < parseInt(stratRow)){
-				successTip("请输入正确的页面范围");
+				$_jxc.alert("请输入正确的页面范围");
 				return;
 			}
 		}

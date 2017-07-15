@@ -2248,21 +2248,9 @@ $.fn.branchSelect = function(param){
 		console.error('机构选择组件绑定失败');
 		return;
 	}
-	var _this = this;
 	if(typeof param == 'undefined')param = {};
-	
 	//默认参数对象
 	var _default = {
-		param:{
-			
-		},	
-		/**
-		 * 处理一些选择组件前的校验
-		 * return false 结束逻辑
-		 */
-		onShowBefore:function(arg){
-			return true;
-		},
 		/**
 		 * 格式化数据 显示数据
 		 */
@@ -2270,193 +2258,20 @@ $.fn.branchSelect = function(param){
 			return "["+data.branchCode+"]"+data.branchName;
 		},
 		/**
-		 * 数据过滤
-		 */
-		loadFilter:function(data){
-			
-			return data;
-		},
-		/**
-		 * dom 渲染之后
-		 */
-		onAfterRender:function(data){
-			
-		},
-		/**
-		 * 格式化数据 显示数据
-		 */
-		onLoadSuccess:function(data){
-			
-			//返回NO时 输入动作没匹配到数据 
-			if(data == 'NO'){
-				//匹配到多数据 弹窗但未选择的情况下 设置清空
-				if(!$($(_this).find('input[type="hidden"]').eq(0)).val()){
-					$_jxc.clearHideInpOnEdit($(_this).find('input[type="text"]'));
-					$(_this).find('input[type="text"]').val("");
-				}
-			}else{
-				data = _default.loadFilter(data);
-				_default.setDataOfDom(data);
-				_default.onAfterRender(data);
-			}
-		},
-		//显示机构信息
-		showComponentMsg:function(ev){
-			var _editInput = $(this);
-			//点击【...】 按钮 
-			if($(_editInput).hasClass('uinp-more')){
-				_editInput = $(_editInput).parent('.ub').find('input[type="text"]');
-			}
-			//input置灰  则return;
-			if($(_editInput).hasClass('uinp-no-more') || $(_editInput).prop('disabled'))return;
-			
-			//判断前置条件
-			if(_default.relyOnId && !$.trim($('#'+_default.relyOnId).val())){
-				$_jxc.alert(_default.relyError);
-				return false;
-			}
-			
-			//处理onShowBefore (避免用户重载 )
-			if(!_default.onShowBefore(this))return;
-				
-			_default.getComponentDetail();
-			
-		},
-		//失去焦点事件
-		onblur:function(ev){
-			var nameOrCode = $.trim($(this).val())||'';
-			//重新编辑时 清空隐藏域 避免没选择数据就关闭窗口
-			if($(_this).data('oldData') && nameOrCode && $(_this).data('oldData') != nameOrCode)$_jxc.clearHideInpOnEdit($(this));
-			
-			//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
-			if(ev.keyCode && ev.keyCode != 13){
-				return;
-			}
-			
-			//未输入值时，直接返回，无需查询
-			if('' == nameOrCode){
-				$_jxc.clearHideInpOnEdit($(this));
-				return;
-			}
-			
-			//未发生变化 return;
-			if(nameOrCode &&  $(_this).data('oldData') == nameOrCode)return;
-			
-			//获取数据
-			_default.getComponentDetail(nameOrCode);
-			
-		},
-		//键盘事件
-		onkeyup:function(ev){
-			var nameOrCode = $.trim($(this).val())||'';
-			//重新编辑时 清空隐藏域 避免没选择数据就关闭窗口
-			if($(_this).data('oldData') && nameOrCode && $(_this).data('oldData') != nameOrCode)$_jxc.clearHideInpOnEdit($(this));
-			
-			//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
-			if(ev.keyCode && ev.keyCode != 13){
-				return;
-			}
-			
-			//未输入值时，直接返回，无需查询
-			if('' == nameOrCode){
-				$_jxc.clearHideInpOnEdit($(this));
-				return;
-			}
-			
-			//未发生变化 return;
-			if(nameOrCode && $(_this).data('oldData') == nameOrCode)return;
-			
-			//自动失去焦点
-			$(this).blur();
-			
-			//_default.getComponentDetail(nameOrCode);
-			
-		},
-		/**
-		 * 设置dom元素值
-		 */
-		setDataOfDom:function(data){
-			//根据name赋值
-			$(_this).find('input').each(function(index,ob){
-				if(ob){
-					var inputName = $(ob).attr('name');
-					var inputType = $(ob).attr('type');
-					$(ob).val(setValue(inputName,inputType))
-				}
-			})
-			
-			function setValue(inputName,type){
-				//多选时 返回数组
-				if(data.constructor == Array){
-					var _str = [];
-					data.forEach(function(obj,index){
-						if(type == 'text'){
-							_str.push(_default.textFomatter(obj));
-						}else{
-							_str.push(obj[inputName])
-						}
-					});
-					return _str.join(',');
-				}else{
-					//单选返回对象
-					if(type == 'text'){
-						$(_this).data('oldData',_default.textFomatter(data));
-						return  _default.textFomatter(data);
-					}else{
-						return data[inputName];
-					}
-				}
-			}
-		},
-		/**
-		 * 初始化事件绑定
-		 */
-		initDomEvent:function(){
-			//$(this) 返回的是一个 dom 数组
-			$(_this).each(function(index,elt){
-				if(elt){
-				    //判断输入框(有且只有一个)
-					var editInput = $(elt).find('input[type="text"]');
-					//是否readonly 
-					var readonlyFlag = $(editInput).prop('readonly');
-					//是否disabled
-					var disableFlag = $(editInput).prop('disabled');
-					//是否置灰
-					var disableCss = $(editInput).hasClass('uinp-no-more');
-					
-					//置灰状态下 结束 逻辑
-					if((disableCss && readonlyFlag) || disableFlag )return;
-					
-					//只读绑定 点击事件
-					if(readonlyFlag){
-						//绑定 显示 机构选择事件
-						$(editInput).on('click',_default.showComponentMsg)
-					}else{
-						//非 只读 绑定 blur keyup 事件
-						$(editInput).on('blur',_default.onblur);
-						$(editInput).on('keyup',_default.onkeyup);
-					}
-					// 【...】 按钮绑定事件
-					$(elt).find('.uinp-more').on('click',_default.showComponentMsg)
-				}
-			})
-		},
-		/**
 		 * 获取组件信息
 		 */
 		getComponentDetail:function(nameOrCode){
-			var param = $.extend({},_default.param);
+			var param = $.extend({},this.param);
 			if(nameOrCode){
 				param.nameOrCode = nameOrCode;
 			}
-			publicBranchesService(param,_default.onLoadSuccess);
+			publicBranchesService(param,this.onLoadSuccess,this.dom);
 		}	
 	}
-	
-	_default = $.extend(_default,param);
-	
+	_default = $.extend({},$_jxc.autoCompleteComponent(),_default,param);
+	_default.setDom(this);
 	_default.initDomEvent();
-	
+	$.data(this,'component',_default);
 }
 
 /**
@@ -2470,7 +2285,8 @@ $.fn.branchSelect = function(param){
  * <br/>demo:
  * <br/>参照：advanceList.jsp advanceList.js
  */
-function publicBranchesService(param,callback){
+function publicBranchesService(param,callback,cbDom){
+	cbDom = cbDom || window;
 	//默认参数
 	var _defParam = {
 		type:null,    //没有树  默认左侧有树   'NOTREE' -->左侧没有树
@@ -2509,30 +2325,30 @@ function publicBranchesService(param,callback){
 				if(data.rows.length==1){
 					//多选 返回数组 07/06
 					if(param.selectType == 1){
-						callback(data.rows);
+						callback.call(cbDom,data.rows);
 					}else{
 						//单选返回对象
-						callback(data.rows[0]);
+						callback.call(cbDom,data.rows[0]);
 					}
 				}else if(data.rows.length>1){
 					//匹配到多条时 弹窗选择
-					publicBranchesServiceHandel(param,callback);
+					publicBranchesServiceHandel(param,callback,cbDom);
 				}else{
 					//没有匹配数据时 返回字符串方便判断
-					callback('NO');
+					callback.call(cbDom,'NO');
 				}
 			}else{
 				//没有匹配数据时 返回字符串方便判断
-				callback('NO');
+				callback.call(cbDom,'NO');
 			}
 		})
 	}else{
-		publicBranchesServiceHandel(param,callback);
+		publicBranchesServiceHandel(param,callback,cbDom);
 	}
 	
 }
 
-function publicBranchesServiceHandel(param,callback){
+function publicBranchesServiceHandel(param,callback,cbDom){
 	
 	//公有属性
 	var dialogObj = {
@@ -2544,7 +2360,7 @@ function publicBranchesServiceHandel(param,callback){
         closable:true,
         resizable:true,
         onClose:function(){
-        	callback('NO');
+        	callback.call(cbDom,'NO');
             $(dalogTemp).panel('destroy');
             dalogTemp = null;
         },
@@ -2573,7 +2389,7 @@ function publicBranchesServiceHandel(param,callback){
 	
     var  dalogTemp = $('<div/>').dialog(dialogObj);
     function callBackHandel(data){
-        callback(data);
+        callback.call(cbDom,data);
         $(dalogTemp).panel('destroy');
         dalogTemp = null;
     } 
@@ -2634,204 +2450,30 @@ $.fn.supplierSelect = function(param){
 	
 	//默认参数对象
 	var _default = {
-		param:{
-			
-		},
-		/**
-		 * 处理一些选择组件前的校验
-		 * return false 结束逻辑
-		 */
-		onShowBefore:function(arg){
-			return true;
-		},
 		/**
 		 * 格式化数据 显示数据
 		 */
 		textFomatter:function(data){
 			return "["+data.supplierCode+"]"+data.supplierName;
 		},
-		/**
-		 * 数据过滤
-		 */
-		loadFilter:function(data){
-			
-			return data;
-		},
-		/**
-		 * dom 渲染之后
-		 */
-		onAfterRender:function(data){
-			
-		},
-		/**
-		 * 格式化数据 显示数据
-		 */
-		onLoadSuccess:function(data){
-			//返回NO时 输入动作没匹配到数据 
-			if(data == 'NO'){
-				//匹配到多数据 弹窗但未选择的情况下 设置清空
-				if(!$($(_this).find('input[type="hidden"]').eq(0)).val()){
-					$_jxc.clearHideInpOnEdit($(_this).find('input[type="text"]'));
-					$(_this).find('input[type="text"]').val("");
-				}
-			}else{
-				data = _default.loadFilter(data);
-				_default.setDataOfDom(data);
-				_default.onAfterRender(data);
-			}
-		},
-		//显示供应商信息
-		showComponentMsg:function(ev){
-			var _editInput = $(this);
-			//点击【...】 按钮 
-			if($(_editInput).hasClass('uinp-more')){
-				_editInput = $(_editInput).parent('.ub').find('input[type="text"]');
-			}
-			//input置灰  则return;
-			if($(_editInput).hasClass('uinp-no-more') || $(_editInput).prop('disabled'))return;
-			
-			//判断前置条件
-			if(_default.relyOnId && !$.trim($('#'+_default.relyOnId).val())){
-				$_jxc.alert(_default.relyError);
-				return false;
-			}
-			
-			//处理onShowBefore (避免用户重载 )
-			if(!_default.onShowBefore(this))return;
-				
-			_default.getComponentDetail();
-			
-		},
-		//失去焦点事件
-		onblur:function(ev){
-			var nameOrCode = $.trim($(this).val())||'';
-			//重新编辑时 清空隐藏域 避免没选择数据就关闭窗口
-			if($(_this).data('oldData') && nameOrCode && $(_this).data('oldData') != nameOrCode)$_jxc.clearHideInpOnEdit($(this));
-			
-			//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
-			if(ev.keyCode && ev.keyCode != 13){
-				return;
-			}
-			
-			//未输入值时，直接返回，无需查询
-			if('' == nameOrCode){
-				$_jxc.clearHideInpOnEdit($(this));
-				return;
-			}
-			
-			//未发生变化 return;
-			if(nameOrCode &&  $(_this).data('oldData') == nameOrCode)return;
-			
-			//获取数据
-			_default.getComponentDetail(nameOrCode);
-		},
-		//键盘事件
-		onkeyup:function(ev){
-			var nameOrCode = $.trim($(this).val())||'';
-			//重新编辑时 清空隐藏域 避免没选择数据就关闭窗口
-			if($(_this).data('oldData') && nameOrCode && $(_this).data('oldData') != nameOrCode)$_jxc.clearHideInpOnEdit($(this));
-			
-			//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
-			if(ev.keyCode && ev.keyCode != 13){
-				return;
-			}
-			
-			//未输入值时，直接返回，无需查询
-			if('' == nameOrCode){
-				$_jxc.clearHideInpOnEdit($(this));
-				return;
-			}
-			
-			//未发生变化 return;
-			if(nameOrCode && $(_this).data('oldData') == nameOrCode)return;
-			
-			//自动失去焦点
-			$(this).blur();
-			
-			//_default.getComponentDetail(nameOrCode);
-		},
-		/**
-		 * 设置dom元素值
-		 */
-		setDataOfDom:function(data){
-			//根据name赋值
-			$(_this).find('input').each(function(index,ob){
-				if(ob){
-					var inputName = $(ob).attr('name');
-					var inputType = $(ob).attr('type');
-					$(ob).val(setValue(inputName,inputType))
-				}
-			})
-			
-			function setValue(inputName,type){
-				if(data.constructor == Array){
-					var _str = [];
-					data.forEach(function(obj,index){
-						if(type == 'text'){
-							_str.push(_default.textFomatter(obj));
-						}else{
-							_str.push(obj[inputName]);
-						}
-					});
-					return _str.join(',');
-				}else{
-					if(type == 'text'){
-						$(_this).data('oldData',_default.textFomatter(data));
-						return  _default.textFomatter(data);
-					}else{
-						return data[inputName];
-					}
-				}
-			}
-		},
-		/**
-		 * 初始化事件绑定
-		 */
-		initDomEvent:function(){
-			//$(this) 返回的是一个 dom 数组
-			$(_this).each(function(index,elt){
-				if(elt){
-				    //判断输入框(有且只有一个)
-					var editInput = $(elt).find('input[type="text"]');
-					//是否readonly 
-					var readonlyFlag = $(editInput).prop('readonly');
-					//是否disabled
-					var disableFlag = $(editInput).prop('disabled');
-					//是否置灰
-					var disableCss = $(editInput).hasClass('uinp-no-more');
-					
-					//置灰状态下 结束 逻辑
-					if((disableCss && readonlyFlag) || disableFlag )return;
-					
-					//只读绑定 点击事件
-					if(readonlyFlag){
-						//绑定 显示 机构选择事件
-						$(editInput).on('click',_default.showComponentMsg)
-					}else{
-						//非 只读 绑定 blur keyup 事件
-						$(editInput).on('blur',_default.onblur);
-						$(editInput).on('keyup',_default.onkeyup);
-					}
-					// 【...】 按钮绑定事件
-					$(elt).find('.uinp-more').on('click',_default.showComponentMsg)
-				}
-			})
-		},	
+		
 		/**
 		 * 获取组件信息
 		 */
 		getComponentDetail:function(nameOrCode){
-			var param = $.extend({},_default.param);
+			var param = $.extend({},this.param);
 			if(nameOrCode){
 				param.supplierNameOrsupplierCode = nameOrCode;
 			}
-			publicSuppliersService(param,_default.onLoadSuccess)
+			publicSuppliersService(param,this.onLoadSuccess,this.dom)
 		}	
 	}
 	
-	_default = $.extend(_default,param);
-	
+	_default = $.extend({},$_jxc.autoCompleteComponent(),_default,param);
+	_default.setDom(this);
 	_default.initDomEvent();
+	$.data(this,'component',_default);
+	
 	
 }
 
@@ -2846,7 +2488,8 @@ $.fn.supplierSelect = function(param){
  * <br/>demo:
  * <br/>参照：advanceList.jsp advanceList.js
  */
-function publicSuppliersService(param,callback){
+function publicSuppliersService(param,callback,cbDom){
+	cbDom = cbDom || window;
 	//默认参数
 	var _defParam = {
 		supplierNameOrsupplierCode:'',
@@ -2876,26 +2519,26 @@ function publicSuppliersService(param,callback){
 			if(data&&data.rows){
 				//精确匹配到只有一条数据时立即返回
 				if(data.rows.length==1){
-					callback(data.rows[0]);
+					callback.call(cbDom,data.rows[0]);
 				}else if(data.rows.length>1){
 					//匹配到多条时 弹窗选择
-					publicSuppliersServiceHandel(param,callback);
+					publicSuppliersServiceHandel(param,callback,cbDom);
 				}else{
 					//没有匹配数据时 返回字符串方便判断
-					callback('NO');
+					callback.call(cbDom,'NO');
 				}
 			}else{
 				//没有匹配数据时 返回字符串方便判断
-				callback('NO');
+				callback.call(cbDom,'NO');
 			}
 		})
 	}else{
-		publicSuppliersServiceHandel(param,callback);
+		publicSuppliersServiceHandel(param,callback,cbDom);
 	}
 	
 }
 
-function publicSuppliersServiceHandel(param,callback){
+function publicSuppliersServiceHandel(param,callback,cbDom){
 	//公有属性
     var supplierDalog = $('<div/>').dialog({
     	 href: contextPath + "/common/supplier/views?saleWayNot="+param.saleWayNot+"&isDirect="+param.isDirect,
@@ -2905,7 +2548,7 @@ function publicSuppliersServiceHandel(param,callback){
          closable: true,
          resizable: true,
          onClose: function(){
-        	 callback('NO');
+        	 callback.call(cbDom,'NO');
              $(this).dialog('destroy');
              supplierDalog = null;
          },
@@ -2916,7 +2559,7 @@ function publicSuppliersServiceHandel(param,callback){
          },
     });
     function callBackHandel(data){
-        callback(data);
+        callback.call(cbDom,data);
         $(supplierDalog).panel('destroy');
         supplierDalog = null;
     }
@@ -2992,16 +2635,6 @@ $.fn.operatorSelect = function(param){
 	
 	//默认参数对象
 	var _default = {
-		param:{
-			
-		},
-		/**
-		 * 处理一些选择组件前的校验
-		 * return false 结束逻辑
-		 */
-		onShowBefore:function(arg){
-			return true;
-		},
 		/**
 		 * 格式化数据 显示数据
 		 */
@@ -3009,190 +2642,23 @@ $.fn.operatorSelect = function(param){
 			return "["+data.userCode+"]"+data.userName;
 		},
 		/**
-		 * 数据过滤
-		 */
-		loadFilter:function(data){
-			
-			return data;
-		},
-		/**
-		 * dom 渲染之后
-		 */
-		onAfterRender:function(data){
-			
-		},
-		/**
-		 * 格式化数据 显示数据
-		 */
-		onLoadSuccess:function(data){
-			//返回NO时 输入动作没匹配到数据 
-			if(data == 'NO'){
-				//匹配到多数据 弹窗但未选择的情况下 设置清空
-				if(!$($(_this).find('input[type="hidden"]').eq(0)).val()){
-					$_jxc.clearHideInpOnEdit($(_this).find('input[type="text"]'));
-					$(_this).find('input[type="text"]').val("");
-				}
-			}else{
-				data = _default.loadFilter(data);
-				_default.setDataOfDom(data);
-				_default.onAfterRender(data);
-			}
-		},
-		//显示操作员信息
-		showComponentMsg:function(ev){
-			var _editInput = $(this);
-			//点击【...】 按钮 
-			if($(_editInput).hasClass('uinp-more')){
-				_editInput = $(_editInput).parent('.ub').find('input[type="text"]');
-			}
-			//input置灰  则return;
-			if($(_editInput).hasClass('uinp-no-more') || $(_editInput).prop('disabled'))return;
-			
-			//判断前置条件
-			if(_default.relyOnId && !$.trim($('#'+_default.relyOnId).val())){
-				$_jxc.alert(_default.relyError);
-				return false;
-			}
-			
-			//处理onShowBefore (避免用户重载 )
-			if(!_default.onShowBefore(this))return;
-				
-			_default.getComponentDetail();
-			
-		},
-		//失去焦点事件
-		onblur:function(ev){
-			var nameOrCode = $.trim($(this).val())||'';
-			//重新编辑时 清空隐藏域 避免没选择数据就关闭窗口
-			if($(_this).data('oldData') && nameOrCode && $(_this).data('oldData') != nameOrCode)$_jxc.clearHideInpOnEdit($(this));
-			
-			//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
-			if(ev.keyCode && ev.keyCode != 13){
-				return;
-			}
-			
-			//未输入值时，直接返回，无需查询
-			if('' == nameOrCode){
-				$_jxc.clearHideInpOnEdit($(this));
-				return;
-			}
-			
-			//未发生变化 return;
-			if(nameOrCode &&  $(_this).data('oldData') == nameOrCode)return;
-			
-			//获取数据
-			_default.getComponentDetail(nameOrCode);
-			
-		},
-		//键盘事件
-		onkeyup:function(ev){
-			var nameOrCode = $.trim($(this).val())||'';
-			//重新编辑时 清空隐藏域 避免没选择数据就关闭窗口
-			if($(_this).data('oldData') && nameOrCode && $(_this).data('oldData') != nameOrCode)$_jxc.clearHideInpOnEdit($(this));
-			
-			//非回车事件和失去焦点，不做处理(失焦时event.keyCode为undefined)
-			if(ev.keyCode && ev.keyCode != 13){
-				return;
-			}
-			
-			//未输入值时，直接返回，无需查询
-			if('' == nameOrCode){
-				$_jxc.clearHideInpOnEdit($(this));
-				return;
-			}
-			
-			//未发生变化 return;
-			if(nameOrCode && $(_this).data('oldData') == nameOrCode)return;
-			
-			//自动失去焦点
-			$(this).blur();
-			
-			//_default.getComponentDetail(nameOrCode);
-			
-		},
-		/**
-		 * 设置dom元素值
-		 */
-		setDataOfDom:function(data){
-			//根据name赋值
-			$(_this).find('input').each(function(index,ob){
-				if(ob){
-					var inputName = $(ob).attr('name');
-					var inputType = $(ob).attr('type');
-					$(ob).val(setValue(inputName,inputType))
-				}
-			})
-			
-			function setValue(inputName,type){
-				if(data.constructor == Array){
-					var _str = [];
-					data.forEach(function(obj,index){
-						if(type == 'text'){
-							_str.push(_default.textFomatter(obj));
-						}else{
-							_str.push(obj[inputName]);
-						}
-					});
-					return _str.join(',');
-				}else{
-					if(type == 'text'){
-						$(_this).data('oldData',_default.textFomatter(data));
-						return  _default.textFomatter(data);
-					}else{
-						return data[inputName];
-					}
-				}
-			}
-		},
-		/**
-		 * 初始化事件绑定
-		 */
-		initDomEvent:function(){
-			//$(this) 返回的是一个 dom 数组
-			$(_this).each(function(index,elt){
-				if(elt){
-				    //判断输入框(有且只有一个)
-					var editInput = $(elt).find('input[type="text"]');
-					//是否readonly 
-					var readonlyFlag = $(editInput).prop('readonly');
-					//是否disabled
-					var disableFlag = $(editInput).prop('disabled');
-					//是否置灰
-					var disableCss = $(editInput).hasClass('uinp-no-more');
-					
-					//置灰状态下 结束 逻辑
-					if((disableCss && readonlyFlag) || disableFlag )return;
-					
-					//只读绑定 点击事件
-					if(readonlyFlag){
-						//绑定 显示 机构选择事件
-						$(editInput).on('click',_default.showComponentMsg)
-					}else{
-						//非 只读 绑定 blur keyup 事件
-						$(editInput).on('blur',_default.onblur);
-						$(editInput).on('keyup',_default.onkeyup);
-					}
-					// 【...】 按钮绑定事件
-					$(elt).find('.uinp-more').on('click',_default.showComponentMsg)
-				}
-			})
-		},
-		/**
 		 * 获取组件信息
 		 */
 		getComponentDetail:function(nameOrCode){
-			var param = $.extend({},_default.param);
+			var param = $.extend({},this.param);
 			if(nameOrCode){
 				param.nameOrCode = nameOrCode;
 			}
-			publicOperatorsService(param,_default.onLoadSuccess)
+			publicOperatorsService(param,this.onLoadSuccess,this.dom)
 		}
 			
 	}
 	
-	_default = $.extend(_default,param);
-	
+	_default = $.extend({},$_jxc.autoCompleteComponent(),_default,param);
+	_default.setDom(this);
 	_default.initDomEvent();
+	$.data(this,'component',_default);
+
 	
 }
 /**
@@ -3206,7 +2672,8 @@ $.fn.operatorSelect = function(param){
  * <br/>demo:
  * <br/>参照：advanceList.jsp advanceList.js
  */
-function publicOperatorsService(param,callback){
+function publicOperatorsService(param,callback,cbDom){
+	cbDom = cbDom || window;
 	//默认参数
 	var _defParam = {
 		selectType:0,           //0 单选弹框底部没有【确认】【取消】按钮   1反之
@@ -3242,26 +2709,26 @@ function publicOperatorsService(param,callback){
 			if(data&&data.rows){
 				//精确匹配到只有一条数据时立即返回
 				if(data.rows.length==1){
-					callback(data.rows[0]);
+					callback.call(cbDom,data.rows[0]);
 				}else if(data.rows.length>1){
 					//匹配到多条时 弹窗选择
-					publicOperatorsServiceHandel(param,callback);
+					publicOperatorsServiceHandel(param,callback,cbDom);
 				}else{
 					//没有匹配数据时 返回字符串方便判断
-					callback('NO');
+					callback.call(cbDom,'NO');
 				}
 			}else{
 				//没有匹配数据时 返回字符串方便判断
-				callback('NO');
+				callback.call(cbDom,'NO');
 			}
 		})
 	}else{
-		publicOperatorsServiceHandel(param,callback);
+		publicOperatorsServiceHandel(param,callback,cbDom);
 	}
 	
 }
 
-function publicOperatorsServiceHandel(param,callback){
+function publicOperatorsServiceHandel(param,callback,cbDom){
 
     var dialogDiv = {
         href: contextPath + "/system/user/views?type=operate",
@@ -3271,7 +2738,7 @@ function publicOperatorsServiceHandel(param,callback){
         closable: true,
         resizable: true,
         onClose: function () {
-        	callback('NO');
+        	callback.call(cbDom,'NO');
             $(operatordialog).panel('destroy');
             operatordialog = null;
         },
@@ -3300,7 +2767,7 @@ function publicOperatorsServiceHandel(param,callback){
     var operatordialog = $('<div/>').dialog(dialogDiv);
 
     function callBackHandel(data){
-        callback(data);
+        callback.call(cbDom,data);
         $(operatordialog).panel('destroy');
     }
 }
