@@ -617,6 +617,12 @@ public interface ExportExcelConstant {
 	 * @Fields STOCK_TAKING_MISS_GOODS : 盘点明细
 	 */
 	String STOCKTAKING_PPDETAIL = "stockTakingPPDetail.xlsx";
+
+	/**
+	 * 未知商品明細
+	 */
+	String STOCKTAKING_UNKNOWN_DETAIL = "stockTakingUNknownDetail.xlsx";
+
 	/**
 	 * @Fields STOCK_TAKING_MISS_GOODS : 差异处理明细
 	 */
