@@ -1,6 +1,10 @@
 $(function(){
 	//开始和结束时间
     $("#rptDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    
+    $("#branchCodeName").val(sessionBranchCodeName);
+    $("#branchCompleCode").val(sessionBranchCompleCode);
+    
     initStorePlanList();
     
     //机构选择初始化
