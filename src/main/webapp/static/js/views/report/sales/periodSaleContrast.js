@@ -12,26 +12,7 @@ $(function(){
     	initDataCateSaleReport();
     }
     
-    $('#branchSelect').branchSelect({
-    	param:{
-    		branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
-    	},
-    	onShowBefore:function(arg){
-    		console.log(this);
-    		console.log('--------onShowBefore------');
-    		return true;
-    	},
-    	loadFilter:function(data){
-    		console.log('--------loadFilter------');
-    		return data;
-    	},
-    	onAfterRender:function(data){
-    		console.log('--------onAfterRender------');
-    	}
-    	
-    	
-    	
-    });
+    $('#branchSelect').branchSelect();
 });
 
 
