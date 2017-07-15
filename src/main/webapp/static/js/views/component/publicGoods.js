@@ -381,7 +381,7 @@ $(
                     }
                     
                     //1002回车 弹窗选择后 点击查询无效 2.7 修改
-                    if(queryParams.goodsInfo){
+                    if($.trim(queryParams.goodsInfo)){
                        queryParams.skuCodesOrBarCodes = '';
                     }
                     
