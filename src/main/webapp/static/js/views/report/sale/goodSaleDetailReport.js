@@ -32,18 +32,18 @@ function initGoodsTotalAnalysiGrid() {
         frozenColumns:[[
             {field: 'branchCode', title: '机构编码', width:120, align: 'left'},
             {field: 'branchName', title: '机构名称', width:120, align: 'left'},
-            {field: 'formNo', title: '单据编号', width:120, align: 'left'}
+            {field: 'orderNo', title: '单据编号', width:120, align: 'left'}
         ]],
         columns: [[
-           {field: 'times', title: '时间', width:120, align: 'left'},   
+           {field: 'time', title: '时间', width:120, align: 'left'},   
            {field: 'skuCode', title: '货号', width:120, align: 'left'},
            {field: 'skuName', title: '商品名称', width:120, align: 'left'},
            {field: 'skuCode', title: '商品条码', width:120, align: 'left'},
            {field: 'spec', title: '规格', width:65, align: 'left'},
            {field: 'unit', title: '单位', width:65, align: 'left'},
-           {field: 'cateCode', title: '类别编码', width:120, align: 'left'},
-           {field: 'cateName', title: '类别名称', width:120, align: 'left'},        
-            {field: 'serviceType', title: '业务类型', width:80, align: 'left'},
+           {field: 'categoryCode', title: '类别编码', width:120, align: 'left'},
+           {field: 'categoryName', title: '类别名称', width:120, align: 'left'},        
+            {field: 'businessTypeStr', title: '业务类型', width:80, align: 'left'},
             {field: 'salePrice', title: '销售价格', width:80, align: 'left'},
             {field: 'saleNum', title: '销售数量', width:80, align: 'right',
             	formatter:function(value,row,index){
@@ -61,7 +61,7 @@ function initGoodsTotalAnalysiGrid() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'costPrice', title: '原价', width:80, align: 'right',
+            {field: 'originalPrice', title: '原价', width:80, align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -69,7 +69,7 @@ function initGoodsTotalAnalysiGrid() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'costAmount', title: '原价金额', width:80, align: 'right',
+            {field: 'totalAmount', title: '原价金额', width:80, align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -77,7 +77,7 @@ function initGoodsTotalAnalysiGrid() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'costZK', title: '折扣', width:80, align: 'right',
+            {field: 'discount', title: '折扣', width:80, align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -85,7 +85,7 @@ function initGoodsTotalAnalysiGrid() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'costZK1', title: '成本价', width:80, align: 'right',
+            {field: 'costPrice', title: '成本价', width:80, align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -93,7 +93,7 @@ function initGoodsTotalAnalysiGrid() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'costZK1', title: '成本额', width:80, align: 'right',
+            {field: 'costAmount', title: '成本额', width:80, align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -101,9 +101,9 @@ function initGoodsTotalAnalysiGrid() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'syUser', title: '收银员', width:120, align: 'left'},
-            {field: 'orderType', title: '订单类型', width:80, align: 'left'},
-            {field: 'xiaopiao', title: '小票号', width:80, align: 'right'}
+            {field: 'cashier', title: '收银员', width:120, align: 'left'},
+            {field: 'orderTypeStr', title: '订单类型', width:80, align: 'left'},
+            {field: 'ticketNo', title: '小票号', width:80, align: 'right'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -131,7 +131,7 @@ function purchaseTotalCx(){
 	var formData = $("#queryForm").serializeObject();
 	$("#"+gridName).datagrid("options").queryParams = formData;
 	$("#"+gridName).datagrid("options").method = "post";
-	$("#"+gridName).datagrid("options").url =  contextPath+"/report/goodsTotalAnalysi/reportListPage";
+	$("#"+gridName).datagrid("options").url =  contextPath+"/report/sale/goodSaleDetailReport/reportListPage";
 	$("#"+gridName).datagrid("load");
 }
 var dg;
@@ -174,7 +174,7 @@ function exportExcel(){
 		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
-	$("#queryForm").attr("action",contextPath+'/report/goodsTotalAnalysi/exportGoodsAnalsisExcel');
+	$("#queryForm").attr("action",contextPath+'/report/sale/goodSaleDetailReport/exportExcel');
 	$("#queryForm").submit();	
 }
 /**
