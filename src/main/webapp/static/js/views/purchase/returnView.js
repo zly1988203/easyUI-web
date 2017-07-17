@@ -72,7 +72,7 @@ function initDatagridEditOrder(){
                     if(row.isFooter){
                         return;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
