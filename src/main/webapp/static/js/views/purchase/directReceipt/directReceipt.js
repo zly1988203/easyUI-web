@@ -233,7 +233,7 @@ function initDirectDataGrid(){
                editor:{
                    type:'numberbox',
                    options:{
-                       disabled:true,
+                	   disabled:true,
                        min:0,
                        precision:4
                    }
@@ -470,7 +470,7 @@ function onSelectIsGift(data){
     };
     var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
     if(arrs.length==0){
-        var targetPrice = gridHandel.getFieldTarget('amount');
+        var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
             var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
             $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
