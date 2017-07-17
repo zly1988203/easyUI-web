@@ -205,6 +205,8 @@ function showBranchDialog(obj){
 			
 		},
 		onClose:function(){
+			$('#id').remove();
+			$('#branchForm')[0].reset();
 			$('#branchDialog-area').addClass('none');
 	    }
 	})
@@ -269,7 +271,7 @@ function selectBranchs(searchKey){
 	if(!checkData())return;
 	var param = {
 		selectType:1, //数据选择模式类型  null/''/0-->单选(默认)   1多选
-		//view:'group', //分组
+		view:'group', //分组
 		//门店
 		branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C,
 		nameOrCode:searchKey
