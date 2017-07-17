@@ -2290,6 +2290,7 @@ function publicBranchesService(param,callback,cbDom){
 	//默认参数
 	var _defParam = {
 		type:null,    //没有树  默认左侧有树   'NOTREE' -->左侧没有树
+		view:null, //不指定 走默认公用机构组件  'group'走的是带 机构分组的公用组件
 		selectType:null //数据选择模式类型  null/''/0-->单选(默认)   1多选
  	} 
 	
@@ -2316,8 +2317,14 @@ function publicBranchesService(param,callback,cbDom){
 		delete _ajaxParam.type;
 		delete _ajaxParam.selectType;
 		
+		var _url = contextPath+'/common/branches/getComponentList';
+		//机构分组
+		if(param.view && param.view == 'group'){
+			_url = contextPath+'/branch/branchGroupSelect/queryList';
+		}
+		
 		$_jxc.ajax({
-			url:contextPath+'/common/branches/getComponentList',
+			url:_url,
 			data:_ajaxParam
 		},function(data){
 			if(data&&data.rows){
@@ -2349,11 +2356,14 @@ function publicBranchesService(param,callback,cbDom){
 }
 
 function publicBranchesServiceHandel(param,callback,cbDom){
-	
+	var _href = contextPath + "/common/branches/viewComponent?formType="+ (param.formType||'') + "&branchId=" +(param.branchId||'')+ "&branchType="+(param.branchType||'') + "&isOpenStock="+(param.isOpenStock||'')+ "&scope="+(param.scope||'');
+	//机构分组
+	if(param.view && param.view == 'group'){
+		_href = contextPath+'/branch/branchGroupSelect/view';
+	}
 	//公有属性
 	var dialogObj = {
-		href:contextPath + "/common/branches/viewComponent?formType="+ 
-    		(param.formType||'') + "&branchId=" +(param.branchId||'')+ "&branchType="+(param.branchType||'') + "&isOpenStock="+(param.isOpenStock||'')+ "&scope="+(param.scope||''),
+		href:_href,
         width:680,
         height:$(window).height()*(2/3),
         title:"机构选择",
@@ -2473,8 +2483,6 @@ $.fn.supplierSelect = function(param){
 	_default.setDom(this);
 	_default.initDomEvent();
 	$.data(this,'component',_default);
-	
-	
 }
 
 /**
