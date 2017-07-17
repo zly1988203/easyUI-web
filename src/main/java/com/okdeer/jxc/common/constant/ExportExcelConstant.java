@@ -732,4 +732,9 @@ public interface ExportExcelConstant {
 	 * @Fields 时段销售对比分析报表
 	 */
 	String PERIOD_SALE_CONTRAST = "periodSaleContrast.xlsx";
+	
+	/**
+	 * @Fields 货类销售对比分析报表
+	 */
+	String GOODS_SALE_CONTRAST = "goodsSaleContrast.xlsx";
 }
