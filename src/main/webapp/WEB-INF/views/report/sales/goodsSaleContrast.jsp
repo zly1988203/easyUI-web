@@ -41,7 +41,7 @@
             </div>
        	</form>
         <div class="ub ub-f1 umar-t20">
-			 <table id="saleReportList"></table>
+			 <table id="saleCateReportList"></table>
 		</div>
     </div>
 

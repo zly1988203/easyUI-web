@@ -153,7 +153,6 @@ function delLineHandel(event){
 
 //机构组合商品  新增 
 function addStoreComp(){
-  	
 	showBranchDialog()
 }
 
@@ -169,6 +168,22 @@ function updateStoreComp(){
 function delStoreComp(){
 	//数据校验
 	if(!checkData())return;
+	var selectBranch = $('#'+gridStoreViewId).datagrid("getSelected");
+	var id = selectBranch.id;
+	console.log('id',id);
+	return;
+	$_jxc.alert({
+		url:contextPath+"/branch/branchGroup/saveBranchGroup",
+		data:{"id":id}
+	},function(result){
+		//删除成功
+		if(result['code'] == 0){
+			$_jxc.alert('删除成功',function(){
+				query();
+			});
+		}
+	})
+	
 }
 
 //机构组合商品  
@@ -208,10 +223,18 @@ function showBranchDialog(obj){
 			$('#id').remove();
 			$('#branchForm')[0].reset();
 			$('#branchDialog-area').addClass('none');
+			
+			//选择刷新列表
+			if(operateFlag){
+			    operateFlag = false;
+				query();
+			}
 	    }
 	})
 }
 
+//编辑保存操作表示
+var operateFlag = false;
 //机构组合商品新增 弹窗 --> 保存
 function saveBranchComMsg(){
 	var _paramObj = $('#branchForm').serializeObject();
@@ -234,9 +257,9 @@ function saveBranchComMsg(){
 	        data:JSON.stringify(_paramObj),
 	    },function(result){
 	        if(result['code'] == 0){
-	            $_jxc.alert("操作成功！",function(){
-	                //  location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
-	            });
+	        	operateFlag = true;
+	            $_jxc.alert("操作成功！");
+	            $('#groupNo').val(result.data?result.data.groupNo:'');
 	        }else{
 	            $_jxc.alert(result['message']);
 	        }
