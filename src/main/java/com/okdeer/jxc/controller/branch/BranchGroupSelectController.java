@@ -36,7 +36,7 @@ public class BranchGroupSelectController extends BaseController<BranchGroupSelec
 
 	@RequestMapping(value = "view")
 	public String view() {
-		return "archive/branch/branchGroupSelect";
+		return "component/branchGroupSelect";
 	}
 
 	/**
