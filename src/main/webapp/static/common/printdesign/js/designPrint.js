@@ -1,4 +1,4 @@
-﻿﻿(function ($) {
+﻿﻿﻿(function ($) {
     $.fn.createPages = function(options,jsonReplace) {
     	//明细列头
         function createThead(jqPage, columns) {
@@ -198,7 +198,7 @@
                     if(col.title=="进价"){
                     	var page = $.helper.getUrlVar('page');
                     	var fixed = 2;
-                    	if(page==='PASheet'||page==='PISheet'||page==='PRSheet'){
+                    	if(page==='PASheet'||page==='PISheet'||page==='PRSheet'||page==='PMSheet'){
                     		fixed = 4;
                     	}
                     	val = parseFloat(val||0).toFixed(fixed);
