@@ -33,13 +33,13 @@ function initDatagridStoreList(){
             {field:'branchName',title:'所属分公司',width:'120px',align:'left'},
             {field:'hasMemeberStr',title:'是否已设置成分商品',width:'120px',align:'center'},
             {field:'createUserName',title:'创建人',width:'120px',align:'left'},
-            {field:'createTime',title:'创建时间',width:'120px',align:'left',
+            {field:'createTime',title:'创建时间',width:'160px',align:'left',
 	            formatter:function(value,row,index){
 	        		return formatDate(value);
 	        	}
             },
             {field:'updateUserName',title:'修改人',width:'120px',align:'left'},
-            {field:'updateTime',title:'修改时间',width:'120px',align:'left',
+            {field:'updateTime',title:'修改时间',width:'160px',align:'left',
 	            formatter:function(value,row,index){
 	        		return formatDate(value);
 	        	}
@@ -266,9 +266,10 @@ function checkData(){
 //选择机构
 function selectBranchs(searchKey){
 	//数据校验
-	//if(!checkData())return;
+	if(!checkData())return;
 	var param = {
 		selectType:1, //数据选择模式类型  null/''/0-->单选(默认)   1多选
+		//view:'group', //分组
 		//门店
 		branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C,
 		nameOrCode:searchKey
