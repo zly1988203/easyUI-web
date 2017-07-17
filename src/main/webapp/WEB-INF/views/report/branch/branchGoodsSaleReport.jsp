@@ -65,14 +65,6 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div class="ub ub-ac umar-r20">
-					<div class="umar-r10 uw-60 ut-r">配送方式:</div>
-					<select name="fastDeliver" id="fastDeliver" class="uselect" style="width: 204px;">
-						<option value="">全部</option>
-						<option value="0">常规</option>
-						<option value="1">直送</option>
-					</select>
-				</div>
 			</div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r20">
@@ -94,6 +86,22 @@
 					</c:forEach>
 					</select>
 				</div>
+			</div>
+			<div class="ub umar-t8">
+				<div class="ub ub-ac umar-r20">
+					<div class="umar-r10 uw-60 ut-r">商品类别:</div>
+				    <input type="hidden" name="categoryCodes" id="categoryCodes"/>
+                    <input type="text" name="categoryName" id="categoryName" readonly="readonly" onclick="searchCategory()" class="uinp" maxlength="50" />
+                    <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
+				</div>
+                <div class="ub ub-ac umar-r20">
+                    <div class="umar-r10 uw-60 ut-r">配送方式:</div>
+                    <select name="fastDeliver" id="fastDeliver" class="uselect" style="width: 204px;">
+                        <option value="">全部</option>
+                        <option value="0">常规</option>
+                        <option value="1">直送</option>
+                    </select>
+                </div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">品牌:</div>
 					<input type="text" name="brandName" id="brandName" class="uinp" maxlength="50" onblur="brandAutoComple()" onkeyup="brandAutoComple()" />
