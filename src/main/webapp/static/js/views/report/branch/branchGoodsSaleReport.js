@@ -362,6 +362,17 @@ function searchBranch(){
 }
 
 /**
+ * 商品类别
+ */
+function searchCategory(){
+	new publicCategoryService(function(data){
+		$("#categoryCodes").val(data.categoryCode);
+		$("#categoryName").val("["+data.categoryCode+"]"+data.categoryName);
+		
+	});
+}
+
+/**
  * 商品货号
  */
 function selectSkuCode(){
