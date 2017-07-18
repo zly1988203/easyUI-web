@@ -42,7 +42,7 @@ import com.okdeer.jxc.utils.UserUtil;
  *
  */
 @Controller
-@RequestMapping("report/day")
+@RequestMapping("report/day_old")
 public class DayReportController extends BaseController<DayReportController> {
 
 	@Reference(version = "1.0.0", check = false)

@@ -742,4 +742,9 @@ public interface ExportExcelConstant {
 	 * @Fields 货类销售对比分析报表
 	 */
 	String GOODS_SALE_CONTRAST = "goodsSaleContrast.xlsx";
+	
+	/**
+	 * 日进销存报表
+	 */
+	String DAY_SUM_REPORT = "daySumReport.xlsx";
 }
