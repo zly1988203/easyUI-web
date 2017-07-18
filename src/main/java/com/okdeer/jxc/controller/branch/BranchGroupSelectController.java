@@ -72,16 +72,16 @@ public class BranchGroupSelectController extends BaseController<BranchGroupSelec
 			return branchGroupServiceApi.queryGroupAsBranchList(vo);
 		} else {
 			if (2==vo.getType()) {
-				vo.setType(BranchTypeEnum.SELF_STORE.getCode());
+				vo.setBranchType(BranchTypeEnum.SELF_STORE.getCode());
 			} else if (3==vo.getType()) {
-				vo.setType(BranchTypeEnum.FRANCHISE_STORE_B.getCode());
+				vo.setBranchType(BranchTypeEnum.FRANCHISE_STORE_B.getCode());
 			} else if (4==vo.getType()) {
-				vo.setType(BranchTypeEnum.FRANCHISE_STORE_C.getCode());
+				vo.setBranchType(BranchTypeEnum.FRANCHISE_STORE_C.getCode());
 			}
 
 			//兼容之前的机构选择的公共组件
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			vo.setType(UserUtil.getCurrBranchType());
+			/*vo.setType(UserUtil.getCurrBranchType());*/
 			if (StringUtils.isEmpty(vo.getBranchId())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
 			}
@@ -119,7 +119,8 @@ public class BranchGroupSelectController extends BaseController<BranchGroupSelec
 			}
 
 			// 如果不为空，则设置多个机构条件
-			if (vo.getBranchTypes() == null || vo.getBranchTypes().length == 0) {
+			if (( vo.getBranchType()==null)&&  (vo.getBranchTypes() == null || vo.getBranchTypes().length == 0)
+					) {
 				// 设置多个机构类型条件
 				vo.setBranchTypes(strArrToIntArr(vo.getBranchTypesStr()));
 			}
