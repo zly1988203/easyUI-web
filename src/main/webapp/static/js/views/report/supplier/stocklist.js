@@ -80,6 +80,13 @@ function initGoodsTotalAnalysiGrid() {
 			//updateFooter();
 		}
     });
+   
+    //价格权限
+    var param = {
+    		//期间成本价 stockCost  期间进货金额 stockAmount
+    		costPrice:['stockCost','stockAmount']	
+    }
+    priceGrantUtil.grantPrice(gridName,param);
 }
 
 

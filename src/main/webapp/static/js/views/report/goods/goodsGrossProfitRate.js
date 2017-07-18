@@ -72,6 +72,14 @@ function initGoodsTotalAnalysiGrid() {
 			//updateFooter();
 		}
     });
+   
+   //价格权限
+   var param = {
+   		//进货价 purchasePrice  毛利率 grossProfitRateStr  实际毛利率realGrossProfitRateStr
+   		costPrice:['purchasePrice','grossProfitRateStr','realGrossProfitRateStr']	
+   }
+   priceGrantUtil.grantPrice(gridName,param);
+   
 }
 
 
