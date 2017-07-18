@@ -61,11 +61,11 @@ function getColumns(){
 		{field: 'saleNum', title: '销售数量', width:120, align: 'left'},
 		{field: 'saleAmount', title: '销售金额', width:120, align: 'left'},
 		{field: 'saleRate', title: '销售占比', width:120, align: 'left'},
-		{field: 'margin', title: '毛利', width:65, align: 'left'},
-		{field: 'rate', title: '毛利率', width:65, align: 'left'},
+		{field: 'profitAmount', title: '毛利', width:65, align: 'left'},
+		{field: 'profitRate', title: '毛利率', width:65, align: 'left'},
 		{field: 'marginrate', title: '毛利占比', width:120, align: 'left'},
-		{field: 'stockRate', title: '库存周转率', width:120, align: 'left'},        
-		{field: 'stockDate', title: '库存周转天数', width:80, align: 'left'}
+		{field: 'saleRotationRate', title: '库存周转率', width:120, align: 'left'},        
+		{field: 'saleRotationDay', title: '库存周转天数', width:80, align: 'left'}
 	]);
 	
 	return [defaultCoumns];
