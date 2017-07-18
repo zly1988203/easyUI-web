@@ -737,4 +737,9 @@ public interface ExportExcelConstant {
 	 * 供应商进货报表
 	 */
 	String SUPPLIER_STOCK_REPORT = "SupplierStockReport.xlsx";
+
+	/**
+	 * @Fields 货类销售对比分析报表
+	 */
+	String GOODS_SALE_CONTRAST = "goodsSaleContrast.xlsx";
 }
