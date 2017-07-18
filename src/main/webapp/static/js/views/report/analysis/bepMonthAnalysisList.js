@@ -53,17 +53,17 @@ function initGridMonthAnalysis() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'costAvgYear',title:'费用均摊年数',width:"100px",align:'right',
-                formatter : function(value, row, index) {
-                	if(!value){
-                		return "";
-                	}
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
+//            {field:'costAvgYear',title:'费用均摊年数',width:"100px",align:'right',
+//                formatter : function(value, row, index) {
+//                	if(!value){
+//                		return "";
+//                	}
+//                    if(row.isFooter){
+//                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+//                    }
+//                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+//                },
+//            },
             {field:'fixedAvgAmount',title:costTitle,width:"150px",align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){

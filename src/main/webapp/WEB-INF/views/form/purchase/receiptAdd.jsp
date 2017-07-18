@@ -62,8 +62,7 @@
 					<div class="umar-r10 uw-60 ut-r">采购员:</div>
 					<input class="uinp" name="salesmanId" id="salesmanId" type="hidden">
 					<input class="uinp easyui-validatebox" id="operateUserName"
-						type="text" data-options="required:true,novalidate:true"
-						readonly="readonly">
+						type="text" value="${form.salesmanName }" readonly="readonly">
 					<!--onclick="selectOperator()"-->
 					<!--<div class="uinp-more" onclick="selectOperator()">...</div>-->
 				</div>
