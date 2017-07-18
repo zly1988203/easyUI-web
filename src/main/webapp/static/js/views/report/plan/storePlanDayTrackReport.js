@@ -185,7 +185,7 @@ function queryForm(){
  * 导出
  */
 function exportData(){
-	var length = $('#storeDaySale').datagrid('getData').total;
+	var length = $('#'+datagridId).datagrid('getData').total;
 	if(length == 0){
 		$_jxc.alert("无数据可导");
 		return;
