@@ -26,7 +26,7 @@
 	                <div id="btnPrint" class="ubtns-item" onclick="printPreview()">打印</div>
 	            </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
-	                <div class="ubtns-item" onclick="toClose()">退出</div>
+	                <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
 	            <!-- 引入时间选择控件 -->
 	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
@@ -80,7 +80,7 @@
 	        </div>
         </form>
         
-      <div class="ub ub-f1  umar-t8 umar-b8">
+      	<div class="ub ub-f1  umar-t8 umar-b8">
             <div id="tabs" class="easyui-tabs" data-options="fit:true,border:false,tabWidth:120,tabHeight:25" style="">
 	            <div title="待处理采购订单" data-options="tabWidth:158"  id="pending" style="height: auto;">
 	                <table id="receiptOrderList"></table>
@@ -90,10 +90,6 @@
 	            </div>
         	</div>
         </div>
-        
-      <!--   <div class="ub umar-t8 ub-f1">
-            <table id="gridOrders"></table>
-        </div> -->
 
     </div>
 </body>

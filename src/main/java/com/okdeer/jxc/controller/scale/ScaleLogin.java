@@ -9,9 +9,7 @@ package com.okdeer.jxc.controller.scale;
 
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.poi.ss.formula.functions.T;
-import org.apache.shiro.session.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.ca.api.sysuser.entity.SysUserItemDto;
 import com.okdeer.jxc.common.constant.Constant;
-import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.system.service.SysUserCategoryGrantServiceApi;
@@ -89,10 +86,11 @@ public class ScaleLogin extends BaseController<T> {
 			// 获取本地用户信息
 			SysUser sysUser = sysUserService.getUserById(caUser.getId());
 
-			Session session = UserUtil.getSession();
 
 			if (null == sysUser) {
-				sysUser = new SysUser();
+				msg.setSuccess(Message.FAIT);
+				msg.setMessage("非零售系统用户不允许登录");
+				/*sysUser = new SysUser();
 				PropertyUtils.copyProperties(sysUser, caUser);
 				sysUser.setUserCode(caUser.getLoginName());
 				sysUser.setPassword(caUser.getLoginPassword());
@@ -106,7 +104,7 @@ public class ScaleLogin extends BaseController<T> {
 				// sysUser.setBranchType(BranchTypeEnum.HEAD_QUARTERS); //
 				// 设置默认机构类型
 				sysUser.setDisabled(SysConstant.DISABLED_NORMAL); // 默认为正常
-			}
+*/			}
 
 			// 获取用户类别权限，并保存到session
 			List<String> codes = sysUserCategoryGrantServiceApi

@@ -5,17 +5,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>时段销售对比分析</title>
+<title>门店目标计划环比</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/plan/storePlanMoMReport.js?V=${versionNo}2"></script>
+<script src="${ctx}/static/js/views/report/plan/storePlanMoMReport.js?V=${versionNo}"></script>
+<style>
+.datagrid-header-row .datagrid-cell{text-align: center!important;}
+</style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
      
     <div class="ub ub-ver ub-f1 umar-4 upad-4">
 		<form id="queryForm" action="" method="post">
-			<!-- 时段销售对比timeSale  -->
-    		<input type="hidden" name="serviceType" id="serviceType" value="timeSale">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>

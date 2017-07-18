@@ -747,4 +747,9 @@ public interface ExportExcelConstant {
 	 * 门店销售报表
 	 */
 	String STORE_SELL_REPORT = "storeSellReport.xlsx";
+
+	/**
+	 * 日进销存报表
+	 */
+	String DAY_SUM_REPORT = "daySumReport.xlsx";
 }
