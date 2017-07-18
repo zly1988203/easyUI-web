@@ -18,7 +18,7 @@ function save() {
 		data : formObj
 	},function(result){
 		if(result.code == 0){
-			alertTip(result.message, reloadList);
+            $_jxc.alert(result.message, reloadList);
 			closeDialogHandel();
 		}else{
 			$('#saveCategory').removeAttr("disabled");

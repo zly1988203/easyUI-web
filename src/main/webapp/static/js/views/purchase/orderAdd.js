@@ -256,7 +256,14 @@ function initDatagridEditOrder(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'remark',title:'备注',width:'200px',align:'left', editor:'textbox' }
+            {field:'remark',title:'备注',width:'200px',align:'left',
+                editor:{
+                type:'textbox',
+                options:{
+                    maxLength:20
+                    }
+                }
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);

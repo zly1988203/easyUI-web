@@ -407,7 +407,7 @@ function tabMenuEven() {
 		var nextall = $('.tabs-selected').nextAll();
 		if (nextall.length == 0) {
 			// msgShow('系统提示','后边没有啦~~','error');
-			alert('后边没有啦~~');
+			$_jxc.alert('后边没有啦~~');
 			return false;
 		}
 		nextall.each(function(i, n) {
@@ -420,7 +420,7 @@ function tabMenuEven() {
 	$('#mm-tabcloseleft').click(function() {
 		var prevall = $('.tabs-selected').prevAll();
 		if (prevall.length == 0) {
-			alert('到头了，前边没有啦~~');
+            $_jxc.alert('到头了，前边没有啦~~');
 			return false;
 		}
 		prevall.each(function(i, n) {

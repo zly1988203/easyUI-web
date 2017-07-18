@@ -19,7 +19,7 @@ function save() {
 		data : formObj
 	},function(result){
 		if(result.code == 0){
-			alertTip(result.message, initDataGrid);
+            $_jxc.alert(result.message, initDataGrid);
 			closeDialogHandel();
 		}else{
 			$('#saveBrand').removeAttr("disabled");

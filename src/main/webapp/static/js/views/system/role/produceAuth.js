@@ -95,7 +95,7 @@ function saveRoleAuth(){
         	$_jxc.alert("保存成功！");
             toClose();
 		}else{
-			alertTip(result.message);
+            $_jxc.alert(result.message);
 		}
     });
 }

@@ -84,7 +84,7 @@ function addUser(){
 	var param = reqObj;
 	ajaxSubmit(url,param,function(result){
         if(result){
-            alertTip(result.message, reloadDataGrid);
+            $_jxc.alert(result.message,reloadDataGrid);
         }
 	});
 }

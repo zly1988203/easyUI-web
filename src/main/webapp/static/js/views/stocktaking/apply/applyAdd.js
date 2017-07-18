@@ -56,11 +56,11 @@ function saveDataHandel() {
 	},function(result){
 //        gFunEndLoading();
 		if(result.code == 0){
-			alertTip(result.message, queryForm);
+            $_jxc.alert(result.message, queryForm);
 			applyAddcallback();
 		}else{
 			$('#saveBtn').removeAttr("disabled");
-			alertTip(result.message);
+            $_jxc.alert(result.message);
 		}
 		
 	});

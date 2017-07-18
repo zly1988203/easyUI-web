@@ -167,7 +167,7 @@ function delCard() {
         return;
     }
 
-    $.messager.confirm('提示','是否要删除选中数据',function(data){
+    $_jxc.confirm('是否要删除选中数据',function(data){
         if(data){
             gFunStartLoading();
             $.ajax({
