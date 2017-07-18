@@ -13,6 +13,8 @@
 <body class="ub uw uh ufs-14 uc-black">
 	<input type='hidden' id="directStatus" value="${form.status}">
 	<input type='hidden' id="cascadeGoods" name="cascadeGoods" value="${cascadeGoods}">
+	<input type='hidden' id="isAllowPmRefPa" name="isAllowPmRefPa" value="${isAllowPmRefPa}">
+	
 	  <div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
@@ -87,7 +89,7 @@
 				<div class="ub ub-ac umar-l88">
 					<div class="umar-r10 uw-60 ut-r">经营方式:</div>
 					<input id="saleWay" class="uinp" type="hidden"> 
-					<input id="saleWayName" class="uinp"readonly="readonly" type="text">
+					<input id="saleWayName" class="uinp" value="${form.saleWayStr }" readonly="readonly" type="text">
 				</div>
 			</div>
 			<div class="ub umar-t8">

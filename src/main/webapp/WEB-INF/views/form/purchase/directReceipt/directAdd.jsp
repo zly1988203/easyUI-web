@@ -1,17 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="com.okdeer.jxc.utils.UserUtil"%>	
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html> 
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>新增直送收货单</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/purchase/directReceipt/directReceipt.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/purchase/directReceipt/directReceipt.js?V=${versionNo}2"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<input type='hidden' id="directStatus" value="add">
 	<input type='hidden' id="cascadeGoods" name="cascadeGoods" value="${cascadeGoods}">
+	<!-- 允许直送收货单不引用单据收货：0.否，1.是 -->
+	<input type='hidden' id="isAllowPmRefPa" name="isAllowPmRefPa" value="${isAllowPmRefPa}">
+	<input type="hidden" id="formId"  name="formId" value="${form.id}">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 				<div class="ubtns">
@@ -38,7 +39,7 @@
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">制单人员:</div>
-					<div class="utxt"><%=UserUtil.getCurrentUser().getUserName()%></div>
+					<div class="utxt">${user.userName}</div>
 				</div>
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">制单时间:</div>
@@ -54,7 +55,7 @@
 				<div class="ub ub-ac umar-l88">
 					<div class="umar-r10 uw-60 ut-r">采购员:</div>
 					<input class="uinp" name="salesmanId" id="salesmanId" type="hidden">
-					<input class="uinp " id="operateUserName" type="text" readonly="readonly">
+					<input class="uinp " id="operateUserName" value="${form.salesmanName }" type="text" readonly="readonly">
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">审核人员:</div>
@@ -74,7 +75,7 @@
 				<div class="ub ub-ac umar-l88">
 					<div class="umar-r10 uw-60 ut-r">经营方式:</div>
 					<input id="saleWay" class="uinp" type="hidden"> 
-					<input id="saleWayName" class="uinp"readonly="readonly" type="text">
+					<input id="saleWayName" class="uinp" value="${form.saleWayStr }" readonly="readonly" type="text">
 				</div>
 			</div>
 			<div class="ub umar-t8">

@@ -109,13 +109,13 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 * @Fields branchesServiceApi : 机构service
 	 */
 	@Reference(version = "1.0.0", check = false)
-	private BranchesServiceApi branchesServiceApi;
+	private BranchesServiceApi branchesService;
 
 	/**
 	 * 机构设置Dubbo接口
 	 */
 	@Reference(version = "1.0.0", check = false)
-	private BranchSpecServiceApi branchSpecServiceApi;
+	private BranchSpecServiceApi branchSpecService;
 
 	/**
 	 * @Fields orderNoUtils : 订单号工具
@@ -204,13 +204,20 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	 */
 	@RequiresPermissions("JxcDirectReceipt:add")
 	@RequestMapping(value = "add")
-	public ModelAndView add(ModelAndView modelAndView) {
+	public ModelAndView add(String formId, ModelAndView modelAndView) {
 		if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(UserUtil.getCurrBranchType())) {
 			// 查询是否需要自动加载商品
-			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
+			BranchSpecVo vo = branchSpecService.queryByBranchId(UserUtil.getCurrBranchId());
 			if (null != vo) {
 				modelAndView.addObject("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+				
+				//允许直送收货单不引用单据收货：0.否，1.是
+				modelAndView.addObject("isAllowPmRefPa", vo.getIsAllowPmRefPa());
 			}
+		}
+		if(StringUtils.isNotBlank(formId)){
+			PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
+			modelAndView.addObject("form", form);
 		}
 		modelAndView.setViewName("form/purchase/directReceipt/directAdd");
 		return modelAndView;
@@ -319,7 +326,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 		qo.setRows(skuIds.size());
 		// 查询商品信息
 		PageUtils<GoodsBranchPriceVo> page = null;
-		Branches branch = branchesServiceApi.getBranchInfoById(branchId);
+		Branches branch = branchesService.getBranchInfoById(branchId);
 		// 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
 		if (BranchTypeEnum.SELF_STORE.getCode().equals(branch.getType())
 				|| BranchTypeEnum.FRANCHISE_STORE_B.getCode().equals(branch.getType())
@@ -425,9 +432,12 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			}
 			if (!BranchTypeEnum.HEAD_QUARTERS.getCode().equals(UserUtil.getCurrBranchType())) {
 				// 查询是否需要自动加载商品
-				BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
+				BranchSpecVo vo = branchSpecService.queryByBranchId(UserUtil.getCurrBranchId());
 				if (null != vo) {
 					modelAndView.addObject("cascadeGoods", vo.getIsSupplierCascadeGoodsPm());
+					
+					//允许直送收货单不引用单据收货：0.否，1.是
+					modelAndView.addObject("isAllowPmRefPa", vo.getIsAllowPmRefPa());
 				}
 			}
 			modelAndView.addObject("form", form);

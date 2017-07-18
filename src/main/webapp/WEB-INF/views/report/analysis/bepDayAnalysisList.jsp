@@ -70,7 +70,7 @@
 				</div>
 
 				<div class="ub ub-ac umar-r20">
-				<div class="umar-r10 uw-600 ut-r uc-red ">说明：日盈亏平衡点计算公式=其他成本(机构费用/费用均摊年数+机构每月经营费用)/毛利率</div>
+				<div class="umar-r10 uw-600 ut-r uc-red ">说明：日盈亏平衡点计算公式 = 其他成本(设备折旧费用+累计摊销费用+长期待摊费用) / 毛利率</div>
 				</div>
 
 			</div>
