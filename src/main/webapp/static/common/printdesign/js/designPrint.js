@@ -1,4 +1,4 @@
-﻿﻿﻿(function ($) {
+﻿(function ($) {
     $.fn.createPages = function(options,jsonReplace) {
     	//明细列头
         function createThead(jqPage, columns) {
