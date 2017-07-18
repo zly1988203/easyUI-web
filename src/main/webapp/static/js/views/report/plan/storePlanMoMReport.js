@@ -1,3 +1,4 @@
+/*----------门店目标计划环比-------------------*/
 $(function(){
 	//开始和结束时间
     $("#rptDate").val(dateUtil.getCurrentDate().format("yyyy-MM"));
@@ -21,30 +22,13 @@ function initDataCateSaleReport(){
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
-//        data:[
-//              {
-//            	  branchCode:'0001',
-//            	  branchName:'科兴科学园',
-//            	  oneyue:10
-//              },
-//              {
-//            	  branchCode:'0002',
-//            	  branchName:'中洲华府',
-//            	  oneyue:20
-//              },
-//              {
-//            	  branchCode:'0003',
-//            	  branchName:'海岸城',
-//            	  oneyue:30
-//              }
-//             ],
         showFooter:true,
 		height:'100%',
 		pageSize:50,
 		width:'100%',
 		columns:[[
 			{field:'branchCode',title:'机构编码',width: 100,align:'left',rowspan:2},
-			{field:'branchName',title:'机构名称',width: 140,align:'left',rowspan:2,
+			{field:'branchName',title:'机构名称',width: 120,align:'left',rowspan:2,
 				formatter:function(value,row,index){
 					if(row.isFooter){
 	        			return '<p class="ub ub-ac ub-pe uc-red">合计:</p>';
@@ -53,24 +37,24 @@ function initDataCateSaleReport(){
             	}	
 			},
 			{field:'lastSaleNum',title:'上月实际销售',width: 100,align:'center',colspan:3},
-			{field:'lastMonthComplePercentStr',title:'上月销售完成率',width: 90,align:'right',rowspan:2,
+			{field:'lastMonthComplePercentStr',title:'上月销售完成率',width: 100,align:'right',rowspan:2,
 				formatter:function(value,row,index){
             		return '<b>'+value+'</b>';
             	}
 			},
 			{field:'curTarget',title:'当月目标',width: 100,align:'center',colspan:3},
 			{field:'curSaleNum',title:'当月实际销售',width: 100,align:'center',colspan:3},
-			{field:'currMonthCostHbPercentStr',title:'当月实际成本环比',width: 100,align:'right',rowspan:2,
+			{field:'currMonthCostHbPercentStr',title:'当月实际成本环比',width: 110,align:'right',rowspan:2,
 				formatter:function(value,row,index){
             		return '<b>'+value+'</b>';
             	}	
 			},
-			{field:'currMonthSaleHbPercentStr',title:'当月销售金额环比',width: 100,align:'center',rowspan:2,
+			{field:'currMonthSaleHbPercentStr',title:'当月销售金额环比',width: 110,align:'center',rowspan:2,
 				formatter:function(value,row,index){
             		return '<b>'+value+'</b>';
             	}
 			},
-			{field:'currMonthComplePercentStr',title:'当月销售完成率',width: 100,align:'center',rowspan:2,
+			{field:'currMonthComplePercentStr',title:'当月销售完成率',width: 110,align:'center',rowspan:2,
 				formatter:function(value,row,index){
             		return '<b>'+value+'</b>';
             	}
