@@ -157,8 +157,8 @@ function searchCategory(){
 	}
 	new publicCategoryService(function(data){
 		console.info(data);
-		//$("#categoryCode").val(data.categoryCode);
-		$("#categoryCode").val(data.categoryName);
+		$("#categoryCode").val(data.categoryCode);
+		//$("#categoryCode").val(data.categoryName);
 	},param);
 }
 /**
