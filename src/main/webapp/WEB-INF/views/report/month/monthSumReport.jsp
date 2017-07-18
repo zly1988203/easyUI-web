@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>日进销存报表</title> 
+	<title>月进销存报表</title> 
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -37,14 +36,14 @@
 
 				<div class="ub ub-ac  umar-l20">
 					<div class="umar-r10 uw-70 ut-r">货号/条码:</div>
-					<input class="uinp ub ub-f1" type="text" name="skuCodeOrBarCode" id="skuCodeOrBarCode">
+					<input class="uinp ub ub-f1" type="text" name="skuKeyword" id="skuKeyword">
 				</div>
 			</div>
 		</form>
 
 
 		<div class="ub ub-f1 umar-t20">
-			<table id="daySumReport"></table>
+			<table id="monthSumReport"></table>
 		</div>
 	</div>
 
@@ -70,11 +69,11 @@
 		}
 
 		var gridHandel = new GridClass();
-		var gridName = "daySumReport";
+		var gridName = "monthSumReport";
 		//初始化表格
 		function initDatagridDay() {
-			gridHandel.setGridName("daySumReport");
-			dg = $("#daySumReport").datagrid({
+			gridHandel.setGridName("monthSumReport");
+			dg = $("#monthSumReport").datagrid({
 				method : 'post',
 				align : 'center',
 				singleSelect : false, //单选  false多选
@@ -87,58 +86,42 @@
 				width : '100%',
 				columns : [ [
 					{
-						field : 'sumDate',
-						title : '日期',
-						width : '100px',
-						align : 'left',
-						formatter : function(value, row ,index) {
-							if (!value) {
-								return '<div class="ub ub-pc ufw-b">合计</div> '
+						field : 'skuCode',
+						title : '商品货号',
+						width : '130px',
+						align : 'right',
+						formatter : function(value, row, index) {
+							if (value || value == 0) {
+								return '<b>' + parseFloat(value).toFixed(2) + '</b>';
 							}
-							var date = new Date(value);    
-							return date.format("yyyy-MM-dd");
 						}
 					},
 					{
-						field : 'branchName',
-						title : '机构',
-						width : '140px',
-						align : 'left'
+						field : 'supplierId',
+						title : '供应商ID',
+						width : '130px',
+						align : 'right',
+						formatter : function(value, row, index) {
+							if (value || value == 0) {
+								return '<b>' + parseFloat(value).toFixed(2) + '</b>';
+							}
+						}
 					},
 					{
-						field : 'skuCode',
-						title : '货号',
-						width : '80px',
-						align : 'left'
-					},
-					{
-						field : 'skuName',
-						title : '商品名称',
-						width : '150px',
-						align : 'left'
-					},
-					{
-						field : 'barCode',
-						title : '条码',
-						width : 100,
-						align : 'left'
-					},
-					{
-						field : 'spec',
-						title : '规格',
-						width : 100,
-						align : 'left'
-					},
-					{
-						field : 'unit',
-						title : '单位',
-						width : 100,
-						align : 'left'
+						field : 'supplierRate',
+						title : '供应商扣率',
+						width : '130px',
+						align : 'right',
+						formatter : function(value, row, index) {
+							if (value || value == 0) {
+								return '<b>' + parseFloat(value).toFixed(2) + '</b>';
+							}
+						}
 					},
 					{
 						field : 'beginStockNum',
 						title : '期初库存',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -149,7 +132,7 @@
 					{
 						field : 'beginCostPrice',
 						title : '期初成本价',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -160,7 +143,7 @@
 					{
 						field : 'beginCostAmount',
 						title : '期初成本金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -171,7 +154,7 @@
 					{
 						field : 'beginSaleAmount',
 						title : '期初销售金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -182,7 +165,7 @@
 					{
 						field : 'endStockNum',
 						title : '期末库存',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -193,7 +176,7 @@
 					{
 						field : 'endCostAmount',
 						title : '期末成本金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -204,7 +187,7 @@
 					{
 						field : 'endSaleAmount',
 						title : '期末销售金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -215,7 +198,7 @@
 					{
 						field : 'endCostPrice',
 						title : '期末成本价',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -226,7 +209,7 @@
 					{
 						field : 'firstSalePrice',
 						title : '首笔零售价',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -237,7 +220,7 @@
 					{
 						field : 'saleCostAmount',
 						title : '销售成本金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -248,7 +231,7 @@
 					{
 						field : 'deliverCostAmount',
 						title : '配送成本金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -259,7 +242,7 @@
 					{
 						field : 'saleProfitAmount',
 						title : '销售毛利金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -270,7 +253,7 @@
 					{
 						field : 'deliverProfitAmount',
 						title : '配送毛利金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -281,7 +264,7 @@
 					{
 						field : 'xsNum',
 						title : '零售销售数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -292,7 +275,7 @@
 					{
 						field : 'xsAmount',
 						title : '零售销售金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -303,7 +286,7 @@
 					{
 						field : 'xtNum',
 						title : '零售退货数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -314,7 +297,7 @@
 					{
 						field : 'xtAmount',
 						title : '零售退货金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -325,7 +308,7 @@
 					{
 						field : 'xsGiftNum',
 						title : '零售销售赠送数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -336,7 +319,7 @@
 					{
 						field : 'xtGiftNum',
 						title : '零售退货赠送数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -347,7 +330,7 @@
 					{
 						field : 'wsNum',
 						title : '批发销售数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -358,7 +341,7 @@
 					{
 						field : 'wsAmount',
 						title : '批发销售金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -369,7 +352,7 @@
 					{
 						field : 'wrNum',
 						title : '批发退货数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -380,7 +363,7 @@
 					{
 						field : 'wrAmount',
 						title : '批发退货金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -391,7 +374,7 @@
 					{
 						field : 'wsGiftNum',
 						title : '批发销售赠送数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -402,7 +385,7 @@
 					{
 						field : 'wrGiftNum',
 						title : '批发退货赠送数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -413,7 +396,7 @@
 					{
 						field : 'piNum',
 						title : '采购收货数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -424,7 +407,7 @@
 					{
 						field : 'piAmount',
 						title : '采购收货金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -435,7 +418,7 @@
 					{
 						field : 'prNum',
 						title : '采购退货数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -446,7 +429,7 @@
 					{
 						field : 'prAmount',
 						title : '采购退货金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -457,7 +440,7 @@
 					{
 						field : 'pmNum',
 						title : '采购直送收货数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -468,7 +451,7 @@
 					{
 						field : 'pmAmount',
 						title : '采购直送收货金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -479,7 +462,7 @@
 					{
 						field : 'piGiftNum',
 						title : '采购收货赠送数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -490,18 +473,7 @@
 					{
 						field : 'prGiftNum',
 						title : '采购退货赠送数量',
-						width : '120px',
-						align : 'right',
-						formatter : function(value, row, index) {
-							if (value || value == 0) {
-								return '<b>' + parseFloat(value).toFixed(2) + '</b>';
-							}
-						}
-					},
-					{
-						field : 'pmGiftNum',
-						title : '采购直送收货赠送数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -512,7 +484,7 @@
 					{
 						field : 'diNum',
 						title : '配送入库数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -523,7 +495,7 @@
 					{
 						field : 'diAmount',
 						title : '配送入库金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -534,7 +506,7 @@
 					{
 						field : 'doNum',
 						title : '配送出库数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -545,7 +517,7 @@
 					{
 						field : 'doAmount',
 						title : '配送出库金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -556,7 +528,7 @@
 					{
 						field : 'diGiftNum',
 						title : '配送入库赠送数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -567,7 +539,7 @@
 					{
 						field : 'doGiftNum',
 						title : '配送出库赠送数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -578,7 +550,7 @@
 					{
 						field : 'ioInNum',
 						title : '库存调整入库数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -589,7 +561,7 @@
 					{
 						field : 'ioInAmount',
 						title : '库存调整入库金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -600,7 +572,7 @@
 					{
 						field : 'ioOutNum',
 						title : '库存调整出库数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -611,7 +583,7 @@
 					{
 						field : 'ioOutAmount',
 						title : '库存调整出库金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -622,7 +594,7 @@
 					{
 						field : 'ppInNum',
 						title : '盘点入库数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -633,7 +605,7 @@
 					{
 						field : 'ppInAmount',
 						title : '盘点入库金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -644,7 +616,7 @@
 					{
 						field : 'ppOutNum',
 						title : '盘点出库数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -653,9 +625,9 @@
 						}
 					},
 					{
-						field : 'ppOutAmount',
+						field : 'ppOuntAmount',
 						title : '盘点出库金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -666,7 +638,7 @@
 					{
 						field : 'iuNum',
 						title : '领用出库数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -677,7 +649,7 @@
 					{
 						field : 'iuAmount',
 						title : '领用出库金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -688,7 +660,7 @@
 					{
 						field : 'idNum',
 						title : '报损出库数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -699,7 +671,7 @@
 					{
 						field : 'idAmount',
 						title : '报损出库金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -708,9 +680,9 @@
 						}
 					},
 					{
-						field : 'ixInNum',
-						title : '组合拆分入库数量',
-						width : '120px',
+						field : 'ixNum',
+						title : '组合拆分数量',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -719,31 +691,9 @@
 						}
 					},
 					{
-						field : 'ixInAmount',
-						title : '组合拆分入库金额',
-						width : '120px',
-						align : 'right',
-						formatter : function(value, row, index) {
-							if (value || value == 0) {
-								return '<b>' + parseFloat(value).toFixed(2) + '</b>';
-							}
-						}
-					},
-					{
-						field : 'ixOutNum',
-						title : '组合拆分出库数量',
-						width : '120px',
-						align : 'right',
-						formatter : function(value, row, index) {
-							if (value || value == 0) {
-								return '<b>' + parseFloat(value).toFixed(2) + '</b>';
-							}
-						}
-					},
-					{
-						field : 'ixOutAmount',
-						title : '组合拆分出库金额',
-						width : '120px',
+						field : 'ixAmount',
+						title : '组合拆分金额',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -754,7 +704,7 @@
 					{
 						field : 'lpNum',
 						title : '礼品兑换出库数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -765,7 +715,7 @@
 					{
 						field : 'lpAmount',
 						title : '礼品兑换出库金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -776,7 +726,7 @@
 					{
 						field : 'otherInNum',
 						title : '其他入库数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -787,7 +737,7 @@
 					{
 						field : 'otherInAmount',
 						title : '其他入库金额',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -798,7 +748,7 @@
 					{
 						field : 'otherOutNum',
 						title : '其他出库数量',
-						width : '120px',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -809,7 +759,18 @@
 					{
 						field : 'otherOutAmount',
 						title : '其他出库金额',
-						width : '120px',
+						width : '130px',
+						align : 'right',
+						formatter : function(value, row, index) {
+							if (value || value == 0) {
+								return '<b>' + parseFloat(value).toFixed(2) + '</b>';
+							}
+						}
+					},
+					{
+						field : 'costAdjustAmount',
+						title : '成本调整金额',
+						width : '130px',
 						align : 'right',
 						formatter : function(value, row, index) {
 							if (value || value == 0) {
@@ -847,19 +808,26 @@
 			var fromObjStr =  $("#queryForm").serializeObject();
 			fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1);
 			
-			$("#daySumReport").datagrid("options").queryParams =fromObjStr;
-			$("#daySumReport").datagrid("options").method = "post";
-			$("#daySumReport").datagrid("options").url = contextPath + '/report/day/getDayReportList';
-			$("#daySumReport").datagrid("load");
+			$("#monthSumReport").datagrid("options").queryParams =fromObjStr;
+			$("#monthSumReport").datagrid("options").method = "post";
+			$("#monthSumReport").datagrid("options").url = contextPath + '/report/month/getMonthReportList';
+			$("#monthSumReport").datagrid("load");
 
 		}
+
+// 		function selectBranches() {
+// 			new publicAgencyService(function(data) {
+// 				$("#branchId").val(data.branchesId);
+// 				$("#branchName").val(data.branchName);
+// 			}, 'BF', '');
+// 		}
 
 		var dg;
 		/**
 		 * 导出
 		 */
 		function exportData() {
-			var length = $('#daySumReport').datagrid('getData').total;
+			var length = $('#monthSumReport').datagrid('getData').total;
 			if (length == 0) {
 				$_jxc.alert("无数据可导");
 				return;
@@ -877,7 +845,7 @@
 		 * 导出
 		 */
 		function exportExcel() {
-			var length = $("#daySumReport").datagrid('getData').total;
+			var length = $("#monthSumReport").datagrid('getData').total;
 			if (length == 0) {
 				$_jxc.alert("没有数据");
 				return;
