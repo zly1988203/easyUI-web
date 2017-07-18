@@ -1,8 +1,12 @@
 /**
  * Created by wxl on 2016/08/17.
- * 商品销售汇总分析
+ * 品类销售报表
  */
 $(function() {
+	//开始和结束时间
+	$("#txtStartDate").val(dateUtil.getPreMonthDate().format("yyyy-MM-dd"));
+	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	
 	//选择报表类型
 	initGoodsCategorty();
 	

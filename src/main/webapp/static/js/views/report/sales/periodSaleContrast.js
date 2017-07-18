@@ -1,13 +1,15 @@
 //区分时段销售分析 货类销售分析
 var serviceType;
+var datagridId = 'saleReportList';
 $(function(){
 	//开始和结束时间
-    $("#saleTime").val(dateUtil.getCurrentDate().format("yyyy-MM"));
+    $("#yearStr").val(dateUtil.getCurrentDate().format("yyyy"));
     serviceType = $('#serviceType').val(); 
     //时段销售分析
     if(serviceType == 'timeSale'){
     	initDataTimeSaleReport();
     }else{
+    	datagridId = 'saleCateReportList';
     	//货类销售分析
     	initDataCateSaleReport();
     }
@@ -15,33 +17,31 @@ $(function(){
     $('#branchSelect').branchSelect();
 });
 
-
-var datagridId = 'saleReportList';
 var gridHandel = new GridClass();
-//初始化表格 没有成本价权限
+var dgc;
 function initDataTimeSaleReport(){
-	gridHandel.setGridName(datagridId);
-    dg = $("#"+datagridId).datagrid({
+	dgc = $("#"+datagridId).datagrid({
+        method:'post',
         align:'right',
         singleSelect:false,  //单选  false多选
-        rownumbers:true,    //序号
         pagination:true,    //分页
         showFooter:true,
 		height:'100%',
 		pageSize:50,
 		width:'100%',
-		columns:[[
+        columns:[[
 			{field:'bizType',title:'项目',width: 90,align:'center',rowspan:2},
 			{field:'classesStr',title:'时段',width: '200px',align:'center',rowspan:2},
 			{field:'monthAvgSale',title:'月均销售',width: 90,align:'right',rowspan:2,
 				formatter:function(value,row,index){
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
-			{field:'branchName2',title:'当年销售情况',width: 90,align:'center',colspan:12},
-			{field:'branchName3',title:'上年销售情况',width: 90,align:'center',colspan:12}
-        ],[ 
-           {field:'thisOne',title:'1月',width: 90,align:'right',
+			{field:'curYearSale',title:'当年销售情况',width: 90,align:'center',colspan:12},
+			{field:'lasYearSale',title:'上年销售情况',width: 90,align:'center',colspan:12}
+			]
+           ,[
+            {field:'thisOne',title:'1月',width: 90,align:'right',
            	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
@@ -163,7 +163,9 @@ function initDataTimeSaleReport(){
             }
         ]],
         onLoadSuccess:function(data){
-        	var merges = getMergesData(data.rows);
+            gridHandel.setDatagridHeader("center");
+            //合并单元格
+            var merges = getMergesData(data.rows);
 			for(var i=0; i<merges.length; i++){
 				$(this).datagrid('mergeCells',{
 					index: merges[i].index,
@@ -171,11 +173,9 @@ function initDataTimeSaleReport(){
 					rowspan: merges[i].rowspan
 				});
 			}
-            gridHandel.setDatagridHeader("center");
         }       
     });
 }
-
 
 //合并表格操作
 function getMergesData(sc_data){
@@ -223,18 +223,17 @@ function getMergesData(sc_data){
             _currentObj = nne_item;
             ne_data.push(nne_item);
         }
-        
-
     }
     console.timeEnd('s');
     console.log(JSON.stringify(ne_data));
     return ne_data;
 }
 
-
+var gridHandelCat = new GridClass();
+var dg;
 //初始化表格
 function initDataCateSaleReport(){
-	gridHandel.setGridName(datagridId);
+	gridHandelCat.setGridName(datagridId);
 	dg = $("#"+datagridId).datagrid({
         align:'right',
         singleSelect:false,  //单选  false多选
@@ -246,16 +245,16 @@ function initDataCateSaleReport(){
 		width:'100%',
 		columns:[[
 			{field:'bizType',title:'类别编码',width: 90,align:'center',rowspan:2},
-			{field:'classesStr',title:'类别名称',width: '200px',align:'center',rowspan:2},
-			{field:'monthAvgSale',title:'月均销售',width: 90,align:'center',rowspan:2,
+			{field:'classesStr',title:'类别名称',width: 100,align:'left',rowspan:2},
+			{field:'monthAvgSale',title:'月均销售',width: 90,align:'right',rowspan:2,
 				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
 			},
-			{field:'branchName2',title:'当年销售情况',width: 90,align:'center',colspan:12},
-			{field:'branchName3',title:'上年销售情况',width: 90,align:'center',colspan:12}
+			{field:'curSaleStr',title:'当年销售情况',width: 90,align:'center',colspan:12},
+			{field:'lastSaleStr',title:'上年销售情况',width: 90,align:'center',colspan:12}
         ],[ 
-           {field:'thisOne',title:'1月',width: 90,align:'right',
+             {field:'thisOne',title:'1月',width: 90,align:'right',
               	formatter:function(value,row,index){
    					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
    				}
@@ -377,15 +376,15 @@ function initDataCateSaleReport(){
                }
         ]],
         onLoadSuccess:function(data){
-        	gridHandel.setDatagridHeader("center");
+        	gridHandelCat.setDatagridHeader("center");
         }       
     });
    // queryForm();
 }
 //查询入库单
 function queryForm(){
-	 if($("#branchName").val()==""){
-	    $_jxc.alert("请选择店铺名称");
+	 if(!$.trim($("#branchName").val()||'')){
+	    $_jxc.alert("请选择机构名称");
 	    return;
 	 } 
     $("#startCount").attr("value",null);
