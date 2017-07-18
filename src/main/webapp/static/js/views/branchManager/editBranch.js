@@ -69,8 +69,8 @@ function getBranchInfo(){
             }
         });
 
-        $("#gridFitmentCost").datagrid("loadData", rec.decorateCostList.length>0?rec.decorateCostList:[$.extend({},gridDefault)]);
         $("#gridEquipmentCost").datagrid("loadData", rec.deviceCostList.length>0?rec.deviceCostList:[$.extend({},gridDefault)]);
+        $("#gridFitmentCost").datagrid("loadData", rec.decorateCostList.length>0?rec.decorateCostList:[$.extend({},gridDefault)]);
         $("#gridAmortizeCost").datagrid("loadData", rec.amortizeCostList.length>0?rec.amortizeCostList:[$.extend({},gridDefault)]);
     });
 }
@@ -174,8 +174,9 @@ function initGridCostCommon(gridName) {
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:1,
-                        precision:0
+                        min:0,
+                        precision:0,
+                        onChange:changeAvgYear
                     }
                 },
             },
@@ -184,15 +185,12 @@ function initGridCostCommon(gridName) {
                     if(row.isFooter){
                         return '';
                     }
-                    
-                    if(value){
-                    	return new Date(value).format("yyyy-MM-dd");
-                    }
-                    return "";
+                    return value;
                 },
                 editor:{
                     type:'datebox',
                     options:{
+                    	editable:false,
                     	formatter:function(date){
                     		var y = date.getFullYear();
                     		var m = date.getMonth()+1;
@@ -202,8 +200,16 @@ function initGridCostCommon(gridName) {
                     }
                 },
             },
-            {field: 'remark', title: '备注', width: 120, align: 'left',editor:'textbox'},
+            {field: 'remark', title: '备注', width: 180, align: 'left',editor:'textbox'},
         ]],
+        loadFilter:function(data){
+        	data.forEach(function(obj,index){
+        		if(obj && obj.startTime){
+        			obj.startTime = new Date(obj.startTime).format('yyyy-MM-dd')
+        		}
+        	});
+        	return data;
+        },
         onClickCell:function(rowIndex,field,value){
         	gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
@@ -230,6 +236,24 @@ if(gridName === "gridFitmentCost"){
 }else if(gridName === "gridAmortizeCost"){
 	gridHandel = gridAmortizeCostHandel;
 	costNameTitle = "累计摊销费用";
+}
+
+var avgYear = false;
+function changeAvgYear(newV,oldV){
+	if(avgYear){
+		avgYear = true;
+		return ;
+	}
+	if(parseInt(newV) > 99){
+		$_jxc.alert('均摊年限不能大于99');
+		$(this).numberbox('setValue',oldV||0);
+		return;
+	}
+	if(parseInt(newV) < 1){
+		$_jxc.alert('均摊年限不能小于1');
+		$(this).numberbox('setValue',oldV||0);
+		return;
+	}
 }
 
 //累计摊销费用
