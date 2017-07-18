@@ -211,4 +211,9 @@ public interface PrintConstant {
 	 * 供应商进货报表
 	 */
 	String SUPPLIER_STOCK_REPORT = "SupplierStockReport.jrxml";
+
+	/**
+	 * 门店销售报表
+	 */
+	String STORE_SELL_REPORT = "StoreSellReport.jrxml";
 }
