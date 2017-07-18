@@ -62,8 +62,10 @@ public class SupplierStockReportController extends BaseController<SupplierStockR
         vo = optional.orElse(new SupplierStockQo());
         vo.setPageNum(pageNumber);
         vo.setPageSize(pageSize);
-        if(StringUtils.isBlank(vo.getBranchId())){
-            vo.setBranchId(getCurrBranchId());
+        if(StringUtils.isBlank(vo.getBranchCompleCode())){
+            vo.setBranchCode(getCurrBranchCompleCode());
+        }else{
+            vo.setBranchCode(vo.getBranchCompleCode());
         }
         if (StringUtils.isNotBlank(vo.getStartTime())) {
             PageUtils<SupplierStock> pageUtils = supplierStockFacade.getSupplierStocks(vo);
@@ -95,8 +97,11 @@ public class SupplierStockReportController extends BaseController<SupplierStockR
         RespJson resp = RespJson.success();
         Optional<SupplierStockQo> optional = Optional.ofNullable(vo);
         vo = optional.orElse(new SupplierStockQo());
-        if(StringUtils.isBlank(vo.getBranchId())){
-            vo.setBranchId(getCurrBranchId());
+
+        if(StringUtils.isBlank(vo.getBranchCompleCode())){
+            vo.setBranchCode(getCurrBranchCompleCode());
+        }else{
+            vo.setBranchCode(vo.getBranchCompleCode());
         }
         if (StringUtils.isNotBlank(vo.getStartTime())) {
             List<SupplierStock> exportList = supplierStockFacade.exportSupplierStocks(vo);
@@ -118,8 +123,10 @@ public class SupplierStockReportController extends BaseController<SupplierStockR
         vo.setPageNum(Integer.valueOf(PAGE_NO));
         vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
         // 默认当前机构
-        if (StringUtils.isBlank(vo.getBranchId())) {
-            vo.setBranchId(getCurrBranchId());
+        if(StringUtils.isBlank(vo.getBranchCompleCode())){
+            vo.setBranchCode(getCurrBranchCompleCode());
+        }else{
+            vo.setBranchCode(vo.getBranchCompleCode());
         }
         if (StringUtils.isNotBlank(vo.getStartTime())) {
             List<SupplierStock> exportList = supplierStockFacade.exportSupplierStocks(vo);

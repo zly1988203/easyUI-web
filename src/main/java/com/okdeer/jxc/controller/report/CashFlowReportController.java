@@ -112,10 +112,10 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 
 	// 封装请求参数
 	private CashFlowReportQo getParmas(CashFlowReportQo qo) {
-		
+
 		if (qo.getEndTime() != null) {
 			// qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
-		    qo.setEndTime(DateUtils.getNextMinute(qo.getEndTime()));
+			qo.setEndTime(DateUtils.getNextMinute(qo.getEndTime()));
 		}
 
 		// 如果没有修改所选机构等信息，则去掉该参数
@@ -133,6 +133,13 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 		if (StringUtils.isNotBlank(cashierNameOrCode) && cashierNameOrCode.contains("[")
 				&& cashierNameOrCode.contains("]")) {
 			qo.setCashierNameOrCode(null);
+		}
+
+		if ("3".equals(qo.getOrderType())) {
+			qo.setOrderType("2");
+			qo.setSource(2);
+		} else if ("2".equals(qo.getOrderType())) {
+			qo.setSource(1);
 		}
 
 		return qo;
@@ -156,20 +163,20 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 			// 1、封装请求参数
 			qo = getParmas(qo);
 			List<CashFlowReportVo> exportList = cashFlowReportService.queryList(qo);
-            if(CollectionUtils.isNotEmpty(exportList)){
-            	// 2、查询汇总
-            	CashFlowReportVo cashFlowReportVo = cashFlowReportService.queryCashFlowReportSum(qo);
-            	exportList.add(cashFlowReportVo);
-            	// 3、导出数据特殊处理
-            	List<CashFlowReportVo> list = handleCashFlowReport(exportList);
-            	
-            	String fileName = "收银流水报表" + "_" + DateUtils.getCurrSmallStr();
-            	String templateName = ExportExcelConstant.CASHFLOWREPORT;
-            	exportListForXLSX(response, list, fileName, templateName);
-            }else{
-            	RespJson json = RespJson.error("无数据可导");
+			if (CollectionUtils.isNotEmpty(exportList)) {
+				// 2、查询汇总
+				CashFlowReportVo cashFlowReportVo = cashFlowReportService.queryCashFlowReportSum(qo);
+				exportList.add(cashFlowReportVo);
+				// 3、导出数据特殊处理
+				List<CashFlowReportVo> list = handleCashFlowReport(exportList);
+
+				String fileName = "收银流水报表" + "_" + DateUtils.getCurrSmallStr();
+				String templateName = ExportExcelConstant.CASHFLOWREPORT;
+				exportListForXLSX(response, list, fileName, templateName);
+			} else {
+				RespJson json = RespJson.error("无数据可导");
 				return json;
-            }
+			}
 		} catch (Exception e) {
 			LOG.error("UserController.exportList Exception:", e);
 			RespJson json = RespJson.error("导出失败");
@@ -195,11 +202,11 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 			// 2、封装请求参数
 			qo = getParmas(qo);
 			LOG.debug("收银流水打印参数：{}", qo.toString());
-			if(cashFlowReportService.queryListCount(qo)>PrintConstant.PRINT_MAX_ROW){
+			if (cashFlowReportService.queryListCount(qo) > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
 			List<CashFlowReportVo> list = cashFlowReportService.queryList(qo);
-			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
+			if (!CollectionUtils.isEmpty(list) && list.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
 			String path = PrintConstant.CASH_FLOW_REPORT;
@@ -217,18 +224,21 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 	// 价格保留两位特殊处理
 	private List<CashFlowReportVo> handlePrice(List<CashFlowReportVo> exportList) {
 		for (CashFlowReportVo vo : exportList) {
-			/*if (StringUtils.isBlank(vo.getSaleAmount())) {
-				vo.setSaleAmount("0.00");
-			}*/
+			/*
+			 * if (StringUtils.isBlank(vo.getSaleAmount())) {
+			 * vo.setSaleAmount("0.00"); }
+			 */
 			if (StringUtils.isBlank(vo.getPayAmount())) {
 				vo.setPayAmount("0.00");
 			}
 			// 销售金额
-			/*if (StringUtils.isNotBlank(vo.getSaleAmount())) {
-				java.math.BigDecimal saleAmount = new java.math.BigDecimal(vo.getSaleAmount()).setScale(2,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setSaleAmount(String.valueOf(saleAmount));
-			}*/
+			/*
+			 * if (StringUtils.isNotBlank(vo.getSaleAmount())) {
+			 * java.math.BigDecimal saleAmount = new
+			 * java.math.BigDecimal(vo.getSaleAmount()).setScale(2,
+			 * java.math.BigDecimal.ROUND_HALF_UP);
+			 * vo.setSaleAmount(String.valueOf(saleAmount)); }
+			 */
 			// 付款金额
 			if (StringUtils.isNotBlank(vo.getPayAmount())) {
 				java.math.BigDecimal payAmount = new java.math.BigDecimal(vo.getPayAmount()).setScale(2,
@@ -264,19 +274,21 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 				vo.setSaleTime(saleTime);
 			}
 			// 业务类型
-//			if (StringUtils.isNotBlank(vo.getBusinessType())) {
-//				String code = vo.getBusinessType();
-//				String businessType = BusinessTypeEnum.enumValueOf(code) == null ? ""
-//						: BusinessTypeEnum.enumValueOf(code).getName();
-//				vo.setBusinessType(businessType);
-//			}
+			// if (StringUtils.isNotBlank(vo.getBusinessType())) {
+			// String code = vo.getBusinessType();
+			// String businessType = BusinessTypeEnum.enumValueOf(code) == null
+			// ? ""
+			// : BusinessTypeEnum.enumValueOf(code).getName();
+			// vo.setBusinessType(businessType);
+			// }
 			// 订单类型
-//			if (StringUtils.isNotBlank(vo.getOrderType())) {
-//				String code = vo.getOrderType();
-//				String orderType = OrderResourceEnum.enumValueOf(Integer.valueOf(code)) == null ? ""
-//						: OrderResourceEnum.enumValueOf(Integer.valueOf(code)).getName();
-//				vo.setOrderType(orderType);
-//			}
+			// if (StringUtils.isNotBlank(vo.getOrderType())) {
+			// String code = vo.getOrderType();
+			// String orderType =
+			// OrderResourceEnum.enumValueOf(Integer.valueOf(code)) == null ? ""
+			// : OrderResourceEnum.enumValueOf(Integer.valueOf(code)).getName();
+			// vo.setOrderType(orderType);
+			// }
 		}
 		return exportList;
 	}

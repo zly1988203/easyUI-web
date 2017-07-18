@@ -37,7 +37,13 @@ function initGoodsTotalAnalysiGrid() {
         showFooter:true,
         height:'100%',
         columns: [[
-           {field: 'branchCode', title: '机构编码', width:120, align: 'left'},
+           {field: 'branchCode', title: '机构编码', width:120, align: 'left',formatter : function(value, row,index) {
+               var str = value;
+               if(value ==="SUM"){
+                   str ='<div class="ub ub-pc">合计</div> '
+               }
+               return str;
+           }},
            {field: 'branchName', title: '机构名称', width:120, align: 'left'},
            {field: 'skuCode', title: '货号', width:120, align: 'left'},
            {field: 'skuName', title: '商品名称', width:120, align: 'left'},
@@ -46,17 +52,50 @@ function initGoodsTotalAnalysiGrid() {
            {field: 'spec', title: '规格', width:65, align: 'left'},
            {field: 'cateCode', title: '类别编号', width:120, align: 'left'},
            {field: 'cateName', title: '类别名称', width:120, align: 'left'},
-           {field: 'saleCount', title: '销售数量', width:120, align: 'left'},
-           {field: 'saleAmount', title: '销售金额', width:120, align: 'left'},        
-           {field: 'purjx', title: '采购进货量', width:120, align: 'left'},
-           {field: 'psjx', title: '配送进货量', width:120, align: 'left'},
-           {field: 'jhsl', title: '进货数量', width:120, align: 'left'},
-           {field: 'jhje', title: '进货金额', width:120, align: 'left'},
-           {field: 'dqkc', title: '当前库存', width:120, align: 'left'},
-           {field: 'kczbje', title: '库存成本金额', width:120, align: 'left'},
-           {field: 'kcxisj', title: '库存销售金额', width:120, align: 'left'},
-           {field: 'bas', title: '报损数量', width:120, align: 'left'},
-           {field: 'bass', title: '报损金额', width:120, align: 'left'},
+           {field: 'xsNum', title: '销售数量', width:120, align: 'right',
+               formatter:function(value,row,index){
+                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+               }},
+           {field: 'xsAmount', title: '销售金额', width:120, align: 'right',
+               formatter:function(value,row,index){
+                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+               }},
+           {field: 'purchaseNum', title: '采购进货量', width:120, align: 'right',
+               formatter:function(value,row,index){
+                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+               }},
+           {field: 'deliveryNum', title: '配送进货量', width:120, align: 'right',
+               formatter:function(value,row,index){
+                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+               }},
+           {field: 'stockNum', title: '进货数量', width:120, align: 'right',
+               formatter:function(value,row,index){
+                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+               }},
+           {field: 'stockAmout', title: '进货金额', width:120, align: 'right',
+               formatter:function(value,row,index){
+                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+               }},
+           {field: 'actual', title: '当前库存', width:120, align: 'right',
+               formatter:function(value,row,index){
+                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+               }},
+           {field: 'costAmount', title: '库存成本金额', width:120, align: 'right',
+               formatter:function(value,row,index){
+                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+               }},
+           {field: 'saleAmount', title: '库存销售金额', width:120, align: 'right',
+               formatter:function(value,row,index){
+                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+               }},
+           {field: 'idNum', title: '报损数量', width:120, align: 'right',
+               formatter:function(value,row,index){
+                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+               }},
+           {field: 'idAmount', title: '报损金额', width:120, align: 'right',
+               formatter:function(value,row,index){
+                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+               }},
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -82,7 +121,7 @@ function query(){
 	var formData = $("#queryForm").serializeObject();
 	$("#"+gridName).datagrid("options").queryParams = formData;
 	$("#"+gridName).datagrid("options").method = "post";
-	$("#"+gridName).datagrid("options").url =  contextPath+"/report/goodsGrossProfitRate/list";
+	$("#"+gridName).datagrid("options").url =  contextPath+"/report/store/sell/list";
 	$("#"+gridName).datagrid("load");
 }
 var dg;
@@ -119,7 +158,7 @@ function exportExcel(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	$("#queryForm").attr("action",contextPath+'/report/goodsGrossProfitRate/exportList');
+	$("#queryForm").attr("action",contextPath+'/report/store/sell/export/list');
 	$("#queryForm").submit();	
 }
 
@@ -133,13 +172,38 @@ function searchCategory(){
 	}
 	new publicCategoryService(function(data){
 		console.info(data);
-		//$("#categoryCode").val(data.categoryCode);
-		$("#categoryCode").val(data.categoryName);
+		$("#categoryCode").val(data.categoryCode);
+		//$("#categoryCode").val(data.categoryName);
 	},param);
 }
 /**
  * 重置
  */
 var resetForm = function(){
-	location.href=contextPath+"/report/purchase/total";
+	location.href=contextPath+"/report/store/sell";
+};
+
+var printReport = function(){
+    var length = $('#'+gridName).datagrid('getData').total;
+    if(length == 0){
+        $_jxc.alert("没有数据");
+        return;
+    }
+    var queryParams =  urlEncode($("#queryForm").serializeObject());
+    parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/report/store/sell/print?params="+queryParams);
+}
+
+var urlEncode = function (param, key, encode) {
+    if(param==null) return '';
+    var paramStr = '';
+    var t = typeof (param);
+    if (t == 'string' || t == 'number' || t == 'boolean') {
+        paramStr += '&' + key + '=' + ((encode==null||encode) ? encodeURIComponent(param) : param);
+    } else {
+        for (var i in param) {
+            var k = key == null ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i);
+            paramStr += urlEncode(param[i], k, encode);
+        }
+    }
+    return paramStr;
 };
