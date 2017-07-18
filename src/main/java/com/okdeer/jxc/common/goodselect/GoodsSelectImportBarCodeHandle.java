@@ -155,10 +155,14 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 		for (GoodsSelect goods : list) {
 			String objBarCode = goods.getBarCode();
 			if(barCode.equals(objBarCode)){
+				/**一品多码的问题，用导入的条码当做商品条码*/
+				goods.setBarCode(barCode);
 				return goods;
 			}
 		}
 		if(this.getGoodsMap().containsKey(barCode)){
+			/**一品多码的问题，用导入的条码当做商品条码*/
+			this.getGoodsMap().get(barCode).setBarCode(barCode);
 			return this.getGoodsMap().get(barCode);
 		}
 		

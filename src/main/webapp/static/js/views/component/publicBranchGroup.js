@@ -61,7 +61,8 @@ function initDatagridBranchGroupList(){
             {field:'cb',checkbox:true,hidden:selectType == 1?false:true},    
             {field:'branchCode',title:'编码',width:100,align:'left'},
             {field:'branchName',title:'名称',width:100,align:'left'},
-            {field:'branchType',title:'类型',width:100,align:'center'},
+            {field:'type',title:'类型',width:100,align:'center',hidden:true},
+            {field:'branchTypeStr',title:'类型',width:100,align:'center'},
         ]],
         onLoadSuccess : function() {
        	 $('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
