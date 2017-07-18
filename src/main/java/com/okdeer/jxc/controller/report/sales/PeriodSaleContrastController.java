@@ -57,7 +57,7 @@ public class PeriodSaleContrastController extends BaseController<PeriodSaleContr
 	 * @author zuowm
 	 * @date 2017年7月13日
 	 */
-	@RequestMapping
+	@RequestMapping()
 	public String index() {
 		LOG.info("PeriodSaleContrastController start....");
 		return "report/sales/periodSaleContrast";

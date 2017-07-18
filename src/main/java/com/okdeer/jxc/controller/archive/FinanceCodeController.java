@@ -25,8 +25,10 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
+import com.okdeer.jxc.common.vo.UpdateStatusVo;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.system.entity.SysDict;
+import com.okdeer.jxc.system.entity.SysDictType;
 import com.okdeer.jxc.system.qo.SysDictQo;
 import com.okdeer.jxc.system.service.SysDictService;
 import com.okdeer.jxc.system.vo.SysDictVo;
@@ -255,4 +257,42 @@ public class FinanceCodeController extends BaseController<FinanceCodeController>
         }
         return new ArrayList<SysDict>();
     }
+    
+    
+    @RequestMapping(value = "addDictType", method = RequestMethod.POST)
+	public RespJson addDictType(SysDictType dictType) {
+		LOG.debug("新增字典类型参数：{}", dictType);
+		try {
+
+			dictType.setCreateUserId(super.getCurrUserId());
+			return sysDictService.addSysDictType(dictType);
+
+		} catch (Exception e) {
+			LOG.error("新增字典类型失败：", e);
+		}
+		return RespJson.error();
+	}
+    
+    @RequestMapping(value = "deleteDictType", method = RequestMethod.POST)
+	public RespJson deleteDictType(String id) {
+    	
+    	LOG.debug("删除字典类型参数：{}", id);
+
+		if (StringUtils.isBlank(id)) {
+			return RespJson.businessError("ID为空");
+		}
+
+		try {
+
+			UpdateStatusVo vo = new UpdateStatusVo();
+			vo.setUpdateUserId(super.getCurrUserId());
+			vo.setId(id);
+
+			return sysDictService.deleteSysDictType(vo);
+
+		} catch (Exception e) {
+			LOG.error("删除字典类型失败：", e);
+		}
+		return RespJson.error();
+	}
 }

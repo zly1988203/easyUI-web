@@ -206,4 +206,9 @@ public interface PrintConstant {
 	 * 一卡通交易汇总
 	 */
 	String ICC_CARD_SUM_TRADING_DETAIL = "iccCardSumTradingDetail.jrxml";
+
+	/**
+	 * 供应商进货报表
+	 */
+	String SUPPLIER_STOCK_REPORT = "SupplierStockReport.jrxml";
 }

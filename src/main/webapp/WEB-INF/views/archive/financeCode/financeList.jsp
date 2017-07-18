@@ -10,7 +10,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<script src="${ctx}/static/js/views/financeCode/financeList.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/financeCode/financeList.js?V=${versionNo}4"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-f1 umar-4 upad-4">
@@ -82,9 +82,17 @@
 		                <div class="umar-r10 uw-90 ut-r">类型:</div>
 		                <div class="utxt">机构运营费用</div>
 		            </div>
+		            <!-- <div class="ub ub-ac  umar-t20" style="margin-left:-16px;">
+		                <div class="umar-r10 uw-90 ut-r">编码:</div>
+		                <span id="branchCodeSpan">101005</span>
+		                <input class="uinp ub ub-f1" name="dictTypeCode" id="dictTypeCode" type="text" 
+		                	onkeyup="this.value=this.value.replace(/\D/g,'')"
+							onafterpaste="this.value=this.value.replace(/\D/g,'')"
+							placeholder="编号为2位数字" maxlength="2" > 
+		            </div> -->
 		            <div class="ub ub-ac  umar-t20" style="margin-left:-16px;">
 		                <div class="umar-r10 uw-90 ut-r">名称:</div>
-		                <input class="uinp ub ub-f1" name="costName" id="costName" type="text" > 
+		                <input class="uinp ub ub-f1" name="typeName" id="typeName" type="text" > 
 		            </div>
 	    		</form>			
 	    	</div>

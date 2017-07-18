@@ -186,7 +186,7 @@ public class BranchController extends BaseController<BranchController> {
 		LOG.debug("修改机构费用参数：{}", jsonText);
 		try {
 
-			BranchCostVo vo = GsonUtils.fromJson(jsonText, BranchCostVo.class);
+			BranchCostVo vo = GsonUtils.fromJson(jsonText, BranchCostVo.class, DateUtils.DATE_SMALL_STR_R);
 			vo.setUserId(super.getCurrUserId()); // 当前用户Id
 
 			RespJson respJson = branchesService.updateBranchCost(vo);

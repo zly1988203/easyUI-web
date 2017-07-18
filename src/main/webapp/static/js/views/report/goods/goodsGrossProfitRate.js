@@ -29,7 +29,7 @@ function initGoodsTotalAnalysiGrid() {
         method: 'post',
         align: 'center',
         singleSelect: false,  //单选  false多选
-        rownumbers: true,    //序号
+//        rownumbers: true,    //序号
         pagination: true,    //分页
         showFooter:true,
         pageSize : 50,
@@ -37,25 +37,49 @@ function initGoodsTotalAnalysiGrid() {
         showFooter:true,
         height:'100%',
         columns: [[
-           {field: 'branchCode', title: '机构编码', width:120, align: 'left'},
+           {field: 'branchCode', title: '机构编码', width:80, align: 'left'},
            {field: 'branchName', title: '机构名称', width:120, align: 'left'},
-           {field: 'supplierCode', title: '供应商编号', width:120, align: 'left'},
+           {field: 'supplierCode', title: '供应商编号', width:80, align: 'left'},
            {field: 'supplierName', title: '供应商名称', width:120, align: 'left'},
            {field: 'skuCode', title: '货号', width:120, align: 'left'},
-           {field: 'skuName', title: '商品名称', width:120, align: 'left'},
+           {field: 'skuName', title: '商品名称', width:180, align: 'left'},
            {field: 'barCode', title: '商品条码', width:120, align: 'left'},
            {field: 'unit', title: '单位', width:65, align: 'left'},
            {field: 'spec', title: '规格', width:65, align: 'left'},
-           {field: 'purchasePrice', title: '进货价', width:120, align: 'left'},
-           {field: 'salePrice', title: '商品售价', width:120, align: 'left'},        
-           {field: 'grossProfitRateStr', title: '毛利率', width:120, align: 'left'},
-           {field: 'realGrossProfitRateStr', title: '实际毛利率', width:120, align: 'left'},
+           {field: 'purchasePrice', title: '进货价', width:80, align: 'right',
+        	   formatter:function(value,row,index){
+        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+        	   }
+           },
+           {field: 'salePrice', title: '商品售价', width:80, align: 'right',
+        	   formatter:function(value,row,index){
+        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+        	   }
+           },        
+           {field: 'grossProfitRateStr', title: '毛利率', width:80, align: 'right',
+        	   formatter:function(value,row,index){
+        		   return '<b>'+value+'</b>'
+        	   }
+           },
+           {field: 'realGrossProfitRateStr', title: '实际毛利率', width:80, align: 'right',
+        	   formatter:function(value,row,index){
+        		   return '<b>'+value+'</b>'
+        	   }
+           },
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
 			//updateFooter();
 		}
     });
+   
+   //价格权限
+   var param = {
+   		//进货价 purchasePrice  毛利率 grossProfitRateStr  实际毛利率realGrossProfitRateStr
+   		costPrice:['purchasePrice','grossProfitRateStr','realGrossProfitRateStr']	
+   }
+   priceGrantUtil.grantPrice(gridName,param);
+   
 }
 
 

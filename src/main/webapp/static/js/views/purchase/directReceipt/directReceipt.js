@@ -24,8 +24,8 @@ $(function(){
 	//修改页面的单据id
 	var formId = $('#formId').val();
 	if(directStatus === 'add'){
-		$("#branchName").val(sessionBranchCodeName);
-		$("#branchId").val(sessionBranchId);
+//		$("#branchName").val(sessionBranchCodeName);
+//		$("#branchId").val(sessionBranchId);
 		$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
 		oldData = {
 				    branchName:$('#branchName').val(),
@@ -35,10 +35,10 @@ $(function(){
         }
 	}else if(directStatus === '0'){
 		oldData = {
-		            branchName:$('#branchName').val(),
-                    supplierId:$("#supplierId").val(),
-                    saleWay:$("#saleWay").val(),
-                    remark:$("#remark").val(),
+	            branchName:$('#branchName').val(),
+                supplierId:$("#supplierId").val(),
+                saleWay:$("#saleWay").val(),
+                remark:$("#remark").val(),
         }
 		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 		$('#already-examine').css('display','none');
@@ -204,9 +204,9 @@ function initDirectDataGrid(){
                        return
                    }
                    if(!value){
-                   	    row.price = parseFloat(value||0).toFixed(2);
+                   	    row.price = parseFloat(value||0).toFixed(4);
                    }
-                   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                   return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                },
                editor:{
                    type:'numberbox',
@@ -233,7 +233,7 @@ function initDirectDataGrid(){
                editor:{
                    type:'numberbox',
                    options:{
-                       disabled:true,
+                	   disabled:true,
                        min:0,
                        precision:4
                    }
@@ -470,7 +470,7 @@ function onSelectIsGift(data){
     };
     var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
     if(arrs.length==0){
-        var targetPrice = gridHandel.getFieldTarget('amount');
+        var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
             var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
             $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
@@ -1035,6 +1035,51 @@ function updateListData(data){
     var newRows = gridHandel.checkDatagrid([],rows,argWhere,isCheck);
     $("#"+gridName).datagrid("loadData",newRows);
 
+}
+
+function selectPurchaseForm(){
+	new publicPurchaseFormService("PA",function(data){
+		$("#refFormNo").val(data.form.formNo);
+		//根据选择的采购单，带出采购单的信息
+        var keyNames = {
+            realNum:'maxRealNum',
+        };
+        
+        var newRows = gFunUpdateKey(data.list,keyNames);
+        
+	    var keylargeNum = {
+	    		largeNum:'maxlargeNum',
+    	    };
+	    
+        var newRows = gFunUpdateKey(newRows,keylargeNum);
+        
+        $("#"+gridName).datagrid("loadData",newRows);
+        //供应商
+        $("#supplierId").val(data.form.supplierId);
+        $("#supplierName").val(data.form.supplierName);
+        //经营方式
+        $("#saleWay").val(data.form.saleWay);
+        $("#saleWayName").val(data.form.saleWayName);
+        //收货机构
+        $("#branchId").val(data.form.branchId);
+        $("#branchName").val(data.form.branchName);
+        //采购员
+        $("#salesmanId").val(data.form.salesmanId);
+        $("#operateUserName").val(data.form.salesmanName);
+		$("#refFormId").val(data.form.id);
+		$_jxc.ajax({
+			url : contextPath + "/common/supplier/getById",
+			data : {
+				id : data.form.supplierId
+			}
+		},function(data){
+			$("#saleWay").val(data.supplier.saleWay);
+			$("#saleWayName").val(data.supplier.saleWayName);
+			console.log(data);
+		});
+        
+        
+	});
 }
 
 /**

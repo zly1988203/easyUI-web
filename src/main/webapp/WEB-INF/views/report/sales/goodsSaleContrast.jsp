@@ -21,13 +21,13 @@
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 	             	<input type="hidden" id="startCount" name="startCount" />
 					<input type="hidden" id="endCount" name="endCount" />
-	                <div class="ubtns-item" onclick="exportData()">导出</div>
+	                <div class="ubtns-item" onclick="exportExcel()">导出</div>
 	              	<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
 	           	<!-- 引入时间选择控件 -->
 	           <div class="ub ub-ac umar-l20">
-	              	<input class="Wdate"  readonly="readonly" name="saleTime" id="saleTime" onclick="selectMonth()"  />
+	              	<input class="Wdate"  readonly="readonly" name="yearStr" id="yearStr" onFocus="WdatePicker({dateFmt:'yyyy'})"/>
 	            </div>
             </div>
 	        <div class="ub uline umar-t8"></div>
@@ -41,7 +41,7 @@
             </div>
        	</form>
         <div class="ub ub-f1 umar-t20">
-			 <table id="saleReportList"></table>
+			 <table id="saleCateReportList"></table>
 		</div>
     </div>
 

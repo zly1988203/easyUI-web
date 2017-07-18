@@ -12,7 +12,12 @@ $(function() {
 	
 	$('#branchSelects').branchSelect();
 	
-	$('#supplierComponent').supplierSelect();
+	$('#supplierComponent').supplierSelect({
+		loadFilter:function(data){
+			data.supplierId = data.id;
+			return data;
+		}
+	});
 });
 
 var gridHandel = new GridClass();
@@ -33,12 +38,17 @@ function initGoodsTotalAnalysiGrid() {
         pagination: true,    //分页
         showFooter:true,
         pageSize : 50,
-        data:[{purjx:0}],
         pageList : [20,50,100],//可以设置每页记录条数的列表
         showFooter:true,
         height:'100%',
         columns: [[
-           {field: 'supplierCode', title: '供应商编码', width:120, align: 'left'},
+           {field: 'supplierCode', title: '供应商编码', width:120, align: 'left',formatter : function(value, row,index) {
+               var str = value;
+               if(value ==="SUM"){
+                   str ='<div class="ub ub-pc">合计</div> '
+               }
+               return str;
+           }},
            {field: 'supplierName', title: '供应商名称', width:120, align: 'left'},
            {field: 'smallCateCore', title: '小类编号', width:120, align: 'left'},
            {field: 'cateName', title: '商品类别', width:120, align: 'left'},
@@ -49,17 +59,17 @@ function initGoodsTotalAnalysiGrid() {
            {field: 'barCode', title: '商品条码', width:120, align: 'left'},
            {field: 'unit', title: '单位', width:65, align: 'center'},
            {field: 'spec', title: '规格', width:65, align: 'left'},
-           {field: 'purjx', title: '期间进货数量', width:120, align: 'right',
+           {field: 'stockNum', title: '期间进货数量', width:120, align: 'right',
         	   formatter:function(value,row,index){
         		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
         	   }
            },
-           {field: 'psjx', title: '期间成本价', width:120, align: 'right',
+           {field: 'stockCost', title: '期间成本价', width:120, align: 'right',
         	   formatter:function(value,row,index){
         		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
         	   }
            },
-           {field: 'jhsl', title: '期间进货金额', width:120, align: 'right',
+           {field: 'stockAmount', title: '期间进货金额', width:120, align: 'right',
         	   formatter:function(value,row,index){
         		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
         	   }
@@ -70,6 +80,13 @@ function initGoodsTotalAnalysiGrid() {
 			//updateFooter();
 		}
     });
+   
+    //价格权限
+    var param = {
+    		//期间成本价 stockCost  期间进货金额 stockAmount
+    		costPrice:['stockCost','stockAmount']	
+    }
+    priceGrantUtil.grantPrice(gridName,param);
 }
 
 
@@ -89,7 +106,7 @@ function query(){
 	var formData = $("#queryForm").serializeObject();
 	$("#"+gridName).datagrid("options").queryParams = formData;
 	$("#"+gridName).datagrid("options").method = "post";
-	$("#"+gridName).datagrid("options").url =  contextPath+"/report/goodsGrossProfitRate/list";
+	$("#"+gridName).datagrid("options").url =  contextPath+"/report/supplier/stock/list";
 	$("#"+gridName).datagrid("load");
 }
 var dg;
@@ -126,7 +143,7 @@ function exportExcel(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	$("#queryForm").attr("action",contextPath+'/report/goodsGrossProfitRate/exportList');
+	$("#queryForm").attr("action",contextPath+'/report/supplier/stock/export/list');
 	$("#queryForm").submit();	
 }
 
@@ -148,5 +165,30 @@ function searchCategory(){
  * 重置
  */
 var resetForm = function(){
-	location.href=contextPath+"/report/purchase/total";
+	location.href=contextPath+"/report/supplier/stock";
+};
+
+var printReport = function(){
+    var length = $('#'+gridName).datagrid('getData').total;
+    if(length == 0){
+        $_jxc.alert("没有数据");
+        return;
+    }
+    var queryParams =  urlEncode($("#queryForm").serializeObject());
+    parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/report/supplier/stock/print?params="+queryParams);
+}
+
+var urlEncode = function (param, key, encode) {
+    if(param==null) return '';
+    var paramStr = '';
+    var t = typeof (param);
+    if (t == 'string' || t == 'number' || t == 'boolean') {
+        paramStr += '&' + key + '=' + ((encode==null||encode) ? encodeURIComponent(param) : param);
+    } else {
+        for (var i in param) {
+            var k = key == null ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i);
+            paramStr += urlEncode(param[i], k, encode);
+        }
+    }
+    return paramStr;
 };

@@ -69,8 +69,8 @@ function getBranchInfo(){
             }
         });
 
-        $("#gridFitmentCost").datagrid("loadData", rec.decorateCostList.length>0?rec.decorateCostList:[$.extend({},gridDefault)]);
         $("#gridEquipmentCost").datagrid("loadData", rec.deviceCostList.length>0?rec.deviceCostList:[$.extend({},gridDefault)]);
+        $("#gridFitmentCost").datagrid("loadData", rec.decorateCostList.length>0?rec.decorateCostList:[$.extend({},gridDefault)]);
         $("#gridAmortizeCost").datagrid("loadData", rec.amortizeCostList.length>0?rec.amortizeCostList:[$.extend({},gridDefault)]);
     });
 }
@@ -85,10 +85,32 @@ var gridFitmentCostHandel = new GridClass();
 var gridEquipmentCostHandel = new GridClass();
 var gridAmortizeCostHandel = new GridClass();
 
-
-function initGridFitmentCost() {
-    gridFitmentCostHandel.setGridName("gridFitmentCost");
-    $("#gridFitmentCost").datagrid({
+function initGridCostCommon(gridName) {
+	
+	var gridHandel;
+	var costNameTitle = "";
+	var changeAmount;
+	var changeName;
+    if(gridName === "gridFitmentCost"){
+    	gridHandel = gridFitmentCostHandel;
+    	costNameTitle = "长期待摊费用";
+    	changeAmount = changeFitmentAmount;
+    	changeName = costNameFitmentChange;
+    }else if(gridName === "gridEquipmentCost"){
+    	gridHandel = gridEquipmentCostHandel;
+    	costNameTitle = "设备折旧费用";
+    	changeAmount = changeEquipmentAmount;
+    	changeName = costNameEquipmentChange;
+    }else if(gridName === "gridAmortizeCost"){
+    	gridHandel = gridAmortizeCostHandel;
+    	costNameTitle = "累计摊销费用";
+    	changeAmount = changeAmortizeAmount;
+    	changeName = costNameAmortizeChange;
+    }
+    
+    gridHandel.setGridName(gridName);
+	
+    $("#"+gridName).datagrid({
         align:'center',
         rownumbers:true,    //序号
         height:'400px',
@@ -100,13 +122,13 @@ function initGridFitmentCost() {
                 	if(row.isFooter){
 			             return '<div class="ub ub-pc">合计</div> '
 			         }
-                    var str =  '<a name="add" class="add-line" data-gridName="gridFitmentCost" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-                        '&nbsp;&nbsp;<a name="del" class="del-line" data-gridName="gridFitmentCost" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
+                    var str =  '<a name="add" class="add-line" data-gridName="'+gridName+'" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+                        '&nbsp;&nbsp;<a name="del" class="del-line" data-gridName="'+gridName+'" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
 
                     return str;
                 },
             },
-            {field: 'costName', title: '设备折旧', width: 180, align: 'left',
+            {field: 'costName', title: costNameTitle, width: 180, align: 'left',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return;
@@ -120,7 +142,7 @@ function initGridFitmentCost() {
                     type:'textbox',
                     options:{
                         prompt:"最多输入20个字符",
-                        onChange:costNameChange1
+                        onChange:changeName
                     }
                 }
             },
@@ -138,11 +160,11 @@ function initGridFitmentCost() {
                         max:999999.99,
                         prompt:"最大金额999999.99",
                         precision:2,
-                        onChange:changeCostAmount
+                        onChange:changeAmount
                     }
                 },
             },
-            {field: 'costTime', title: '均摊年限', width: 80, align: 'right',
+            {field: 'costAvgYear', title: '均摊年限', width: 80, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '';
@@ -152,336 +174,138 @@ function initGridFitmentCost() {
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:1,
-                        precision:0
+                        min:0,
+                        precision:0,
+                        onChange:changeAvgYear
                     }
                 },
             },
-            {field: 'createTime', title: '起算时间', width: 150, align: 'center',
+            {field: 'startTime', title: '起算时间', width: 150, align: 'center',
+            	formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '';
+                    }
+                    return value;
+                },
                 editor:{
                     type:'datebox',
                     options:{
+                    	editable:false,
                     	formatter:function(date){
                     		var y = date.getFullYear();
                     		var m = date.getMonth()+1;
                     		var d = date.getDate();
-                    		return y+'-'+(d<10?'0'+d:d);
+                    		return y+'-'+ (m<10?'0'+m:m) + '-'+ (d<10?'0'+d:d);
                     	}
                     }
                 },
             },
-            {field: 'remark', title: '备注', width: 120, align: 'left',editor:'textbox'},
+            {field: 'remark', title: '备注', width: 180, align: 'left',editor:'textbox'},
         ]],
+        loadFilter:function(data){
+        	data.forEach(function(obj,index){
+        		if(obj && obj.startTime){
+        			obj.startTime = new Date(obj.startTime).format('yyyy-MM-dd')
+        		}
+        	});
+        	return data;
+        },
         onClickCell:function(rowIndex,field,value){
-            gridFitmentCostHandel.setBeginRow(rowIndex);
-            gridFitmentCostHandel.setSelectFieldName(field);
+        	gridHandel.setBeginRow(rowIndex);
+            gridHandel.setSelectFieldName(field);
             var target = gridFitmentCostHandel.getFieldTarget(field);
             if(target){
-                gridFitmentCostHandel.setFieldFocus(target);
+            	gridHandel.setFieldFocus(target);
             }else{
-                gridFitmentCostHandel.setSelectFieldName("costName");
+            	gridHandel.setSelectFieldName("costName");
             }
         },
         onLoadSuccess : function(data) {
-            gridFitmentCostHandel.setDatagridHeader("center");
-            updateFitmentCostFooter();
+        	gridHandel.setDatagridHeader("center");
+        	updateCommonCostFooter(gridHandel);
         }
     })
-
 }
 
-//设备折旧费用 
-function changeCostAmount(){
-	updateFitmentCostFooter();
+if(gridName === "gridFitmentCost"){
+	gridHandel = gridFitmentCostHandel;
+	costNameTitle = "长期待摊费用";
+}else if(gridName === "gridEquipmentCost"){
+	gridHandel = gridEquipmentCostHandel;
+	costNameTitle = "设备折旧费用";
+}else if(gridName === "gridAmortizeCost"){
+	gridHandel = gridAmortizeCostHandel;
+	costNameTitle = "累计摊销费用";
 }
 
-//设备折旧费用 合计
-function updateFitmentCostFooter(){
+var avgYear = false;
+function changeAvgYear(newV,oldV){
+	if(avgYear){
+		avgYear = true;
+		return ;
+	}
+	if(parseInt(newV) > 99){
+		$_jxc.alert('均摊年限不能大于99');
+		$(this).numberbox('setValue',oldV||0);
+		return;
+	}
+	if(parseInt(newV) < 1){
+		$_jxc.alert('均摊年限不能小于1');
+		$(this).numberbox('setValue',oldV||0);
+		return;
+	}
+}
+
+//累计摊销费用
+function changeFitmentAmount(){
+	updateCommonCostFooter(gridFitmentCostHandel);
+}
+function changeEquipmentAmount(){
+	updateCommonCostFooter(gridEquipmentCostHandel);
+}
+function changeAmortizeAmount(){
+	updateCommonCostFooter(gridAmortizeCostHandel);
+}
+
+//累计摊销费用 合计
+function updateCommonCostFooter(handel){
 	var fields = {costAmount:0};
     var argWhere = {}
-    gridFitmentCostHandel.updateFooter(fields,argWhere);
+    handel.updateFooter(fields,argWhere);
 }
 
+function costNameFitmentChange(newVal, oldVal){
+	costNameCommonChange(gridFitmentCostHandel, newVal, oldVal);
+}
+function costNameEquipmentChange(newVal, oldVal){
+	costNameCommonChange(gridEquipmentCostHandel, newVal, oldVal);
+}
+function costNameAmortizeChange(newVal, oldVal){
+	costNameCommonChange(gridAmortizeCostHandel, newVal, oldVal);
+}
 
-
-
-function costNameChange1(newVal,oldVal){
-    // if($_jxc.isStringNull(newVal)){
-    //     $_jxc.alert('装修费用名称不能为空')
-    //     gridFitmentCostHandel.setFieldTextValue('costName',oldVal);
-    //     return;
-    // }
+function costNameCommonChange(handel, newVal, oldVal){
 
     if(undefined != newVal && newVal.trim().length > 20){
         $_jxc.alert('装修费用最多输入20个字符')
         newVal = newVal.substr(0,20);
     }
-    gridFitmentCostHandel.setFieldTextValue('costName',newVal);
+    handel.setFieldTextValue('costName',newVal);
 }
 
+
+function initGridFitmentCost() {
+	initGridCostCommon("gridFitmentCost");
+}
 
 function initGridEquipmentCost() {
-    gridEquipmentCostHandel.setGridName("gridEquipmentCost");
-    $("#gridEquipmentCost").datagrid({
-        align:'center',
-        rownumbers:true,    //序号
-        height:'400px',
-        width:'99%',
-        showFooter:true,
-        columns:[[
-            {field:'cz',title:'操作',width:'60px',align:'center',
-                formatter : function(value, row,index) {
-                	if(row.isFooter){
-			             return '<div class="ub ub-pc">合计</div> '
-			         }
-                    var str =  '<a name="add" class="add-line" data-gridName="gridEquipmentCost" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-                        '&nbsp;&nbsp;<a name="del" class="del-line" data-gridName="gridEquipmentCost" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-
-                    return str;
-                },
-            },
-            {field: 'costName', title: '累计摊销', width: 180, align: 'left',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return;
-                    }
-                    if(undefined != value && value.trim().length > 20){
-                        value = value.substr(0,20);
-                    }
-                    return value;
-                },
-                editor:{
-                    type:'textbox',
-                    options:{
-                        prompt:"最多输入20个字符",
-                        onChange:costNameChange2
-                    }
-                }
-            },
-            {field: 'costAmount', title: '金额', width: 120, align: 'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0.00,
-                        max:999999.99,
-                        prompt:"最大金额999999.99",
-                        precision:2,
-                        onChange:changeEquipmentAmount
-                    }
-                },
-            },
-            {field: 'costTime', title: '均摊年限', width: 80, align: 'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '';
-                    }
-                    return '<b>'+parseInt(value||0)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:1,
-                        precision:0
-                    }
-                },
-            },
-            {field: 'createTime', title: '起算时间', width: 150, align: 'center',
-                editor:{
-                    type:'datebox',
-                    options:{
-                    	formatter:function(date){
-                    		var y = date.getFullYear();
-                    		var m = date.getMonth()+1;
-                    		var d = date.getDate();
-                    		return y+'-'+(d<10?'0'+d:d);
-                    	}
-                    }
-                },
-            },
-            {field: 'remark', title: '备注', width: 120, align: 'left',editor:'textbox'},
-        ]],
-        onClickCell:function(rowIndex,field,value){
-            gridEquipmentCostHandel.setBeginRow(rowIndex);
-            gridEquipmentCostHandel.setSelectFieldName(field);
-            var target = gridEquipmentCostHandel.getFieldTarget(field);
-            if(target){
-                gridEquipmentCostHandel.setFieldFocus(target);
-            }else{
-                gridEquipmentCostHandel.setSelectFieldName("costName");
-            }
-        },
-        onLoadSuccess : function(data) {
-            gridEquipmentCostHandel.setDatagridHeader("center");
-            updateEquipmentCostFooter();
-        }
-    })
-
-    gridEquipmentCostHandel.setLoadData([$.extend({},gridDefault)]);
+	initGridCostCommon("gridEquipmentCost");
 }
 
-function costNameChange2(newVal,oldVal){
-    // if($_jxc.isStringNull(newVal)){
-    //     $_jxc.alert('设备费用名称不能为空')
-    //     gridEquipmentCostHandel.setFieldTextValue('costName',oldVal);
-    //     return;
-    // }
-
-    if(undefined != newVal && newVal.trim().length > 20){
-        $_jxc.alert('设备费用最多输入20个字符')
-        newVal = newVal.substr(0,20);
-    }
-    gridEquipmentCostHandel.setFieldTextValue('costName',newVal);
-}
-
-//累计摊销费用
-function changeEquipmentAmount(){
-	updateEquipmentCostFooter();
-}
-
-//累计摊销费用 合计
-function updateEquipmentCostFooter(){
-	var fields = {costAmount:0};
-    var argWhere = {}
-    gridEquipmentCostHandel.updateFooter(fields,argWhere);
-}
 
 function initGridAmortizeCost() {
-    gridAmortizeCostHandel.setGridName("gridAmortizeCost");
-    $("#gridAmortizeCost").datagrid({
-        align:'center',
-        rownumbers:true,    //序号
-        height:'400px',
-        width:'99%',
-        showFooter:true,
-        columns:[[
-            {field:'cz',title:'操作',width:'60px',align:'center',
-                formatter : function(value, row,index) {
-                	if(row.isFooter){
-			             return '<div class="ub ub-pc">合计</div> '
-			         }
-                    var str =  '<a name="add" class="add-line" data-gridName="gridAmortizeCost" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-                        '&nbsp;&nbsp;<a name="del" class="del-line" data-gridName="gridAmortizeCost" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-
-                    return str;
-                },
-            },
-            {field: 'costName', title: '长期待摊费用', width: 180, align: 'left',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return;
-                    }
-                    if(undefined != value && value.trim().length > 20){
-                        value = value.substr(0,20);
-                    }
-                    return value;
-                },
-                editor:{
-                    type:'textbox',
-                    options:{
-                        prompt:"最多输入20个字符",
-                        onChange:costNameChange3
-                    }
-                }
-            },
-            {field: 'costAmount', title: '金额', width: 120, align: 'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0.00,
-                        max:999999.99,
-                        prompt:"最大金额999999.99",
-                        precision:2,
-                        onChange:changeAmortizeAmount
-                    }
-                },
-            },
-            {field: 'costTime', title: '均摊年限', width: 80, align: 'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '';
-                    }
-                    return '<b>'+parseInt(value||0)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:1,
-                        precision:0
-                    }
-                },
-            },
-            {field: 'createTime', title: '起算时间', width: 150, align: 'center',
-                editor:{
-                    type:'datebox',
-                    options:{
-                    	formatter:function(date){
-                    		var y = date.getFullYear();
-                    		var m = date.getMonth()+1;
-                    		var d = date.getDate();
-                    		return y+'-'+(d<10?'0'+d:d);
-                    	}
-                    }
-                },
-            },
-            {field:'remark', title: '备注', width: 120, align: 'left',editor:'textbox'},
-        ]],
-        onClickCell:function(rowIndex,field,value){
-            gridAmortizeCostHandel.setBeginRow(rowIndex);
-            gridAmortizeCostHandel.setSelectFieldName(field);
-            var target = gridAmortizeCostHandel.getFieldTarget(field);
-            if(target){
-                gridAmortizeCostHandel.setFieldFocus(target);
-            }else{
-                gridAmortizeCostHandel.setSelectFieldName("costName");
-            }
-        },
-        onLoadSuccess : function(data) {
-            gridAmortizeCostHandel.setDatagridHeader("center");
-            updateAmortizeCostFooter();
-        }
-    })
-
-    gridAmortizeCostHandel.setLoadData([$.extend({},gridDefault)]);
+	initGridCostCommon("gridAmortizeCost");
 }
-
-function costNameChange3(newVal,oldVal){
-    // if($_jxc.isStringNull(newVal)){
-    //     $_jxc.alert('摊销费用名称不能为空');
-    //     gridAmortizeCostHandel.setFieldTextValue('costName',oldVal);
-    //     return;
-    // }
-
-    if(undefined != newVal && newVal.trim().length > 20){
-        $_jxc.alert('摊销费用最多输入20个字符')
-        newVal = newVal.substr(0,20);
-    }
-    gridAmortizeCostHandel.setFieldTextValue('costName',newVal);
-}
-
-//累计摊销费用
-function changeAmortizeAmount(){
-	updateAmortizeCostFooter();
-}
-
-//累计摊销费用 合计
-function updateAmortizeCostFooter(){
-	var fields = {costAmount:0};
-    var argWhere = {}
-    gridAmortizeCostHandel.updateFooter(fields,argWhere);
-}
-
 
 function initGridBranchCost() {
     initGridFitmentCost();
@@ -521,18 +345,39 @@ function delLineHandel(event){
     }else if(gridName === "gridAmortizeCost"){
         gridAmortizeCostHandel.delRow(index);
     }
-
 }
 
-function saveBranchCost() {
-    $("#gridFitmentCost").datagrid("endEdit", gridFitmentCostHandel.getSelectRowIndex());
-    $("#gridEquipmentCost").datagrid("endEdit", gridEquipmentCostHandel.getSelectRowIndex());
-    $("#gridAmortizeCost").datagrid("endEdit", gridAmortizeCostHandel.getSelectRowIndex());
+// 设备折旧费用
+function saveEquipmentCostList(){
+	saveBranchCostCommon("gridEquipmentCost");
+}
+
+// 累计摊销费用
+function saveAmortizeCostList(){
+	saveBranchCostCommon("gridAmortizeCost");
+}
+
+// 长期待摊费用
+function saveFitmentCostList(){
+	saveBranchCostCommon("gridFitmentCost");
+}
+
+function saveBranchCostCommon(gridName) {
+    var gridHandel;
+    if(gridName === "gridFitmentCost"){
+    	gridHandel = gridFitmentCostHandel;
+    }else if(gridName === "gridEquipmentCost"){
+    	gridHandel = gridEquipmentCostHandel;
+    }else if(gridName === "gridAmortizeCost"){
+    	gridHandel = gridAmortizeCostHandel;
+    }
+    
+    $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
 
     var formData = {};
     var isCheckResult = true;
-    var decorateCostList = gridFitmentCostHandel.getRows();
-    $.each(decorateCostList,function (index,item) {
+    var costList = gridHandel.getRows();
+    $.each(costList,function (index,item) {
         if(typeof (item.id) !="undefined"){
             if($_jxc.isStringNull(item.costName)){
                 $_jxc.alert('第'+(index+1)+'行装修费用名称不能为空')
@@ -551,11 +396,28 @@ function saveBranchCost() {
                 isCheckResult = false;
                 return false;
             }
+            
+            if(item.costAvgYear === ""){
+                $_jxc.alert('第'+(index+1)+'行费用均摊年数不能为空')
+                isCheckResult = false;
+                return false;
+            }
+            
+            if(parseInt(item.costAvgYear) <= 0){
+                $_jxc.alert('第'+(index+1)+'行费用均摊年数金额不能小于0')
+                isCheckResult = false;
+                return false;
+            }
+            
+            if(item.startTime === ""){
+                $_jxc.alert('第'+(index+1)+'行起算时间不能为空')
+                isCheckResult = false;
+                return false;
+            }
 
-        }
-        else{
-
-            if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
+        } else{
+        	
+        	if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
                 $_jxc.alert('第'+(index+1)+'行金额大于0，装修费用名称不能为空')
                 isCheckResult = false;
                 return false;
@@ -572,49 +434,21 @@ function saveBranchCost() {
                 isCheckResult = false;
                 return false;
             }
-        }
-
-    })
-
-    if(!isCheckResult) return;
-    formData.decorateCostList = gridFitmentCostHandel.getRowsWhere({costName:1});
-
-    var deviceCostList = gridEquipmentCostHandel.getRows();
-    $.each(deviceCostList,function (index,item) {
-        if(typeof (item.id) !="undefined"){
-            if($_jxc.isStringNull(item.costName)){
-                $_jxc.alert('第'+(index+1)+'行设备费用名称不能为空')
-                isCheckResult = false;
-                return false;
-            }
-
-            if(item.costAmount === ""){
-                $_jxc.alert('第'+(index+1)+'行设备费用金额不能为空')
-                isCheckResult = false;
-                return false;
-            }
-
-            if(parseFloat(item.costAmount).toFixed(2) <= 0){
-                $_jxc.alert('第'+(index+1)+'行设备费用金额不能为0')
-                isCheckResult = false;
-                return false;
-            }
-        }
-        else {
-            if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
-                $_jxc.alert('第'+(index+1)+'行金额大于0，设备费用名称不能为空')
-                isCheckResult = false;
-                return false;
-            }
-
-            if(item.costAmount === ""){
-                $_jxc.alert('第'+(index+1)+'行设备费用金额不能为空')
-                isCheckResult = false;
-                return false;
-            }
-
+            
             if(parseFloat(item.costAmount).toFixed(2) <= 0 && !$_jxc.isStringNull(item.costName)){
-                $_jxc.alert('第'+(index+1)+'行设备费用金额不能为0')
+                $_jxc.alert('第'+(index+1)+'行装修费用金额不能为0')
+                isCheckResult = false;
+                return false;
+            }
+            
+            if(parseInt(item.costAvgYear) <= 0 && !$_jxc.isStringNull(item.costName)){
+                $_jxc.alert('第'+(index+1)+'行费用均摊年数金额不能小于0')
+                isCheckResult = false;
+                return false;
+            }
+            
+            if($_jxc.isStringNull(item.startTime) && !$_jxc.isStringNull(item.costName)){
+                $_jxc.alert('第'+(index+1)+'行起算时间不能为空')
                 isCheckResult = false;
                 return false;
             }
@@ -623,55 +457,22 @@ function saveBranchCost() {
     })
 
     if(!isCheckResult) return;
-    formData.deviceCostList = gridEquipmentCostHandel.getRowsWhere({costName:1});
-
-        var amortizeCostList = gridAmortizeCostHandel.getRows();
-    $.each(amortizeCostList,function (index,item) {
-        if(typeof (item.id) !="undefined"){
-            if($_jxc.isStringNull(item.costName)){
-                $_jxc.alert('第'+(index+1)+'行摊销费用名称不能为空')
-                isCheckResult = false;
-                return false;
-            }
-
-            if(item.costAmount === ""){
-                $_jxc.alert('第'+(index+1)+'行摊销费用金额不能为空')
-                isCheckResult = false;
-                return false;
-            }
-
-            if(parseFloat(item.costAmount).toFixed(2) <= 0){
-                $_jxc.alert('第'+(index+1)+'行摊销费用金额不能为0')
-                isCheckResult = false;
-                return false;
-            }
-        }
-        else {
-            if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
-                $_jxc.alert('第'+(index+1)+'行金额大于0，摊销费用名称不能为空')
-                isCheckResult = false;
-                return false;
-            }
-            if(item.costAmount === ""){
-                $_jxc.alert('第'+(index+1)+'行摊销费用金额不能为空')
-                isCheckResult = false;
-                return false;
-            }
-            if(parseFloat(item.costAmount).toFixed(2) <= 0 && !$_jxc.isStringNull(item.costName)){
-                $_jxc.alert('第'+(index+1)+'行摊销费用金额不能为0')
-                isCheckResult = false;
-                return false;
-            }
-
-        }
-    })
-
-    if(!isCheckResult) return;
-    formData.amortizeCostList = gridAmortizeCostHandel.getRowsWhere({costName:1});
-
-    if(formData.decorateCostList.length <= 0 && formData.deviceCostList.length <= 0 && formData.amortizeCostList.length <= 0){
-        $_jxc.alert('请添加费用');
+    
+    costList = gridHandel.getRowsWhere({costName:1});
+    
+    if(costList.length <= 0){
+    	$_jxc.alert('请添加费用');
         return;
+    }
+    
+    costList = transferDate(costList);
+    
+    if(gridName === "gridFitmentCost"){
+    	formData.decorateCostList = costList;
+    }else if(gridName === "gridEquipmentCost"){
+    	formData.deviceCostList = costList;
+    }else if(gridName === "gridAmortizeCost"){
+    	formData.amortizeCostList = costList;
     }
     
     var branchId = $("#branchId").val(); 
@@ -691,6 +492,15 @@ function saveBranchCost() {
             $_jxc.alert(result['message']);
         }
     });
+}
+
+function transferDate(costList){
+	$.each(costList,function (index,item) {
+   	 	if(typeof (item.startTime) !="undefined"){
+   	 		item.startTime = item.startTime + " 00:00:00";
+   	 	}
+	});
+	return costList;
 }
 
 function saveBranch() {

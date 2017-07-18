@@ -9,6 +9,7 @@ package com.okdeer.jxc.controller.branch;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +42,7 @@ import com.okdeer.jxc.controller.BaseController;
 @Controller
 @RequestMapping("branch/branchGroup")
 public class BranchGroupController extends BaseController<BranchGroupController> {
-	
+
 	@Reference(version = "1.0.0", check = false)
 	BranchGroupServiceApi branchGroupServiceApi;
 
@@ -102,17 +103,22 @@ public class BranchGroupController extends BaseController<BranchGroupController>
 	public RespJson  saveBranchGroup(@RequestBody String goodsJson) {
 		LOG.debug("保存门店分组参数：{}",goodsJson);
 		try {
-//			BranchGroup group=JacksonUtil.toEntity(goodsJson, BranchGroup.class);
+			//BranchGroup group=JacksonUtil.toEntity(goodsJson, BranchGroup.class);
 			BranchGroup	 group=GsonUtils.fromJson(goodsJson, BranchGroup.class);
-			return  branchGroupServiceApi.addBranchGroup(group, getCurrUserId());
+			if(StringUtils.isEmpty( group.getId())){
+				
+				return  branchGroupServiceApi.addBranchGroup(group, getCurrUserId());
+			}else{
+				return  branchGroupServiceApi.updateBranchGroup(group, getCurrUserId());
+			}
 		}
 		catch (Exception e) {
 			LOG.error("保存门店分组出现异常：{}",e);
 			return RespJson.error("保存门店分组出现异常");
 		}
 	}
-	
-	
+
+
 	/**
 	 * @Description: 保存分组门店信息
 	 * @param goodsJson

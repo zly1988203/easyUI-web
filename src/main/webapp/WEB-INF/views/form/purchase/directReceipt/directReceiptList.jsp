@@ -17,18 +17,17 @@
 	            <div class="ubtns">
 					<div class="ubtns-item" onclick="query()">查询</div>
 				<shiro:hasPermission name="JxcDirectReceipt:add">
-	                <div class="ubtns-item" onclick="directAdd()">新增</div>
+	                <div class="ubtns-item event-none" id="addBtn" onclick="directAdd()">新增</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcDirectReceipt:delete">
-	                <div class="ubtns-item" onclick="directDelete()">删除</div>
+	                <div class="ubtns-item" id="delBtn" onclick="directDelete()">删除</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcDirectReceipt:print">
-	                <div class="ubtns-item" onclick="printList()">打印</div>
+	                <div class="ubtns-item" id="printBtn" onclick="printList()">打印</div>
 	            </shiro:hasPermission>
 	            <div class="ubtns-item" onclick="gFunRefresh()">设置</div>
 	            <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
-	            
 	            <!-- 引入时间选择控件 -->
 	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
 	        </div>
@@ -49,27 +48,25 @@
 					<div class="uinp-more" onclick="selectOperator()">...</div>
 	            </div>
 	        </div>
-	        
 	       <div class="ub umar-t8">
-	             <div class="ub ub-ac umar-r40">
+	           <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">单号:</div>
 	                <input class="uinp" name="formNo" id="formNo" type="text">
-	            </div>
-	            <div class="ub ub-ac umar-r40">
-	               <div class="umar-r10 uw-60 ut-r">供应商:</div>
-						<input class="uinp" name="supplierId" id="supplierId" type="hidden">
-						<input type="hidden" id="oldSupplierName"/>
-						<input class="uinp ub ub-f1" type="text" id="supplierName" name="supplierName" maxlength="50">
-						<div class="uinp-more" onclick="selectSupplier()">...</div>
-	            </div>
+	           </div>
+	           <div class="ub ub-ac umar-r40">
+               <div class="umar-r10 uw-60 ut-r">供应商:</div>
+					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
+					<input type="hidden" id="oldSupplierName"/>
+					<input class="uinp ub ub-f1" type="text" id="supplierName" name="supplierName" maxlength="50">
+					<div class="uinp-more" onclick="selectSupplier()">...</div>
+               </div>
 	        </div>
 	        
 	        <div class="ub umar-t8">
                <div class="ub ub-ac uw-584">
-	                    <div class="umar-r10 uw-60 ut-r">备注:</div>
-	                    <input class="uinp ub ub-f1" name="remark" id="remark" type="text" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" maxlength="40">
+                    <div class="umar-r10 uw-60 ut-r">备注:</div>
+                    <input class="uinp ub ub-f1" name="remark" id="remark" type="text" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" maxlength="40">
 	           </div>
-	           
 	          <div class="ub ub-ac umar-l20">
 	                <div class="umar-r10 uw-60 ut-r">审核状态:</div>
 	                <div class="ub ub-ac umar-r10">
@@ -82,14 +79,22 @@
 	                    <input class="radioItem" type="radio" name="status" id="status_all" value=""/><label for="status_all">全部</label>
 	                </div>
 	            </div>
-	           
             </div>
-
-
         </form>
-        <div class="ub uw umar-t8 ub-f1">
-            <table id="gridDirectList"></table>
+        <div class="ub ub-f1  umar-t8 umar-b8">
+            <div id="tabs" class="easyui-tabs" data-options="fit:true,border:false,tabWidth:120,tabHeight:25" style="">
+	            <div title="待处理采购订单" data-options="tabWidth:158"  id="pending" style="height: auto;">
+	                <table id="receiptOrderList"></table>
+	            </div> 
+	            <div title="直送收货单" id="processed" style="padding: 5px; height: auto;">
+	                <table id="gridDirectList"></table>
+	            </div>
+        	</div>
         </div>
+        
+<!--         <div class="ub uw umar-t8 ub-f1"> -->
+<!--             <table id="gridDirectList"></table> -->
+<!--         </div> -->
 
     </div>
 </body>
