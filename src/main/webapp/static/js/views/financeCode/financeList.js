@@ -145,21 +145,70 @@ function closeOperationDialog(){
 
 //保存机构运营费用
 function saveCost(){
-	var _costName = $.trim($('#costName').val())||'';
-	if(!_costName){
-		$_jxc.alert('运营费用名称不能为空');
-		return;
-	}
-	var treeObj = $.fn.zTree.getZTreeObj("treefinances");
-	var newNode = {text:_costName};
-	newNode = treeObj.addNodes(selectNode, newNode);
+//	var _typeName = $.trim($('#typeName').val())||'';
+//	if(!_typeName){
+//		$_jxc.alert('运营费用名称不能为空');
+//		return;
+//	}
+//	var treeObj = $.fn.zTree.getZTreeObj("treefinances");
+//	var newNode = {text:_typeName};
+//	newNode = treeObj.addNodes(selectNode, newNode);
 	
-	closeOperationDialog();
+    if($_jxc.isStringNull($("#typeName").val())){
+        $_jxc.alert("名称不能为空");
+        return;
+    }
+    
+    var type = 'add';
+    
+	var addUrl = contextPath+'/archive/financeCode/addDictType'; 
+	var updateUrl = contextPath+'/archive/financeCode/updateDictType';
+	var data = {
+        parentId: selectNode.id,
+        typeName:$("#typeName").val().trim()
+    }
+    if(type === "edit"){
+        data.id = $("#id").val();
+    }
+	var param = {
+		url:type === "add"?addUrl:updateUrl,
+		data:data
+	}
+	$_jxc.ajax(param,function (result) {
+        if(result['code'] == 0){
+            //queryFinanceCode();
+        	initTreeFinance();
+            $_jxc.alert("保存成功");
+            closeOperationDialog();
+        }else{
+            $_jxc.alert(result['message']);
+        }
+    },function (e) {
+
+    });
+	
 }
 
 //删除 机构运营费用 子节点
 function delCostItem(){
 	console.log('selectNode',selectNode);
+	
+	var param = {
+        url: contextPath + "/archive/financeCode/deleteDictType",
+        data: {
+            id: selectNode.id
+        }
+    }
+
+    $_jxc.ajax(param, function (result) {
+    	initTreeFinance();
+        if (result['code'] == 0) {
+            $_jxc.alert("删除成功");
+        } else {
+            $_jxc.alert(result['message']);
+
+        }
+    });
 	
 //	var param = {
 //		url:'xxx',
