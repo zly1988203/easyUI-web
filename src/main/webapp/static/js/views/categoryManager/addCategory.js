@@ -18,7 +18,7 @@ function save() {
 		data : formObj
 	},function(result){
 		if(result.code == 0){
-			alertTip(result.message, initTreeArchives);
+            $_jxc.alert(result.message, initTreeArchives);
 			var flag = $("input[type='checkbox']").is(':checked');
 			if(flag){
 				$('#saveCategory').removeAttr("disabled");

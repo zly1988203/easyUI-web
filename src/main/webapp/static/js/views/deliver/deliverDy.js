@@ -135,6 +135,19 @@ function initDatagridRequireOrder(){
         },
     })
 
+    gridHandel.checkTextLength({
+        title:"备注",
+        maxLength:20,
+        enterName:"remark"
+    })
+
+    // gridHandel.checkNumberVal({
+    //     title:"箱数",
+    //     maxValue:99,
+    //     minValue:1,
+    //     enterName:"largeNum"
+    // })
+
     $("#"+gridName).datagrid({
         method:'post',
     	//url:url,

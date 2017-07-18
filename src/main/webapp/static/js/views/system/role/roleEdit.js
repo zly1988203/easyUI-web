@@ -13,7 +13,7 @@ function updateRole(){
         data:reqObj
     },function(result){
     	if(result){
-			alertTip(result.message, reloadDataGrid);
+            $_jxc.alert(result.message,reloadDataGrid);
 			initTreeRoles();
 		}
     });

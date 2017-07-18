@@ -1121,13 +1121,67 @@ function GridClass(){
         $("#"+gridName).datagrid({}).datagrid("keyCtr");
     }
 
-    this.bindblur = function (params) {
-        $.extend($.fn.datagrid.method,{
-                keyBlur:function (jq) {
-                    
-                }
-            });
+    this.checkTextLength = function (params) {
+        $.extend($.fn.datagrid.methods,{
+            textChange:function (jq) {
+                return jq.each(function () {
+                    $(this).datagrid('getPanel').panel('panel').attr('tabindex', 1).bind("change",function (e) {
+                            if(params&&selectFieldName==params.enterName){
+                                   var val = e.target.value;
+                                   if($_jxc.isStringNull(val)){
+                                       if(val.length > params.maxLength){
+                                           $_jxc.alert(params.title+"最大只能输入"+params.maxLength+"个字符")
+                                           val = val.substr(0,params.maxLength);
+                                           _this.setFieldTextValue(params.enterName,val);
+                                       }
+                                       if(val.length < params.minLength){
+                                           $_jxc.alert(params.title+"最少输入"+params.minLength+"个字符")
+                                           // val = val.substr(0,params.maxLength);
+                                           // _this.setFieldTextValue(params.enterName,val);
+                                       }
+                                   }
+
+                            }
+
+                        })
+                    })
+            }
+        });
+        $("#"+gridName).datagrid({}).datagrid("textChange");
     }
+
+    this.checkNumberVal = function (params) {
+        $.extend($.fn.datagrid.methods,{
+            numberChange:function (jq) {
+                return jq.each(function () {
+                    $(this).datagrid('getPanel').panel('panel').attr('tabindex', 1).bind("change",function (e) {
+                        if(params&&selectFieldName==params.enterName){
+                            var val = parseFloat(e.target.value);
+                            if(isNaN(val)){
+                                $_jxc.alert("数据输入错误，请输入数字")
+                            }else{
+                                if( val > params.maxValue){
+                                    $_jxc.alert(params.title+"最大只能输入"+params.maxValue)
+                                    val = val.substr(0,params.maxValue);
+                                    _this.setFieldValue(params.enterName,val);
+
+                                }
+                                if(val < params.minValue){
+                                    $_jxc.alert(params.title+"最小只能输入"+params.minValue)
+                                    val = val.substr(0,params.minValue);
+                                    _this.setFieldValue(params.enterName,val);
+                                }
+                            }
+                        }
+
+                    })
+                })
+            }
+        });
+        $("#"+gridName).datagrid({}).datagrid("numberChange");
+    }
+
+
     /**
      * 获取左右边单元名称
      * @param index    行号

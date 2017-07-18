@@ -48,12 +48,11 @@ var loadFlag = false;
 var oldParam; //保存旧的分页参数
 function initOperateDataGrid(url){
 	 gridHandel.setGridName(gridName);
-	    gridHandel.initKey({
-	        firstName:'skuCode',
-	        enterName:'skuCode',
-	        enterCallBack:function(arg){
-	        },
-	    })
+            gridHandel.checkTextLength({
+                title:"差异原因",
+                maxLength:20,
+                enterName:"differenceReason"
+            })
 	    dg = $("#"+gridName).datagrid({
         method:'get',
     	url:url,
@@ -135,7 +134,7 @@ function initOperateDataGrid(url){
 	                type:'textbox',
 	                options:{
 	                	disabled:isdisabled,
-                        onChange:reasonChange
+                        // onChange:reasonChange
 	                }
             	}},
             {field:'snapshootCostPrice',title:'原库存成本价',width:'120px',align:'right',
