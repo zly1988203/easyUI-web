@@ -2412,7 +2412,21 @@ function publicBranchesService(param,callback,cbDom){
 	}else{
 		publicBranchesServiceHandel(param,callback,cbDom);
 	}
-	
+}
+
+/**
+ * 2.7 bwp
+ * 获取分组机构 详细
+ * @param arg
+ * @param cb
+ */
+function publicGetBranchGroupDetail(arg,cb){
+	$_jxc.ajax({
+		url:contextPath+'/branch/branchGroup/queryGrouBranchs',
+		data:arg
+	},function(result){
+		cb.call(window,result);
+	})
 }
 
 function publicBranchesServiceHandel(param,callback,cbDom){
@@ -2603,7 +2617,6 @@ function publicSuppliersService(param,callback,cbDom){
 	}else{
 		publicSuppliersServiceHandel(param,callback,cbDom);
 	}
-	
 }
 
 function publicSuppliersServiceHandel(param,callback,cbDom){
