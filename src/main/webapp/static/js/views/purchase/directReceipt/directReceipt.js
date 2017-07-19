@@ -60,7 +60,6 @@ $(function(){
 		//已审核 不给编辑
 		isEdit = true;
 		$('#already-examine').css('display','black');
-        $('#remark').prop('readOnly','readOnly');
         $('#btnSave').addClass("uinp-no-more");
         $('#btnSave').prop('disabled','disabled ');
 	}
@@ -1070,7 +1069,7 @@ function selectPurchaseForm(){
         $("#branchName").val(data.form.branchName);
         //采购员
         $("#salesmanId").val(data.form.salesmanId);
-        $("#operateUserName").val(data.form.salesmanName);
+        $("#salesmanName").val(data.form.salesmanName);
 		$("#refFormId").val(data.form.id);
 		
 		//2.7
