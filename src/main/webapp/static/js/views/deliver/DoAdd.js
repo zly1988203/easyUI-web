@@ -85,6 +85,7 @@ function initDatagridAddRequireOrder(){
             }
         },
     })
+
     $("#gridEditOrder").datagrid({
         //title:'普通表单-用键盘操作',
         //method:'get',
@@ -309,7 +310,14 @@ function initDatagridAddRequireOrder(){
                     return  "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
                 },
             },
-            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+            {field:'remark',title:'备注',width:'200px',align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -703,6 +711,12 @@ function saveOrderbtn(){
  
     //验证表格数据
     $("#gridEditOrder").datagrid("endEdit", gridHandel.getSelectRowIndex());
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
 
     var footerRows = $("#gridEditOrder").datagrid("getFooterRows");
     if(footerRows){

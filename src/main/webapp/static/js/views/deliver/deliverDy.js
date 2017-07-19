@@ -135,19 +135,6 @@ function initDatagridRequireOrder(){
         },
     })
 
-    gridHandel.checkTextLength({
-        title:"备注",
-        maxLength:20,
-        enterName:"remark"
-    })
-
-    // gridHandel.checkNumberVal({
-    //     title:"箱数",
-    //     maxValue:99,
-    //     minValue:1,
-    //     enterName:"largeNum"
-    // })
-
     $("#"+gridName).datagrid({
         method:'post',
     	//url:url,
@@ -407,7 +394,14 @@ function initDatagridRequireOrder(){
 
             }
         },*/
-            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+            {field:'remark',title:'备注',width:'200px',align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -752,6 +746,7 @@ function saveOrder(){
         $_jxc.alert("表格不能为空");
         return;
     }
+
     var isCheckResult = true;
     $.each(rows,function(i,v){
         if(!v["skuCode"]){
@@ -774,6 +769,13 @@ function saveOrder(){
     if(!isCheckResult){
         return;
     }
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
+
     var saveData = JSON.stringify(rows);
     var reqObj = {
     	formType:'DY',
@@ -870,6 +872,7 @@ function updateOrder(){
         $_jxc.alert("表格不能为空");
         return;
     }
+
     var isCheckResult = true;
     $.each(rows,function(i,v){
         if(!v["skuCode"]){
@@ -892,6 +895,12 @@ function updateOrder(){
     if(!isCheckResult){
         return;
     }
+
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
+
     var saveData = JSON.stringify(rows);
     //var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
     var reqObj = {

@@ -397,7 +397,14 @@ function initDatagridRequireOrder(){
                 }
             },
 
-            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+            {field:'remark',title:'备注',width:'200px',align:'left',
+                editor:{
+                type:'textbox',
+                options:{
+                    validType:{maxLength:[20]},
+                 }
+                }
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -780,6 +787,12 @@ function saveOrder(){
         $_jxc.alert("表格不能为空");
         return;
     }
+
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
+
     var isCheckResult = true;
     $.each(rows,function(i,v){
         if(!v["skuCode"]){
