@@ -50,6 +50,16 @@ $(function() {
         // input禁用,a标签移除事件，增加“已审核”标志
         datagridUtil.readOnlyInput();
     }
+    
+    $('#branchGroup').branchSelect({
+    	param:{
+    		selectType:1, //数据选择模式类型  null/''/0-->单选(默认)   1多选
+    		view:'group', //分组
+    	},
+    	onAfterRender:function(data){
+    		console.log('data',data);
+     	}
+    })
 
 });
 

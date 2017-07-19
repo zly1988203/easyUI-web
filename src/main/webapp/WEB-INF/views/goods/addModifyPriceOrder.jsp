@@ -42,11 +42,9 @@
 					<shiro:hasPermission name="JxcPriceAdjust:audit">
 						<div class="ubtns-item" id="check" onclick="check();">审核</div>
 					</shiro:hasPermission>
-					<div class="ubtns-item" id="selectGoodsDialog"
-						onclick="selectGoodsDialog();">商品选择</div>
+					<div class="ubtns-item" id="selectGoodsDialog" onclick="selectGoodsDialog();">商品选择</div>
 					<shiro:hasPermission name="JxcPriceAdjust:delete">
-						<div class="ubtns-item" id="delModifyOrderDialog"
-							onclick="delModifyOrderDialog();">删除</div>
+						<div class="ubtns-item" id="delModifyOrderDialog" onclick="delModifyOrderDialog();">删除</div>
 					</shiro:hasPermission>
 				</c:if>
 				<shiro:hasPermission name="JxcPriceAdjust:exportDetail">
@@ -59,10 +57,8 @@
 				<c:if test="${goodsPriceForm.status !=1 }">
 					<!-- <div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div> -->
 					<shiro:hasPermission name="JxcPriceAdjust:importDetail">
-						<div class="ubtns-item" id="importdetail"
-							onclick="toImportproduct(0)">导入货号</div>
-						<div class="ubtns-item" id="importdetail"
-							onclick="toImportproduct(1)">导入条码</div>
+						<div class="ubtns-item" id="importdetail" onclick="toImportproduct(0)">导入货号</div>
+						<div class="ubtns-item" id="importdetail" onclick="toImportproduct(1)">导入条码</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 				</c:if>
@@ -78,29 +74,16 @@
 		</div>
 		<div class="ub uline umar-t8"></div>
 		<form action="" id="searchForm" method="post">
-			<input id="formNoInput" name="formNo"
-				value="${goodsPriceForm.formNo}" type="hidden"> <input
-				id="id" name="id" value="${goodsPriceForm.id}" type="hidden">
+			<input id="formNoInput" name="formNo" value="${goodsPriceForm.formNo}" type="hidden">
+			<input id="id" name="id" value="${goodsPriceForm.id}" type="hidden">
+			<input class="uinp ub ub-f1" name="loginBranchId" type="hidden" value="${loginBranchId}" id="loginBranchId">
 			<div class="ub ub-ver umar-t12">
 				<div class="ub">
-					<%--<div class="ub ub-ac uw-300">
-						<div class="umar-r10 uw-70 ut-r">区域:</div>
-						<input class="uinp ub ub-f1" type="text" name="branchAreaName"
-							id="areaName" onclick="selectBranchArea();"
-							value="${branchAreaCodeName}" readonly> <input
-							class="uinp ub ub-f1" name="branchAreaId"
-							value="${goodsPriceForm.branchAreaId}" type="hidden"
-							id="areaInput">
-						<div class="uinp-more" onclick="selectBranchArea();">...</div>
-					</div>
-					<i class="ub ub-ac uc-red">*</i>--%>
-
-					<div class="ub ub-ac uw-608">
+					<div class="ub ub-ac uw-608" id="branchGroup">
 						<div class="umar-r10 uw-70 ut-r">机构列表:</div>
-						<input class="uinp ub ub-f1" name="loginBranchId" type="hidden" value="${loginBranchId}" id="loginBranchId">
 						<input class="uinp ub ub-f1" name="branchId" type="hidden" id="branchId" value="${branchId}">
-						<input class="uinp ub ub-f1" name="branchName" type="text" value="${branchName}" onmouseout="this.title=this.value" onclick="selectBranch();" id="branchShopName" readonly>
-						<div class="uinp-more" onclick="selectBranch();">...</div>
+						<input class="uinp ub ub-f1" name="branchName" type="text" value="${branchName}" onmouseout="this.title=this.value" id="branchShopName" readonly>
+						<div class="uinp-more">...</div>
 					</div>
 					<div class="ub ub-ac umar-l28 uw-200">
 						<div class="umar-r10 uw-70 ut-r">制单人员:</div>
