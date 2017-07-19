@@ -1,4 +1,5 @@
-package com.okdeer.jxc.controller.goods;  
+
+package com.okdeer.jxc.controller.goods;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +45,8 @@ import com.okdeer.jxc.report.vo.GoodsReportVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
+import net.sf.json.JSONObject;
+
 /**
  * 
  * ClassName: GoodsBatchUpdateController 
@@ -63,17 +64,17 @@ import com.okdeer.jxc.utils.UserUtil;
 public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateController> {
 
 	@Autowired
-	private GoodsSelectImportComponent goodsSelectImportComponent; 
-	
+	private GoodsSelectImportComponent goodsSelectImportComponent;
+
 	@Reference(version = "1.0.0", check = false)
 	private GoodsBatchUpdateServiceApi goodsBatchUpdateServiceApi;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	private BranchesServiceApi branchesServiceApi;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	private GoodsReportService goodsReportService;
-	
+
 	/**
 	 * 
 	 * @Description: 跳转到商品属性批量修改页
@@ -82,10 +83,10 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 	 * @date 2017年4月1日
 	 */
 	@RequestMapping(value = "/index")
-	private String toBatchUpdatePage(){
+	private String toBatchUpdatePage() {
 		return "/goods/goodsBatchUpdate";
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 导入条码或货号
@@ -119,51 +120,51 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 			String[] fields = null;
 
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
-				fields = new String[] { "skuCode"};
+				fields = new String[] { "skuCode" };
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
-				fields = new String[] { "barCode"};
+				fields = new String[] { "barCode" };
 			}
-			
-			//错误下载地址
+
+			// 错误下载地址
 			String errorFileDownloadUrlPrefix = "/goods/batchUpdate/download/downloadErrorFile";
-			
+
 			GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, fields,
-				new GoodsBatchUpdateImportVo(), branchId, user.getId(), type, errorFileDownloadUrlPrefix,
-				new GoodsSelectImportBusinessValid() {
-					@Override
-					public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
-						
-					}
+					new GoodsBatchUpdateImportVo(), branchId, user.getId(), type, errorFileDownloadUrlPrefix,
+					new GoodsSelectImportBusinessValid() {
 
-					@Override
-					public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
-							List<JSONObject> excelListErrorData) {
-					}
+						@Override
+						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
 
-					@Override
-					public void errorDataFormatter(List<JSONObject> list) {
-						
-					}
-				}, null);
-			
-			//barcode 列表
-			List<String> barCodeList= new ArrayList<String>();
+						}
+
+						@Override
+						public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
+								List<JSONObject> excelListErrorData) {
+						}
+
+						@Override
+						public void errorDataFormatter(List<JSONObject> list) {
+
+						}
+					}, null);
+
+			// barcode 列表
+			List<String> barCodeList = new ArrayList<String>();
 			List<GoodsSelect> list = vo.getList();
 			for (GoodsSelect goodsSelect : list) {
 				barCodeList.add(goodsSelect.getBarCode());
 			}
-			
-			//导入列表
+
+			// 导入列表
 			GoodsReportQo qo = new GoodsReportQo();
 			qo.setBranchId(branchId);
 			qo.setBarCodeList(barCodeList);
 			List<GoodsReportVo> importList = goodsReportService.queryList(qo);
-			
-			
-			Map<String,Object> newVo = new HashMap<String,Object>();
-			newVo.put("list",importList);
-			newVo.put("message",vo.getMessage());
-			newVo.put("errorFileUrl",vo.getErrorFileUrl());
+
+			Map<String, Object> newVo = new HashMap<String, Object>();
+			newVo.put("list", importList);
+			newVo.put("message", vo.getMessage());
+			newVo.put("errorFileUrl", vo.getErrorFileUrl());
 			respJson.put("importInfo", newVo);
 
 		} catch (IOException e) {
@@ -175,7 +176,7 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 		}
 		return respJson;
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 导入模版下载
@@ -184,8 +185,8 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 	 * @author zhangq
 	 * @date 2017年4月5日
 	 */
-    @RequestMapping(value = "/importTemplate")
-    public void exportTemp(HttpServletResponse response,String type) {
+	@RequestMapping(value = "/importTemplate")
+	public void exportTemp(HttpServletResponse response, String type) {
 		try {
 			String fileName;
 			String templateName;
@@ -201,17 +202,17 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 			LOG.error("查看调价订单导入模板异常", e);
 		}
 	}
-    
-    /**
-     * 
-     * @Description: 下载错误信息
-     * @param code
-     * @param type
-     * @param response   
-     * @return void  
-     * @author zhangq
-     * @date 2017年4月5日
-     */
+
+	/**
+	 * 
+	 * @Description: 下载错误信息
+	 * @param code
+	 * @param type
+	 * @param response   
+	 * @return void  
+	 * @author zhangq
+	 * @date 2017年4月5日
+	 */
 	@RequestMapping(value = "/download/downloadErrorFile")
 	public void downloadErrorFile(String code, String type, HttpServletResponse response) {
 		String reportFileName = "错误数据";
@@ -226,8 +227,7 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 		}
 		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
-   
-	
+
 	/**
 	 * 
 	 * @Description: 批量更新
@@ -239,25 +239,26 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson save(@RequestBody String jsonText) {
-		//解析页面参数
-		GoodsBatchUpdateVo vo = JSON.parseObject(jsonText,new TypeReference<GoodsBatchUpdateVo>(){});
-		
-		//验证数据合法性
+		// 解析页面参数
+		GoodsBatchUpdateVo vo = JSON.parseObject(jsonText, new TypeReference<GoodsBatchUpdateVo>() {
+		});
+
+		// 验证数据合法性
 		RespJson resp = validSave(vo);
-		if(!resp.isSuccess()){
+		if (!resp.isSuccess()) {
 			return resp;
 		}
-		
-		//其他参数
+
+		// 其他参数
 		vo.setUpdateUserId(UserUtil.getCurrUserId());
 		vo.setUpdateTime(DateUtils.getCurrDate());
-		if(null != vo.getSupplierRate()){
+		if (null != vo.getSupplierRate()) {
 			vo.setSupplierRate(vo.getSupplierRate().divide(new BigDecimal(Constant.STRING_ONE_HUNDRED)));
 		}
-		
+
 		return goodsBatchUpdateServiceApi.batchUpdate(vo);
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 批量更新验证
@@ -266,46 +267,60 @@ public class GoodsBatchUpdateController extends BaseController<GoodsBatchUpdateC
 	 * @author zhangq
 	 * @date 2017年4月4日
 	 */
-	private RespJson validSave(GoodsBatchUpdateVo vo){
-		//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C) 
+	private RespJson validSave(GoodsBatchUpdateVo vo) {
+		// 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
 		Branches branch = branchesServiceApi.getBranchInfoById(vo.getBranchId());
-		
-		//总部仅可修改：是否管理库存、是否高值商品、是否关注商品、修改商品类别、修改商品品牌
-		if(branch.getType() == 0 && !(vo.isManagerStockChecked() || vo.isHighValueChecked() || vo.isAttentionChecked() || vo.isCategoryChecked() || vo.isBrandChecked())){
-			return RespJson.error("是否管理库存、是否高值商品、是否关注商品、修改商品类别、修改商品品牌,请至少勾选一项。");
+
+		// 总部仅可修改：是否管理库存、是否高值商品、是否关注商品、修改商品类别、修改商品品牌、进货规格、配送规格
+		if (branch.getType() == 0 && !(vo.isManagerStockChecked() || vo.isHighValueChecked() || vo.isAttentionChecked()
+				|| vo.isCategoryChecked() || vo.isBrandChecked() || vo.isPurchaseChecked()
+				|| vo.isDistributionChecked())) {
+			return RespJson.error("是否管理库存、是否高值商品、是否关注商品、修改商品类别、修改商品品牌、修改进货规格、修改配送规格,请至少勾选一项。");
 		}
-		
-		//分公司仅可修改：是否参与促销、是否直送商品、分店调价、安全库存系数、修改主供应商
-		if(branch.getType() == 1 && 
-			!(vo.isAllowActivityChecked() || vo.isFastDeliverChecked() || vo.isAllowAdjustChecked() ||vo.isSafetyCoefficientChecked() || vo.isSupplierChecked())){
-			return RespJson.error("是否参与促销、是否直送商品、分店调价、安全库存系数、修改主供应商,请至少勾选一项。");
+
+		// 分公司仅可修改：是否参与促销、是否直送商品、分店调价、安全库存系数、修改主供应商、进货规格、配送规格
+		if (branch.getType() == 1 && !(vo.isAllowActivityChecked() || vo.isFastDeliverChecked()
+				|| vo.isAllowAdjustChecked() || vo.isSafetyCoefficientChecked() || vo.isSupplierChecked()
+				|| vo.isPurchaseChecked() || vo.isDistributionChecked())) {
+			return RespJson.error("是否参与促销、是否直送商品、分店调价、安全库存系数、修改主供应商、修改进货规格、修改配送规格,请至少勾选一项。");
 		}
-		
-		//门店仅可修改：安全库存系数、修改主供应商
-		if((branch.getType() == 3 || branch.getType() == 4 || branch.getType() == 5)
-			&&!(vo.isSafetyCoefficientChecked() || vo.isSupplierChecked())){
+
+		// 门店仅可修改：安全库存系数、修改主供应商
+		if ((branch.getType() == 3 || branch.getType() == 4 || branch.getType() == 5)
+				&& !(vo.isSafetyCoefficientChecked() || vo.isSupplierChecked())) {
 			return RespJson.error("安全库存系数、修改主供应商,请至少勾选一项。");
 		}
-		
-		//安全库存系数未填写
-		if(vo.isSafetyCoefficientChecked() && null == vo.getSafetyCoefficient()){
+
+		// 安全库存系数未填写
+		if (vo.isSafetyCoefficientChecked() && null == vo.getSafetyCoefficient()) {
 			return RespJson.error("安全库存系数未填写。");
 		}
-		
-		//商品类别未选择
-		if(vo.isCategoryChecked() && StringUtils.isBlank(vo.getCategoryId())){
+
+		// 商品类别未选择
+		if (vo.isCategoryChecked() && StringUtils.isBlank(vo.getCategoryId())) {
 			return RespJson.error("商品类别未选择。");
 		}
-		
-		//商品品牌未选择
-		if(vo.isBrandChecked() && StringUtils.isBlank(vo.getBrandId())){
+
+		// 商品品牌未选择
+		if (vo.isBrandChecked() && StringUtils.isBlank(vo.getBrandId())) {
 			return RespJson.error("商品品牌未选择。");
 		}
-		
-		//主供应商未选择
-		if(vo.isSupplierChecked() && StringUtils.isBlank(vo.getSupplierId())){
+
+		// 主供应商未选择
+		if (vo.isSupplierChecked() && StringUtils.isBlank(vo.getSupplierId())) {
 			return RespJson.error("主供应商未选择。");
 		}
+
+		// 进货规格未填写
+		if (vo.isPurchaseChecked() && null == vo.getPurchaseSpec()) {
+			return RespJson.error("进货规格未填写。");
+		}
+
+		// 配送规格未填写
+		if (vo.isDistributionChecked() && null == vo.getDistributionSpec()) {
+			return RespJson.error("配送规格未填写。");
+		}
+
 		return RespJson.success();
 	}
 
