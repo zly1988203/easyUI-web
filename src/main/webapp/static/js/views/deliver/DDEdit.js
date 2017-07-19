@@ -73,6 +73,7 @@ function initDatagridEditRequireOrder(){
             }
         },
     })
+
 	var formId = $("#formId").val();
     $("#gridEditRequireOrder").datagrid({
         method:'post',
@@ -185,7 +186,14 @@ function initDatagridEditRequireOrder(){
                     }
                 }
             },
-            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+            {field:'remark',title:'备注',width:'200px',align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);

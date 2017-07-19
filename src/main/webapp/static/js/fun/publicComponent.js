@@ -1133,11 +1133,13 @@ function GridClass(){
                                            $_jxc.alert(params.title+"最大只能输入"+params.maxLength+"个字符")
                                            val = val.substr(0,params.maxLength);
                                            _this.setFieldTextValue(params.enterName,val);
+                                           params.enterCallBack();
                                        }
                                        if(val.length < params.minLength){
                                            $_jxc.alert(params.title+"最少输入"+params.minLength+"个字符")
                                            // val = val.substr(0,params.maxLength);
                                            // _this.setFieldTextValue(params.enterName,val);
+                                           params.enterCallBack();
                                        }
                                    }
 
@@ -1159,17 +1161,21 @@ function GridClass(){
                             var val = parseFloat(e.target.value);
                             if(isNaN(val)){
                                 $_jxc.alert("数据输入错误，请输入数字")
+                                params.enterCallBack();
                             }else{
                                 if( val > params.maxValue){
                                     $_jxc.alert(params.title+"最大只能输入"+params.maxValue)
                                     val = val.substr(0,params.maxValue);
                                     _this.setFieldValue(params.enterName,val);
+                                    params.enterCallBack();
 
                                 }
                                 if(val < params.minValue){
                                     $_jxc.alert(params.title+"最小只能输入"+params.minValue)
                                     val = val.substr(0,params.minValue);
                                     _this.setFieldValue(params.enterName,val);
+                                    params.enterCallBack();
+
                                 }
                             }
                         }

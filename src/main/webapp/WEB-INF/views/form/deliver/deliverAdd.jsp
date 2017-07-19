@@ -10,9 +10,11 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/deliver/deliver.js?V=${versionNo}&v=2.6.4"></script>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="ub ub-ver ufs-14 uc-black">
+
 <input type='hidden' id="deliverStatus" value="add">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
+
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
             	<shiro:hasPermission name="JxcDeliverDA:add">
@@ -107,10 +109,13 @@
                
            </div>
            <%--datagrid-edit--%>
-           <div class="ub ub-f1 datagrid-edit umar-t8">
+            <from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+
             <table id="gridRequireOrder" ></table>
-        </div>
+
+            </from>
     </div>
+
 
 </body>
 </html>

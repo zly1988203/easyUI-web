@@ -12,8 +12,9 @@
 	<script src="${ctx}/static/js/views/deliver/deliverExport.js?V=${versionNo}"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="ub ub-ver ufs-14 uc-black">
 <input type='hidden' id="deliverStatus" value="edit">
+
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
@@ -104,9 +105,9 @@
 				<div class="utxt"><fmt:formatDate value="${form.validTime}" pattern="yyyy-MM-dd HH:mm"/></div>
 			</div>
         </div>
-        <div class="ub ub-f1 datagrid-edit umar-t8">
-            <table id=gridRequireOrder ></table>
-        </div>
+        <from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+                <table id=gridRequireOrder ></table>
+        </from>
     </div>
 
 </body>

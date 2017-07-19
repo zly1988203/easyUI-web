@@ -72,6 +72,7 @@ function initDatagridEditRequireOrder(){
             }
         },
     })
+
 	var formId = $("#formId").val();
     $("#gridEditRequireOrder").datagrid({
         //title:'普通表单-用键盘操作',
@@ -230,7 +231,14 @@ function initDatagridEditRequireOrder(){
                     }
                 },
             },
-            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+            {field:'remark',title:'备注',width:'200px',align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
         	gridHandel.setBeginRow(rowIndex);
@@ -539,6 +547,13 @@ function saveOrder(){
     if(!isCheckResult){
         return;
     }
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
+
     var saveData = JSON.stringify(rows);
     //var deliverFormListVo = tableArrayFormatter(rows,"deliverFormListVo");
     var reqObj = {

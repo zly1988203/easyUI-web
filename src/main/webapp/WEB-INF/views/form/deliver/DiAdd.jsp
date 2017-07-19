@@ -10,7 +10,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/deliver/DiAdd.js?V=${versionNo}"></script>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="ub ub-ver uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
@@ -85,9 +85,9 @@
                </div>
            </div>
            <!--datagrid-edit-->
-           <div class="ub ub-f1 datagrid-edit umar-t8">
-               <table id="gridEditOrder" ></table>
-           </div>
+        <from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+                   <table id="gridEditOrder" ></table>
+        </from>
     </div>
 
 </body>

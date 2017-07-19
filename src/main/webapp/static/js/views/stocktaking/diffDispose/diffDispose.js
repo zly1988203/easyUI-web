@@ -134,7 +134,7 @@ function initOperateDataGrid(url){
 	                type:'textbox',
 	                options:{
 	                	disabled:isdisabled,
-                        // onChange:reasonChange
+                        onChange:reasonChange
 	                }
             	}},
             {field:'snapshootCostPrice',title:'原库存成本价',width:'120px',align:'right',

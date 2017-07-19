@@ -14,7 +14,7 @@
 	<script src="${ctx}/static/js/views/deliver/deliverExport.js?V=${versionNo}"></script>
 	<%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="ub ub-ver uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
@@ -112,9 +112,9 @@
                
            </div>
            <!--datagrid-edit-->
-           <div class="ub ub-f1 datagrid-edit umar-t8">
+            <from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
                <table id="gridEditRequireOrder" ></table>
-           </div>
+            </from>
     </div>
 
 </body>
