@@ -20,7 +20,7 @@
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="query()">查询</div>
 	                <div class="ubtns-item" onclick="exportData()">导出</div>
-				    <div class="ubtns-item" >打印</div>
+				    <div class="ubtns-item" onclick="printReport()">打印</div>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
@@ -36,6 +36,7 @@
 			        <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 			        <input class="uinp" type="hidden" id="branchId" name="branchId">
 			        <input class="uinp" type="text" id="branchName" name="branchName">
+					<input type="hidden" id="branchCompleCode" name="branchCompleCode" value="">
 			        <div class="uinp-more">...</div>
 			    </div>
 			    <div class="ub ub-ac umar-r40" id="supplierComponent">
