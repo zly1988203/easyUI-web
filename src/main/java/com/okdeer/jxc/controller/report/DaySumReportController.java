@@ -116,8 +116,8 @@ public class DaySumReportController extends BaseController<DaySumReportControlle
 			List<DaySumReportVo> exportList = daySumReportFacade.queryList(qo);
 			cleanAccessData(exportList);
 
-			GridExportPrintUtils<DaySumReportVo> exportUtils = new GridExportPrintUtils<DaySumReportVo>();
-			exportUtils.exportExcel(DaySumReportVo.class, exportList, response);
+			// 导出
+			GridExportPrintUtils.exportExcel(DaySumReportVo.class, exportList, response);
 		} catch (Exception e) {
 			LOG.error("导出日销售列表信息异常:{}", e);
 			resp = RespJson.error("导出日进销存报表异常");

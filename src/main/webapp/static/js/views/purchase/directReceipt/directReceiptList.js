@@ -78,16 +78,20 @@ function query(){
 	
 	var _index = getTabIndex();
 	
+	var fromObjStr = $("#queryForm").serializeObject();
+	
 	if(_index == 1){
 		//直送收货单
-		$("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
+		$("#"+gridName).datagrid("options").queryParams = fromObjStr;
 		$("#"+gridName).datagrid("options").method = "post";
 		$("#"+gridName).datagrid("options").url = contextPath+'/directReceipt/getList';
 		$("#"+gridName).datagrid("load");
 	}else if(_index == 0){
 		//待处理采购订单
-		$("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
-		$("#"+gridName).datagrid("options").method = "post";
+		fromObjStr.isDirectSupplier = 1;
+		fromObjStr.formType = 'PA';
+		$("#"+tableIdName).datagrid("options").queryParams = fromObjStr;
+		$("#"+tableIdName).datagrid("options").method = "post";
 		$("#"+tableIdName).datagrid("options").url = contextPath+'/form/purchaseSelect/getPurchaseFormList';
 		$("#"+tableIdName).datagrid("load");
 	}
@@ -193,7 +197,7 @@ function initDatagridFormPA(){
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单号',width:'200px',align:'left',formatter:function(value,row,index){
-				var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'新增采购收货单\',\''+ contextPath +'/form/purchase/addReceiptForm?id='+ row.id +'&formType=PI\')">' + value + '</a>';
+				var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'新增直送收货单\',\''+ contextPath +'/directReceipt/add?formId='+ row.id +'&formType=PM\')">' + value + '</a>';
 				return strHtml;
 			}},
             {field:'branchName',title:'收货机构',width:200,align:'left'},
@@ -237,7 +241,7 @@ function initDirectDatagrid(){
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.id+'\')">' + value + '</a>';
+            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+ contextPath+'/directReceipt/edit?formId='+ row.id +'\')">' + value + '</a>';
             	return strHtml;
             }},
             {field:'branchCode',title:'收货机构',width:'120px',align:'left'},

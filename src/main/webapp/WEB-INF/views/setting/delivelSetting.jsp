@@ -99,6 +99,17 @@
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r ">允许直送收货单不引用单据收货:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isAllowPmRefPa0" name="isAllowPmRefPa" value="0" />
+						<label for="isAllowPmRefPa0">不启用</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isAllowPmRefPa1" name="isAllowPmRefPa" value="1" />
+						<label for="isAllowPmRefPa1">启用</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r ">要货单起订金额控制:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="isMinAmount0" name="isMinAmount" value="0" />
@@ -216,6 +227,7 @@
 		var storesPriceSpec= data.storesPriceSpec;
 
 		var storeSelectGoodsSpec= data.storeSelectGoodsSpec;
+		var isAllowPmRefPa= data.isAllowPmRefPa;
 
 		//页面赋值
 		$("#branchId").val(branchId);
@@ -254,6 +266,12 @@
 			$("#storeSelectGoodsSpec0").attr("checked", "true");
 		} else {
 			$("#storeSelectGoodsSpec1").attr("checked", "true");
+		}
+		
+		if (isAllowPmRefPa === null || isAllowPmRefPa === 0 || isAllowPmRefPa === '') {
+			$("#isAllowPmRefPa0").attr("checked", "true");
+		} else {
+			$("#isAllowPmRefPa1").attr("checked", "true");
 		}
 
 		if (isMinAmount === null || isMinAmount === 1 || isMinAmount === '') {

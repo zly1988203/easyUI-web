@@ -27,6 +27,7 @@ $(function(){
 //		$("#branchName").val(sessionBranchCodeName);
 //		$("#branchId").val(sessionBranchId);
 		$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
+		$("#paymentTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 		oldData = {
 				    branchName:$('#branchName').val(),
                     supplierId:$("#supplierId").val(),
@@ -43,16 +44,6 @@ $(function(){
 		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 		$('#already-examine').css('display','none');
 		$('#btnCheck').css('display','black');
-		var saleWay = $('#saleWay').val();
-        if(saleWay == 'A'){
-        	$("#saleWayName").val('购销');
-        }else if(saleWay == 'B'){
-        	$("#saleWayName").val('代销');        	
-	    }else if(saleWay == 'C'){
-	    	$("#saleWayName").val('联营');        	
-		}else if(saleWay == 'D'){
-			$("#saleWayName").val('扣率代销');        	
-		}
 	}else if(directStatus === '1'){
 		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 		isdisabled = true;
@@ -70,21 +61,11 @@ $(function(){
         $('#btnImpSkuCode').prop('disabled','disabled ');
         $('#btnImpBarCode').addClass("uinp-no-more");
         $('#btnImpBarCode').prop('disabled','disabled ');
-		var saleWay = $('#saleWay').val();
-        if(saleWay == 'A'){
-        	$("#saleWayName").val('购销');
-        }else if(saleWay == 'B'){
-        	$("#saleWayName").val('代销');        	
-	    }else if(saleWay == 'C'){
-	    	$("#saleWayName").val('联营');        	
-		}else if(saleWay == 'D'){
-			$("#saleWayName").val('扣率代销');        	
-		}
 	}else{
 		
 	}
 	initDirectDataGrid();
-})
+});
 
 var gridDefault = {
     realNum:0,
@@ -363,15 +344,44 @@ function initDirectDataGrid(){
            updateFooter();
        },
    });
-
-    if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
-    }
-
+	
    if(directStatus === 'add'){
    	 gridHandel.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
    	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
    }
+   
+   if(hasPurchasePrice==false){
+       priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
+   }
+   
+   getGridData();
+}
+
+
+function getGridData(){
+	
+	 var formId = $("#formId").val();
+	
+	$_jxc.ajax({
+       url : contextPath+"/form/purchase/detailList?formId="+formId,
+       async : false
+	},function(data){
+		
+		// 根据选择的采购单，带出采购单的信息
+	    var keyrealNum = {
+	        realNum:'maxRealNum',
+	    };
+	    
+	    var keylargeNum = {
+	    	largeNum:'maxlargeNum',
+   	    };
+	    
+	    if(data && data.rows.length > 0){
+	        var newRows = gFunUpdateKey(data.rows,keyrealNum);
+	        newRows = gFunUpdateKey(newRows,keylargeNum);
+	        $("#"+gridName).datagrid("loadData",newRows);
+	    }
+   });
 }
 
 //限制转换次数
@@ -790,19 +800,11 @@ function selectSupplier(){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length > 0){
             $_jxc.confirm('修改供应商后会清空明细，是否要修改？',function(r){
-                if (r){
-                    $("#supplierId").val(data.id);
+            	if (r){
+            		$("#supplierId").val(data.id);
                     $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-                  $("#saleWay").val(data.saleWay);
-                    if(data.saleWay == 'A'){
-                        $("#saleWayName").val('购销');
-                    }else if(data.saleWay == 'B'){
-                        $("#saleWayName").val('代销');
-                    }else if(data.saleWay == 'C'){
-                        $("#saleWayName").val('联营');
-                    }else if(data.saleWay == 'D'){
-                        $("#saleWayName").val('扣率代销');
-		            }
+                    $("#saleWay").val(data.saleWay);
+                    $("#saleWayName").val(data.saleWayName);
                     gridHandel.setLoadData([$.extend({},gridDefault)]);
                     // 是否自动加载商品
                     if($("#cascadeGoods").val() == 'true'){
@@ -815,15 +817,7 @@ function selectSupplier(){
             $("#oldsupplierId").val(data.id);
             $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
             $("#saleWay").val(data.saleWay);
-	        if(data.saleWay == 'A'){
-	        	$("#saleWayName").val('购销');
-	        }else if(data.saleWay == 'B'){
-	        	$("#saleWayName").val('代销');
-		    }else if(data.saleWay == 'C'){
-		    	$("#saleWayName").val('联营');
-			}else if(data.saleWay == 'D'){
-				$("#saleWayName").val('扣率代销');
-			}
+            $("#saleWayName").val(data.saleWayName);
             gridHandel.setLoadData([$.extend({},gridDefault)]);
 	        // 是否自动加载商品
 	        if($("#cascadeGoods").val() == 'true'){
@@ -834,15 +828,7 @@ function selectSupplier(){
             $("#oldsupplierId").val(data.id);
             $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
             $("#saleWay").val(data.saleWay);
-            if(data.saleWay == 'A'){
-                $("#saleWayName").val('购销');
-            }else if(data.saleWay == 'B'){
-                $("#saleWayName").val('代销');
-            }else if(data.saleWay == 'C'){
-                $("#saleWayName").val('联营');
-            }else if(data.saleWay == 'D'){
-                $("#saleWayName").val('扣率代销');
-            }
+            $("#saleWayName").val(data.saleWayName);
             // 是否自动加载商品
             if($("#cascadeGoods").val() == 'true'){
                 queryGoodsList();
@@ -1075,7 +1061,6 @@ function selectPurchaseForm(){
 		},function(data){
 			$("#saleWay").val(data.supplier.saleWay);
 			$("#saleWayName").val(data.supplier.saleWayName);
-			console.log(data);
 		});
         
         

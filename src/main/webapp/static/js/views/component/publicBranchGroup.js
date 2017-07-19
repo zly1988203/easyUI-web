@@ -7,7 +7,7 @@
 var selectType=null;//0 单选  1多选
 function initAgencyView(param){
 	//debugger;
-	console.log('param',param);
+	//console.log('param',param);
 	if(param){
 		selectType = param.selectType;
 		//根据参数序列化到dom结构中
@@ -23,9 +23,20 @@ function initAgencyView(param){
 			}
 		}
 	}
+	
+	//切换类型执行搜索
+	$('input[name="type"]').on('change',function(){
+		$('#gridBranchGroupList').datagrid('clearSelections');
+		$('#gridBranchGroupList').datagrid('clearChecked');
+		agencySearch();
+	})
+	
     gFunSetEnterKey(agencySearch);
     initDatagridBranchGroupList(); //初始化表格
 }
+
+
+
 var agencyCallBack ;
 //初始化回调函数
 function initAgencyCallBack(cb){

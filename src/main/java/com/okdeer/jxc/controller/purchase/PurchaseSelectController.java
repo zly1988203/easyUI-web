@@ -112,7 +112,6 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 			LOG.debug("vo:{}", vo.toString());
 			PageUtils<PurchaseSelect> suppliers = purchaseSelectServiceApi
 					.queryLists(vo);
-			LOG.debug("page:{}", suppliers.toString());
 			cleanAccessData(suppliers);
 			return suppliers;
 		} catch (Exception e) {
