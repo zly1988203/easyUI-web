@@ -35,7 +35,6 @@
 			<div class="ub umar-t8">
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">单据编号:</div>
-	                <input class="uinp" name="formType" id="formType" type="hidden" value="PA">
 	                <input class="uinp" name="formNo" id="formNo" type="text">
 	            </div>
 	            <div class="ub ub-ac umar-r40" id="supplierComponent">
@@ -60,7 +59,7 @@
 	            </div>
 	            <div class="ub ub-ac umar-r40" id="refFormNoDiv">
 	                <div class="umar-r10 uw-60 ut-r">采购单号:</div>
-	                <input class="uinp" name="formNo" id="formNo" type="text">
+	                <input class="uinp" name="refFormNo" id="refFormNo" type="text">
 	            </div>
 	            <div class="ub ub-ac umar-r40" id="radioItemDiv">
 	                <div class="umar-r10 uw-60 ut-r">审核状态:</div>

@@ -222,7 +222,7 @@ function initDirectDatagrid(){
 		width:'100%',
         columns:[[
             {field:'check',checkbox:true},
-            {field:'formNo',title:'单据22编号',width:'140px',align:'left',
+            {field:'formNo',title:'单据编号',width:'140px',align:'left',
             	formatter:function(value,row,index){
 	            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+ contextPath+'/directReceipt/edit?formId='+ row.id +'\')">' + value + '</a>';
             		return strHtml;
@@ -246,14 +246,9 @@ function initDirectDatagrid(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'refFormNo',title:'采购单号',width:'140px',align:'left',
-            	formatter:function(value,row,index){
-	            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.id+'\')">' + value + '</a>';
-	            	return strHtml;
-            	}
-            },
+            {field:'refFormNo',title:'采购单号',width:'140px',align:'left'},
             {field:'createUserName',title:'操作人',width:'130px',align:'left'},
-            {field:'createTime',title:'操作时间',width:'150px',align:'center', formatter: function (value, row, index) {
+            {field:'createTimeStr',title:'操作时间',width:'150px',align:'center', formatter: function (value, row, index) {
                 if (value) {
                 	return new Date(value).format('yyyy-MM-dd hh:mm');
                 }

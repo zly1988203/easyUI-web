@@ -17,13 +17,29 @@
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
 				<shiro:hasPermission name="JxcDirectReceipt:add">
-					<div  class="ubtns-item" id="btnSave" onclick="saveDirectForm()">保存</div>
+					<div class="ubtns-item" onclick="addDirect()">新增</div>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="JxcDirectReceipt:add">
+					<div class="ubtns-item" id="btnSave" onclick="saveDirectForm()">保存</div>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="JxcDirectReceipt:audit">
+					<div class="ubtns-item uinp-no-more event-none pmreBtn">审核</div>
 				</shiro:hasPermission>
 				<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="selectGoods()">商品选择</div>
 				<shiro:hasPermission name="JxcDirectReceipt:import">
 					<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="importDirectForm(0)">导入货号</div>
 					<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="importDirectForm(1)">导入条码</div>
 				</shiro:hasPermission>
+				<shiro:hasPermission name="JxcDirectReceipt:delete">
+					<div class="ubtns-item uinp-no-more event-none pmreBtn">删单</div>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="JxcDirectReceipt:print">
+					<div class="ubtns-item uinp-no-more event-none pmreBtn">打印</div>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="JxcDirectReceipt:export">
+				<div class="ubtns-item uinp-no-more event-none pmreBtn">导出明细</div>
+				</shiro:hasPermission>
+				
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>
 		</div>
