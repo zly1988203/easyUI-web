@@ -84,6 +84,16 @@
 					<div class="ub uw-220 ub-ac umar-r10">
 						
 					</div>
+					
+					<div class="ub uw-120 ub-ac umar-r10">
+						<b>选择修改的属性</b>
+					</div>
+					<div class="ub uw-160 ub-ac umar-r10">
+						<b>属性值</b>
+					</div>
+					<div class="ub uw-220 ub-ac umar-r10">
+						
+					</div>
 				</div>
 				<div class="ub ub-ac upad-8">
 					<!-- 是否管理库存 -->
@@ -118,12 +128,29 @@
 							class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
 							data-options="min:0.1,max:999.9,precision:2,validType:['length[0,18]']" type="text" maxlength="4">
 					</div>
-					<div class="ub uw-160 ub-ac umar-r10">
+					<div class="ub uw-180 ub-ac umar-r10">
 						<label>
 						<input id="safetyCoefficientCascadeChecked" name="safetyCoefficientCascadeChecked" type="checkbox" checked="checked" value="true" />
 						同时更新门店安全系数
 						</label>
 
+					</div>
+					
+					<!-- 修改商品类别 -->
+					<div class="ub uw-120 ub-ac umar-r10">
+						<label>
+						<input id="categoryChecked" name="categoryChecked" type="checkbox" name="checkbox" />
+						修改商品类别
+						</label>
+
+					</div>
+					<div class="ub uw-200 ub-ac umar-r10">
+						<input id="categoryId" name="categoryId" class="uinp" type="hidden">
+						<input id="categoryCode" name="categoryCode" class="uinp" type="hidden">
+						<div class="ub">
+							<input id="categoryName" name="categoryName" class="uinp uw-200 easyui-validatebox" type="text" readonly="readonly"  data-options="required:true">
+							<div id="openCategoryMore" class="uinp-more " onclick="chooseGoodsCategoryForUpdateForm()">...</div>
+						</div>
 					</div>
 				</div>
 				
@@ -162,12 +189,29 @@
 							<div id="openSupplierMore" class="uinp-more " onclick="chooseSupplier('batchUpdateForm')">...</div>
 						</div>
 					</div>
-					<div class="ub uw-160 ub-ac umar-r10">
+					<div class="ub uw-180 ub-ac umar-r10">
 						<label>
 						<input id="supplierCascadeChecked" name="supplierCascadeChecked" type="checkbox" checked="checked" value="true" />
 						同时更新门店主供应商
 						</label>
 
+					</div>
+					
+					<!-- 修改商品品牌 -->
+					<div class="ub uw-120 ub-ac umar-r10">
+						<label>
+						<input id="brandChecked" name="brandChecked" type="checkbox" name="checkbox"  />
+						修改商品品牌
+						</label>
+
+					</div>
+					<div class="ub uw-200 ub-ac umar-r10">
+						<input id="brandId" name="brandId" class="uinp" type="hidden">
+						<input id="brandCode" name="brandCode"   class="uinp" type="hidden">
+						<div class="ub">
+							<input id="brandName" name="brandName" class="uinp" type="text" readonly="readonly">
+							<div id="openBrandMore" class="uinp-more" onclick="chooseGoodsBrand('batchUpdateForm')">...</div>
+						</div>
 					</div>
 				</div>
 				
@@ -234,20 +278,18 @@
 
 					</div>
 					
-					<!-- 修改商品类别 -->
+					<!-- 修改进货规格 -->
 					<div class="ub uw-120 ub-ac umar-r10">
 						<label>
-						<input id="categoryChecked" name="categoryChecked" type="checkbox" name="checkbox" />
-						修改商品类别
+						<input id="purchaseChecked" name="purchaseChecked" type="checkbox" name="checkbox" />
+						修改进货规格
 						</label>
 
 					</div>
 					<div class="ub uw-200 ub-ac umar-r10">
-						<input id="categoryId" name="categoryId" class="uinp" type="hidden">
-						<input id="categoryCode" name="categoryCode" class="uinp" type="hidden">
 						<div class="ub">
-							<input id="categoryName" name="categoryName" class="uinp uw-200 easyui-validatebox" type="text" readonly="readonly"  data-options="required:true">
-							<div id="openCategoryMore" class="uinp-more " onclick="chooseGoodsCategoryForUpdateForm()">...</div>
+							<input id="purchaseSpec" name="purchaseSpec" value="0" class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
+							data-options="min:0,precision:4,validType:['length[0,18]']" type="text" maxlength="4" readonly="readonly">
 						</div>
 					</div>
 				</div>
@@ -274,20 +316,18 @@
 
 					</div>
 					
-					<!-- 修改商品品牌 -->
+					<!-- 修改配送规格 -->
 					<div class="ub uw-120 ub-ac umar-r10">
 						<label>
-						<input id="brandChecked" name="brandChecked" type="checkbox" name="checkbox"  />
-						修改商品品牌
+						<input id="distributionChecked" name="distributionChecked" type="checkbox" name="checkbox"  />
+						修改配送规格
 						</label>
 
 					</div>
 					<div class="ub uw-200 ub-ac umar-r10">
-						<input id="brandId" name="brandId" class="uinp" type="hidden">
-						<input id="brandCode" name="brandCode"   class="uinp" type="hidden">
 						<div class="ub">
-							<input id="brandName" name="brandName" class="uinp" type="text" readonly="readonly">
-							<div id="openBrandMore" class="uinp-more" onclick="chooseGoodsBrand('batchUpdateForm')">...</div>
+							<input id="distributionSpec" name="distributionSpec" value="0" class="uinp uinp-no-more easyui-numberbox easyui-validatebox"
+							data-options="min:0,precision:4,validType:['length[0,18]']" type="text" maxlength="4" readonly="readonly">
 						</div>
 					</div>
 				</div>

@@ -24,6 +24,9 @@ function bindElementEvent(){
 	$("#allowAdjustChecked,#safetyCoefficientChecked,#supplierChecked,#categoryChecked,#brandChecked,#safetyCoefficientCascadeChecked,#supplierCascadeChecked").click(function (){
 		changeElementStatus(this);
 	});
+	$("#purchaseChecked,#distributionChecked").click(function (){
+		changeElementStatus(this);
+	});
 }
 
 //初始化查询表单
@@ -515,6 +518,28 @@ function changeElementStatus(input){
 			$("#openBrandMore").prop('hidden',true);
 		}
 	}
+	
+	//修改进货规格
+	if(input.id == "purchaseChecked"){
+		if($("#purchaseChecked").is(':checked')){
+			$("#purchaseChecked").val(true);
+			$("#purchaseSpec").numberbox("readonly",false);
+		}else{
+			$("#purchaseChecked").val(false);
+			$("#purchaseSpec").numberbox("readonly",true);
+		}
+	}
+	
+	//修改配送规格
+	if(input.id == "distributionChecked"){
+		if($("#distributionChecked").is(':checked')){
+			$("#distributionChecked").val(true);
+			$("#distributionSpec").numberbox("readonly",false);
+		}else{
+			$("#distributionChecked").val(false);
+			$("#distributionSpec").numberbox("readonly",true);
+		}
+	}
 }
 
 function changeSupplierRateElement(){
@@ -556,14 +581,14 @@ function changeBranchType(branchType){
 	
 	//再根据机构类别放开相应项目
 	switch (branchType){
-		//总部仅可修改：是否管理库存、是否高值商品、是否关注商品、修改商品类别、修改商品品牌
+		//总部仅可修改：是否管理库存、是否高值商品、是否关注商品、修改商品类别、修改商品品牌、进货规格、配送规格
 		case 0:
-			$("#managerStockChecked,#highValueChecked,#attentionChecked,#categoryChecked,#brandChecked").removeAttr("disabled");
+			$("#managerStockChecked,#highValueChecked,#attentionChecked,#categoryChecked,#brandChecked,#purchaseChecked,#distributionChecked").removeAttr("disabled");
 			break;
-		//分公司仅可修改：是否参与促销、是否直送商品、分店调价、安全库存系数、修改主供应商(物流中心暂当分公司处理)
+		//分公司仅可修改：是否参与促销、是否直送商品、分店调价、安全库存系数、修改主供应商(物流中心暂当分公司处理)、进货规格、配送规格
 		case 1:
 		case 2:
-			$("#allowActivityChecked,#fastDeliverChecked,#allowAdjustChecked,#safetyCoefficientChecked,#supplierChecked").removeAttr("disabled");
+			$("#allowActivityChecked,#fastDeliverChecked,#allowAdjustChecked,#safetyCoefficientChecked,#supplierChecked,#purchaseChecked,#distributionChecked").removeAttr("disabled");
 			break;
 		//门店仅可修改：安全库存系数、修改主供应商
 		case 3:
