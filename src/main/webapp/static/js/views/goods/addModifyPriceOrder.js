@@ -51,20 +51,42 @@ $(function() {
         datagridUtil.readOnlyInput();
     }
     
-    $('#branchGroup').branchSelect({
+    initBrancSelect();
+
+});
+
+//初始化机构选择
+function initBrancSelect(){
+	$('#branchGroup').branchSelect({
     	param:{
     		selectType:1, //数据选择模式类型  null/''/0-->单选(默认)   1多选
     		view:'group', //分组
     	},
     	onAfterRender:function(data){
-    		console.log('data',data);
+    		if(data && data.length>0){
+    			var ids = [];
+    			data.forEach(function(obj,inx){
+    				if(obj.type == -1){
+    					ids.push(obj.branchId);
+    				}
+    			})
+    			if(ids.length == 0) return;
+    			var param = {
+    				"groupIds":ids.join(',')
+    			}
+    			//拉取分组详细
+    			publicGetBranchGroupDetail(param,function(result){
+    				$('#branchId').val(result&&result.branchId);
+    				$('#branchName').attr('title',result&&result.branchName);
+    			})
+    		}
      	}
     })
+}
 
-});
+
 
 function hidePageElement() {
-
     if(hasPurchasePrice==false){
         $("#purchasePrice").removeProp("checked");
         $("#purchasePrice").prop("disabled","disabled");
@@ -73,7 +95,6 @@ function hidePageElement() {
         $("#tradePrice").removeProp("checked");
         $("#tradePrice").prop("disabled","disabled");
     }
-
     if(hasDistributionPrice==false){
         $("#distributionPrice").removeProp("checked");
         $("#distributionPrice").prop("disabled","disabled");
