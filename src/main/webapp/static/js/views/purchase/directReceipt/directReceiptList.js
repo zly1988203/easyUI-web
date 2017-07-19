@@ -22,6 +22,25 @@ $(function(){
 	
 	initTabGrid();
 	changeBtnStatus();
+	
+	//机构选择
+	$('#branchComponent').branchSelect();
+	//供应商选择
+	$('#supplierComponent').supplierSelect({
+		//数据过滤
+		loadFilter:function(data){
+			data.supplierId = data.id;
+			return data;
+		}
+	});
+	//操作人选择
+	$('#operatorComponent').operatorSelect({
+		//数据过滤
+		loadFilter:function(data){
+			data.operateUserId = data.id;
+			return data;
+		}
+	});
 })
 
 
@@ -32,10 +51,16 @@ function changeBtnStatus(){
 		$('#addBtn').removeClass('ubtns-item').addClass('ubtns-item-disabled event-none');
 		$('#delBtn').removeClass('ubtns-item').addClass('ubtns-item-disabled event-none');
 		$('#printBtn').removeClass('ubtns-item-disabled event-none').addClass('ubtns-item');
+		
+		$('#refFormNoDiv').addClass('unhide');
+		$('#radioItemDiv').addClass('unhide');
 	}else if(_index == 1){
 		$('#addBtn').addClass('ubtns-item').removeClass('ubtns-item-disabled event-none');
 		$('#delBtn').addClass('ubtns-item').removeClass('ubtns-item-disabled event-none');
 		$('#printBtn').addClass('ubtns-item-disabled event-none').removeClass('ubtns-item');
+		
+		$('#refFormNoDiv').removeClass('unhide');
+		$('#radioItemDiv').removeClass('unhide');
 	}
 }
 
@@ -57,28 +82,14 @@ function changeStatus(){
 var gridHandel = new GridClass();
 
 function query(){
-	var oldBranchName = $("#oldBranchName").val();
-	var branchName = $("#branchName").val();
-	if(oldBranchName && oldBranchName != branchName){
-		$("#branchId").val('');
-		$("#branchCompleCode").val('');
-	}
-	
-	var oldOperateUserName = $("#oldOperateUserName").val();
-	var operateUserName = $("#operateUserName").val();
-	if(oldOperateUserName && oldOperateUserName != operateUserName){
-		$("#operateUserId").val('');
-	}
-	
-	var oldSupplierName = $("#oldSupplierName").val();
-	var supplierName = $("#supplierName").val();
-	if(oldSupplierName && oldSupplierName != supplierName){
-		$("#supplierId").val('');
-	}
 	
 	var _index = getTabIndex();
 	
 	var fromObjStr = $("#queryForm").serializeObject();
+	
+	fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
+    fromObjStr.supplierName = fromObjStr.supplierName.substring(fromObjStr.supplierName.lastIndexOf(']')+1)
 	
 	if(_index == 1){
 		//直送收货单
@@ -97,32 +108,6 @@ function query(){
 	}
 }
 
-//收货机构
-function selectBranch(){
-    new publicBranchService(function(data){
-        $("#branchId").val(data.branchesId);
-        $("#branchName").val("["+data.branchCode+"]"+data.branchName);
-        $("#oldBranchName").val("["+data.branchCode+"]"+data.branchName);
-    },0);
-}
-
-//制单人
-function selectOperator(){
-    new publicOperatorService(function(data){
-        $("#operateUserId").val(data.id);
-        $("#operateUserName").val("["+data.userCode+"]"+data.userName);
-        $("#oldOperateUserName").val("["+data.userCode+"]"+data.userName);
-    });
-}
-
-//选择供应商
-function selectSupplier(){
-    new publicSupplierService(function(data){
-        $("#supplierId").val(data.id);
-        $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-        $("#oldSupplierName").val("["+data.supplierCode+"]"+data.supplierName);
-    });
-}
 
 //新增直送收货单
 function directAdd(){
@@ -176,7 +161,6 @@ function initTabGrid(){
 }
 
 
-
 var tableIdName = 'receiptOrderList';
 //初始化表格 单据选择（采购）
 function initDatagridFormPA(){
@@ -226,12 +210,10 @@ function initDatagridFormPA(){
 
 
 function initDirectDatagrid(){
-	gridHandel.setGridName("gridDirectReceipt");
+	gridHandel.setGridName(gridName);
     $("#"+gridName).datagrid({
-
         method:'post',
         align:'center',
-
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -240,10 +222,12 @@ function initDirectDatagrid(){
 		width:'100%',
         columns:[[
             {field:'check',checkbox:true},
-            {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+ contextPath+'/directReceipt/edit?formId='+ row.id +'\')">' + value + '</a>';
-            	return strHtml;
-            }},
+            {field:'formNo',title:'单据22编号',width:'140px',align:'left',
+            	formatter:function(value,row,index){
+	            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+ contextPath+'/directReceipt/edit?formId='+ row.id +'\')">' + value + '</a>';
+            		return strHtml;
+            	}
+            },
             {field:'branchCode',title:'收货机构',width:'120px',align:'left'},
             {field:'status',title:'审核状态',width:'100px',align:'center',formatter:function(value,row,index){
             	if(value == '0'){
@@ -262,10 +246,12 @@ function initDirectDatagrid(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'formNo',title:'采购单号',width:'140px',align:'left',formatter:function(value,row,index){
-            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.id+'\')">' + value + '</a>';
-            	return strHtml;
-            }},
+            {field:'refFormNo',title:'采购单号',width:'140px',align:'left',
+            	formatter:function(value,row,index){
+	            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.id+'\')">' + value + '</a>';
+	            	return strHtml;
+            	}
+            },
             {field:'createUserName',title:'操作人',width:'130px',align:'left'},
             {field:'createTime',title:'操作时间',width:'150px',align:'center', formatter: function (value, row, index) {
                 if (value) {

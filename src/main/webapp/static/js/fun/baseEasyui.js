@@ -1379,7 +1379,7 @@ var $_jxc = {
 				}
 				
 				//处理onShowBefore (避免用户重载 )
-				if(!_component.onShowBefore(this))return;
+				if(!_component.onShowBefore(_component))return;
 					
 				_component.getComponentDetail();
 				
