@@ -739,6 +739,11 @@ public interface ExportExcelConstant {
 	String SUPPLIER_STOCK_REPORT = "SupplierStockReport.xlsx";
 
 	/**
+	 * 供应商销售报表
+	 */
+	String SUPPLIER_SELL_REPORT = "SupplierSellReport.xlsx";
+
+	/**
 	 * @Fields 货类销售对比分析报表
 	 */
 	String GOODS_SALE_CONTRAST = "goodsSaleContrast.xlsx";
