@@ -45,20 +45,32 @@ $(function(){
 	  weekCheckDay();
 	});
 	
-	//机构选择初始化
+	//机构选择初始化 分组
 	$('#branchComponent').branchSelect({
 		param:{
-			type:'NOTREE', //左侧没有树
 			selectType:1,  //多选
+			view:'group', //分组
 			formType:'DP'
 		},
-		//过滤数据
-		loadFilter:function(data){
-			data.forEach(function(obj,index){
-				obj.branchIds = obj.branchesId;
-			});
-			return data;
-		}
+		onAfterRender:function(data){
+    		if(data && data.length>0){
+    			var ids = [];
+    			data.forEach(function(obj,inx){
+    				if(obj.type == -1){
+    					ids.push(obj.branchId);
+    				}
+    			})
+    			if(ids.length == 0) return;
+    			var param = {
+    				"groupIds":ids.join(',')
+    			}
+    			//拉取分组详细
+    			publicGetBranchGroupDetail(param,function(result){
+    				$('#branchIds').val(result&&result.branchId);
+    				$('#branchName').attr('title',result&&result.branchName);
+    			})
+    		}
+     	}
 	});
 
 });
@@ -157,6 +169,7 @@ function  editstart(selectType){
 			    		 $('#branchName').val(branchName);
 			    		 $('#branchIds').val(branchIds);
 			    	 }
+			    	 
                     //combobox 下拉赋值和禁止选择
   		    		$("#activityType").combobox('select',activtype);  
   		    		$("#activityType").combobox("disable");

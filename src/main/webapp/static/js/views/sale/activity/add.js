@@ -31,23 +31,39 @@ $(function(){
 	  weekCheckDay();
 	})
 	
-	
-	//机构选择初始化
-	$('#branchComponent').branchSelect({
-		param:{
-			type:'NOTREE', //左侧没有树
-			selectType:1,  //多选
-			formType:'DP'
-		},
-		loadFilter:function(data){
-			data.forEach(function(obj,index){
-				obj.branchIds = obj.branchesId;
-			});
-			return data;
-		}
-	});
+	//机构选择初始化 分组
+	initBranchGroup();
 	
 });
+
+function initBranchGroup(){
+	$('#branchComponent').branchSelect({
+		param:{
+			selectType:1,  //多选
+			view:'group', //分组
+			formType:'DP'
+		},
+		onAfterRender:function(data){
+    		if(data && data.length>0){
+    			var ids = [];
+    			data.forEach(function(obj,inx){
+    				if(obj.type == -1){
+    					ids.push(obj.branchId);
+    				}
+    			})
+    			if(ids.length == 0) return;
+    			var param = {
+    				"groupIds":ids.join(',')
+    			}
+    			//拉取分组详细
+    			publicGetBranchGroupDetail(param,function(result){
+    				$('#branchIds').val(result&&result.branchId);
+    				$('#branchName').attr('title',result&&result.branchName);
+    			})
+    		}
+     	}
+	});
+}
 
 //特价
 function changeSpecNum(newV,oldV){
