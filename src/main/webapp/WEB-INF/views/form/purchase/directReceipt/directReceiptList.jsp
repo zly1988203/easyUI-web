@@ -20,7 +20,7 @@
 	                <div class="ubtns-item event-none" id="addBtn" onclick="directAdd()">新增</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcDirectReceipt:delete">
-	                <div class="ubtns-item" id="delBtn" onclick="directDelete()">删除</div>
+	                <!-- <div class="ubtns-item event-none" id="delBtn" onclick="directDelete()">删除</div> -->
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcDirectReceipt:print">
 	                <div class="ubtns-item" id="printBtn" onclick="printList()">打印</div>

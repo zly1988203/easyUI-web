@@ -37,7 +37,7 @@
 					<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="importDirectForm(1)">导入条码</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:delete">
-					<div class="ubtns-item" onclick="deleteForm()">删单</div>
+					<div class="ubtns-item" onclick="directDelete()">删单</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:print">
 					<div class="ubtns-item" onclick="printChoose('PM','/form/purchase/')">打印</div>
