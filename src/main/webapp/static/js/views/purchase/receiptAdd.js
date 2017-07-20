@@ -546,6 +546,7 @@ function selectGoods(searchKey){
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
             purchasePrice:'price',
+            price:'priceBack',
             id:'skuId',
             disabled:'',
             pricingType:'',
