@@ -202,6 +202,9 @@ function initDatagridAddRequireOrder(){
                     if(row.isFooter){
                         return "<b>"+parseFloat(value).toFixed(2)+"<b>";
                     }
+                    if(!value){
+                    	row["amount"] = 0;
+                    }
                     return "<b>"+parseFloat(value||0).toFixed(2)+"<b>";
                 },
                 editor:{
@@ -590,12 +593,13 @@ function setDataValue(data) {
 	for(var i in data){
     	var rec = data[i];
     	rec.remark = "";
+    	rec.price = rec.distributionPrice;
     }
     var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
 		distributionPrice:'price',
-		price:'priceBack',
+		distributionPrice:'priceBack',
         id:'skuId',
         disabled:'',
         pricingType:'',
@@ -1033,7 +1037,7 @@ function updateListData(data){
      var addDefaultData = gridHandel.addDefault(data, {});
      var keyNames = {
 		 distributionPrice:'price',
-		 price:'priceBack',
+		 distributionPrice:'priceBack',
          id:'skuId',
          disabled:'',
          pricingType:'',
