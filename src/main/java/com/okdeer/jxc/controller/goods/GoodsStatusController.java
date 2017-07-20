@@ -313,7 +313,7 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 				return RespJson.error("未选择店铺商品");
 			}
 			String[] idArray = ids.split(",");
-			return goodsStatusService.updateGoodsStatus(Arrays.asList(idArray),type);
+			return goodsStatusService.updateGoodsStatus(Arrays.asList(idArray), type, UserUtil.getCurrBranchType());
 		} catch (Exception e) {
 			respJson = RespJson.error("更新店铺商品状态异常");
 			LOG.error("更新店铺商品状态异常:", e);
