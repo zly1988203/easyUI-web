@@ -45,7 +45,6 @@ import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
-import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.enums.SaleWayEnum;
@@ -82,6 +81,7 @@ import com.okdeer.jxc.goods.qo.GoodsBranchPriceQo;
 import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+import com.okdeer.retail.common.constant.PriceConstant;
 
 /**
  * ClassName: PurchaseFormController 
@@ -1180,8 +1180,14 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			 * added by zhangqin on 2016-12-01 14:36 end
 			 */
 		}
-		cleanDataMap(PriceAccessConstant.PURCHASE_FORM, replaceMap);
+		cleanDataMap(getPriceAccess(), replaceMap);
 		return replaceMap;
+	}
+	
+	private Map<String, String> getPriceAccess() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(PriceConstant.PURCHASE_PRICE, "_人民币总金额大写,amountCN,_总金额,amount,_合计金额");
+		return map;
 	}
 
 	/**
