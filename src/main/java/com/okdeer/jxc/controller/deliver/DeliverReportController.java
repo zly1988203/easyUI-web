@@ -27,7 +27,6 @@ import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
-import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.form.deliver.entity.DeliverFormList;

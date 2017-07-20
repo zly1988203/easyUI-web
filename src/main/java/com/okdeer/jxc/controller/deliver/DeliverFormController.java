@@ -78,7 +78,7 @@ import com.okdeer.jxc.goods.entity.GoodsSelectDeliver;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
-import com.okdeer.retail.common.constant.PriceConstant;
+import com.okdeer.retail.common.price.PriceConstant;
 
 /**
  * ClassName: DeliverFormController 

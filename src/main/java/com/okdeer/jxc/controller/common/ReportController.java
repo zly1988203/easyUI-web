@@ -28,12 +28,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelExportUtil;
+import com.okdeer.retail.common.report.DataRecord;
 
 /**
  * ClassName: ReportController 
