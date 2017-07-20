@@ -267,6 +267,14 @@ function initDatagridAddRequireOrder(){
                 }
             }
         },
+        loadFilter:function(data){
+        	if(data && data.length > 0){
+        		data.forEach(function(obj,ind){
+        			obj.priceBack = obj.distributionPrice;
+        		});
+        	}
+        	return data;
+        },
         onLoadSuccess:function(data){
             gridHandel.setDatagridHeader("center");
             updateFooter();
@@ -399,18 +407,15 @@ function onSelectIsGift(data){
     if(arrs.length==0){
         var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
-            var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            $('#gridEditOrder').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
-            //$(targetPrice).numberbox('disable');
+            gridHandel.setFieldValue('amount',0);//总金额
         }else{
-            //$(targetPrice).numberbox('enable');
-            var oldPrice =  $('#gridEditOrder').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
+            var oldPrice =  $('#gridEditOrder').datagrid('getRows')[gridHandel.getSelectRowIndex()]["priceBack"];
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
             }
         	var priceVal = oldPrice||0;
-            var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyNum');
+            var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'receiveNum')||0;
             var oldAmount = parseFloat(priceVal)*parseFloat(applNum);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldAmount');
             var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
             var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
