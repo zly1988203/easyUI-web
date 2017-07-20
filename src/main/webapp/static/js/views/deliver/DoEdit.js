@@ -465,16 +465,23 @@ function onSelectIsGift(data){
     if(arrs.length==0){
         var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
-            var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            $('#'+gridHandel.getGridName()).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
-            //$(targetPrice).numberbox('disable');
+            gridHandel.setFieldValue('amount',0);//总金额
+            gridHandel.setFieldValue('taxAmount',0);//税额
         }else{
            //$(targetPrice).numberbox('enable');
-            var oldPrice =  $("#"+gridHandel.getGridName()).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
+            var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'priceBack');
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
             }
+        	var priceVal = oldPrice||0;
+            var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'dealNum');
+            var oldAmount = parseFloat(priceVal)*parseFloat(applNum);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldAmount');
+            var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
+            gridHandel.setFieldValue('amount',oldAmount);//总金额
+            gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总金额 
+            
         }
         updateFooter();
     }else{
@@ -557,6 +564,7 @@ function setDataValue(data) {
     var addDefaultData = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
         distributionPrice:'price',
+        distributionPrice:'priceBack',
         id:'skuId',
         disabled:'',
         pricingType:''
@@ -695,6 +703,7 @@ function saveOrder(){
     		dealNum : data.dealNum,
     		largeNum : data.largeNum,
     		price : data.price,
+    		priceBack : data.priceBack,
     		amount : data.amount,
     		inputTax : data.inputTax,
     		isGift : data.isGift,
@@ -979,6 +988,7 @@ function updateListData(data){
      var addDefaultData = gridHandel.addDefault(data, {dealNum:0,largeNum:0,});
      var keyNames = {
 		 distributionPrice:'price',
+		 distributionPrice:'priceBack',
          id:'skuId',
          disabled:'',
          pricingType:'',

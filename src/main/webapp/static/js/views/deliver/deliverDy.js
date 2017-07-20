@@ -655,7 +655,7 @@ function setDataValue(data,fromClick) {
         }
         var keyNames = {
             distributionPrice:'price',
-            price:'priceBack',
+            distributionPrice:'priceBack',
             id:'skuId',
             disabled:'',
             pricingType:'',
@@ -1207,7 +1207,7 @@ function selectStockAndPriceImport(data){
 function updateListData(data){
      var keyNames = {
 		 distributionPrice:'price',
-		 price:'priceBack',
+		 distributionPrice:'priceBack',
          id:'skuId',
          disabled:'',
          pricingType:'',

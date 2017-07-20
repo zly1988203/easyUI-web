@@ -392,16 +392,22 @@ function onSelectIsGift(data){
     if(arrs.length==0){
         var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
-            var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            $("#"+gridHandel.getGridName()).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
-            $(targetPrice).numberbox('disable');
+            gridHandel.setFieldValue('amount',0);//总金额
+            gridHandel.setFieldValue('taxAmount',0);//税额
         }else{
-            $(targetPrice).numberbox('enable');
-            var oldPrice =  $("#"+gridHandel.getGridName()).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
+            //$(targetPrice).numberbox('enable');
+        	var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'priceBack');
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
             }
+        	var priceVal = oldPrice||0;
+            var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'receiveNum') || 0;
+            var oldAmount = parseFloat(priceVal)*parseFloat(applNum);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldAmount');
+            var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
+            gridHandel.setFieldValue('amount',oldAmount);//总金额
+            gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总金额
         }
         updateFooter();
     }else{
@@ -470,6 +476,7 @@ function selectGoods(searchKey){
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
         		distributionPrice:'price',
+        		distributionPrice:'priceBack',
                 id:'skuId',
                 disabled:'',
                 pricingType:'',
@@ -585,6 +592,7 @@ function saveOrder(){
     		receiveNum : data.receiveNum,
     		largeNum : data.largeNum,
     		price : data.price,
+    		priceBack : data.priceBack,
     		amount : data.amount,
     		inputTax : data.inputTax,
     		isGift : data.isGift,
