@@ -91,6 +91,12 @@ function initGoodsTotalAnalysiGrid() {
 			gridHandel.setDatagridHeader("center");
 		}
     });
+   
+   //价格权限 2.7
+   var param = {
+   		costPrice:['costAmount','profitAmount','profitRate']	
+   }
+   priceGrantUtil.grantPrice(gridName,param);
 }
 
 

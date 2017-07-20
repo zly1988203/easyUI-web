@@ -14,9 +14,9 @@
     .show{display:block!important;}
     </style>
 </head>
-<body class="uw uh ufs-14 uc-black">
+<body class="ub uw uh ufs-14 uc-black">
 	   
-      <div class="ub uh  ub-f1 umar-4 upad-4">
+      <div class="ub  ub-f1 umar-4 upad-4">
           <!--left start-->
 		    <div class="ub ub-ver ubor">
 		        <div class="upad-4">
