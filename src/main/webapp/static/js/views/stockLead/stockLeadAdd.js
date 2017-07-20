@@ -167,7 +167,14 @@ function initDatagridStockLead(){
                     }
                 },
             },
-            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+            {field:'remark',title:'备注',width:'200px',align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
         	clickLargeNumChangeFg = true;
@@ -506,6 +513,13 @@ function saveStockLead(){
     if(!isCheckResult){
         return;
     }
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
+
     var reqObj = {
     		io:'1',
         	createBranchId:branchId,

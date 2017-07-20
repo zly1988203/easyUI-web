@@ -173,8 +173,22 @@ function initDatagridAddRequireOrder(){
                 },
 
             },
-            {field:'reason',title:'调整原因',width:'200px',align:'left',editor:'textbox'},
-            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+            {field:'reason',title:'调整原因',width:'200px',align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            },
+            {field:'remark',title:'备注',width:'200px',align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -573,6 +587,13 @@ function saveOrder(){
    });
     
     if(!isCheckResult){
+        return;
+    }
+
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
         return;
     }
    // var saveData = JSON.stringify(rows);
