@@ -539,6 +539,7 @@ function setDataValue(data) {
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
             distributionPrice:'price', //单间采用成本价
+            distributionPrice:'priceBack',
             price:'priceBack',
             id:'skuId',
             disabled:'',
@@ -1000,7 +1001,7 @@ function selectStockAndPriceImport(data){
 function updateListData(data){
      var keyNames = {
 		 distributionPrice:'price',
-		 price:'priceBack',
+		 distributionPrice:'priceBack',
          id:'skuId',
          disabled:'',
          pricingType:'',

@@ -104,6 +104,12 @@ function initGoodsCategorty() {
     
     $("#"+gridName).datagrid('loadData',[]);
     $("#"+gridName).datagrid('reloadFooter',[]);
+    
+  //价格权限
+    var param={
+    	costPrice:['profitAmount','profitRate','marginrate']
+    }
+    priceGrantUtil.grantPrice(gridName,param);
 }
 
 /**

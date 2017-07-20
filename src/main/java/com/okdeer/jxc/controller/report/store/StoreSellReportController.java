@@ -58,8 +58,8 @@ public class StoreSellReportController extends BaseController<StoreSellReportCon
     public PageUtils<StoreSell> getReportList(StoreSellQo vo,
                                               @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
                                               @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-        Optional<StoreSellQo> optional = Optional.ofNullable(vo);
-        vo = optional.orElse(new StoreSellQo());
+        //Optional<StoreSellQo> optional = Optional.ofNullable(vo);
+        //vo = optional.orElse(new StoreSellQo());
         vo.setPageNum(pageNumber);
         vo.setPageSize(pageSize);
         if(StringUtils.isBlank(vo.getBranchCompleCode())){
@@ -70,19 +70,11 @@ public class StoreSellReportController extends BaseController<StoreSellReportCon
         if (StringUtils.isNotBlank(vo.getStartTime())) {
             PageUtils<StoreSell> pageUtils = storeSellFacade.getStoreSells(vo);
 
-            if(pageUtils==null){
-                return PageUtils.emptyPage();
-            }else{
+            if(pageUtils!=null){
                 StoreSell reportVo = storeSellFacade.sumStoreSells(vo);
                 if(reportVo!=null){
                     reportVo.setBranchCode("SUM");
-                    pageUtils.setFooter(new ArrayList<StoreSell>(){
-                        private static final long serialVersionUID = 1L;
-
-                        {
-                            add(reportVo);
-                        }
-                    });
+                    pageUtils.setFooter(new ArrayList<StoreSell>(Arrays.asList(reportVo)));;
                 }
                 // 过滤数据权限字段
                 //cleanAccessData(pageUtils);
@@ -95,8 +87,8 @@ public class StoreSellReportController extends BaseController<StoreSellReportCon
     @RequestMapping(value = "/export/list", method = RequestMethod.POST)
     public RespJson exportList(HttpServletResponse response, StoreSellQo vo) {
         RespJson resp = RespJson.success();
-        Optional<StoreSellQo> optional = Optional.ofNullable(vo);
-        vo = optional.orElse(new StoreSellQo());
+        //Optional<StoreSellQo> optional = Optional.ofNullable(vo);
+        //vo = optional.orElse(new StoreSellQo());
 
         if(StringUtils.isBlank(vo.getBranchCompleCode())){
             vo.setBranchCode(getCurrBranchCompleCode());
@@ -118,8 +110,8 @@ public class StoreSellReportController extends BaseController<StoreSellReportCon
 
     @RequestMapping(value = "/print", method = RequestMethod.GET)
     public String printReport(StoreSellQo vo, HttpServletResponse response, HttpServletRequest request) {
-        Optional<StoreSellQo> optional = Optional.ofNullable(vo);
-        vo = optional.orElse(new StoreSellQo());
+        //Optional<StoreSellQo> optional = Optional.ofNullable(vo);
+        //vo = optional.orElse(new StoreSellQo());
         vo.setPageNum(Integer.valueOf(PAGE_NO));
         vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
         // 默认当前机构

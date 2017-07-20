@@ -58,8 +58,8 @@ public class SupplierStockReportController extends BaseController<SupplierStockR
     public PageUtils<SupplierStock> getReportList(SupplierStockQo vo,
                                                   @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
                                                   @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-        Optional<SupplierStockQo> optional = Optional.ofNullable(vo);
-        vo = optional.orElse(new SupplierStockQo());
+        //Optional<SupplierStockQo> optional = Optional.ofNullable(vo);
+        //vo = optional.orElse(new SupplierStockQo());
         vo.setPageNum(pageNumber);
         vo.setPageSize(pageSize);
         if(StringUtils.isBlank(vo.getBranchCompleCode())){
@@ -70,19 +70,11 @@ public class SupplierStockReportController extends BaseController<SupplierStockR
         if (StringUtils.isNotBlank(vo.getStartTime())) {
             PageUtils<SupplierStock> pageUtils = supplierStockFacade.getSupplierStocks(vo);
 
-            if(pageUtils==null){
-                return PageUtils.emptyPage();
-            }else{
+            if(pageUtils!=null){
                SupplierStock reportVo = supplierStockFacade.sumSupplierStocks(vo);
                 if(reportVo!=null){
                     reportVo.setSupplierCode("SUM");
-                    pageUtils.setFooter(new ArrayList<SupplierStock>(){
-                        private static final long serialVersionUID = 1L;
-
-                        {
-                            add(reportVo);
-                        }
-                    });
+                    pageUtils.setFooter(new ArrayList<SupplierStock>(Arrays.asList(reportVo)));
                 }
                 // 过滤数据权限字段
                 //cleanAccessData(pageUtils);
@@ -95,8 +87,8 @@ public class SupplierStockReportController extends BaseController<SupplierStockR
     @RequestMapping(value = "/export/list", method = RequestMethod.POST)
     public RespJson exportList(HttpServletResponse response, SupplierStockQo vo) {
         RespJson resp = RespJson.success();
-        Optional<SupplierStockQo> optional = Optional.ofNullable(vo);
-        vo = optional.orElse(new SupplierStockQo());
+        //Optional<SupplierStockQo> optional = Optional.ofNullable(vo);
+        //vo = optional.orElse(new SupplierStockQo());
 
         if(StringUtils.isBlank(vo.getBranchCompleCode())){
             vo.setBranchCode(getCurrBranchCompleCode());
@@ -118,8 +110,8 @@ public class SupplierStockReportController extends BaseController<SupplierStockR
 
     @RequestMapping(value = "/print", method = RequestMethod.GET)
     public String printReport(SupplierStockQo vo, HttpServletResponse response, HttpServletRequest request) {
-        Optional<SupplierStockQo> optional = Optional.ofNullable(vo);
-        vo = optional.orElse(new SupplierStockQo());
+        //Optional<SupplierStockQo> optional = Optional.ofNullable(vo);
+        //vo = optional.orElse(new SupplierStockQo());
         vo.setPageNum(Integer.valueOf(PAGE_NO));
         vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
         // 默认当前机构

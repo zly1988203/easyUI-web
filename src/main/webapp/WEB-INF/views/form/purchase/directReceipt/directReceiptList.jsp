@@ -20,7 +20,7 @@
 	                <div class="ubtns-item event-none" id="addBtn" onclick="directAdd()">新增</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcDirectReceipt:delete">
-	                <div class="ubtns-item" id="delBtn" onclick="directDelete()">删除</div>
+	                <!-- <div class="ubtns-item event-none" id="delBtn" onclick="directDelete()">删除</div> -->
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="JxcDirectReceipt:print">
 	                <div class="ubtns-item" id="printBtn" onclick="printList()">打印</div>
@@ -31,43 +31,37 @@
 	            <!-- 引入时间选择控件 -->
 	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
 	        </div>
-	
-	        <div class="ub umar-t8">
+			
+			<div class="ub umar-t8">
 	            <div class="ub ub-ac umar-r40">
-	               <div class="umar-r10 uw-60 ut-r">收货机构:</div>
-						<input class="uinp" name="branchId" id="branchId" type="hidden">
-						<input type="hidden" id="oldBranchName" >
-						<input id="branchName" name="branchName" class="uinp ub ub-f1" type="text" maxlength="50">
-						<div class="uinp-more" onclick="selectBranch()">...</div>
-	            </div>
-	            <div class="ub ub-ac umar-r40">
-	                <div class="umar-r10 uw-60 ut-r">制单人:</div>
-	                <input class="uinp" name="operateUserId" id="operateUserId" type="hidden">
-	                <input type="hidden" id="oldOperateUserName" >
-	                <input class="uinp" id="operateUserName" name ="operateUserName" type="text" maxlength="50">
-					<div class="uinp-more" onclick="selectOperator()">...</div>
-	            </div>
-	        </div>
-	       <div class="ub umar-t8">
-	           <div class="ub ub-ac umar-r40">
-	                <div class="umar-r10 uw-60 ut-r">单号:</div>
+	                <div class="umar-r10 uw-60 ut-r">单据编号:</div>
 	                <input class="uinp" name="formNo" id="formNo" type="text">
-	           </div>
-	           <div class="ub ub-ac umar-r40">
-               <div class="umar-r10 uw-60 ut-r">供应商:</div>
-					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
-					<input type="hidden" id="oldSupplierName"/>
-					<input class="uinp ub ub-f1" type="text" id="supplierName" name="supplierName" maxlength="50">
-					<div class="uinp-more" onclick="selectSupplier()">...</div>
-               </div>
+	            </div>
+	            <div class="ub ub-ac umar-r40" id="supplierComponent">
+	                <div class="umar-r10 uw-60 ut-r">供应商:</div>
+	                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
+	                <input class="uinp" id="supplierName" name="supplierName" type="text" maxlength="50">
+	                <div class="uinp-more">...</div>
+	            </div>
+	            <div class="ub ub-ac umar-r40" id="operatorComponent">
+	                <div class="umar-r10 uw-60 ut-r">操作员:</div>
+	                <input class="uinp" name="operateUserId" id="operateUserId" type="hidden">
+	                <input class="uinp" id="operateUserName" name="operateUserName" type="text" maxlength="50">
+	                <div class="uinp-more">...</div>
+	            </div>
 	        </div>
-	        
 	        <div class="ub umar-t8">
-               <div class="ub ub-ac uw-584">
-                    <div class="umar-r10 uw-60 ut-r">备注:</div>
-                    <input class="uinp ub ub-f1" name="remark" id="remark" type="text" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')" maxlength="40">
-	           </div>
-	          <div class="ub ub-ac umar-l20">
+	        	<div class="ub ub-ac umar-r40" id="branchComponent">
+	                <div class="umar-r10 uw-60 ut-r">收货机构:</div>
+	                <input class="uinp" name="branchId" id="branchId" type="hidden">
+	                <input class="uinp" id="branchName" name="branchName" type="text" maxlength="50">
+	                <div class="uinp-more">...</div>
+	            </div>
+	            <div class="ub ub-ac umar-r40" id="refFormNoDiv">
+	                <div class="umar-r10 uw-60 ut-r">采购单号:</div>
+	                <input class="uinp" name="refFormNo" id="refFormNo" type="text">
+	            </div>
+	            <div class="ub ub-ac umar-r40" id="radioItemDiv">
 	                <div class="umar-r10 uw-60 ut-r">审核状态:</div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="radioItem" type="radio" name="status" id="status_no" value="0" checked="checked"/><label for="status_no">未审核 </label>
@@ -75,11 +69,14 @@
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="radioItem" type="radio" name="status" id="status_yes" value="1"/><label for="status_yes">已审核 </label>
 	                </div>
+	                <!-- <div class="ub ub-ac umar-r10">
+	                    <input class="radioItem" type="radio" name="status" value="2"/><span>不通过 </span>
+	                </div> -->
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="radioItem" type="radio" name="status" id="status_all" value=""/><label for="status_all">全部</label>
+	                    <input class="radioItem" type="radio" name="status" id="status_all" value="" /><label for="status_all">全部</label>
 	                </div>
 	            </div>
-            </div>
+	        </div>
         </form>
         <div class="ub ub-f1  umar-t8 umar-b8">
             <div id="tabs" class="easyui-tabs" data-options="fit:true,border:false,tabWidth:120,tabHeight:25" style="">

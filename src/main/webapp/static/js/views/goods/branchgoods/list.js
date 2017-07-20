@@ -52,7 +52,37 @@ $(function() {
 	// 商品过滤单选框
 	changeStatus();
 
+	//机构选择初始化 分组
+	initBranchGrounp();
 });
+
+function initBranchGrounp(){
+	$('#branchGroupComponent').branchSelect({
+		param:{
+			selectType:1,  //多选
+			view:'group', //分组
+		},
+		onAfterRender:function(data){
+    		if(data && data.length>0){
+    			var ids = [];
+    			data.forEach(function(obj,inx){
+    				if(obj.type == -1){
+    					ids.push(obj.branchId);
+    				}
+    			})
+    			if(ids.length == 0) return;
+    			var param = {
+    				"groupIds":ids.join(',')
+    			}
+    			//拉取分组详细
+    			publicGetBranchGroupDetail(param,function(result){
+    				$('#branchId').val(result&&result.branchId);
+    				$('#branchName').attr('title',result&&result.branchName);
+    			})
+    		}
+     	}
+	});
+}
 
 function initView() {
 	$('#goodsType').combobox({

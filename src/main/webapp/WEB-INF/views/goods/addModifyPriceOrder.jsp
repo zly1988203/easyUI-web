@@ -25,14 +25,12 @@
 						<c:when
 							test="${goodsPriceForm.formNo==''||goodsPriceForm.formNo==null}">
 							<c:if test="${goodsPriceForm.status !=1 }">
-								<div class="ubtns-item" id="saveModifyPriceOrder"
-									onclick="saveModifyPriceOrder();">保存</div>
+								<div class="ubtns-item" id="saveModifyPriceOrder" onclick="saveModifyPriceOrder();">保存</div>
 							</c:if>
 						</c:when>
 						<c:otherwise>
 							<c:if test="${goodsPriceForm.status !=1 }">
-								<div class="ubtns-item" id="saveModifyPriceOrder"
-									onclick="updateModifyPriceOrder();">保存</div>
+								<div class="ubtns-item" id="saveModifyPriceOrder" onclick="updateModifyPriceOrder();">保存</div>
 							</c:if>
 						</c:otherwise>
 					</c:choose>
@@ -82,7 +80,7 @@
 					<div class="ub ub-ac uw-608" id="branchGroup">
 						<div class="umar-r10 uw-70 ut-r">机构列表:</div>
 						<input class="uinp ub ub-f1" name="branchId" type="hidden" id="branchId" value="${branchId}">
-						<input class="uinp ub ub-f1" name="branchName" type="text" value="${branchName}" onmouseout="this.title=this.value" id="branchShopName" readonly>
+						<input class="uinp ub ub-f1" name="branchName" id="branchName" type="text" title="${branchName}" value="${branchName}"  id="branchShopName" readonly>
 						<div class="uinp-more">...</div>
 					</div>
 					<div class="ub ub-ac umar-l28 uw-200">
