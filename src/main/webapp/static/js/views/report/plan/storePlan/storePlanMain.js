@@ -172,7 +172,7 @@ function initStorePlanList(){
         ]],
         onClickCell:function(rowIndex,field,value){
         	// if(!checkBranch())return;
-        	//if(!checkIfEdit(rowIndex+1))return;
+        	if(chargeStatus == 'edit' && !checkIfEdit(rowIndex+1))return;
             gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
             var target = gridHandel.getFieldTarget(field);
@@ -297,7 +297,7 @@ function checkIfEdit(month){
 	
 	var _year = $('#year').val();
 	
-	var _dat = new Date();
+	var _dat = $('#currMonth').val()?new Date($('#currMonth').val()):new Date();
 	var _curYear = _dat.getFullYear();
 	//当前月份
 	var _curMonth = _dat.getMonth()+1;

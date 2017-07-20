@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.report.deliver;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
-import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.enums.DeliverAuditStatusEnum;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
@@ -33,6 +33,7 @@ import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.deliver.service.DeliverTotalReportServiceApi;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+import com.okdeer.retail.common.constant.PriceConstant;
 
 
 @Controller
@@ -104,8 +105,8 @@ public class DeliverTotalReportController extends ReportController {
 			formatter(dataRecord);
 		}
 		
-		cleanDataMaps(PriceAccessConstant.DELIVER_TOTAL_REPORT, list.getList());
-		cleanDataMaps(PriceAccessConstant.DELIVER_TOTAL_REPORT, list.getFooter());
+		cleanDataMaps(getPriceAccess(), list.getList());
+		cleanDataMaps(getPriceAccess(), list.getFooter());
 		return list;
 	}
 
@@ -139,7 +140,7 @@ public class DeliverTotalReportController extends ReportController {
 			formatter(dataRecord);
 		}
 		
-		cleanDataMaps(PriceAccessConstant.DELIVER_TOTAL_REPORT, dataList);
+		cleanDataMaps(getPriceAccess(), dataList);
 		exportListForXLSX(response, dataList, reportFileName, templateName);
 	}
 
@@ -172,5 +173,16 @@ public class DeliverTotalReportController extends ReportController {
 	@RequestMapping("reportTotal")
 	public DataRecord getTotal(){
 		return null;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.controller.common.ReportController#getPriceAccess()
+	 */
+	@Override
+	public Map<String, String> getPriceAccess() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(PriceConstant.DISTRIBUTION_PRICE, "inputTax,dealAmount,receiveAmount,sumAmount,amount"); 
+		return map;
 	}
 }

@@ -18,6 +18,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +44,6 @@ import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.ImportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
-import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
@@ -77,8 +78,7 @@ import com.okdeer.jxc.goods.entity.GoodsSelectDeliver;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
-
-import net.sf.json.JSONObject;
+import com.okdeer.retail.common.constant.PriceConstant;
 
 /**
  * ClassName: DeliverFormController 
@@ -907,8 +907,14 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 					deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(),
 							"yyyy-MM-dd") : "");
 		}
-		cleanDataMap(PriceAccessConstant.DELIVER_FORM, replaceMap);
+		cleanDataMap(getPriceAccess(), replaceMap);
 		return replaceMap;
+	}
+	
+	private Map<String, String> getPriceAccess() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(PriceConstant.DISTRIBUTION_PRICE, "_人民币总金额大写,amountCN,_总金额,amount,_合计金额"); // 配送价
+		return map;
 	}
 
 	/**
