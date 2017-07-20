@@ -285,6 +285,12 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 				PurchaseFormDetail formDetail = new PurchaseFormDetail();
 				BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
+				
+				// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
+	            if(BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0 
+	                    && formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0){
+	                formDetail.setPriceBack(formDetail.getPrice());
+	            }
 				formDetail.setId(UUIDHexGenerator.generate());
 				formDetail.setFormId(formId);
 				formDetail.setCreateTime(now);
@@ -491,6 +497,12 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 				PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
 				BeanUtils.copyProperties(purchaseFormDetailVo, purchaseFormDetail);
+				
+				// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
+                if(BigDecimal.ZERO.compareTo(purchaseFormDetail.getPrice()) != 0 
+                        && purchaseFormDetail.getPrice().compareTo(purchaseFormDetail.getPriceBack()) != 0){
+                    purchaseFormDetail.setPriceBack(purchaseFormDetail.getPrice());
+                }
 				purchaseFormDetail.setId(UUIDHexGenerator.generate());
 				purchaseFormDetail.setFormId(formId);
 				purchaseFormDetail.setCreateTime(now);
