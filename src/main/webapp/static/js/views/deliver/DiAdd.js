@@ -127,7 +127,7 @@ function initDatagridAddRequireOrder(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     if(!value||value==""||parseFloat(value)==0.0){
-                    	row["receiveNum"] = row["dealNum"];
+                    	row["receiveNum"] = row["dealNum"]||0;
                   	  value = row["receiveNum"];
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -166,6 +166,9 @@ function initDatagridAddRequireOrder(){
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    if(!value){
+                    	row["amount"] = 0;
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
@@ -480,7 +483,7 @@ function selectGoods(searchKey){
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
         		distributionPrice:'price',
-        		distributionPrice:'priceBack',
+        		price:'priceBack',
                 id:'skuId',
                 disabled:'',
                 pricingType:'',

@@ -538,13 +538,14 @@ function setDataValue(data) {
         var nowRows = gridHandel.getRowsWhere({skuName:'1'});
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
-            distributionPrice:'price', //单间采用成本价
-            distributionPrice:'priceBack',
-            price:'priceBack',
             id:'skuId',
             disabled:'',
             pricingType:''
         };
+        if(pageStatus === 'add'){
+        	keyNames.distributionPrice = 'price';
+        	keyNames.price = 'priceBack';
+        }
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1};   //只要是赠品就可以重复
@@ -1001,7 +1002,7 @@ function selectStockAndPriceImport(data){
 function updateListData(data){
      var keyNames = {
 		 distributionPrice:'price',
-		 distributionPrice:'priceBack',
+		 price:'priceBack',
          id:'skuId',
          disabled:'',
          pricingType:'',

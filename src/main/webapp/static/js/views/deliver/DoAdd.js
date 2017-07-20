@@ -599,7 +599,7 @@ function setDataValue(data) {
     var addDefaultData  = gridHandel.addDefault(data,gridDefault);
     var keyNames = {
 		distributionPrice:'price',
-		distributionPrice:'priceBack',
+		price:'priceBack',
         id:'skuId',
         disabled:'',
         pricingType:'',
@@ -1037,7 +1037,7 @@ function updateListData(data){
      var addDefaultData = gridHandel.addDefault(data, {});
      var keyNames = {
 		 distributionPrice:'price',
-		 distributionPrice:'priceBack',
+		 price:'priceBack',
          id:'skuId',
          disabled:'',
          pricingType:'',
