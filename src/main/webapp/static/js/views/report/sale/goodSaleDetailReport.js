@@ -110,6 +110,12 @@ function initGoodsTotalAnalysiGrid() {
 			//updateFooter();
 		}
     });
+   
+    //价格权限
+    var param={
+    	costPrice:['costPrice','costAmount']
+    }
+    priceGrantUtil.grantPrice(gridName,param);
 }
 
 

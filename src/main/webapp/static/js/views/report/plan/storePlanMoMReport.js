@@ -36,14 +36,14 @@ function initDataCateSaleReport(){
 	        		return value;
             	}	
 			},
-			{field:'lastSaleNum',title:'上月实际销售',width: 100,align:'center',colspan:3},
+			{field:'lastSaleNum',title:'上月实际销售',width: 100,align:'center',colspan:hasCostPrice?3:1},
 			{field:'lastMonthComplePercentStr',title:'上月销售完成率',width: 100,align:'right',rowspan:2,
 				formatter:function(value,row,index){
             		return '<b>'+value+'</b>';
             	}
 			},
 			{field:'curTarget',title:'当月目标',width: 100,align:'center',colspan:3},
-			{field:'curSaleNum',title:'当月实际销售',width: 100,align:'center',colspan:3},
+			{field:'curSaleNum',title:'当月实际销售',width: 100,align:'center',colspan:hasCostPrice?3:1},
 			{field:'currMonthCostHbPercentStr',title:'当月实际成本环比',width: 110,align:'right',rowspan:2,
 				formatter:function(value,row,index){
             		return '<b>'+value+'</b>';
@@ -138,6 +138,10 @@ function initDataCateSaleReport(){
         }       
     });
    // queryForm();
+	if(!hasCostPrice){
+		priceGrantUtil.grantCostPrice(datagridId,['lastMonthCostAmount','lastMonthProfitAmount','currMonthCostAmount','currMonthProfitAmount','currMonthCostHbPercentStr','currMonthProfitGrowth'])
+	}
+	
 }
 
 

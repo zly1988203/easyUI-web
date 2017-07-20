@@ -102,6 +102,12 @@ function initGoodsTotalAnalysiGrid() {
 			//updateFooter();
 		}
     });
+   
+   //价格权限 2.7
+   var param = {
+   		costPrice:['stockAmout','costAmount','idAmount']	
+   }
+   priceGrantUtil.grantPrice(gridName,param);
 }
 
 
