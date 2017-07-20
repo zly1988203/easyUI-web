@@ -58,8 +58,8 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
     public PageUtils<SupplierSell> getReportList(SupplierSellQo vo,
                                                  @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
                                                  @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-        Optional<SupplierSellQo> optional = Optional.ofNullable(vo);
-        vo = optional.orElse(new SupplierSellQo());
+        //Optional<SupplierSellQo> optional = Optional.ofNullable(vo);
+        //vo = optional.orElse(new SupplierSellQo());
         vo.setPageNum(pageNumber);
         vo.setPageSize(pageSize);
         if(StringUtils.isBlank(vo.getBranchCompleCode())){
@@ -70,19 +70,11 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
         if (StringUtils.isNotBlank(vo.getStartTime())) {
             PageUtils<SupplierSell> pageUtils = supplierStockFacade.getSupplierSells(vo);
 
-            if(pageUtils==null){
-                return PageUtils.emptyPage();
-            }else{
+            if(pageUtils!=null){
                 SupplierSell reportVo = supplierStockFacade.sumSupplierSells(vo);
                 if(reportVo!=null){
                     reportVo.setSupplierCode("SUM");
-                    pageUtils.setFooter(new ArrayList<SupplierSell>(){
-                        private static final long serialVersionUID = 1L;
-
-                        {
-                            add(reportVo);
-                        }
-                    });
+                    pageUtils.setFooter(new ArrayList<SupplierSell>(Arrays.asList(reportVo)));
                 }
                 // 过滤数据权限字段
                 //cleanAccessData(pageUtils);
@@ -95,8 +87,8 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
     @RequestMapping(value = "/export/list", method = RequestMethod.POST)
     public RespJson exportList(HttpServletResponse response, SupplierSellQo vo) {
         RespJson resp = RespJson.success();
-        Optional<SupplierSellQo> optional = Optional.ofNullable(vo);
-        vo = optional.orElse(new SupplierSellQo());
+        //Optional<SupplierSellQo> optional = Optional.ofNullable(vo);
+        //vo = optional.orElse(new SupplierSellQo());
 
         if(StringUtils.isBlank(vo.getBranchCompleCode())){
             vo.setBranchCode(getCurrBranchCompleCode());
@@ -118,8 +110,8 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
 
     @RequestMapping(value = "/print", method = RequestMethod.GET)
     public String printReport(SupplierSellQo vo, HttpServletResponse response, HttpServletRequest request) {
-        Optional<SupplierSellQo> optional = Optional.ofNullable(vo);
-        vo = optional.orElse(new SupplierSellQo());
+        //Optional<SupplierSellQo> optional = Optional.ofNullable(vo);
+        //vo = optional.orElse(new SupplierSellQo());
         vo.setPageNum(Integer.valueOf(PAGE_NO));
         vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
         // 默认当前机构
