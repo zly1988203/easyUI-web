@@ -36,7 +36,6 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.report.qo.GoodsReportQo;
 import com.okdeer.jxc.report.service.GoodsReportService;
-import com.okdeer.jxc.report.vo.GoodsReportVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 

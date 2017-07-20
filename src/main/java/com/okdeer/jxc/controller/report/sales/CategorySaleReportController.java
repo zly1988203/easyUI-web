@@ -9,11 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.sale.CategorySaleCostReportServiceApi;
-import com.okdeer.retail.common.constant.PriceConstant;
+import com.okdeer.retail.common.price.PriceConstant;
+import com.okdeer.retail.common.report.DataRecord;
 
 @Controller
 @RequestMapping("report/sale/categorySaleReport")

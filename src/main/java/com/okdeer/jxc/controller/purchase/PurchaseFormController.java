@@ -81,7 +81,7 @@ import com.okdeer.jxc.goods.qo.GoodsBranchPriceQo;
 import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
-import com.okdeer.retail.common.constant.PriceConstant;
+import com.okdeer.retail.common.price.PriceConstant;
 
 /**
  * ClassName: PurchaseFormController 

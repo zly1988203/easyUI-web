@@ -20,6 +20,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jfree.util.Log;
 import org.springframework.beans.BeanUtils;
@@ -62,8 +64,6 @@ import com.okdeer.jxc.sale.enums.ActivityStatus;
 import com.okdeer.jxc.sale.enums.ActivityType;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
-
-import net.sf.json.JSONObject;
 
 /**
  * ClassName: ActivityController 
