@@ -125,9 +125,10 @@
 			</div>
 		</form>
 		<!--datagrid-edit-->
-		<div class="ub ub-f1 datagrid-edit umar-t8">
-			<table id="stockLeadViewForm"></table>
-		</div>
+	<from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+	<table id="stockLeadViewForm" ></table>
+	</from>
+
 	</div>
 
 </body>
