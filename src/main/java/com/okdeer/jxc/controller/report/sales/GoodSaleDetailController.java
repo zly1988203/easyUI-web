@@ -1,5 +1,6 @@
 package com.okdeer.jxc.controller.report.sales;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.sale.GoodSaleDetailServiceApi;
+import com.okdeer.retail.common.constant.PriceConstant;
 
 @Controller
 @RequestMapping("report/sale/goodSaleDetailReport")
@@ -74,5 +76,16 @@ public class GoodSaleDetailController extends ReportController {
 		if (dataRecord.get("orderType")!=null&&StringUtils.isNotBlank(dataRecord.get("orderType").toString())) {
 			dataRecord.put("orderTypeStr", OrderResourceEnum.getName(Integer.parseInt(dataRecord.get("orderType").toString())));
 		}
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.controller.common.ReportController#getPriceAccess()
+	 */
+	@Override
+	public Map<String, String> getPriceAccess() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(PriceConstant.COST_PRICE, "costPrice,costAmount"); //成本价，成本金额
+		return map;
 	}
 }

@@ -146,5 +146,15 @@ public class PurchaseFormReportController extends ReportController{
 	public String getFileName() {
 		return "采购";
 	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.controller.common.ReportController#getPriceAccess()
+	 */
+	@Override
+	public Map<String, String> getPriceAccess() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

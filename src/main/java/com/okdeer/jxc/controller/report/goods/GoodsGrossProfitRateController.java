@@ -85,6 +85,8 @@ public class GoodsGrossProfitRateController extends BaseController<GoodsGrossPro
 			qo.setEndTime(DateUtils.getFullStr(DateUtils.getNextDay(DateUtils.parse(qo.getEndTime() + " 00:00:00"))));
 
 			PageUtils<GoodsGrossProfitRate> page = goodsGrossProfitRateFacade.queryGoodsGrossProfitRateList(qo);
+			// 过滤数据权限字段
+            cleanAccessData(page);
 			LOG.debug("商品毛利率报表查询结果：{}", page);
 			return page;
 		} catch (Exception e) {
@@ -104,6 +106,8 @@ public class GoodsGrossProfitRateController extends BaseController<GoodsGrossPro
 			qo.setEndTime(DateUtils.getFullStr(DateUtils.getNextDay(DateUtils.parse(qo.getEndTime() + " 00:00:00"))));
 
 			List<GoodsGrossProfitRate> list = goodsGrossProfitRateFacade.queryGoodsGrossProfitRateExportList(qo);
+			// 过滤数据权限字段
+            cleanAccessData(list);
 
 			if (CollectionUtils.isNotEmpty(list)) {
 				String fileName = "商品毛利率报表" + "_" + DateUtils.getCurrSmallStr();

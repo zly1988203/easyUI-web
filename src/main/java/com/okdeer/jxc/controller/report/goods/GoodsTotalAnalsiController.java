@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.report.goods;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,13 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
-import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.goods.service.GoodsTotalAnalsiServiceApi;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+import com.okdeer.retail.common.constant.PriceConstant;
 
 /**
  * ClassName: GoodsTotalAnalsi 
@@ -160,12 +161,24 @@ public class GoodsTotalAnalsiController extends ReportController {
 			List<DataRecord> dataList=goodsTotalAnalsiServiceApi.getList(map);
 			DataRecord data = goodsTotalAnalsiServiceApi.getExportTotal(map);
 			dataList.add(data);
-			cleanDataMaps(PriceAccessConstant.GOODS_TOTAL_ANALSI, dataList);
+			cleanDataMaps(getPriceAccess(), dataList);
 			exportListForXLSX(response, dataList, reportFileName, templateName);
 		} catch (Exception e) {
 			LOG.error("商品销售汇总导出失败" );
 		}
 		
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.controller.common.ReportController#getPriceAccess()
+	 */
+	@Override
+	public Map<String, String> getPriceAccess() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(PriceConstant.SALE_PRICE, "saleAmount"); //销售额
+		map.put(PriceConstant.COST_PRICE, "costAmount,grossProfit,grossProfitRate"); //成本额，毛利，毛利率
+		return map;
 	}
 
 }

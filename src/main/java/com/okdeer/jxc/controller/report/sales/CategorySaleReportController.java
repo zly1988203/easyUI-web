@@ -1,5 +1,6 @@
 package com.okdeer.jxc.controller.report.sales;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.sale.CategorySaleCostReportServiceApi;
+import com.okdeer.retail.common.constant.PriceConstant;
 
 @Controller
 @RequestMapping("report/sale/categorySaleReport")
@@ -52,6 +54,17 @@ public class CategorySaleReportController extends ReportController {
 	@Override
 	public void formatter(DataRecord dataRecord) {
 
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.controller.common.ReportController#getPriceAccess()
+	 */
+	@Override
+	public Map<String, String> getPriceAccess() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(PriceConstant.COST_PRICE, "profitAmount,profitRate,marginrate"); //毛利，毛利率，毛利占比
+		return map;
 	}
 
 }

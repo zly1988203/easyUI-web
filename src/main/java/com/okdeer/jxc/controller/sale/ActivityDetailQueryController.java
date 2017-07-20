@@ -156,4 +156,14 @@ public class ActivityDetailQueryController extends ReportController {
 
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.controller.common.ReportController#getPriceAccess()
+	 */
+	@Override
+	public Map<String, String> getPriceAccess() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
