@@ -475,8 +475,6 @@ function selectGoods(searchKey){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
-        		distributionPrice:'price',
-        		distributionPrice:'priceBack',
                 id:'skuId',
                 disabled:'',
                 pricingType:'',
