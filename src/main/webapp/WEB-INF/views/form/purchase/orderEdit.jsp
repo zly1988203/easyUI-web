@@ -15,7 +15,7 @@
 <script src="${ctx}/static/js/views/purchase/purchaseExport.js?V=${versionNo}"></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="ub ub-ver uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
@@ -112,9 +112,10 @@
 					maxlength="100" value="${form.remark}">
 			</div>
 		</div>
-		<div class="ub ub-f1 datagrid-edit umar-t8">
-			<table id="gridEditOrder"></table>
-		</div>
+
+		<from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+		<table id="gridEditOrder" ></table>
+		</from>
 
 	</div>
 

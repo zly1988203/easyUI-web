@@ -47,7 +47,14 @@ function initdgOrderList(){
             		return formatDate(value);
             	}
             },
-            {field:'remark',title:'备注',width:120,align:'left',editor:"textbox"}
+            {field:'remark',title:'备注',width:120,align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+			}
         ]],
 
         onLoadSuccess : function() {
@@ -71,6 +78,12 @@ function chekData(){
     $.each(rows,function(i,v){
     	formIds+=v.formId+",";
     });
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
     
     $_jxc.confirm('确认审核所有所选数据？',function(data){
 		if(data){

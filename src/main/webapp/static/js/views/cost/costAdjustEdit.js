@@ -154,8 +154,22 @@ function initDatagridEditRequireOrder(){
 		        	  },
 
 		          },
-		          {field: 'adjustReason', title: '调整原因', width: '200px', align: 'left',editor:'textbox'},
-		          {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+		          {field: 'adjustReason', title: '调整原因', width: '200px', align: 'left',
+                      editor:{
+                          type:'textbox',
+                          options:{
+                              validType:{maxLength:[20]},
+                          }
+                      }
+				  },
+		          {field:'remark',title:'备注',width:'200px',align:'left',
+                      editor:{
+                          type:'textbox',
+                          options:{
+                              validType:{maxLength:[20]},
+                          }
+                      }
+				  }
 		          ]],
 		          onClickCell:function(rowIndex,field,value){
 		        	  gridHandel.setBeginRow(rowIndex);
@@ -330,6 +344,13 @@ function editsaveOrder(){
             isChcekPrice = true;
         }
     });
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
+
     if(isCheckResult){
         if(isChcekPrice){
             $_jxc.confirm("新单价存在为0，是否确定保存?",function(r){

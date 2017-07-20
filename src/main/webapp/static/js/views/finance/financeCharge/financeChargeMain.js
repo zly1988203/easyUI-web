@@ -115,21 +115,10 @@ function initGridStoreCharge() {
                 },
             },
             {field:'remark',title:'备注',width:250,align:'left',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return;
-                    }
-                    if(undefined != value && value.trim().length > 20){
-                        value = value.substr(0,20);
-                    }
-                    return value;
-                },
                 editor:{
                     type:'textbox',
                     options:{
-                        prompt:"最多输入20个字符",
-                        disabled:isdisabled,
-                        onChange:remarkChange
+                        validType:{maxLength:[20]},
                     }
                 }
             },
@@ -166,14 +155,6 @@ function initGridStoreCharge() {
     if(chargeStatus === "add"){
         gridHandel.setLoadData([$.extend({},gridDefault)]);
     }
-}
-
-function remarkChange(newVal,oldVal){
-    if(undefined != newVal && newVal.trim().length > 20){
-        $_jxc.alert('备注最多输入20个字符')
-        newVal = newVal.substr(0,20);
-    }
-    gridHandel.setFieldTextValue('remark',newVal);
 }
 
 function onChangeAmount(newVal,oldVal) {
@@ -264,6 +245,12 @@ function saveStoreCharge() {
     });
     
     if(!isCheckResult){
+        return;
+    }
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
         return;
     }
 

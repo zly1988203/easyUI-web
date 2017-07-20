@@ -236,7 +236,14 @@ function initDatagridEditOrder(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+            {field:'remark',title:'备注',width:'200px',align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -558,6 +565,13 @@ function saveItemHandel(){
         	isChcekNum = true;
         }
     });
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
+
     if(isCheckResult){
         if(isChcekPrice){
             $_jxc.confirm("单价存在为0，重新修改",function(r){

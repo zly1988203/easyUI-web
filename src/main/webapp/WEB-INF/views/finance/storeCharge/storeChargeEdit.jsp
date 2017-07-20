@@ -111,9 +111,10 @@
 			</div>
 		</form>
 
-	<div class="ub uw umar-t8 ub-f1">
-	<table id="gridStoreCharge"></table>
-	</div>
+		<from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+		<table id="gridStoreCharge" ></table>
+		</from>
+
 	</div>
 	
 

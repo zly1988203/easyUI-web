@@ -299,6 +299,7 @@ function initDirectDataGrid(){
                    type:'textbox',
                    options:{
                        disabled:isdisabled,
+                       validType:{maxLength:[20]},
                    }
                },
            }

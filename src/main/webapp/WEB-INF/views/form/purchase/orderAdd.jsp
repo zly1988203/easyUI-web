@@ -86,9 +86,11 @@
 				</div>
 			</div>
 		</form>
-		<div class="ub uw umar-t8 ub-f1">
-			<table id="gridEditOrder"></table>
-		</div>
+
+		<from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+		<table id="gridEditOrder" ></table>
+		</from>
+
 	</div>
 
 	<!-- 是否有改价权限 -->

@@ -12,7 +12,7 @@
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="ub ub-ver uw uh ufs-14 uc-black">
     <input type='hidden' id="operateType" name="operateType" value="edit">
     <input type='hidden' id="formId" value="${chargeVo.id}">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -99,9 +99,10 @@
                </div>               
            </div>
            <%--datagrid-edit--%>
-           <div class="ub ub-f1 datagrid-edit umar-t8">
-            <table id="supplierAdvanceListAdd" ></table>
-        </div>
+    <from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+    <table id="supplierAdvanceListAdd" ></table>
+    </from>
+
     </div>
 
 </body>
