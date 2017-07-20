@@ -15,7 +15,7 @@
         var _comboV = '${checkVo.payType}';
     </script>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="ub ub-ver uw uh ufs-14 uc-black">
 	<input type='hidden' id="operateType" value="edit">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
@@ -127,9 +127,10 @@
          </div>
          </form>
            <%--datagrid-edit--%>
-           <div class="ub ub-f1 datagrid-edit umar-t8">
-            <table id="supplierChkAccountAdd" ></table>
-        </div>
+    <from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+    <table id="supplierChkAccountAdd" ></table>
+    </from>
+
     </div>
 
 </body>

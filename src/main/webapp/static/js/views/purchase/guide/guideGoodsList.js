@@ -304,7 +304,14 @@ function initPurchaseGuideGoodsListDg(){
                     }
                 },
 			},
-            {field:'remark',title:'备注',width:150,align:'left',editor:"textbox"}
+            {field:'remark',title:'备注',width:150,align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -384,6 +391,12 @@ function nextStep (){
 		 $_jxc.alert("商品数据为空!");
 		 return;
 	 }
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
 
 	 if(indexs.length > 0){
 

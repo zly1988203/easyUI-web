@@ -9,7 +9,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <script src="${ctx}/static/js/views/purchase/guide/guideOrderList.js?V=${versionNo}"></script>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="ub ub-ver uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
 	
 	<div class="ub ub-ac upad-4">
@@ -32,9 +32,9 @@
     
 		<input type="hidden" name="guideNo" id="guideNo" value='${guideNo }' />
 
-		<div class="ub umar-t8 ub-f1">
-			<table id="dgGuideOrderList"></table>
-		</div>
+		<from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+		<table id="dgGuideOrderList" ></table>
+		</from>
 
 	</div>
 </body>

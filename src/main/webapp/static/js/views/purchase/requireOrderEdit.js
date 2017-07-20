@@ -104,7 +104,14 @@ function initDatagridEditRequireOrder(){
 			        }
 			    },
 			},
-			{field:'remark',title:'备注',width:100,align:'center',editor:'textbox'},
+			{field:'remark',title:'备注',width:100,align:'center',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            },
 			{field:'dqkc',title:'当前库存',width:100,align:'center'},
 			{field:'mbkc',title:'目标库存',width:100,align:'center'}
         ]],
@@ -424,17 +431,16 @@ function saveItemHandel(){
 	var amount=0;
 	
 	var rows = $("#gridEditRequireOrder").datagrid('getRows');
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
+
     var saveData = JSON.stringify(rows);
-    
-    console.log(branchShopInput);
-	console.log(operateUserId);
-	console.log(branchId);
-	console.log(deliverTime);
-	console.log(remarks);
-    
-    
+
     var detailList = tableArrayFormatter(rows,"detailList");
-    console.log(detailList);
     
     var reqObj = $.extend({
     	id:id,

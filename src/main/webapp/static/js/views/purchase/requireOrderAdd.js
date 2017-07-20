@@ -100,7 +100,14 @@ function initDatagridAddRequireOrder(){
                     }
                 },
             },
-            {field:'remark',title:'备注',width:100,align:'center',editor:'textbox'},
+            {field:'remark',title:'备注',width:100,align:'center',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            },
             {field:'dqkc',title:'当前库存',width:100,align:'center'},
             {field:'mbkc',title:'目标库存',width:100,align:'center'}
         ]],
@@ -479,6 +486,12 @@ function saveItemHandel(){
         }
     });
     if(!isCheckResult){
+        return;
+    }
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
         return;
     }
     
