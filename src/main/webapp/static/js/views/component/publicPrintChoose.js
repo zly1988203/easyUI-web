@@ -57,6 +57,8 @@ function toPrintComponentPreview(){
     var url = contextPath + controllerUrl + "preview?page=" + templateCode
 		+ "&form=list&template=" + templateId + "&sheetNo="
 		+ id;
+    // 关闭现有的预览页
+    parent.closeTabPrint(formNo+'打印预览');
     //弹出打印页面
     parent.addTabPrint(templateCode + id,formNo+'打印预览',url,'');
 }
@@ -74,6 +76,8 @@ function toPrintComponentSet(){
 	var url = contextPath + "/printdesign/design?page=" + templateCode
 			+ "&controller=" + controllerUrl + "&template=" + templateId
 			+ "&sheetNo=" + id + "&gridFlag=PAGrid";
+	// 关闭现有的设置页
+    parent.closeTabPrint(formNo+'单据打印');
     //弹出打印页面
 	parent.addTabPrint(templateCode + id, formNo + '单据打印', url, '');
 }
@@ -92,7 +96,7 @@ function toPrintComponentPrint(){
 		+ "&form=print&template=" + templateId + "&sheetNo="
 		+ id;
     //弹出打印页面
-    parent.addTabPrint(templateCode + id,formNo+'打印预览',url,'');
+    parent.addTabPrint(templateCode + id,formNo+'打印',url,'');
 }
 
 //列表页面进入预览

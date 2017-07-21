@@ -95,6 +95,7 @@ public abstract class BasePrintController<T, P> extends BaseController<T> {
 		model.addObject("tabId", tabId);
 		model.addObject("sheetNo", sheetNo);
 
+		model.addObject("template", template);
 		model.addObject("page", page);
 		model.addObject("controllerUrl", controllerUrl);
 		// 获取打印占位JSON
