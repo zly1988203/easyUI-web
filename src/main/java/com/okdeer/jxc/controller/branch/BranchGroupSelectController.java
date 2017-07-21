@@ -68,14 +68,14 @@ public class BranchGroupSelectController extends BaseController<BranchGroupSelec
 		vo.setPageNumber(pageNumber);
 		vo.setPageSize(pageSize);
 		// 根据类型查询不同数据
-		if (vo.getType()==1) {
+		if (vo.getGroupType()==1) {
 			return branchGroupServiceApi.queryGroupAsBranchList(vo);
 		} else {
-			if (2==vo.getType()) {
+			if (2==vo.getGroupType()) {
 				vo.setBranchType(BranchTypeEnum.SELF_STORE.getCode());
-			} else if (3==vo.getType()) {
+			} else if (3==vo.getGroupType()) {
 				vo.setBranchType(BranchTypeEnum.FRANCHISE_STORE_B.getCode());
-			} else if (4==vo.getType()) {
+			} else if (4==vo.getGroupType()) {
 				vo.setBranchType(BranchTypeEnum.FRANCHISE_STORE_C.getCode());
 			}
 

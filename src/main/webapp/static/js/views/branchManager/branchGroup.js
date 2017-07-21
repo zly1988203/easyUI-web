@@ -167,23 +167,31 @@ function updateStoreComp(){
 //机构组合商品  删除
 function delStoreComp(){
 	//数据校验
-	if(!checkData())return;
+	debugger;
 	var selectBranch = $('#'+gridStoreViewId).datagrid("getSelected");
-	var id = selectBranch.id;
-	console.log('id',id);
-	return;
-	$_jxc.alert({
-		url:contextPath+"/branch/branchGroup/saveBranchGroup",
-		data:{"id":id}
-	},function(result){
-		//删除成功
-		if(result['code'] == 0){
-			$_jxc.alert('删除成功',function(){
-				query();
-			});
-		}
-	})
 	
+	
+	  if (selectBranch) {
+		  var id = selectBranch.id;
+			console.log('id',id);
+	        $_jxc.confirm('单据删除后将无法恢复，确认是否删除？', function(r) {
+	            if (r) {
+	                //删除单据
+	                $_jxc.ajax({
+	                    url: contextPath+"/branch/branchGroup/deleteGroup",
+	                    data: {"groupId":id}
+	                },function(result){
+	                   
+	                	if(result['code'] == 0){
+	            			$_jxc.alert('删除成功',function(){
+	            				query();
+	            			});
+	            		}
+	                	
+	                });
+	            }
+	        });
+	    }
 }
 
 //机构组合商品  
