@@ -366,7 +366,7 @@ function addTabPrint(id,subtitle, url, icon) {
 }
 //关闭Tab页
 function closeTabPrint(subtitle) {
-     if (!$('#component-content').tabs('exists', subtitle)) {
+     if ($('#component-content').tabs('exists', subtitle)) {
            $('#component-content').tabs('close', subtitle);
      }
 }
