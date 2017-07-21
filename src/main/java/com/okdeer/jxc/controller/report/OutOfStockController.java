@@ -6,6 +6,7 @@
  */
 
 package com.okdeer.jxc.controller.report;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,11 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
-import com.okdeer.jxc.common.constant.PriceAccessConstant;
-import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.service.OutOfStockServiceApi;
+import com.okdeer.retail.common.price.PriceConstant;
+import com.okdeer.retail.common.report.DataRecord;
 
 /**
  * ClassName: OutOfStockController 
@@ -101,7 +102,7 @@ public class OutOfStockController  extends ReportController{
 			}
 			
 			reportList.add(dataRecord);
-			cleanDataMaps(PriceAccessConstant.OUT_OF_STOCK, reportList);
+			cleanDataMaps(getPriceAccess(), reportList);
 			exportListForXLSX(response, reportList, fileName, templateName);
 			
 		} catch (Exception e) {
@@ -128,6 +129,17 @@ public class OutOfStockController  extends ReportController{
 	@Override
 	public void formatter(DataRecord dataRecord) {
 		
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.controller.common.ReportController#getPriceAccess()
+	 */
+	@Override
+	public Map<String, String> getPriceAccess() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(PriceConstant.DISTRIBUTION_PRICE, "inAmount,outAmount,DIAmount"); 
+		return map;
 	}
 }
 

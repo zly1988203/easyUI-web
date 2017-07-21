@@ -475,8 +475,6 @@ function selectGoods(searchKey){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
-        		distributionPrice:'price',
-        		distributionPrice:'priceBack',
                 id:'skuId',
                 disabled:'',
                 pricingType:'',
@@ -601,27 +599,16 @@ function saveOrder(){
     	}
     	reqObj.deliverFormListVo[i] = temp;
 	});
-//    gFunStartLoading();
     $_jxc.ajax({
         url:contextPath+"/form/deliverForm/updateDeliverForm",
         contentType:"application/json",
         data:JSON.stringify(reqObj)
     },function(result){
-//        gFunEndLoading();
         if(result['code'] == 0){
-        	oldData = {
-                targetBranchId:$("#targetBranchId").val(), // 要活分店id
-                sourceBranchId:$("#sourceBranchId").val(), //发货分店id
-                validityTime:$("#validityTime").val(),      //生效日期
-                remark:$("#remark").val(),                  // 备注
-                formNo:$("#formNo").val(),                 // 单号
-            }
-            oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
-        		return $.extend(true,{},obj);//返回对象的深拷贝
+        	$_jxc.alert("操作成功！",function(){
+        		location.href = contextPath +"/form/deliverForm/addDeliverForm?deliverFormId=" + $("#formId").val();
         	});
-        	$_jxc.alert("操作成功！");
         }else{
-            gFunEndLoading();
             $_jxc.alert(result['message']);
         }
     });

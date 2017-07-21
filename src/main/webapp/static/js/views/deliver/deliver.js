@@ -675,12 +675,16 @@ function setDataValue(data,fromClick) {
             addDefaultData = gridHandel.addDefault(data,gridDefault);
         }
         var keyNames = {
-            distributionPrice:'price',
-            distributionPrice:'priceBack',
             id:'skuId',
             disabled:'',
             pricingType:''
         };
+        
+        if(deliverStatus === 'add'){
+        	keyNames.distributionPrice = 'price';
+        	keyNames.price = 'priceBack';
+        }
+        
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
       //建议订货数量 没有此业务 请删除该逻辑
@@ -1298,7 +1302,7 @@ function selectStockAndPriceImport(data){
 function updateListData(data){
      var keyNames = {
 		 distributionPrice:'price',
-		 distributionPrice:'priceBack',
+		 price:'priceBack',
          id:'skuId',
          disabled:'',
          pricingType:'',

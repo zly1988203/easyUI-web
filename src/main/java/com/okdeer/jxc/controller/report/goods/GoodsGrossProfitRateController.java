@@ -6,6 +6,8 @@
  */
 package com.okdeer.jxc.controller.report.goods;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -78,10 +80,13 @@ public class GoodsGrossProfitRateController extends BaseController<GoodsGrossPro
 		try {
 			qo.setPageNum(pageNumber);
 			qo.setPageSize(pageSize);
+			qo.setBizType(0);
 			qo.setStartTime(DateUtils.getFullStr(DateUtils.parse(qo.getStartTime() + " 00:00:00")));
 			qo.setEndTime(DateUtils.getFullStr(DateUtils.getNextDay(DateUtils.parse(qo.getEndTime() + " 00:00:00"))));
 
 			PageUtils<GoodsGrossProfitRate> page = goodsGrossProfitRateFacade.queryGoodsGrossProfitRateList(qo);
+			// 过滤数据权限字段
+            cleanAccessData(page);
 			LOG.debug("商品毛利率报表查询结果：{}", page);
 			return page;
 		} catch (Exception e) {
@@ -96,24 +101,25 @@ public class GoodsGrossProfitRateController extends BaseController<GoodsGrossPro
 
 		LOG.info("GoodsGrossProfitRateController.exportList start....");
 		try {
-			qo.setPageNum(0);
-			qo.setPageSize(100);
+			qo.setBizType(1);
 			qo.setStartTime(DateUtils.getFullStr(DateUtils.parse(qo.getStartTime() + " 00:00:00")));
 			qo.setEndTime(DateUtils.getFullStr(DateUtils.getNextDay(DateUtils.parse(qo.getEndTime() + " 00:00:00"))));
 
-			PageUtils<GoodsGrossProfitRate> page = goodsGrossProfitRateFacade.queryGoodsGrossProfitRateList(qo);
+			List<GoodsGrossProfitRate> list = goodsGrossProfitRateFacade.queryGoodsGrossProfitRateExportList(qo);
+			// 过滤数据权限字段
+            cleanAccessData(list);
 
-			if (CollectionUtils.isNotEmpty(page.getList())) {
+			if (CollectionUtils.isNotEmpty(list)) {
 				String fileName = "商品毛利率报表" + "_" + DateUtils.getCurrSmallStr();
 
 				String templateName = ExportExcelConstant.GOODS_GROSS_PROFIT_RATE;
-				exportListForXLSX(response, page.getList(), fileName, templateName);
+				exportListForXLSX(response, list, fileName, templateName);
 			} else {
 				RespJson json = RespJson.error("无数据可导");
 				return json;
 			}
 		} catch (Exception e) {
-			LOG.error("UserController.exportList Exception:", e);
+			LOG.error("GoodsGrossProfitRateController.exportList Exception:", e);
 			RespJson json = RespJson.error("导出失败");
 			return json;
 		}

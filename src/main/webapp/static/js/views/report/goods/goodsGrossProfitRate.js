@@ -29,7 +29,7 @@ function initGoodsTotalAnalysiGrid() {
         method: 'post',
         align: 'center',
         singleSelect: false,  //单选  false多选
-//        rownumbers: true,    //序号
+        rownumbers: true,    //序号
         pagination: true,    //分页
         showFooter:true,
         pageSize : 50,

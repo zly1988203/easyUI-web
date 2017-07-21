@@ -190,12 +190,12 @@ function initSupChkAcoAdd(){
             	}
             },
             {field:'remark',title:'备注',width:'180px',align:'left',
-            	editor:{
+                editor:{
                     type:'textbox',
                     options:{
-                    	onChange:changeText
+                        validType:{maxLength:[20]},
                     }
-                }	
+                }
             }
         ]],
         onCheck:function(rowIndex,rowData){
@@ -279,24 +279,6 @@ function initSupChkAcoAdd(){
     	                         $.extend({},gridDefault),$.extend({},gridDefault)]);
     }
 }
-
-
-//备注编辑监听 20
-var maxTextLength = 20;
-var chTexFlag = false;
-function changeText(newV,oldV){
-	if(chTexFlag){
-		chTexFlag = false;
-		return;
-	}
-	if($.trim(newV).length > maxTextLength){
-		$_jxc.alert('备注长度不得超过' + maxTextLength + '个字符');
-		chTexFlag = true;
-		$(this).textbox('setValue',oldV);
-		return;
-	}
-}
-
 
 var checkFlag = false;
 //实收金额 监听事件
@@ -558,6 +540,12 @@ function saveFranchiseSet(){
     var rows = gridHandel.getRowsWhere({branchName:'1' });
     if(rows.length==0){
     	$_jxc.alert("表格不能为空");
+        return;
+    }
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
         return;
     }
     

@@ -1,5 +1,6 @@
 package com.okdeer.jxc.controller.report.sales;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,12 +14,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.enums.BusinessTypeEnum;
 import com.okdeer.jxc.common.enums.OrderResourceEnum;
-import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.sale.GoodSaleDetailServiceApi;
+import com.okdeer.retail.common.price.PriceConstant;
+import com.okdeer.retail.common.report.DataRecord;
 
+/**
+ * ClassName: GoodSaleDetailController 
+ * @Description: 商品销售明细分析
+ * @author yangyq02
+ * @date 2017年7月21日
+ *
+ * =================================================================================================
+ *     Task ID			  Date			     Author		      Description
+ * ----------------+----------------+-------------------+-------------------------------------------
+ *
+ */
+ 
 @Controller
 @RequestMapping("report/sale/goodSaleDetailReport")
 public class GoodSaleDetailController extends ReportController {
@@ -112,5 +126,13 @@ public class GoodSaleDetailController extends ReportController {
 		}
 
 	}
-
+	/**
+	 * @see com.okdeer.jxc.controller.common.ReportController#getPriceAccess()
+	 */
+	@Override
+	public Map<String, String> getPriceAccess() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(PriceConstant.COST_PRICE, "costPrice,costAmount"); //成本价，成本金额
+		return map;
+	}
 }

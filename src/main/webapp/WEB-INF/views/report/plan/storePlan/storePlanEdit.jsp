@@ -15,6 +15,7 @@
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4 upad-4">
 		<form id="queryForm" action="" method="post">
+			<input type='hidden' id="currMonth" value="<fmt:formatDate value='${now}' pattern='yyyy-MM' />">
 			<input type='hidden' id="chargeStatus" value="edit">
 			<div class="ub ub-ac">
 	            <div class="ubtns">

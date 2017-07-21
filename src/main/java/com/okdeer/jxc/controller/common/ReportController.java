@@ -19,6 +19,8 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.ui.Model;
@@ -26,15 +28,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.okdeer.jxc.common.constant.PriceAccessConstant;
-import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelExportUtil;
-
-import net.sf.json.JSONObject;
+import com.okdeer.retail.common.report.DataRecord;
 
 /**
  * ClassName: ReportController 
@@ -53,10 +52,14 @@ public abstract class ReportController extends BaseController<T> {
 	public abstract ReportService getReportService();
 
 	public abstract Map<String, Object> getParam(HttpServletRequest request);
-
-	private String getClassName() {
-		return this.getClass().getSimpleName();
-	}
+	
+	/**
+	 * @Description: 价格权限字段过滤Map集合 <权限名称， 权限字段，多个以','分隔>
+	 * @return
+	 * @author liwb
+	 * @date 2017年7月20日
+	 */
+	public abstract Map<String, String> getPriceAccess();
 
 	@RequestMapping("reportList")
 	@ResponseBody
@@ -77,25 +80,8 @@ public abstract class ReportController extends BaseController<T> {
 		for(DataRecord dataRecord:list.getList()){
 			formatter(dataRecord);
 		}
-		String keyStr = null;
-		// 调价查询
-		if (PriceAccessConstant.PRICING_QUERY_CONTROLLER.equals(getClassName())) {
-			keyStr = PriceAccessConstant.PRICING_QUERY;
-		}
-		// 配送缺货率分析
-		if (PriceAccessConstant.OUT_OF_STOCK_CONTROLLER.equals(getClassName())) {
-			keyStr = PriceAccessConstant.OUT_OF_STOCK;
-		}
-		// 商品销售汇总分析
-		if (PriceAccessConstant.GOODS_TOTAL_ANALSI_CONTROLLER.equals(getClassName())) {
-			keyStr = PriceAccessConstant.GOODS_TOTAL_ANALSI;
-		}
-		// 新品销售分析
-		if (PriceAccessConstant.NEW_GOODS_SALE_ANALYSIS_CONTROLLER.equals(getClassName())) {
-			keyStr = PriceAccessConstant.NEW_GOODS_SALE_ANALYSIS;
-		}
-		cleanDataMaps(keyStr, list.getList());
-		cleanDataMaps(keyStr, list.getFooter());
+		cleanDataMaps(getPriceAccess(), list.getList());
+		cleanDataMaps(getPriceAccess(), list.getFooter());
 		return list;
 	}
 

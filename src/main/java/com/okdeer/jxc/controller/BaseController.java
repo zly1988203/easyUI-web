@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,10 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.handler.PriceGrantHandler;
-import com.okdeer.jxc.common.parser.DataAccessParser;
-import com.okdeer.jxc.common.parser.MapAccessParser;
-import com.okdeer.jxc.common.parser.vo.KeyExtendVo;
-import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -31,6 +28,10 @@ import com.okdeer.jxc.utils.PriceGrantUtil;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
+import com.okdeer.retail.common.price.DataAccessParser;
+import com.okdeer.retail.common.price.MapAccessParser;
+import com.okdeer.retail.common.price.vo.KeyExtendVo;
+import com.okdeer.retail.common.report.DataRecord;
 
 /**
  * ClassName: BaseController 
@@ -331,6 +332,16 @@ public class BaseController<T> {
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
 		parser.cleanDataMap(data);
 	}
+	
+	protected void cleanDataMap(Map<String, String> priceMap, DataRecord data) {
+		if(priceMap==null || priceMap.isEmpty() || data == null || data.isEmpty()){
+			return;
+		}
+		List<KeyExtendVo> extendVos = parserPriceKeyByMap(priceMap);
+		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
+		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
+		parser.cleanDataMap(data);
+	}
 
 	/**
 	 * 过滤价格权限数据（单个map）
@@ -342,6 +353,16 @@ public class BaseController<T> {
 	        return;
 	    }
 		List<KeyExtendVo> extendVos = parserPriceKey(keyStr);
+		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
+		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
+		parser.cleanDataMap(data);
+	}
+	
+	protected void cleanDataMap(Map<String, String> priceMap, Map<String, Object> data) {
+		if(priceMap==null || priceMap.isEmpty() || data == null || data.isEmpty()){
+			return;
+		}
+		List<KeyExtendVo> extendVos = parserPriceKeyByMap(priceMap);
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
 		parser.cleanDataMap(data);
@@ -360,6 +381,53 @@ public class BaseController<T> {
 		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
 		parser.cleanDataMap(datas);
+	}
+	
+	/**
+	 * @Description: 过滤价格权限数据（map集合）
+	 * @param priceMap map集合 <权限名称, 权限字段，多个以','分隔>
+	 * @param datas 要过滤的数据
+	 * @author liwb
+	 * @date 2017年7月20日
+	 */
+	protected void cleanDataMaps(Map<String, String> priceMap, List<DataRecord> datas) {
+		if(priceMap==null || priceMap.isEmpty() || CollectionUtils.isEmpty(datas)){
+			return;
+		}
+		List<KeyExtendVo> extendVos = parserPriceKeyByMap(priceMap);
+		Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
+		MapAccessParser parser = new MapAccessParser(extendVos, forbiddenSets);
+		parser.cleanDataMap(datas);
+	}
+	
+	/**
+	 * @Description: 转换过滤权限字段
+	 * @param priceMap
+	 * @return
+	 * @author liwb
+	 * @date 2017年7月20日
+	 */
+	private List<KeyExtendVo> parserPriceKeyByMap(Map<String, String> priceMap) {
+		List<KeyExtendVo> list = new ArrayList<KeyExtendVo>();
+		if(priceMap == null){
+			return list;
+		}
+		
+		KeyExtendVo vo = null;
+		for(Entry<String, String> i: priceMap.entrySet()){
+			vo = new KeyExtendVo();
+			String key = i.getKey();
+			String value = i.getValue();
+			if(StringUtils.isAnyBlank(key, value)){
+				continue;
+			}
+			Set<String> extKeys = new HashSet<String>(Arrays.asList(value.split(",")));
+			vo.setKey(key);
+			vo.setExtKeys(extKeys);
+			list.add(vo);
+		}
+		
+		return list;
 	}
 
 	/**

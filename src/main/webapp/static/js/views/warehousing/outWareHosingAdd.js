@@ -115,9 +115,12 @@ function initDatagridEditOutWareHosing(){
             },
             {field:'creatPlace',title:'产地',width:100,align:'center'},
             {field:'remark',title:'备注',width:100,align:'center',
-            	editor:{
+                editor:{
                     type:'textbox',
-                },
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
             },
             {field:'thisStore',title:'当前库存',width:100,align:'center'},
             {field:'targetStore',title:'目标仓库',width:100,align:'center'}
@@ -477,6 +480,12 @@ function saveItemHandel(){
     if(!isCheckResult){
         return;
     }
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
+
     var saveData = JSON.stringify(rows);
     
     var detailList = tableArrayFormatter(rows,"detailList");

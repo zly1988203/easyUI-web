@@ -77,7 +77,7 @@ public class StoreSellReportController extends BaseController<StoreSellReportCon
                     pageUtils.setFooter(new ArrayList<StoreSell>(Arrays.asList(reportVo)));;
                 }
                 // 过滤数据权限字段
-                //cleanAccessData(pageUtils);
+                cleanAccessData(pageUtils);
                 return pageUtils;
             }
         }
@@ -98,7 +98,7 @@ public class StoreSellReportController extends BaseController<StoreSellReportCon
         if (StringUtils.isNotBlank(vo.getStartTime())) {
             List<StoreSell> exportList = storeSellFacade.exportStoreSells(vo);
             // 过滤数据权限字段
-            //cleanAccessData(exportList);
+            cleanAccessData(exportList);
             String fileName = "门店销售报表_" + DateUtils.getCurrSmallStr();
             String templateName = ExportExcelConstant.STORE_SELL_REPORT;
             exportListForXLSX(response, exportList, fileName, templateName);
@@ -123,7 +123,7 @@ public class StoreSellReportController extends BaseController<StoreSellReportCon
         if (StringUtils.isNotBlank(vo.getStartTime())) {
             List<StoreSell> exportList = storeSellFacade.exportStoreSells(vo);
             // 过滤数据权限字段
-            //cleanAccessData(exportList);
+            cleanAccessData(exportList);
             if (exportList.size() > PrintConstant.PRINT_MAX_ROW) {
                 return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
             }

@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.report.goods;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
-import com.okdeer.jxc.common.constant.PriceAccessConstant;
-import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.goods.service.NewGoodsSaleAnalysisService;
 import com.okdeer.jxc.utils.UserUtil;
+import com.okdeer.retail.common.price.PriceConstant;
+import com.okdeer.retail.common.report.DataRecord;
 
 /**
  * ClassName: NewGoodsSaleAnalysisController 
@@ -69,7 +70,7 @@ public class NewGoodsSaleAnalysisController extends ReportController {
 			// 模板名称，包括后缀名
 			List<DataRecord> dataList = newGoodsSaleAnalysisService.getList(map);
 
-			cleanDataMaps(PriceAccessConstant.NEW_GOODS_SALE_ANALYSIS, dataList);
+			cleanDataMaps(getPriceAccess(), dataList);
 			exportListForXLSX(response, dataList, reportFileName, templateName);
 		} catch (Exception e) {
 			LOG.error("新品销售分析导出失败", e);
@@ -133,6 +134,18 @@ public class NewGoodsSaleAnalysisController extends ReportController {
 	@Override
 	public void formatter(DataRecord dataRecord) {
 
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.controller.common.ReportController#getPriceAccess()
+	 */
+	@Override
+	public Map<String, String> getPriceAccess() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(PriceConstant.SALE_PRICE, "salePrice,saleAmount"); //销售价，销售额
+		map.put(PriceConstant.COST_PRICE, "costPrice,costAmount,grossProfit,grossProfitRate"); //成本价，成本额，毛利，毛利率
+		return map;
 	}
 
 }

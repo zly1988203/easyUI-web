@@ -12,7 +12,7 @@
 <script src="${ctx}/static/js/views/purchase/returnAdd.js?V=${versionNo}"></script>
 
 </head>
-<body class=" uw uh ufs-14 uc-black upad-4 box-border">
+<body class=" uw ub-ver uh ufs-14 uc-black upad-4 box-border">
 	<input type='hidden' id="cascadeGoods" name="cascadeGoods" value="${cascadeGoods}">
 	<div class="ub uh ub-ver ub-f1  ubor">
 		<div class="ub  ub-ac upad-4">
@@ -113,9 +113,11 @@
 				</div>
 			</div>
 		</form>
-		<div class="ub ub-f1 datagrid-edit umar-t8">
-			<table id="gridEditOrder"></table>
-		</div>
+
+		<from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+		<table id="gridEditOrder" ></table>
+		</from>
+
 
 	</div>
 	

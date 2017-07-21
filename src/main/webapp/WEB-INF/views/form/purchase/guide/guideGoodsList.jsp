@@ -10,7 +10,7 @@
     <script src="${ctx}/static/js/views/purchase/guide/guideGoodsList.js?V=${versionNo}"></script>
     
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="ub ub-ver uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
 	
 	<div class="ub ub-ac upad-4">
@@ -27,9 +27,9 @@
     
 		<input type="hidden" name="formData" id="formData" value='${formData }' />
 
-		<div class="ub umar-t8 ub-f1">
-			<table id="dgGuideGoodsList"></table>
-		</div>
+		<from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+		<table id="dgGuideGoodsList" ></table>
+		</from>
 
 	</div>
 </body>

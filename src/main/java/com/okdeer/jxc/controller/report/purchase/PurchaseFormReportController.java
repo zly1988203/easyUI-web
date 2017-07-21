@@ -15,11 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.form.purchase.service.PurchaseFormReportServiceApi;
+import com.okdeer.retail.common.report.DataRecord;
 
 /**
  * ClassName: PurchaseReportController 
@@ -145,6 +145,16 @@ public class PurchaseFormReportController extends ReportController{
 	@Override
 	public String getFileName() {
 		return "采购";
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.controller.common.ReportController#getPriceAccess()
+	 */
+	@Override
+	public Map<String, String> getPriceAccess() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

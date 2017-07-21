@@ -7,7 +7,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <script src="${ctx}/static/js/views/purchase/directReceipt/directReceipt.js?V=${versionNo}2"></script>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="ub ub-ver uw uh ufs-14 uc-black">
 	<input type='hidden' id="directStatus" value="add">
 	<input type='hidden' id="cascadeGoods" name="cascadeGoods" value="${cascadeGoods}">
 	<!-- 允许直送收货单不引用单据收货：0.否，1.是 ${isAllowPmRefPa} -->
@@ -105,9 +105,10 @@
 			</div>
 		</form>
 		<!--datagrid-edit-->
-		 <div class="ub ub-f1 datagrid-edit umar-t8">
-			<table id="gridDirectDetail"></table>
-		</div>
+		<from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+		<table id="gridDirectDetail" ></table>
+		</from>
+
 	</div>
 	<!-- 是否有改价权限 -->
     <shiro:hasPermission name="JxcDirectReceipt:updatePrice">

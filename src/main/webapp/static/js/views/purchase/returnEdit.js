@@ -131,7 +131,7 @@ function initDatagridEditOrder(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
              },
-            
+            {field:'priceBack',title:'priceBack',hidden:true},
             {field:'price',title:'单价',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
@@ -253,7 +253,14 @@ function initDatagridEditOrder(){
                     type:'datebox',
                 },
             },
-            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+            {field:'remark',title:'备注',width:'200px',align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -434,16 +441,24 @@ function onSelectIsGift(data){
     if(arrs.length==0){
         var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
-            var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
+            //var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+            //$('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
+            gridHandel.setFieldValue('amount',0);
             $(targetPrice).numberbox('disable');
         }else{
             $(targetPrice).numberbox('enable');
-            var oldPrice =  $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
+            var oldPrice =  $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["priceBack"];
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
             }
+            var priceVal = oldPrice||0;
+            var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum')||0;
+            var oldAmount = parseFloat(priceVal)*parseFloat(applNum);
+            var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
+            gridHandel.setFieldValue('amount',oldAmount);//总金额
+            gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总金额
         }
         updateFooter();
     }else{
@@ -519,7 +534,6 @@ function selectGoods(searchKey){
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
-            purchasePrice:'price',
             id:'skuId',
             disabled:'',
             pricingType:'',
@@ -584,6 +598,13 @@ function saveItemHandel(){
         	isChcekNum = true;
         }
     });
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
+
     if(isCheckResult){
         if(isChcekPrice){
             $_jxc.confirm("单价存在为0，重新修改",function(r){
@@ -918,7 +939,8 @@ function orderDelete(){
 	    		
 	    		if(result['code'] == 0){	
 	    			$_jxc.alert("操作成功！",function(){
-	    				back();
+                        toRefreshIframeDataGrid("form/purchase/returnList","gridOrders");
+                        toClose();
 	    			});
 	    		}else{
 	    			$_jxc.alert(result['message']);

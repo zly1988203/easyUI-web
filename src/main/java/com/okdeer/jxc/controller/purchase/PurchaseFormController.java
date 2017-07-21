@@ -45,7 +45,6 @@ import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
-import com.okdeer.jxc.common.constant.PriceAccessConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.enums.SaleWayEnum;
@@ -82,6 +81,7 @@ import com.okdeer.jxc.goods.qo.GoodsBranchPriceQo;
 import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+import com.okdeer.retail.common.price.PriceConstant;
 
 /**
  * ClassName: PurchaseFormController 
@@ -601,6 +601,11 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			PurchaseFormDetail formDetail = new PurchaseFormDetail();
 			BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
 
+			// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
+			if(BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0 
+			        && formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0){
+			    formDetail.setPriceBack(formDetail.getPrice());
+			}
 			formDetail.setId(UUIDHexGenerator.generate());
 			formDetail.setFormId(formId);
 			formDetail.setCreateTime(now);
@@ -668,6 +673,11 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				PurchaseFormDetail formDetail = new PurchaseFormDetail();
 				BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
 
+				// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
+	            if(BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0 
+	                    && formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0){
+	                formDetail.setPriceBack(formDetail.getPrice());
+	            }
 				formDetail.setId(UUIDHexGenerator.generate());
 				formDetail.setFormId(formId);
 				formDetail.setCreateTime(now);
@@ -751,6 +761,11 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				PurchaseFormDetail formDetail = new PurchaseFormDetail();
 				BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
 
+				// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
+	            if(BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0 
+	                    && formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0){
+	                formDetail.setPriceBack(formDetail.getPrice());
+	            }
 				formDetail.setId(UUIDHexGenerator.generate());
 				formDetail.setFormId(formId);
 				formDetail.setCreateTime(now);
@@ -815,6 +830,11 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			PurchaseFormDetail formDetail = new PurchaseFormDetail();
 			BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
 
+			// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
+            if(BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0 
+                    && formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0){
+                formDetail.setPriceBack(formDetail.getPrice());
+            }
 			formDetail.setId(UUIDHexGenerator.generate());
 			formDetail.setFormId(formId);
 			formDetail.setCreateTime(now);
@@ -875,6 +895,12 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
 			BeanUtils.copyProperties(purchaseFormDetailVo, purchaseFormDetail);
+			
+			// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
+            if(BigDecimal.ZERO.compareTo(purchaseFormDetail.getPrice()) != 0 
+                    && purchaseFormDetail.getPrice().compareTo(purchaseFormDetail.getPriceBack()) != 0){
+                purchaseFormDetail.setPriceBack(purchaseFormDetail.getPrice());
+            }
 			purchaseFormDetail.setId(UUIDHexGenerator.generate());
 			purchaseFormDetail.setFormId(formId);
 			purchaseFormDetail.setCreateTime(now);
@@ -950,6 +976,12 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
 			BeanUtils.copyProperties(purchaseFormDetailVo, purchaseFormDetail);
+			
+			// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
+            if(BigDecimal.ZERO.compareTo(purchaseFormDetail.getPrice()) != 0 
+                    && purchaseFormDetail.getPrice().compareTo(purchaseFormDetail.getPriceBack()) != 0){
+                purchaseFormDetail.setPriceBack(purchaseFormDetail.getPrice());
+            }
 			purchaseFormDetail.setId(UUIDHexGenerator.generate());
 			purchaseFormDetail.setFormId(formId);
 			purchaseFormDetail.setCreateTime(now);
@@ -1180,8 +1212,14 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			 * added by zhangqin on 2016-12-01 14:36 end
 			 */
 		}
-		cleanDataMap(PriceAccessConstant.PURCHASE_FORM, replaceMap);
+		cleanDataMap(getPriceAccess(), replaceMap);
 		return replaceMap;
+	}
+	
+	private Map<String, String> getPriceAccess() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(PriceConstant.PURCHASE_PRICE, "_人民币总金额大写,amountCN,_总金额,amount,_合计金额");
+		return map;
 	}
 
 	/**
