@@ -66,8 +66,7 @@
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">付款期限:</div>
-					<input id="paymentTime" class="Wdate" type="text" value="${form.paymentTimeStr }"
-						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+					<input id="paymentTime" class="Wdate" type="text" value="${form.paymentTimeStr}" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">制单人员:</div>
