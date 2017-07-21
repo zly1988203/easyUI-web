@@ -36,11 +36,13 @@
 			        <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 			        <input class="uinp" type="hidden" id="branchId" name="branchId">
 			        <input class="uinp" type="text" id="branchName" name="branchName">
+			        <input class="uinp" type="hidden" id="branchCompleCode" name="branchCompleCode">
 			        <div class="uinp-more">...</div>
 			    </div>
 			    <div id="categoryNameDiv" class="ub ub-ac umar-r40">
 			        <div class="umar-r10 uw-70 ut-r">商品类别:</div>
-			        <input type="text" name="categoryCode" id="categoryCode" class="uinp " maxlength="50" />
+			        <input  name="categoryCode" id="categoryCode" class="uinp " maxlength="50" type='hidden'/>
+			        <input type="text" name="categoryName" id="categoryName" class="uinp " maxlength="50" onclick="searchCategory()" readonly/>
 			        <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
 			    </div>
 			    <div id="categoryNameDiv" class="ub ub-ac umar-r40">

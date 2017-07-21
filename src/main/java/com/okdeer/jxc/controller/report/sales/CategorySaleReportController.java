@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -31,8 +32,12 @@ public class CategorySaleReportController extends ReportController {
 	@Override
 	public Map<String, Object> getParam(HttpServletRequest request) {
 		Map<String, Object> map= this.builderParams(request, null);
+		if(!map.containsKey("branchCompleCode")){
+			map.put("branchCompleCode", this.getCurrBranchCompleCode());
+		}
 		return map;
 	}
+	
 
 	@Override
 	public String getFileName() {

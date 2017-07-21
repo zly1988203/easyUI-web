@@ -25,7 +25,7 @@ function initAgencyView(param){
 	}
 	
 	//切换类型执行搜索
-	$('input[name="type"]').on('change',function(){
+	$('input[name="groupType"]').on('change',function(){
 		$('#gridBranchGroupList').datagrid('clearSelections');
 		$('#gridBranchGroupList').datagrid('clearChecked');
 		agencySearch();

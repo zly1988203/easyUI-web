@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +22,10 @@ import com.okdeer.jxc.report.sale.GoodSaleDetailServiceApi;
 @Controller
 @RequestMapping("report/sale/goodSaleDetailReport")
 public class GoodSaleDetailController extends ReportController {
+
 	@Reference(version = "1.0.0", check = false)
 	GoodSaleDetailServiceApi goodSaleDetailServiceApi;
+
 	@RequestMapping(value = "view")
 	public String view() {
 		return "report/sale/goodSaleDetailReport";
@@ -35,10 +38,11 @@ public class GoodSaleDetailController extends ReportController {
 
 	@Override
 	public Map<String, Object> getParam(HttpServletRequest request) {
-		Map<String, Object> map= this.builderParams(request, null);
-		/*if(!map.containsKey("branchCompleCode")){
-			map.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
-		}*/
+		Map<String, Object> map = this.builderParams(request, null);
+		/*
+		 * if(!map.containsKey("branchCompleCode")){ map.put("branchCompleCode",
+		 * UserUtil.getCurrBranchCompleCode()); }
+		 */
 		return map;
 	}
 
@@ -61,18 +65,52 @@ public class GoodSaleDetailController extends ReportController {
 	@ResponseBody
 	public List<DataRecord> reportList(HttpServletRequest request) {
 		List<DataRecord> list = getReportService().getList(getParam(request));
-		for(DataRecord dataRecord:list){
+		for (DataRecord dataRecord : list) {
 			formatter(dataRecord);
 		}
 		return list;
 	}
+
 	@Override
 	public void formatter(DataRecord dataRecord) {
-		if (dataRecord.get("businessType")!=null&&StringUtils.isNotBlank(dataRecord.get("businessType").toString())) {
+		if (dataRecord.get("businessType") != null && StringUtils.isNotBlank(dataRecord.get("businessType").toString())) {
 			dataRecord.put("businessTypeStr", BusinessTypeEnum.getName(dataRecord.get("businessType").toString()));
 		}
-		if (dataRecord.get("orderType")!=null&&StringUtils.isNotBlank(dataRecord.get("orderType").toString())) {
-			dataRecord.put("orderTypeStr", OrderResourceEnum.getName(Integer.parseInt(dataRecord.get("orderType").toString())));
+		if (dataRecord.get("orderType") != null && StringUtils.isNotBlank(dataRecord.get("orderType").toString())) {
+			dataRecord.put("orderTypeStr",
+					OrderResourceEnum.getName(Integer.parseInt(dataRecord.get("orderType").toString())));
 		}
 	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see com.okdeer.jxc.controller.common.ReportController#exportExcel(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@RequestMapping(value = "exportExcel")
+	@Override
+	public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			LOG.debug("新品销售分析导出");
+			Map<String, Object> map = getParam(request);
+
+			String timeStr = StringUtils.replace((String) map.get("startTime"), "-", "") + "-"
+					+ StringUtils.replace((String) map.get("endTime"), "-", "") + "-";
+
+			String reportFileName = "商品销售明细分析" + timeStr;
+			String templateName = "GoodSaleDetail.xlsx";
+			// 模板名称，包括后缀名
+			List<DataRecord> dataList = getReportService().getList(map);
+			for (DataRecord dataRecord : dataList) {
+				formatter(dataRecord);
+			}
+			
+			DataRecord data = goodSaleDetailServiceApi.getTotal(map);
+			dataList.add(data);
+			exportListForXLSX(response, dataList, reportFileName, templateName);
+		} catch (Exception e) {
+			LOG.error("新品销售分析导出失败", e);
+		}
+
+	}
+
 }

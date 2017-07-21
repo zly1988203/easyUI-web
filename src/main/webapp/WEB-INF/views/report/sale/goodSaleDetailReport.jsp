@@ -38,7 +38,7 @@
 			        <input class="uinp" type="hidden" id="branchId" name="branchId">
 			        <input class="uinp" type="hidden" id="branchCompleCode" name="branchCompleCode">
 			        <input class="uinp" type="text" id="branchName" name="branchName">
-			        <div class="uinp-more" id="branchSelect" onclick="searchBranch()">...</div>
+			        <div class="uinp-more">...</div>
 			    </div>
 			    <div class="ub ub-ac umar-r40">
 			        <div class="umar-r10 uw-70 ut-r">单据编号:</div>
@@ -66,7 +66,8 @@
 			    </div>
 			    <div id="categoryNameDiv" class="ub ub-ac umar-r40">
 			        <div class="umar-r10 uw-70 ut-r">商品类别:</div>
-			        <input type="text" name="categoryCode" id="categoryCode" class="uinp " maxlength="50" />
+			        <input  name="categoryCode" id="categoryCode" class="uinp " maxlength="50" type='hidden'/>
+			        <input type="text" name="categoryName" id="categoryName" class="uinp " maxlength="50" onclick="searchCategory()" readonly/>
 			        <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
 			    </div>
 			</div>
@@ -75,8 +76,8 @@
 			    	<div class="umar-r10 uw-70 ut-r">业务类型:</div>
 			    	<select class='uinp easyui-combobox' id="serviceType" style="width:204px;" name="serviceType" data-options="editable:false" >
 			    		<option value="">全部</option>
-			    		<option value="1">销售</option>
-			    		<option value="2">退货</option>
+			    		<option value="A">销售</option>
+			    		<option value="B">退货</option>
                  	</select>
 			    </div>
 			</div>
