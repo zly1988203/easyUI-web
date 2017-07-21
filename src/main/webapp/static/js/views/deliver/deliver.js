@@ -475,10 +475,10 @@ var m = 0;
 var errroPurL = false;
 function onChangeLargeNum(newV,oldV){
 	//if(!oldV)return;
-	/*if(errroPurL){
+	if(errroPurL){
 		errroPurL = false;
 		return;
-	}*/
+	}
 	if("" == newV){
 		m = 2;
 		 $_jxc.alert("商品箱数输入有误");
@@ -553,8 +553,12 @@ function onChangeRealNum(newV,oldV,event) {
         $_jxc.alert("输入的数量必须是商品规格("+purchaseSpecValue+")的整数倍");
         //bug 20079 要货申请选择商品规格大于1的商品，先输入数量为1，然后再输入箱数为1后，不会自动计算数量  
         errroPur = true;
-        errroPurL = true;
-        gridHandel.setFieldValue('largeNum',0.0000);
+        
+        var _largeNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
+        if(_largeNum != '0'){
+        	errroPurL = true;
+        	gridHandel.setFieldValue('largeNum',0.0000);
+        }
         gridHandel.setFieldValue('applyNum',0.0000);
         gridHandel.setSelectFieldName("applyNum");
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
