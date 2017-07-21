@@ -90,22 +90,21 @@ function initGridCostCommon(gridName) {
 	var gridHandel;
 	var costNameTitle = "";
 	var changeAmount;
-	var changeName;
+
     if(gridName === "gridFitmentCost"){
     	gridHandel = gridFitmentCostHandel;
     	costNameTitle = "长期待摊费用";
     	changeAmount = changeFitmentAmount;
-    	changeName = costNameFitmentChange;
+
     }else if(gridName === "gridEquipmentCost"){
     	gridHandel = gridEquipmentCostHandel;
     	costNameTitle = "设备折旧费用";
     	changeAmount = changeEquipmentAmount;
-    	changeName = costNameEquipmentChange;
+
     }else if(gridName === "gridAmortizeCost"){
     	gridHandel = gridAmortizeCostHandel;
     	costNameTitle = "累计摊销费用";
     	changeAmount = changeAmortizeAmount;
-    	changeName = costNameAmortizeChange;
     }
     
     gridHandel.setGridName(gridName);
@@ -129,20 +128,11 @@ function initGridCostCommon(gridName) {
                 },
             },
             {field: 'costName', title: costNameTitle, width: 180, align: 'left',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return;
-                    }
-                    if(undefined != value && value.trim().length > 20){
-                        value = value.substr(0,20);
-                    }
-                    return value;
-                },
                 editor:{
                     type:'textbox',
                     options:{
-                        prompt:"最多输入20个字符",
-                        onChange:changeName
+                        required:true,
+                        validType:{maxLength:[20]},
                     }
                 }
             },
@@ -156,12 +146,14 @@ function initGridCostCommon(gridName) {
                 editor:{
                     type:'numberbox',
                     options:{
+                        required:true,
                         min:0.00,
                         max:999999.99,
                         prompt:"最大金额999999.99",
                         precision:2,
                         onChange:changeAmount
                     }
+
                 },
             },
             {field: 'costAvgYear', title: '均摊年限', width: 80, align: 'right',
@@ -169,12 +161,14 @@ function initGridCostCommon(gridName) {
                     if(row.isFooter){
                         return '';
                     }
-                    return '<b>'+parseInt(value||0)+'</b>';
+                    return '<b>'+parseInt(value||1)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:0,
+                        required:true,
+                        min:1,
+                        max:99,
                         precision:0,
                         onChange:changeAvgYear
                     }
@@ -190,6 +184,7 @@ function initGridCostCommon(gridName) {
                 editor:{
                     type:'datebox',
                     options:{
+                        required:true,
                     	editable:false,
                     	formatter:function(date){
                     		var y = date.getFullYear();
@@ -200,7 +195,14 @@ function initGridCostCommon(gridName) {
                     }
                 },
             },
-            {field: 'remark', title: '备注', width: 180, align: 'left',editor:'textbox'},
+            {field: 'remark', title: '备注', width: 180, align: 'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            },
         ]],
         loadFilter:function(data){
         	data.forEach(function(obj,index){
@@ -273,26 +275,6 @@ function updateCommonCostFooter(handel){
     var argWhere = {}
     handel.updateFooter(fields,argWhere);
 }
-
-function costNameFitmentChange(newVal, oldVal){
-	costNameCommonChange(gridFitmentCostHandel, newVal, oldVal);
-}
-function costNameEquipmentChange(newVal, oldVal){
-	costNameCommonChange(gridEquipmentCostHandel, newVal, oldVal);
-}
-function costNameAmortizeChange(newVal, oldVal){
-	costNameCommonChange(gridAmortizeCostHandel, newVal, oldVal);
-}
-
-function costNameCommonChange(handel, newVal, oldVal){
-
-    if(undefined != newVal && newVal.trim().length > 20){
-        $_jxc.alert('装修费用最多输入20个字符')
-        newVal = newVal.substr(0,20);
-    }
-    handel.setFieldTextValue('costName',newVal);
-}
-
 
 function initGridFitmentCost() {
 	initGridCostCommon("gridFitmentCost");
@@ -373,7 +355,11 @@ function saveBranchCostCommon(gridName) {
     }
     
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
-
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom"+gridName).form('validate');
+    if (!isValid) {
+        return;
+    }
     var formData = {};
     var isCheckResult = true;
     var costList = gridHandel.getRows();
@@ -404,7 +390,7 @@ function saveBranchCostCommon(gridName) {
             }
             
             if(parseInt(item.costAvgYear) <= 0){
-                $_jxc.alert('第'+(index+1)+'行费用均摊年数金额不能小于0')
+                $_jxc.alert('第'+(index+1)+'行费用均摊年数金额不能小于1')
                 isCheckResult = false;
                 return false;
             }
@@ -442,7 +428,7 @@ function saveBranchCostCommon(gridName) {
             }
             
             if(parseInt(item.costAvgYear) <= 0 && !$_jxc.isStringNull(item.costName)){
-                $_jxc.alert('第'+(index+1)+'行费用均摊年数金额不能小于0')
+                $_jxc.alert('第'+(index+1)+'行费用均摊年数金额不能小于1')
                 isCheckResult = false;
                 return false;
             }

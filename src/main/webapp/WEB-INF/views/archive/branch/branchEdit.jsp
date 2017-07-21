@@ -234,7 +234,10 @@
 			</div>
 		</div>
 		<div class="ub uline"></div>
-		<table id="gridEquipmentCost" class="umar-t10 upad-8"></table>
+	<from id="gridFromgridEquipmentCost" class="ub ub-ver ub-f1 umar-t8">
+	<table id="gridEquipmentCost" class="umar-t10 upad-8"></table>
+	</from>
+
 	</div>
 	
 	<div title="累计摊销费用" class="upad-8" data-options="fit:true,border:false" style="width: 100%; display: none;">
@@ -245,7 +248,10 @@
 			</div>
 		</div>
 		<div class="ub uline"></div>
-		<table id="gridAmortizeCost" class="umar-t10 upad-8"></table>
+	<from id="gridFromgridAmortizeCost" class="ub ub-ver ub-f1 umar-t8">
+	<table id="gridAmortizeCost" class="umar-t10 upad-8"></table>
+	</from>
+
 	</div>
 	
 	<div title="长期待摊费用" class="upad-8" data-options="fit:true,border:false" style="width: 100%; display: none;">
@@ -256,9 +262,10 @@
 			</div>
 		</div>
 		<div class="ub uline"></div>
-		<!-- <table id="gridFitmentCost" class="umar-t10 upad-8"></table>
-		<table id="gridEquipmentCost" class="umar-t10 upad-8"></table> -->
-		<table id="gridFitmentCost" class="umar-t10 upad-8"></table>
+	<from id="gridFromgridFitmentCost" class="ub ub-ver ub-f1 umar-t8">
+	<table id="gridFitmentCost" class="umar-t10 upad-8"></table>
+	</from>
+
 	</div>
 
 </div>

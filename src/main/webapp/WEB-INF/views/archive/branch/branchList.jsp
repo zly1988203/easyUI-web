@@ -16,7 +16,7 @@
 	.datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
 	</style>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="ub ub-ver uw uh ufs-14 uc-black">
 	<div class="ub ub-f1 umar-4 upad-4">
 		<!--left-->
 		<div class="ub ub-ver ubor uw-240">
