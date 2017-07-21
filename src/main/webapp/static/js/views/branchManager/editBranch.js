@@ -390,7 +390,7 @@ function saveBranchCostCommon(gridName) {
             }
             
             if(parseInt(item.costAvgYear) <= 0){
-                $_jxc.alert('第'+(index+1)+'行费用均摊年数金额不能小于1')
+                $_jxc.alert('第'+(index+1)+'行费用均摊年数金额不能小于0')
                 isCheckResult = false;
                 return false;
             }
@@ -428,7 +428,7 @@ function saveBranchCostCommon(gridName) {
             }
             
             if(parseInt(item.costAvgYear) <= 0 && !$_jxc.isStringNull(item.costName)){
-                $_jxc.alert('第'+(index+1)+'行费用均摊年数金额不能小于1')
+                $_jxc.alert('第'+(index+1)+'行费用均摊年数金额不能小于0')
                 isCheckResult = false;
                 return false;
             }
