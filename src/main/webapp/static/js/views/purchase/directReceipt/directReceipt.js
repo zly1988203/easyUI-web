@@ -231,7 +231,7 @@ function initDirectDataGrid(){
                    }
                }
            },
-           {field:'isGift',title:'是否赠品',width:'80px',align:'left',
+           {field:'isGift',title:'是否赠品',width:'80px',align:'center',
                formatter:function(value,row){
                    if(row.isFooter){
                        return;
@@ -261,6 +261,10 @@ function initDirectDataGrid(){
                formatter : function(value, row,index) {
                    if(row.isFooter){
                        return;
+                   }
+                   if(!value){
+                	   row.goodsCreateDate = row.createTime;
+                	   value = row.createTime;
                    }
                    return value?new Date(value).format('yyyy-MM-dd'):""
                },
@@ -326,19 +330,19 @@ function initDirectDataGrid(){
                gridHandel.setSelectFieldName("skuCode");
            }
        },
-          onBeforeEdit:function (rowIndex, rowData) {
-              editRowData = $.extend(true,{},rowData);
-          },
-          onAfterEdit:function(rowIndex, rowData, changes){
-              if(typeof(rowData.id) === 'undefined'){
-                  // $("#"+gridName).datagrid('acceptChanges');
-              }else{
-                  if(editRowData.skuCode != changes.skuCode){
-                      rowData.skuCode = editRowData.skuCode;
-                      gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
-                  }
+       onBeforeEdit:function (rowIndex, rowData) {
+          editRowData = $.extend(true,{},rowData);
+       },
+       onAfterEdit:function(rowIndex, rowData, changes){
+          if(typeof(rowData.id) === 'undefined'){
+              // $("#"+gridName).datagrid('acceptChanges');
+          }else{
+              if(editRowData.skuCode != changes.skuCode){
+                  rowData.skuCode = editRowData.skuCode;
+                  gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
               }
-          },
+          }
+       },
        onLoadSuccess:function(data){
            if(data.rows.length>0){
                var config = {
@@ -492,24 +496,25 @@ function onSelectIsGift(data){
     if(arrs.length==0){
         var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
-            var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
             $(targetPrice).numberbox('disable');
-            gridHandel.setFieldValue('price',0);
-            
+            gridHandel.setFieldValue('amount',0);//总金额
+            gridHandel.setFieldValue('taxAmount',0);//总税额
         }else{
         	if(isEdit == false){
         		$(targetPrice).numberbox('enable');
         	}
-            var oldPrice =  $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
-            //realNum 数量
-            var _realNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
-            var _amout = parseFloat(oldPrice)*parseFloat(_realNum); 
+            var oldPrice =  $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["priceBack"];
             if(oldPrice){
-                $(targetPrice).numberbox('setValue',_amout);
-                gridHandel.setFieldValue('price',oldPrice);
+                $(targetPrice).numberbox('setValue',oldPrice);
             }
+            var priceVal = oldPrice||0;
+            var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum')||0;
+            var oldAmount = parseFloat(priceVal)*parseFloat(applNum);
+            var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+            var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);
+            gridHandel.setFieldValue('amount',oldAmount);//总金额
+            gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总税额
         }
         updateFooter();
     }else{
@@ -621,7 +626,7 @@ function saveDirectForm(){
 }
 
 function saveDataHandel(rows, url){
-    gFunStartLoading();
+    //gFunStartLoading();
     //供应商
     var supplierId = $("#supplierId").val();
     //经营方式
@@ -640,13 +645,6 @@ function saveDataHandel(rows, url){
         totalNum = parseFloat(footerRows[0]["realNum"]||0.0).toFixed(4);
         amount = parseFloat(footerRows[0]["amount"]||0.0).toFixed(4);
     }
-    
-     var jsonData = {
-        supplierId:$('#supplierId').val(),
-        saleWay:$("#saleWay").val(),
-        branchId:$("#branchId").val(),
-        remark:$("#remark").val(),                  // 备注
-    }
 
     var id = $("#formId").val();
     var reqObj = {
@@ -654,6 +652,7 @@ function saveDataHandel(rows, url){
         supplierId:supplierId,
         branchId:branchId,
         saleWay:saleWay,
+        paymentTime:$('#paymentTime').val()||'',
         remark:remark,
         totalNum:totalNum,
         amount:amount,
@@ -666,7 +665,6 @@ function saveDataHandel(rows, url){
         contentType:'application/json',
         data:req
     },function(result){
-//        gFunEndLoading();
         
         if(result['code'] == 0){
             $_jxc.alert("操作成功！",function(){
@@ -789,7 +787,6 @@ function checkDirectForm(){
 }
 
 function checkOrder(){
-    gFunStartLoading();
     var id = $("#formId").val();
     $_jxc.ajax({
         url:contextPath+"/directReceipt/check",
@@ -798,7 +795,6 @@ function checkOrder(){
     		status:1
     	}
     },function(result){
-//        gFunEndLoading();
         if(result['code'] == 0){
             $_jxc.alert("操作成功！",function(){
                 location.href = contextPath +"/directReceipt/edit?formId=" + id;
@@ -1060,9 +1056,10 @@ function selectPurchaseForm(){
         var keylargeNum = {
         		largeNum:'maxlargeNum',
         };*/
-        
-        
-        var newRows = gFunUpdateKey(data.list,{});
+		var keyNames = {
+        		price:'priceBack',
+        };
+        var newRows = gFunUpdateKey(data.list,keyNames);
         
         $("#"+gridName).datagrid("loadData",newRows);
         //供应商
