@@ -1067,6 +1067,21 @@ function GridClass(){
                                         var target = _this.getFieldTarget(field);
                                         while($(target).prop('readonly') || $(target).prop('disabled'))
                                         {
+                                        	//修复如果最后一列是不可读的表单造成的页面卡掉bug20180
+                                        	if(row.length>0&&row[row.length-1].field == field){
+                                        		if(grid.datagrid('getRows').length-rowIndex>1){
+                                                    var lastIndex = rowIndex+1;
+                                                    _this.setBeginRow(lastIndex);
+                                                    _this.setSelectFieldName(params.firstName);
+                                                    var target = _this.getFieldTarget(selectFieldName);
+                                                    if(target){
+                                                        _this.setFieldFocus(target);
+                                                    }
+                                                }else{
+                                                    params.enterCallBack("add")
+                                                }
+                                        		break;
+                                        	}
                                         	_this.setSelectFieldName(field);
                                             field = getLRFiledName('right');
                                         	target = _this.getFieldTarget(field);
@@ -1084,6 +1099,21 @@ function GridClass(){
                                 var target = _this.getFieldTarget(field);
                                 while($(target).prop('readonly') || $(target).prop('disabled'))
                                 {
+                                	//修复如果最后一列是不可读的表单造成的页面卡掉bug20180
+                                	if(row.length>0&&row[row.length-1].field == field){
+                                		if(grid.datagrid('getRows').length-rowIndex>1){
+                                            var lastIndex = rowIndex+1;
+                                            _this.setBeginRow(lastIndex);
+                                            _this.setSelectFieldName(params.firstName);
+                                            var target = _this.getFieldTarget(selectFieldName);
+                                            if(target){
+                                                _this.setFieldFocus(target);
+                                            }
+                                        }else{
+                                            params.enterCallBack("add")
+                                        }
+                                		break;
+                                	}
                                 	_this.setSelectFieldName(field);
                                     field = getLRFiledName('right');
                                 	target = _this.getFieldTarget(field);
