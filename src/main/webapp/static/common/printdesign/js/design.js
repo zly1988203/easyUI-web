@@ -480,15 +480,15 @@ function initToolbar() {
                             var jqCmb = $(this);
                             var lstRec = jqCmb.combobox("getData");
                             if (lstRec && $.isArray(lstRec)) {
-                            	var rec = lstRec[0];
-                                jqCmb.combobox("select", rec.templateId);
-                                /*for (var i = 0; i < lstRec.length; i++) {
+                            	//var rec = lstRec[0];
+                                //jqCmb.combobox("select", rec.templateId);
+                                for (var i = 0; i < lstRec.length; i++) {
                                     var rec = lstRec[i];
                                     if (rec.templateId == gVar.templateNo) {
                                         jqCmb.combobox("select", rec.templateId);
                                         return;
                                     }
-                                }*/
+                                }
                             }
                         },
                         onSelect: function (rec) {
@@ -1421,7 +1421,7 @@ gVar.sheetNo = undefined;
 $(function () {
     gVar.page = $.helper.getUrlVar("page");
     gVar.controller = $.helper.getUrlVar("controller");
-    gVar.templateNo = parseInt($.helper.getUrlVar("template"));
+    gVar.templateNo = $.helper.getUrlVar("template");
     gVar.gridFlag = $.helper.getUrlVar("gridFlag");
     gVar.sheetNo = $.helper.getUrlVar("sheetNo");
     if (!gVar.page || !gVar.controller || !gVar.templateNo) return;
