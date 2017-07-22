@@ -106,8 +106,12 @@ function initCombineSplieEditGrid() {
             {field: 'amount', title: '金额', width:'90px', align: 'left'},
             {field: 'remark', title: '备注', width: '250px', align: 'left',
                 editor:{
-                    type:'textbox'
-                }}
+                    type:'textbox',
+                    options:{
+                        validType:{maxLength:[20]},
+                    }
+                }
+            }
         ]],
         onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
@@ -301,7 +305,13 @@ function saveCombineSplit(){
     }
     var isCheckResult = true;
     var isChcekPrice = false;
-    
+
+    //验证备注的长度 20个字符
+    var isValid = $("#gridFrom").form('validate');
+    if (!isValid) {
+        return;
+    }
+
     $.each(rows,function(i,v){
         /*if(parseFloat(v["costPrice"])<=0){
             isChcekPrice = true;
