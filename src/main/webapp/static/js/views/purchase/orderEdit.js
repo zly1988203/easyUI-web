@@ -2,6 +2,9 @@
  * Created by huangj02 on 2016/8/9.
  */
 var isEdit = true;
+//过滤price priceBack 标示 
+var loadFilterFlag = false;
+
 $(function(){
     //是否允许改价
     var allowUpdatePrice = $('#allowUpdatePrice').val();
@@ -269,6 +272,25 @@ function initDatagridEditOrder(){
                 }
             }
         },
+        loadFilter:function(data){
+        	if(loadFilterFlag && data && data.length > 0 ){
+        		loadFilterFlag = false;
+        		data.forEach(function(obj,index){
+        			//编辑后 可以再次选择商品 新选的 priceBack为空
+        			if(!obj.priceBack){
+        				if(obj.isGift && obj.isGift != '1'){
+        					//非赠品
+        					obj.price = obj.purchasePrice;
+        				}else if(obj.isGift && obj.isGift == '1'){
+        					//赠品
+        					obj.amount = 0;
+        				}
+        				obj.priceBack = obj.purchasePrice;
+        			}
+        		})
+        	}
+        	return data;
+        },
         onLoadSuccess:function(data){
             if((data.rows).length <= 0)return;
             gFunEndLoading();
@@ -464,6 +486,7 @@ function delLineHandel(event){
 }
 //选择商品
 function selectGoods(searchKey){
+	loadFilterFlag = true;
     //判定供应商是否存在
 	var supplierId = $("#supplierId").val();
     if(supplierId==""){
@@ -514,8 +537,7 @@ function selectGoods(searchKey){
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
         var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
         $("#gridEditOrder").datagrid("loadData",newRows);
-
-        gridHandel.setLoadFocus();
+        //gridHandel.setLoadFocus();
         setTimeout(function(){
             gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
             gridHandel.setSelectFieldName("largeNum");
@@ -868,6 +890,7 @@ function back(){
 }
 
 function toImportproduct(type){
+	loadFilterFlag = true;
     var branchId = $("#branchId").val();
     if(!branchId){
         $_jxc.alert("请先选择收货机构");
@@ -895,7 +918,6 @@ function updateListData(data){
             data[i]["amount"]  = parseFloat(data[i]["purchasePrice"]||0)*parseFloat(data[i]["realNum"]||0);
         });
 	    var keyNames = {
-	        purchasePrice:'price',
 	        id:'skuId',
 	        disabled:'',
 	        pricingType:'',
@@ -921,32 +943,6 @@ function exportTemp(){
 	}else if(type==1){
 		location.href=contextPath+'/form/purchase/exportTemp?type='+type;
 	}
-}
-
-/**
- * 获取导入的数据
- * @param data
- */
-function getImportData(data){
-    $.each(data,function(i,val){
-        data[i]["oldPurPrice"] = data[i]["purchasePrice"];
-        data[i]["oldSalePrice"]=data[i]["salePrice"];
-        data[i]["oldWsPrice"]=data[i]["wholesalePrice"];
-        data[i]["oldVipPrice"]=data[i]["vipPrice"];
-        data[i]["oldDcPrice"]=data[i]["distributionPrice"];
-        data[i]["price"] = data[i]["oldPurPrice"];
-        data[i]["realNum"]=data[i]["realNum"]||0;
-        data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["realNum"]||0);
-        data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/data[i]["purchaseSpec"]).toFixed(4);
-        data[i]["tmpLargeNum"] = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["purchaseSpec"]))||0;
-        
-    });
-    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-    var argWhere ={skuCode:1};  //验证重复性
-    var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,{});
-
-    $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
-    $_jxc.alert("导入成功");
 }
 
 function orderAdd(){

@@ -4,6 +4,8 @@
  * 编辑和审核公用页面
  * 
  */
+//过滤price priceBack 标示 
+var loadFilterFlag = false;
 
 var directStatus = 'add';
 
@@ -342,6 +344,25 @@ function initDirectDataGrid(){
                   gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
               }
           }
+       },
+       loadFilter:function(data){
+       	if(loadFilterFlag && data && data.length > 0 ){
+       		loadFilterFlag = false;
+       		data.forEach(function(obj,index){
+       			//编辑后 可以再次选择商品 新选的 priceBack为空
+       			if(!obj.priceBack){
+       				if(obj.isGift != '1'){
+       					//非赠品
+       					obj.price = obj.purchasePrice;
+       				}else if(obj.isGift == '1'){
+       					//赠品
+       					obj.amount = 0;
+       				}
+       				obj.priceBack = obj.purchasePrice;
+       			}
+       		})
+       	}
+       	return data;
        },
        onLoadSuccess:function(data){
            if(data.rows.length>0){
@@ -913,6 +934,7 @@ function selectBranch(){
 
 //选择商品
 function selectGoods(searchKey){
+	loadFilterFlag = true;
 	var branchId = $("#branchId").val();
 	var sourceBranchId = branchId;
 	var targetBranchId = branchId;
@@ -950,7 +972,6 @@ function selectGoods(searchKey){
 		 var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
 		 var addDefaultData  = gridHandel.addDefault(data,gridDefault);
 		 var keyNames = {
-		    purchasePrice:'price',
             inputTax:'tax'
          };
          var rows = gFunUpdateKey(addDefaultData,keyNames);
@@ -974,6 +995,7 @@ function selectGoods(searchKey){
  * @param type 0货号  1条码
  */
 function importDirectForm(type){
+	loadFilterFlag = true;
     var branchId = $("#branchId").val();
     // 判定机构是否存在
     if($("#branchId").val()==""){
@@ -1003,11 +1025,10 @@ function updateListData(data){
         data[i]["remark"] = "";
         data[i]["realNum"]=data[i]["realNum"]||0;
         data[i]["largeNum"]  = (parseFloat(data[i]["realNum"]||0)/parseFloat(data[i]["purchaseSpec"])).toFixed(4);
-        data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["realNum"]||0);
+        data[i]["amount"]  = parseFloat(data[i]["purchasePrice"]||0)*parseFloat(data[i]["realNum"]||0);
     });
 
     var keyNames = {
-	    purchasePrice:'price',
         inputTax:'tax'
     };
     var rows = gFunUpdateKey(data,keyNames);
