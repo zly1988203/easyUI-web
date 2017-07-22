@@ -46,6 +46,8 @@ import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByCostPrice;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+import com.okdeer.retail.common.exception.BizException;
+import com.okdeer.retail.facade.stock.exception.ValidationException;
 
 /**
  * ClassName: CostAdjustController 
@@ -316,19 +318,20 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 	 */
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson check(String id) {
+	public RespJson check(String id) throws BizException{
 		try {
 			if (id == null) {
 				return RespJson.error("id不允许为空！");
 			}
 			RespJson json = stockCostFormServiceApi.check(id, UserUtil.getCurrUserId());
 			return json;
-		} catch (RuntimeException e) {
-			LOG.error("删除成本调整单失败！:{}", e);
+		}
+		catch (RuntimeException e) {
+			LOG.error("审核成本调整单失败！:{}", e);
 			return RespJson.error(e.getMessage());
 		} catch (Exception e) {
-			LOG.error("删除成本调整单失败！:{}", e);
-			return RespJson.error("删除成本调整单失败！");
+			LOG.error("审核成本调整单失败！:{}", e);
+			return RespJson.error("审核成本调整单失败！");
 		}
 	}
 

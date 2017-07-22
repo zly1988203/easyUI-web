@@ -74,13 +74,14 @@
 		<form action="" id="searchForm" method="post">
 			<input id="formNoInput" name="formNo" value="${goodsPriceForm.formNo}" type="hidden">
 			<input id="id" name="id" value="${goodsPriceForm.id}" type="hidden">
+			<input id="branchsFullName" name="branchsFullName" value="${branchsFullName}"  type="hidden">
 			<input class="uinp ub ub-f1" name="loginBranchId" type="hidden" value="${loginBranchId}" id="loginBranchId">
 			<div class="ub ub-ver umar-t12">
 				<div class="ub">
 					<div class="ub ub-ac uw-608" id="branchGroup">
 						<div class="umar-r10 uw-70 ut-r">机构列表:</div>
-						<input class="uinp ub ub-f1" name="branchId" type="hidden" id="branchId" value="${branchId}">
-						<input class="uinp ub ub-f1" name="branchName" id="branchName" type="text" title="${branchName}" value="${branchName}"  id="branchShopName" readonly>
+						<input name="branchId" id="branchId" type="hidden"  value="${branchId}">
+						<input class="uinp ub ub-f1" name="branchsName" id="branchShopName" type="text" title="${branchsFullName}" value="${branchName}"   readonly>
 						<div class="uinp-more">...</div>
 					</div>
 					<div class="ub ub-ac umar-l28 uw-200">

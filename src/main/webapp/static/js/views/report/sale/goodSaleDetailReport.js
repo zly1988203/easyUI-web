@@ -3,8 +3,16 @@
  * 商品销售汇总分析
  */
 $(function() {
+	$("#txtStartDate").val(dateUtil.getPreMonthDate().format("yyyy-MM-dd"));
+	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	//选择报表类型
 	initGoodsTotalAnalysiGrid();
+	//机构选择
+	$('#branchSelects').branchSelect();
+	
+	$('input[name="reportType"]').on('change',function(){
+		initGoodsCategorty();
+	})
 });
 
 var gridHandel = new GridClass();
@@ -32,10 +40,15 @@ function initGoodsTotalAnalysiGrid() {
         frozenColumns:[[
             {field: 'branchCode', title: '机构编码', width:120, align: 'left'},
             {field: 'branchName', title: '机构名称', width:120, align: 'left'},
-            {field: 'orderNo', title: '单据编号', width:120, align: 'left'}
+            {field: 'orderNo', title: '单据编号', width:150, align: 'left'}
         ]],
         columns: [[
-           {field: 'time', title: '时间', width:120, align: 'left'},   
+           {field: 'time', title: '时间', width:150, align: 'left',
+        	   formatter:function(value){
+        		   var now = new Date(value);
+        		  return now.format("yyyy-MM-dd hh:mm:ss");
+        	   }
+           },   
            {field: 'skuCode', title: '货号', width:120, align: 'left'},
            {field: 'skuName', title: '商品名称', width:120, align: 'left'},
            {field: 'skuCode', title: '商品条码', width:120, align: 'left'},
