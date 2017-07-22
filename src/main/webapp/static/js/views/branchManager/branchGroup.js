@@ -31,6 +31,7 @@ function initDatagridStoreList(){
             {field:'groupNo',title:'机构组合编号',width:'140px',align:'left'},
             {field:'groupName',title:'机构组合名称',width:'140px',align:'left'},
             {field:'branchName',title:'所属分公司',width:'120px',align:'left'},
+            {field:'branchCompleCode',title:'branchCompleCode',width:'120px',align:'left',hidden:true},
             {field:'hasMemeberStr',title:'是否已设置成分商品',width:'120px',align:'center'},
             {field:'createUserName',title:'创建人',width:'120px',align:'left'},
             {field:'createTime',title:'创建时间',width:'160px',align:'left',
@@ -300,9 +301,11 @@ function checkData(){
 function selectBranchs(searchKey){
 	//数据校验
 	if(!checkData())return;
+	var viewRows = $('#'+gridStoreViewId).datagrid('getSelected');
+	var branchCompleCode=viewRows.branchCompleCode;
 	var param = {
 		selectType:1, //数据选择模式类型  null/''/0-->单选(默认)   1多选
-		//view:'group', //分组
+		branchCompleCode:branchCompleCode, //
 		//门店
 		branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C,
 		nameOrCode:searchKey

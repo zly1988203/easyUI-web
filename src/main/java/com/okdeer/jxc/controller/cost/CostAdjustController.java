@@ -325,13 +325,6 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 			}
 			RespJson json = stockCostFormServiceApi.check(id, UserUtil.getCurrUserId());
 			return json;
-		}catch(ValidationException e){
-			LOG.error("审核成本调整单失败！:{}", e);
-			return RespJson.error(e.getMessage());
-		}
-		catch(BizException e){
-			LOG.error("审核成本调整单失败！:{}", e);
-			return RespJson.error(e.getMessage());
 		}
 		catch (RuntimeException e) {
 			LOG.error("审核成本调整单失败！:{}", e);
