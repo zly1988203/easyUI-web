@@ -404,6 +404,7 @@ function savePlan(){
 	//console.log('_rows',_reqObj);
 	
 	$_jxc.ajax(param,function (result) {
+		
         if(result['code'] == 0){
             $_jxc.alert("保存成功！",function(){
             	if(chargeStatus === "add"){
@@ -413,25 +414,19 @@ function savePlan(){
                 }
             });
         }else{
-            $_jxc.alert(result['message'])
+        	if(result['type'] == '1'){
+        		$_jxc.confirm('已存在该年份的计划，不能新增。想修改已有计划吗?',function(r){
+        			if(r){
+        				location.href = contextPath + "/target/storePlan/toEdit?branchId=" + _branchId+"&monthStr="+_temYear+"-01";
+        			}
+        		})	
+        	}else{
+        		$_jxc.alert(result['message'])
+        	}
         }
     });
 	
 }
-
-/*//查询入库单
-function queryForm(){
-	 if($("#branchName").val()==""){
-	    $_jxc.alert("请选择店铺名称");
-	    return;
-	 } 
-	var fromObjStr = $('#queryForm').serializeObject();
-	// 去除编码
-	fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
-	$("#"+datagridId).datagrid("options").method = "post";
-	$("#"+datagridId).datagrid('options').url = contextPath + '/storeDaySale/report/getStoreDaySaleList';
-	$("#"+datagridId).datagrid('load', fromObjStr);
-}*/
 
 
 //新增门店计划
