@@ -58,7 +58,8 @@ function initBranchGroup(){
     			//拉取分组详细
     			publicGetBranchGroupDetail(param,function(result){
     				$('#branchIds').val(result&&result.branchId);
-    				$('#branchName').attr('title',result&&result.branchName);
+    				$('#branchsName').attr('title',result&&result.branchName);
+    				$('#branchsFullName').val(result&&result.branchName);
     			})
     		}
      	}
@@ -3008,10 +3009,16 @@ function saveDataHandel(rows,setrows){
 	  saleAmount = parseFloat(footerRows[0]["saleAmount"]||0.0).toFixed(4);
   }
  
+  // 活动分店机构id
+  var branchsName = $("#branchName").val();
+  var branchsFullName = $("#branchsFullName").val();
+  
   // 活动状态为特价--偶数特价--换购
   if(activityType=="1"||activityType=="3"||activityType=="4"){
 	  var reqObj = {
 	          branchIds:branchIds,
+	          branchsName:branchsName,
+	          branchsFullName:branchsFullName,
 	          activityName:activityName,
 	          activityType:activityType,
 	          startTime:startTime,
@@ -3034,6 +3041,8 @@ function saveDataHandel(rows,setrows){
   else if(activityType=="6"){
 	  var reqObj = {
 	          branchIds:branchIds,
+	          branchsName:branchsName,
+	          branchsFullName:branchsFullName,
 	          activityName:activityName,
 	          activityType:activityType,
 	          startTime:startTime,
@@ -3061,6 +3070,8 @@ function saveDataHandel(rows,setrows){
 	// 活动状态为折扣--拼接数据
 	  var reqObj = {
 	          branchIds:branchIds,
+	          branchsName:branchsName,
+	          branchsFullName:branchsFullName,
 	          activityName:activityName,
 	          activityType:activityType,
 	          startTime:startTime,
@@ -3109,6 +3120,8 @@ function saveDataHandel(rows,setrows){
 	// 活动状态为满减--拼接数据
 	  var reqObj = {
 	          branchIds:branchIds,
+	          branchsName:branchsName,
+	          branchsFullName:branchsFullName,
 	          activityName:activityName,
 	          activityType:activityType,
 	          startTime:startTime,
@@ -3198,6 +3211,8 @@ function saveDataHandel(rows,setrows){
 	  
 	  var reqObj = {
 	          branchIds:branchIds,
+	          branchsName:branchsName,
+	          branchsFullName:branchsFullName,
 	          activityName:activityName,
 	          activityType:activityType,
 	          startTime:startTime,
@@ -3214,7 +3229,6 @@ function saveDataHandel(rows,setrows){
 	  };
 	  
   }
-  
   var req = JSON.stringify(reqObj);
   //return; 
 //  gFunStartLoading();
