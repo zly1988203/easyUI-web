@@ -39,13 +39,14 @@
 	        <div class="ub uline umar-t8"></div>
 	        
 	          <div class="ub umar-t8">
-                <div class="ub ub-ac">
+                <div class="ub ub-ac" id="branchComponent">
                    <div class="umar-r10 uw-70 ut-r">店铺:</div>
                     	<input type="hidden" name="startCount" id="startCount" value="">
                         <input type="hidden" name="endCount" id="endCount" value="">
+						<input type="hidden" id="branchId" name="branchId"/>
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
                         <input class="uinp ub ub-f1" type="text" id="branchNameOrCode" name="branchNameOrCode">
-                   <div class="uinp-more" onclick="searchBranch()">...</div>
+                   <div class="uinp-more">...</div>
                 </div>
                 <div class="ub ub-ac uselectw  umar-l20">
                    <div class="umar-r10 uw-70 ut-r">业务类型:</div>

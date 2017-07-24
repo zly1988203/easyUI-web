@@ -3,6 +3,10 @@
  */
 var pageSize = 50;
 $(function(){
+
+    //机构选择初始化
+    $('#branchComponent').branchSelect();
+
     //开始和结束时间
 	toChangeDatetime(0);
     //初始化列表
@@ -110,16 +114,6 @@ function changeDate(index){
 
 
 /**
- * 机构列表下拉选
- */
-function searchBranch (){
-	new publicAgencyService(function(data){
-		$("#branchCode").val(data.branchCode);
-		$("#branchNameOrCode").val("["+data.branchCode+"]"+data.branchName);
-	},"","");
-}
-
-/**
  * 收银员下拉选
  */
 function searchCashierId(){
@@ -205,16 +199,6 @@ var resetForm = function(){
 	 $("#queryForm").form('clear');
 	 $("#branchCode").val('');
 };
-
-function clearBranchCode(){
-	var branchNameOrCode = $("#branchNameOrCode").val();
-	
-	//如果修改名称
-	if(!branchNameOrCode || 
-			(branchNameOrCode && branchNameOrCode.indexOf("[")<0 && branchNameOrCode.indexOf("]")<0)){
-		$("#branchCode").val('');
-	}
-}
 
 function clearCashierId() {
 	var cashierNameOrCode = $("#cashierNameOrCode").val();
