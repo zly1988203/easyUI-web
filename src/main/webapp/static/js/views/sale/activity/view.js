@@ -102,9 +102,25 @@ function  editstart(selectType){
 		    			branchIds = v.branchId+"," + branchIds;
 		    		 });
 		    		 branchIds = branchIds.substring(0,branchIds.length - 1);
-		    		 branchName = branchName.substring(0,branchName.length - 1);
-		    		 $('#branchName').val(branchName);
-		    		 $('#branchIds').val(branchIds);
+		    		 bradenchName = branchName.substring(0,branchName.length - 1);
+		    		 /*$('#branchName').val(branchName);
+		    		 $('#branchIds').val(branchIds);*/
+		    		 debugger;
+		    		 var branchsName =listinfo.branchsName;
+		    		 var branchsFullName =listinfo.branchsFullName;
+		    		 if(branchsName){
+		    			 $('#branchName').val(branchsName);
+		    		 }else{
+		    			 $('#branchName').val(branchName);
+		    		 }
+		    		 if(branchsFullName){
+		    			 $('#branchName').attr('title',branchsFullName);
+		    			 $('#branchsFullName').val(branchsFullName);
+		    		 }else{
+		    			 $('#branchName').attr('title',$('#branchName').val());
+		    		 }
+		    		 
+		    		 
                     // combobox 下拉赋值和禁止选择
   		    		$("#activityType").combobox('select',activtype);  
   		    		$("#activityType").combobox("disable");
