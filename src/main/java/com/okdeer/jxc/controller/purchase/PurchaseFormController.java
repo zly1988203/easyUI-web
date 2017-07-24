@@ -21,8 +21,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -82,6 +80,8 @@ import com.okdeer.jxc.goods.qo.GoodsBranchPriceQo;
 import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * ClassName: PurchaseFormController 
@@ -219,8 +219,8 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			qo.setBranchName(branchName);
 		}
 
+		// 收货单价格权限不过滤总金额
 		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.selectPage(qo);
-		cleanAccessData(page);
 		return page;
 	}
 
@@ -1179,8 +1179,12 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			/**
 			 * added by zhangqin on 2016-12-01 14:36 end
 			 */
+			// 采购收货单的总金额不受价格权限控制
+			if (!FormType.PI.equals(form.getFormType())) {
+				cleanDataMap(PriceAccessConstant.PURCHASE_FORM, replaceMap);
+			}
 		}
-		cleanDataMap(PriceAccessConstant.PURCHASE_FORM, replaceMap);
+		
 		return replaceMap;
 	}
 
