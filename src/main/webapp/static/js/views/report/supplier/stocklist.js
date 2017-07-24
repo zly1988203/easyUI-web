@@ -55,21 +55,21 @@ function initGoodsTotalAnalysiGrid() {
            {field: 'centerCateName', title: '商品中类', width:120, align: 'left'},
            {field: 'bigCateName', title: '商品大类', width:120, align: 'left'},
            {field: 'skuCode', title: '货号', width:120, align: 'left'},
-           {field: 'skuName', title: '商品名称', width:120, align: 'left'},
+           {field: 'skuName', title: '商品名称', width:150, align: 'left'},
            {field: 'barCode', title: '商品条码', width:120, align: 'left'},
-           {field: 'unit', title: '单位', width:65, align: 'center'},
+           {field: 'unit', title: '单位', width:65, align: 'left'},
            {field: 'spec', title: '规格', width:65, align: 'left'},
-           {field: 'stockNum', title: '期间进货数量', width:120, align: 'right',
+           {field: 'stockNum', title: '期间进货数量', width:100, align: 'right',
         	   formatter:function(value,row,index){
         		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
         	   }
            },
-           {field: 'stockCost', title: '期间成本价', width:120, align: 'right',
+           {field: 'stockCost', title: '期间成本价', width:100, align: 'right',
         	   formatter:function(value,row,index){
         		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
         	   }
            },
-           {field: 'stockAmount', title: '期间进货金额', width:120, align: 'right',
+           {field: 'stockAmount', title: '期间进货金额', width:100, align: 'right',
         	   formatter:function(value,row,index){
         		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
         	   }
