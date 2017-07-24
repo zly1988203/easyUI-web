@@ -315,6 +315,7 @@ public class OperateGoodsBranchPriceController extends BaseController<OperateGoo
 			goodsBranchPrice.setId(skuObj[0]);
 			goodsBranchPrice.setSkuId(skuObj[1]);
 			goodsBranchPrice.setBranchId(skuObj[2]);
+			goodsBranchPrice.setUpdateUserId(super.getCurrUserId());
 			goodsBranchPriceList.add(goodsBranchPrice);
 		}
 		try {
