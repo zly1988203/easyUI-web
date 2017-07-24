@@ -32,7 +32,7 @@ function initDataTimeSaleReport(){
         columns:[[
 			{field:'bizType',title:'项目',width: 90,align:'center',rowspan:2},
 			{field:'classesStr',title:'时段',width: '200px',align:'center',rowspan:2},
-			{field:'monthAvgSale',title:'月均销售',width: 90,align:'right',rowspan:2,
+			{field:'avgSale',title:'月均销售',width: 90,align:'right',rowspan:2,
 				formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
