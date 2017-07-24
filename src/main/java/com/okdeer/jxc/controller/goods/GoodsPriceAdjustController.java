@@ -489,7 +489,8 @@ public class GoodsPriceAdjustController extends BasePrintController<GoodsPriceAd
 		model.addAttribute("goodsPriceForm", goodsPriceForm);
 		model.addAttribute("branchId", branchId);
 		model.addAttribute("branchAreaCodeName", branchAreaCodeName);
-		model.addAttribute("branchName", branchName);
+		model.addAttribute("branchName", goodsPriceForm.getBranchsName());
+		model.addAttribute("branchsFullName", goodsPriceForm.getBranchsFullName());
 		model.addAttribute("close", report);
 		return "goods/addModifyPriceOrder";
 	}

@@ -1,3 +1,5 @@
+//过滤price priceBack 标示 
+var loadFilterFlag = false;
 
 var targetBranchTypeTemp = "";
 var branchId = '';	
@@ -144,26 +146,6 @@ function initDatagridStoreYHOrder(){
             },
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
-            {field:'price',title:'单价',width:'80px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return
-                    }
-                    if(!row.price){
-                    	row.price = parseFloat(value||0).toFixed(2);
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-                    }
-                },
-            
-            },
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -202,6 +184,26 @@ function initDatagridStoreYHOrder(){
                         onChange: onChangeRealNum,
                     }
                 }
+            },
+            {field:'price',title:'单价',width:'80px',align:'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return
+            		}
+            		if(!row.price){
+            			row.price = parseFloat(value||0).toFixed(2);
+            		}
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	},
+            	editor:{
+            		type:'numberbox',
+            		options:{
+            			disabled:true,
+            			min:0,
+            			precision:4,
+            		}
+            	},
+            	
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
@@ -315,6 +317,19 @@ function initDatagridStoreYHOrder(){
                     gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
                 }
             }
+        },
+        loadFilter:function(data){
+        	if(loadFilterFlag && data && data.length > 0 ){
+        		loadFilterFlag = false;
+        		data.forEach(function(obj,index){
+        			//编辑后 可以再次选择商品 新选的 priceBack为空
+        			if(!obj.priceBack){
+        				obj.price = obj.distributionPrice;
+        				obj.priceBack = obj.distributionPrice;
+        			}
+        		})
+        	}
+        	return data;
         },
         onLoadSuccess:function(data){
         	if(pageStatus==='edit'){
@@ -449,14 +464,11 @@ function onSelectIsGift(data){
     var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
     if(arrs.length==0){
         var targetPrice = gridHandel.getFieldTarget('price');
-        //var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
         if(data.id=="1"){
-            //$('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
             gridHandel.setFieldValue('amount',0);//总金额
             gridHandel.setFieldValue('taxAmount',0);//税额
         }else{
-            //var oldPrice =  $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"];
             var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'priceBack');
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
@@ -499,6 +511,7 @@ function delLineHandel(event){
 
 //选择商品
 function selectGoods(searchKey){
+	loadFilterFlag = true;
 	var sourceBranchId = $("#sourceBranchId").val();
 	var targetBranchId = $("#targetBranchId").val();
     //判定发货分店是否存在
@@ -542,10 +555,10 @@ function setDataValue(data) {
             disabled:'',
             pricingType:''
         };
-        if(pageStatus === 'add'){
+        /*if(pageStatus === 'add'){
         	keyNames.distributionPrice = 'price';
         	keyNames.price = 'priceBack';
-        }
+        }*/
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1};   //只要是赠品就可以重复
@@ -970,6 +983,7 @@ function toImportproduct(type){
 
 //查询价格、库存
 function selectStockAndPriceImport(data){
+	loadFilterFlag = true;
 	//updateListData(data);
     var GoodsStockVo = {
         branchId : $("#targetBranchId").val(),
@@ -1001,8 +1015,6 @@ function selectStockAndPriceImport(data){
 
 function updateListData(data){
      var keyNames = {
-		 distributionPrice:'price',
-		 price:'priceBack',
          id:'skuId',
          disabled:'',
          pricingType:'',
@@ -1013,7 +1025,7 @@ function updateListData(data){
      for(var i in rows){
          rows[i].remark = "";
          rows[i].isGift = 0;
-         rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["applyNum"]||0);
+         rows[i]["amount"]  = parseFloat(rows[i]["distributionPrice"]||0)*parseFloat(rows[i]["applyNum"]||0);
 
          if(parseInt(rows[i]["distributionSpec"])){
         	 rows[i]["applyNum"]  = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);

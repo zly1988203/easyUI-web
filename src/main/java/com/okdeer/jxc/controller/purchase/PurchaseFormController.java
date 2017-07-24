@@ -1311,7 +1311,8 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 								GoodsSelectByPurchase obj = (GoodsSelectByPurchase) objGoods;
 
 								BigDecimal price = obj.getPrice();
-								if (price != null) {
+								// 非赠品才替换导入文件中的导入价格
+                                if (Constant.ZERO_STR.equals(obj.getIsGift()) && price != null) {
 									obj.setPurchasePrice(price);
 								}
 							}
