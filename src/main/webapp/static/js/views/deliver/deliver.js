@@ -568,8 +568,7 @@ function onChangeRealNum(newV,oldV,event) {
         }
         gridHandel.setFieldValue('applyNum',0.0000);
         gridHandel.setSelectFieldName("applyNum");
-        gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));
-        return;
+        gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));        return;
     }
     
     var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
@@ -602,8 +601,7 @@ function onSelectIsGift(data){
     };
     var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
     if(arrs.length==0){
-		var targetPrice = gridHandel.getFieldTarget('price');
-        if(data.id=="1"){
+		var targetPrice = gridHandel.getFieldTarget('price');        if(data.id=="1"){
 	        $(targetPrice).numberbox('setValue',0);
             gridHandel.setFieldValue('amount',0);//总金额
             gridHandel.setFieldValue('taxAmount',0);//税额
@@ -699,11 +697,6 @@ function setDataValue(data,fromClick) {
             disabled:'',
             pricingType:''
         };
-        
-        /*if(deliverStatus === 'add'){
-        	keyNames.distributionPrice = 'price';
-        	keyNames.price = 'priceBack';
-        }*/
         
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
