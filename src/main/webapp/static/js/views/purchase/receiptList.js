@@ -177,7 +177,7 @@ function initDatagridOrders(){
     });
    // query();
     if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice(tableIdName,["amount"])
+       // priceGrantUtil.grantPurchasePrice(tableIdName,["amount"])
 	}
 }
 

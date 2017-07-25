@@ -114,6 +114,7 @@
             	<div class="ub ub-ac uw-300">
                     <div class="umar-r10 uw-70 ut-r">机构列表:</div>
                     <input class="uinp ub ub-f1" name="branchId" type="hidden" id="branchId"  value="${branchId}">
+                    <input class="uinp ub ub-f1" name="branchsFullName" type="hidden" id="branchsFullName"  value="${branchsFullName}">                   
                     <input class="uinp ub ub-f1" name="branchName" type="text" id="branchName" value="${branchName}" onmouseout="this.title=this.value"  onclick="selectBranch();" id="branchShopName" readonly>
                     <div class="uinp-more" onclick="selectBranch();">...</div>
                 </div>

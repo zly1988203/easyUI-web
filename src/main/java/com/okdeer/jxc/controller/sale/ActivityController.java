@@ -685,6 +685,7 @@ public class ActivityController extends BaseController<ActivityController> {
 							
 						}
 					}, null);
+			vo.setErrorFileUrl(vo.getErrorFileUrl() + "&activityType=" + activityType);
 			respJson.put("importInfo", vo);
 
 		} catch (IOException e) {

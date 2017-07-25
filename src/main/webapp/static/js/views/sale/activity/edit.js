@@ -68,6 +68,7 @@ $(function(){
     			publicGetBranchGroupDetail(param,function(result){
     				$('#branchIds').val(result&&result.branchId);
     				$('#branchName').attr('title',result&&result.branchName);
+    				$('#branchsFullName').val('title',result&&result.branchName);
     			})
     		}
      	}
@@ -166,7 +167,22 @@ function  editstart(selectType){
 		    		 branchName = branchName.substring(0,branchName.length - 1);
 		    		//复制过来的  不赋值
 			    	 if(sUrl != 'toCopy'){
-			    		 $('#branchName').val(branchName);
+			    		 var branchsName =data.obj.branchsName;
+			    		 var branchsFullName =data.obj.branchsFullName;
+			    		 if(branchsName){
+			    			 $('#branchName').val(branchsName);
+			    		 }else{
+			    			 $('#branchName').val(branchName);
+			    		 }
+			    		 if(branchsFullName){
+			    			 $('#branchName').attr('title',branchsFullName);
+			    			 $('#branchsFullName').val(branchsFullName);
+			    		 }else{
+			    			 $('#branchName').attr('title',$('#branchName').val());
+			    		 }
+			    		 
+			    		
+			    		 
 			    		 $('#branchIds').val(branchIds);
 			    	 }
 			    	 
@@ -3082,11 +3098,15 @@ function saveDataHandel(rows,setrows){
   if(footerRows){
 	  saleAmount = parseFloat(footerRows[0]["saleAmount"]||0.0).toFixed(4);
   }
- 
+  // 活动分店机构id
+  var branchsName = $("#branchName").val();
+  var branchsFullName = $("#branchsFullName").val();
   // 活动状态为特价--偶数特价--换购
   if(activityType=="1"||activityType=="3"||activityType=="4"){
 	  var reqObj = {
 	          branchIds:branchIds,
+	          branchsName:branchsName,
+	          branchsFullName:branchsFullName,
 	          activityName:activityName,
 	          activityType:activityType,
 	          startTime:startTime,
@@ -3109,6 +3129,8 @@ function saveDataHandel(rows,setrows){
   else if(activityType=="6"){
 	  var reqObj = {
 	          branchIds:branchIds,
+	          branchsName:branchsName,
+	          branchsFullName:branchsFullName,
 	          activityName:activityName,
 	          activityType:activityType,
 	          startTime:startTime,
@@ -3136,6 +3158,8 @@ function saveDataHandel(rows,setrows){
 	// 活动状态为折扣--拼接数据
 	  var reqObj = {
 	          branchIds:branchIds,
+	          branchsName:branchsName,
+	          branchsFullName:branchsFullName,
 	          activityName:activityName,
 	          activityType:activityType,
 	          startTime:startTime,
@@ -3183,6 +3207,8 @@ function saveDataHandel(rows,setrows){
 	// 活动状态为满减--拼接数据
 	  var reqObj = {
 	          branchIds:branchIds,
+	          branchsName:branchsName,
+	          branchsFullName:branchsFullName,
 	          activityName:activityName,
 	          activityType:activityType,
 	          startTime:startTime,
@@ -3273,6 +3299,8 @@ function saveDataHandel(rows,setrows){
 	  
 	  var reqObj = {
 	          branchIds:branchIds,
+	          branchsName:branchsName,
+	          branchsFullName:branchsFullName,
 	          activityName:activityName,
 	          activityType:activityType,
 	          startTime:startTime,

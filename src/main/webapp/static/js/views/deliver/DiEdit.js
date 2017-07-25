@@ -726,43 +726,6 @@ function loadLists(referenceId){
 function back(){
 	location.href = contextPath+"/form/deliverForm/viewsDI";
 }
-/**
- * 导入
- */
-function importHandel(){
-	postelsxDeliver('gridEditOrder','/goods/goodsSelect',$("#sourceBranchId").val(),$("#targetBranchId").val(),"DA");
-}
-
-/**
- * 获取导入的数据
- * @param data
- */
-function getImportData(data){
-    $.each(data,function(i,val){
-        data[i]["oldPurPrice"] = data[i]["purchasePrice"];
-        data[i]["oldSalePrice"]=data[i]["salePrice"];
-        data[i]["oldWsPrice"]=data[i]["wholesalePrice"];
-        data[i]["oldVipPrice"]=data[i]["vipPrice"];
-        data[i]["oldDcPrice"]=data[i]["distributionPrice"];
-        data[i]["price"] = data[i]["oldPurPrice"];
-        data[i]["receiveNum"]=data[i]["receiveNum"]||0;
-      
-        data[i]["amount"]  = parseFloat(data[i]["price"]||0)*parseFloat(data[i]["receiveNum"]||0);
-        if(parseInt(data[i]["distributionSpec"])){
-        	 data[i]["largeNum"]  = (parseFloat(data[i]["receiveNum"]||0)/parseFloat(data[i]["distributionSpec"])).toFixed(4);
-        }else{
-        	 data[i]["largeNum"]  =  0;
-        	 data[i]["distributionSpec"] = 0;
-        }
-        
-    });
-    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-    var argWhere ={skuCode:1};  //验证重复性
-    var newRows = gridHandel.checkDatagrid(nowRows,data,argWhere,{});
-
-    $("#"+gridHandel.getGridName()).datagrid("loadData",newRows);
-    $_jxc.alert("导入成功");
-}
 
 //新增入库单
 function addDeliverForm(){
