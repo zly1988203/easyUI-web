@@ -5,7 +5,18 @@ $(function(){
     //初始化默认条件
     initDatagridStoreList();
     initDatagridStoreView();
-    
+    //新增机构组合机构选择 初始化
+    $('#branchComponent').branchSelect({
+    	param:{
+    		branchTypesStr:$_jxc.branchTypeEnum.BRANCH_COMPANY
+    	},
+    	onShowBefore:function(){
+    		if($('#id').val()){
+    			return false;
+    		}
+    		return true;
+    	}
+    });
 });
 var gridDefault = {};
 var gridHandel = new GridClass();
@@ -209,27 +220,22 @@ function showBranchDialog(obj){
 			//编辑时 form赋值
 			if(obj){
 				$('#branchId').val(obj.branchId||'');
-				$('#branchName').val('['+(obj.branchCode||"")+']'+obj.branchName);
+				$('#branchName').val('['+(obj.branchCode||"")+']'+obj.branchName).addClass('uinp-no-more');
 				$('#groupName').val(obj.groupName||'');
 				$('#groupNo').val(obj.groupNo||'');
 				$('#remark').val(obj.remark||'');
-				$('#branchForm').append('<input type="hidden" name="id" id="id" value="'+obj.id+'">');
+				$('#id').val(obj.id||'');
 				$('#umore').addClass('unhide');
 			}else{
-				//新增机构组合机构选择 初始化
-			    $('#branchComponent').branchSelect({
-			    	param:{
-			    		branchTypesStr:$_jxc.branchTypeEnum.HEAD_QUARTERS + ',' + $_jxc.branchTypeEnum.BRANCH_COMPANY
-			    	}
-			    });
 			    $('#branchForm')[0].reset();
 			    $('#umore').removeClass('unhide');
-			    $('#id').remove();
+			    $('#branchName').removeClass('uinp-no-more');
+			    $('#id').val("");
 			}
 			
 		},
 		onClose:function(){
-			$('#id').remove();
+			$('#id').val("");
 			$('#branchForm')[0].reset();
 			$('#branchDialog-area').addClass('none');
 			
@@ -267,8 +273,10 @@ function saveBranchComMsg(){
 	    },function(result){
 	        if(result['code'] == 0){
 	        	operateFlag = true;
+	        	$('#groupNo').val(result.data?result.data.groupNo:'');
+	        	$('#id').val(result.data&&result.data.id);
+	        	$('#branchName').addClass('uinp-no-more');
 	            $_jxc.alert("操作成功！");
-	            $('#groupNo').val(result.data?result.data.groupNo:'');
 	        }else{
 	            $_jxc.alert(result['message']);
 	        }

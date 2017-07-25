@@ -19,6 +19,7 @@ import com.okdeer.jxc.branch.qo.BranchGroupQo;
 import com.okdeer.jxc.branch.service.BranchGroupServiceApi;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
+import com.okdeer.jxc.common.utils.BooleanUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -67,8 +68,14 @@ public class BranchGroupSelectController extends BaseController<BranchGroupSelec
 		LOG.debug("查询机构参数:{}", vo.toString() + "pageNumber:" + pageNumber + "pageSize:" + pageSize);
 		vo.setPageNumber(pageNumber);
 		vo.setPageSize(pageSize);
+		
+		if(vo.getBranchCompleCode()==null){
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+		}
+		
 		// 根据类型查询不同数据
 		if (vo.getGroupType()==1) {
+			vo.setHasMemeber(BooleanUtils.TRUE_INTEGER);
 			return branchGroupServiceApi.queryGroupAsBranchList(vo);
 		} else {
 			if (2==vo.getGroupType()) {
@@ -80,7 +87,7 @@ public class BranchGroupSelectController extends BaseController<BranchGroupSelec
 			}
 
 			//兼容之前的机构选择的公共组件
-			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			
 			/*vo.setType(UserUtil.getCurrBranchType());*/
 			if (StringUtils.isEmpty(vo.getBranchId())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
