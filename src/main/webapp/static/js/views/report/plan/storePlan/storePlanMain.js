@@ -284,10 +284,14 @@ function getNumberByMonth(month,number){
 
 //检验机构
 function checkBranch(){
-	if(!$.trim($("#branchName").val())){
+	 if(!$.trim($("#branchName").val())){
 	    $_jxc.alert("请选择机构");
 	    return false;
 	 } 
+	 if(!$.trim($("#year").val())){
+	    $_jxc.alert("请选择年份");
+	    return false;
+	 }
 	 return true;
 }
 

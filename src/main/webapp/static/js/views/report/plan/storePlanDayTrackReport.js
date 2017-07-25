@@ -21,16 +21,9 @@ function initStorePlanList(){
         singleSelect:false,  //单选  false多选
         pagination:true,    //分页
         showFooter:true,
-//        data:[
-//            {no:1,branchCode:'0232423',branchName:'报业园店',planType:'线上',cur_monthAmount:10000,rj_sale:2000},
-//            {no:1,branchCode:'0232423',branchName:'报业园店',planType:'线下',cur_monthAmount:20000,rj_sale:3000},
-//            {no:1,branchCode:'0232423',branchName:'报业园店',planType:'合计',cur_monthAmount:30000,rj_sale:4000},
-//            {no:2,branchCode:'0232424',branchName:'万科店',planType:'线上',cur_monthAmount:30000,rj_sale:4000},
-//            {no:2,branchCode:'0232424',branchName:'万科店',planType:'线下',cur_monthAmount:30000,rj_sale:4000},
-//            {no:2,branchCode:'0232424',branchName:'万科店',planType:'合计',cur_monthAmount:30000,rj_sale:4000}
-//        ],
 		height:'100%',
-		pageSize:50,
+		pageSize:5,
+		pageList:[5],
 		width:'100%',
         columns:[[
             {field:'no',title:'序号',width: 50,align:'center'},
