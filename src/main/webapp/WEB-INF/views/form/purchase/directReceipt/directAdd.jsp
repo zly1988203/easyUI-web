@@ -17,7 +17,7 @@
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
 				<shiro:hasPermission name="JxcDirectReceipt:add">
-					<div class="ubtns-item" onclick="addDirect()">新增</div>
+					<div class="ubtns-item" onclick="directAdd()">新增</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:add">
 					<div class="ubtns-item" id="btnSave" onclick="saveDirectForm()">保存</div>
@@ -47,7 +47,7 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">采购订单:</div>
-					<input id="refFormNo" class="uinp" readonly="readonly" type="text" value="${form.formNo}" onclick="selectPurchaseForm()">
+					<input id="refFormNo" class="uinp" readonly="readonly" type="text" value="${form.refFormNo}" onclick="selectPurchaseForm()">
 					<div class="uinp-more" onclick="selectPurchaseForm()">...</div>
 				</div>
 				<div class="ub ub-ac umar-l80">

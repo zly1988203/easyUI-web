@@ -57,6 +57,23 @@ $(function(){
         }
 		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 		$('#already-examine').css('display','none');
+		
+		//允许直送收货单不引用单据收货参数 
+		isAllowPmRefPa = $('#isAllowPmRefPa').val();
+		checkIsAllowPmRefPa(isAllowPmRefPa);
+		
+		if($.trim($('#refFormNo').val())){
+			$('#branchName').addClass('uinp-no-more');
+			$('#supplierName').addClass('uinp-no-more');
+		}
+		
+		//机构选择组件初始化
+		selectBranch();
+		
+		//供应商选择组件初始化
+		selectSupplier();
+		
+		
 	}else if(directStatus === '1'){
 		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 		isdisabled = true;
@@ -70,9 +87,18 @@ $(function(){
 	
 });
 
+//判断器
+function checkaddhandel(){
+	var fa = true;
+	if($.trim($('#refFormNo').val()) || isAllowPmRefPa != '1' ){
+		fa = false ;
+	}
+	return fa; 
+}
+
 //允许直送收货单不引用单据收货参数  页面该控制
 function checkIsAllowPmRefPa(arg){
-	//允许不引用单据
+	//允许不引用单据b 1可以不引用
 	if(arg == '1'){
 		$('.pmreBtn').removeClass('uinp-no-more event-none');
 	}else{
@@ -553,6 +579,10 @@ function updateFooter(){
 }
 //插入一行
 function addLineHandel(event){
+	if(!checkaddhandel()){
+		$_jxc.alert('不允许添加其他商品');
+		return;
+	}
     event.stopPropagation(event);
     var index = $(event.target).attr('data-index')||0;
     gridHandel.addRow(index,gridDefault);
@@ -856,6 +886,9 @@ function selectSupplier(){
 		},
 		//选择之前
 		onShowBefore:function(component){
+			if(!checkaddhandel()){
+				return;
+			}
 			var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
 			if(nowRows.length > 0){
 				$_jxc.confirm('修改供应商后会清空明细，是否要修改？',function(r){
@@ -918,9 +951,12 @@ function selectBranch(){
 		},
 		//显示之前 判断
 		onShowBefore:function(component){
+			if($.trim($('#refFormNo').val())){
+				return;
+			}	
 			var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
 			if(nowRows.length > 0){
-				$_jxc.confirm('修改供应商后会清空明细，是否要修改？',function(r){
+				$_jxc.confirm('修改机构后会清空明细，是否要修改？',function(r){
 					if(r){
 						component.getComponentDetail();
 					}
@@ -1100,6 +1136,8 @@ function selectPurchaseForm(){
 		//2.7
 		$('#supplierName').addClass('uinp-no-more');
 		$('#branchName').addClass('uinp-no-more');
+		console.log('data',data)
+		$('#paymentTime').val(data.form.paymentTimeStr);
 		checkIsAllowPmRefPa(0);
 		
 		$_jxc.ajax({
@@ -1131,4 +1169,9 @@ function exportDirectForm(){
 	}
 	$("#addqueryForm").attr("action",contextPath+"/directReceipt/exportList?formId="+$("#formId").val());
 	$("#addqueryForm").submit(); 
+}
+
+//新增直送收货单
+function directAdd(){
+	toAddTab("新增直送收货单",contextPath + "/directReceipt/add");
 }

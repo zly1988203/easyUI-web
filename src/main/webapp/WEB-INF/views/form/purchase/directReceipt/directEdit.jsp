@@ -62,7 +62,7 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">采购订单:</div>
-					<input id="refFormNo" class="uinp" readonly="readonly" type="text" value="${form.formNo}" >
+					<input id="refFormNo" class="uinp" readonly="readonly" type="text" value="${form.refFormNo}" >
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">付款期限:</div>
@@ -82,6 +82,7 @@
 					<div class="umar-r10 uw-60 ut-r">收货机构:</div>
 					<input class="uinp" name="branchId" id="branchId" type="hidden" value="${form.branchId}"> 
 					<input id="branchName" class="uinp" value="[${form.branchCode}]${form.branchName}" readonly="readonly" type="text">
+					<div class="uinp-more">...</div>
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">采购员:</div>
@@ -102,6 +103,7 @@
 					<div class="umar-r10 uw-60 ut-r">供应商:</div>
 					<input class="uinp" name="supplierId" id="supplierId" type="hidden" value="${form.supplierId}"> 
 					<input class="uinp" id="supplierName" value="[${form.supplierCode}]${form.supplierName}" type="text" readonly="readonly">
+					<div class="uinp-more">...</div>
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">经营方式:</div>

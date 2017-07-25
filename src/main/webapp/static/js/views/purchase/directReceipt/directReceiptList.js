@@ -111,7 +111,7 @@ function query(){
 
 //新增直送收货单
 function directAdd(){
-		toAddTab("新增直送收货单",contextPath + "/directReceipt/add");
+	toAddTab("新增直送收货单",contextPath + "/directReceipt/add");
 }
 
 //删除直送收货单 批量
@@ -168,8 +168,6 @@ function initDatagridFormPA(){
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        /*queryParams : {},*/
-        //url:contextPath+tempURL,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -178,6 +176,7 @@ function initDatagridFormPA(){
         showFooter:true,
         height:'100%',
         width:'100%',
+        pageSize:50,
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单号',width:'200px',align:'left',formatter:function(value,row,index){
@@ -187,8 +186,8 @@ function initDatagridFormPA(){
             {field:'branchName',title:'收货机构',width:200,align:'left'},
             {field:'supplierName',title:'供应商',width:200,align:'left'},
             {field:'amount',title:'单据金额',width:200,align:'right',
-            	formatter : function(value, row, index) {
-            		return parseFloat(value||0).toFixed(2);
+            	formatter:function(value, row, index) {
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
             },
             {field:'validTime',title:'审核时间',width:200,align:'center', formatter: function (value, row, index) {
@@ -220,6 +219,7 @@ function initDirectDatagrid(){
         showFooter:true,
 		height:'100%',
 		width:'100%',
+		pageSize:50,
         columns:[[
             {field:'check',checkbox:true},
             {field:'formNo',title:'单据编号',width:'140px',align:'left',
@@ -262,6 +262,10 @@ function initDirectDatagrid(){
 		}
     });
     //query();
+    if(hasPurchasePrice==false){
+        priceGrantUtil.grantPurchasePrice(gridName,["amount"])
+    }
+    
 }
 
 //打印
