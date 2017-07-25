@@ -229,6 +229,10 @@
                     inSize.width = size.width / 25.4;
                     inSize.height = size.height / 25.4;
                 }
+                if (unit == 'in') {
+                	inSize.width = size.width;
+                	inSize.height = size.height;
+                }
                 var width = inSize.width * xsDpi;
                 var height = inSize.height * ysDpi;
                 return { width: width, height: height };
@@ -249,6 +253,12 @@
                     inMargin.top = margin.top / 25.4;
                     inMargin.right = margin.right / 25.4;
                     inMargin.bottom = margin.bottom / 25.4;
+                }
+                if (unit == 'in') {
+                	inMargin.left = margin.left;
+                	inMargin.top = margin.top;
+                	inMargin.right = margin.right;
+                	inMargin.bottom = margin.bottom;
                 }
                 var left = inMargin.left * xsDpi;
                 var top = inMargin.top * ysDpi;
