@@ -102,15 +102,8 @@ public class StorePlanDayTrackReportController extends BaseController<StorePlanD
 			// 导出文件名称，不包括后缀名
 			String reportFileName = "门店计划日跟踪表" + timeStr;
 
-			// 模板名称，包括后缀名
-			// String templateName =
-			// ExportExcelConstant.BEY_DAY_ANALYSIS_EXPORT_TEMPLATE;
-
 			// 导出数据
 			List<StorePlanDayTrackPo> dataList = storePlanReportService.getStorePlanDayTrackForExport(qo);
-
-			// exportListForXLSX(response, dataList, reportFileName,
-			// templateName);
 
 			String[] headers = new String[] { "序号", "机构编码", "机构名称", "类型", "当月销售目标", "日均销售目标", "当天销额", "当天订单数", "当天客单价",
 					"当月累计销额", "累计销额差异", "实际达成进度", "时间进度" };
