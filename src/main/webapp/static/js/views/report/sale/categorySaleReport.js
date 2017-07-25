@@ -70,7 +70,7 @@ function getColumns(){
 		},
 		{field: 'saleRate', title: '销售占比', width:100, align: 'right',
 			formatter:function(value,row,index){
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
 			}
 		},
 		{field: 'profitAmount', title: '毛利', width:100, align: 'right',
@@ -80,7 +80,7 @@ function getColumns(){
 		},
 		{field: 'profitRate', title: '毛利率', width:100, align: 'right',
 			formatter:function(value,row,index){
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
 			}
 		},
 		{field: 'marginrate', title: '毛利占比', width:100, align: 'right',

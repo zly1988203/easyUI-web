@@ -30,6 +30,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.gson.GsonUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * ClassName: BranchController 
@@ -79,6 +80,9 @@ public class BranchGroupController extends BaseController<BranchGroupController>
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		vo.setPageNumber(pageNumber);
 		vo.setPageSize(pageSize);
+		if(vo.getBranchCompleCode()==null){
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+		}
 		return branchGroupServiceApi.queryLists(vo);
 	}
 	/**
