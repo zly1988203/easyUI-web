@@ -85,11 +85,6 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			/**
-			 * update by xiaoj02 2016-9-7 start
-			 */
-//			vo.setBranchId(UserUtil.getCurrBranchId());
-			
 			vo.setBranchCode(getCurrBranchCompleCode());
 			
 			//处理机构

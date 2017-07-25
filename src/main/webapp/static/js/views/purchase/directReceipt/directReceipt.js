@@ -684,6 +684,15 @@ function saveDataHandel(rows, url){
     var saleWay = $("#saleWay").val();
     //收货机构
     var branchId = $("#branchId").val();
+    //付款期限
+    var paymentTime = $("#paymentTime").val();
+    //采购员
+    var salesmanId = $("#salesmanId").val();
+    //引用单号
+    var refFormNo = $("#refFormNo").val();
+    //引用单号
+    var refFormId = $("#formId").val();
+    
     //备注
     var remark = $("#remark").val();
     //商品总数量
@@ -699,16 +708,20 @@ function saveDataHandel(rows, url){
 
     var id = $("#formId").val();
     var reqObj = {
-		id:id,
+    	id:id,
         supplierId:supplierId,
         branchId:branchId,
+        paymentTime:paymentTime,
+        salesmanId:salesmanId,
         saleWay:saleWay,
-        paymentTime:$('#paymentTime').val()||'',
+        refFormNo:refFormNo,
+        refFormId:refFormId,
         remark:remark,
         totalNum:totalNum,
         amount:amount,
         detailList:rows
     };
+    
     var req = JSON.stringify(reqObj);
 
     $_jxc.ajax({
