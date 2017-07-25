@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>新增直送收货单</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/purchase/directReceipt/directReceipt.js?V=${versionNo}2"></script>
+<script src="${ctx}/static/js/views/purchase/directReceipt/directReceipt.js?V=${versionNo}3"></script>
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
 	<input type='hidden' id="directStatus" value="add">
@@ -47,7 +47,7 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">采购订单:</div>
-					<input id="refFormNo" class="uinp" readonly="readonly" type="text" value="${form.refFormNo}" onclick="selectPurchaseForm()">
+					<input id="refFormNo" class="uinp" readonly="readonly" type="text" value="${form.formNo}" onclick="selectPurchaseForm()">
 					<div class="uinp-more" onclick="selectPurchaseForm()">...</div>
 				</div>
 				<div class="ub ub-ac umar-l80">
@@ -72,7 +72,7 @@
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">采购员:</div>
-					<input class="uinp" name="salesmanId" id="salesmanId" type="hidden">
+					<input class="uinp" name="salesmanId" id="salesmanId" type="hidden" value="${form.salesmanId }">
 					<input class="uinp " id="operateUserName" value="${form.salesmanName }" type="text" readonly="readonly">
 				</div>
 				<div class="ub ub-ac umar-l80">
