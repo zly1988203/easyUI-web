@@ -162,7 +162,7 @@ function initDatagridEditOrder(){
                     options:{
                         min:0,
                         precision:4,
-                        disabled:isEdit,
+                        disabled:true,
                         onChange: onChangeAmount,
                     }
                 },
@@ -365,6 +365,7 @@ function onChangeLargeNum(newV,oldV){
     //金额 = 规格 * 单价 * 箱数
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4));
+    
 
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
     var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
@@ -464,7 +465,16 @@ function updateFooter(){
     var fields = {largeNum:0,realNum:0,amount:0,taxAmount:0,isGift:0, };
     var argWhere = {name:'isGift',value:""}
     gridHandel.updateFooter(fields,argWhere);
+    getAmount();
 }
+
+function getAmount(){
+	var list = gridHandel.getFooterRow();
+	//console.log('list',list);
+	//修改箱数时，同步修改表头单据金额
+    $("#amount").val(parseFloat(list[0].amount||0).toFixed(2));
+}
+
 //插入一行
 function addLineHandel(event){
     event.stopPropagation(event);
