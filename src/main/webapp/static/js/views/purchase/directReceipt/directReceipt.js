@@ -38,8 +38,8 @@ $(function(){
                 remark:$("#remark").val(),
         }
 		//允许直送收货单不引用单据收货参数 
-		isAllowPmRefPa = $('#isAllowPmRefPa').val();
-		checkIsAllowPmRefPa(isAllowPmRefPa);
+//		isAllowPmRefPa = $('#isAllowPmRefPa').val();
+//		checkIsAllowPmRefPa(isAllowPmRefPa);
 		
 		//机构选择组件初始化
 		selectBranch();
@@ -59,8 +59,8 @@ $(function(){
 		$('#already-examine').css('display','none');
 		
 		//允许直送收货单不引用单据收货参数 
-		isAllowPmRefPa = $('#isAllowPmRefPa').val();
-		checkIsAllowPmRefPa(isAllowPmRefPa);
+//		isAllowPmRefPa = $('#isAllowPmRefPa').val();
+//		checkIsAllowPmRefPa(isAllowPmRefPa);
 		
 		if($.trim($('#refFormNo').val())){
 			$('#branchName').addClass('uinp-no-more');
@@ -73,6 +73,10 @@ $(function(){
 		//供应商选择组件初始化
 		selectSupplier();
 		
+		//获取机构设置信息
+		if($('#branchId').val()){
+			getBranchSetting();
+		}
 		
 	}else if(directStatus === '1'){
 		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
@@ -956,6 +960,10 @@ function selectBranch(){
 	$('#branchComponent').branchSelect({
 		//选择之后
 		onAfterRender:function(data){
+			
+			//获取机构设置
+			getBranchSetting()
+			
 			gridHandel.setLoadData([$.extend({},gridDefault)]);
 			// 是否自动加载商品
             if($("#cascadeGoods").val() == 'true' && $("#supplierId").val() != ""){
@@ -979,6 +987,25 @@ function selectBranch(){
 			}
 		}
 	})
+}
+
+//获取机构设置
+function getBranchSetting(){
+	$_jxc.ajax({
+		url : contextPath + "/branchSetting/getBranchSettingByBranchId",
+		type: "POST",
+		data:{"branchId":$('#branchId').val()||''}
+	},function(result){
+		if(result.code == 0){
+			$('#cascadeGoods').val(result.data&&result.data.cascadeGoods);
+			$('#isAllowPmRefPa').val(result.data&&result.data.isAllowPmRefPa);
+			isAllowPmRefPa = result.data&&result.data.isAllowPmRefPa;
+			//允许直送收货单不引用单据收货参数 
+			checkIsAllowPmRefPa(result.data&&result.data.isAllowPmRefPa);
+		}else{
+			$_jxc.alert('获取机构设置信息失败！')
+		}
+	});
 }
 
 //选择商品
@@ -1141,6 +1168,9 @@ function selectPurchaseForm(){
         //收货机构
         $("#branchId").val(data.form.branchId);
         $("#branchName").val(data.form.branchName);
+        //获取机构设置
+		getBranchSetting()
+		
         //采购员
         $("#salesmanId").val(data.form.salesmanId);
         $("#salesmanName").val(data.form.salesmanName);
@@ -1149,7 +1179,6 @@ function selectPurchaseForm(){
 		//2.7
 		$('#supplierName').addClass('uinp-no-more');
 		$('#branchName').addClass('uinp-no-more');
-		console.log('data',data)
 		$('#paymentTime').val(data.form.paymentTimeStr);
 		checkIsAllowPmRefPa(0);
 		
