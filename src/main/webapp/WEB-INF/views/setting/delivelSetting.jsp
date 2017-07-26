@@ -156,6 +156,18 @@
 						</a>
 					</div>
 				</div>
+
+				<div class="ub ub-ac upad-16">
+					<div class="ub uw-220 ut-r ">允许配送出库单生成要货单:</div>
+					<div class="ub ub-ac umar-r10">
+					<input class="ub radioItem" type="radio" name="template" checked="checked" id="isCreateDA0" value="0"/>
+					<label for="isCreateDA0">不启用</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+					<input class="ub radioItem" type="radio" name="template" id="isCreateDA1" value="1"/>
+					<label for="isCreateDA1">启用</label>
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>

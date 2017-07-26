@@ -6,7 +6,6 @@ $(function(){
 	//开始和结束时间
 	toChangeDate(10);
 	branchId = $("#branchId").val();
-	brancheType = $("#brancheType").val();
 	//初始化默认条件
 	initDatagridRequireOrders();
 	//选择报表类型
@@ -15,28 +14,26 @@ $(function(){
 	checktype();
 	targetBranchId = $("#targetBranchId").val();
 	sourceBranchId = $("#sourceBranchId").val();
+
 });
 
 var targetBranchId;
 var sourceBranchId;
 
-var flushFlg = false;
-var temp = true;
 function changeType(){
 	$(".radioItem").change(function(){
 		checktype()
 		var val = $(this).val();
 		console.log(val);
 		if (val==0) {
-			flushFlg=true;
-			temp = true;
-			$("#sourceBranchId").val('');
 			initDatagridRequireOrders();
 		} else if (val==1) {
-			$("#sourceBranchId").val(sourceBranchId);
-			temp = false;
 			initDatagridByGoods();
-		}
+		} else if(val == 2){
+
+		}else if(val == 3){
+
+        }
 		$("#marketWater").datagrid('loadData', { total: 0, rows: [] });
     	$('#marketWater').datagrid({showFooter:false});
 	});
@@ -52,7 +49,6 @@ function checktype(){
 		if(check==true&&value=='0'){
 			$('#sourceBranchName').attr("readonly","readonly");
 			$('#sourceBranchName').addClass('uinp-no-more');
-//			$('#sourceBranchName').removeAttr('onclick');
 			$('#sourceBranchName').val("");
 			$('.uinp-sourceName').removeAttr('onclick');
 			$('#formNo').removeClass('uinp-no-more');
@@ -60,7 +56,6 @@ function checktype(){
 		}
 		else if(check==true&&value=='1'){
 			$('#sourceBranchName').removeClass('uinp-no-more');
-//			$('#sourceBranchName').attr('onclick',"searchBranch(1)");
 			$('.uinp-sourceName').attr('onclick',"searchBranch(1)");
 			$('#formNo').addClass('uinp-no-more');
 			$('#formNo').val("");
@@ -71,6 +66,7 @@ function checktype(){
 }
 //清空所有数据值
 function cleardata(){
+    $("#sourceBranchId").val();
 	$('#targetBranchName').val("");
 	$('#skuName').val("");
 	$('#sourceBranchName').val("");
@@ -332,9 +328,7 @@ function queryForm(){
 		$_jxc.alert('日期不能为空');
 		return ;
 	}	
-	if (temp) {
-		$("#sourceBranchId").val('');
-	}
+
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)

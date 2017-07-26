@@ -6,6 +6,7 @@ var indexTab = 0;
 var tableIdName = 'deliverFormList';
 var tempURL = '/form/deliverSelect/getDeliverFormList';
 var sourceBranchId;
+var branchName;
 $(function(){
 	//开始和结束时间
 	toChangeDatetime(0);
@@ -19,6 +20,26 @@ $(function(){
 		$('#tabs').tabs({'selected':1});
     }
 	initDatagridRequireOrdersDA();
+
+    //机构选择初始化 发货机构
+    $('#sourceBranch').branchSelect({
+    	param:{
+            branchId:sourceBranchId
+		},
+        onAfterRender:function(data){
+            branchName = data.branchName;
+			$("#sourceBranchId").val(data.branchId);
+		}
+
+	});
+
+    //机构选择初始化 收货机构
+    $('#targetBranch').branchSelect({
+        onAfterRender:function(data){
+            $("#targetBranchId").val(data.branchId);
+            //$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName)
+        }
+	});
 });
 
 
@@ -46,12 +67,7 @@ $(document).on('input','#remark',function(){
 	        	 break;
 	         }
 	    }
-	
 });
-
-
-
-
 
 var gridHandel = new GridClass();
 // 加载要货申请单
@@ -202,13 +218,13 @@ function addDeliverForm(){
 
 //查询要货单
 function queryForm(){
-	branchName = $("#branchName").val();
-	branchName = branchName.substring(branchName.lastIndexOf(']')+1)
-	if (indexTab === 0) {
-		setQueryDataDABranbch();
-	} else {
-		setQueryDataDOBranbch();
-	}
+	branchName = $("#sourceBranchName").val();
+	// branchName = branchName.substring(branchName.lastIndexOf(']')+1)
+	// if (indexTab === 0) {
+	// 	setQueryDataDABranbch();
+	// } else {
+	// 	setQueryDataDOBranbch();
+	// }
 	//var fromObjStr = $('#queryForm').serializeObject();
 	//$("#" + tableIdName).datagrid("options").method = "post";
 	//$("#" + tableIdName).datagrid("options").queryParams = fromObjStr;
@@ -257,18 +273,6 @@ function delDeliverForm(){
 		}
 	});
 }
-var branchName;
-/**
- * 发货机构
- */
-function selectBranches(){
-	new publicAgencyService(function(data){
-//		$("#sourceBranchId").val(data.branchesId);
-		branchName = data.branchName;
-		//$("#branchName").val(branchName);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',sourceBranchId);
-}
 
 /**
  * 制单人
@@ -286,7 +290,7 @@ function selectOperator(){
  * @param id
  */
 function toBtnDisable(addId,delId){
-	$("#"+addId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
+	// $("#"+addId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
 	$("#"+delId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
 }
 /**
@@ -340,7 +344,7 @@ function loadTabs(){
 function setQueryDataDA() {
 	tempURL = '/form/deliverSelect/getDeliverFormList';
 	tableIdName = 'deliverFormList';
-	setQueryDataDABranbch();
+	// setQueryDataDABranbch();
 }
 function setQueryDataDABranbch() {
 	$("#sourceBranchId").val(sourceBranchId);
@@ -350,7 +354,7 @@ function setQueryDataDABranbch() {
 function setQueryDataDO() {
 	tempURL = '/form/deliverForm/getDeliverForms';
 	tableIdName = 'processedFormList';
-	setQueryDataDOBranbch();
+	// setQueryDataDOBranbch();
 }
 
 function setQueryDataDOBranbch(){
@@ -377,7 +381,7 @@ function delDivTime() {
 		popupSearchDateTime = $("#popupSearchDateTime").val();
 		checkDiv.parentNode.removeChild(checkDiv);
 	}
-	$("#remarkDiv").after("<div class='ub ub-ac umar-l40 uw-300' id='auditStatus' style='visibility:visible;'><div class='umar-r10 uw-70 ut-r'>审核状态:</div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus0' name='deliverAuditStatus' value='0' checked='checked' onclick='queryForm()'/><label for='deliverAuditStatus0'>未审核</span></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus1' name='deliverAuditStatus'  value='1' onclick='queryForm()'/><label for='deliverAuditStatus1'>已审核</label></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus2' name='deliverAuditStatus' value='' onclick='queryForm()'/><label for='deliverAuditStatus2'>全部</label></div></div>");
+	$("#remarkDiv").after("<div class='ub ub-ac umar-l20 uw-300' id='auditStatus' style='visibility:visible;'><div class='umar-r10 uw-70 ut-r'>审核状态:</div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus0' name='deliverAuditStatus' value='0' checked='checked' onclick='queryForm()'/><label for='deliverAuditStatus0'>未审核</span></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus1' name='deliverAuditStatus'  value='1' onclick='queryForm()'/><label for='deliverAuditStatus1'>已审核</label></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus2' name='deliverAuditStatus' value='' onclick='queryForm()'/><label for='deliverAuditStatus2'>全部</label></div></div>");
 	setAuditStatusVal();
 }
 
@@ -391,7 +395,7 @@ function delDivAuditStatus() {
 		deliverAuditStatus = $("#auditStatus input[name='deliverAuditStatus']:checked").val();
 		auditStatus.parentNode.removeChild(auditStatus);
 	}
-	$("#remarkDiv").after("<div class='umar-l40' id='checkDiv' style='visibility:visible;'><input type='checkbox' id='checkboxTime' name='checkboxTime'/><span class='umar-l15  umar-r10'>结束时间:</span><input class='Wdate' style='width:212px' readonly='readonly' name='tempEndTime' id='popupSearchDateTime' onclick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})\" /></div>");
+	$("#remarkDiv").after("<div class='umar-l20' id='checkDiv' style='visibility:visible;'><input type='checkbox' id='checkboxTime' name='checkboxTime'/><span class='umar-l15  umar-r10'>结束时间:</span><input class='Wdate' style='width:212px' readonly='readonly' name='tempEndTime' id='popupSearchDateTime' onclick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})\" /></div>");
 	setDivTime();
 }
 
