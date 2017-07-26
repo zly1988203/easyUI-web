@@ -102,7 +102,7 @@
 			
 			$("#daySumReport").datagrid("options").queryParams =fromObjStr;
 			$("#daySumReport").datagrid("options").method = "post";
-			$("#daySumReport").datagrid("options").url = contextPath + '/report/day/getDayReportList';
+			$("#daySumReport").datagrid("options").url = contextPath + '/report/day/list';
 			$("#daySumReport").datagrid("load");
 
 		}
@@ -147,7 +147,7 @@
 				}
 			});
 			$("#queryForm").attr("action",
-					contextPath + "/report/day/exportList?" + fromObjStr);
+					contextPath + "/report/day/export?" + fromObjStr);
 
 			$("#queryForm").submit();
 		}

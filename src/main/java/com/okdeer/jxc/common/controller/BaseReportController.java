@@ -1,8 +1,6 @@
 package com.okdeer.jxc.common.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
@@ -94,7 +92,7 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 	 * @author zhangq
 	 * @date 2017年7月22日
 	 */
-	@RequestMapping(value = "/list")
+	@RequestMapping(value = "/index")
 	public String index(Model model) {
 		// 获取model对象
 		model = getModel(model);
@@ -122,7 +120,7 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 	 * @author zhangq
 	 * @date 2017年7月22日
 	 */
-	@RequestMapping(value = "/getDayReportList", method = RequestMethod.POST)
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
 	public EasyUIPageInfo<V> getReportList(Q qo, @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
@@ -133,11 +131,6 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 
 			// 查询数据
 			EasyUIPageInfo<V> page = getReportFade().queryListPage(qo);
-			
-			List<Map<String,Object>> rowsMapList = new ArrayList<Map<String,Object>>();
-			List<V> rows = page.getRows();
-			for (V v : rows) {
-			}
 			
 			cleanAccessData(page.getRows());
 			cleanAccessData(page.getFooter());
@@ -157,7 +150,7 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 	 * @author zhangq
 	 * @date 2017年7月22日
 	 */
-	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
+	@RequestMapping(value = "/export", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, Q qo) {
 		RespJson resp = RespJson.success();
