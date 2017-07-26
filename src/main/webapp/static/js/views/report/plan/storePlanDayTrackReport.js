@@ -25,6 +25,7 @@ function initStorePlanList(){
 		pageSize:5,
 		pageList:[5],
 		width:'100%',
+		rownumbers:false,
         columns:[[
             {field:'no',title:'序号',width: 50,align:'center'},
             {field:'branchCode',title:'机构编码',width: 120,align:'left'},
@@ -186,6 +187,9 @@ function queryForm(){
 	    $_jxc.alert("请选择店铺名称");
 	    return;
 	 } 
+	//搜索需要将左侧查询条件清除
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var fromObjStr = $('#queryForm').serializeObject();
 	if($('#isShowZero').is(':checked')) {
 		var isShowZero = $("#isShowZero").val();
