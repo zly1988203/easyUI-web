@@ -107,7 +107,7 @@ public class GoodsSaleContrastController extends BaseController<GoodsSaleContras
 				return json;
 			}
 		} catch (Exception e) {
-			LOG.debug("时段销售对比分析导出失败：{}", e);
+			LOG.debug("货类销售对比分析导出失败：{}", e);
 			RespJson json = RespJson.error("导出失败");
 			return json;
 		}
@@ -121,7 +121,7 @@ public class GoodsSaleContrastController extends BaseController<GoodsSaleContras
 	 * @date 2017年7月15日
 	 */
 	private void handlerParam(PeriodSaleContrastQo qo) {
-		LOG.debug("时段销售对比分析查询条件：{}", qo);
+		LOG.debug("货类销售对比分析查询条件：{}", qo);
 		if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
 			qo.setBranchCompleCode(this.getCurrBranchCompleCode());
 		}
