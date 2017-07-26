@@ -80,10 +80,6 @@ public class GoodsGrossProfitRateController extends BaseController<GoodsGrossPro
 		try {
 			qo.setPageNum(pageNumber);
 			qo.setPageSize(pageSize);
-			qo.setBizType(0);
-			qo.setStartTime(DateUtils.getFullStr(DateUtils.parse(qo.getStartTime() + " 00:00:00")));
-			qo.setEndTime(DateUtils.getFullStr(DateUtils.getNextDay(DateUtils.parse(qo.getEndTime() + " 00:00:00"))));
-
 			PageUtils<GoodsGrossProfitRate> page = goodsGrossProfitRateFacade.queryGoodsGrossProfitRateList(qo);
 			// 过滤数据权限字段
             cleanAccessData(page);
@@ -101,10 +97,6 @@ public class GoodsGrossProfitRateController extends BaseController<GoodsGrossPro
 
 		LOG.info("GoodsGrossProfitRateController.exportList start....");
 		try {
-			qo.setBizType(1);
-			qo.setStartTime(DateUtils.getFullStr(DateUtils.parse(qo.getStartTime() + " 00:00:00")));
-			qo.setEndTime(DateUtils.getFullStr(DateUtils.getNextDay(DateUtils.parse(qo.getEndTime() + " 00:00:00"))));
-
 			List<GoodsGrossProfitRate> list = goodsGrossProfitRateFacade.queryGoodsGrossProfitRateExportList(qo);
 			// 过滤数据权限字段
             cleanAccessData(list);
