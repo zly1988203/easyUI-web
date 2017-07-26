@@ -20,6 +20,23 @@ $(function() {
 		$("input[name='queryType'][value=goods]").click();
 	}
 	branchId = $("#branchId").val();
+
+
+    //机构选择初始化 发货机构
+    $('#sourceBranch').branchSelect({
+        onAfterRender:function(data){
+            $("#sourceBranchId").val(data.branchId);
+        }
+
+    });
+
+    //机构选择初始化 要/收货机构
+    $('#targetBranch').branchSelect({
+        onAfterRender:function(data){
+            $("#targetBranchId").val(data.branchId);
+        }
+    });
+
 });
 var flushFlg = false;
 function changeType(){

@@ -59,7 +59,7 @@
 		        </div>
 
 				<div class="ub umar-t8">
-					<div class="ub ub-ac umar-r10"id="targetBranch">
+					<div class="ub ub-ac umar-r10" id="targetBranch">
 
 					<div class="umar-r10 uw-72 ut-r">收货机构:</div>
 					<input type="hidden" id="targetBranchId" name="targetBranchId"/>
