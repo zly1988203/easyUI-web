@@ -49,6 +49,11 @@ $(function(){
 	
 });
 
+//回车处理逻辑  bug20207 2.6.5
+function checkenter(){
+	return $('input[type="hidden"][name="activityType"]').val() == '2' && $('input[name="disstatus"]:checked').val() == '2';
+}
+
 //特价
 function changeSpecNum(newV,oldV){
 	if(newV && newV>0){
@@ -689,6 +694,7 @@ function initDatagridmmsGOOD(){
         enterName:'skuCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
+            	if(checkenter())return;
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefaultG);
                 setTimeout(function(){
                     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
@@ -1095,6 +1101,7 @@ function initDatagridSpecial(){
         enterName:'skuCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
+            	if(checkenter())return;
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                 setTimeout(function(){
                     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
@@ -1265,6 +1272,7 @@ function initDatagridsortZk(){
         enterName:'categoryCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
+            	if(checkenter())return;
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                 setTimeout(function(){
                     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
@@ -1398,6 +1406,7 @@ function initDatagridoneZk(){
         enterName:'skuCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
+            	if(checkenter())return;
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                 setTimeout(function(){
                     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
@@ -1570,6 +1579,7 @@ function initDatagridOddtj(){
         enterName:'skuCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
+            	if(checkenter())return;
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                 setTimeout(function(){
                     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
@@ -1729,6 +1739,7 @@ function initDatagridRedemption(){
       enterName:'skuCode',
       enterCallBack:function(arg){
           if(arg&&arg=="add"){
+        	  if(checkenter())return;
               gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
               setTimeout(function(){
                   gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
@@ -1834,6 +1845,7 @@ function initDatagridallMj(){
         enterName:'skuCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
+            	if(checkenter())return;
                 gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
                 setTimeout(function(){
                     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
@@ -2120,6 +2132,7 @@ function initDatagridCompose(){
       enterName:'skuCode',
       enterCallBack:function(arg){
           if(arg&&arg=="add"){
+        	  if(checkenter())return;
               gridHandel.addRow(parseInt(gridHandel.getSelectRowIndex())+1,gridDefault);
               setTimeout(function(){
                   gridHandel.setBeginRow(gridHandel.getSelectRowIndex()+1);
