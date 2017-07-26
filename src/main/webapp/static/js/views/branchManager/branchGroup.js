@@ -20,7 +20,8 @@ $(function(){
 });
 var gridDefault = {};
 var gridHandel = new GridClass();
-var gridStoreViewId = 'gridBranchComponentsList'
+var gridStoreViewId = 'gridBranchComponentsList';
+var seletedIndex = -1;
 //初始化查询表格
 function initDatagridStoreList(){
 	gridHandel.setGridName(gridStoreViewId);
@@ -43,7 +44,7 @@ function initDatagridStoreList(){
             {field:'groupName',title:'机构组合名称',width:'140px',align:'left'},
             {field:'branchName',title:'所属分公司',width:'120px',align:'left'},
             {field:'branchCompleCode',title:'branchCompleCode',width:'120px',align:'left',hidden:true},
-            {field:'hasMemeberStr',title:'是否已设置成分商品',width:'120px',align:'center'},
+            {field:'hasMemeberStr',title:'是否设置成分机构',width:'120px',align:'center'},
             {field:'createUserName',title:'创建人',width:'120px',align:'left'},
             {field:'createTime',title:'创建时间',width:'160px',align:'left',
 	            formatter:function(value,row,index){
@@ -59,6 +60,7 @@ function initDatagridStoreList(){
             {field:'remark',title:'备注',width:'180px',align:'left'},
         ]],
         onSelect:function(rowIndex,rowData){
+        	seletedIndex = rowIndex;
         	$("#"+gridStoreDetailId).datagrid('loadData', [{},{}]);
         	selectView(rowData);
         },
@@ -179,31 +181,28 @@ function updateStoreComp(){
 //机构组合商品  删除
 function delStoreComp(){
 	//数据校验
-	debugger;
 	var selectBranch = $('#'+gridStoreViewId).datagrid("getSelected");
 	
-	
-	  if (selectBranch) {
-		  var id = selectBranch.id;
-			console.log('id',id);
-	        $_jxc.confirm('单据删除后将无法恢复，确认是否删除？', function(r) {
-	            if (r) {
-	                //删除单据
-	                $_jxc.ajax({
-	                    url: contextPath+"/branch/branchGroup/deleteGroup",
-	                    data: {"groupId":id}
-	                },function(result){
-	                   
-	                	if(result['code'] == 0){
-	            			$_jxc.alert('删除成功',function(){
-	            				query();
-	            			});
-	            		}
-	                	
-	                });
-	            }
-	        });
-	    }
+    if (selectBranch) {
+	  var id = selectBranch.id;
+        $_jxc.confirm('单据删除后将无法恢复，确认是否删除？', function(r) {
+            if (r) {
+                //删除单据
+                $_jxc.ajax({
+                    url: contextPath+"/branch/branchGroup/deleteGroup",
+                    data: {"groupId":id}
+                },function(result){
+                   
+                	if(result['code'] == 0){
+            			$_jxc.alert('删除成功',function(){
+            				query();
+            			});
+            		}
+                	
+                });
+            }
+        });
+     }
 }
 
 //机构组合商品  
@@ -385,7 +384,12 @@ function saveDataHandel(rows){
     },function(result){
         if(result['code'] == 0){
             $_jxc.alert("操作成功！",function(){
-              /*<!--  location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];-->*/
+            	$('#'+gridStoreViewId).datagrid('updateRow',{
+            		index: seletedIndex,
+            		row: {
+            			hasMemeberStr: '是',
+            		}
+            	});
             });
         }else{
             $_jxc.alert(result['message']);

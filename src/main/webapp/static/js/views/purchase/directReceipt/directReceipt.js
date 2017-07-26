@@ -964,7 +964,7 @@ function selectBranch(){
 		},
 		//显示之前 判断
 		onShowBefore:function(component){
-			if($.trim($('#refFormNo').val())){
+			if(!checkaddhandel()){
 				return;
 			}	
 			var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
