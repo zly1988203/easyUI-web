@@ -15,7 +15,7 @@ var oldData = {};
 var isdisabled = false;
 var url;
 var isEdit = true;
-var isAllowPmRefPa = null; //是否可以不引用单据
+var isAllowPmRefPa = '-1'; //是否可以不引用单据
 $(function(){
 	
     //是否允许改价
@@ -29,7 +29,13 @@ $(function(){
 	var formId = $('#formId').val();
 	if(directStatus === 'add'){
 		$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
-		$("#paymentTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+		if(!$('#refFormNo').val()){
+			$("#paymentTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+		}else{
+			checkIsAllowPmRefPa(0);
+			$('#branchName').addClass('uinp-no-more');
+			$('#supplierName').addClass('uinp-no-more');
+		}
 		oldData = {
 			    branchName:$('#branchName').val(),
                 supplierId:$("#suppliferId").val(),
@@ -58,10 +64,6 @@ $(function(){
 		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 		$('#already-examine').css('display','none');
 		
-		//允许直送收货单不引用单据收货参数 
-//		isAllowPmRefPa = $('#isAllowPmRefPa').val();
-//		checkIsAllowPmRefPa(isAllowPmRefPa);
-		
 		if($.trim($('#refFormNo').val())){
 			$('#branchName').addClass('uinp-no-more');
 			$('#supplierName').addClass('uinp-no-more');
@@ -74,7 +76,7 @@ $(function(){
 		selectSupplier();
 		
 		//获取机构设置信息
-		if($('#branchId').val()){
+		if(!$('#refFormNo').val() && $('#branchId').val()){
 			getBranchSetting();
 		}
 		
@@ -92,11 +94,18 @@ $(function(){
 });
 
 //判断器
-function checkaddhandel(){
+function checkaddhandel(type){
 	var fa = true;
-	if($.trim($('#refFormNo').val()) || isAllowPmRefPa != '1' ){
-		fa = false ;
+	if(type == 1){
+		if($.trim($('#refFormNo').val())){
+			fa = false ;
+		}
+	}else{
+		if($.trim($('#refFormNo').val()) || (isAllowPmRefPa != '-1' && isAllowPmRefPa != '1') ){
+			fa = false ;
+		}
 	}
+	
 	return fa; 
 }
 
@@ -903,7 +912,7 @@ function selectSupplier(){
 		},
 		//选择之前
 		onShowBefore:function(component){
-			if(!checkaddhandel()){
+			if(!checkaddhandel(1)){
 				return;
 			}
 			var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
@@ -961,6 +970,10 @@ function selectBranch(){
 		//选择之后
 		onAfterRender:function(data){
 			
+			$('#supplierId').val('');
+			$('#supplierName').val('');
+			$('#saleWayName').val('');
+			
 			//获取机构设置
 			getBranchSetting()
 			
@@ -972,7 +985,7 @@ function selectBranch(){
 		},
 		//显示之前 判断
 		onShowBefore:function(component){
-			if(!checkaddhandel()){
+			if(!checkaddhandel(1)){
 				return;
 			}	
 			var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
@@ -1168,8 +1181,6 @@ function selectPurchaseForm(){
         //收货机构
         $("#branchId").val(data.form.branchId);
         $("#branchName").val(data.form.branchName);
-        //获取机构设置
-		getBranchSetting()
 		
         //采购员
         $("#salesmanId").val(data.form.salesmanId);
