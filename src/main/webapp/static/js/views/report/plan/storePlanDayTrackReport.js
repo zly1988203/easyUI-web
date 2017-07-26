@@ -77,8 +77,9 @@ function initStorePlanList(){
             }
         ]],
         onLoadSuccess:function(data){
+        	console.log('data',data)
             gridHandel.setDatagridHeader("center");
-            //合并单元格
+            //合并单元格 表体
             var merges = getMergesData(data.rows);
 			for(var i=0; i<merges.length; i++){
 				$(this).datagrid('mergeCells',{
@@ -95,6 +96,29 @@ function initStorePlanList(){
 					index: merges[i].index,
 					field: 'branchName',
 					rowspan: merges[i].rowspan,
+				});
+			}
+			
+			//合并单元格 底部
+			var merges = getMergesData(data.footer);
+			for(var i=0; i<merges.length; i++){
+				$(this).datagrid('mergeCells',{
+					index: merges[i].index,
+					field: 'no',
+					rowspan: merges[i].rowspan,
+					type: 'footer'
+				});
+				$(this).datagrid('mergeCells',{
+					index: merges[i].index,
+					field: 'branchCode',
+					rowspan: merges[i].rowspan,
+					type: 'footer'
+				});
+				$(this).datagrid('mergeCells',{
+					index: merges[i].index,
+					field: 'branchName',
+					rowspan: merges[i].rowspan,
+					type: 'footer'
 				});
 			}
         }       
