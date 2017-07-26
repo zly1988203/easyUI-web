@@ -11,7 +11,7 @@
 	<input type='hidden' id="directStatus" value="add">
 	<input type='hidden' id="cascadeGoods" name="cascadeGoods" value="${cascadeGoods}">
 	<!-- 允许直送收货单不引用单据收货：0.否，1.是 ${isAllowPmRefPa} -->
-	<input type='hidden' id="isAllowPmRefPa" name="isAllowPmRefPa" value="${isAllowPmRefPa}">
+	<input type='hidden' id="isAllowPmRefPa" name="isAllowPmRefPa" value="-1">
 	<input type="hidden" id="formId"  name="formId" value="${form.id}">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
@@ -25,10 +25,10 @@
 				<shiro:hasPermission name="JxcDirectReceipt:audit">
 					<div class="ubtns-item uinp-no-more event-none pmreBtn">审核</div>
 				</shiro:hasPermission>
-				<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="selectGoods()">商品选择</div>
+				<div class="ubtns-item  pmreBtn" onClick="selectGoods()">商品选择</div>
 				<shiro:hasPermission name="JxcDirectReceipt:import">
-					<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="importDirectForm(0)">导入货号</div>
-					<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="importDirectForm(1)">导入条码</div>
+					<div class="ubtns-item  pmreBtn" onClick="importDirectForm(0)">导入货号</div>
+					<div class="ubtns-item  pmreBtn" onClick="importDirectForm(1)">导入条码</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:delete">
 					<div class="ubtns-item uinp-no-more event-none pmreBtn">删单</div>
@@ -52,7 +52,8 @@
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">付款期限:</div>
-					<input id="paymentTime" class="Wdate"  type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+					<input id="paymentTime" class="Wdate"  type="text" value="${form.paymentTimeStr}" 
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">制单人员:</div>

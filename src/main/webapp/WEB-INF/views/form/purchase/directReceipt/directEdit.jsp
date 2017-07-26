@@ -12,7 +12,7 @@
 <body class="ub ub-ver uw uh ufs-14 uc-black">
 	<input type='hidden' id="directStatus" value="${form.status}">
 	<input type='hidden' id="cascadeGoods" name="cascadeGoods" value="${cascadeGoods}">
-	<input type='hidden' id="isAllowPmRefPa" name="isAllowPmRefPa" value="${isAllowPmRefPa}">
+	<input type='hidden' id="isAllowPmRefPa" name="isAllowPmRefPa" value="-1">
 	
 	  <div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
@@ -31,10 +31,10 @@
 						<div class="ubtns-item uinp-no-more event-none pmreBtn">审核</div>
 					</c:if>
 				</shiro:hasPermission>
-				<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="selectGoods()">商品选择</div>
+				<div class="ubtns-item  pmreBtn" onClick="selectGoods()">商品选择</div>
 				<shiro:hasPermission name="JxcDirectReceipt:import">
-					<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="importDirectForm(0)">导入货号</div>
-					<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="importDirectForm(1)">导入条码</div>
+					<div class="ubtns-item  pmreBtn" onClick="importDirectForm(0)">导入货号</div>
+					<div class="ubtns-item  pmreBtn" onClick="importDirectForm(1)">导入条码</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:delete">
 					<div class="ubtns-item" onclick="directDelete()">删单</div>
