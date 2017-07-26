@@ -92,6 +92,10 @@
 						data-options="required:true,novalidate:true" readonly="readonly"
 						type="text">
 				</div>
+				<div class="ub ub-ac umar-l80">
+					<div class="umar-r10 uw-60 ut-r">单据金额:</div>
+					<input class="uinp uw-88" id="amount" type="text" readonly="readonly" value="<fmt:formatNumber value="${form.amount}" pattern="0.00#"/>">
+				</div>
 			</div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r80">

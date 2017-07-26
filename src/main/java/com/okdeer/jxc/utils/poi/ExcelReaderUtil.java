@@ -374,6 +374,16 @@ public class ExcelReaderUtil {
 
 			readCell(row, fields, jArray);
 		}
+		
+		// 读取表格后循环检查所有字段是否存在，不存在的补空，防止后面使用时报错
+		for (int i = 0; i < jArray.size(); i++) {
+			JSONObject jsonObject = jArray.getJSONObject(i);
+			for (String columnName : fields) {
+				if (!jsonObject.containsKey(columnName)) {
+					jsonObject.element(columnName, "");
+				}
+			}
+		}
 	}
 	/**
 	 * @Description: 读取单元格
