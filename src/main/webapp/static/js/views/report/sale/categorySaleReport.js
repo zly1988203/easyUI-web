@@ -13,6 +13,17 @@ $(function() {
 	//机构选择
 	$('#branchSelects').branchSelect();
 	
+	//商品类别选择组件
+	$('#categoryNameDiv').categorySelect({
+		param:{
+			categoryType:$('input[name="reportType"]:checked').val()||''
+		},
+		onShowBefore:function(){
+			this.param.categoryType = $('input[name="reportType"]:checked').val()||'';
+			return true;
+		}
+	});
+	
 	$('input[name="reportType"]').on('change',function(){
 		initGoodsCategorty();
 	})
@@ -206,31 +217,7 @@ function exportExcel(){
 	$("#queryForm").attr("action",contextPath+'/report/sale/categorySaleReport/exportExcel');
 	$("#queryForm").submit();	
 }
-/**
- * 机构列表下拉选
- */
-function searchBranch (){
-	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchCompleCode").val(data.branchCompleCode);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},"","");
-}
 
-/**
- * 商品类别
- */
-function searchCategory(){
-	var categoryType=$('input[name="searchType"]:checked ').val();
-	var param = {
-		categoryType:categoryType
-	}
-	new publicCategoryService(function(data){
-		console.info(data);
-//		$("#categoryCode").val(data.categoryCode);
-		$("#categoryCode").val(data.categoryName);
-	},param);
-}
 /**
  * 重置
  */

@@ -1,7 +1,7 @@
 /*----------门店目标计划环比-------------------*/
 $(function(){
 	//开始和结束时间
-    $("#rptDate").val(dateUtil.getCurrentDate().format("yyyy-MM"));
+    $("#rptDate").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
     
     $("#branchCodeName").val(sessionBranchCodeName);
     $("#branchCompleCode").val(sessionBranchCompleCode);

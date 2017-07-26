@@ -10,14 +10,19 @@ $(function() {
 	//选择报表类型
 	initGoodsTotalAnalysiGrid();
 	
+	//机构选择 组件
 	$('#branchSelects').branchSelect();
 	
+	//供应商选择组件
 	$('#supplierComponent').supplierSelect({
 		loadFilter:function(data){
 			data.supplierId = data.id;
 			return data;
 		}
 	});
+	
+	//商品类别选择组件
+	$('#categoryNameDiv').categorySelect();
 });
 
 var gridHandel = new GridClass();
@@ -38,7 +43,6 @@ function initGoodsTotalAnalysiGrid() {
         pagination: true,    //分页
         showFooter:true,
         pageSize : 50,
-        pageList : [20,50,100],//可以设置每页记录条数的列表
         showFooter:true,
         height:'100%',
         columns: [[
@@ -147,20 +151,6 @@ function exportExcel(){
 	$("#queryForm").submit();	
 }
 
-/**
- * 商品类别
- */
-function searchCategory(){
-	var categoryType=$('input[name="searchType"]:checked ').val();
-	var param = {
-		categoryType:categoryType
-	}
-	new publicCategoryService(function(data){
-		console.info(data);
-		$("#categoryCode").val(data.categoryCode);
-		//$("#categoryCode").val(data.categoryName);
-	},param);
-}
 /**
  * 重置
  */
