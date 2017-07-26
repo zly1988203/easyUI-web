@@ -13,6 +13,9 @@ $(function() {
 	$('#branchSelects').branchSelect();
 	
 	$('#supplierComponent').supplierSelect();
+	
+	//商品类别选择组件
+	$('#categoryNameDiv').categorySelect();
 });
 
 var gridHandel = new GridClass();
@@ -142,20 +145,6 @@ function exportExcel(){
 	$("#queryForm").submit();	
 }
 
-/**
- * 商品类别
- */
-function searchCategory(){
-	var categoryType=$('input[name="searchType"]:checked ').val();
-	var param = {
-		categoryType:categoryType
-	}
-	new publicCategoryService(function(data){
-		console.info(data);
-		//$("#categoryCode").val(data.categoryCode);
-		$("#categoryCode").val(data.categoryName);
-	},param);
-}
 /**
  * 重置
  */
