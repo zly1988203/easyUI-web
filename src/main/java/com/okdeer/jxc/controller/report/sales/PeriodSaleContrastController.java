@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.branch.entity.Branches;
-import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -46,9 +44,6 @@ public class PeriodSaleContrastController extends BaseController<PeriodSaleContr
 
 	@Reference(version = "1.0.0", check = false)
 	PeriodSaleContrastFacade periodSaleContrastFacade;
-
-	@Reference(version = "1.0.0", check = false)
-	BranchesServiceApi branchesServiceApi;
 
 	/**
 	 * @Description: 跳转页面
@@ -128,10 +123,7 @@ public class PeriodSaleContrastController extends BaseController<PeriodSaleContr
 	 */
 	private void handlerParam(PeriodSaleContrastQo qo) {
 		LOG.debug("时段销售对比分析查询条件：{}", qo);
-		if (StringUtils.isNotEmpty(qo.getBranchId())) {
-			Branches branch = branchesServiceApi.getBranchInfoById(qo.getBranchId());
-			qo.setBranchCompleCode(branch.getBranchCompleCode());
-		} else {
+		if(StringUtils.isEmpty(qo.getBranchCompleCode())){
 			qo.setBranchCompleCode(this.getCurrBranchCompleCode());
 		}
 		if (StringUtils.isEmpty(qo.getYearStr())) {
