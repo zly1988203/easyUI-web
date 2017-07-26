@@ -22,7 +22,7 @@
 			<form id="settingForm" action="${ctx}/branchSetting/save" method="post">
 				<input type="hidden" id="branchId" name="branchId">
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-200 ut-r">选择供应商后自动列出商品：</div>
+					<div class="ub uw-220 ut-r">选择供应商后自动列出商品：</div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<label>
 						<input type="radio" id="isSupplierCascadeGoodsP0" name="isSupplierCascadeGoodsP" value="1" /><span>启用</span>
@@ -37,32 +37,48 @@
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-200 ut-r"></div>
+					<div class="ub uw-220 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPa" name="isSupplierCascadeGoodsPa" class="ub" type="checkbox" name="checkbox"  />
 						<label for="isSupplierCascadeGoodsPa">采购订单</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-200 ut-r"></div>
+					<div class="ub uw-220 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPi" name="isSupplierCascadeGoodsPi" class="ub" type="checkbox" name="checkbox"  />
 						<label for="isSupplierCascadeGoodsPi">采购收货</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-200 ut-r"></div>
+					<div class="ub uw-220 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPr" name="isSupplierCascadeGoodsPr" class="ub" type="checkbox" name="checkbox"  />
 						<label for="isSupplierCascadeGoodsPr">采购退货</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-200 ut-r"></div>
+					<div class="ub uw-220 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPm" name="isSupplierCascadeGoodsPm" class="ub" type="checkbox" name="checkbox"  />
 						<label for="isSupplierCascadeGoodsPm">直送收货</label>
 					</div>
+				</div>
+
+				<div class="ub ub-ac upad-16 ">
+				<div class="ub uw-220 ut-r">采购收货允许引用过去采购订单：</div>
+				<div class="ub uw-110 ub-ac umar-r10">
+				<label>
+				<input type="radio" id="isAllow0" name="isAllow" value="0" /><span for="isAllow0">不启用</span>
+				</label>
+
+				</div>
+				<div class="ub uw-110 ub-ac umar-r10">
+				<label>
+				<input type="radio" id="isAllow1" name="isAllow" value="1" checked="checked"/><span for="isAllow1">启用</span>
+				</label>
+
+				</div>
 				</div>
 			</form>
 		</div>

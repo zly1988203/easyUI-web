@@ -55,7 +55,7 @@
 							name="categoryCode" class="uinp" type="hidden"> <input
 							id="categoryName" name="categoryName" class="uinp" type="text"
 							data-options="required:true">
-						<div class="uinp-more " onclick="getGoodsType()">...</div>
+						<div class="uinp-more" id="dvCategory" onclick="getGoodsType()">...</div>
 					</div>
 				</div>
 			</div>
