@@ -73,6 +73,10 @@ $(function(){
 		//供应商选择组件初始化
 		selectSupplier();
 		
+		//获取机构设置信息
+		if($('#branchId').val()){
+			getBranchSetting();
+		}
 		
 	}else if(directStatus === '1'){
 		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
@@ -1002,7 +1006,6 @@ function getBranchSetting(){
 			$_jxc.alert('获取机构设置信息失败！')
 		}
 	});
-
 }
 
 //选择商品
