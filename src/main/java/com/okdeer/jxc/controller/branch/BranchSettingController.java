@@ -19,6 +19,7 @@ import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.settle.supplier.service.SupplierSettleService;
 import com.okdeer.jxc.settle.supplier.vo.SupplierSettleVo;
@@ -106,7 +107,28 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	public RespJson getBranchSetting() {
 		String branchId = UserUtil.getCurrBranchId();
 		try {
-			RespJson resp = validPermissions();
+			RespJson resp = validPermissions(branchId);
+			if(!resp.isSuccess()){
+				return resp;
+			}
+			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(branchId);
+			return RespJson.success(vo, "success");
+		} catch (BusinessException e) {
+			LOG.warn(e.getMessage());
+			return RespJson.error(e.getMessage());
+		}
+	}
+	
+	@RequestMapping(value = "getBranchSettingByBranchId", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson getBranchSettingByBranchId(String branchId) {
+		try {
+			
+			if(StringUtils.isBlank(branchId)){
+				return RespJson.argumentError("机构Id为空");
+			}
+			
+			RespJson resp = validPermissions(branchId);
 			if(!resp.isSuccess()){
 				return resp;
 			}
@@ -125,8 +147,7 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	 * @author zhangq
 	 * @date 2017年4月10日
 	 */
-	private RespJson validPermissions(){
-		String branchId = UserUtil.getCurrBranchId();
+	private RespJson validPermissions(String branchId){
 		//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C) 
 		Branches branch = branchesServiceApi.getBranchInfoById(branchId);
 		
@@ -161,7 +182,7 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 	public RespJson save(BranchSpecVo vo) {
 		LOG.debug("更新机构配置，{}", vo);
 		try {
-			RespJson resp = validPermissions();
+			RespJson resp = validPermissions(super.getCurrBranchId());
 			if(!resp.isSuccess()){
 				return resp;
 			}
