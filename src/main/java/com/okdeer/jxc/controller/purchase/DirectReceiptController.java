@@ -338,8 +338,24 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 	
 	public RespJson validReceiptItem(List<String> skuIds, String formId) {
         List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetailById(formId);
+        
+		PurchaseForm refForm = purchaseFormServiceApi.get(formId);
+		if (refForm == null) {
+			return RespJson.businessError("引用采购订单不存在！");
+		}
+
+		// 已经被引用
+		if (refForm.getIsRef() != null && refForm.getIsRef().intValue() == 1) {
+			return RespJson.businessError("引用的采购订单已经被引用！");
+		}
+        
+		// 已终止状态
+		if(refForm.getDealStatus().intValue()==3){
+			return RespJson.businessError("引用的采购订单是已终止状态！");
+		}
+		
         if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() > list.size()) || CollectionUtils.isEmpty(list)) {
-            return RespJson.error("已选采购单号，不允许添加其他商品");
+            return RespJson.businessError("已选采购单号，不允许添加其他商品");
         }
         Map<String, PurchaseFormDetailPO> tempMap = new HashMap<String, PurchaseFormDetailPO>();
         for (PurchaseFormDetailPO pdPo : list) {
@@ -348,7 +364,7 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
         for (String skuId : skuIds) {
             PurchaseFormDetailPO pdPo = tempMap.get(skuId);
             if (pdPo == null) {
-                return RespJson.error("已选采购单号，不允许添加其他商品");
+                return RespJson.businessError("已选采购单号，不允许添加其他商品");
             }
         }
         return RespJson.success();
