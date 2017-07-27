@@ -524,7 +524,7 @@ function exportExcel(){
 	
 	var formData = $("#queryForm").serializeObject();
 	// 去除编码
-    formData.branchName = formData.branchName.substring(formData.branchName.lastIndexOf(']')+1);
+    // formData.branchName = formData.branchName.substring(formData.branchName.lastIndexOf(']')+1);
     formData.categoryCode = formData.categoryCode.substring(formData.categoryCode.lastIndexOf(']')+1);
     $('#branchName').val(formData.branchName);
     $('#categoryCode').val(formData.categoryCode);
@@ -545,7 +545,7 @@ function query(){
 	$("#endCount").attr("value",null);
 	var formData = $("#queryForm").serializeObject();
 	// 去除编码
-    formData.branchName = formData.branchName.substring(formData.branchName.lastIndexOf(']')+1)
+    // formData.branchName = formData.branchName.substring(formData.branchName.lastIndexOf(']')+1)
     formData.categoryCode = formData.categoryCode.substring(formData.categoryCode.lastIndexOf(']')+1)
     
 	var branchNameOrCode = $("#branchNameOrCode").val();
