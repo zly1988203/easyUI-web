@@ -967,6 +967,13 @@ function queryGoodsList() {
 function selectBranch(){
 	
 	$('#branchComponent').branchSelect({
+		param:{
+			branchTypesStr:$_jxc.branchTypeEnum.BRANCH_COMPANY + ',' 
+							+ $_jxc.branchTypeEnum.LOGISTICS + ','
+							+ $_jxc.branchTypeEnum.OWN_STORES + ','
+							+ $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ','
+							+ $_jxc.branchTypeEnum.FRANCHISE_STORE_C + ','
+		},
 		//选择之后
 		onAfterRender:function(data){
 			
@@ -1016,7 +1023,9 @@ function getBranchSetting(){
 			//允许直送收货单不引用单据收货参数 
 			checkIsAllowPmRefPa(result.data&&result.data.isAllowPmRefPa);
 		}else{
-			$_jxc.alert('获取机构设置信息失败！')
+			isAllowPmRefPa = 0;
+			//允许直送收货单不引用单据收货参数 
+			checkIsAllowPmRefPa(0);
 		}
 	});
 }

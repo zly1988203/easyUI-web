@@ -128,9 +128,22 @@ public class BranchSettingController extends BaseController<BranchSettingControl
 				return RespJson.argumentError("机构Id为空");
 			}
 			
-			RespJson resp = validPermissions(branchId);
-			if(!resp.isSuccess()){
-				return resp;
+			//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C) 
+			Branches branch = branchesServiceApi.getBranchInfoById(branchId);
+			
+			//机构不存在
+			if(null == branch){
+				return RespJson.error("机构不存在");
+			}
+			
+			//总部不可以设置
+			if(branch.getType() == 0){
+				return RespJson.error("总部不可以设置");
+			}
+			
+			// 如果是店铺、仓库，则选分公司的数据
+			if(branch.getType()>1){
+				branchId = branch.getParentId();
 			}
 			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(branchId);
 			return RespJson.success(vo, "success");
