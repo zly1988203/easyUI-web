@@ -39,16 +39,16 @@
 			</div>
 			
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r20">
+				<div class="ub ub-ac umar-r20" id="branchTemp">
 				     <!-- 隐藏类别 -->
 					<input type="hidden" name="startCount" id="startCount" class="uinp" />
 					<input type="hidden" name="endCount" id="endCount" class="uinp" />
 					
 					<input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
 					<div class="umar-r10 uw-60 ut-r">机构:</div>
-					<input type="text" name="branchName" id="branchName" class="uinp" value="${branchesGrow.branchName}" maxlength="50"/>
-					<input type="hidden" name="branchId" id="branchId" value="${branchesGrow.branchesId}">
-					<div class="uinp-more" onclick="searchBranch()">...</div>
+					<input type="text" name="branchName" id="branchName" class="uinp"/>
+					<input type="hidden" name="branchId" id="branchId">
+					<div class="uinp-more">...</div>
 				</div>
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">货号:</div>

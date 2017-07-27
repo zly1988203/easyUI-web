@@ -27,7 +27,6 @@ $(function(){
             branchId:sourceBranchId
 		},
         onAfterRender:function(data){
-            branchName = data.branchName;
 			$("#sourceBranchId").val(data.branchId);
 		}
 
@@ -218,20 +217,10 @@ function addDeliverForm(){
 
 //查询要货单
 function queryForm(){
-	branchName = $("#sourceBranchName").val();
-	// branchName = branchName.substring(branchName.lastIndexOf(']')+1)
-	// if (indexTab === 0) {
-	// 	setQueryDataDABranbch();
-	// } else {
-	// 	setQueryDataDOBranbch();
-	// }
-	//var fromObjStr = $('#queryForm').serializeObject();
-	//$("#" + tableIdName).datagrid("options").method = "post";
-	//$("#" + tableIdName).datagrid("options").queryParams = fromObjStr;
-	//$("#" + tableIdName).datagrid('options').url = contextPath + tempURL;
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    // fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    fromObjStr.targetBranchName = "";
+    fromObjStr.sourceBranchName = "";
     fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
 	$("#" + tableIdName).datagrid('load',fromObjStr);
 }
