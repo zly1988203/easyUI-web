@@ -47,8 +47,11 @@ function initGoodsTotalAnalysiGrid() {
             {field: 'orderNo', title: '单据编号', width:150, align: 'left'}
         ]],
         columns: [[
-           {field: 'time', title: '时间', width:150, align: 'left',
-        	   formatter:function(value){
+           {field: 'time', title: '完成时间', width:150, align: 'left',
+        	   formatter:function(value,row,index){
+        		   if(!value){
+        			   return '';
+        		   }
         		   var now = new Date(value);
         		  return now.format("yyyy-MM-dd hh:mm:ss");
         	   }
