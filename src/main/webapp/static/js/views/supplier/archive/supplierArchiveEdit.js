@@ -39,6 +39,12 @@ function updateSupplier() {
             return;
         }
     }
+    
+    var isAllowPurchase = 0;
+	if($('#isAllowPurchase').is(':checked')) {
+		isAllowPurchase = 1;
+	}
+	formObj.isAllowPurchase = isAllowPurchase;
 
 	$_jxc.ajax({
 		url : contextPath + "/supplier/updateSupplier",
