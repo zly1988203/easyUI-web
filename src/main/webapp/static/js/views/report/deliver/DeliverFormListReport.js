@@ -126,14 +126,13 @@ function queryForm(){
 	$("#endCount").attr("value",null);
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
-	var branchName = $("#branchName").val();
 	if(!(startDate && endDate)){
 		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
     // 去除编码
-    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    // fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
     fromObjStr.categoryName = fromObjStr.categoryName.substring(fromObjStr.categoryName.lastIndexOf(']')+1)
 	$("#deliverFormList").datagrid("options").method = "post";
 	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverReport/getDeliverFormList';
