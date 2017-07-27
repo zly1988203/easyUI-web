@@ -237,7 +237,7 @@ function addDeliverForm(){
 //查询入库单
 function queryForm(){
 	branchName = $("#branchName").val();
-	branchName = branchName.substring(branchName.lastIndexOf(']')+1)
+	// branchName = branchName.substring(branchName.lastIndexOf(']')+1)
 	// if (indexTab === 0) {
 	// 	setQueryDataDOBranbch();
 	// } else {
@@ -245,7 +245,7 @@ function queryForm(){
 	// }
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    // fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
     fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
 	//$("#deliverFormList").datagrid("options").method = "post";
 	//$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';

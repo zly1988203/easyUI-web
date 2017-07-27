@@ -231,7 +231,7 @@ function queryForm(){
 	//$("#" + tableIdName).datagrid('options').url = contextPath + tempURL;
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    // fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
     fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
 	$("#" + tableIdName).datagrid('load',fromObjStr);
 }

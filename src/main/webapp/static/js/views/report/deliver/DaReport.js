@@ -92,22 +92,10 @@ function queryForm(){
 	$("#deliverType").val('DA');
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    // fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1);
 	$("#deliverFormList").datagrid("options").method = "post";
 	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverReport/getDaForms';
 	$("#deliverFormList").datagrid('load', fromObjStr);
-}
-
-/**
- * 查询机构
- */
-var branchId;
-function selectBranches(){
-	new publicAgencyService(function(data){
-//        $("#branchId").val(data.branchesId);
-        //$("#branchName").val(data.branchName);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',branchId);
 }
 
 /**
@@ -142,8 +130,8 @@ function exportExcel(){
 	$("#exportWin").window("close");
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1);
-    $('#branchName').val(fromObjStr.branchName);
+    // fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1);
+    // $('#branchName').val(fromObjStr.branchName);
 	$("#queryForm").form({
 		success : function(result){
 			//$_jxc.alert(result);
