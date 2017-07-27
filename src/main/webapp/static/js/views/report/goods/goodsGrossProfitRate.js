@@ -10,7 +10,11 @@ $(function() {
 	//选择报表类型
 	initGoodsTotalAnalysiGrid();
 	
-	$('#branchSelects').branchSelect();
+	$('#branchSelects').branchSelect({
+		onAfterRender:function(data){
+			console.log(data);
+		}
+	});
 	
 	$('#supplierComponent').supplierSelect();
 	
