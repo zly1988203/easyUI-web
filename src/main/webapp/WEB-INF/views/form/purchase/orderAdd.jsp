@@ -29,7 +29,7 @@
 		<form id="formAdd">
 			<div class="ub ub-ver ">
 				<div class="ub umar-t8">
-					<div class="ub ub-ac umar-r80">
+					<div class="ub ub-ac umar-r80" id="supplierComponent">
 						<div class="umar-r10 uw-60 ut-r">供应商:</div>
 						<input class="uinp" name="supplierId" id="supplierId"type="hidden">
 						<input class="uinp" readonly="readonly" id="supplierName" type="text" onclick="selectSupplier()">

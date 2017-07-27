@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,14 +65,12 @@ import com.okdeer.jxc.goods.service.GoodsBarcodeService;
 import com.okdeer.jxc.goods.service.GoodsBrandServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSkuServiceApi;
 import com.okdeer.jxc.goods.service.NewGoodsApplyServiceApi;
-import com.okdeer.jxc.supplier.entity.Supplier;
+import com.okdeer.jxc.supplier.po.SupplierPo;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.system.entity.SysOperateLog;
 import com.okdeer.jxc.system.service.SysOperateLogService;
 import com.okdeer.jxc.utils.UserUtil;
-
-import net.sf.json.JSONObject;
 
 /**
  * ClassName: NewGoodsApplyController 
@@ -183,7 +183,7 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 
 		// 供应商查询
 		String branchId = "";
-		List<Supplier> suppliers = new ArrayList<Supplier>();
+		List<SupplierPo> suppliers = new ArrayList<SupplierPo>();
 		Integer branchType = UserUtil.getCurrBranchType();
 		if (branchType.compareTo(BranchTypeEnum.SELF_STORE.getCode()) == 0
 				|| branchType.compareTo(BranchTypeEnum.FRANCHISE_STORE_B.getCode()) == 0
@@ -213,14 +213,14 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 		return "newGoodsApply/addNewGoodsApply";
 	}
 
-	private List<Supplier> findSupplier(String branchId) {
+	private List<SupplierPo> findSupplier(String branchId) {
 		SupplierQo supplier = new SupplierQo();
 		supplier.setSupplierName("默认供应商");
 		supplier.setBranchId(branchId);
 		supplier.setPageNumber(Constant.ONE);
 		supplier.setPageSize(Constant.ONE);
-		PageUtils<Supplier> suppliers = supplierService.queryLists(supplier);
-		List<Supplier> list = suppliers.getList();
+		PageUtils<SupplierPo> suppliers = supplierService.queryLists(supplier);
+		List<SupplierPo> list = suppliers.getList();
 		return list;
 	}
 

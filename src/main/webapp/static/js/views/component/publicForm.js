@@ -73,11 +73,16 @@ function deliverFormClickRow(rowIndex, rowData){
 }
 //初始化表格 单据选择（采购）
 function initDatagridForm(type){
+	var isAllowRefOverdueForm = $("#isAllowRefOverdueForm").val() || "";
+	
     $("#gridForm").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        queryParams : {formType : type},
+        queryParams : {
+        	formType : type,
+        	isAllowRefOverdueForm:isAllowRefOverdueForm
+        },
         url:contextPath+'/form/purchaseSelect/getPurchaseFormList',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选

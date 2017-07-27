@@ -711,9 +711,11 @@ function queryGoodsList() {
 
 function selectSupplier(){
 	var param = {
-			saleWayNot:"purchase"
+		saleWayNot:"purchase",
+		isAllowPurchase:1
 	}
-	new publicSupplierService(function(data){
+	new publicSuppliersService(param, function(data){
+		if('NO' == data)return;
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         if( $("#supplierId").val() != "" && data.id != $("#supplierId").val() && nowRows.length > 0){
             $_jxc.confirm('修改供应商后会清空明细，是否要修改？',function(r){
@@ -736,7 +738,7 @@ function selectSupplier(){
                 queryGoodsList();
             }
         }
-	},param);
+	});
 }
 function selectOperator(){
 	new publicOperatorService(function(data){

@@ -65,7 +65,7 @@ import com.okdeer.jxc.goods.service.GoodsBarcodeService;
 import com.okdeer.jxc.goods.service.GoodsBrandServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSkuServiceApi;
 import com.okdeer.jxc.goods.service.OperateNewGoodsApplyServiceApi;
-import com.okdeer.jxc.supplier.entity.Supplier;
+import com.okdeer.jxc.supplier.po.SupplierPo;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
@@ -175,7 +175,7 @@ public class OperateNewGoodsApplyController extends BaseController<OperateNewGoo
 		
 		//供应商查询
 		String branchId = "";
-		List<Supplier> suppliers = new ArrayList<Supplier>();
+		List<SupplierPo> suppliers = new ArrayList<SupplierPo>();
 		Integer branchType = UserUtil.getCurrBranchType();
 		if(branchType.compareTo(BranchTypeEnum.SELF_STORE.getCode()) == 0 
 		 ||branchType.compareTo(BranchTypeEnum.FRANCHISE_STORE_B.getCode()) == 0 
@@ -206,14 +206,14 @@ public class OperateNewGoodsApplyController extends BaseController<OperateNewGoo
 		return "operateNewGoodsApply/addNewGoodsApply";
 	}
 
-	private List<Supplier> findSupplier(String branchId) {
+	private List<SupplierPo> findSupplier(String branchId) {
 		SupplierQo supplier = new SupplierQo();
 		supplier.setSupplierName("默认供应商");
 		supplier.setBranchId(branchId);
 		supplier.setPageNumber(Constant.ONE);
 		supplier.setPageSize(Constant.ONE);
-		PageUtils<Supplier> suppliers = supplierService.queryLists(supplier);
-		List<Supplier> list = suppliers.getList();
+		PageUtils<SupplierPo> suppliers = supplierService.queryLists(supplier);
+		List<SupplierPo> list = suppliers.getList();
 		return list;
 	}
 	
