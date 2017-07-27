@@ -409,7 +409,8 @@ public class ExcelReaderUtil {
 			}
 			Object content = getValue(cell);
 			
-			if(isBlankRow && content instanceof String  && StringUtils.isNotBlank((String)content)){
+			if (isBlankRow && ((content instanceof String && StringUtils.isNotBlank((String) content))
+					|| content instanceof Double)) {
 				isBlankRow = false;
 			}
 			

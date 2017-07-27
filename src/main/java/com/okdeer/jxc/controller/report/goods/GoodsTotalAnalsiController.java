@@ -88,6 +88,14 @@ public class GoodsTotalAnalsiController extends ReportController {
 		if(!map.containsKey("branchCompleCode")){
 			map.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
 		}
+		if (map.containsKey("supplierId")) {
+			map.remove("supplierName");
+		} else if (map.containsKey("supplierName")) {
+			String supplierName = (String) map.get("supplierName");
+			if (supplierName.indexOf("]") > 0) {				
+				map.put("supplierName", supplierName.substring(supplierName.indexOf("]") + 1));
+			}
+		}
 		return map;
 	}
 

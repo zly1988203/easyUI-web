@@ -89,9 +89,7 @@ public class DeliverTotalReportController extends ReportController {
 		if("branch".equals(map.get("queryType"))&&!map.containsKey("branchId")){
 			map.put("branchId", UserUtil.getCurrBranchId());
 		}
-		if(!map.containsKey("branchId")){
-			map.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
-		}
+		map.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
 		return map;
 	}
 

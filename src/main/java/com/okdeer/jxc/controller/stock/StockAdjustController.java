@@ -345,24 +345,26 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 									String realNum = obj.getString("realNum");
 									try {
 										Double.parseDouble(realNum);
+										if (obj.get("realNum") != null && BigDecimal.ZERO
+												.compareTo(new BigDecimal(obj.getString("realNum"))) == 0) {
+											obj.element("error", "数量不能为0");
+										}
 									} catch (Exception e) {
 										obj.element("error", "数量必填");
 									}
-								}
-								if (obj.get("realNum") != null && BigDecimal.ZERO.compareTo(new BigDecimal(obj.getString("realNum")))== 0 ) {
-										obj.element("error", "数量不能为0");
 								}
 								if (obj.get("largeNum") != null) {
 									String largeNum = obj.getString("largeNum");
 									try {
 										Double.parseDouble(largeNum);
+										if (obj.get("largeNum") != null && BigDecimal.ZERO
+												.compareTo(new BigDecimal(obj.getString("largeNum"))) == 0) {
+											obj.element("error", "箱数不能为0");
+										}
 									} catch (Exception e) {
 										obj.element("error", "箱数必填");
 									}
 								}
-								if (obj.get("largeNum") != null && BigDecimal.ZERO.compareTo(new BigDecimal(obj.getString("largeNum")))== 0 ) {
-									obj.element("error", "箱数不能为0");
-							}
 
 							}
 						}
