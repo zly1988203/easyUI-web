@@ -45,7 +45,7 @@ function initGoodsTotalAnalysiGrid() {
                return str;
            }},
            {field: 'supplierName', title: '供应商名称', width:120, align: 'left'},
-           {field: 'saleWay', title: '经营方式', width:120, align: 'left'},
+           {field: 'saleWay', title: '经营方式', width:120, align: 'center'},
            {field: 'xsNum', title: '销售数量', width:120, align: 'right',
         	   formatter:function(value,row,index){
         		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -81,7 +81,7 @@ function initGoodsTotalAnalysiGrid() {
         		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
         	   }   
            },
-           {field: 'skuCount', title: 'SKU数', width:120, align: 'left',
+           {field: 'skuCount', title: 'SKU数', width:120, align: 'right',
         	   formatter:function(value,row,index){
         		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
         	   }   

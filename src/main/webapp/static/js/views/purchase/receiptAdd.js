@@ -180,7 +180,7 @@ function initDatagridEditOrder(){
                     options:{
                         min:0,
                         precision:4,
-                        disabled:isEdit,
+                        disabled:true,
                         onChange: onChangeAmount,
                     }
                 },
@@ -491,7 +491,16 @@ function updateFooter(){
     var fields = {largeNum:0,realNum:0,amount:0,taxAmount:0,isGift:0, };
     var argWhere = {name:'isGift',value:""}
     gridHandel.updateFooter(fields,argWhere);
+    getAmount();
 }
+
+function getAmount(){
+	var list = gridHandel.getFooterRow();
+	//console.log('list',list);
+	//修改箱数时，同步修改表头单据金额
+    $("#amount").val(parseFloat(list[0].amount||0).toFixed(2));
+}
+
 //插入一行
 function addLineHandel(event){
     event.stopPropagation(event);

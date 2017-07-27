@@ -5,11 +5,23 @@ $(function(){
     //初始化默认条件
     initDatagridStoreList();
     initDatagridStoreView();
-    
+    //新增机构组合机构选择 初始化
+    $('#branchComponent').branchSelect({
+    	param:{
+    		branchTypesStr:$_jxc.branchTypeEnum.BRANCH_COMPANY
+    	},
+    	onShowBefore:function(){
+    		if($('#id').val()){
+    			return false;
+    		}
+    		return true;
+    	}
+    });
 });
 var gridDefault = {};
 var gridHandel = new GridClass();
-var gridStoreViewId = 'gridBranchComponentsList'
+var gridStoreViewId = 'gridBranchComponentsList';
+var seletedIndex = -1;
 //初始化查询表格
 function initDatagridStoreList(){
 	gridHandel.setGridName(gridStoreViewId);
@@ -31,7 +43,8 @@ function initDatagridStoreList(){
             {field:'groupNo',title:'机构组合编号',width:'140px',align:'left'},
             {field:'groupName',title:'机构组合名称',width:'140px',align:'left'},
             {field:'branchName',title:'所属分公司',width:'120px',align:'left'},
-            {field:'hasMemeberStr',title:'是否已设置成分商品',width:'120px',align:'center'},
+            {field:'branchCompleCode',title:'branchCompleCode',width:'120px',align:'left',hidden:true},
+            {field:'hasMemeberStr',title:'是否设置成分机构',width:'120px',align:'center'},
             {field:'createUserName',title:'创建人',width:'120px',align:'left'},
             {field:'createTime',title:'创建时间',width:'160px',align:'left',
 	            formatter:function(value,row,index){
@@ -47,6 +60,7 @@ function initDatagridStoreList(){
             {field:'remark',title:'备注',width:'180px',align:'left'},
         ]],
         onSelect:function(rowIndex,rowData){
+        	seletedIndex = rowIndex;
         	$("#"+gridStoreDetailId).datagrid('loadData', [{},{}]);
         	selectView(rowData);
         },
@@ -167,23 +181,28 @@ function updateStoreComp(){
 //机构组合商品  删除
 function delStoreComp(){
 	//数据校验
-	if(!checkData())return;
 	var selectBranch = $('#'+gridStoreViewId).datagrid("getSelected");
-	var id = selectBranch.id;
-	console.log('id',id);
-	return;
-	$_jxc.alert({
-		url:contextPath+"/branch/branchGroup/saveBranchGroup",
-		data:{"id":id}
-	},function(result){
-		//删除成功
-		if(result['code'] == 0){
-			$_jxc.alert('删除成功',function(){
-				query();
-			});
-		}
-	})
 	
+    if (selectBranch) {
+	  var id = selectBranch.id;
+        $_jxc.confirm('单据删除后将无法恢复，确认是否删除？', function(r) {
+            if (r) {
+                //删除单据
+                $_jxc.ajax({
+                    url: contextPath+"/branch/branchGroup/deleteGroup",
+                    data: {"groupId":id}
+                },function(result){
+                   
+                	if(result['code'] == 0){
+            			$_jxc.alert('删除成功',function(){
+            				query();
+            			});
+            		}
+                	
+                });
+            }
+        });
+     }
 }
 
 //机构组合商品  
@@ -200,27 +219,22 @@ function showBranchDialog(obj){
 			//编辑时 form赋值
 			if(obj){
 				$('#branchId').val(obj.branchId||'');
-				$('#branchName').val('['+(obj.branchCode||"")+']'+obj.branchName);
+				$('#branchName').val('['+(obj.branchCode||"")+']'+obj.branchName).addClass('uinp-no-more');
 				$('#groupName').val(obj.groupName||'');
 				$('#groupNo').val(obj.groupNo||'');
 				$('#remark').val(obj.remark||'');
-				$('#branchForm').append('<input type="hidden" name="id" id="id" value="'+obj.id+'">');
+				$('#id').val(obj.id||'');
 				$('#umore').addClass('unhide');
 			}else{
-				//新增机构组合机构选择 初始化
-			    $('#branchComponent').branchSelect({
-			    	param:{
-			    		branchTypesStr:$_jxc.branchTypeEnum.HEAD_QUARTERS + ',' + $_jxc.branchTypeEnum.BRANCH_COMPANY
-			    	}
-			    });
 			    $('#branchForm')[0].reset();
 			    $('#umore').removeClass('unhide');
-			    $('#id').remove();
+			    $('#branchName').removeClass('uinp-no-more');
+			    $('#id').val("");
 			}
 			
 		},
 		onClose:function(){
-			$('#id').remove();
+			$('#id').val("");
 			$('#branchForm')[0].reset();
 			$('#branchDialog-area').addClass('none');
 			
@@ -258,8 +272,10 @@ function saveBranchComMsg(){
 	    },function(result){
 	        if(result['code'] == 0){
 	        	operateFlag = true;
+	        	$('#groupNo').val(result.data?result.data.groupNo:'');
+	        	$('#id').val(result.data&&result.data.id);
+	        	$('#branchName').addClass('uinp-no-more');
 	            $_jxc.alert("操作成功！");
-	            $('#groupNo').val(result.data?result.data.groupNo:'');
 	        }else{
 	            $_jxc.alert(result['message']);
 	        }
@@ -292,9 +308,11 @@ function checkData(){
 function selectBranchs(searchKey){
 	//数据校验
 	if(!checkData())return;
+	var viewRows = $('#'+gridStoreViewId).datagrid('getSelected');
+	var branchCompleCode=viewRows.branchCompleCode;
 	var param = {
 		selectType:1, //数据选择模式类型  null/''/0-->单选(默认)   1多选
-		//view:'group', //分组
+		branchCompleCode:branchCompleCode, //
 		//门店
 		branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C,
 		nameOrCode:searchKey
@@ -366,7 +384,12 @@ function saveDataHandel(rows){
     },function(result){
         if(result['code'] == 0){
             $_jxc.alert("操作成功！",function(){
-              /*<!--  location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];-->*/
+            	$('#'+gridStoreViewId).datagrid('updateRow',{
+            		index: seletedIndex,
+            		row: {
+            			hasMemeberStr: '是',
+            		}
+            	});
             });
         }else{
             $_jxc.alert(result['message']);

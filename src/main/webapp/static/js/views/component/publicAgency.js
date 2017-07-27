@@ -8,6 +8,7 @@ var formType=null;
 var branchId=null;
 var branchType=null;
 var branchTypesStr=null;
+var branchCompleCode = null;
 var isOpenStock=null;
 var scope=null;
 var type=null;     //NOTREE 左边没有树
@@ -29,6 +30,9 @@ function initAgencyView(param){
 		}
 		if(param.branchTypesStr){
 			branchTypesStr = param.branchTypesStr;
+		}
+		if(param.branchCompleCode){
+			branchCompleCode = param.branchCompleCode;
 		}
 		if(param.isOpenStock){
 			isOpenStock = param.isOpenStock;
@@ -106,6 +110,7 @@ function zTreeOnClick(event, treeId, treeNode) {
     		branchType:branchType,
     		branchTypesStr:branchTypesStr,
     		isOpenStock:isOpenStock,
+    		branchCompleCode:branchCompleCode,
     		scope:scope
     };
     $("#gridAgency").datagrid("options").method = "post";
@@ -127,7 +132,8 @@ function initDatagridAgency(){
     		isOpenStock:isOpenStock,
     		scope:scope,
     		branchType:branchType,
-    		branchTypesStr:branchTypesStr
+    		branchTypesStr:branchTypesStr,
+    		branchCompleCode:branchCompleCode
         },
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
@@ -182,6 +188,7 @@ function agencySearch(){
 		branchId:branchId,
 		branchType:branchType,
 		branchTypesStr:branchTypesStr,
+		branchCompleCode:branchCompleCode,
 		isOpenStock:isOpenStock,
 		scope:scope};
 //	$("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode,nameOrCode:nameOrCode,formType:$("#formType").val(),branchId:$("#branchId").val()};

@@ -1,7 +1,7 @@
 /*----------门店目标计划环比-------------------*/
 $(function(){
 	//开始和结束时间
-    $("#rptDate").val(dateUtil.getCurrentDate().format("yyyy-MM"));
+    $("#rptDate").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
     
     $("#branchCodeName").val(sessionBranchCodeName);
     $("#branchCompleCode").val(sessionBranchCompleCode);
@@ -49,23 +49,23 @@ function initDataCateSaleReport(){
             		return '<b>'+value+'</b>';
             	}	
 			},
-			{field:'currMonthSaleHbPercentStr',title:'当月销售金额环比',width: 110,align:'center',rowspan:2,
+			{field:'currMonthSaleHbPercentStr',title:'当月销售金额环比',width: 110,align:'right',rowspan:2,
 				formatter:function(value,row,index){
             		return '<b>'+value+'</b>';
             	}
 			},
-			{field:'currMonthComplePercentStr',title:'当月销售完成率',width: 110,align:'center',rowspan:2,
+			{field:'currMonthComplePercentStr',title:'当月销售完成率',width: 110,align:'right',rowspan:2,
 				formatter:function(value,row,index){
             		return '<b>'+value+'</b>';
             	}
 			},
-			{field:'currMonthProfitGrowth',title:'当月利润增长额',width: 100,align:'center',rowspan:2,
+			{field:'currMonthProfitGrowth',title:'当月利润增长额',width: 100,align:'right',rowspan:2,
 				formatter:function(value,row,index){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
 			},
 			{field:'nextTarget',title:'下月目标',width: 100,align:'center',colspan:3},
-			{field:'nextMonthPlanGrowthRateStr',title:'下月计划增长率',width: 100,align:'center',rowspan:2,
+			{field:'nextMonthPlanGrowthRateStr',title:'下月计划增长率',width: 100,align:'right',rowspan:2,
 				formatter:function(value,row,index){
             		return '<b>'+value+'</b>';
             	}	

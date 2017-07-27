@@ -13,7 +13,7 @@
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
 </head>
-<body class="ub uw uh ufs-14 uc-black">
+<body class="ub ub-ver uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 upad-8">
 		<form action=""  id="searchForm" method="post">
 			<input type="hidden" name="skuIdMain" id="skuIdMain">
@@ -80,9 +80,11 @@
 				</div>	
 			</div>
 		</form>
-		<div class="ub ub-f1 umar-t8">
-			<table id="combineSplitEditGrid"></table>
-		</div>
+
+	<from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+	<table id="combineSplitEditGrid" ></table>
+	</from>
+
 	</div>
 </body>
 </html>

@@ -3,6 +3,9 @@
  */
 var pageSize = 50;
 $(function(){
+    //机构选择初始化
+    $('#branchComponent').branchSelect();
+
     //开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
@@ -63,16 +66,6 @@ function initCashReconcileGrid() {
     });
 }
 
-
-/**
- * 机构列表下拉选
- */
-function searchBranch (){
-	new publicAgencyService(function(data){
-		$("#branchCode").val(data.branchCode);
-		$("#branchNameOrCode").val("["+data.branchCode+"]"+data.branchName);
-	},"","");
-}
 
 /**
  * 收银员下拉选

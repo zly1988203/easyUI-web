@@ -5,19 +5,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>新增直送收货单</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/purchase/directReceipt/directReceipt.js?V=${versionNo}2"></script>
+<script src="${ctx}/static/js/views/purchase/directReceipt/directReceipt.js?V=${versionNo}3"></script>
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
 	<input type='hidden' id="directStatus" value="add">
 	<input type='hidden' id="cascadeGoods" name="cascadeGoods" value="${cascadeGoods}">
 	<!-- 允许直送收货单不引用单据收货：0.否，1.是 ${isAllowPmRefPa} -->
-	<input type='hidden' id="isAllowPmRefPa" name="isAllowPmRefPa" value="${isAllowPmRefPa}">
+	<input type='hidden' id="isAllowPmRefPa" name="isAllowPmRefPa" value="-1">
 	<input type="hidden" id="formId"  name="formId" value="${form.id}">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
 				<shiro:hasPermission name="JxcDirectReceipt:add">
-					<div class="ubtns-item" onclick="addDirect()">新增</div>
+					<div class="ubtns-item" onclick="directAdd()">新增</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:add">
 					<div class="ubtns-item" id="btnSave" onclick="saveDirectForm()">保存</div>
@@ -25,10 +25,10 @@
 				<shiro:hasPermission name="JxcDirectReceipt:audit">
 					<div class="ubtns-item uinp-no-more event-none pmreBtn">审核</div>
 				</shiro:hasPermission>
-				<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="selectGoods()">商品选择</div>
+				<div class="ubtns-item  pmreBtn" onClick="selectGoods()">商品选择</div>
 				<shiro:hasPermission name="JxcDirectReceipt:import">
-					<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="importDirectForm(0)">导入货号</div>
-					<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="importDirectForm(1)">导入条码</div>
+					<div class="ubtns-item  pmreBtn" onClick="importDirectForm(0)">导入货号</div>
+					<div class="ubtns-item  pmreBtn" onClick="importDirectForm(1)">导入条码</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:delete">
 					<div class="ubtns-item uinp-no-more event-none pmreBtn">删单</div>
@@ -52,7 +52,8 @@
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">付款期限:</div>
-					<input id="paymentTime" class="Wdate"  type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+					<input id="paymentTime" class="Wdate"  type="text" value="${form.paymentTimeStr}" 
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">制单人员:</div>
@@ -72,7 +73,7 @@
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">采购员:</div>
-					<input class="uinp" name="salesmanId" id="salesmanId" type="hidden">
+					<input class="uinp" name="salesmanId" id="salesmanId" type="hidden" value="${form.salesmanId }">
 					<input class="uinp " id="operateUserName" value="${form.salesmanName }" type="text" readonly="readonly">
 				</div>
 				<div class="ub ub-ac umar-l80">

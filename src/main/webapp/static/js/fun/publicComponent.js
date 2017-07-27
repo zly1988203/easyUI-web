@@ -8,22 +8,7 @@ var top = $(window).height()/3;
 var dialogHeight = $(window).height()*(2/3);
 var left = $(window).width()/4;
 
-function messager(msg,title,cb){
-	$.messager.alert(title||'提示',msg,function(){
-		if(cb)cb
-	});
-    /*$.messager.show({
-        title:title||'系统提示',
-        msg:msg,
-        timeout:2000,
-        showType:'slide',
-        style:{
-            width:270,
-            right:'',
-            bottom:''
-        }
-     });*/
-}
+
 //公共组件-日期选择
 //改变日期
 function toChangeDate(index){
@@ -1067,6 +1052,21 @@ function GridClass(){
                                         var target = _this.getFieldTarget(field);
                                         while($(target).prop('readonly') || $(target).prop('disabled'))
                                         {
+                                        	//修复如果最后一列是不可读的表单造成的页面卡掉bug20180
+                                        	if(row.length>0&&row[row.length-1].field == field){
+                                        		if(grid.datagrid('getRows').length-rowIndex>1){
+                                                    var lastIndex = rowIndex+1;
+                                                    _this.setBeginRow(lastIndex);
+                                                    _this.setSelectFieldName(params.firstName);
+                                                    var target = _this.getFieldTarget(selectFieldName);
+                                                    if(target){
+                                                        _this.setFieldFocus(target);
+                                                    }
+                                                }else{
+                                                    params.enterCallBack("add")
+                                                }
+                                        		break;
+                                        	}
                                         	_this.setSelectFieldName(field);
                                             field = getLRFiledName('right');
                                         	target = _this.getFieldTarget(field);
@@ -1084,6 +1084,21 @@ function GridClass(){
                                 var target = _this.getFieldTarget(field);
                                 while($(target).prop('readonly') || $(target).prop('disabled'))
                                 {
+                                	//修复如果最后一列是不可读的表单造成的页面卡掉bug20180
+                                	if(row.length>0&&row[row.length-1].field == field){
+                                		if(grid.datagrid('getRows').length-rowIndex>1){
+                                            var lastIndex = rowIndex+1;
+                                            _this.setBeginRow(lastIndex);
+                                            _this.setSelectFieldName(params.firstName);
+                                            var target = _this.getFieldTarget(selectFieldName);
+                                            if(target){
+                                                _this.setFieldFocus(target);
+                                            }
+                                        }else{
+                                            params.enterCallBack("add")
+                                        }
+                                		break;
+                                	}
                                 	_this.setSelectFieldName(field);
                                     field = getLRFiledName('right');
                                 	target = _this.getFieldTarget(field);
@@ -2739,7 +2754,6 @@ $.fn.operatorSelect = function(param){
 	_default.setDom(this);
 	_default.initDomEvent();
 	$.data(this,'component',_default);
-
 	
 }
 /**
@@ -2855,5 +2869,146 @@ function publicOperatorsServiceHandel(param,callback,cbDom){
 
 /*-----------------------操作人选择 end-------------------------------*/
 
+/*-----------------------类别选择 start-------------------------------*/
+
+$.fn.categorySelect = function(param){
+	//元素绑定失败
+	if($(this).length == 0){
+		console.error('供应商选择组件绑定失败');
+		return;
+	}
+	var _this = this;
+	if(typeof param == 'undefined')param = {};
+	
+	//默认参数对象
+	var _default = {
+		/**
+		 * 格式化数据 显示数据
+		 */
+		textFomatter:function(data){
+			return "["+data.categoryCode+"]"+data.categoryName;
+		},
+		/**
+		 * 获取组件信息
+		 */
+		getComponentDetail:function(nameOrCode){
+			var param = $.extend({},this.param);
+			if(nameOrCode){
+				param.categoryNameOrCode = nameOrCode;
+			}
+			publicCategorysService(param,this.onLoadSuccess,this.dom)
+		}
+			
+	}
+	
+	_default = $.extend({},$_jxc.autoCompleteComponent(),_default,param);
+	_default.setDom(this);
+	_default.initDomEvent();
+	$.data(this,'component',_default);
+	
+}
+
+
+function publicCategorysService(param,callback,cbDom){
+	cbDom = cbDom || window;
+	//默认参数
+	var _defParam = {
+		categoryType:'',           //0 单选弹框底部没有【确认】【取消】按钮   1反之
+		type:0,
+ 	}
+	param =  $.extend(_defParam,param);
+	
+	if(param.categoryNameOrCode){
+		
+		var _ajaxParam = $.extend({},param);
+		
+		_ajaxParam.page = 1;
+		_ajaxParam.rows = 10;
+		var _categoryNameOrCode = param.categoryNameOrCode
+		//避免用户直接输入完整格式: [xxxxx]名称
+		var reg = /\[\S*\]/;
+		if(reg.test(_categoryNameOrCode)){
+			//取出[]里的编号，默认取已第一个[]里的值
+			reg = /\[(\S*)\]/;
+			arr = reg.exec(_categoryNameOrCode);
+			_ajaxParam.categoryNameOrCode = arr[1];
+		}
+		//组件参数 不传后台
+		delete _ajaxParam.type;
+		
+		$_jxc.ajax({
+			url:contextPath+'/common/category/getComponentList',
+			data:_ajaxParam
+		},function(data){
+			if(data&&data.rows){
+				//精确匹配到只有一条数据时立即返回
+				if(data.rows.length==1){
+					callback.call(cbDom,data.rows[0]);
+				}else if(data.rows.length>1){
+					//匹配到多条时 弹窗选择
+					publicCategorysServiceHandel(param,callback,cbDom);
+				}else{
+					//没有匹配数据时 返回字符串方便判断
+					callback.call(cbDom,'NO');
+				}
+			}else{
+				//没有匹配数据时 返回字符串方便判断
+				callback.call(cbDom,'NO');
+			}
+		})
+	}else{
+		publicCategorysServiceHandel(param,callback,cbDom);
+	}
+}
+
+function publicCategorysServiceHandel(param,callback,cbDom){
+	//公有属性
+    var dalogObj = {
+		href: contextPath + "/common/category/views",
+        width:680,
+        height:600,
+        title:"选择商品类别",
+        closable:true,
+        resizable:true,
+        onClose:function(){
+        	callback.call(cbDom,'NO');
+            $(categoryDalog).panel('destroy');
+            categoryDalog = null;
+        },
+        modal:true,
+        };
+   
+    if(param.type==1){
+    	 dalogObj["onLoad"] = function () {
+        	 initCategoryView(param);
+        };
+    	dalogObj["buttons"] = [{
+            text:'确定',
+            handler:function(){
+            	publicCategoryGetCheck(callBackHandel);
+            }
+        },{
+            text:'取消',
+            handler:function(){
+                $(categoryDalog).panel('destroy');
+                categoryDalog = null;
+            }
+        }];
+    }else{
+        dalogObj["onLoad"] = function () {
+        	 initCategoryView(param);
+             initCategoryCallBack(callBackHandel);
+        };
+    }
+    //公有属性
+    categoryDalog = $('<div/>').dialog(dalogObj);
+    function callBackHandel(data){
+    	  callback.call(cbDom,data);
+          $(categoryDalog).panel('destroy');
+          categoryDalog = null;
+    }
+}
+
+/*-----------------------类别选择 end-------------------------------*/
 
 /*----------------jxc component js end  ---------------------------*/

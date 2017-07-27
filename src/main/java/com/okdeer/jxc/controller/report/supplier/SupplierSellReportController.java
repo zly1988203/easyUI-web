@@ -8,6 +8,22 @@
  */
 package com.okdeer.jxc.controller.report.supplier;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
@@ -19,16 +35,6 @@ import com.okdeer.retail.common.page.PageUtils;
 import com.okdeer.retail.facade.report.entity.SupplierSell;
 import com.okdeer.retail.facade.report.facade.SupplierSellFacade;
 import com.okdeer.retail.facade.report.qo.SupplierSellQo;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
 
 /**
  *
@@ -75,7 +81,9 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
                 if(reportVo!=null){
                     reportVo.setSupplierCode("SUM");
                     pageUtils.setFooter(new ArrayList<SupplierSell>(Arrays.asList(reportVo)));
-                }
+                }else{
+                    pageUtils.setFooter(new ArrayList<SupplierSell>());
+               }
                 // 过滤数据权限字段
                 cleanAccessData(pageUtils);
                 return pageUtils;

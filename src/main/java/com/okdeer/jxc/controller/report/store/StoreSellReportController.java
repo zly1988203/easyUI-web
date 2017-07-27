@@ -74,7 +74,9 @@ public class StoreSellReportController extends BaseController<StoreSellReportCon
                 StoreSell reportVo = storeSellFacade.sumStoreSells(vo);
                 if(reportVo!=null){
                     reportVo.setBranchCode("SUM");
-                    pageUtils.setFooter(new ArrayList<StoreSell>(Arrays.asList(reportVo)));;
+                    pageUtils.setFooter(new ArrayList<StoreSell>(Arrays.asList(reportVo)));
+                }else{
+                     pageUtils.setFooter(new ArrayList<StoreSell>());
                 }
                 // 过滤数据权限字段
                 cleanAccessData(pageUtils);

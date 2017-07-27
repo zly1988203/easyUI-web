@@ -30,6 +30,7 @@ import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.gson.GsonUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * ClassName: BranchController 
@@ -79,6 +80,9 @@ public class BranchGroupController extends BaseController<BranchGroupController>
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		vo.setPageNumber(pageNumber);
 		vo.setPageSize(pageSize);
+		if(vo.getBranchCompleCode()==null){
+			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+		}
 		return branchGroupServiceApi.queryLists(vo);
 	}
 	/**
@@ -164,6 +168,8 @@ public class BranchGroupController extends BaseController<BranchGroupController>
 		HashMap<String,StringBuffer> map=new HashMap<String,StringBuffer>();
 		HashSet<String> set=new HashSet<String>();
 		StringBuffer branchIdBuf=new StringBuffer();
+		HashMap<String,String> returnMap =new HashMap<String,String>();
+
 		if(CollectionUtils.isNotEmpty(list)){
 			for(BranchGroupDetail detail:list){
 				if(map.containsKey(detail.getGroupId())){
@@ -176,14 +182,13 @@ public class BranchGroupController extends BaseController<BranchGroupController>
 					branchIdBuf.append(detail.getBranchId()).append(",");
 				}
 			}
+			StringBuffer returnBuf=new StringBuffer();
+			for(StringBuffer buf:map.values()){
+				returnBuf.append(buf).append(";");
+			}
+			returnMap.put("branchId", branchIdBuf.delete(branchIdBuf.length()-1, branchIdBuf.length()).toString());
+			returnMap.put("branchName", returnBuf.toString());
 		}
-		StringBuffer returnBuf=new StringBuffer();
-		for(StringBuffer buf:map.values()){
-			returnBuf.append(buf).append(";");
-		}
-		HashMap<String,String> returnMap =new HashMap<String,String>();
-		returnMap.put("branchId", branchIdBuf.delete(branchIdBuf.length()-1, branchIdBuf.length()).toString());
-		returnMap.put("branchName", returnBuf.toString());
 		return returnMap;
 	}
 

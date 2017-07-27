@@ -60,6 +60,18 @@
 					onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
 					value="<fmt:formatDate value="${form.paymentTime}" pattern="yyyy-MM-dd"/>" />
 			</div>
+			<div class="ub ub-ac umar-l80">
+				<div class="umar-r10 uw-60 ut-r">制单人员:</div>
+				<div class="utxt">${form.updateUserName}</div>
+			</div>
+			<div class="ub ub-ac">
+				<div class="umar-r10 uw-60 ut-r">制单时间:</div>
+				<div class="utxt">
+					<fmt:formatDate value="${form.updateTime}"
+						pattern="yyyy-MM-dd HH:mm" />
+				</div>
+			</div>
+			
 		</div>
 		<div class="ub umar-t8">
 			<div class="ub ub-ac">
@@ -79,15 +91,12 @@
 				<!--<div class="uinp-more" onclick="selectOperator()">...</div>-->
 			</div>
 			<div class="ub ub-ac umar-l80">
-				<div class="umar-r10 uw-60 ut-r">制单人员:</div>
-				<div class="utxt">${form.updateUserName}</div>
+				<div class="umar-r10 uw-60 ut-r">审核人员:</div>
+				<div class="utxt"></div>
 			</div>
 			<div class="ub ub-ac">
-				<div class="umar-r10 uw-60 ut-r">制单时间:</div>
-				<div class="utxt">
-					<fmt:formatDate value="${form.updateTime}"
-						pattern="yyyy-MM-dd HH:mm" />
-				</div>
+				<div class="umar-r10 uw-60 ut-r">审核时间:</div>
+				<div class="utxt"></div>
 			</div>
 		</div>
 		<div class="ub umar-t8">
@@ -106,14 +115,9 @@
 					class="uinp" type="text" readonly="readonly">
 			</div>
 			<div class="ub ub-ac umar-l80">
-				<div class="umar-r10 uw-60 ut-r">审核人员:</div>
-				<div class="utxt"></div>
+				<div class="umar-r10 uw-60 ut-r">单据金额:</div>
+				<input class="uinp uw-88" id="amount" type="text" readonly="readonly" value="<fmt:formatNumber value="${form.amount}" pattern="0.00#"/>">
 			</div>
-			<div class="ub ub-ac">
-				<div class="umar-r10 uw-60 ut-r">审核时间:</div>
-				<div class="utxt"></div>
-			</div>
-
 		</div>
 
 		<div class="ub umar-t8">

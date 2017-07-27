@@ -110,6 +110,17 @@
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r ">允许直送收货生成采购订单:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isAllowPmGenerPa0" name="isAllowPmGenerPa" value="0" />
+						<label for="isAllowPmGenerPa0">不启用</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isAllowPmGenerPa1" name="isAllowPmGenerPa" value="1" />
+						<label for="isAllowPmGenerPa1">启用</label>
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r ">要货单起订金额控制:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="isMinAmount0" name="isMinAmount" value="0" />
@@ -165,6 +176,18 @@
 						<label id="lbTxt"></label>
 						
 						</a>
+					</div>
+				</div>
+
+				<div class="ub ub-ac upad-16">
+					<div class="ub uw-220 ut-r ">允许配送出库单生成要货单:</div>
+					<div class="ub ub-ac umar-r10">
+					<input class="ub radioItem" type="radio" name="template" checked="checked" id="isCreateDA0" value="0"/>
+					<label for="isCreateDA0">不启用</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+					<input class="ub radioItem" type="radio" name="template" id="isCreateDA1" value="1"/>
+					<label for="isCreateDA1">启用</label>
 					</div>
 				</div>
 			</form>
@@ -228,6 +251,7 @@
 
 		var storeSelectGoodsSpec= data.storeSelectGoodsSpec;
 		var isAllowPmRefPa= data.isAllowPmRefPa;
+		var isAllowPmGenerPa= data.isAllowPmGenerPa;
 
 		//页面赋值
 		$("#branchId").val(branchId);
@@ -272,6 +296,12 @@
 			$("#isAllowPmRefPa0").attr("checked", "true");
 		} else {
 			$("#isAllowPmRefPa1").attr("checked", "true");
+		}
+		
+		if (isAllowPmGenerPa === null || isAllowPmGenerPa === 0 || isAllowPmGenerPa === '') {
+			$("#isAllowPmGenerPa0").attr("checked", "true");
+		} else {
+			$("#isAllowPmGenerPa1").attr("checked", "true");
 		}
 
 		if (isMinAmount === null || isMinAmount === 1 || isMinAmount === '') {

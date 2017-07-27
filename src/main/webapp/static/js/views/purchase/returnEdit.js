@@ -2,6 +2,9 @@
  * Created by huangj02 on 2016/8/9.
  */
 var isEdit = true;
+//过滤price priceBack 标示 
+var loadFilterFlag = false;
+
 $(function(){
     //是否允许改价
     var allowUpdatePrice = $('#allowUpdatePrice').val();
@@ -161,7 +164,7 @@ function initDatagridEditOrder(){
                     options:{
                         min:0,
                         precision:4,
-                        disabled:isEdit,
+                        disabled:true,
                         onChange: onChangeAmount,
                     }
                 },
@@ -284,6 +287,25 @@ function initDatagridEditOrder(){
                     gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
                 }
             }
+        },
+        loadFilter:function(data){
+        	if(loadFilterFlag && data && data.length > 0 ){
+        		loadFilterFlag = false;
+        		data.forEach(function(obj,index){
+        			//编辑后 可以再次选择商品 新选的 priceBack为空
+        			if(!obj.priceBack){
+        				if(obj.isGift && obj.isGift != '1'){
+        					//非赠品
+        					obj.price = obj.purchasePrice;
+        				}else if(obj.isGift && obj.isGift == '1'){
+        					//赠品
+        					obj.amount = 0;
+        				}
+        				obj.priceBack = obj.purchasePrice;
+        			}
+        		})
+        	}
+        	return data;
         },
         onLoadSuccess:function(data){
             if((data.rows).length <= 0)return;
@@ -441,24 +463,26 @@ function onSelectIsGift(data){
     if(arrs.length==0){
         var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
-            //var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            //$('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
-            $(targetPrice).numberbox('setValue',0);
-            gridHandel.setFieldValue('amount',0);
+        	$(targetPrice).numberbox('setValue',0);
+            gridHandel.setFieldValue('amount',0);//总金额
+            gridHandel.setFieldValue('taxAmount',0);//税额
             $(targetPrice).numberbox('disable');
         }else{
-            $(targetPrice).numberbox('enable');
-            var oldPrice =  $('#'+gridName).datagrid('getRows')[gridHandel.getSelectRowIndex()]["priceBack"];
+        	if(isEdit == false){
+        		$(targetPrice).numberbox('enable');
+        	}
+            
+        	var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'priceBack');
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
             }
-            var priceVal = oldPrice||0;
-            var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum')||0;
-            var oldAmount = parseFloat(priceVal)*parseFloat(applNum);
+        	var priceVal = oldPrice||0;
+            var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
+            var oldAmount = parseFloat(priceVal)*parseFloat(applNum);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldAmount');
             var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
             var oldTaxAmount = (_tempInputTax*(oldAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);//gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'oldTaxAmount');
             gridHandel.setFieldValue('amount',oldAmount);//总金额
-            gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总金额
+            gridHandel.setFieldValue('taxAmount',oldTaxAmount);//总金额 
         }
         updateFooter();
     }else{
@@ -491,7 +515,7 @@ function delLineHandel(event){
 }
 //选择商品
 function selectGoods(searchKey){
-    //判定供应商是否存在
+	loadFilterFlag = true;
 	 //判定供应商是否存在
     var supplierId = $("#supplierId").val();
     if(supplierId==""){
@@ -962,6 +986,7 @@ function printDesign(){
 
 
 function toImportproduct(type){
+	loadFilterFlag = true;
     var branchId = $("#branchId").val();
     if(!branchId){
         $_jxc.alert("请先选择收货机构");
@@ -980,8 +1005,6 @@ function toImportproduct(type){
 }
 
 function updateListData(data){
-	   // var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-	    //var addDefaultData  = gridHandel.addDefault(data,gridDefault);
         $.each(data,function(i,val){
         	data[i]["remark"] = "";
             data[i]["realNum"]=data[i]["realNum"]||0;
@@ -989,7 +1012,6 @@ function updateListData(data){
             data[i]["amount"]  = parseFloat(data[i]["purchasePrice"]||0)*parseFloat(data[i]["realNum"]||0);
         });
 	    var keyNames = {
-	        purchasePrice:'price',
 	        id:'skuId',
 	        disabled:'',
 	        pricingType:'',

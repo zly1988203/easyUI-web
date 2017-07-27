@@ -82,11 +82,7 @@ function initDatagridRequireOrders(){
 				}
 			},
             {field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
-            {field: 'remark', title: '备注', width: '200px', align: 'left',
-    		     onLoadSuccess:function(data){
-    			gridHandel.setDatagridHeader("center");
-    		   }
-            }
+            {field: 'remark', title: '备注', width: '200px', align: 'left'}
         ]],
         onLoadSuccess : function() {
             gridHandel.setDatagridHeader("center");

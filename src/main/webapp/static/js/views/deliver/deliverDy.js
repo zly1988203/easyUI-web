@@ -1,6 +1,9 @@
 
 var targetBranchTypeTemp = "";
 var branchId = '';	
+//过滤price priceBack 标示 
+var loadFilterFlag = false;
+
 var gridDefault = {
 	    applyNum:0,
 	    largeNum:0,
@@ -361,39 +364,6 @@ function initDatagridRequireOrder(){
             		return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
             	}
             },
-			/*{field:'sourceStock',title:'目标库存',width:'80px',align:'right',
-				formatter : function(value, row, index) {
-					if(row.isFooter){
-						return ;
-					}
-					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-				},
-				editor:{
-					type:'numberbox',
-					options:{
-						disabled:true,
-						min:0,
-						precision:2,
-					}
-				}
-			},
-           {field:'alreadyNum',title:'已订数量',width:'80px',align:'right',
-            formatter : function(value, row, index) {
-                if(row.isFooter){
-                    return;
-                }
-                if(!row.alreadyNum){
-                    row.alreadyNum = parseFloat(value||0).toFixed(2);
-                }
-                
-                if(parseFloat(row.applyNum)+parseFloat(row.alreadyNum) > parseFloat(row.sourceStock)){
-                  	 return '<span style="color:red;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-           		}else{
-           			return '<span style="color:black;"><b>'+parseFloat(value||0).toFixed(2)+'</b></span>';
-           		}
-
-            }
-        },*/
             {field:'remark',title:'备注',width:'200px',align:'left',
                 editor:{
                     type:'textbox',
@@ -425,6 +395,19 @@ function initDatagridRequireOrder(){
                     gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
                 }
             }
+        },
+        loadFilter:function(data){
+        	if(loadFilterFlag && data && data.length > 0 ){
+        		loadFilterFlag = false;
+        		data.forEach(function(obj,index){
+        			//编辑后 可以再次选择商品 新选的 priceBack为空
+        			if(!obj.priceBack){
+        				obj.price = obj.distributionPrice;
+        				obj.priceBack = obj.distributionPrice;
+        			}
+        		})
+        	}
+        	return data;
         },
         onLoadSuccess:function(data){
         	if(deliverStatus==='edit'){
@@ -609,7 +592,8 @@ function delLineHandel(event){
 }
 
 //选择商品
-function selectGoods(searchKey){
+function selectGoods(searchKey){	
+	loadFilterFlag = true;
 	var sourceBranchId = $("#sourceBranchId").val();
 	var targetBranchId = $("#targetBranchId").val();
     //判定发货分店是否存在
@@ -660,10 +644,10 @@ function setDataValue(data,fromClick) {
             largeNum:'tmpLargeNum',
         };
         
-        if(deliverStatus === 'add'){
+        /*if(deliverStatus === 'add'){
         	keyNames.distributionPrice = 'price';
         	keyNames.price = 'priceBack';
-        }
+        }*/
         
         var rows = gFunUpdateKey(addDefaultData,keyNames);
         var argWhere ={skuCode:1};  //验证重复性
@@ -961,6 +945,7 @@ function updateOrder(){
 }
 
 function suggestSelectGoods(){
+	loadFilterFlag = true;
 	// 要货机构
 	var targetBranchId = $("#targetBranchId").val();
 	// 发货机构
@@ -1175,6 +1160,7 @@ function toImportproduct(type){
 
 //查询价格、库存
 function selectStockAndPriceImport(data){
+	loadFilterFlag = true;
 	//updateListData(data);
     var GoodsStockVo = {
         branchId : $("#sourceBranchId").val(),
@@ -1210,8 +1196,6 @@ function selectStockAndPriceImport(data){
 
 function updateListData(data){
      var keyNames = {
-		 distributionPrice:'price',
-		 price:'priceBack',
          id:'skuId',
          disabled:'',
          pricingType:'',
@@ -1221,7 +1205,7 @@ function updateListData(data){
      for(var i in rows){
          rows[i].remark = "";
          rows[i].isGift = 0;
-         rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["applyNum"]||0);
+         rows[i]["amount"]  = parseFloat(rows[i]["distributionPrice"]||0)*parseFloat(rows[i]["applyNum"]||0);
 
          if(parseInt(rows[i]["distributionSpec"])){
         	 rows[i]["applyNum"]  = (parseFloat(rows[i]["largeNum"]||0)*parseFloat(rows[i]["distributionSpec"])).toFixed(4);

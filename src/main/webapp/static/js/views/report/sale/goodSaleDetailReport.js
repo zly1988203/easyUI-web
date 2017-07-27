@@ -3,8 +3,20 @@
  * 商品销售汇总分析
  */
 $(function() {
+	$("#txtStartDate").val(dateUtil.getPreMonthDate().format("yyyy-MM-dd"));
+	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	//选择报表类型
 	initGoodsTotalAnalysiGrid();
+	
+	//机构选择
+	$('#branchSelects').branchSelect();
+	
+	//商品类别选择组件
+	$('#categoryNameDiv').categorySelect();
+	
+	$('input[name="reportType"]').on('change',function(){
+		initGoodsCategorty();
+	})
 });
 
 var gridHandel = new GridClass();
@@ -32,10 +44,15 @@ function initGoodsTotalAnalysiGrid() {
         frozenColumns:[[
             {field: 'branchCode', title: '机构编码', width:120, align: 'left'},
             {field: 'branchName', title: '机构名称', width:120, align: 'left'},
-            {field: 'orderNo', title: '单据编号', width:120, align: 'left'}
+            {field: 'orderNo', title: '单据编号', width:150, align: 'left'}
         ]],
         columns: [[
-           {field: 'time', title: '时间', width:120, align: 'left'},   
+           {field: 'time', title: '时间', width:150, align: 'left',
+        	   formatter:function(value){
+        		   var now = new Date(value);
+        		  return now.format("yyyy-MM-dd hh:mm:ss");
+        	   }
+           },   
            {field: 'skuCode', title: '货号', width:120, align: 'left'},
            {field: 'skuName', title: '商品名称', width:120, align: 'left'},
            {field: 'skuCode', title: '商品条码', width:120, align: 'left'},
@@ -183,31 +200,7 @@ function exportExcel(){
 	$("#queryForm").attr("action",contextPath+'/report/sale/goodSaleDetailReport/exportExcel');
 	$("#queryForm").submit();	
 }
-/**
- * 机构列表下拉选
- */
-function searchBranch (){
-	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchCompleCode").val(data.branchCompleCode);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},"","");
-}
 
-/**
- * 商品类别
- */
-function searchCategory(){
-	var categoryType=$('input[name="searchType"]:checked ').val();
-	var param = {
-		categoryType:categoryType
-	}
-	new publicCategoryService(function(data){
-		console.info(data);
-//		$("#categoryCode").val(data.categoryCode);
-		$("#categoryCode").val(data.categoryName);
-	},param);
-}
 /**
  * 重置
  */

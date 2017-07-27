@@ -58,24 +58,31 @@
 	    		<div class="ub uline umar-t8"></div>
 	    		<!-- 后台记得修改name值  并记得修改 js 逻辑-->
 	    		<form class="ub ub-f1 ub-ver ub-ac umar-t8" id="branchForm">
+	    		    <input type="hidden" name="id" id="id">
 	    			<div class="ub ub-ac  umar-t20" id="branchComponent">
 		                <div class="umar-r10 uw-80 ut-r">所属分公司:</div>
-		                <input type="hidden" name="branchId" id="branchId" type="text" > 
-		                <input class="uinp ub ub-f1" name="branchName" id="branchName" type="text"  readonly="readonly"> 
-		                <div class="uinp-more" id="umore">...</div>
-		            	<div class="ub ub-ac uc-red">*</div>
+		                <div class="ub ub-ac">
+			                <input type="hidden" name="branchId" id="branchId" type="text" > 
+			                <input class="uinp ub ub-f1" name="branchName" id="branchName" type="text"  readonly="readonly"> 
+			                <div class="uinp-more" id="umore">...</div>
+		                </div>
+		                <div class="ub ub-ac uc-red">*</div>
 		            </div>
-		            <div class="ub ub-ac  umar-t20" style="margin-left:-16px;">
+		            
+		            <div class="ub ub-ac  umar-t20" style="margin-left:-19px;">
 		                <div class="umar-r10 uw-90 ut-r">机构组合编号:</div>
 		                <input class="uinp ub ub-f1 uinp-no-more" readonly="readonly" name="groupNo" id="groupNo" type="text" > 
 		            </div>
-		            <div class="ub ub-ac  umar-t20" style="margin-left:-16px;">
+		            <div class="ub ub-ac  umar-t20" style="margin-left:-12px;">
 		                <div class="umar-r10 uw-90 ut-r">机构组合名称:</div>
-		                <input class="uinp ub ub-f1" name="groupName" id="groupName" type="text" > 
+		                <div class="ub ub-ac">
+			                <input class="uinp ub ub-f1" name="groupName" id="groupName" maxlength="20" type="text" > 
+		                </div>
+			            <div class="ub ub-ac uc-red">*</div>
 		            </div>
-		            <div class="ub ub-ac  umar-t20" style="margin-left:-7px;">
+		            <div class="ub ub-ac  umar-t20" style="margin-left:-9px;">
 		                <div class="umar-r10 uw-80 ut-r">备注:</div>
-		                <input class="uinp ub ub-f1" name="remark" id="remark" type="text" > 
+		                <input class="uinp ub ub-f1" name="remark" id="remark" maxlength="50" type="text" > 
 		            </div>
 	    		</form>			
 	    	</div>

@@ -85,11 +85,6 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			/**
-			 * update by xiaoj02 2016-9-7 start
-			 */
-//			vo.setBranchId(UserUtil.getCurrBranchId());
-			
 			vo.setBranchCode(getCurrBranchCompleCode());
 			
 			//处理机构
@@ -134,7 +129,7 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 		List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetailById(formId);
 		RespJson resp = RespJson.success();
 		resp.put("form", form);
-		cleanAccessData(list);
+		//cleanAccessData(list);
 		resp.put("list", list);
 		return resp;
 		

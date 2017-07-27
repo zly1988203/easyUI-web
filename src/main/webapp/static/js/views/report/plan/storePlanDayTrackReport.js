@@ -21,17 +21,11 @@ function initStorePlanList(){
         singleSelect:false,  //单选  false多选
         pagination:true,    //分页
         showFooter:true,
-//        data:[
-//            {no:1,branchCode:'0232423',branchName:'报业园店',planType:'线上',cur_monthAmount:10000,rj_sale:2000},
-//            {no:1,branchCode:'0232423',branchName:'报业园店',planType:'线下',cur_monthAmount:20000,rj_sale:3000},
-//            {no:1,branchCode:'0232423',branchName:'报业园店',planType:'合计',cur_monthAmount:30000,rj_sale:4000},
-//            {no:2,branchCode:'0232424',branchName:'万科店',planType:'线上',cur_monthAmount:30000,rj_sale:4000},
-//            {no:2,branchCode:'0232424',branchName:'万科店',planType:'线下',cur_monthAmount:30000,rj_sale:4000},
-//            {no:2,branchCode:'0232424',branchName:'万科店',planType:'合计',cur_monthAmount:30000,rj_sale:4000}
-//        ],
 		height:'100%',
-		pageSize:50,
+		pageSize:5,
+		pageList:[5],
 		width:'100%',
+		rownumbers:false,
         columns:[[
             {field:'no',title:'序号',width: 50,align:'center'},
             {field:'branchCode',title:'机构编码',width: 120,align:'left'},
@@ -84,8 +78,9 @@ function initStorePlanList(){
             }
         ]],
         onLoadSuccess:function(data){
+        	console.log('data',data)
             gridHandel.setDatagridHeader("center");
-            //合并单元格
+            //合并单元格 表体
             var merges = getMergesData(data.rows);
 			for(var i=0; i<merges.length; i++){
 				$(this).datagrid('mergeCells',{
@@ -102,6 +97,29 @@ function initStorePlanList(){
 					index: merges[i].index,
 					field: 'branchName',
 					rowspan: merges[i].rowspan,
+				});
+			}
+			
+			//合并单元格 底部
+			var merges = getMergesData(data.footer);
+			for(var i=0; i<merges.length; i++){
+				$(this).datagrid('mergeCells',{
+					index: merges[i].index,
+					field: 'no',
+					rowspan: merges[i].rowspan,
+					type: 'footer'
+				});
+				$(this).datagrid('mergeCells',{
+					index: merges[i].index,
+					field: 'branchCode',
+					rowspan: merges[i].rowspan,
+					type: 'footer'
+				});
+				$(this).datagrid('mergeCells',{
+					index: merges[i].index,
+					field: 'branchName',
+					rowspan: merges[i].rowspan,
+					type: 'footer'
 				});
 			}
         }       
@@ -169,6 +187,9 @@ function queryForm(){
 	    $_jxc.alert("请选择店铺名称");
 	    return;
 	 } 
+	//搜索需要将左侧查询条件清除
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var fromObjStr = $('#queryForm').serializeObject();
 	if($('#isShowZero').is(':checked')) {
 		var isShowZero = $("#isShowZero").val();

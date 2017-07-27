@@ -236,11 +236,29 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 		RespJson resp;
 		try {
 			ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
+			
 			// 验证商品
 			List<String> skuIds = new ArrayList<String>();
 			List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
+			
+			//不是引用订单收货，需要验证
+			if(StringUtils.isNotBlank(formVo.getRefFormNo())){
+				skuIds = new ArrayList<String>();
+				if(CollectionUtils.isNotEmpty(detailList)){
+				    for (PurchaseFormDetailVo detailVo : detailList) {
+				        skuIds.add(detailVo.getSkuId());
+				    }
+				}
+				//RespJson resp = saveValid(skuIds,formVo.getBranchId());
+				resp = validReceiptItem(skuIds, formVo.getRefFormId());
+				if(!resp.isSuccess()){
+					return resp;
+				}
+			}
+			
 			// 处理结果
 			StringBuilder sb = new StringBuilder();
+			skuIds = new ArrayList<String>();
 			for (PurchaseFormDetailVo detailVo : detailList) {
 				skuIds.add(detailVo.getSkuId());
 				// 非赠送，单价为0
@@ -268,6 +286,11 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 			form.setFormType(FormType.PM);
 			form.setFormNo(formNo);
 			form.setIo(1);
+			
+			String refFormNo = formVo.getRefFormNo();
+			if (StringUtils.isNotBlank(refFormNo)) {// 设置引用单据类型
+				form.setRefFormNoType(refFormNo.substring(0, 2));
+			}
 			// 前端设置
 			// branchId、supplierId、totalNum、amount、salesmanId、remark
 
@@ -312,6 +335,40 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 		}
 		return resp;
 	}
+	
+	public RespJson validReceiptItem(List<String> skuIds, String formId) {
+        List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetailById(formId);
+        
+		PurchaseForm refForm = purchaseFormServiceApi.get(formId);
+		if (refForm == null) {
+			return RespJson.businessError("引用采购订单不存在！");
+		}
+
+		// 已经被引用
+		if (refForm.getIsRef() != null && refForm.getIsRef().intValue() == 1) {
+			return RespJson.businessError("引用的采购订单已经被引用！");
+		}
+        
+		// 已终止状态
+		if(refForm.getDealStatus().intValue()==3){
+			return RespJson.businessError("引用的采购订单是已终止状态！");
+		}
+		
+        if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() > list.size()) || CollectionUtils.isEmpty(list)) {
+            return RespJson.businessError("已选采购单号，不允许添加其他商品");
+        }
+        Map<String, PurchaseFormDetailPO> tempMap = new HashMap<String, PurchaseFormDetailPO>();
+        for (PurchaseFormDetailPO pdPo : list) {
+            tempMap.put(pdPo.getSkuId(), pdPo);
+        }
+        for (String skuId : skuIds) {
+            PurchaseFormDetailPO pdPo = tempMap.get(skuId);
+            if (pdPo == null) {
+                return RespJson.businessError("已选采购单号，不允许添加其他商品");
+            }
+        }
+        return RespJson.success();
+    }
 
 	/**
 	 * 

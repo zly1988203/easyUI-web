@@ -12,7 +12,7 @@
 <body class="ub ub-ver uw uh ufs-14 uc-black">
 	<input type='hidden' id="directStatus" value="${form.status}">
 	<input type='hidden' id="cascadeGoods" name="cascadeGoods" value="${cascadeGoods}">
-	<input type='hidden' id="isAllowPmRefPa" name="isAllowPmRefPa" value="${isAllowPmRefPa}">
+	<input type='hidden' id="isAllowPmRefPa" name="isAllowPmRefPa" value="-1">
 	
 	  <div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
@@ -31,10 +31,10 @@
 						<div class="ubtns-item uinp-no-more event-none pmreBtn">审核</div>
 					</c:if>
 				</shiro:hasPermission>
-				<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="selectGoods()">商品选择</div>
+				<div class="ubtns-item  pmreBtn" onClick="selectGoods()">商品选择</div>
 				<shiro:hasPermission name="JxcDirectReceipt:import">
-					<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="importDirectForm(0)">导入货号</div>
-					<div class="ubtns-item uinp-no-more event-none pmreBtn" onClick="importDirectForm(1)">导入条码</div>
+					<div class="ubtns-item  pmreBtn" onClick="importDirectForm(0)">导入货号</div>
+					<div class="ubtns-item  pmreBtn" onClick="importDirectForm(1)">导入条码</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="JxcDirectReceipt:delete">
 					<div class="ubtns-item" onclick="directDelete()">删单</div>
@@ -62,12 +62,11 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">采购订单:</div>
-					<input id="refFormNo" class="uinp" readonly="readonly" type="text" value="${form.formNo}" >
+					<input id="refFormNo" class="uinp" readonly="readonly" type="text" value="${form.refFormNo}" >
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">付款期限:</div>
-					<input id="paymentTime" class="Wdate" type="text" value="${form.paymentTimeStr }"
-						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+					<input id="paymentTime" class="Wdate" type="text" value="${form.paymentTimeStr}" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">制单人员:</div>
@@ -83,6 +82,7 @@
 					<div class="umar-r10 uw-60 ut-r">收货机构:</div>
 					<input class="uinp" name="branchId" id="branchId" type="hidden" value="${form.branchId}"> 
 					<input id="branchName" class="uinp" value="[${form.branchCode}]${form.branchName}" readonly="readonly" type="text">
+					<div class="uinp-more">...</div>
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">采购员:</div>
@@ -103,6 +103,7 @@
 					<div class="umar-r10 uw-60 ut-r">供应商:</div>
 					<input class="uinp" name="supplierId" id="supplierId" type="hidden" value="${form.supplierId}"> 
 					<input class="uinp" id="supplierName" value="[${form.supplierCode}]${form.supplierName}" type="text" readonly="readonly">
+					<div class="uinp-more">...</div>
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">经营方式:</div>

@@ -23,6 +23,8 @@
 	                <div class="ubtns-item" onclick="exportData()">导出</div>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">关闭</div>
+	                 <input type="hidden" id="startCount" name="startCount" />
+				<input type="hidden" id="endCount" name="endCount" />
 	            </div>
 	             <!-- 引入时间选择控件 -->
 	           <div class="ub ub-ac">
@@ -36,12 +38,14 @@
 			        <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 			        <input class="uinp" type="hidden" id="branchId" name="branchId">
 			        <input class="uinp" type="text" id="branchName" name="branchName">
+			        <input class="uinp" type="hidden" id="branchCompleCode" name="branchCompleCode">
 			        <div class="uinp-more">...</div>
 			    </div>
 			    <div id="categoryNameDiv" class="ub ub-ac umar-r40">
 			        <div class="umar-r10 uw-70 ut-r">商品类别:</div>
-			        <input type="text" name="categoryCode" id="categoryCode" class="uinp " maxlength="50" />
-			        <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
+			        <input  name="categoryCode" id="categoryCode" class="uinp " maxlength="50" type='hidden'/>
+			        <input type="text" name="categoryName" id="categoryName" class="uinp " maxlength="50"/>
+			        <div class="uinp-more" id="categorySelect">...</div>
 			    </div>
 			    <div id="categoryNameDiv" class="ub ub-ac umar-r40">
 			        <div class="umar-r10 uw-70 ut-r">报表类型:</div>

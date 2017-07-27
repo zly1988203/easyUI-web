@@ -6,6 +6,7 @@ var indexTab = 0;
 var tableIdName = 'deliverFormList';
 var tempURL = '/form/deliverSelect/getDeliverFormList';
 var targetBranchId;
+var branchName;
 $(function(){
 	//开始和结束时间
 	toChangeDatetime(0);
@@ -28,6 +29,27 @@ $(function(){
 		delDivAuditStatus();
 		initDatagridRequireOrdersDO();
     }
+
+    //机构选择初始化 发货机构
+    $('#sourceBranch').branchSelect({
+        onAfterRender:function(data){
+            $("#sourceBranchId").val(data.branchId);
+        }
+
+    });
+
+    //机构选择初始化 收货机构
+    $('#targetBranch').branchSelect({
+        param:{
+            branchId:targetBranchId
+        },
+        onAfterRender:function(data){
+            branchName = data.branchName;
+            $("#targetBranchId").val(data.branchId);
+            //$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName)
+        }
+    });
+
 });
 
 $(document).on('input','#remark',function(){
@@ -216,11 +238,11 @@ function addDeliverForm(){
 function queryForm(){
 	branchName = $("#branchName").val();
 	branchName = branchName.substring(branchName.lastIndexOf(']')+1)
-	if (indexTab === 0) {
-		setQueryDataDOBranbch();
-	} else {
-		setQueryDataDIBranbch();
-	}
+	// if (indexTab === 0) {
+	// 	setQueryDataDOBranbch();
+	// } else {
+	// 	setQueryDataDIBranbch();
+	// }
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
@@ -271,18 +293,6 @@ function delDeliverForm(){
 		    });
 		}
 	});
-}
-
-var branchName;
-/**
- * 发货机构
- */
-function selectBranches(){
-	new publicAgencyService(function(data){
-		//$("#sourceBranchId").val(data.branchesId);
-		//$("#branchName").val(branchName);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',targetBranchId);
 }
 
 //打印
@@ -342,7 +352,7 @@ function loadTabs(){
  * @param id
  */
 function toBtnDisable(addId,delId){
-	$("#"+addId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
+	// $("#"+addId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
 	$("#"+delId).removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
 }
 /**

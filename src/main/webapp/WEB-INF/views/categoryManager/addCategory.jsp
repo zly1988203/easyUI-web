@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
 				<div class="ub upad-4">
 					<div class="ub ub-ac uw-320">
 						<div class="umar-r10 uw-80 ut-r">类别编号:</div>
-						<input id="categoryCode" name="categoryCode" value="" maxlength="3" class="uinp easyui-validatebox" onkeyup="checkInteger(this)">
+						<input id="categoryCode" name="categoryCode" value="" maxlength="3" class="uinp easyui-validatebox" onkeyup="checkNum(this)">
 					</div>
 				</div>
 			</c:if>
