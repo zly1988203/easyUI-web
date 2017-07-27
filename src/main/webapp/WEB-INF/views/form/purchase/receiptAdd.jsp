@@ -9,7 +9,8 @@
 <title>收货单-新增</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/purchase/receiptAdd.js?V=${versionNo}"></script>
+<script
+	src="${ctx}/static/js/views/purchase/receiptAdd.js?V=${versionNo}"></script>
 
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
@@ -29,23 +30,24 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">采购订单:</div>
-					<input id="refFormNo" class="uinp" readonly="readonly" type="text" value="${form.formNo}" onclick="selectPurchaseForm()">
+					<input id="refFormNo" class="uinp" readonly="readonly" type="text"
+						value="${form.formNo}" onclick="selectPurchaseForm()">
 					<div class="uinp-more" onclick="selectPurchaseForm()">...</div>
 				</div>
 				<i class="ub ub-ac uc-red">*</i>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">付款期限:</div>
-					<input id="paymentTime" class="Wdate"  type="text"
+					<input id="paymentTime" class="Wdate" type="text"
 						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
 				</div>
+
 				<div class="ub ub-ac umar-l80">
-					<div class="umar-r10 uw-60 ut-r">制单人员:</div>
-					<div class="utxt"><%=UserUtil.getCurrentUser().getUserName()%></div>
+					<div class="umar-r10 uw-60 ut-r">单据金额:</div>
+					<input class="uinp uw-88" id="amount" type="text"
+						readonly="readonly"
+						value="<fmt:formatNumber value="${form.amount}" pattern="0.00#"/>">
 				</div>
-				<div class="ub ub-ac">
-					<div class="umar-r10 uw-60 ut-r">制单时间:</div>
-					<div class="utxt" id="createTime"></div>
-				</div>
+
 			</div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
@@ -66,14 +68,18 @@
 					<!--onclick="selectOperator()"-->
 					<!--<div class="uinp-more" onclick="selectOperator()">...</div>-->
 				</div>
+
 				<div class="ub ub-ac umar-l80">
-					<div class="umar-r10 uw-60 ut-r">审核人员:</div>
-					<div class="utxt"></div>
+					<div class="umar-r10 uw-60 ut-r">制单人员:</div>
+					<div class="utxt"><%=UserUtil.getCurrentUser().getUserName()%></div>
 				</div>
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-60 ut-r">审核时间:</div>
-					<div class="utxt"></div>
+					<div class="umar-r10 uw-60 ut-r">制单时间:</div>
+					<div class="utxt" id="createTime"></div>
 				</div>
+
+
+
 			</div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac">
@@ -91,10 +97,16 @@
 						data-options="required:true,novalidate:true" readonly="readonly"
 						type="text">
 				</div>
+
 				<div class="ub ub-ac umar-l80">
-					<div class="umar-r10 uw-60 ut-r">单据金额:</div>
-					<input class="uinp uw-88" id="amount" type="text" readonly="readonly" value="<fmt:formatNumber value="${form.amount}" pattern="0.00#"/>">
+					<div class="umar-r10 uw-60 ut-r">审核人员:</div>
+					<div class="utxt"></div>
 				</div>
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-60 ut-r">审核时间:</div>
+					<div class="utxt"></div>
+				</div>
+
 			</div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r80">
@@ -102,7 +114,8 @@
 					<input id="remark" class="uinp" type="text" style="width: 800px">
 				</div>
 			</div>
-		<input name="refFormId" id="refFormId" type="hidden" value="${form.id}">
+			<input name="refFormId" id="refFormId" type="hidden"
+				value="${form.id}">
 		</form>
 		<input class="uinp" name="formId" id="formId" type="hidden"
 			value="${form.id}">
