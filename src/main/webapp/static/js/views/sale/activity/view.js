@@ -105,7 +105,6 @@ function  editstart(selectType){
 		    		 bradenchName = branchName.substring(0,branchName.length - 1);
 		    		 /*$('#branchName').val(branchName);
 		    		 $('#branchIds').val(branchIds);*/
-		    		 debugger;
 		    		 var branchsName =listinfo.branchsName;
 		    		 var branchsFullName =listinfo.branchsFullName;
 		    		 if(branchsName){
