@@ -133,10 +133,10 @@
             </div>
 	         
 	          <div class="ub umar-t8">
+	             <input class="uinp ub ub-f1" name="branchsFullName" type="hidden" id="branchsFullName"  value="${branchsFullName}">                   
 	             <div class="ub  ub-ac uw-384" id="branchComponent">
 	                   <div class="umar-r10 uw-70 ut-r">活动分店:</div>
 	                   <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value="">
-	                   <input class="uinp ub ub-f1" name="branchsFullName" type="hidden" id="branchsFullName"  value="${branchsFullName}">                   
                        <input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" value="" name="branchName">
 	                   <div class="uinp-more" id="selectBranchMore">...</div>
 	             </div>

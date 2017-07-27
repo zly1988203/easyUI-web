@@ -138,12 +138,11 @@
             </div>
 	         
 	          <div class="ub umar-t8">
+                 <input class="uinp ub ub-f1" name="branchsFullName" type="hidden" id="branchsFullName"  value="${obj.branchsFullName}">                   
 	             <div class="ub  ub-ac uw-384" id="branchComponent">
 	                   <div class="umar-r10 uw-70 ut-r">活动分店:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" data-check="true" name="branchIds" value=" ">
                         <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" data-check="true" readonly="readonly" value="${obj.branchsName} name="branchName">
-                        <input class="uinp ub ub-f1" name="branchsFullName" type="hidden" id="branchsFullName"  value="${obj.branchsFullName}">                   
-                        
                    		<div class="uinp-more" id="selectBranch">...</div>
 	             </div>
 	             <i class="ub ub-ac uc-red">*</i>

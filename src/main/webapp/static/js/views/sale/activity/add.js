@@ -43,6 +43,14 @@ function initBranchGroup(){
 			view:'group', //分组
 			formType:'DP'
 		},
+		loadFilter:function(data){
+			if(data && data.length >0 ){
+				data.forEach(function(obj,index){
+					obj.branchIds = obj.branchId;
+				})	
+			}
+			return data;
+		},
 		onAfterRender:function(data){
     		if(data && data.length>0){
     			var ids = [];
