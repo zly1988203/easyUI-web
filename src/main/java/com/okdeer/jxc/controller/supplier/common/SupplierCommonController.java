@@ -25,6 +25,7 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.supplier.entity.Supplier;
 import com.okdeer.jxc.supplier.entity.SupplierExt;
+import com.okdeer.jxc.supplier.po.SupplierPo;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
@@ -82,7 +83,7 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 	 */
 	@RequestMapping(value = "getComponentList", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<Supplier> getComponentList(
+	public PageUtils<SupplierPo> getComponentList(
 			SupplierQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
@@ -111,7 +112,7 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 			//公共组件默认带出总部的供应商
 			qo.setDataType(1);
 			LOG.debug("vo:" + qo.toString());
-			PageUtils<Supplier> suppliers = supplierService.queryLists(qo);
+			PageUtils<SupplierPo> suppliers = supplierService.queryLists(qo);
 			LOG.debug("page" + suppliers.toString());
 			return suppliers;
 		} catch (Exception e) {

@@ -776,7 +776,7 @@ function selectPurchaseForm(){
 		});
         
         
-	});
+	}, 0);
 }
 //返回列表页面
 function back(){

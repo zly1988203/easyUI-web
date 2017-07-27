@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
+import com.okdeer.jxc.branch.vo.BranchSpecVo;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -51,6 +54,9 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 	@Reference(version = "1.0.0", check = false)
 	private PurchaseFormServiceApi purchaseFormServiceApi;
 	
+	@Reference(version = "1.0.0", check = false)
+	private BranchSpecServiceApi branchSpecService;
+	
 	/**
 	 * @Description: 选择页面
 	 * @return   
@@ -60,8 +66,9 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 	 * @date 2016年8月6日
 	 */
 	@RequestMapping(value = "view")
-	public String view(String type, Model model) {
+	public String view(String type, Integer isAllowRefOverdueForm, Model model) {
 		model.addAttribute("type", type);
+		model.addAttribute("isAllowRefOverdueForm", isAllowRefOverdueForm);
 		return "component/publicForm";
 	}
 
@@ -106,6 +113,15 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 				vo.setSupplierName(supplierName);
 			}
 			
+			// 采购订单，不是总部，则需要判断是否需要过期的采购订单
+			if (vo.getIsAllowRefOverdueForm() != null
+					&& !BranchTypeEnum.HEAD_QUARTERS.getCode().equals(super.getCurrBranchType())) {
+				BranchSpecVo branchSpec = branchSpecService.queryByBranchId(super.getCurrBranchId());
+				vo.setIsAllowRefOverdueForm(branchSpec.getIsAllowRefOverdueForm());
+			}else{
+				vo.setIsAllowRefOverdueForm(null);
+			}
+
 			/**
 			 * update by xiaoj02 2016-9-7 end
 			 */

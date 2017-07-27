@@ -43,7 +43,7 @@ import com.okdeer.jxc.goods.service.GoodsBarcodeService;
 import com.okdeer.jxc.goods.service.GoodsBrandServiceApi;
 import com.okdeer.jxc.goods.service.GoodsSkuServiceApi;
 import com.okdeer.jxc.goods.vo.GoodsSkuVo;
-import com.okdeer.jxc.supplier.entity.Supplier;
+import com.okdeer.jxc.supplier.po.SupplierPo;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
@@ -155,7 +155,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		supplier.setBranchId(branchId);
 		supplier.setPageNumber(Constant.ONE);
 		supplier.setPageSize(Constant.ONE);
-		PageUtils<Supplier> suppliers = supplierService.queryLists(supplier);
+		PageUtils<SupplierPo> suppliers = supplierService.queryLists(supplier);
 		model.addAttribute("supplier", suppliers.getList().get(0));
 		
 		// 将计价方式，商品状态，商品类型的枚举放入model中

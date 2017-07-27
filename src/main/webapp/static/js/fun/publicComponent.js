@@ -658,10 +658,13 @@ function publicBranchAreaService(callback) {
 }
 
 //公共组件-单据选择(采购单)
-function publicPurchaseFormService(type,callback){
+function publicPurchaseFormService(type, callback, isAllowRefOverdueForm){
+	if(isAllowRefOverdueForm != 0){
+		isAllowRefOverdueForm = "";
+	}
   //公有属性
   var  dalogTemp = $('<div/>').dialog({
-      href:contextPath + "/form/purchaseSelect/view?type="+type,
+      href:contextPath + "/form/purchaseSelect/view?type="+type+"&isAllowRefOverdueForm="+isAllowRefOverdueForm,
       width:1200,
       height:dialogHeight,
       title:"单据选择",
@@ -2876,7 +2879,8 @@ function publicSuppliersService(param,callback){
 		supplierNameOrsupplierCode:'',
         branchId:'',
         saleWayNot:'',
-        isDirect:''
+        isDirect:'',
+        isAllowPurchase:''
  	}
 	
 	param =  $.extend(_defParam,param);
