@@ -337,8 +337,10 @@
 				</div>
 
 				<div class="ub ub-ac uw-100">
-				<div class="umar-r10 uw-80 ut-r"></div>
-				<label><input id="isShopDisabled" name="isShopDisabled" type="checkbox">门店订货</label>
+					<div class="umar-r10 uw-80 ut-r"></div>
+					<label><input id="isAllowPurchase" name="isAllowPurchase" type="checkbox"
+						<c:if test="${supplier.isAllowPurchase eq 1}">checked="checked"</c:if>
+						<c:if test="${empty supplier}">checked="checked"</c:if>>门店订货</label>
 				</div>
 
 			</div>

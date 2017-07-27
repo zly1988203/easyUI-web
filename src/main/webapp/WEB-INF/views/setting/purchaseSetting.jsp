@@ -66,19 +66,13 @@
 				</div>
 
 				<div class="ub ub-ac upad-16 ">
-				<div class="ub uw-220 ut-r">采购收货允许引用过去采购订单：</div>
-				<div class="ub uw-110 ub-ac umar-r10">
-				<label>
-				<input type="radio" id="isAllow0" name="isAllow" value="0" /><span for="isAllow0">不启用</span>
-				</label>
-
-				</div>
-				<div class="ub uw-110 ub-ac umar-r10">
-				<label>
-				<input type="radio" id="isAllow1" name="isAllow" value="1" checked="checked"/><span for="isAllow1">启用</span>
-				</label>
-
-				</div>
+					<div class="ub uw-220 ut-r">采购收货允许引用过去采购订单：</div>
+					<div class="ub uw-110 ub-ac umar-r10">
+						<label><input type="radio" id="isAllowRefOverdueForm0" name="isAllowRefOverdueForm" value="0" /><span>不启用</span></label>
+					</div>
+					<div class="ub uw-110 ub-ac umar-r10">
+						<label><input type="radio" id="isAllowRefOverdueForm1" name="isAllowRefOverdueForm" value="1" checked="checked"/><span>启用</span></label>
+					</div>
 				</div>
 			</form>
 		</div>
@@ -128,6 +122,7 @@
 		var isSupplierCascadeGoodsPi = data.isSupplierCascadeGoodsPi;
 		var isSupplierCascadeGoodsPr = data.isSupplierCascadeGoodsPr;
 		var isSupplierCascadeGoodsPm = data.isSupplierCascadeGoodsPm;
+		var isAllowRefOverdueForm = data.isAllowRefOverdueForm;
 		
 		//页面赋值
 		$("#branchId").val(branchId);
@@ -152,6 +147,13 @@
 		//直送收货
 		if(isSupplierCascadeGoodsPm == 1){
 			$("#isSupplierCascadeGoodsPm").attr("checked","true");
+		}
+		
+		//采购设置：允许采购收货引用过期采购订单：0否，1是
+		if(isAllowRefOverdueForm == 1){
+			$("#isAllowRefOverdueForm1").attr("checked","true");
+		}else{
+			$("#isAllowRefOverdueForm0").attr("checked","true");
 		}
 		
 		changeIsSupplierCascadeGoods();
