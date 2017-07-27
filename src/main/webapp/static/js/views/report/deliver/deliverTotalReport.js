@@ -526,7 +526,7 @@ function exportExcel(){
 	// 去除编码
     // formData.branchName = formData.branchName.substring(formData.branchName.lastIndexOf(']')+1);
     formData.categoryCode = formData.categoryCode.substring(formData.categoryCode.lastIndexOf(']')+1);
-    $('#branchName').val(formData.branchName);
+    // $('#branchName').val(formData.branchName);
     $('#categoryCode').val(formData.categoryCode);
 	$("#queryForm").form({
 		success : function(data){
