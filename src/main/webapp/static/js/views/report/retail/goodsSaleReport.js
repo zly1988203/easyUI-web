@@ -43,6 +43,7 @@ function initDatagridRequire(){
               {field:'skuCode',title: '货号', width: '55px', align: 'left'},
 			{field: 'skuName', title: '商品名称', width: '185px', align: 'left'},
 			{field: 'barCode', title: '条码', width: '100px', align: 'left'},
+            {field: 'supplierName', title: '供应商', width: '180px', align: 'left'},
 //            {field: 'costPrice', title: '成本价', width: '80px', align: 'right',
 //            	formatter:function(value,row,index){
 //            		 if(row.isFooter){

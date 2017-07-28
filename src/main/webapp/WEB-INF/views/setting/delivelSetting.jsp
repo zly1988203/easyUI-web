@@ -21,7 +21,7 @@
 		</div>
 	</div>
 	<div class="ub ub-ver ub-f1 umar-4 ubor upad-10">
-		<div class="ub ub-ver umar-t20">
+		<div class="ub ub-ver">
 			<form id="settingForm" action="${ctx}/branchSetting/save" method="post">
 				<input type="hidden" id="branchId" name="branchId">
 				<input type="hidden" id="dosheetTemplate" name="dosheetTemplate">

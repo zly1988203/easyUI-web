@@ -542,7 +542,10 @@ function selectOperator(){
     });
 }
 function selectPurchaseFormService(){
-    new publicPurchaseFormService("PA",function(data){
+    var param = {
+        type:"PA",
+    }
+    new publicPurchaseFormService(param,function(data){
 		//data.Id
 		$("#applyOrderId").val(data.formNo);
 		$("#applyOrderIdNum").val(data.formNo);
