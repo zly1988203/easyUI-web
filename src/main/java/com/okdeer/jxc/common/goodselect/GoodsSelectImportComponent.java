@@ -16,8 +16,6 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +30,8 @@ import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
 import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
+
+import net.sf.json.JSONObject;
 
 
 /**
@@ -268,24 +268,26 @@ public class GoodsSelectImportComponent {
 				for (int i = 0; i < successData.size(); i++) {
 					JSONObject obj = successData.get(i);	
 					String barCode = obj.getString("barCode");
-					for(GoodsSelect goodsSelect : dbList){
-						if(barCode.equals(goodsSelect.getBarCode())||(goodsSelect.getBarCodes()!=null&&goodsSelect.getBarCodes().indexOf(barCode)>=0)){
-							if(importMap.containsKey(goodsSelect.getBarCode())){
+					for (GoodsSelect goodsSelect : dbList) {
+						if (barCode.equals(goodsSelect.getBarCode()) || (goodsSelect.getBarCodes() != null
+								&& goodsSelect.getBarCodes().indexOf(barCode) >= 0)) {
+							if (importMap.containsKey(getKeyWithGift(goodsSelect.getBarCode(), obj))) {
 								obj.element("error", GoodsSelectImportBarCodeHandle.CODE_IS_REPEAT);
-								importMap.get(goodsSelect.getBarCode()).element("error", GoodsSelectImportBarCodeHandle.CODE_IS_REPEAT);
-								dbList1.remove( map.get(goodsSelect.getBarCode()) );
-							}else{
-								importMap.put(goodsSelect.getBarCode(), obj);
-								importMap.put(barCode, obj);
+								importMap.get(getKeyWithGift(goodsSelect.getBarCode(), obj)).element("error",
+										GoodsSelectImportBarCodeHandle.CODE_IS_REPEAT);
+								dbList1.remove(map.get(getKeyWithGift(goodsSelect.getBarCode(), obj)));
+							} else {
+								importMap.put(getKeyWithGift(goodsSelect.getBarCode(), obj), obj);
+								importMap.put(getKeyWithGift(barCode, obj), obj);
 								dbList1.add(goodsSelect);
-								map.put(goodsSelect.getBarCode(), goodsSelect);
-								map.put(barCode, goodsSelect);
-								String[] barCodes=goodsSelect.getBarCodes().split(",");
-								for(int z=0;z<barCodes.length;z++){
-									importMap.put(barCodes[z], obj);
-									map.put(barCodes[z], goodsSelect);
+								map.put(getKeyWithGift(goodsSelect.getBarCode(), obj), goodsSelect);
+								map.put(getKeyWithGift(barCode, obj), goodsSelect);
+								String[] barCodes = goodsSelect.getBarCodes().split(",");
+								for (int z = 0; z < barCodes.length; z++) {
+									importMap.put(getKeyWithGift(barCodes[z], obj), obj);
+									map.put(getKeyWithGift(barCodes[z], obj), goodsSelect);
 								}
-								
+
 							}
 							break;
 						}
@@ -332,8 +334,8 @@ public class GoodsSelectImportComponent {
 			//错误excel内容
 			String jsonText = JSONArray.toJSON(errorList).toString();
 			//文件key
-			String code = "jxc_goodsSelectImport_" + userId;
-			// 保存10分钟，单用户同时只能保存一个错误文件
+			String code = "jxc_goodsSelectImport_" + errorFileDownloadUrlPrefix + "_" + userId;
+			// 保存10分钟，单用户每个功能同时只能保存一个错误文件
 			redisTemplateTmp.opsForValue().set(code, jsonText, 10, TimeUnit.MINUTES);
 
 			goodsSelectImportVo.setErrorFileUrl(errorFileDownloadUrlPrefix + "?code="+code+"&type="+type);
@@ -343,6 +345,18 @@ public class GoodsSelectImportComponent {
 		}
 
 		return goodsSelectImportVo;
+	}
+	
+	/**
+	 * @Description: 组装包含是否赠品的key
+	 * @param key
+	 * @param obj
+	 * @return
+	 * @author zhengwj
+	 * @date 2017年7月26日
+	 */
+	public static String getKeyWithGift(String key, JSONObject obj) {
+		return key + (obj.containsKey("isGift") ? obj.get("isGift") : "");
 	}
 
 	/**

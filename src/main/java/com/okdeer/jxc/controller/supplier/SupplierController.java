@@ -37,6 +37,7 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.supplier.entity.Supplier;
 import com.okdeer.jxc.supplier.entity.SupplierArea;
 import com.okdeer.jxc.supplier.entity.SupplierExt;
+import com.okdeer.jxc.supplier.po.SupplierPo;
 import com.okdeer.jxc.supplier.qo.SupplierQo;
 import com.okdeer.jxc.supplier.service.SupplierAreaServiceApi;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
@@ -155,6 +156,10 @@ public class SupplierController extends BaseController<SupplierController> {
 		// 将supplier 的信息复制到 supplierExt对象中
 		BeanUtils.copyProperties(supplier, supplierExt);
 		model.addAttribute("supplier", supplierExt);
+		
+		//供应商所在机构
+		Branches branch = branchesService.getBranchInfoById(supplier.getBranchId());
+		model.addAttribute("branch", branch);
 	}
 
 	/**
@@ -208,7 +213,7 @@ public class SupplierController extends BaseController<SupplierController> {
 	 */
 	@RequestMapping(value = "getSupplierList")
 	@ResponseBody
-	public PageUtils<Supplier> getSupplierList(SupplierQo qo,
+	public PageUtils<SupplierPo> getSupplierList(SupplierQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
@@ -366,7 +371,7 @@ public class SupplierController extends BaseController<SupplierController> {
 				qo.setBranchCompleCode(super.getCurrBranchCompleCode());
 			}
 			qo.setBranchId(null);
-			List<Supplier> list = supplierService.getSupplierAll(qo);
+			List<SupplierPo> list = supplierService.getSupplierAll(qo);
 
 			if (CollectionUtils.isNotEmpty(list)) {
 				if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {

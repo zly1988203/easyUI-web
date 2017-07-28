@@ -32,8 +32,8 @@
 					<div class="umar-r10 uw-80 ut-r">所属机构:</div>
 					<input id="branchCodeName" name="branchCodeName"
 						class="uinp uw-200" type="text" readonly="readonly"
-						value="[${branch.branchCode }]${branch.branchName }"> <input
-						id="branchId" name="branchId" type="hidden"
+						value="[${branch.branchCode }]${branch.branchName }">
+					<input id="branchId" name="branchId" type="hidden"
 						value="${supplier.branchId }">
 
 				</div>

@@ -17,10 +17,13 @@ $(function(){
     }
     
     initDatagridEditOrder();
+    
     // 是否自动加载商品
     if($("#cascadeGoods").val() == 'true'){
         queryGoodsList();
     }
+    
+    
 });
 
 //初始化默认条件
@@ -103,6 +106,22 @@ function initDatagridEditOrder(){
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'60px',align:'left'},
             {field:'purchaseSpec',title:'进货规格',width:'90px',align:'left'},
+            {field:'weekSale',title:'周销售量',width:'80px',align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field:'monthSale',title:'月销售量',width:'80px',align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
@@ -765,9 +784,11 @@ function queryGoodsList() {
 //选择供应商
 function selectSupplier(){
 	var param = {
-			saleWayNot:"purchase"
+		saleWayNot:"purchase",
+		isAllowPurchase:1
 	}
-    new publicSupplierService(function(data){
+    new publicSuppliersService(param, function(data){
+    	if('NO' == data)return;
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         if( data.id != $("#supplierId").val() && nowRows.length > 0){
             $_jxc.confirm('修改供应商后会清空明细，是否要修改？',function(r){
@@ -790,7 +811,7 @@ function selectSupplier(){
                 queryGoodsList();
             }
         }
-    },param);
+    });
 }
 function selectOperator(){
     new publicOperatorService(function(data){

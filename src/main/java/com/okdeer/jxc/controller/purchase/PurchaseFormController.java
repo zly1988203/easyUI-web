@@ -1208,6 +1208,12 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			}
 			replaceMap.put("saleWay", SaleWayEnum.getValue(form.getSaleWay()));
 			
+			// 交货期限
+			if (form.getDeliverTime() != null){
+				replaceMap.put("_交货期限", DateUtils.formatDate(form.getDeliverTime(), "yyyy-MM-dd"));
+				replaceMap.put("deliverTime", DateUtils.formatDate(form.getDeliverTime(), "yyyy-MM-dd"));
+			}
+			
 			/**
 			 * added by zhangqin on 2016-12-01 14:36 end
 			 */
