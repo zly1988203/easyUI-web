@@ -102,10 +102,10 @@ public class PeriodSaleContrastController extends BaseController<PeriodSaleContr
 			String[] headers = { "项目/时段", "", "月均销售", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月",
 					"12月", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" };
 
-			String[] columns = new String[] { "bizType", "classesStr", "avgSale", "lastOne", "lastTwo", "lastThree",
+			String[] columns = new String[] { "bizType", "classesStr", "avgSale", "thisOne", "thisTwo", "thisThree", "thisFour", "thisFive", "thisSix", "thisSeven",
+					"thisEight", "thisNine", "thisTen", "thisEleven", "thisTwelve", "lastOne", "lastTwo", "lastThree",
 					"lastFour", "lastFive", "lastSix", "lastSeven", "lastEight", "lastNine", "lastTen", "lastEleven",
-					"lastTwelve", "thisOne", "thisTwo", "thisThree", "thisFour", "thisFive", "thisSix", "thisSeven",
-					"thisEight", "thisNine", "thisTen", "thisEleven", "thisTwelve" };
+					"lastTwelve" };
 
 			List<JSONObject> jsonList = new ArrayList<JSONObject>();
 			for (PeriodSaleContrastResult data : list) {
@@ -113,18 +113,6 @@ public class PeriodSaleContrastController extends BaseController<PeriodSaleContr
 				jsonObject.put("bizType", data.getBizType());
 				jsonObject.put("classesStr", data.getClassesStr());
 				jsonObject.put("avgSale", data.getAvgSale());
-				jsonObject.put("lastOne", data.getLastOne());
-				jsonObject.put("lastTwo", data.getLastTwo());
-				jsonObject.put("lastThree", data.getLastThree());
-				jsonObject.put("lastFour", data.getLastFour());
-				jsonObject.put("lastFive", data.getLastFive());
-				jsonObject.put("lastSix", data.getLastSix());
-				jsonObject.put("lastSeven", data.getLastSeven());
-				jsonObject.put("lastEight", data.getLastEight());
-				jsonObject.put("lastNine", data.getLastNine());
-				jsonObject.put("lastTen", data.getLastTen());
-				jsonObject.put("lastEleven", data.getLastEleven());
-				jsonObject.put("lastTwelve", data.getLastTwelve());
 				jsonObject.put("thisOne", data.getThisOne());
 				jsonObject.put("thisTwo", data.getThisTwo());
 				jsonObject.put("thisThree", data.getThisThree());
@@ -137,6 +125,18 @@ public class PeriodSaleContrastController extends BaseController<PeriodSaleContr
 				jsonObject.put("thisTen", data.getThisTen());
 				jsonObject.put("thisEleven", data.getThisEleven());
 				jsonObject.put("thisTwelve", data.getThisTwelve());
+				jsonObject.put("lastOne", data.getLastOne());
+				jsonObject.put("lastTwo", data.getLastTwo());
+				jsonObject.put("lastThree", data.getLastThree());
+				jsonObject.put("lastFour", data.getLastFour());
+				jsonObject.put("lastFive", data.getLastFive());
+				jsonObject.put("lastSix", data.getLastSix());
+				jsonObject.put("lastSeven", data.getLastSeven());
+				jsonObject.put("lastEight", data.getLastEight());
+				jsonObject.put("lastNine", data.getLastNine());
+				jsonObject.put("lastTen", data.getLastTen());
+				jsonObject.put("lastEleven", data.getLastEleven());
+				jsonObject.put("lastTwelve", data.getLastTwelve());
 				jsonList.add(jsonObject);
 			}
 
