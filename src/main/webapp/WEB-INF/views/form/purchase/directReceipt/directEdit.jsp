@@ -63,6 +63,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">采购订单:</div>
 					<input id="refFormNo" class="uinp" readonly="readonly" type="text" value="${form.refFormNo}" >
+					<input id="refFormId" name="" type="hidden" value="${form.refFormId}" >
 				</div>
 				<div class="ub ub-ac umar-l80">
 					<div class="umar-r10 uw-60 ut-r">付款期限:</div>

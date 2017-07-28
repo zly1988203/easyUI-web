@@ -12,7 +12,7 @@
 	<input type='hidden' id="cascadeGoods" name="cascadeGoods" value="${cascadeGoods}">
 	<!-- 允许直送收货单不引用单据收货：0.否，1.是 ${isAllowPmRefPa} -->
 	<input type='hidden' id="isAllowPmRefPa" name="isAllowPmRefPa" value="-1">
-	<input type="hidden" id="formId"  name="formId" value="${form.id}">
+	<input type="hidden" id="formId"  name="formId" value="">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
@@ -48,6 +48,7 @@
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-60 ut-r">采购订单:</div>
 					<input id="refFormNo" class="uinp" readonly="readonly" type="text" value="${form.formNo}" onclick="selectPurchaseForm()">
+					<input type="hidden" id="refFormId"  name="refFormId" value="${form.id}">
 					<div class="uinp-more" onclick="selectPurchaseForm()">...</div>
 				</div>
 				<div class="ub ub-ac umar-l80">
