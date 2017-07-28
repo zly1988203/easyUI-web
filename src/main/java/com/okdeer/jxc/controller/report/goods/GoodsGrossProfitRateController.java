@@ -21,6 +21,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.retail.common.page.PageUtils;
 import com.okdeer.retail.facade.report.entity.GoodsGrossProfitRate;
@@ -73,18 +74,24 @@ public class GoodsGrossProfitRateController extends BaseController<GoodsGrossPro
 	@RequestMapping("/list")
 	@ResponseBody
 	public PageUtils<GoodsGrossProfitRate> list(GoodsGrossProfitRateQo qo,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
-			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int rows,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int page) {
 		LOG.info("GoodsGrossProfitRateController.list start....");
 		LOG.debug("商品毛利率报表查询条件：{}", qo);
 		try {
-			qo.setPageNum(pageNumber);
-			qo.setPageSize(pageSize);
-			PageUtils<GoodsGrossProfitRate> page = goodsGrossProfitRateFacade.queryGoodsGrossProfitRateList(qo);
+			if (StringUtils.isEmpty(qo.getBranchId())) {
+				qo.setBranchId(this.getCurrBranchId());
+			}
+			if (qo.getType() == null) {
+				qo.setType(this.getCurrBranchType());
+			}
+			qo.setPageNum(rows);
+			qo.setPageSize(page);
+			PageUtils<GoodsGrossProfitRate> pages = goodsGrossProfitRateFacade.queryGoodsGrossProfitRateList(qo);
 			// 过滤数据权限字段
-            cleanAccessData(page);
-			LOG.debug("商品毛利率报表查询结果：{}", page);
-			return page;
+			cleanAccessData(page);
+			LOG.debug("商品毛利率报表查询结果：{}", pages);
+			return pages;
 		} catch (Exception e) {
 			LOG.error("统计商品毛利数据错误：{}", e);
 		}
@@ -97,9 +104,15 @@ public class GoodsGrossProfitRateController extends BaseController<GoodsGrossPro
 
 		LOG.info("GoodsGrossProfitRateController.exportList start....");
 		try {
+			if (StringUtils.isEmpty(qo.getBranchId())) {
+				qo.setBranchId(this.getCurrBranchId());
+			}
+			if (qo.getType() == null) {
+				qo.setType(this.getCurrBranchType());
+			}
 			List<GoodsGrossProfitRate> list = goodsGrossProfitRateFacade.queryGoodsGrossProfitRateExportList(qo);
 			// 过滤数据权限字段
-            cleanAccessData(list);
+			cleanAccessData(list);
 
 			if (CollectionUtils.isNotEmpty(list)) {
 				String fileName = "商品毛利率报表" + "_" + DateUtils.getCurrSmallStr();
