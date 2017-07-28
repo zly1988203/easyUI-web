@@ -89,13 +89,13 @@
 					<input class="uinp" name="salesmanId" id="salesmanId" type="hidden">
 					<input class="uinp " id="salesmanName" name="salesmanName" value="${form.salesmanName }" type="text" readonly="readonly">
 				</div>
-				<div class="ub ub-ac umar-l80">
-					<div class="umar-r10 uw-60 ut-r">审核人员:</div>
-					<div class="utxt">${form.validUserName }</div>
+				<div class="ub ub-ac umar-l60">
+					<div class="umar-r10 uw-80 ut-r">最后修改人:</div>
+					<div class="utxt">${form.updateUserName }</div>
 				</div>
 				<div class="ub ub-ac">
-					<div class="umar-r10 uw-60 ut-r">审核时间:</div>
-					<div class="utxt">${form.validTimeStr }</div>
+					<div class="umar-r10 uw-60 ut-r">修改时间:</div>
+					<div class="utxt"><fmt:formatDate value="${form.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
 				</div>
 			</div>
 			<div class="ub umar-t8">
@@ -109,6 +109,14 @@
 					<div class="umar-r10 uw-60 ut-r">经营方式:</div>
 					<input id="saleWay" class="uinp" type="hidden"> 
 					<input id="saleWayName" class="uinp" value="${form.saleWayStr }" readonly="readonly" type="text">
+				</div>
+				<div class="ub ub-ac umar-l80">
+					<div class="umar-r10 uw-60 ut-r">审核人员:</div>
+					<div class="utxt">${form.validUserName }</div>
+				</div>
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-60 ut-r">审核时间:</div>
+					<div class="utxt">${form.validTimeStr }</div>
 				</div>
 			</div>
 			<div class="ub umar-t8">

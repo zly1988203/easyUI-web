@@ -33,12 +33,12 @@
             </div>
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
-			    <div class="ub ub-ac umar-l4">
+			    <div class="ub ub-ac umar-l4" id="branchSelectCom">
 			        <div class="umar-r10 ut-r">机构:</div>
 			        <input class="uinp" type="hidden" id="branchId" name="branchId">
 			        <input class="uinp" type="hidden" id="branchCompleCode" name="branchCompleCode">
-			        <input class="uinp" type="text" id="branchName" name="branchName" readonly="readonly" onclick="searchBranch()">
-			        <div class="uinp-more" id="branchSelect" onclick="searchBranch()">...</div>
+			        <input class="uinp" type="text" id="branchName" name="branchName" readonly="readonly" >
+			        <div class="uinp-more" id="branchSelect" >...</div>
 			    </div>
 			    <div class="ub ub-ac umar-l30">
 			        <div class="umar-r10 uw-80 ut-r">活动编码:</div>

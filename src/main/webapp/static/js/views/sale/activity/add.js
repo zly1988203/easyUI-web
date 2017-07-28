@@ -52,6 +52,7 @@ function initBranchGroup(){
 			return data;
 		},
 		onAfterRender:function(data){
+			$('#branchName').attr('title',$('#branchName').val());
     		if(data && data.length>0){
     			var ids = [];
     			data.forEach(function(obj,inx){
@@ -66,7 +67,7 @@ function initBranchGroup(){
     			//拉取分组详细
     			publicGetBranchGroupDetail(param,function(result){
     				$('#branchIds').val(result&&result.branchId);
-    				$('#branchsName').attr('title',result&&result.branchName);
+    				$('#branchName').attr('title',result&&result.branchName);
     				$('#branchsFullName').val(result&&result.branchName);
     			})
     		}

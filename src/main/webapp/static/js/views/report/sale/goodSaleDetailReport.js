@@ -42,9 +42,9 @@ function initGoodsTotalAnalysiGrid() {
         showFooter:true,
         height:'100%',
         frozenColumns:[[
-            {field: 'branchCode', title: '机构编码', width:120, align: 'left'},
-            {field: 'branchName', title: '机构名称', width:120, align: 'left'},
-            {field: 'orderNo', title: '单据编号', width:150, align: 'left'}
+			{field: 'branchCode', title: '机构编码', width:120, align: 'left'},
+			{field: 'branchName', title: '机构名称', width:120, align: 'left'},
+			{field: 'orderNo', title: '单据编号', width:150, align: 'left'}
         ]],
         columns: [[
            {field: 'time', title: '完成时间', width:150, align: 'left',
@@ -58,7 +58,7 @@ function initGoodsTotalAnalysiGrid() {
            },   
            {field: 'skuCode', title: '货号', width:120, align: 'left'},
            {field: 'skuName', title: '商品名称', width:120, align: 'left'},
-           {field: 'skuCode', title: '商品条码', width:120, align: 'left'},
+           {field: 'barCode', title: '商品条码', width:120, align: 'left'},
            {field: 'spec', title: '规格', width:65, align: 'left'},
            {field: 'unit', title: '单位', width:65, align: 'left'},
            {field: 'categoryCode', title: '类别编码', width:120, align: 'left'},
@@ -121,9 +121,9 @@ function initGoodsTotalAnalysiGrid() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'cashier', title: '收银员', width:120, align: 'left'},
+            {field: 'cashier', title: '收银员', width:80, align: 'left'},
             {field: 'orderTypeStr', title: '订单类型', width:80, align: 'left'},
-            {field: 'ticketNo', title: '小票号', width:80, align: 'right'}
+            {field: 'ticketNo', title: '小票号', width:180, align: 'left'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
