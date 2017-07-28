@@ -73,21 +73,28 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
         }else{
             vo.setBranchCode(vo.getBranchCompleCode());
         }
-        if (StringUtils.isNotBlank(vo.getStartTime())) {
-            PageUtils<SupplierSell> pageUtils = supplierStockFacade.getSupplierSells(vo);
+        try {
+            if (StringUtils.isNotBlank(vo.getStartTime())) {
+                PageUtils<SupplierSell> pageUtils = supplierStockFacade.getSupplierSells(vo);
 
-            if(pageUtils!=null){
-                SupplierSell reportVo = supplierStockFacade.sumSupplierSells(vo);
-                if(reportVo!=null){
-                    reportVo.setSupplierCode("SUM");
-                    pageUtils.setFooter(new ArrayList<SupplierSell>(Arrays.asList(reportVo)));
-                }else{
-                    pageUtils.setFooter(new ArrayList<SupplierSell>());
-               }
-                // 过滤数据权限字段
-                cleanAccessData(pageUtils);
-                return pageUtils;
+                if (pageUtils != null) {
+                    SupplierSell reportVo = supplierStockFacade.sumSupplierSells(vo);
+                    if (reportVo != null) {
+                        reportVo.setSupplierCode("SUM");
+                        pageUtils.setFooter(new ArrayList<SupplierSell>(Arrays.asList(reportVo)));
+                    } else {
+                        pageUtils.setFooter(new ArrayList<SupplierSell>());
+                    }
+                    // 过滤数据权限字段
+                    cleanAccessData(pageUtils);
+                    return pageUtils;
+                }
             }
+        }catch (Exception e){
+            LOG.error("查询供应商销售报表异常!",e);
+            PageUtils<SupplierSell> pageUtils = PageUtils.emptyPage();
+            pageUtils.setFooter(new ArrayList<SupplierSell>());
+            return pageUtils;
         }
         return PageUtils.emptyPage();
     }
