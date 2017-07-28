@@ -48,16 +48,12 @@ $(function(){
 function changeBtnStatus(){
 	var _index = getTabIndex();
 	if(_index == 0){
-		$('#addBtn').removeClass('ubtns-item').addClass('ubtns-item-disabled event-none');
-		$('#delBtn').removeClass('ubtns-item').addClass('ubtns-item-disabled event-none');
-		$('#printBtn').removeClass('ubtns-item-disabled event-none').addClass('ubtns-item');
+		$('.preBtn').removeClass('ubtns-item').addClass('ubtns-item-disabled event-none');
 		
 		$('#refFormNoDiv').addClass('unhide');
 		$('#radioItemDiv').addClass('unhide');
 	}else if(_index == 1){
-		$('#addBtn').addClass('ubtns-item').removeClass('ubtns-item-disabled event-none');
-		$('#delBtn').addClass('ubtns-item').removeClass('ubtns-item-disabled event-none');
-		$('#printBtn').addClass('ubtns-item-disabled event-none').removeClass('ubtns-item');
+		$('.preBtn').addClass('ubtns-item').removeClass('ubtns-item-disabled event-none');
 		
 		$('#refFormNoDiv').removeClass('unhide');
 		$('#radioItemDiv').removeClass('unhide');
