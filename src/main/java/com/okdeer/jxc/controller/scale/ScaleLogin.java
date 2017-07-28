@@ -90,6 +90,7 @@ public class ScaleLogin extends BaseController<T> {
 			if (null == sysUser) {
 				msg.setSuccess(Message.FAIT);
 				msg.setMessage("非零售系统用户不允许登录");
+				return msg.toString();
 				/*sysUser = new SysUser();
 				PropertyUtils.copyProperties(sysUser, caUser);
 				sysUser.setUserCode(caUser.getLoginName());
