@@ -22,6 +22,7 @@ import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.GoodsSaleReportServiceApi;
 import com.okdeer.jxc.report.vo.GoodsSaleReportVo;
@@ -75,6 +76,7 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setBranchCompleCode(getCurrBranchCompleCode());
+			buildParam(vo);
 			PageUtils<GoodsSaleReportVo> goodsSaleReportList = goodsSaleReportServiceApi.getGoodsSaleList(vo);
 			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
 			List<GoodsSaleReportVo> footer = new ArrayList<GoodsSaleReportVo>();
@@ -91,6 +93,21 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 		}
 		return null;
 	}
+
+	/**
+	 * @Description: 构建查询参数
+	 * @param vo
+	 * @author zhengwj
+	 * @date 2017年7月26日
+	 */
+	private void buildParam(GoodsSaleReportVo vo) {
+		if (StringUtils.isNotBlank(vo.getSupplierId())) {
+			vo.setSupplierName(null);
+		} else if (StringUtils.isNotBlank(vo.getSupplierName()) && vo.getSupplierName().indexOf("]") > 0) {
+			vo.setSupplierName(vo.getSupplierName().substring(vo.getSupplierName().indexOf("]") + 1));
+		}
+	}
+	
 	/**
 	 * 
 	 * @Description: 导出
@@ -106,6 +123,7 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 		RespJson resp = RespJson.success();
 		try {
 			vo.setBranchCompleCode(getCurrBranchCompleCode());
+			buildParam(vo);
 			List<GoodsSaleReportVo> exportList = goodsSaleReportServiceApi.exportList(vo);
 			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
 			goodsSaleReportVo.setBranchName("合计：");

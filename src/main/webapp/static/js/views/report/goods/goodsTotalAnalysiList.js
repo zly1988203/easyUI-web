@@ -299,7 +299,8 @@ function initGoodsTotalAnalysiGrid() {
                     }
                     return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
                 }
-            }
+            },
+	        {field: 'supplierName', title: '供应商', width:80, align: 'left'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
