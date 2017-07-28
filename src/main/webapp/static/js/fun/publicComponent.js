@@ -657,14 +657,26 @@ function publicBranchAreaService(callback) {
     //});
 }
 
+
+
 //公共组件-单据选择(采购单)
-function publicPurchaseFormService(type, callback, isAllowRefOverdueForm){
-	if(isAllowRefOverdueForm != 0){
-		isAllowRefOverdueForm = "";
-	}
+/*   type PA PI PR
+* param {
+*   type 单据类型
+*   isAllowRefOverdueForm 是否去判断引用过期采购订单
+* }
+*
+* */
+function publicPurchaseFormService(param, callback){
+    var tempParam = {
+        type:"PA",
+        isAllowRefOverdueForm:""
+    }
+    param = $.extend(tempParam,param)
+
   //公有属性
   var  dalogTemp = $('<div/>').dialog({
-      href:contextPath + "/form/purchaseSelect/view?type="+type+"&isAllowRefOverdueForm="+isAllowRefOverdueForm,
+      href:contextPath + "/form/purchaseSelect/view?type="+param.type+"&isAllowRefOverdueForm="+param.isAllowRefOverdueForm,
       width:1200,
       height:dialogHeight,
       title:"单据选择",
@@ -683,12 +695,8 @@ function publicPurchaseFormService(type, callback, isAllowRefOverdueForm){
       callback(data);
       $(dalogTemp).panel('destroy');
   }
-  //调用方法  type PA PI PR
- /* new publicPurchaseFormService(type,function(data){
-		//data.Id
-		$("#createUserId").val(data.id);
-		$("#createUserName").val(data.userName);
-	});*/
+
+
 }
 
 

@@ -825,7 +825,11 @@ function selectForm(){
 	//引用单据类型
 	var refFormNoType = $(':radio[name=refFormNoType]:checked').val();
 	if(refFormNoType == 'PI'){
-		new publicPurchaseFormService("PI",function(data){
+        var param = {
+            type:"PI",
+        }
+
+		new publicPurchaseFormService(param,function(data){
 			$("#refFormNo").val(data.form.formNo);
 			//根据选择的采购单，带出采购单的信息
 	        var keyNames = {

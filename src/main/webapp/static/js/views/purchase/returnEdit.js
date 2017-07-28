@@ -779,7 +779,11 @@ function selectForm(){
 	//引用单据类型
 	var refFormNoType = $(':radio[name=refFormNoType]:checked').val();
 	if(refFormNoType == 'PI'){
-		new publicPurchaseFormService("PI",function(data){
+        var param = {
+            type:"PI",
+            isAllowRefOverdueForm:0
+        }
+		new publicPurchaseFormService(param,function(data){
 			$("#refFormNo").val(data.formNo);
             //根据选择的收货单，带出收货单的信息
             var keyNames = {
