@@ -76,6 +76,8 @@ function checktype(value){
             $('#skuCode').removeProp("readonly","readonly");
             $('#skuCode').removeClass('uinp-no-more');
 		}else if(value == '2'){
+            $("#sourceBranchName").removeAttr("readonly");
+            $('#sourceBranchName').removeClass('uinp-no-more');
             $('#formNo').removeClass('uinp-no-more');
             $('#formNo').removeAttr("readonly");
             $('#categoryName').attr("readonly","readonly");
