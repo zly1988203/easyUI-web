@@ -30,6 +30,7 @@ function initDeliverFormCallBack(cb){
 function formCx(){
 	var formNo=$("#formNo").val();
 	var type = $("#type").val();
+	var isAllowRefOverdueForm = $("#isAllowRefOverdueForm").val() || "";
     var targetBranchId = $('#targetBranchId').val();
 	if($("#type").val()=='DA'||$("#type").val()=='DO'||$("#type").val()=='DI'||$("#type").val()=='DY'||$("#type").val()=='DR'){
 		var endTime=$("#popupSearchDateTime").val();
@@ -37,7 +38,7 @@ function formCx(){
 		$("#gridForm").datagrid("options").queryParams = {formNo:formNo,endTime:endTime,formType:type,targetBranchId:targetBranchId};
 		$("#gridForm").datagrid("options").url = contextPath+'/form/deliverSelect/getDeliverFormList';
 	}else{
-		  $("#gridForm").datagrid("options").queryParams = {formNo:formNo,formType:type};
+		  $("#gridForm").datagrid("options").queryParams = {formNo:formNo,formType:type, isAllowRefOverdueForm:isAllowRefOverdueForm};
 		  $("#gridForm").datagrid("options").url = contextPath+'/form/purchaseSelect/getPurchaseFormList';
 	}
     $("#gridForm").datagrid("options").method = "post";

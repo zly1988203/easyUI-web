@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -10,11 +10,12 @@
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script
 	src="${ctx}/static/js/views/report/pricing/outOfStock.js?V=${versionNo}"></script>
-<style>
-.datagrid-header-row .datagrid-cell {
+	<style>
+	.datagrid-header .datagrid-cell {
 	text-align: center !important;
-}
-</style>
+	font-weight: bold;
+	}
+	</style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 
@@ -63,9 +64,10 @@
 
 				<div class="ub  ub-ac umar-l20" id="sourceBranch">
 					<div class="umar-r10 uw-70 ut-r">发货机构:</div>
-					<input class="uinp ub ub-f1" type="hidden" id="sourceBranchId"
-						name="sourceBranchId"> <input class="uinp ub ub-f1"
-						type="text" id="sourceBranchName" name="sourceBranchName">
+					<input class="uinp ub ub-f1 " type="hidden" id="sourceBranchId"
+						name="sourceBranchId" value="${branchId}">
+					<input class="uinp ub ub-f1 uinp-no-more"
+						type="text" id="sourceBranchName" name="sourceBranchName" readonly>
 					<div class="uinp-more uinp-sourceName">...</div>
 				</div>
 

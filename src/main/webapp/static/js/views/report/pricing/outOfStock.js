@@ -3,6 +3,8 @@
  * 要货单
  */
 var radioVal = 0;
+var targetBranchId;
+var sourceBranchId;
 $(function(){
 	//开始和结束时间
 	toChangeDate(10);
@@ -12,6 +14,7 @@ $(function(){
 	changeType();
 	//切换radio 禁启用
 	checktype();
+    sourceBranchId = $("#sourceBranchId").val();
 
     //机构选择初始化 发货机构
     $('#sourceBranch').branchSelect({
@@ -35,6 +38,7 @@ function changeType(){
         cleardata();
         radioVal = $(this).val();
         checktype(radioVal);
+
         initDataGrid();
 		$("#marketWater").datagrid('loadData', { total: 0, rows: [] });
     	$('#marketWater').datagrid({showFooter:false});
@@ -83,6 +87,8 @@ function checktype(value){
             $('#skuCode').addClass('uinp-no-more');
 
 		}else if(value == '3'){
+            $("#sourceBranchName").removeAttr("readonly");
+            $('#sourceBranchName').removeClass('uinp-no-more');
             $('#formNo').addClass('uinp-no-more');
             $('#formNo').attr("readonly","readonly");
             $('#categoryName').attr("readonly","readonly");
@@ -98,14 +104,22 @@ function checktype(value){
 }
 //清空所有数据值
 function cleardata(){
-    $("#sourceBranchId").val();
+    if(radioVal == '0'){
+        $("#sourceBranchId").val('');
+    }else{
+        $("#sourceBranchId").val(sourceBranchId);
+    }
+
+    $('#sourceBranchName').val("");
+    $('#targetBranchId').val("");
 	$('#targetBranchName').val("");
+    $('#skuCode').val("");
 	$('#skuName').val("");
-	$('#sourceBranchName').val("");
+
 	$('#formNo').val("");
 	$('#categoryCode').val("");
 	$('#goodsCategoryId').val("");
-	$('#skuCode').val("");
+
 }
 
 var gridHandel = new GridClass();
@@ -425,7 +439,7 @@ function getColumnsByType(){
                     }
 
                 },
-                {field: 'outFormNo', title: '出库单号', width: '150px', align: 'left',
+                {field: 'outFormNo', title: '发货单号', width: '150px', align: 'left',
                     formatter:function(value,row,index){
                         if(row.outFormId){
                             var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.outFormId+'")';
@@ -433,7 +447,7 @@ function getColumnsByType(){
                         }
                     }
                 },
-                {field: 'outNum', title: '出口数量', width: '85px', align: 'right',
+                {field: 'outDealNum', title: '发货数量', width: '85px', align: 'right',
                     formatter : function(value, row, index) {
                         if(row.defectNum){
                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -450,7 +464,7 @@ function getColumnsByType(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     },
                 },
-                {field: 'DIFormNo', title: '入库单号', width: '150px', align: 'left',
+                {field: 'DIFormNo', title: '收货单号', width: '150px', align: 'left',
                     formatter:function(value,row,index){
                         if(row.DIFormId){
                             var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.DIFormId+'")';
@@ -458,7 +472,7 @@ function getColumnsByType(){
                         }
                     }
                 },
-                {field: 'DINum', title: '入库数量', width: '85px', align: 'right',
+                {field: 'inReceiveNum', title: '收货数量', width: '85px', align: 'right',
                     formatter : function(value, row, index) {
                         if(row.defectNum){
                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -466,7 +480,7 @@ function getColumnsByType(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     },
                 },
-                {field: 'DIAmount', title: '入库金额', width: '85px', align: 'right',
+                {field: 'DIAmount', title: '收货金额', width: '85px', align: 'right',
                     formatter : function(value, row, index) {
                         if(row.defectNum){
                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -518,7 +532,7 @@ function queryForm(){
 	if(!(startDate && endDate)){
 		$_jxc.alert('日期不能为空');
 		return ;
-	}	
+	}
 
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
@@ -531,22 +545,6 @@ function queryForm(){
 	$("#marketWater").datagrid('options').url = contextPath + '/report/outOfStock/reportListPage';
 	$("#marketWater").datagrid('load');
 	
-}
-/**
- * 店铺名称
- */
-function searchBranch(type){
-	new publicAgencyService(function(data){
-		if(type==0){
-//			$("#targetBranchId").val(data.branchesId);
-			//$("#targetBranchName").val(data.branchName);
-			$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-		}else{
-//			$("#sourceBranchId").val(data.branchesId);
-			//$("#sourceBranchName").val(data.branchName);
-			$("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
-		}
-	},"","");
 }
 
 //商品分类
