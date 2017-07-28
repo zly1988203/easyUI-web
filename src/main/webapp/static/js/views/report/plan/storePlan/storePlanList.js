@@ -113,10 +113,9 @@ function queryForm(){
 	 } 
 	var fromObjStr = $('#queryForm').serializeObject();
 	if($('#isShowZero').is(':checked')) {
-		var isShowZero = $("#isShowZero").val();
-		fromObjStr.isShowZero = isShowZero;
+		fromObjStr.isShowZero = 1;
 	}else{
-		fromObjStr.isShowZero = null;
+		fromObjStr.isShowZero = 0;
 	}
 	
 	$("#"+datagridId).datagrid("options").method = "post";
