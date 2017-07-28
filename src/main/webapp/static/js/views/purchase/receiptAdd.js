@@ -734,7 +734,11 @@ function selectBranch(){
 }
 
 function selectPurchaseForm(){
-	new publicPurchaseFormService("PA",function(data){
+    var param = {
+        type:"PA",
+        isAllowRefOverdueForm:0
+    }
+	new publicPurchaseFormService(param,function(data){
 		$("#refFormNo").val(data.form.formNo);
 		//根据选择的采购单，带出采购单的信息
         var keyNames = {
@@ -776,7 +780,7 @@ function selectPurchaseForm(){
 		});
         
         
-	}, 0);
+	});
 }
 //返回列表页面
 function back(){
