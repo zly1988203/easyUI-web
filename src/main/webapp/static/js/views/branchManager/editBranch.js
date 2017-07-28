@@ -161,13 +161,13 @@ function initGridCostCommon(gridName) {
                     if(row.isFooter){
                         return '';
                     }
-                    return '<b>'+parseInt(value||1)+'</b>';
+                    return '<b>'+parseInt(value||0)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
                     options:{
                         required:true,
-                        min:1,
+                        min:0,
                         max:99,
                         precision:0,
                         onChange:changeAvgYear
