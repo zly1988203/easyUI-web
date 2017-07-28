@@ -176,9 +176,17 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 	private JSONObject getSuccessDataByBarCode(String barCode, String barCodes){
 		for (JSONObject goods : excelListSuccessData) {
 			String objBarCode = goods.getString("barCode");
-			if (objBarCode.equals(barCode) || (StringUtils.isNotBlank(barCodes) && barCodes.contains(objBarCode))) {
+			if (objBarCode.equals(barCode)) {
 				excelListSuccessData.remove(goods);
 				return goods;
+			} else if (StringUtils.isNotBlank(barCodes)) {
+				// 导入副条码时使用此匹配
+				for (String code : barCodes.split(",")) {
+					if (code.equals(objBarCode)) {
+						excelListSuccessData.remove(goods);
+						return goods;
+					}
+				}
 			}
 //			else if(this.getGoodsMap().containsKey(barCode)){
 //				excelListSuccessData.remove(goods);
