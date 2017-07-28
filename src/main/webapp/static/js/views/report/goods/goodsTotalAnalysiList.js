@@ -43,6 +43,7 @@ function changeType(){
     		categoryOn();
     		skuCodeOrBarCodeOn();
     		branchOn();
+            supplierNameOn();
     		initGoodsTotalAnalysiGrid();
 		}else if (a=="branchTotal") {
 			//初始化列表按店铺汇总
@@ -50,6 +51,7 @@ function changeType(){
 			categoryOff();
 			skuCodeOrBarCodeOff();
 			branchOn();
+            supplierNameOff();
 			initPurReportSupplierGrid();
 		}  else if (a=="categoryTotal") {
 			// 初始化列表按类别汇总
@@ -57,6 +59,7 @@ function changeType(){
 			categoryOn();
 			skuCodeOrBarCodeOff();
 			branchOn();
+            supplierNameOff();
 			initCategoryGrid();
 		} else if (a=="branchSkuTotal") {
 			//  按店铺商品汇总
@@ -64,6 +67,7 @@ function changeType(){
     		categoryOn();
     		skuCodeOrBarCodeOn();
     		branchOn();
+            supplierNameOff();
     		initBranchSkuTotalAnalysiGrid();
 		}
     	$("#goodsTotalAnalysi").datagrid('loadData', { total: 0, rows: [] });
@@ -121,6 +125,20 @@ function skuCodeOrBarCodeOn(){
     $("#skuCodeOrBarCode").removeClass("uinp-no-more");
 	$("#skuCodeOrBarCode").removeAttr("readonly");
 }
+
+function supplierNameOff() {
+    $("#supplierName").attr("readonly","readonly");
+    $("#supplierName").addClass("uinp-no-more");
+    $("#supplierName").val('');
+
+}
+
+function supplierNameOn() {
+    $("#supplierName").removeClass("uinp-no-more");
+    $("#supplierName").removeAttr("readonly");
+}
+
+
 //货号禁用
 function skuCodeOrBarCodeOff(){
 	$("#skuCodeOrBarCode").attr("readonly","readonly");
@@ -258,6 +276,7 @@ function initGoodsTotalAnalysiGrid() {
             {field: 'skuCode', title: '货号', width:55, align: 'left'},
             {field: 'skuName', title: '商品名称', width:185, align: 'left'},
             {field: 'barCode', title: '条码', width:100, align: 'left'},
+            {field: 'supplierName', title: '供应商', width: '180px', align: 'left'},
             {field: 'spec', title: '规格', width:45, align: 'left'},
             {field: 'unit', title: '单位', width:45, align: 'left'},
             {field: 'saleNum', title: '销售数量', width:80, align: 'right',

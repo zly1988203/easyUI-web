@@ -66,7 +66,7 @@
 				</div>
 
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-220 ut-r">采购收货允许引用过去采购订单：</div>
+					<div class="ub uw-220 ut-r">采购收货允许引用过期采购订单：</div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<label><input type="radio" id="isAllowRefOverdueForm0" name="isAllowRefOverdueForm" value="0" /><span>不启用</span></label>
 					</div>
