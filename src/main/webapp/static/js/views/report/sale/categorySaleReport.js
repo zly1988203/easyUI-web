@@ -81,8 +81,11 @@ function getColumns(){
 		},
 		{field: 'saleRate', title: '销售占比', width:100, align: 'right',
 			formatter:function(value,row,index){
-				return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
-			}
+				if(!value && value != '0' ){
+        			return '';
+        		}
+        		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        	}
 		},
 		{field: 'profitAmount', title: '毛利', width:100, align: 'right',
 			formatter:function(value,row,index){
@@ -91,23 +94,36 @@ function getColumns(){
 		},
 		{field: 'profitRate', title: '毛利率', width:100, align: 'right',
 			formatter:function(value,row,index){
-				return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
-			}
+				if(!value && value != '0' ){
+        			return '';
+        		}
+        		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        	}
 		},
+		
 		{field: 'marginrate', title: '毛利占比', width:100, align: 'right',
 			formatter:function(value,row,index){
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			}
+        		if(!value && value != '0' ){
+        			return '';
+        		}
+        		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        	}
 		},
 		{field: 'saleRotationRate', title: '库存周转率', width:100, align: 'right',
 			formatter:function(value,row,index){
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			}
+				if(!value && value != '0' ){
+        			return '';
+        		}
+        		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        	}
 		},        
 		{field: 'saleRotationDay', title: '库存周转天数', width:100, align: 'right',
 			formatter:function(value,row,index){
-				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-			}
+				if(!value && value != '0' ){
+        			return '';
+        		}
+        		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        	}
 		}
 	]);
 	
