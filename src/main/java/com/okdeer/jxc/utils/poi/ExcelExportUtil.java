@@ -123,26 +123,7 @@ public class ExcelExportUtil {
 			// 设置表格默认列宽度为20个字节
 			sheet.setDefaultColumnWidth(20);
 
-			// 生成一个样式
-			HSSFCellStyle style = workbook.createCellStyle();
-			// 设置这些样式
-			style.setFillForegroundColor(HSSFColor.GOLD.index);
-			style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-			style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-			style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-			style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-			style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-			style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-			// 生成一个字体
-			HSSFFont font = workbook.createFont();
-			font.setColor(HSSFColor.VIOLET.index);
-			// font.setFontHeightInPoints((short) 12);
-			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-			// 把字体应用到当前的样式
-			style.setFont(font);
-
-			// 指定当单元格内容显示不下时自动换行
-			style.setWrapText(true);
+			HSSFCellStyle style = getHSSFCellStyle(workbook);
 
 			// 声明一个画图的顶级管理器
 			HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
@@ -287,6 +268,101 @@ public class ExcelExportUtil {
 		exportMergeExcel(reportFileName, sheetName, headers, columns, mergeColumns, dataList, response, pattern);
 	}
 
+	/**
+	 * @Description: 导出时段销售对比分析报表
+	 * @param reportFileName 报表名称--表头
+	 * @param headers 列名
+	 * @param columns 列字段名
+	 * @param mergeColumns 需要合并的单元格字段名
+	 * @param dataList 数据集合
+	 * @param response response
+	 * @param pattern 时间格式
+	 * @author zuowm
+	 * @date 2017年7月28日
+	 */
+	public static void exportPeriodSaleExcel(String reportFileName, String[] headers, String[] columns,
+			List<String> mergeColumns, List<JSONObject> dataList, HttpServletResponse response, String pattern) {
+		if (StringUtils.isBlank(pattern)) {
+			pattern = DateUtils.DATE_FULL_STR;
+		}
+
+		HSSFWorkbook workbook = new HSSFWorkbook();
+		OutputStream out = null;
+		try {
+			HSSFSheet sheet = workbook.createSheet("sheet1");
+			sheet.setDefaultColumnWidth(15);
+			sheet.setDefaultRowHeight((short) 400);
+
+			// 声明一个画图的顶级管理器
+			HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
+
+			HSSFCellStyle style = getHSSFCellStyle(workbook);
+			// 设置标题头
+			HSSFRow row = sheet.createRow(0);
+			HSSFCell cell = row.createCell(0);
+			cell.setCellStyle(style);
+			HSSFRichTextString text = new HSSFRichTextString(reportFileName);
+			cell.setCellValue(text);
+			// 合并标题单元格
+			sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, headers.length - 1));
+
+			row = sheet.createRow(1);
+			for (int i = 0; i < headers.length; i++) {
+				cell = row.createCell(i);
+				cell.setCellStyle(style);
+				text = new HSSFRichTextString(headers[i]);
+				if (i == 3) {
+					sheet.addMergedRegion(new CellRangeAddress(1, 1, 3, 14));
+					text = new HSSFRichTextString("当年销售情况");
+				}
+				if (i == 15) {
+					sheet.addMergedRegion(new CellRangeAddress(1, 1, 15, 26));
+					text = new HSSFRichTextString("上年销售情况");
+				}
+				cell.setCellValue(text);
+			}
+
+			// 设置表头
+			row = sheet.createRow(2);
+			for (int i = 0; i < headers.length; i++) {
+				cell = row.createCell(i);
+				cell.setCellStyle(style);
+				text = new HSSFRichTextString(headers[i]);
+				cell.setCellValue(text);
+				if (i == 0) {
+					sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 1));
+				}
+				if (i == 2) {
+					sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));
+				}
+			}
+
+			writeData(columns, mergeColumns, dataList, pattern, workbook, sheet, patriarch, 2);
+
+			out = response.getOutputStream();
+			// 清空输出流
+			response.reset();
+			response.setHeader(REPORT_HEADER,
+					REPORT_HEADER_TWO + URLEncoder.encode(reportFileName + REPORT_XLS, "UTF-8"));
+			// 定义输出类型
+			response.setContentType("application/msexcel");
+			workbook.write(out);
+		} catch (IOException e) {
+			LOG.error("导出Excel失败：", e);
+		} finally {
+			try {
+				if (workbook != null) {
+					workbook.close();
+				}
+				if (out != null) {
+					out.close();
+				}
+			} catch (IOException e) {
+				LOG.error("IO was closed：", e);
+			}
+		}
+	}
+
 	/**  
 	 * 导出Excel的方法  
 	 * @param sheetName excel中的sheet名称  
@@ -311,26 +387,7 @@ public class ExcelExportUtil {
 			// 设置表格默认列宽度为20个字节
 			sheet.setDefaultColumnWidth(20);
 
-			// 生成一个样式
-			HSSFCellStyle style = workbook.createCellStyle();
-			// 设置这些样式
-			style.setFillForegroundColor(HSSFColor.GOLD.index);
-			style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-			style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-			style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-			style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-			style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-			style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-			// 生成一个字体
-			HSSFFont font = workbook.createFont();
-			font.setColor(HSSFColor.VIOLET.index);
-			// font.setFontHeightInPoints((short) 12);
-			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-			// 把字体应用到当前的样式
-			style.setFont(font);
-
-			// 指定当单元格内容显示不下时自动换行
-			style.setWrapText(true);
+			HSSFCellStyle style = getHSSFCellStyle(workbook);
 
 			// 声明一个画图的顶级管理器
 			HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
@@ -368,76 +425,8 @@ public class ExcelExportUtil {
 				text = new HSSFRichTextString(headers[i]);
 				cell.setCellValue(text);
 			}
-			// 遍历集合数据，产生数据行
-			if (dataList != null) {
-				int rowIndex = 1;
-				// 记录每列合并单元格的起始位置
-				Map<String, String> mergeValue = new HashMap<>();
-				for (JSONObject jsonObject : dataList) {
-					rowIndex++;
-					row = sheet.createRow(rowIndex);
-					for (int columnIndex = 0; columnIndex < columns.length; columnIndex++) {
-						cell = row.createCell(columnIndex);
-						String fieldName = columns[columnIndex];
-						Object value = jsonObject.get(fieldName);
 
-						String textValue = null;
-						if (value == null) {
-							textValue = "";
-						} else if (value instanceof Date) {
-							Date date = (Date) value;
-							SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-							textValue = sdf.format(date);
-						} else if (value instanceof byte[]) {
-							// 有图片时，设置行高为60px;
-							row.setHeightInPoints(60);
-							// 设置图片所在列宽度为80px,注意这里单位的一个换算
-							sheet.setColumnWidth(columnIndex, (short) (35.7 * 80));
-							// sheet.autoSizeColumn(i);
-							byte[] bsValue = (byte[]) value;
-							HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 1023, 255, (short) 6, rowIndex,
-									(short) 6, rowIndex);
-							anchor.setAnchorType(2);
-							patriarch.createPicture(anchor,
-									workbook.addPicture(bsValue, HSSFWorkbook.PICTURE_TYPE_JPEG));
-						} else {
-							// 其它数据类型都当作字符串简单处理
-							textValue = value.toString();
-						}
-
-						if (textValue != null) {
-							Pattern pa = Pattern.compile("^//d+(//.//d+)?$");
-							Matcher matcher = pa.matcher(textValue);
-							if (matcher.matches()) {
-								// 是数字当作double处理
-								cell.setCellValue(Double.parseDouble(textValue));
-							} else {
-								HSSFRichTextString richString = new HSSFRichTextString(textValue);
-								// HSSFFont font3 = workbook.createFont();
-								// font3.setColor(HSSFColor.BLUE.index);
-								// richString.applyFont(font3);
-								cell.setCellValue(richString);
-							}
-						}
-
-						// 判断是否合并
-						if (mergeColumns.contains(fieldName)) {
-							if (mergeValue.containsKey(fieldName) && mergeValue.get(fieldName).equals(textValue)) {
-								// 与上一行数据一致，需要合并
-								sheet.addMergedRegion(
-										new CellRangeAddress(rowIndex - 1, rowIndex, columnIndex, columnIndex));
-							} else {
-								// 与上一行数据不一致，另起合并
-								mergeValue.put(fieldName, textValue);
-								// 同时将子列的合并重置
-								for (int i = mergeColumns.indexOf(fieldName) + 1; i < mergeColumns.size(); i++) {
-									mergeValue.remove(mergeColumns.get(i));
-								}
-							}
-						}
-					}
-				}
-			}
+			writeData(columns, mergeColumns, dataList, pattern, workbook, sheet, patriarch, 1);
 
 			out = response.getOutputStream();
 			// 清空输出流
@@ -461,5 +450,123 @@ public class ExcelExportUtil {
 				LOG.error("IO was closed：", e);
 			}
 		}
+	}
+
+	/**
+	 * @Description: 将数据写到excel中
+	 * @param columns 列字段名
+	 * @param mergeColumns 合并列字段名
+	 * @param dataList 数据集合
+	 * @param pattern 时间格式
+	 * @param workbook workbook
+	 * @param sheet sheet
+	 * @param patriarch 图片格式
+	 * @author zuowm
+	 * @date 2017年7月28日
+	 */
+	private static void writeData(String[] columns, List<String> mergeColumns, List<JSONObject> dataList,
+			String pattern, HSSFWorkbook workbook, HSSFSheet sheet, HSSFPatriarch patriarch, int rowIndex) {
+		HSSFRow row;
+		HSSFCell cell;
+		// 遍历集合数据，产生数据行
+		if (dataList != null) {
+			// int rowIndex = 1;
+			// 记录每列合并单元格的起始位置
+			Map<String, String> mergeValue = new HashMap<>();
+			for (JSONObject jsonObject : dataList) {
+				rowIndex++;
+				row = sheet.createRow(rowIndex);
+				for (int columnIndex = 0; columnIndex < columns.length; columnIndex++) {
+					cell = row.createCell(columnIndex);
+					String fieldName = columns[columnIndex];
+					Object value = jsonObject.get(fieldName);
+
+					String textValue = null;
+					if (value == null) {
+						textValue = "";
+					} else if (value instanceof Date) {
+						Date date = (Date) value;
+						SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+						textValue = sdf.format(date);
+					} else if (value instanceof byte[]) {
+						// 有图片时，设置行高为60px;
+						row.setHeightInPoints(60);
+						// 设置图片所在列宽度为80px,注意这里单位的一个换算
+						sheet.setColumnWidth(columnIndex, (short) (35.7 * 80));
+						// sheet.autoSizeColumn(i);
+						byte[] bsValue = (byte[]) value;
+						HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 1023, 255, (short) 6, rowIndex, (short) 6,
+								rowIndex);
+						anchor.setAnchorType(2);
+						patriarch.createPicture(anchor, workbook.addPicture(bsValue, HSSFWorkbook.PICTURE_TYPE_JPEG));
+					} else {
+						// 其它数据类型都当作字符串简单处理
+						textValue = value.toString();
+					}
+
+					if (textValue != null) {
+						Pattern pa = Pattern.compile("^//d+(//.//d+)?$");
+						Matcher matcher = pa.matcher(textValue);
+						if (matcher.matches()) {
+							// 是数字当作double处理
+							cell.setCellValue(Double.parseDouble(textValue));
+						} else {
+							HSSFRichTextString richString = new HSSFRichTextString(textValue);
+							// HSSFFont font3 = workbook.createFont();
+							// font3.setColor(HSSFColor.BLUE.index);
+							// richString.applyFont(font3);
+							cell.setCellValue(richString);
+						}
+					}
+
+					// 判断是否合并
+					if (mergeColumns.contains(fieldName)) {
+						if (mergeValue.containsKey(fieldName) && mergeValue.get(fieldName).equals(textValue)) {
+							// 与上一行数据一致，需要合并
+							sheet.addMergedRegion(
+									new CellRangeAddress(rowIndex - 1, rowIndex, columnIndex, columnIndex));
+						} else {
+							// 与上一行数据不一致，另起合并
+							mergeValue.put(fieldName, textValue);
+							// 同时将子列的合并重置
+							for (int i = mergeColumns.indexOf(fieldName) + 1; i < mergeColumns.size(); i++) {
+								mergeValue.remove(mergeColumns.get(i));
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * @Description: 获取单元格样式
+	 * @param workbook 工作表workbook
+	 * @return 样式
+	 * @author zuowm
+	 * @date 2017年7月28日
+	 */
+	private static HSSFCellStyle getHSSFCellStyle(HSSFWorkbook workbook) {
+		// 生成一个样式
+		HSSFCellStyle style = workbook.createCellStyle();
+		// 设置这些样式
+		style.setFillForegroundColor(HSSFColor.GOLD.index);
+		style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+		style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+		style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		// 生成一个字体
+		HSSFFont font = workbook.createFont();
+		font.setColor(HSSFColor.VIOLET.index);
+		// font.setFontHeightInPoints((short) 12);
+		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		// 把字体应用到当前的样式
+		style.setFont(font);
+
+		// 指定当单元格内容显示不下时自动换行
+		style.setWrapText(true);
+		return style;
 	}
 }
