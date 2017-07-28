@@ -69,7 +69,7 @@ public class BranchGroupSelectController extends BaseController<BranchGroupSelec
 		vo.setPageNumber(pageNumber);
 		vo.setPageSize(pageSize);
 		
-		if(vo.getBranchCompleCode()==null){
+		if (StringUtils.isBlank(vo.getBranchCompleCode())) {
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 		}
 		

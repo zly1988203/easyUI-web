@@ -89,7 +89,7 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			LOG.debug("查询机构参数:{}", vo.toString() + "pageNumber:" + pageNumber + "pageSize:" + pageSize);
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if(vo.getBranchCompleCode()==null){
+			if (StringUtils.isBlank(vo.getBranchCompleCode())) {
 				vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			}
 			vo.setType(UserUtil.getCurrBranchType());
