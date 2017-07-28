@@ -704,7 +704,7 @@ function saveDataHandel(rows, url){
     //引用单号
     var refFormNo = $("#refFormNo").val();
     //引用单号
-    var refFormId = $("#formId").val();
+    var refFormId = $("#refFormId").val();
     
     //备注
     var remark = $("#remark").val();
@@ -1168,6 +1168,7 @@ function directDelete(){
 function selectPurchaseForm(){
 	new publicPurchaseFormService("PA",function(data){
 		$("#refFormNo").val(data.form.formNo);
+		$("#refFormId").val(data.form.id);
 		//根据选择的采购单，带出采购单的信息
        /* var keyNames = {
             realNum:'maxRealNum',
