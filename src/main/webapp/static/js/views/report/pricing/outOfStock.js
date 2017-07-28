@@ -447,7 +447,7 @@ function getColumnsByType(){
                         }
                     }
                 },
-                {field: 'outNum', title: '发货数量', width: '85px', align: 'right',
+                {field: 'outDealNum', title: '发货数量', width: '85px', align: 'right',
                     formatter : function(value, row, index) {
                         if(row.defectNum){
                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -472,7 +472,7 @@ function getColumnsByType(){
                         }
                     }
                 },
-                {field: 'DINum', title: '收货数量', width: '85px', align: 'right',
+                {field: 'inReceiveNum', title: '收货数量', width: '85px', align: 'right',
                     formatter : function(value, row, index) {
                         if(row.defectNum){
                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
