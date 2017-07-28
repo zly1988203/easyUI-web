@@ -86,7 +86,7 @@ public class ReportExcelUtil {
 	 * @author liwb
 	 * @date 2016年8月22日
 	 */
-	public static void exportListCommon(HttpServletResponse response, List<?> dataList, String fileName,
+	public static void exportListCommon(HttpServletResponse response, List<?> dataList, Map<String, Object> param, String fileName,
 			String templateName, String suffix, Integer pageSize) {
 		InputStream is = null;
 		try {
@@ -98,7 +98,7 @@ public class ReportExcelUtil {
 			// 获取Excel目录指定文件的InputStream
 			is = IOStreamUtils.getExcelExportPathInputStream(templateName);
 			if (pageSize == null) {
-				reportExcelToList(response, is, fileName, suffix, dataList);
+				reportExcelToList(response, is, fileName, suffix, dataList, param);
 			} else {
 				reportExcelPage(response, is, fileName, suffix, dataList, pageSize);
 			}
@@ -126,7 +126,23 @@ public class ReportExcelUtil {
 	 */
 	public static void exportListForXLSX(HttpServletResponse response, List<?> dataList, String fileName,
 			String templateName) {
-		exportListCommon(response, dataList, fileName, templateName, REPORT_XLSX, null);
+		exportListCommon(response, dataList, null, fileName, templateName, REPORT_XLSX, null);
+	}
+	
+
+	/**
+	 * @Description: 导出后缀名为“.xlsx”的带替换值Excel公用方法
+	 * @param response
+	 * @param dataList 数据集合
+	 * @param param 替换值
+	 * @param fileName 导出文件名称，不包括后缀名
+	 * @param templateName 模板名称，包括后缀名
+	 * @author zhengwj
+	 * @date 2017年7月27日
+	 */
+	public static void exportParamListForXLSX(HttpServletResponse response, List<?> dataList, Map<String, Object> param, String fileName,
+			String templateName) {
+		exportListCommon(response, dataList, param, fileName, templateName, REPORT_XLSX, null);
 	}
 
 	/**
@@ -141,7 +157,7 @@ public class ReportExcelUtil {
 	 */
 	public static void exportPageForXLSX(HttpServletResponse response, List<?> dataList, String fileName,
 			String templateName) {
-		exportListCommon(response, dataList, fileName, templateName, REPORT_XLSX,
+		exportListCommon(response, dataList, null, fileName, templateName, REPORT_XLSX,
 				ExportExcelConstant.EXPORT_SHEET_PAGE_SIZE);
 	}
 
@@ -157,8 +173,11 @@ public class ReportExcelUtil {
 	 */
 	@SuppressWarnings("rawtypes")
 	public static void reportExcelToList(HttpServletResponse response, InputStream is, String reportFileName,
-			String reportSuffix, List reportList) throws IOException {
+			String reportSuffix, List reportList, Map<String, Object> param) throws IOException {
 		Context context = new Context();
+		if (null != param) {
+			context = new Context(param);
+		}
 		context.putVar("reportList", reportList);
 		reportToContext(response, is, reportFileName, reportSuffix, context);
 	}

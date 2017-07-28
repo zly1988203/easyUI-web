@@ -58,12 +58,12 @@
 
 				<div class="ub uselectw ub-ac umar-l20">
 					<div class="umar-r10  uw-70 ut-r">经营方式:</div>
-					<select class="easyui-combobox uselect" name="businessType"
-						id="businessType" data-options="editable:false">
+					<select class="easyui-combobox uselect" name="saleWay"
+						id="saleWay" data-options="editable:false">
 						<option value="" selected="selected">全部</option>
 						<option value="A">购销</option>
-						<option value="B">联营</option>
-						<option value="C">代销</option>
+						<option value="B">代销</option>
+						<option value="C">联营</option>
 						<option value="D">扣率代销</option>
 					</select>
 				</div>
@@ -84,14 +84,14 @@
 
 				<div class="ub uselectw ub-ac umar-l20">
 					<div class="umar-r10  uw-70 ut-r">商品类型:</div>
-					<select class="easyui-combobox uselect" name="businessType"
-						id="businessType" data-options="editable:false">
+					<select class="easyui-combobox uselect" name="goodsType"
+						id="goodsType" data-options="editable:false">
 						<option value="" selected="selected">全部</option>
-						<option value="A">普遍商品</option>
-						<option value="B">制单组合</option>
-						<option value="C">制单拆分</option>
-						<option value="D">捆绑商品</option>
-						<option value="E">自动转货</option>
+						<option value="0">普遍商品</option>
+						<option value="1">制单组合</option>
+						<option value="2">制单拆分</option>
+						<option value="3">捆绑商品</option>
+						<option value="4">自动转货</option>
 					</select>
 				</div>
 

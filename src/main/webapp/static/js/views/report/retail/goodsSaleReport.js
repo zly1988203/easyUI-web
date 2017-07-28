@@ -214,7 +214,8 @@ function initDatagridRequire(){
             {field: 'categoryCode', title: '类别编号', width: '65px', align: 'left'},
             {field: 'categoryName', title: '类别名称', width: '65px', align: 'left'},
             {field: 'spec', title: '规格', width: '55px', align: 'left'},
-            {field: 'unit', title: '单位', width: '45px', align: 'left'}
+            {field: 'unit', title: '单位', width: '45px', align: 'left'},
+            {field: 'supplierName', title: '供应商', width: '100px', align: 'left'}
         ]],
         onLoadSuccess:function(data){
         	gridHandel.setDatagridHeader("center");
