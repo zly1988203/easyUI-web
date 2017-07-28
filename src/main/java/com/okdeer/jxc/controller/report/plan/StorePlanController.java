@@ -114,7 +114,7 @@ public class StorePlanController extends BaseController<StorePlanController> {
 		qo.setEndTime(DateUtils.addMonths(qo.getEndTime(), 1));
 	}
 	
-	@RequestMapping(value = "getStorePlanListByYear", method = RequestMethod.POST)
+	@RequestMapping(value = "getStorePlanListByYear")
 	public PageUtils<StorePlan> getStorePlanListByYear(String branchId, Integer year) {
 
 		LOG.debug("机构Id：{}，年份：{}", branchId, year);
