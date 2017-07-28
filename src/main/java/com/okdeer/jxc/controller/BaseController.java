@@ -185,6 +185,21 @@ public class BaseController<T> {
 	}
 
 	/**
+	 * @Description: 导出后缀名为“.xlsx”的带替换值的excel公用方法
+	 * @param response
+	 * @param dataList 数据集合
+	 * @param param 替换值
+	 * @param fileName 导出文件名称，不包括后缀名
+	 * @param templateName 模板名称，包括后缀名
+	 * @author zhengwj
+	 * @date 2017年7月27日
+	 */
+	protected void exportParamListForXLSX(HttpServletResponse response, List<?> dataList, Map<String, Object> param, String fileName,
+			String templateName) {
+		ReportExcelUtil.exportParamListForXLSX(response, dataList, param, fileName, templateName);
+	}
+
+	/**
 	 * @Description: 分sheet页导出后缀名为“.xlsx”的Excel公用方法，默认分页大小为1000
 	 * @param response	
 	 * @param dataList	数据集合

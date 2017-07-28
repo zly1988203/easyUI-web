@@ -20,6 +20,23 @@ $(function() {
 		$("input[name='queryType'][value=goods]").click();
 	}
 	branchId = $("#branchId").val();
+
+
+    //机构选择初始化 发货机构
+    $('#sourceBranch').branchSelect({
+        onAfterRender:function(data){
+            $("#sourceBranchId").val(data.branchId);
+        }
+
+    });
+
+    //机构选择初始化 要/收货机构
+    $('#targetBranch').branchSelect({
+        onAfterRender:function(data){
+            $("#targetBranchId").val(data.branchId);
+        }
+    });
+
 });
 var flushFlg = false;
 function changeType(){
@@ -507,9 +524,9 @@ function exportExcel(){
 	
 	var formData = $("#queryForm").serializeObject();
 	// 去除编码
-    formData.branchName = formData.branchName.substring(formData.branchName.lastIndexOf(']')+1);
+    formData.targetBranchName = "";
+    formData.sourceBranchName = "";
     formData.categoryCode = formData.categoryCode.substring(formData.categoryCode.lastIndexOf(']')+1);
-    $('#branchName').val(formData.branchName);
     $('#categoryCode').val(formData.categoryCode);
 	$("#queryForm").form({
 		success : function(data){
@@ -528,7 +545,7 @@ function query(){
 	$("#endCount").attr("value",null);
 	var formData = $("#queryForm").serializeObject();
 	// 去除编码
-    formData.branchName = formData.branchName.substring(formData.branchName.lastIndexOf(']')+1)
+    // formData.branchName = formData.branchName.substring(formData.branchName.lastIndexOf(']')+1)
     formData.categoryCode = formData.categoryCode.substring(formData.categoryCode.lastIndexOf(']')+1)
     
 	var branchNameOrCode = $("#branchNameOrCode").val();

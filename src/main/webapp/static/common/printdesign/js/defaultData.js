@@ -204,6 +204,12 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "采购："
+		}, {
+			type : "label",
+			text : "交货期限："
+		}, {
+			type : "label",
+			text : "_交货期限"
 		} ]
 	} ],
 	// 采购收货单

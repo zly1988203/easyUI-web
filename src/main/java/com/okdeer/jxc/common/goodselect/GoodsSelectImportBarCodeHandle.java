@@ -133,7 +133,7 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 		for (int i = 0; i < excelListSuccessData.size(); i++) {
 			JSONObject jsonObject = excelListSuccessData.get(i);
 			String barCode = jsonObject.getString("barCode");
-			GoodsSelect goods = getByBarCode(dblist, barCode);
+			GoodsSelect goods = getByBarCode(dblist, barCode, jsonObject);
 			if(goods == null){//数据库不存在的数据
 				jsonObject.element("error", NOT_EXISTS);
 			}
@@ -151,7 +151,7 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 	 * @author xiaoj02
 	 * @date 2016年10月14日
 	 */
-	private GoodsSelect getByBarCode(List<? extends GoodsSelect> list, String barCode){
+	private GoodsSelect getByBarCode(List<? extends GoodsSelect> list, String barCode, JSONObject obj) {
 		for (GoodsSelect goods : list) {
 			String objBarCode = goods.getBarCode();
 			if(barCode.equals(objBarCode)){
@@ -160,12 +160,12 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 				return goods;
 			}
 		}
-		if(this.getGoodsMap().containsKey(barCode)){
+		if (this.getGoodsMap().containsKey(GoodsSelectImportComponent.getKeyWithGift(barCode, obj))) {
 			/**一品多码的问题，用导入的条码当做商品条码*/
-			this.getGoodsMap().get(barCode).setBarCode(barCode);
-			return this.getGoodsMap().get(barCode);
+			this.getGoodsMap().get(GoodsSelectImportComponent.getKeyWithGift(barCode, obj)).setBarCode(barCode);
+			return this.getGoodsMap().get(GoodsSelectImportComponent.getKeyWithGift(barCode, obj));
 		}
-		
+
 		return null;
 	}
 
@@ -177,12 +177,20 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 	 * @author xiaoj02
 	 * @date 2016年10月14日
 	 */
-	private JSONObject getSuccessDataByBarCode(String barCode){
+	private JSONObject getSuccessDataByBarCode(String barCode, String barCodes){
 		for (JSONObject goods : excelListSuccessData) {
 			String objBarCode = goods.getString("barCode");
-			if(objBarCode.equals(barCode)){
+			if (objBarCode.equals(barCode)) {
 				excelListSuccessData.remove(goods);
 				return goods;
+			} else if (StringUtils.isNotBlank(barCodes)) {
+				// 导入副条码时使用此匹配
+				for (String code : barCodes.split(",")) {
+					if (code.equals(objBarCode)) {
+						excelListSuccessData.remove(goods);
+						return goods;
+					}
+				}
 			}
 //			else if(this.getGoodsMap().containsKey(barCode)){
 //				excelListSuccessData.remove(goods);
@@ -263,9 +271,9 @@ public class GoodsSelectImportBarCodeHandle implements GoodsSelectImportHandle{
 
 			String barCode = obj.getString("barCode");
 			JSONObject excelJson = new JSONObject();
-			excelJson = getSuccessDataByBarCode(barCode);
-			if(excelJson==null){
-				excelJson=this.getImportMap().get(barCode);
+			excelJson = getSuccessDataByBarCode(barCode, obj.getString("barCodes"));
+			if (excelJson == null) {
+				excelJson = this.getImportMap().get(GoodsSelectImportComponent.getKeyWithGift(barCode, obj));
 			}
 			//忽略第一列,合并属性
 			for (int j = 1; j < excelField.length; j++) {

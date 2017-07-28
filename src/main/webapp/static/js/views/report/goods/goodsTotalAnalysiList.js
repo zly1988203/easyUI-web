@@ -19,6 +19,15 @@ $(function() {
 		$('input:radio[name=searchType]')[0].checked = true;
 		$('input:radio[name=searchType]')[0].click();
 	}
+
+    //供应商选择初始化
+    $('#supplierComponent').supplierSelect({
+        //数据过滤
+        loadFilter:function(data){
+            data.supplierId = data.id;
+            return data;
+        }
+    });
 });
 
 var flushFlg = false;
@@ -290,7 +299,8 @@ function initGoodsTotalAnalysiGrid() {
                     }
                     return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
                 }
-            }
+            },
+	        {field: 'supplierName', title: '供应商', width:80, align: 'left'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");

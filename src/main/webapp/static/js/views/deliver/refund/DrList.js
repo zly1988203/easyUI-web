@@ -12,6 +12,30 @@ $(function() {
     }
 	// 单据状态切换
 	changeStatus();
+
+    //机构选择初始化 退货机构
+    $('#sourceBranch').branchSelect({
+        param:{
+            formType:"DD",
+        },
+        onAfterRender:function(data){
+            $("#sourceBranchId").val(data.branchId);
+        }
+
+    });
+
+    //机构选择初始化 收货机构
+    $('#targetBranch').branchSelect({
+        param:{
+            branchId:$("#sourceBranchId").val(),
+            formType:"DZ",
+            isOpenStock:1
+        },
+
+        onAfterRender:function(data){
+            $("#targetBranchId").val(data.branchId);
+        }
+    });
 });
 
 var datagridID = "saleReturnList";
@@ -85,6 +109,8 @@ function initDatagridSaleReturnList() {
 // 查询退货单
 function queryForm() {
 	var fromObjStr = $('#queryForm').serializeObject();
+    fromObjStr.targetBranchName = "";
+    fromObjStr.sourceBranchName = "";
 	$("#"+datagridID).datagrid("options").method = "post";
 	$("#"+datagridID).datagrid('options').url = contextPath+ '/form/deliverForm/getDeliverForms';
 	$("#"+datagridID).datagrid('load', fromObjStr);
@@ -137,17 +163,6 @@ function selectSourceBranch(){
             $("#sourceBranchType").val(data.type);
         }
     },'DD');
-}
-
-/**
- * 收货机构
- */
-function selectTargetBranch(){
-	new publicAgencyService(function(data){
-        $("#targetBranchId").val(data.branchesId);
-        $("#targetBranchName").val("["+data.branchCode+"]"+data.branchName);
-        $("#targetBranchType").val(data.type);
-	},'DZ',$("#sourceBranchId").val(),'',1);
 }
 
 /**

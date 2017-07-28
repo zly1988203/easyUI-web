@@ -330,11 +330,22 @@
 				</div>
 			</div>
 			<div class="ub upad-4">
-				<div class="ub ub-ac uw-320">
+				<div class="ub ub-ac uw-100">
 					<div class="umar-r10 uw-80 ut-r"></div>
 					<label><input id="isDirect" name="isDirect" type="checkbox"
 						<c:if test="${supplier.isDirect}">checked="checked"</c:if>>直送供应商</label>
 				</div>
+
+				<div class="ub ub-ac uw-100">
+					<div class="umar-r10 uw-80 ut-r"></div>
+					<label>
+						<input id="isAllowPurchase" name="isAllowPurchase" type="checkbox"
+							<c:if test="${supplier.isAllowPurchase eq 1}">checked="checked"</c:if>
+							<c:if test="${empty supplier}">checked="checked"</c:if>
+						 >门店订货
+					</label>
+				</div>
+
 			</div>
 		</div>
 	</form>

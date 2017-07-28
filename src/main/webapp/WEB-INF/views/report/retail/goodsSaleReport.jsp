@@ -45,8 +45,16 @@
                 <div class="ub ub-ac  umar-l20">
                     <div class="umar-r10 uw-70 ut-r">商品名称:</div>
                     <input class="uinp ub ub-f1" type="text" name="skuName" id="skuName">
-                </div>  
-            </div>
+                </div>
+
+				<div class="ub ub-ac" id="supplierComponent">
+				<div class="umar-r10 uw-70 ut-r">供应商:</div>
+					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
+					<input class="uinp" name="supplierName" id="supplierName" type="text">
+					<div class="uinp-more">...</div>
+				</div>
+
+	</div>
 	        <div class="ub umar-t8">
                 <div class="ub ub-ac">
 				<div class="umar-r10 uw-70 ut-r">商品类别:</div>

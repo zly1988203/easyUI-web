@@ -832,7 +832,7 @@ function selectPurchaseForm(){
         $("#salesmanId").val(data.form.salesmanId);
         $("#operateUserName").val(data.form.salesmanName);
         $("#refFormId").val(data.form.id);
-	});
+	}, 0);
 }
 //返回列表页面
 function back(){

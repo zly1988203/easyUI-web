@@ -7,6 +7,22 @@ $(function(){
 	toChangeDatetime(10);
 	initDatagridRequireOrders();
 	branchId = $("#branchId").val();
+
+    //机构选择初始化 发货机构
+    $('#sourceBranch').branchSelect({
+        onAfterRender:function(data){
+            $("#sourceBranchId").val(data.branchId);
+        }
+
+    });
+
+    //机构选择初始化 要/收货机构
+    $('#targetBranch').branchSelect({
+        onAfterRender:function(data){
+            $("#targetBranchId").val(data.branchId);
+        }
+    });
+
 });
 
 var gridHandel = new GridClass();
@@ -110,14 +126,14 @@ function queryForm(){
 	$("#endCount").attr("value",null);
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
-	var branchName = $("#branchName").val();
 	if(!(startDate && endDate)){
 		$_jxc.alert('日期不能为空');
 		return ;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
     // 去除编码
-    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    fromObjStr.targetBranchName = "";
+    fromObjStr.sourceBranchName = "";
     fromObjStr.categoryName = fromObjStr.categoryName.substring(fromObjStr.categoryName.lastIndexOf(']')+1)
 	$("#deliverFormList").datagrid("options").method = "post";
 	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverReport/getDeliverFormList';

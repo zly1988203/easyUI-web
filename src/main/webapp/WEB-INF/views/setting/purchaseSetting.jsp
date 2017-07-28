@@ -22,7 +22,7 @@
 			<form id="settingForm" action="${ctx}/branchSetting/save" method="post">
 				<input type="hidden" id="branchId" name="branchId">
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-200 ut-r">选择供应商后自动列出商品：</div>
+					<div class="ub uw-220 ut-r">选择供应商后自动列出商品：</div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<label>
 						<input type="radio" id="isSupplierCascadeGoodsP0" name="isSupplierCascadeGoodsP" value="1" /><span>启用</span>
@@ -37,31 +37,41 @@
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-200 ut-r"></div>
+					<div class="ub uw-220 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPa" name="isSupplierCascadeGoodsPa" class="ub" type="checkbox" name="checkbox"  />
 						<label for="isSupplierCascadeGoodsPa">采购订单</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-200 ut-r"></div>
+					<div class="ub uw-220 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPi" name="isSupplierCascadeGoodsPi" class="ub" type="checkbox" name="checkbox"  />
 						<label for="isSupplierCascadeGoodsPi">采购收货</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-200 ut-r"></div>
+					<div class="ub uw-220 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPr" name="isSupplierCascadeGoodsPr" class="ub" type="checkbox" name="checkbox"  />
 						<label for="isSupplierCascadeGoodsPr">采购退货</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
-					<div class="ub uw-200 ut-r"></div>
+					<div class="ub uw-220 ut-r"></div>
 					<div class="ub uw-110 ub-ac umar-r10">
 						<input id="isSupplierCascadeGoodsPm" name="isSupplierCascadeGoodsPm" class="ub" type="checkbox" name="checkbox"  />
 						<label for="isSupplierCascadeGoodsPm">直送收货</label>
+					</div>
+				</div>
+
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r">采购收货允许引用过去采购订单：</div>
+					<div class="ub uw-110 ub-ac umar-r10">
+						<label><input type="radio" id="isAllowRefOverdueForm0" name="isAllowRefOverdueForm" value="0" /><span>不启用</span></label>
+					</div>
+					<div class="ub uw-110 ub-ac umar-r10">
+						<label><input type="radio" id="isAllowRefOverdueForm1" name="isAllowRefOverdueForm" value="1" checked="checked"/><span>启用</span></label>
 					</div>
 				</div>
 			</form>
@@ -112,6 +122,7 @@
 		var isSupplierCascadeGoodsPi = data.isSupplierCascadeGoodsPi;
 		var isSupplierCascadeGoodsPr = data.isSupplierCascadeGoodsPr;
 		var isSupplierCascadeGoodsPm = data.isSupplierCascadeGoodsPm;
+		var isAllowRefOverdueForm = data.isAllowRefOverdueForm;
 		
 		//页面赋值
 		$("#branchId").val(branchId);
@@ -136,6 +147,13 @@
 		//直送收货
 		if(isSupplierCascadeGoodsPm == 1){
 			$("#isSupplierCascadeGoodsPm").attr("checked","true");
+		}
+		
+		//采购设置：允许采购收货引用过期采购订单：0否，1是
+		if(isAllowRefOverdueForm == 1){
+			$("#isAllowRefOverdueForm1").attr("checked","true");
+		}else{
+			$("#isAllowRefOverdueForm0").attr("checked","true");
 		}
 		
 		changeIsSupplierCascadeGoods();

@@ -32,8 +32,8 @@
 					<div class="umar-r10 uw-80 ut-r">所属机构:</div>
 					<input id="branchCodeName" name="branchCodeName"
 						class="uinp uw-200" type="text" readonly="readonly"
-						value="[${branch.branchCode }]${branch.branchName }"> <input
-						id="branchId" name="branchId" type="hidden"
+						value="[${branch.branchCode }]${branch.branchName }">
+					<input id="branchId" name="branchId" type="hidden"
 						value="${supplier.branchId }">
 
 				</div>
@@ -323,11 +323,19 @@
 				</div>
 			</div>
 			<div class="ub upad-4">
-				<div class="ub ub-ac uw-320">
+				<div class="ub ub-ac uw-100">
 					<div class="umar-r10 uw-80 ut-r"></div>
 					<label><input id="isDirect" name="isDirect" type="checkbox"
 						<c:if test="${supplier.isDirect}">checked="checked"</c:if>>直送供应商</label>
 				</div>
+
+				<div class="ub ub-ac uw-100">
+					<div class="umar-r10 uw-80 ut-r"></div>
+					<label><input id="isAllowPurchase" name="isAllowPurchase" type="checkbox"
+						<c:if test="${supplier.isAllowPurchase eq 1}">checked="checked"</c:if>>门店订货</label>
+				</div>
+
+
 			</div>
 
 		</div>

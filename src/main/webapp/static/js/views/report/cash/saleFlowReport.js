@@ -42,6 +42,8 @@ function initMarketWaterGrid() {
             {field: 'barCode', title: '条码', width: 100, align: 'left'},
             {field: 'spec', title: '规格', width: 80, align: 'center'},
             {field: 'unit', title: '单位', width: 80, align: 'center'},
+            {field: 'goodsTypeStr', title: '商品类型', width: 150, align: 'center'},
+            {field: 'saleWayStr', title: '经营方式', width: 150, align: 'center'},
             {field: 'businessTypeStr', title: '业务类型', width: 150, align: 'center'},
             {field: 'num', title: '数量', width: 120, align: 'right',formatter : function(num){
     			if(num){

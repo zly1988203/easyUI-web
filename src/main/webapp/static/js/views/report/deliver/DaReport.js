@@ -6,7 +6,22 @@ $(function(){
 	//开始和结束时间
     toChangeDatetime(10);
     initDatagridRequireOrders();
-    branchId = $("#branchId").val();
+
+    //机构选择初始化 发货机构
+    $('#sourceBranch').branchSelect({
+        onAfterRender:function(data){
+            $("#sourceBranchId").val(data.branchId);
+        }
+
+    });
+
+    //机构选择初始化 要货机构
+    $('#targetBranch').branchSelect({
+        onAfterRender:function(data){
+            $("#targetBranchId").val(data.branchId);
+        }
+    });
+
 });
 var gridHandel = new GridClass();
 var gridName = "deliverFormList";
@@ -77,22 +92,11 @@ function queryForm(){
 	$("#deliverType").val('DA');
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    fromObjStr.targetBranchName = "";
+    fromObjStr.sourceBranchName = "";
 	$("#deliverFormList").datagrid("options").method = "post";
 	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverReport/getDaForms';
 	$("#deliverFormList").datagrid('load', fromObjStr);
-}
-
-/**
- * 查询机构
- */
-var branchId;
-function selectBranches(){
-	new publicAgencyService(function(data){
-//        $("#branchId").val(data.branchesId);
-        //$("#branchName").val(data.branchName);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',branchId);
 }
 
 /**
@@ -127,8 +131,9 @@ function exportExcel(){
 	$("#exportWin").window("close");
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1);
-    $('#branchName').val(fromObjStr.branchName);
+    fromObjStr.targetBranchName = "";
+    fromObjStr.sourceBranchName = "";
+
 	$("#queryForm").form({
 		success : function(result){
 			//$_jxc.alert(result);

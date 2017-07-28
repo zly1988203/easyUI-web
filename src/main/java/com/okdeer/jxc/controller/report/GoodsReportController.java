@@ -236,12 +236,15 @@ BaseController<GoodsReportController> {
 
 			List<GoodsReportVo> exportList = goodsReportService.queryList(qo);
 			if(CollectionUtils.isNotEmpty(exportList)){
-				String fileName = "商品查询列表" + "_" + DateUtils.getCurrSmallStr();
+				String branchName = StringUtils.isNotBlank(qo.getBranchName()) ? qo.getBranchName() : getCurrentUser().getBranchName();
+				String fileName = branchName + "商品查询列表" + "_" + DateUtils.getCurrSmallStr();
 
 				String templateName = ExportExcelConstant.GOODSREPORT;
 
 				cleanAccessData(exportList);
-				exportListForXLSX(response, exportList, fileName, templateName);
+				Map<String, Object> param = new HashMap<>();
+				param.put("branchName", branchName);
+				exportParamListForXLSX(response, exportList, param, fileName, templateName);
 			} else {
 				RespJson json = RespJson.error("无数据可导");
 				return json;

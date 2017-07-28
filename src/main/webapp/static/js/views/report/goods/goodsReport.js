@@ -68,6 +68,8 @@ $(function(){
 	initDatagridOrders();
 	//清楚缓存
 	localStorageUtil.clearStorageItem();
+    //机构选择初始化 发货机构
+    $('#branchTemp').branchSelect();
 });
 
 
@@ -340,15 +342,6 @@ function searchBind(){
 	});
 }
 
-/**
- * 机构列表下拉选
- */
-function searchBranch (){
-	new publicAgencyService(function(data){
-	$("#branchName").val(data.branchName);
-	$("#branchId").val(data.branchesId);
-	},"","");
-}
 
 /**
  * 商品货号
@@ -431,8 +424,9 @@ function query(){
 	
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
-	
-	$("#goodsTab").datagrid("options").queryParams = $("#queryForm").serializeObject();
+    var fromObjStr = $('#queryForm').serializeObject();
+    fromObjStr.branchName = "";
+	$("#goodsTab").datagrid("options").queryParams = fromObjStr;
 	$("#goodsTab").datagrid("options").method = "post";
 	$("#goodsTab").datagrid("options").url = contextPath+"/goods/report/getList";
 	$("#goodsTab").datagrid("load");
