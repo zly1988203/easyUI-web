@@ -40,13 +40,7 @@
                    		readonly="readonly">
                    <div class="uinp-more">...</div>
                 </div>
-                <div class="ub  ub-ac" style="margin-left:160px;">
-                	<input type="checkbox" name="isShowZero" value="1" id="isShowZero" checked="checked" >
-                    <label for="isShowZero">显示计划为0的数据</label>
-                </div>
-            </div>
-            <div class="ub umar-t8">
-                <div class="ub  ub-ac">
+                <div class="ub  ub-ac umar-l30">
                    <div class="umar-r10 uw-80 ut-r">月目标销额:</div>
                    <select class="uinp  easyui-combobox uw-110"  name="targetSaleAmountOpType" data-options="editable:false,panelHeight:120,">
                    	   <option value="1"> &lt; </option>
@@ -57,7 +51,7 @@
                    </select>
                    <input class="uinp easyui-numberbox uw-152" name="targetSaleAmount" type="text" >
                 </div>
-                <div class="ub  ub-ac umar-l70">
+                <div class="ub  ub-ac umar-l20">
                    <div class="umar-r10 uw-80 ut-r">总完成率:</div>
                    <select class="uinp easyui-combobox uw-110" name="totalComplePercentOpType" data-options="editable:false,panelHeight:120,">
                    	   <option value="1"> &lt; </option>
@@ -68,9 +62,10 @@
                    </select>
                    <input class="uinp easyui-numberbox uw-152" name="totalComplePercent" type="text" >%
                 </div>
+                
             </div>
             <div class="ub umar-t8">
-                <div class="ub ub-ac ">
+            	<div class="ub ub-ac ">
                    <div class="umar-r10 uw-80 ut-r">其他销额:</div>
                    <select class="uinp easyui-combobox uw-110" name="otherSaleAmountType" data-options="editable:false,panelHeight:120,">
                    	   <option value="1"> 线下目标销额 </option>
@@ -85,7 +80,7 @@
                    </select>
                    <input class="uinp easyui-numberbox uw-100"  name="otherSaleAmount" type="text" >
                 </div>
-                <div class="ub  ub-ac umar-l70">
+                <div class="ub  ub-ac umar-l30">
                    <div class="umar-r10 uw-80 ut-r">其他完成率:</div>
                     <select class="uinp easyui-combobox uw-110"  name="otherComplePercentType" data-options="editable:false,panelHeight:120,">
                    	   <option value="1"> 线下完成率 </option>
@@ -99,6 +94,10 @@
                    	   <option value="5"> = </option>
                    </select>
                    <input class="uinp easyui-numberbox uw-100" name="otherComplePercent" type="text" >%
+                </div>
+                <div class="ub  ub-ac" style="margin-left:100px;">
+                	<input type="checkbox" name="isShowZero" value="1" id="isShowZero" checked="checked" >
+                    <label for="isShowZero">显示计划为0的数据</label>
                 </div>
             </div>
        	</form>

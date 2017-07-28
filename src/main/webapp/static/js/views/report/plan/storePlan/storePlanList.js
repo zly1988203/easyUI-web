@@ -38,7 +38,7 @@ function initStorePlanList(){
             		 var strHtml = "";
 
                 	 if(updatePermission && row.branchId && value){
-                		 strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'门店计划详细\',\''+ contextPath +'/target/storePlan/toEdit?branchId='+ row.branchId +'&monthStr='+ value +'\')">' + value + '</a>';
+                		 strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'门店计划详细\',\''+ contextPath +'/target/storePlan/toEdit?branchId='+ row.branchId +'&monthStr='+ row.monthStr +'\')">' + value + '</a>';
                 	 }else{
                 		 strHtml = value;
                 	 }
@@ -100,7 +100,7 @@ function initStorePlanList(){
             gridHandel.setDatagridHeader("center");
         }       
     });
-   // queryForm();
+    queryForm();
 }
 
 

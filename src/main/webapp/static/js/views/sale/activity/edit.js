@@ -61,6 +61,7 @@ $(function(){
 			return data;
 		},
 		onAfterRender:function(data){
+			$('#branchName').attr('title',$('#branchName').val());
     		if(data && data.length>0){
     			var ids = [];
     			data.forEach(function(obj,inx){
@@ -76,7 +77,7 @@ $(function(){
     			publicGetBranchGroupDetail(param,function(result){
     				$('#branchIds').val(result&&result.branchId);
     				$('#branchName').attr('title',result&&result.branchName);
-    				$('#branchsFullName').val('title',result&&result.branchName);
+    				$('#branchsFullName').val(result&&result.branchName);
     			})
     		}
      	}

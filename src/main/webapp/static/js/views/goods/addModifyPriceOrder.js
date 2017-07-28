@@ -32,7 +32,7 @@ $(function() {
     var formNo = $("#formNo").text();
     if (formNo != null && formNo != '') {
     	oldData = {
-    		branchName:$('#branchShopName').val()||'',
+    		branchId:$('#branchId').val()||'',
     		effectDate:$('#effectDate').val()||'',
     		remark:$('#remark').val()||'',
     		purchasePrice:$('#purchasePrice').prop('checked'),
@@ -77,6 +77,8 @@ function initBrancSelect(){
     			//拉取分组详细
     			publicGetBranchGroupDetail(param,function(result){
     				$('#branchId').val(result&&result.branchId);
+    				oldData.branchId = result&&result.branchId;
+    				
     				$('#branchShopName').attr('title',result&&result.branchName);
     				$('#branchsFullName').val(result&&result.branchName)
     			})
@@ -731,7 +733,7 @@ function check() {
     
     $("#"+datagridId).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
-		branchsName:$('#branchShopName').val()||'',
+    	branchId:$('#branchId').val()||'',
 		effectDate:$('#effectDate').val()||'',
 		remark:$('#remark').val()||'',
 		purchasePrice:$('#purchasePrice').prop('checked'),
@@ -743,12 +745,10 @@ function check() {
             return $.extend(true,{},obj);//返回对象的深拷贝
         })
     }
-    
     if(!gFunComparisonArray(oldData,newData)){
     	$_jxc.alert("数据有修改，请先保存再审核");
         return;
     }
-    
     // 通过审核
     var status = 1;
     var effectDate = $("#effectDate").val();

@@ -26,6 +26,8 @@ $(function() {
 		
 	})
 	
+	$('#branchSelectCom').branchSelect()
+	
 });
 
 var datagridID = 'activityCXList';
@@ -184,16 +186,6 @@ function exportExcel(){
 	}
 	$("#queryForm").attr("action",contextPath+'/sale/activityDetailReport/exportExcelList');
 	$("#queryForm").submit();	
-}
-/**
- * 机构列表下拉选
- */
-function searchBranch (){
-	new publicAgencyService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchCompleCode").val(data.branchCompleCode);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},"","");
 }
 /**
  * 商品类别
