@@ -6,26 +6,26 @@
  */
 package com.okdeer.jxc.controller.report.sales;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.constant.ExportExcelConstant;
-import com.okdeer.jxc.common.result.RespJson;
-import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 import com.okdeer.retail.facade.report.entity.PeriodSaleContrastResult;
 import com.okdeer.retail.facade.report.facade.PeriodSaleContrastFacade;
 import com.okdeer.retail.facade.report.qo.PeriodSaleContrastQo;
+
+import net.sf.json.JSONObject;
 
 /**
  * ClassName: PeriodSaleContrastController 
@@ -91,28 +91,61 @@ public class PeriodSaleContrastController extends BaseController<PeriodSaleContr
 	 * @date 2017年7月15日
 	 */
 	@RequestMapping("/exportList")
-	@ResponseBody
-	public RespJson exportList(HttpServletResponse response, PeriodSaleContrastQo qo) {
-		LOG.info("PeriodSaleContrastController.exportList start....");
+	public void export(HttpServletResponse response, PeriodSaleContrastQo qo) {
+
 		try {
 			handlerParam(qo);
-
 			List<PeriodSaleContrastResult> list = periodSaleContrastFacade.queryPeriodSaleContrastResultPage(qo);
-			if (CollectionUtils.isNotEmpty(list)) {
-				String fileName = "时段销售对比分析" + "_" + DateUtils.getCurrSmallStr();
 
-				String templateName = ExportExcelConstant.PERIOD_SALE_CONTRAST;
-				exportListForXLSX(response, list, fileName, templateName);
-			} else {
-				RespJson json = RespJson.error("无数据可导");
-				return json;
+			String fileName = "时段销售对比分析";
+
+			String[] headers = { "项目/时段", "", "月均销售", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月",
+					"12月", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" };
+
+			String[] columns = new String[] { "bizType", "classesStr", "avgSale", "lastOne", "lastTwo", "lastThree",
+					"lastFour", "lastFive", "lastSix", "lastSeven", "lastEight", "lastNine", "lastTen", "lastEleven",
+					"lastTwelve", "thisOne", "thisTwo", "thisThree", "thisFour", "thisFive", "thisSix", "thisSeven",
+					"thisEight", "thisNine", "thisTen", "thisEleven", "thisTwelve" };
+
+			List<JSONObject> jsonList = new ArrayList<JSONObject>();
+			for (PeriodSaleContrastResult data : list) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("bizType", data.getBizType());
+				jsonObject.put("classesStr", data.getClassesStr());
+				jsonObject.put("avgSale", data.getAvgSale());
+				jsonObject.put("lastOne", data.getLastOne());
+				jsonObject.put("lastTwo", data.getLastTwo());
+				jsonObject.put("lastThree", data.getLastThree());
+				jsonObject.put("lastFour", data.getLastFour());
+				jsonObject.put("lastFive", data.getLastFive());
+				jsonObject.put("lastSix", data.getLastSix());
+				jsonObject.put("lastSeven", data.getLastSeven());
+				jsonObject.put("lastEight", data.getLastEight());
+				jsonObject.put("lastNine", data.getLastNine());
+				jsonObject.put("lastTen", data.getLastTen());
+				jsonObject.put("lastEleven", data.getLastEleven());
+				jsonObject.put("lastTwelve", data.getLastTwelve());
+				jsonObject.put("thisOne", data.getThisOne());
+				jsonObject.put("thisTwo", data.getThisTwo());
+				jsonObject.put("thisThree", data.getThisThree());
+				jsonObject.put("thisFour", data.getThisFour());
+				jsonObject.put("thisFive", data.getThisFive());
+				jsonObject.put("thisSix", data.getThisSix());
+				jsonObject.put("thisSeven", data.getThisSeven());
+				jsonObject.put("thisEight", data.getThisEight());
+				jsonObject.put("thisNine", data.getThisNine());
+				jsonObject.put("thisTen", data.getThisTen());
+				jsonObject.put("thisEleven", data.getThisEleven());
+				jsonObject.put("thisTwelve", data.getThisTwelve());
+				jsonList.add(jsonObject);
 			}
+
+			List<String> mergeColumn = new ArrayList<>();
+			mergeColumn.add("bizType");
+			ExcelExportUtil.exportPeriodSaleExcel(fileName, headers, columns, mergeColumn, jsonList, response, null);
 		} catch (Exception e) {
-			LOG.debug("时段销售对比分析导出失败：{}", e);
-			RespJson json = RespJson.error("导出失败");
-			return json;
+			LOG.error("时段销售对比分析报表导出失败", e);
 		}
-		return null;
 	}
 
 	/**
@@ -123,7 +156,7 @@ public class PeriodSaleContrastController extends BaseController<PeriodSaleContr
 	 */
 	private void handlerParam(PeriodSaleContrastQo qo) {
 		LOG.debug("时段销售对比分析查询条件：{}", qo);
-		if(StringUtils.isEmpty(qo.getBranchCompleCode())){
+		if (StringUtils.isEmpty(qo.getBranchCompleCode())) {
 			qo.setBranchCompleCode(this.getCurrBranchCompleCode());
 		}
 		if (StringUtils.isEmpty(qo.getYearStr())) {
