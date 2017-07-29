@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.okdeer.jxc.common.constant.SysConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -274,7 +275,7 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			ChargeImportBusinessValid businessValid = new ChargeImportBusinessValid();
 
 			ChargeImportVo importVo = chargeImportComponent.importSelectCharge(fileName, is, fields,
-					super.getCurrUserId(), "/finance/storeCharge/downloadErrorFile", businessValid);
+					super.getCurrUserId(), "/finance/storeCharge/downloadErrorFile", businessValid, SysConstant.DICT_TYPE_STORE_CHARGE_CODE);
 
 			respJson.put("importInfo", importVo);
 		} catch (IOException e) {

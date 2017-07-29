@@ -11,6 +11,7 @@ package com.okdeer.jxc.controller.finance;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.chargeImport.ChargeImportBusinessValid;
 import com.okdeer.jxc.common.chargeImport.ChargeImportVo;
+import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -270,7 +271,7 @@ public class FinanceChargeController extends BaseController<FinanceChargeControl
             ChargeImportBusinessValid businessValid = new ChargeImportBusinessValid();
 
             ChargeImportVo importVo = chargeImportComponent.importSelectCharge(fileName, is, fields,
-                    super.getCurrUserId(), "/finance/financeCharge/downloadErrorFile", businessValid);
+                    super.getCurrUserId(), "/finance/financeCharge/downloadErrorFile", businessValid, SysConstant.DICT_TYPE_FINANCE_CHARGE_CODE);
 
             respJson.put("importInfo", importVo);
         } catch (IOException e) {
@@ -309,7 +310,8 @@ public class FinanceChargeController extends BaseController<FinanceChargeControl
     public void exportTemp(HttpServletResponse response) {
         LOG.debug("导出门店费用导入模板请求参数");
         try {
-            String fileName = "门店财务费用详情导入模板";
+            String fileName= "门店固定费用详情导入模板";
+
             String templateName = ExportExcelConstant.STORE_CHARGE_MAIN_IMPORT_TEMPLATE;
             if (!StringUtils.isEmpty(fileName) && !StringUtils.isEmpty(templateName)) {
                 exportListForXLSX(response, null, fileName, templateName);
