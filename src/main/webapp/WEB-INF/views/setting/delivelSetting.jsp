@@ -160,12 +160,12 @@
 				<div class="ub ub-ac upad-16">
 					<div class="ub uw-220 ut-r ">允许配送出库单生成要货单:</div>
 					<div class="ub ub-ac umar-r10">
-					<input class="ub radioItem" type="radio" name="templateDA" checked="checked" id="isCreateDA0" value="0"/>
-					<label for="isCreateDA0">不启用</label>
+					<input class="ub radioItem" type="radio" name="isAllowDoGenerDa" checked="checked" id="isAllowDoGenerDa0" value="0"/>
+					<label for="isAllowDoGenerDa0">不启用</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-					<input class="ub radioItem" type="radio" name="templateDA" id="isCreateDA1" value="1"/>
-					<label for="isCreateDA1">启用</label>
+					<input class="ub radioItem" type="radio" name="isAllowDoGenerDa" id="isAllowDoGenerDa1" value="1"/>
+					<label for="isAllowDoGenerDa1">启用</label>
 					</div>
 				</div>
 			</form>
@@ -226,8 +226,8 @@
 		var validityDay= data.validityDay;
 		var dosheetTemplate= data.dosheetTemplate;
 		var storesPriceSpec= data.storesPriceSpec;
-
 		var storeSelectGoodsSpec= data.storeSelectGoodsSpec;
+		var isAllowDoGenerDa= data.isAllowDoGenerDa;
 
 		//页面赋值
 		$("#branchId").val(branchId);
@@ -287,6 +287,13 @@
 			$("#dosheetTemplate3").attr("checked", "true");
 		}
 			$("#dosheetTemplate").val(dosheetTemplate);
+			
+		if (isAllowDoGenerDa === null || isAllowDoGenerDa === 0 || isAllowDoGenerDa === '') {
+			$("#isAllowDoGenerDa0").attr("checked", "true");
+		} else {
+			$("#isAllowDoGenerDa1").attr("checked", "true");
+		}
+
 	}
 	
 	//禁用保存
