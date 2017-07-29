@@ -23,6 +23,8 @@
 				    <div class="ubtns-item" onclick="printReport()">打印</div>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">关闭</div>
+					<input type="hidden" id="startCount" name="startCount" />
+					<input type="hidden" id="endCount" name="endCount" />
 	            </div>
 	             <!-- 引入时间选择控件 -->
 	           <div class="ub ub-ac">
