@@ -6,6 +6,24 @@ $(function () {
     initGridBranchCostList();
     $("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    
+    //机构选组件初始化
+    $('#branchComponent').branchSelect({
+    	param:{
+    		branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + 
+			',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C +
+			',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B
+    	}
+    });
+    
+    //操作员组件初始化
+    $('#operateComponent').operatorSelect({
+    	loadFilter:function(data){
+    		data.createUserId = data.id;
+    		return data;
+    	}
+    })
+    
 })
 
 var gridName = "gridStoreChargeList";
@@ -62,26 +80,6 @@ function initGridBranchCostList() {
     })
 }
 
-/**
- * 机构名称
- */
-function selectListBranches(){
-    new publicAgencyService(function(data){
-        $("#branchCompleCode").val(data.branchCompleCode);
-        $("#branchName").val("["+data.branchCode+"]" + data.branchName);
-    },'BF','');
-}
-
-/**
- * 操作员列表下拉选
- */
-function selectOperator(){
-    new publicOperatorService(function(data){
-        //data.Id
-        $("#createUserId").val(data.id);
-        $("#operateUserName").val("["+data.userCode+"]"+data.userName);
-    });
-}
 
 function queryStoreCharge() {
     $("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
@@ -91,9 +89,9 @@ function queryStoreCharge() {
 }
 
 function storeChargeAdd() {
-    toAddTab("新增门店费用",contextPath + "/finance/financeCharge/toAdd");
+    toAddTab("新增门店固定费用",contextPath + "/finance/financeCharge/toAdd");
 }
 
 function editHandel(formId) {
-    toAddTab("门店费用详情",contextPath + "/finance/financeCharge/toEdit?formId="+formId);
+    toAddTab("门店固定费用详情",contextPath + "/finance/financeCharge/toEdit?formId="+formId);
 }
