@@ -58,7 +58,7 @@ public class ChargeImportComponent {
 	private StringRedisTemplate redisTemplateTmp;
 
 	public ChargeImportVo importSelectCharge(String fileName, InputStream is, String[] fields, String userId,
-			String errorFileDownloadUrlPrefix, ChargeImportBusinessValid businessValid) throws ServiceException {
+			String errorFileDownloadUrlPrefix, ChargeImportBusinessValid businessValid,String code) throws ServiceException {
 		// 1、读取excel
 		List<JSONObject> excelList = ExcelReaderUtil.readExcel(fileName, is, fields);
 
@@ -66,7 +66,7 @@ public class ChargeImportComponent {
 		ChargeImportHandle chargeImportHandle = new ChargeImportHandle(excelList, fields, businessValid);
 
 		// 3 获取到excel导入成功数据
-		handelExcelSuccessData(chargeImportHandle);
+		handelExcelSuccessData(chargeImportHandle,code);
 
 		// 4 刷新数据
 		chargeImportHandle.checkWithDataBase(null);
@@ -106,14 +106,14 @@ public class ChargeImportComponent {
 			String jsonText = JSONArray.toJSON(errorList).toString();
 
 			// 文件key
-			String code = "jxc:storeChargeImport:" + userId;
+			code = "jxc:storeChargeImport:" + userId;
 
 			// 保存10分钟，单用户同时只能保存一个错误文件
 			redisTemplateTmp.opsForValue().set(code, jsonText, 10, TimeUnit.MINUTES);
 
 			chargeImportVo.setErrorFileUrl(errorFileDownloadUrlPrefix);
 		} else {// 无错误数据
-			String code = "jxc:storeChargeImport:" + userId;
+			code = "jxc:storeChargeImport:" + userId;
 			redisTemplateTmp.delete(code);
 		}
 
@@ -121,7 +121,7 @@ public class ChargeImportComponent {
 	}
 
 	// 处理excel校验成功的数据
-	private void handelExcelSuccessData(ChargeImportHandle chargeImportHandle) {
+	private void handelExcelSuccessData(ChargeImportHandle chargeImportHandle,String code) {
 		List<JSONObject> successDatas = chargeImportHandle.getExcelListSuccessData();
 
 		for (JSONObject obj : successDatas) {
@@ -129,7 +129,7 @@ public class ChargeImportComponent {
 			String costTypeCode = obj.getString("costTypeCode"); // 费用代码
 
 			if (StringUtils.isNotBlank(costTypeCode)) {
-				SysDict dict = sysDictService.getInfoByCode(SysConstant.DICT_TYPE_STORE_CHARGE_CODE, costTypeCode);
+				SysDict dict = sysDictService.getInfoByCode(code, costTypeCode);
 				if (dict == null) {
 					obj.element("error", "费用代码不存在");
 					continue;
