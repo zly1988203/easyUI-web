@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>新增门店计划</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/report/plan/storePlan/storePlanMain.js?V=${versionNo}2"></script>
+<script src="${ctx}/static/js/views/report/plan/storePlan/storePlanMain.js?V=${versionNo}1"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>

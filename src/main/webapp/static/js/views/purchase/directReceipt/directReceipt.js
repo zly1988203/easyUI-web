@@ -32,6 +32,8 @@ $(function(){
 		if(!$('#refFormNo').val()){
 			$("#paymentTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 		}else{
+			formId = $('#refFormId').val();
+			url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 			checkIsAllowPmRefPa(0);
 			$('#branchName').addClass('uinp-no-more');
 			$('#supplierName').addClass('uinp-no-more');
@@ -429,34 +431,8 @@ function initDirectDataGrid(){
        priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
    }
    
-   getGridData();
 }
 
-
-function getGridData(){
-	
-	var formId = $("#formId").val();
-	if(!formId)return;
-	$_jxc.ajax({
-       url : contextPath+"/form/purchase/detailList?formId="+formId,
-       async : false
-	},function(data){
-		
-		// 根据选择的采购单，带出采购单的信息
-//	    var keyrealNum = {
-//	        realNum:'maxRealNum',
-//	    };
-//	    
-//	    var keylargeNum = {
-//	    	largeNum:'maxlargeNum',
-//   	};
-	    
-	    if(data && data.rows.length > 0){
-	        var newRows = gFunUpdateKey(data.rows,{});
-	        $("#"+gridName).datagrid("loadData",newRows);
-	    }
-   });
-}	
 
 //限制转换次数
 var n = 0;
