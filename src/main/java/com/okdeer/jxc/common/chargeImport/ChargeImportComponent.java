@@ -129,7 +129,7 @@ public class ChargeImportComponent {
 			String costTypeCode = obj.getString("costTypeCode"); // 费用代码
 
 			if (StringUtils.isNotBlank(costTypeCode)) {
-				SysDict dict = sysDictService.getInfoByCode(SysConstant.DICT_TYPE_STORE_CHARGE_CODE_CODE, costTypeCode);
+				SysDict dict = sysDictService.getInfoByCode(SysConstant.DICT_TYPE_STORE_CHARGE_CODE, costTypeCode);
 				if (dict == null) {
 					obj.element("error", "费用代码不存在");
 					continue;
