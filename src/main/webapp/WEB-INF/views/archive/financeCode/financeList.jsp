@@ -82,14 +82,6 @@
 		                <div class="umar-r10 uw-90 ut-r">类型:</div>
 		                <div class="utxt">机构运营费用</div>
 		            </div>
-		            <!-- <div class="ub ub-ac  umar-t20" style="margin-left:-16px;">
-		                <div class="umar-r10 uw-90 ut-r">编码:</div>
-		                <span id="branchCodeSpan">101005</span>
-		                <input class="uinp ub ub-f1" name="dictTypeCode" id="dictTypeCode" type="text" 
-		                	onkeyup="this.value=this.value.replace(/\D/g,'')"
-							onafterpaste="this.value=this.value.replace(/\D/g,'')"
-							placeholder="编号为2位数字" maxlength="2" > 
-		            </div> -->
 		            <div class="ub ub-ac  umar-t20" style="margin-left:-16px;">
 		                <div class="umar-r10 uw-90 ut-r">名称:</div>
 		                <input class="uinp ub ub-f1" name="typeName" id="typeName" type="text" > 

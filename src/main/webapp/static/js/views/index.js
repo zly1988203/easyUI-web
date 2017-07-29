@@ -114,73 +114,72 @@ function addActive(name){
 
 var menuData;
 function loadLeftMenu(){
-    $.ajax({
+    $_jxc.ajax({
         async:false,
         type:'get',
-        url:contextPath+"/system/permission/i/json",
-        success: function(data){
-            if(data == null || data.length == 0){
-                alert("您没有该系统的访问权限！");
-                window.location=contextPath+'/system/logout';
-                return ;
-            }
-           
-            //data = initData;
-            menuData = data;
-            var menuHtml = "";
-            var divHtml = "";
-
-            //一、二级菜单折叠
-            menuHtml += "<div class=\"big-menu-switch\"><i class=\"iconfont\"></i></div>";
-            menuHtml += "<div class=\"menu-box\">";
-            menuHtml +=		"<ul class=\"menu-trans\">";
-
-            //循环一级菜单 begin
-            $(data).each(function(i){
-                var o = this;
-                
-                //加载一级菜单
-                menuHtml +=	"<li class='menu-one' childId=\""+o.code+"\"><a href=\"javascript:void(0);\"><i class=\"iconfont\"></i><span>"+o.name+"</span></a></li>";
-
-                divHtml += "<div id='"+o.code+"' class=\"uhide menu-two\">";
-            	
-                //循环二级菜单 begin
-                $(o.children).each(function(j){
-                    var p = this;
-                    //二级菜单01，有子菜单，有三级菜单，即无URL的
-                    if(!p.isleaf){
-                    	divHtml += 	"<div class=\"menu-two-item ub ub-ver\" >";
-                    	divHtml +=			"<div class=\"item-title\">"+p.name+"</div>";
-                    	divHtml +=			"<div class=\"item-list ub ub-ver\">";
-                    	divHtml +=				"<ul class=\"menu-two-ul\" >";
-                    	
-                    	//三级菜单，最后一级菜单
-                    	$(p.children).each(function(m){
-                    		var q = this;
-                    		divHtml +=				"<li><a href=\"javascript:openNewTab('"+q.name+"','"+q.url+"');\">"+q.name+"</a></li>";
-                    	});
-                    	
-                    	divHtml +=				"</ul>";
-                    	divHtml +=			"</div>";
-                    	divHtml +=		"</div>";
-                    }
-
-                });
-                
-                divHtml +=	"</div>";
-                
-                //加载二级菜单
-                $("#left_menu_two").append(divHtml);
-            });
-            //循环一级菜单 end
-            
-            menuHtml +=		"</ul>"; //menu-trans END
-
-            menuHtml +=	"</div>";	//big-menu-switch END
-
-            $("#leftMenuContent").html(menuHtml);
-
+        url:contextPath+"/system/permission/i/json"
+    },function(data){
+        if(data == null || data.length == 0){
+            alert("您没有该系统的访问权限！");
+            window.location=contextPath+'/system/logout';
+            return ;
         }
+       
+        //data = initData;
+        menuData = data;
+        var menuHtml = "";
+        var divHtml = "";
+
+        //一、二级菜单折叠
+        menuHtml += "<div class=\"big-menu-switch\"><i class=\"iconfont\"></i></div>";
+        menuHtml += "<div class=\"menu-box\">";
+        menuHtml +=		"<ul class=\"menu-trans\">";
+
+        //循环一级菜单 begin
+        $(data).each(function(i){
+            var o = this;
+            
+            //加载一级菜单
+            menuHtml +=	"<li class='menu-one' childId=\""+o.code+"\"><a href=\"javascript:void(0);\"><i class=\"iconfont\"></i><span>"+o.name+"</span></a></li>";
+
+            divHtml += "<div id='"+o.code+"' class=\"uhide menu-two\">";
+        	
+            //循环二级菜单 begin
+            $(o.children).each(function(j){
+                var p = this;
+                //二级菜单01，有子菜单，有三级菜单，即无URL的
+                if(!p.isleaf){
+                	divHtml += 	"<div class=\"menu-two-item ub ub-ver\" >";
+                	divHtml +=			"<div class=\"item-title\">"+p.name+"</div>";
+                	divHtml +=			"<div class=\"item-list ub ub-ver\">";
+                	divHtml +=				"<ul class=\"menu-two-ul\" >";
+                	
+                	//三级菜单，最后一级菜单
+                	$(p.children).each(function(m){
+                		var q = this;
+                		divHtml +=				"<li><a href=\"javascript:openNewTab('"+q.name+"','"+q.url+"');\">"+q.name+"</a></li>";
+                	});
+                	
+                	divHtml +=				"</ul>";
+                	divHtml +=			"</div>";
+                	divHtml +=		"</div>";
+                }
+
+            });
+            
+            divHtml +=	"</div>";
+            
+            //加载二级菜单
+            $("#left_menu_two").append(divHtml);
+        });
+        //循环一级菜单 end
+        
+        menuHtml +=		"</ul>"; //menu-trans END
+
+        menuHtml +=	"</div>";	//big-menu-switch END
+
+        $("#leftMenuContent").html(menuHtml);
+
     });
 }
 

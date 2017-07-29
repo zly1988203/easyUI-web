@@ -750,32 +750,25 @@ function queryGoodsList() {
         rows:10000
     };
     var url =  contextPath + '/goods/goodsSelect/getGoodsList';
-    $.ajax({
+    $_jxc.ajax({
         url:url,
         type:'POST',
         data:queryParams,
-        success:function(data){
-            gFunStartLoading();
-            if(data && data.rows.length > 0){
-                var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
-                var keyNames = {
-                    purchasePrice:'price',
-                    id:'skuId',
-                    disabled:'',
-                    pricingType:'',
-                    largeNum:'tmpLargeNum',
-                    inputTax:'tax'
-                };
-                var rows = gFunUpdateKey(addDefaultData,keyNames);
-                $("#"+gridName).datagrid("loadData",rows);
-            }else {
-                gFunEndLoading();
-                gridHandel.setLoadData([$.extend({},gridDefault)]);
-            }
-        },
-        error:function(){
-            gFunEndLoading();
-            $_jxc.alert("数据查询失败");
+    },function(data){
+        if(data && data.rows.length > 0){
+            var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
+            var keyNames = {
+                purchasePrice:'price',
+                id:'skuId',
+                disabled:'',
+                pricingType:'',
+                largeNum:'tmpLargeNum',
+                inputTax:'tax'
+            };
+            var rows = gFunUpdateKey(addDefaultData,keyNames);
+            $("#"+gridName).datagrid("loadData",rows);
+        }else {
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
         }
     })
 }
