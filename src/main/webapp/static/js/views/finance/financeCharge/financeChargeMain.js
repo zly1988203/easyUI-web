@@ -20,11 +20,15 @@ $(function () {
 	        $("#branchId").val(sessionBranchId);
     	}
         $("#chargeMonth").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM"));
+        
+        initBranchSelect();
+        
     }else if(chargeStatus === "edit"){
         $('#already-examine').css('display','none');
         url = contextPath + "/finance/financeCharge/getDetailList";
         var month = $("#month").val().substr(0,4)+"-"+$("#month").val().substr(4,5)
         $("#chargeMonth").val(month);
+        
     }else if(chargeStatus === "check"){
         $('#already-examine').css('display','block');
         isdisabled = true;
@@ -34,6 +38,17 @@ $(function () {
     }
     initGridStoreCharge();
 })
+
+//初始化机构选择
+function initBranchSelect(){
+	$('#branchComponent').branchSelect({
+		param:{
+			branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES + 
+							',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C +
+							',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B
+		}
+	})
+}
 
 var gridName = "gridStoreCharge";
 var gridHandel = new GridClass();
@@ -186,19 +201,7 @@ function delLineHandel(event){
 
 
 function storeChargeAdd() {
-    toAddTab("新增门店费用",contextPath + "/finance/financeCharge/toAdd");
-}
-
-/**
- * 机构名称
- */
-function selectListBranches(){
-    new publicAgencyService(function(data){
-        $("#branchId").val(data.branchesId);
-        $("#branchCode").val(data.branchCode);
-        selbranchType = data.type;
-        $("#branchName").val("["+data.branchCode+"]" + data.branchName);
-    },'DD','');
+    toAddTab("新增门店固定费用",contextPath + "/finance/financeCharge/toAdd");
 }
 
 
@@ -212,13 +215,13 @@ function saveStoreCharge() {
         $_jxc.alert("机构不能为空!");
         return;
     }
-
-    if(selbranchType<3 && chargeStatus === "add"){
-    	$_jxc.alert("机构只能选择店铺类型！");
-    	return;
+    
+    if(!$.trim($('#chargeMonth').val())){
+        $_jxc.alert("月份不能为空!");
+        return;
     }
     
-    var rows = gridHandel.getRowsWhere({costTypeCode:1});
+    var rows = gridHandel.getRowsWhere({costTypeLabel:1});
     if(rows.length==0){
         $_jxc.alert("表格不能为空");
         return;
@@ -315,7 +318,7 @@ function selectCharge(searchKey) {
             $("#"+gridName).datagrid("acceptChanges");
         }
 
-        var nowRows = gridHandel.getRowsWhere({costTypeCode:'1'});
+        var nowRows = gridHandel.getRowsWhere({costTypeLabel:'1'});
         var addDefaultData = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
         	id:"costTypeId",
