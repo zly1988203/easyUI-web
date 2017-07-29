@@ -11,9 +11,7 @@ $(function() {
 	initGoodsTotalAnalysiGrid();
 	
 	$('#branchSelects').branchSelect();
-	
-	$('#supplierComponent').supplierSelect();
-	
+
 	//商品类别选择组件
 	$('#categoryNameDiv').categorySelect();
 	
