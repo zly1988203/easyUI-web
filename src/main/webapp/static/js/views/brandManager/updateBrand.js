@@ -14,7 +14,7 @@ function save() {
     }
 
 	var formObj = $('#formAdd').serializeObject();
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/common/brand/updateBrand",
 		data : formObj
 	},function(result){

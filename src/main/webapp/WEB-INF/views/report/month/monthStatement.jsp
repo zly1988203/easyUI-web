@@ -56,20 +56,16 @@
 			   	
 		   }
 		   function getUpMonthReportDay(branchId){
-			    $.ajax({
+			    $_jxc.ajax({
 			        url:contextPath+"/report/monthStatement/getUpMonthReportDay",
 			        type:"POST",
-			        data:{"branchId":branchId},
-			        success:function(result){
-			        	var maxRptDate = result['data'].maxRptDate;
-			        	if(!maxRptDate){
-			        		maxRptDate = "该机构尚无月结数据";
-			        	}
-			        	$("#maxRptDate").html(maxRptDate);
-			        },
-			        error:function(result){
-			            $_jxc.alert("请求发送失败或服务器处理失败");
-			        }
+			        data:{"branchId":branchId}
+			    },function(result){
+		        	var maxRptDate = result['data'].maxRptDate;
+		        	if(!maxRptDate){
+		        		maxRptDate = "该机构尚无月结数据";
+		        	}
+		        	$("#maxRptDate").html(maxRptDate);
 			    });
 		   }
 		   function updateWdatePicker(){
@@ -103,25 +99,18 @@
 		    		rptDate:rptDate
 		        };
 			    console.log('monthStatement：',JSON.stringify(jsonData));
-			    gFunStartLoading();
-			    $.ajax({
+			    $_jxc.ajax({
 			        url:contextPath+"/report/monthStatement/executeMonthStatement",
 			        type:"POST",
-			        data:jsonData,
-			        success:function(result){
-			        	gFunEndLoading();
-			            if(result['code'] == 0){
-			            	// 获得上月月结期间
-					   		getUpMonthReportDay(branchId);
-					   		$_jxc.alert('月结成功！')
-			            }else{
-			            	$_jxc.alert(result['message']);
-			            }
-			        },
-			        error:function(result){
-			        	gFunEndLoading();
-			        	$_jxc.alert("请求发送失败或服务器处理失败");
-			        }
+			        data:jsonData
+			    },function(result){
+		            if(result['code'] == 0){
+		            	// 获得上月月结期间
+				   		getUpMonthReportDay(branchId);
+				   		$_jxc.alert('月结成功！')
+		            }else{
+		            	$_jxc.alert(result['message']);
+		            }
 			    });
 		   }
 	
