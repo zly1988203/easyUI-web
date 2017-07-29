@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.okdeer.jxc.common.utils.JsonMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -81,32 +82,34 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
             if (StringUtils.isNotBlank(vo.getStartTime())) {
                 PageUtils<SupplierSell> pageUtils = supplierStockFacade.getSupplierSells(vo);
 
-                if (pageUtils != null) {
-                    List<SupplierSell> lists = pageUtils.getList();
-                    List<Future<BigDecimal>> futures = Lists.newArrayList();
-                    for (SupplierSell supplierSell : lists) {
-                        Future<BigDecimal> future = supplierStockFacade.getSkuCount(supplierSell.getSupplierId());
-                        futures.add(future);
-                    }
+                Future<SupplierSell> sumSupplierSells = supplierStockFacade.sumSupplierSells(vo);
+                List<SupplierSell> lists = pageUtils.getList();
+                //List<Future<BigDecimal>> futures = Lists.newArrayList();
+                //for (SupplierSell supplierSell : lists) {
+                Future<Map<String,BigDecimal>> future = supplierStockFacade.getAllSupplierSkuCount();
+                 //   futures.add(future);
+                //}
 
-                    SupplierSell reportVo = supplierStockFacade.sumSupplierSells(vo);
-                    if (reportVo != null) {
-                        reportVo.setSupplierCode("SUM");
-                        pageUtils.setFooter(new ArrayList<SupplierSell>(Arrays.asList(reportVo)));
-                    } else {
-                        pageUtils.setFooter(new ArrayList<SupplierSell>());
-                    }
-                    // 过滤数据权限字段
-                    cleanAccessData(pageUtils);
-                    SupplierSell supplierSell;
-                    for (int i = 0,length = lists.size();i<length;++i){
-                        supplierSell = lists.get(i);
-                        supplierSell.setSkuCount(futures.get(i).get());
-                        lists.set(i,supplierSell);
-                    }
-                    pageUtils.setList(lists);
-                    return pageUtils;
+                SupplierSell supplierSell;
+                Map<String,BigDecimal> allSkuCount = future.get();
+                for (int i = 0,length = lists.size();i<length;++i){
+                    supplierSell = lists.get(i);
+                    supplierSell.setSkuCount(allSkuCount.get(supplierSell.getSupplierId()));
+                    lists.set(i,supplierSell);
                 }
+                SupplierSell reportVo = sumSupplierSells.get();
+                if (reportVo != null) {
+                    reportVo.setSupplierCode("SUM");
+                    pageUtils.setFooter(new ArrayList<SupplierSell>(Arrays.asList(reportVo)));
+                } else {
+                    pageUtils.setFooter(new ArrayList<SupplierSell>());
+                }
+                // 过滤数据权限字段
+                cleanAccessData(pageUtils);
+
+                pageUtils.setList(lists);
+                return pageUtils;
+
             }
         }catch (Exception e){
             LOG.error("查询供应商销售报表异常!",e);
@@ -131,20 +134,18 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
         try {
             if (StringUtils.isNotBlank(vo.getStartTime())) {
                 List<SupplierSell> exportList = supplierStockFacade.exportSupplierSells(vo);
-                List<Future<BigDecimal>> futures = Lists.newArrayList();
-                for (SupplierSell supplierSell : exportList) {
-                    Future<BigDecimal> future = supplierStockFacade.getSkuCount(supplierSell.getSupplierId());
-                    futures.add(future);
-                }
+                Future<Map<String,BigDecimal>> future = supplierStockFacade.getAllSupplierSkuCount();
+
                 // 过滤数据权限字段
                 cleanAccessData(exportList);
                 String fileName = "供应商销售报表_" + DateUtils.getCurrSmallStr();
                 String templateName = ExportExcelConstant.SUPPLIER_SELL_REPORT;
                 SupplierSell supplierSell;
-                for (int i = 0, length = exportList.size(); i < length; ++i) {
+                Map<String,BigDecimal> allSkuCount = future.get();
+                for (int i = 0,length = exportList.size();i<length;++i){
                     supplierSell = exportList.get(i);
-                    supplierSell.setSkuCount(futures.get(i).get());
-                    exportList.set(i, supplierSell);
+                    supplierSell.setSkuCount(allSkuCount.get(supplierSell.getSupplierId()));
+                    exportList.set(i,supplierSell);
                 }
                 exportListForXLSX(response, exportList, fileName, templateName);
             } else {
@@ -178,21 +179,18 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
                 if (exportList.size() > PrintConstant.PRINT_MAX_ROW) {
                     return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
                 }
-                List<Future<BigDecimal>> futures = Lists.newArrayList();
-                for (SupplierSell supplierSell : exportList) {
-                    Future<BigDecimal> future = supplierStockFacade.getSkuCount(supplierSell.getSupplierId());
-                    futures.add(future);
-                }
+                Future<Map<String,BigDecimal>> future = supplierStockFacade.getAllSupplierSkuCount();
                 String path = PrintConstant.SUPPLIER_SELL_REPORT;
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("startDate", vo.getStartTime());
                 map.put("endDate", vo.getStartTime());
                 map.put("printName", getCurrentUser().getUserName());
                 SupplierSell supplierSell;
-                for (int i = 0, length = exportList.size(); i < length; ++i) {
+                Map<String,BigDecimal> allSkuCount = future.get();
+                for (int i = 0,length = exportList.size();i<length;++i){
                     supplierSell = exportList.get(i);
-                    supplierSell.setSkuCount(futures.get(i).get());
-                    exportList.set(i, supplierSell);
+                    supplierSell.setSkuCount(allSkuCount.get(supplierSell.getSupplierId()));
+                    exportList.set(i,supplierSell);
                 }
                 JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, exportList, "");
             }
