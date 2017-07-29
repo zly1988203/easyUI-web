@@ -84,7 +84,7 @@ function getColumns(){
 				if(!value && value != '0' ){
         			return '';
         		}
-        		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        		return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
         	}
 		},
 		{field: 'profitAmount', title: '毛利', width:100, align: 'right',
@@ -97,7 +97,7 @@ function getColumns(){
 				if(!value && value != '0' ){
         			return '';
         		}
-        		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        		return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
         	}
 		},
 		
@@ -106,7 +106,7 @@ function getColumns(){
         		if(!value && value != '0' ){
         			return '';
         		}
-        		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        		return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
         	}
 		},
 		{field: 'saleRotationRate', title: '库存周转率', width:100, align: 'right',
@@ -114,7 +114,7 @@ function getColumns(){
 				if(!value && value != '0' ){
         			return '';
         		}
-        		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        		return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
         	}
 		},        
 		{field: 'saleRotationDay', title: '库存周转天数', width:100, align: 'right',
