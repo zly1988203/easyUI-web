@@ -15,15 +15,7 @@ $(function(){
 	//切换radio 禁启用
 	checktype();
     sourceBranchId = $("#sourceBranchId").val();
-
-    //机构选择初始化 发货机构
-    $('#sourceBranch').branchSelect({
-        onAfterRender:function(data){
-            $("#sourceBranchId").val(data.branchId);
-        }
-
-    });
-
+    
     //机构选择初始化 要货机构
     $('#targetBranch').branchSelect({
         onAfterRender:function(data){
@@ -32,6 +24,17 @@ $(function(){
     });
 
 });
+
+var initBranchFlag = false;
+
+function initBranchSelect() {
+	//机构选择初始化 发货机构
+    $('#sourceBranch').branchSelect({
+        onAfterRender:function(data){
+            $("#sourceBranchId").val(data.branchId);
+        }
+    });
+}
 
 function changeType(){
 	$(".radioItem").change(function(){
@@ -101,6 +104,11 @@ function checktype(value){
             $('#skuCode').attr("readonly","readonly");
             $('#skuCode').addClass('uinp-no-more');
 
+		}
+		
+		if(value && value !== 0 && !initBranchFlag){
+			initBranchFlag = true;
+			initBranchSelect()
 		}
 
 }
