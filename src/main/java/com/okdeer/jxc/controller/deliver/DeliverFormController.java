@@ -418,12 +418,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			if (FormType.DO.toString().equals(deliverType) || FormType.DD.toString().equals(deliverType)
 					|| FormType.DR.toString().equals(deliverType)) {
 				if (StringUtils.isEmpty(vo.getSourceBranchId())) {
-					vo.setSourceBranchId(UserUtil.getCurrBranchId());
+					vo.setSourceBranchCompleteCode(UserUtil.getCurrBranchCompleCode());
 				}
 			} else {
 				// 获取机构ID
 				if (StringUtils.isEmpty(vo.getTargetBranchId())) {
-					vo.setTargetBranchId(UserUtil.getCurrBranchId());
+					vo.setTargetBranchCompleteCode(UserUtil.getCurrBranchCompleCode());
 				}
 			}
 
