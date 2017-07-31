@@ -16,9 +16,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.okdeer.jxc.common.utils.JsonMapper;
@@ -57,7 +59,8 @@ import com.okdeer.retail.facade.report.qo.SupplierSellQo;
 @RequestMapping("/report/supplier/sell")
 public class SupplierSellReportController extends BaseController<SupplierSellReportController> {
 
-    @Reference(version = "1.0.0", check = false)
+    //@Reference(version = "1.0.0", check = false)
+    @Resource
     private SupplierSellFacade supplierStockFacade;
 
     @RequestMapping(value = "")
@@ -82,11 +85,13 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
             if (StringUtils.isNotBlank(vo.getStartTime())) {
                 PageUtils<SupplierSell> pageUtils = supplierStockFacade.getSupplierSells(vo);
 
-                Future<SupplierSell> sumSupplierSells = supplierStockFacade.sumSupplierSells(vo);
+                supplierStockFacade.sumSupplierSells(vo);
+                Future<SupplierSell> sumSupplierSells = RpcContext.getContext().getFuture();
                 List<SupplierSell> lists = pageUtils.getList();
                 //List<Future<BigDecimal>> futures = Lists.newArrayList();
                 //for (SupplierSell supplierSell : lists) {
-                Future<Map<String,BigDecimal>> future = supplierStockFacade.getAllSupplierSkuCount();
+                supplierStockFacade.getAllSupplierSkuCount();
+                Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
                  //   futures.add(future);
                 //}
 
@@ -134,8 +139,8 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
         try {
             if (StringUtils.isNotBlank(vo.getStartTime())) {
                 List<SupplierSell> exportList = supplierStockFacade.exportSupplierSells(vo);
-                Future<Map<String,BigDecimal>> future = supplierStockFacade.getAllSupplierSkuCount();
-
+                supplierStockFacade.getAllSupplierSkuCount();
+                Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
                 // 过滤数据权限字段
                 cleanAccessData(exportList);
                 String fileName = "供应商销售报表_" + DateUtils.getCurrSmallStr();
@@ -179,7 +184,8 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
                 if (exportList.size() > PrintConstant.PRINT_MAX_ROW) {
                     return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
                 }
-                Future<Map<String,BigDecimal>> future = supplierStockFacade.getAllSupplierSkuCount();
+                supplierStockFacade.getAllSupplierSkuCount();
+                Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
                 String path = PrintConstant.SUPPLIER_SELL_REPORT;
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("startDate", vo.getStartTime());
