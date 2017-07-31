@@ -29,9 +29,7 @@ $(function(){
 	var formId = $('#formId').val();
 	if(directStatus === 'add'){
 		$("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
-		if(!$('#refFormNo').val()){
-			$("#paymentTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-		}else{
+		if($('#refFormNo').val()){
 			formId = $('#refFormId').val();
 			url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 			checkIsAllowPmRefPa(0);
@@ -54,6 +52,9 @@ $(function(){
 		
 		//供应商选择组件初始化
 		selectSupplier();
+		
+		// 付款期限默认为当前日期
+		$("#paymentTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 		
 	}else if(directStatus === '0'){
 		oldData = {
