@@ -188,9 +188,12 @@ function initDatagridFormPA(){
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        queryParams : {formType : 'PA',startTime : $("#txtStartDate").val(),
+        queryParams : {
+        	formType : 'PA',startTime : $("#txtStartDate").val(),
             endTime: $("#txtEndDate").val(),
-            status : $('#radioItemDiv input[name="status"]:checked ').val()},
+            status : $('#radioItemDiv input[name="status"]:checked ').val(),
+            isAllowRefOverdueForm : 0
+        },
         //url:contextPath+tempURL,
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
@@ -237,6 +240,7 @@ function receiptAdd(){
 
 function query(){
 	var fromObjStr = $('#queryForm').serializeObject();
+	fromObjStr.isAllowRefOverdueForm = 0;
 	$("#" + tableIdName).datagrid('options').url = contextPath+tempURL;
 	//$("#" + tableIdName).datagrid('options').queryParams = fromObjStr;
 	$("#" + tableIdName).datagrid('load',fromObjStr);
