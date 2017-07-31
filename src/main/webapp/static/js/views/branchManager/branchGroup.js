@@ -292,7 +292,7 @@ function closeBranchComMsg(){
 function checkData(){
 	//所选的组合机构 (单选)
 	var selectBranch = $('#'+gridStoreViewId).datagrid("getSelected");
-	console.log('selectBranch',selectBranch)
+//	console.log('selectBranch',selectBranch)
 	if(!selectBranch){
 		$_jxc.alert("请选择机构组合");
 		return false;
@@ -321,7 +321,8 @@ function selectBranchs(searchKey){
 		//弹窗直接关闭 返回NO
 		if(result == 'NO')return;
 		var nowRows = gridHandelDet.getRowsWhere({branchName:'1'});
-		var newRows = gridHandel.checkDatagrid(nowRows,result,{},{});
+		var argWhere ={branchCode:1};  //验证重复性
+		var newRows = gridHandel.checkDatagrid(nowRows,result,argWhere,{});
 		
 		gridHandelDet.setLoadData(newRows)
 	})
