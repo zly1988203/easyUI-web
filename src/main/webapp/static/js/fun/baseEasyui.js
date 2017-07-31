@@ -147,7 +147,8 @@ var dateUtil = {
     getPreMonthDate:function(){
     	var d = this.getCurrentDate();
     	d.setMonth(d.getMonth()-1);
-    	d.setDate(d.getDate()+1);
+    	//bug20313
+    	//d.setDate(d.getDate()+1);
     	return d;
     },
     
