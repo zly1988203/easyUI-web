@@ -12,7 +12,12 @@ $(function() {
 	
 	$('#branchSelects').branchSelect();
 	
-	$('#supplierComponent').supplierSelect();
+	$('#supplierComponent').supplierSelect({
+		loadFilter:function(data){
+			data.supplierId = data.id;
+			return data;
+		}
+	});
 	
 	//商品类别选择组件
 	$('#categoryNameDiv').categorySelect();
