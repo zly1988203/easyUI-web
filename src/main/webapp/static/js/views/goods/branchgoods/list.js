@@ -53,7 +53,12 @@ $(function() {
 	changeStatus();
 
 	//机构选择初始化 分组
-	$('#branchGroupComponent').branchSelect();
+	$('#branchGroupComponent').branchSelect({
+		loadFilter:function(data){
+			data.branchType = data.type;
+			return data;
+		}
+	});
 	
 });
 
@@ -361,6 +366,7 @@ function selectBranch() {
 	new publicBranchService(function(data) {
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val("[" + data.branchCode + "]" + data.branchName);
+		debugger;
 		$("#branchType").val(data.type);
 		query();
 

@@ -24,7 +24,7 @@
 	        <div class="ub umar-t8">
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">关键字:</div>
-	                <input class="uinp uninputs" name="groupInfo" id="groupInfo" type="text" placeholder="输入门店名称查询"> 
+	                <input class="uinp uninputs" name="groupInfo" id="groupInfo" type="text" placeholder="输入组合编号或组合名称查询"> 
 	            </div>
 	        </div>
         </form>
