@@ -42,7 +42,7 @@
 				<div class="ub ub-ac umar-r10" id="sourceBranch">
 
 				<div class="umar-r10 uw-72 ut-r">发货机构:</div>
-				<input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${sourceBranchId}" />
+				<input type="hidden" id="sourceBranchId" name="sourceBranchId"/>
 				<%--<input type="hidden" id="sourceBranchName" name="sourceBranchName"/>--%>
 				<input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" />
 				<div class="uinp-more">...</div>
