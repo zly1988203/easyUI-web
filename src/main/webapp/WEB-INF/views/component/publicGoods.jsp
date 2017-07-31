@@ -21,27 +21,29 @@ pageEncoding="UTF-8"%>
                 </div>
             </div>
             <div class="ub ub-ver ub-f1 ">
-                <div class="ub ub-ac upad-10">
-                    <input class="usearch uinp ub ub-f1" type="text" id="goodsInfo"
-                           placeholder="可按货号、自编码、品名、助记码等查询">
-                    <input type="button" class="ubtn umar-l10" value="查询" onclick="cx()">
-                </div>
-
+            	<form id="hiddenForm">
+	                <div class="ub ub-ac upad-10">
+	                    <input class="usearch uinp ub ub-f1" type="text" id="goodsInfo" name="goodsInfo" placeholder="可按货号、自编码、品名、助记码等查询">
+	                    <input type="button" class="ubtn umar-l10" value="查询" onclick="cx()">
+	                </div>
+				</form>
+				
                 <div class="ub  ub-f1" >
                     <table id="gridGoods"></table>
                 </div>
 
             </div>
         </div>
-    <input type="hidden" name="searchSupplierId" id="searchSupplierId" value="${searchSupplierId}">
+    <%-- <input type="hidden" name="searchSupplierId" id="searchSupplierId" value="${searchSupplierId}">
     <input type="hidden" id="type" value="${type}"/>
     <input type="hidden" id="flag" value="${flag}"/>
     <input type="hidden" id="sourceBranchId" value="${sourceBranchId}"/>
     <input type="hidden" id="targetBranchId" value="${targetBranchId}"/>
     <input type="hidden" id="branchId" value="${branchId}"/>
     <input type="hidden" id="categoryCodes" value="${categoryCodes}"/>
-    <input type="hidden" id="isManagerStock" value="${isManagerStock}"/>
-
+    <input type="hidden" id="isManagerStock" value="${isManagerStock}"/> --%>
+	
+	
     </div>
 </div>
 
