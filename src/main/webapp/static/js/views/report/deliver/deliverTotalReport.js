@@ -19,8 +19,6 @@ $(function() {
 		$("input[name='queryType'][value=goods]").attr("checked",true); 
 		$("input[name='queryType'][value=goods]").click();
 	}
-	branchId = $("#branchId").val();
-
 
     //机构选择初始化 发货机构
     $('#sourceBranch').branchSelect({

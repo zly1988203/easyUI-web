@@ -333,23 +333,16 @@ function loadTabs(){
 function setQueryDataDA() {
 	tempURL = '/form/deliverSelect/getDeliverFormList';
 	tableIdName = 'deliverFormList';
-	// setQueryDataDABranbch();
 }
-function setQueryDataDABranbch() {
-	$("#sourceBranchId").val(sourceBranchId);
-	$("#sourceBranchName").val(branchName);
-}
+
 // 设置值
 function setQueryDataDO() {
 	tempURL = '/form/deliverForm/getDeliverForms';
 	tableIdName = 'processedFormList';
-	// setQueryDataDOBranbch();
+
 }
 
-function setQueryDataDOBranbch(){
-	$("#sourceBranchId").val(sourceBranchId);
-	$("#sourceBranchName").val(branchName);
-}
+
 
 var deliverAuditStatus = '0';
 var checkboxTime = 'checked';
