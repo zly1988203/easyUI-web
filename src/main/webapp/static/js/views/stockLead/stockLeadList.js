@@ -203,12 +203,12 @@ function deleteStockLead(){
 /**
  * 机构名称
  */
-function selectBranches() {
+/*function selectBranches() {
 	new publicAgencyService(function(data) {
 		// $("#createBranchId").val(data.branchesId);
 		$("#branchName").val(data.branchName);
 	}, 'IU', '');
-}
+}*/
 
 /**
  * 制单人
