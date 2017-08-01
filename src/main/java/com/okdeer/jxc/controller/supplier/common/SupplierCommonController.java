@@ -110,7 +110,8 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 					}
 				}
 				// 只对门店做允许门店订货控制
-				if (branches != null && !(BranchTypeEnum.FRANCHISE_STORE_B.getCode().equals(branches.getType())
+				if (branches != null && !(BranchTypeEnum.SELF_STORE.getCode().equals(branches.getType())
+						|| BranchTypeEnum.FRANCHISE_STORE_B.getCode().equals(branches.getType())
 						|| BranchTypeEnum.FRANCHISE_STORE_C.getCode().equals(branches.getType()))) {
 					qo.setIsAllowPurchase(null);
 				}
