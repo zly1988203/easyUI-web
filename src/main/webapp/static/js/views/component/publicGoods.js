@@ -9,7 +9,7 @@ var PublicGoods = function () {
 $(function () {
 
         PublicGoods.prototype = function(){
-
+        	var goodsClass;
             var goodsRadioCallBack ;
             //初始化回调函数
             initGoodsRadioCallBack=function(cb){
@@ -44,7 +44,7 @@ $(function () {
             }
             //初始树
             initTreeArchives = function (){
-                var searchSupplierId = $("#searchSupplierId").val();
+                var searchSupplierId = $("#supplierId").val();
                 var args = {supplierId:searchSupplierId};
                 var httpUrl = goodsClass.getTreeUrl(goodsClass.selectTypeName);
                 $.post(httpUrl, args,function(data){
@@ -348,7 +348,7 @@ $(function () {
                     var searchSupplierId = '';
                     var _searchParam = serializeParam();
                     if(text=='供应商'){
-                        searchSupplierId = $("#searchSupplierId").val();
+                        searchSupplierId = $("#supplierId").val();
                         _searchParam.supplierId = searchSupplierId;
                     }
                     // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
@@ -378,9 +378,10 @@ $(function () {
             	_formObj.goodsInfo = $.trim(_formObj.goodsInfo||'');
             	return _formObj;
             }
-             	
-            initSearch=function(param){
-            	//console.log('param',param);
+            
+            //2.7bwp 因为机构组合需求的实现，当选择组合机构来选择商品 原有打开商品选择url参数过长而导致400
+            //现在 组件参数不经过后台，直接组件dialog初始化通过param参数初始化到dom页面中
+            initForm = function(param){
             	if(param){
             		//根据参数序列化到dom结构中
             		for(key in param){
@@ -388,12 +389,17 @@ $(function () {
             			if(key == 'key'){
             				$('#goodsInfo').val(param.key);
             			}else{
-            				var _inpStr = "<input type='hidden' name='"+key+"' value='"+(param[key]||"")+"' />";
+            				var _inpStr = "<input type='hidden' name='"+key+"' id='"+key+"' value='"+(param[key]||"")+"' />";
             				$('#hiddenForm').append(_inpStr);
             			}
             		}
             	}
-            	
+            	goodsClass = new goodsArchives();
+            	initSelectView();
+                initTreeArchives();
+            }
+             	
+            initSearch=function(param){
                 fromParams = param;
                 $("#goodsInfo").val(param.key);
                 if(!param.key){
@@ -412,6 +418,7 @@ $(function () {
                 initSearch:initSearch,
                 publicGoodsGetCheckGoods:publicGoodsGetCheckGoods,
                 cx:cx,
+                initForm:initForm,
                 initSelectView:initSelectView,
                 initTreeArchives:initTreeArchives
             }
@@ -431,7 +438,7 @@ function goodsArchives(){
         this.selectTypeName = "categoryCode";
     }
     //tree的提交参数
-    var searchSupplierId = $("#searchSupplierId").val();
+    var searchSupplierId = $("#supplierId").val();
     this.treeParam = {
         categoryCode:'',
         supplierId:searchSupplierId,
@@ -465,14 +472,14 @@ function goodsArchives(){
     }
 }
 
-var goodsClass = new goodsArchives();
+//2.7bwp 后 不已这种方式初始化商品选择组件页面  不懂的可以打开注释 自己调试一般 即刻秒懂
 
-$(function(){
-    initSelectView();
-    initTreeArchives();
-});
-
-
+//var goodsClass = new goodsArchives();
+//
+//$(function(){
+//    initSelectView();
+//    initTreeArchives();
+//});
 
 
 

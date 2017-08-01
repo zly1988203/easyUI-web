@@ -28,6 +28,22 @@ $(function(){
 		$('input:radio[name=searchType]')[0].click();
 	}
 	    }
+	 
+	//机构组件初始化
+	$('#branchSelect').branchSelect({
+		loadFilter:function(data){
+			data.sourceBranchId = data.branchId;
+			return data;
+		}
+	});
+	
+	//操作员组件初始化
+	$('#operateorSelect').operatorSelect({
+		loadFilter:function(data){
+			data.operateUserId = data.id;
+			return data;
+		}
+	});
 });
 
 $(document).on('input','#remark',function(){
@@ -131,8 +147,11 @@ function addDeliverForm(){
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
-    fromObjStr.sourceBranchName = fromObjStr.sourceBranchName.substring(fromObjStr.sourceBranchName.lastIndexOf(']')+1)
-    fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
+//    fromObjStr.sourceBranchName = fromObjStr.sourceBranchName.substring(fromObjStr.sourceBranchName.lastIndexOf(']')+1)
+//    fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
+    //2.7精确查询
+    fromObjStr.sourceBranchName = "";
+    fromObjStr.operateUserName = "";
 
 	$("#deliverFormList").datagrid("options").method = "post";
 	$("#deliverFormList").datagrid('options').url = contextPath + '/form/deliverForm/getDeliverForms';

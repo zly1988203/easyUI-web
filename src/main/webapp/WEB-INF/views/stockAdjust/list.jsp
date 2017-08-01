@@ -32,19 +32,19 @@
 	                    <input class="uinp" type="text" id="formNo" name="formNo">
 	                </div>
 	              
-	                <div class="ub ub-ac uw-300 umar-l40">
+	                <div class="ub ub-ac uw-300 umar-l40" id="branchSelect">
 	                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input type="hidden" id="createBranchId" name="createBranchId" />
 	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
-	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
+	                    <div class="uinp-more" >...</div>
 	                </div>
 	            </div>
 	            <div class="ub umar-t8">
-	                <div class="ub ub-ac umar-r40">
+	                <div class="ub ub-ac umar-r40" id="operateorSelect">
 	                <div class="umar-r10 uw-70 ut-r">操作员:</div>
 	                <input class="uinp" name="salesmanId" id="salesmanId" type="hidden">
 	                <input class="uinp" id="createUserName" name="createUserName" type="text" maxlength="50" >
-	                <div class="uinp-more" onclick="selectOperator()">...</div>
+	                <div class="uinp-more">...</div>
 	            </div>
 	                <!--input-checkbox-->
 	                <div class="ub ub-ac  uw-300">

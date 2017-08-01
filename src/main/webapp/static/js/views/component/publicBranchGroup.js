@@ -6,7 +6,6 @@
 /*var nameOrCode=null;*/
 var selectType=null;//0 单选  1多选
 function initAgencyView(param){
-	//debugger;
 	//console.log('param',param);
 	if(param){
 		selectType = param.selectType;
