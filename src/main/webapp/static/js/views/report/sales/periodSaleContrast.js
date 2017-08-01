@@ -71,7 +71,7 @@ function initDataTimeSaleReport(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
            },
-           {field:'thisSever',title:'7月',width: 90,align:'right',
+           {field:'thisSeven',title:'7月',width: 90,align:'right',
            	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
@@ -131,7 +131,7 @@ function initDataTimeSaleReport(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
             },
-            {field:'lastSever',title:'7月',width: 90,align:'right',
+            {field:'lastSeven',title:'7月',width: 90,align:'right',
             	formatter:function(value,row,index){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 				}
@@ -284,7 +284,7 @@ function initDataCateSaleReport(){
    					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
    				}
               },
-              {field:'thisSever',title:'7月',width: 90,align:'right',
+              {field:'thisSeven',title:'7月',width: 90,align:'right',
               	formatter:function(value,row,index){
    					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
    				}
@@ -344,7 +344,7 @@ function initDataCateSaleReport(){
    					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
    				}
                },
-               {field:'lastSever',title:'7月',width: 90,align:'right',
+               {field:'lastSeven',title:'7月',width: 90,align:'right',
                	formatter:function(value,row,index){
    					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
    				}
