@@ -3,8 +3,6 @@
  * 要货单
  */
 var radioVal = 0;
-var targetBranchId;
-var sourceBranchId;
 $(function(){
 	//开始和结束时间
 	toChangeDate(10);
@@ -14,7 +12,6 @@ $(function(){
 	changeType();
 	//切换radio 禁启用
 	checktype();
-    sourceBranchId = $("#sourceBranchId").val();
     
     //机构选择初始化 要货机构
     $('#targetBranch').branchSelect({
@@ -114,12 +111,7 @@ function checktype(value){
 }
 //清空所有数据值
 function cleardata(){
-    if(radioVal == '0'){
-        $("#sourceBranchId").val('');
-    }else{
-        $("#sourceBranchId").val(sourceBranchId);
-    }
-
+    $("#sourceBranchId").val('');
     $('#sourceBranchName').val("");
     $('#targetBranchId').val("");
 	$('#targetBranchName').val("");

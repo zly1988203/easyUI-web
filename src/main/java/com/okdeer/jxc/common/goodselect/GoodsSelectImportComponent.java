@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONArray;
+import com.okdeer.jxc.common.utils.UuidUtils;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
 import com.okdeer.jxc.utils.poi.ExcelExportUtil;
@@ -334,14 +335,15 @@ public class GoodsSelectImportComponent {
 			//错误excel内容
 			String jsonText = JSONArray.toJSON(errorList).toString();
 			//文件key
-			String code = "jxc_goodsSelectImport_" + errorFileDownloadUrlPrefix + "_" + userId;
-			// 保存10分钟，单用户每个功能同时只能保存一个错误文件
+			String code = "jxc_goodsSelectImport_" + UuidUtils.getUuid();
+			// 保存10分钟，用户每次导入都保存一个错误文件
 			redisTemplateTmp.opsForValue().set(code, jsonText, 10, TimeUnit.MINUTES);
 
 			goodsSelectImportVo.setErrorFileUrl(errorFileDownloadUrlPrefix + "?code="+code+"&type="+type);
 		}else{//无错误数据
-			String code = "goodsSelectImport_" + userId;
-			redisTemplateTmp.delete(code);
+			// 每次导入都是新的错误文件，不需要删除旧值
+			//String code = "goodsSelectImport_" + userId;
+			//redisTemplateTmp.delete(code);
 		}
 
 		return goodsSelectImportVo;

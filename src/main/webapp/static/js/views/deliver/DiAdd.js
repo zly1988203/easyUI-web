@@ -326,7 +326,7 @@ function onChangeLargeNum(newV,oldV){
     
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'receiveNum');
     var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
-    if(realNumVal&&Math.abs(realNumVal2-realNumVal)>0.0001){
+    if(realNumVal&& oldV){
     	n=1;
         gridHandel.setFieldValue('receiveNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数
     }
@@ -366,7 +366,7 @@ function onChangeRealNum(newV,oldV) {
 
     var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
     var largeNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
-    if(largeNumVal&&Math.abs(largeNumVal2-largeNumVal)>0.0001){
+    if(largeNumVal&& oldV){
     	m = 1;
         var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
         gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
