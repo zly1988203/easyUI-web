@@ -9,6 +9,28 @@ $(function(){
    
     //单据状态切换 
     changeStatus();
+    
+    
+    //机构选择组件初始化
+    $('#branchSelect').branchSelect()
+    
+    //供应商组件初始化
+    $('#supplierSelect').supplierSelect({
+    	loadFilter:function(data){
+			data.supplierId = data.id;
+			return data;
+		}
+    })
+    
+    //操作员组件初始化
+	$('#operateorSelect').operatorSelect({
+		loadFilter:function(data){
+			data.operateUserId = data.id;
+			return data;
+		}
+	});
+    
+    
 });
 
 //单据状态切换
@@ -94,7 +116,13 @@ function receiptAdd(){
 
 
 function query(){
-	$("#gridOrders").datagrid("options").queryParams = $("#queryForm").serializeObject();
+	var formStr = $("#queryForm").serializeObject();
+	//2.7精确查询
+	formStr.branchName = "";
+	formStr.operateUserName = "";
+	formStr.supplierName = "";
+	
+	$("#gridOrders").datagrid("options").queryParams = formStr;
 	$("#gridOrders").datagrid("options").method = "post";
 	$("#gridOrders").datagrid("options").url = contextPath+'/form/purchase/returnListData';
 	$("#gridOrders").datagrid("load");

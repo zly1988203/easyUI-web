@@ -199,20 +199,15 @@
 	$(function() {
 		$("#lbTxt").html("请上传自定义模板")
 		//初始页面
-		$.ajax({
+		$_jxc.ajax({
 			url : contextPath + "/branchSetting/getSetting",
-			type : "POST",
-			success : function(result) {
-				if(result.code == 0){
-					init(result.data);
-				}else{
-					disableSaveBtn();
-					$_jxc.alert(result.message);
-				}
-			},
-			error : function(result) {
+			type : "POST"
+		},function(result){
+			if(result.code == 0){
+				init(result.data);
+			}else{
 				disableSaveBtn();
-				$_jxc.alert("请求发送失败或服务器处理失败");
+				$_jxc.alert(result.message);
 			}
 		});
 		

@@ -176,7 +176,7 @@ BaseController<GoodsReportController> {
 			qo.setPageSize(pageSize);
 
 			// 如果没有选择店铺，则查询登录人所在机构的商品
-			if (StringUtils.isEmpty(qo.getBranchName())) {
+			if (StringUtils.isEmpty(qo.getBranchId())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
 			}else{
 				String branchName = qo.getBranchName();

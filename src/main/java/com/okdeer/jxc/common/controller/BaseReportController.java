@@ -103,8 +103,6 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 		forbiddenSets = parser.getAllForbiddenSets();
 
 		// 所有列
-		/*List<GridColumn> gridColumnList = GridExportPrintUtils.getAccessGridColumns(getViewObjectClass(),
-				forbiddenSets);*/
 		String columns = GridExportPrintUtils.getAccessGridColumnsJson(getViewObjectClass(),
 				forbiddenSets);
 		model.addAttribute("columns", columns);

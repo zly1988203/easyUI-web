@@ -6,8 +6,7 @@ var PublicGoods = function () {
 
 }
 
-$(
-    function () {
+$(function () {
 
         PublicGoods.prototype = function(){
 
@@ -84,45 +83,34 @@ $(
                 categoryCode=treeNode.code;
                 var text =  $("#goodsType").combobox('getText');
                 var type = $('#type').val();
+                var _searchParam = serializeParam();
                 if(text =='类别'){
                     brandId = "";
                     supplierId = "";
                     // 如果为直送收货，类别需求加入供商商条件，其他单据商品选择与供应商无关
                     if(type != 'PM'){
-                    	fromParams.supplierId = "";
+                    	_searchParam.supplierId = "";
                     }
                 }else if(text =="品牌"){
                     brandId = treeNode.id;
                     supplierId = "";
                     // 如果为直送收货，品牌需求加入供商商条件，其他单据商品选择与供应商无关
                     if(type != 'PM'){
-                    	fromParams.supplierId = "";
+                    	_searchParam.supplierId = "";
                     }
                 }else if(text=="供应商"){
                     brandId = "";
                     supplierId = treeNode.id;
-                    fromParams.supplierId = supplierId;
+                    _searchParam.supplierId = supplierId;
                 }
-
+                _searchParam.categoryCode = categoryCode;
+                
                 /***
                  * 'categoryCode':categoryCode, 点击树节点的类别值
                  * 'categoryCodes':$('#categoryCodes').val(), 外部传人的业务类别 数组
                  *
                  * **/
-                $("#gridGoods").datagrid("options").queryParams = $.extend({
-                        'flag':$('#flag').val()==undefined?"":$('#flag').val(),
-                        'goodsInfo':$('#goodsInfo').val()==undefined?"":$('#goodsInfo').val(),
-                        'supplierId':supplierId,
-                        'formType':$('#type').val()==undefined?"":$('#type').val(),
-                        'sourceBranchId':$('#sourceBranchId').val()==undefined?"":$('#sourceBranchId').val(),
-                        'targetBranchId':$('#targetBranchId').val()==undefined?'':$('#targetBranchId').val(),
-                        'brandId':brandId,
-                        'branchId': $('#branchId').val()==undefined?"":$('#branchId').val(),
-                        'categoryCode':categoryCode,
-                        'categoryCodes':$('#categoryCodes').val()==undefined?"":$('#categoryCodes').val(),
-                        'isManagerStock':$('#isManagerStock').val()==undefined?"":$('#isManagerStock').val()
-                },
-                    fromParams)
+                $("#gridGoods").datagrid("options").queryParams = _searchParam;
 
                 $("#gridGoods").datagrid("options").method = "post";
                 $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
@@ -358,23 +346,14 @@ $(
                 setTimeout(function(){
                     var text =  $("#goodsType").combobox('getText');
                     var searchSupplierId = '';
+                    var _searchParam = serializeParam();
                     if(text=='供应商'){
                         searchSupplierId = $("#searchSupplierId").val();
+                        _searchParam.supplierId = searchSupplierId;
                     }
                     // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
                     // 梁利 提出左边树与右边的查询无关系
-                    var queryParams=$.extend({
-                            'flag':$('#flag').val()==undefined?"":$('#flag').val(),
-                            'goodsInfo':$("#goodsInfo").val()==undefined?"":$("#goodsInfo").val(),
-                            'supplierId':searchSupplierId,
-                            'formType':$('#type').val()==undefined?"":$('#type').val(),
-                            'sourceBranchId':$('#sourceBranchId').val()==undefined?"":$('#sourceBranchId').val(),
-                            'targetBranchId':$('#targetBranchId').val()==undefined?"":$('#targetBranchId').val(),
-                            'branchId':$('#branchId').val()==undefined?"":$('#branchId').val(),
-                            'categoryCodes':$('#categoryCodes').val()==undefined?"":$('#categoryCodes').val(),
-                            'isManagerStock':$('#isManagerStock').val()==undefined?"":$('#isManagerStock').val()
-                        },
-                            fromParams);
+                    var queryParams=_searchParam;
                     
                     if(text!='供应商'){
                     	queryParams.supplierId = "";
@@ -393,24 +372,34 @@ $(
                     $("#goodsInfo").select();
                 },1000)
             }
-
+            
+            serializeParam = function(){
+            	var _formObj = $('#hiddenForm').serializeObject();
+            	_formObj.goodsInfo = $.trim(_formObj.goodsInfo||'');
+            	return _formObj;
+            }
+             	
             initSearch=function(param){
+            	//console.log('param',param);
+            	if(param){
+            		//根据参数序列化到dom结构中
+            		for(key in param){
+            			//nameOrCode赋值
+            			if(key == 'key'){
+            				$('#goodsInfo').val(param.key);
+            			}else{
+            				var _inpStr = "<input type='hidden' name='"+key+"' value='"+(param[key]||"")+"' />";
+            				$('#hiddenForm').append(_inpStr);
+            			}
+            		}
+            	}
+            	
                 fromParams = param;
                 $("#goodsInfo").val(param.key);
                 if(!param.key){
-                    // var searchSupplierId = $("#searchSupplierId").val();
+                	var _searParam = serializeParam();
                     $("#gridGoods").datagrid("options").method = "post";
-                    $("#gridGoods").datagrid("options").queryParams = $.extend({
-                            'flag':$('#flag').val()==undefined?"":$('#flag').val(),
-                            'supplierId':$("#searchSupplierId").val()==undefined?"":$("#searchSupplierId").val(),
-                            'formType':$('#type').val()==undefined?"":$('#type').val(),
-                            'sourceBranchId':$('#sourceBranchId').val()==undefined?"":$('#sourceBranchId').val(),
-                            'targetBranchId':$('#targetBranchId').val()==undefined?"":$('#targetBranchId').val(),
-                            'branchId':$('#branchId').val()==undefined?"":$('#branchId').val(),
-                            'categoryCodes':$('#categoryCodes').val()==undefined?"":$('#categoryCodes').val(),
-                            'isManagerStock':$('#isManagerStock').val()==undefined?"":$('#isManagerStock').val()
-                    },
-                        fromParams)
+                    $("#gridGoods").datagrid("options").queryParams = _searParam;
                     $("#gridGoods").datagrid("options").url =contextPath + '/goods/goodsSelect/getGoodsList';
                     $("#gridGoods").datagrid('load');
                 }else{

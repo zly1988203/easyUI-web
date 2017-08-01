@@ -64,13 +64,12 @@
 		            <div class="ub ub-ac umar-r40">
 		                <!-- 隐藏类别编号 -->
 		                <input class="uinp" name="categoryCode" id="categoryCode" type="hidden">
-		                <input class="uinp" name="brandId" id="brandId" type="hidden">
 		                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
-		                <input class="uinp" name="branchType" id="branchType" type="hidden">
 		                
 		                <div class="ub ub-ac" id="branchGroupComponent">
 		                	<div class="umar-r10 uw-60 ut-r">机构:</div>
 			                <input class="uinp" name="branchId" id="branchId" type="hidden">
+			                <input class="uinp" name="branchType" id="branchType" type="hidden">
 			                <input id="branchName" name="branchName" class="uinp"  type="text">
 		                	<div class="uinp-more">...</div>
 		                </div>	

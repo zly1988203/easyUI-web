@@ -836,27 +836,22 @@ function checkSettleAuditStutas(supplierId){
 
 //设置供应商扩展信息
 function setSupplierExtValue(supplierId){
-	$.ajax({
+	$_jxc.ajax({
 		url : contextPath + "/common/supplier/getSupplierExtById",
 		type : "POST",
 		data : {
 			supplierId : supplierId
-		},
-		success : function(data) {
-			console.log(data);
-	    	//开户银行
-	    	$('#openAccountBank').val((data.supplierExt.openAccountBank?data.supplierExt.openAccountBank:''));
-	    	//银行账户
-	    	$('#bankAccount').val((data.supplierExt.bankAccount?data.supplierExt.bankAccount:''));
-	    	
-	    	//办公地址
-	    	$('#officeAddress').val((data.supplierExt.officeAddress?data.supplierExt.officeAddress:''));
-	    	//国税登记
-	    	$('#nationalTaxRegNum').val((data.supplierExt.nationalTaxRegNum?data.supplierExt.nationalTaxRegNum:''));
-		},
-		error : function(result) {
-			$_jxc.alert("请求发送失败或服务器处理失败");
 		}
+	},function(data){
+    	//开户银行
+    	$('#openAccountBank').val((data.supplierExt.openAccountBank?data.supplierExt.openAccountBank:''));
+    	//银行账户
+    	$('#bankAccount').val((data.supplierExt.bankAccount?data.supplierExt.bankAccount:''));
+    	
+    	//办公地址
+    	$('#officeAddress').val((data.supplierExt.officeAddress?data.supplierExt.officeAddress:''));
+    	//国税登记
+    	$('#nationalTaxRegNum').val((data.supplierExt.nationalTaxRegNum?data.supplierExt.nationalTaxRegNum:''));
 	});
 }
 

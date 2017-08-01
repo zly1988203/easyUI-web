@@ -794,13 +794,16 @@ function setParam(newParam) {
 var good_dalogTemp = null;
 
 function publicGoodsServiceHandel(param,callback){
-	if(!param.branchId){
+	//2.7.0 修改： 组合机构选择时 branchId过长 导致400  现在链接参数改为页面初始化动态渲染<input type="hidden">隐藏域（param）
+	/*if(!param.branchId){
         url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&sourceBranchId="+param.sourceBranchId+"&targetBranchId="+param.targetBranchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
     }else if(param.categoryCodes || param.isManagerStock){ //商品类别
     	url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag+"&categoryCodes="+param.categoryCodes+"&isManagerStock="+param.isManagerStock;
     }else{
     	url=contextPath + "/goods/goodsSelect/view?type="+param.type+"&branchId="+param.branchId+"&supplierId="+param.supplierId+"&flag="+param.flag;
-    }
+    }*/
+	
+	var url=contextPath + "/goods/goodsSelect/view";
     //公有属性
     var dalogObj = {
         href:url,

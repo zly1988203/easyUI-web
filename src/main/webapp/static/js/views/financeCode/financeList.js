@@ -69,7 +69,7 @@ function zTreeOnClick(event, treeId, treeNode) {
 
 var dg;
 function initGridFinanceList() {
-	var updatePermission = $("#updatePermission").html().trim();
+	var updatePermission = $.trim($("#updatePermission").html()||'');
     gridHandel.setGridName(gridName);
     dg = $("#"+gridName).datagrid({
         method:'post',
@@ -99,7 +99,6 @@ function initGridFinanceList() {
 }
 
 function addFinanceCode() {
-	//console.log('selectNode',selectNode)
 	var _code = selectNode.code;
 	//机构运营费用 101005 2.7
 	if(_code == '101005'){
@@ -191,8 +190,6 @@ function saveCost(){
 
 //删除 机构运营费用 子节点
 function delCostItem(){
-	console.log('selectNode',selectNode);
-	
 	var param = {
         url: contextPath + "/archive/financeCode/deleteDictType",
         data: {

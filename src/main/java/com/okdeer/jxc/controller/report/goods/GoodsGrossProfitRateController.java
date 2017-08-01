@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -79,12 +80,7 @@ public class GoodsGrossProfitRateController extends BaseController<GoodsGrossPro
 		LOG.info("GoodsGrossProfitRateController.list start....");
 		LOG.debug("商品毛利率报表查询条件：{}", qo);
 		try {
-			if (StringUtils.isEmpty(qo.getBranchId())) {
-				qo.setBranchId(this.getCurrBranchId());
-			}
-			if (qo.getType() == null) {
-				qo.setType(this.getCurrBranchType());
-			}
+			buildParam(qo);
 			qo.setPageNum(rows);
 			qo.setPageSize(page);
 			PageUtils<GoodsGrossProfitRate> pages = goodsGrossProfitRateFacade.queryGoodsGrossProfitRateList(qo);
@@ -104,12 +100,7 @@ public class GoodsGrossProfitRateController extends BaseController<GoodsGrossPro
 
 		LOG.info("GoodsGrossProfitRateController.exportList start....");
 		try {
-			if (StringUtils.isEmpty(qo.getBranchId())) {
-				qo.setBranchId(this.getCurrBranchId());
-			}
-			if (qo.getType() == null) {
-				qo.setType(this.getCurrBranchType());
-			}
+			buildParam(qo);
 			List<GoodsGrossProfitRate> list = goodsGrossProfitRateFacade.queryGoodsGrossProfitRateExportList(qo);
 			// 过滤数据权限字段
 			cleanAccessData(list);
@@ -129,5 +120,23 @@ public class GoodsGrossProfitRateController extends BaseController<GoodsGrossPro
 			return json;
 		}
 		return null;
+	}
+
+	/**
+	 * @Description: TODO
+	 * @param qo
+	 * @author zuowm
+	 * @date 2017年8月1日
+	 */
+	private void buildParam(GoodsGrossProfitRateQo qo) {
+		if (StringUtils.isEmpty(qo.getBranchId())) {
+			qo.setBranchId(this.getCurrBranchId());
+		}
+		if (SysConstant.MANAGER_BRANCH_ID.equals(qo.getBranchId())) {
+			qo.setBranchCompleCode(SysConstant.MANAGER_BRANCH_CODE);
+		}
+		if (qo.getType() == null) {
+			qo.setType(this.getCurrBranchType());
+		}
 	}
 }

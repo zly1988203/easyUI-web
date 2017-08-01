@@ -8,6 +8,21 @@ $(function(){
 	initDatagridRequireOrders();
 	branchId = $("#branchId").val();
 	brancheType = $("#brancheType").val();
+	
+	//机构组件初始化
+	$('#branchSelect').branchSelect({
+		param:{
+			formType:'BF'
+		}
+	});
+	
+	//操作员组件初始化
+	$('#operateorSelect').operatorSelect({
+		loadFilter:function(data){
+			data.createUserId = data.id;
+			return data;
+		}
+	});
 });
 
 var gridHandel = new GridClass();
@@ -183,6 +198,10 @@ function queryForm(){
 		return ;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
+	//2.7精确查询 
+	fromObjStr.branchName = "";
+	fromObjStr.createUserName = "";
+	
 	$("#marketWater").datagrid("options").method = "post";
 	$("#marketWater").datagrid('options').url = contextPath + '/report/pricingQuery/reportListPage';
 	$("#marketWater").datagrid('load', fromObjStr);
@@ -191,6 +210,7 @@ function queryForm(){
 /**
  * 查询店铺
  */
+/*
 var branchId;
 var brancheType;
 function selectBranches(){
@@ -201,17 +221,18 @@ function selectBranches(){
         }
 	},'',branchId);
 }
-
+*/
 
 /**
  * 店铺名称
  */
+/*
 function searchBranch(){
 	new publicAgencyService(function(data){
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
 	},'BF','');
-}
+}*/
 
 /**
  * 操作员列表下拉选

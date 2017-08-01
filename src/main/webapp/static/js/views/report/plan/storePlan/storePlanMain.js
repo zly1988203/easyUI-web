@@ -6,10 +6,12 @@ var _urlMonthStr = getUrlQueryString('monthStr');
 var gridUrl;
 $(function(){
 	chargeStatus = $('#chargeStatus').val();
-	//开始和结束时间
-    $("#year").val(dateUtil.getCurrentDate().format("yyyy"));
+	
     //新增
     if(chargeStatus == 'add'){
+    	//开始和结束时间
+        $("#year").val(dateUtil.getCurrentDate().format("yyyy"));
+        
     	initStorePlanList();
     	//机构选择初始化
     	$('#branchSelect').branchSelect({

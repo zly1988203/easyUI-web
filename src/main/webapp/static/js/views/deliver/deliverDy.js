@@ -37,23 +37,16 @@ $(function(){
 	    }
         var formId = $("#formId").val();
         url = contextPath+"/form/deliverFormList/getDeliverFormListsById";
-        $.ajax(
-            {
+        $.ajax({
                 type:"POST",
                 url:url,
                 data:{
                     deliverFormId : formId,
                     deliverType : 'DY'
-                },
-                success:function(result){
-                    selectStockAndPrice(result.rows);
-                },
-                error:function(e){
-
                 }
-
-            }
-        )
+            },function(result){
+                selectStockAndPrice(result.rows);
+            })
 		initDatagridRequireOrder();
 	    $("div").delegate("button","click",function(){
 	    	$("p").slideToggle();

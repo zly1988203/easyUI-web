@@ -147,7 +147,8 @@ var dateUtil = {
     getPreMonthDate:function(){
     	var d = this.getCurrentDate();
     	d.setMonth(d.getMonth()-1);
-    	d.setDate(d.getDate()+1);
+    	//bug20313
+    	//d.setDate(d.getDate()+1);
     	return d;
     },
     
@@ -1373,8 +1374,8 @@ var $_jxc = {
 				if($(_editInput).hasClass('uinp-no-more') || $(_editInput).prop('disabled'))return;
 				
 				//判断前置条件
-				if(_component.relyOnId && !$.trim($('#'+_default.relyOnId).val())){
-					$_jxc.alert(_default.relyError);
+				if(_component.relyOnId && !$.trim($('#'+_component.relyOnId).val())){
+					$_jxc.alert(_component.relyError);
 					return false;
 				}
 				

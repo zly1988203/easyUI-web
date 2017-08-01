@@ -48,22 +48,18 @@
 		
 		// 上一次月结期间
 		function getUpMonthReportDay(branchId) {
-			$.ajax({
+			$_jxc.ajax({
 				url : contextPath + "/report/monthStatement/getUpMonthReportDay",
 				type : "POST",
 				data : {
 					"branchId" : branchId
-				},
-				success : function(result) {
-					var maxRptDate = result['data'].maxRptDate;
-					if (!maxRptDate) {
-						maxRptDate = "该机构尚无月结数据";
-					}
-					$("#maxRptDate").html(maxRptDate);
-				},
-				error : function(result) {
-					$_jxc.alert("请求发送失败或服务器处理失败");
 				}
+			},function(result){
+				var maxRptDate = result['data'].maxRptDate;
+				if (!maxRptDate) {
+					maxRptDate = "该机构尚无月结数据";
+				}
+				$("#maxRptDate").html(maxRptDate);
 			});
 		}
 		
