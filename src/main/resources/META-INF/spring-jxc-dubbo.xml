@@ -29,6 +29,7 @@
 	<dubbo:reference id="sysUserCategoryGrantService" interface="com.okdeer.jxc.system.service.SysUserCategoryGrantServiceApi" version="1.0.0" check="false" />
 	<dubbo:reference id="branchesService" interface="com.okdeer.jxc.branch.service.BranchesServiceApi" version="1.0.0" check="false" />
 	<dubbo:reference id="supplierService" interface="com.okdeer.jxc.supplier.service.SupplierServiceApi" version="1.0.0" check="false" />
+	<dubbo:reference id="sysRoleService" interface="com.okdeer.jxc.system.service.SysRoleService" version="1.0.0" check="false" />
 
 
 	<dubbo:reference id="supplierStockFacade" interface="com.okdeer.retail.facade.report.facade.SupplierSellFacade" version="1.0.0" check="false">

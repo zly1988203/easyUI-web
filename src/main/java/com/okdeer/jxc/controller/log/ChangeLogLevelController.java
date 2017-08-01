@@ -52,14 +52,14 @@ public class ChangeLogLevelController {
     private com.okdeer.retail.facade.stock.facade.LogFacade stockLogFacade;
 
     @RequestMapping(value = "")
-    @RequiresUser
+    @RequiresRoles("jxc_admin_role")
     public ModelAndView list() {
         return new ModelAndView("/log/list");
     }
 
     @RequestMapping(value = "/change", method = RequestMethod.POST)
-    @RequiresUser
-    public RespJson getReportList(String system,String loggerName,String loggerLevel){
+    @RequiresRoles("jxc_admin_role")
+    public RespJson change(String system,String loggerName,String loggerLevel){
         try {
             switch (system){
                 case "retail-service":
