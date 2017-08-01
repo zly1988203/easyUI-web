@@ -24,6 +24,7 @@ import com.okdeer.jxc.common.report.DataRecord;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.report.service.OutOfStockServiceApi;
+import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * ClassName: OutOfStockController 
@@ -60,6 +61,7 @@ public class OutOfStockController  extends ReportController{
 	@Override
 	public Map<String, Object> getParam(HttpServletRequest request) {
 		Map<String,Object> map= this.builderParams(request, null);
+		map.put("sourceBranchCompleteCode", UserUtil.getCurrBranchCompleCode());
 		return map;
 	}
 	
