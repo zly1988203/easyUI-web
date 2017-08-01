@@ -3,8 +3,6 @@
  * 要货单
  */
 var radioVal = 0;
-var targetBranchId;
-var sourceBranchId;
 $(function(){
 	//开始和结束时间
 	toChangeDate(10);
@@ -14,7 +12,6 @@ $(function(){
 	changeType();
 	//切换radio 禁启用
 	checktype();
-    sourceBranchId = $("#sourceBranchId").val();
     
     //机构选择初始化 要货机构
     $('#targetBranch').branchSelect({
@@ -114,12 +111,7 @@ function checktype(value){
 }
 //清空所有数据值
 function cleardata(){
-    if(radioVal == '0'){
-        $("#sourceBranchId").val('');
-    }else{
-        $("#sourceBranchId").val(sourceBranchId);
-    }
-
+    $("#sourceBranchId").val('');
     $('#sourceBranchName').val("");
     $('#targetBranchId').val("");
 	$('#targetBranchName').val("");
@@ -449,7 +441,7 @@ function getColumnsByType(){
                     }
 
                 },
-                {field: 'outFormNo', title: '发货单号', width: '150px', align: 'left',
+                {field: 'outFormNo', title: '出库单号', width: '150px', align: 'left',
                     formatter:function(value,row,index){
                         if(row.outFormId){
                             var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.outFormId+'")';
@@ -457,7 +449,7 @@ function getColumnsByType(){
                         }
                     }
                 },
-                {field: 'outDealNum', title: '发货数量', width: '85px', align: 'right',
+                {field: 'outDealNum', title: '出库数量', width: '85px', align: 'right',
                     formatter : function(value, row, index) {
                         if(row.defectNum){
                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -466,7 +458,7 @@ function getColumnsByType(){
                     },
                 },
 
-                {field: 'outAmount', title: '发货金额', width: '85px', align: 'right',
+                {field: 'outAmount', title: '出库金额', width: '85px', align: 'right',
                     formatter : function(value, row, index) {
                         if(row.defectNum){
                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -474,7 +466,7 @@ function getColumnsByType(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     },
                 },
-                {field: 'DIFormNo', title: '收货单号', width: '150px', align: 'left',
+                {field: 'DIFormNo', title: '入库单号', width: '150px', align: 'left',
                     formatter:function(value,row,index){
                         if(row.DIFormId){
                             var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.DIFormId+'")';
@@ -482,7 +474,7 @@ function getColumnsByType(){
                         }
                     }
                 },
-                {field: 'inReceiveNum', title: '收货数量', width: '85px', align: 'right',
+                {field: 'inReceiveNum', title: '入库数量', width: '85px', align: 'right',
                     formatter : function(value, row, index) {
                         if(row.defectNum){
                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -490,7 +482,7 @@ function getColumnsByType(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     },
                 },
-                {field: 'DIAmount', title: '收货金额', width: '85px', align: 'right',
+                {field: 'DIAmount', title: '入库金额', width: '85px', align: 'right',
                     formatter : function(value, row, index) {
                         if(row.defectNum){
                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';

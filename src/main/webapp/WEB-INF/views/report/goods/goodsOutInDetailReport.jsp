@@ -26,7 +26,7 @@
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
 	          <!-- 引入时间选择控件 -->
-	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
+				<%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
             </div>
 	           
 	        <div class="ub uline umar-t8"></div>

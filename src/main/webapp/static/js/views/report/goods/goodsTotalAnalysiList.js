@@ -28,6 +28,13 @@ $(function() {
             return data;
         }
     });
+
+    //店铺初始化
+    $('#branchComple').branchSelect({
+        onAfterRender:function(data){
+            $("#branchId").val(data.branchId);
+        }
+    });
 });
 
 var flushFlg = false;
@@ -42,7 +49,6 @@ function changeType(){
     		skuNameOn();
     		categoryOn();
     		skuCodeOrBarCodeOn();
-    		branchOn();
             supplierNameOn();
     		initGoodsTotalAnalysiGrid();
 		}else if (a=="branchTotal") {
@@ -50,7 +56,6 @@ function changeType(){
 			skuNameOff();
 			categoryOff();
 			skuCodeOrBarCodeOff();
-			branchOn();
             supplierNameOff();
 			initPurReportSupplierGrid();
 		}  else if (a=="categoryTotal") {
@@ -58,7 +63,6 @@ function changeType(){
 			skuNameOff();
 			categoryOn();
 			skuCodeOrBarCodeOff();
-			branchOn();
             supplierNameOff();
 			initCategoryGrid();
 		} else if (a=="branchSkuTotal") {
@@ -66,7 +70,6 @@ function changeType(){
     		skuNameOn();
     		categoryOn();
     		skuCodeOrBarCodeOn();
-    		branchOn();
             supplierNameOff();
     		initBranchSkuTotalAnalysiGrid();
 		}
@@ -83,19 +86,7 @@ function resetCondition(){
 	 $("#skuName").val('');
 	 $("#skuCodeOrBarCode").val("");
 }
-//店铺开启
-function branchOn(){
-	$("#branchName").removeClass("uinp-no-more");
-	$("#branchSelect").attr("onclick","searchBranch()");
-}
-//店铺禁用
-function branchOff(){
-	 $("#branchName").addClass("uinp-no-more");
-	 $("#branchSelect").removeAttr("onclick");
-	 $("#branchName").val("");
-	 $("#branchCompleCode").val("");
-	 $("#branchId").val("");
-}
+
 //类别开启
 function categoryOn(){
     $("#categoryCode").removeClass("uinp-no-more");
@@ -319,7 +310,7 @@ function initGoodsTotalAnalysiGrid() {
                     return '<b>'+parseFloat(value).toFixed(2)+'%</b>';
                 }
             },
-	        {field: 'supplierName', title: '供应商', width:80, align: 'left'}
+	        // {field: 'supplierName', title: '供应商', width:80, align: 'left'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");

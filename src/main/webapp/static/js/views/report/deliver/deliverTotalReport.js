@@ -4,8 +4,7 @@
 $(function() {
 	//选择报表类型
 	changeType();
-	$("#formNo").attr("readonly","readonly");
-	$("#formNo").addClass("uinp-no-more");
+
 	// 初始化列表
 	initCashDailyallGrid('data');
 	var s = $("#txtStartDate").val();
@@ -19,8 +18,6 @@ $(function() {
 		$("input[name='queryType'][value=goods]").attr("checked",true); 
 		$("input[name='queryType'][value=goods]").click();
 	}
-	branchId = $("#branchId").val();
-
 
     //机构选择初始化 发货机构
     $('#sourceBranch').branchSelect({
@@ -37,76 +34,110 @@ $(function() {
         }
     });
 
+    setReadOnly("goods");
+
 });
 var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
 		flushFlg = true;
-		var a = $(this).val();
+		var type_val = $(this).val();
+        setReadOnly(type_val);
 		$("#cashDaily").datagrid("options").url = "";
-		if (a=="goods") {
+		if (type_val=="goods") {
 			// 初始化列表按收银员汇总
-			initCashDailyallGrid('goods');
-			$("#categoryButon").attr("onclick","getGoodsType()");
-			$("#categoryName").removeClass("uinp-no-more");
-			$('#categoryTypeDiv').hide();
-			$("#skuCode").removeAttr("readonly");
-			$("#skuCode").removeClass("uinp-no-more");
-			$("#categoryButon").removeAttr("readonly");
-			$("#categoryType").attr("disabled","disabled");
-			$("#formNo").attr("readonly","readonly");
-			$("#formNo").addClass("uinp-no-more");
-
-			$("#formNo").val("");
+            initCashDailyallGrid('goods');
 			showCashier();
-		} else if (a=="form") {
-			// 初始化列表按门店汇总
-			$("#categoryName").addClass("uinp-no-more");
-			$("#categoryButon").removeAttr("onclick");
-				//$("#categoryButon").attr("onclick","getGoodsType()");
-			$('#categoryTypeDiv').hide();	
-			$("#skuCode").attr("readonly","readonly");
-			$("#skuCode").addClass("uinp-no-more");
-			$("#skuCode").val("");
-			$("#categoryCode").val("");	
-			$("#categoryName").val("");
-
-			$("#formNo").removeAttr("readonly");
-			$("#formNo").removeClass("uinp-no-more");
+		} else if (type_val=="form") {
 			initCashDailymdGrid('form');
 			hideCashier();
-		} else if (a=="category") {
-			$("#categoryButon").attr("onclick","getGoodsType()");
-			$("#categoryName").removeClass("uinp-no-more");
-			$('#categoryTypeDiv').show();
-			$("#skuCode").attr("readonly","readonly");
-			$("#skuCode").addClass("uinp-no-more");
-			$("#skuCode").val("");
-			$("#formNo").attr("readonly","readonly");
-			$("#formNo").val("");
-			$("#formNo").addClass("uinp-no-more");
-			$("#categoryType").attr("disabled","disabled");
-			
+		} else if (type_val=="category") {
 			// 初始化列表按日期汇总
 			initCashDailydateGrid('category');
 			hideCashier();
-		}else if(a=="branch"){
-			$("#categoryName").val("");
-			$("#categoryName").addClass("uinp-no-more");
-			$("#categoryButon").removeAttr("onclick");
-			$('#categoryTypeDiv').hide();
-			$("#skuCode").attr("readonly","readonly");
-			$("#skuCode").addClass("uinp-no-more");
-			$("#skuCode").val("");
-			$("#formNo").attr("readonly","readonly");
-			$("#formNo").val("");
-			$("#formNo").addClass("uinp-no-more");
+		}else if(type_val=="branch"){
 			initbranchGrid();
 		}
 		$("#cashDaily").datagrid('loadData', { total: 0, rows: [] });
     	$('#cashDaily').datagrid({showFooter:false});
 
 	});
+}
+
+function  setReadOnly(type){
+    if (type=="goods") {
+        // 初始化列表按收银员汇总
+        $("#categoryButon").attr("onclick","getGoodsType()");
+        $("#categoryName").removeClass("uinp-no-more");
+        $('#categoryTypeDiv').hide();
+        $("#skuCode").removeAttr("readonly");
+        $("#skuCode").removeClass("uinp-no-more");
+        $("#categoryButon").removeAttr("readonly");
+        $("#categoryType").attr("disabled","disabled");
+        $("#formNo").attr("readonly","readonly");
+        $("#formNo").addClass("uinp-no-more");
+        $("#formNo").val("");
+
+        $("#sourceBranchName").attr("readonly","readonly");
+        $("#sourceBranchName").addClass("uinp-no-more");
+        $("#sourceBranchName").val("");
+        $("#sourceBranchId").val("");
+
+    } else if (type=="form") {
+        // 初始化列表按门店汇总
+        $("#categoryName").addClass("uinp-no-more");
+        $("#categoryButon").removeAttr("onclick");
+        //$("#categoryButon").attr("onclick","getGoodsType()");
+        $('#categoryTypeDiv').hide();
+        $("#skuCode").attr("readonly","readonly");
+        $("#skuCode").addClass("uinp-no-more");
+        $("#skuCode").val("");
+        $("#categoryCode").val("");
+        $("#categoryName").val("");
+
+        $("#formNo").removeAttr("readonly");
+        $("#formNo").removeClass("uinp-no-more");
+
+        $("#sourceBranchName").removeAttr("readonly","readonly");
+        $("#sourceBranchName").removeClass("uinp-no-more");
+        $("#sourceBranchName").val("");
+        $("#sourceBranchId").val("");
+
+    } else if (type=="category") {
+        $("#categoryButon").attr("onclick","getGoodsType()");
+        $("#categoryName").removeClass("uinp-no-more");
+        $('#categoryTypeDiv').show();
+        $("#skuCode").attr("readonly","readonly");
+        $("#skuCode").addClass("uinp-no-more");
+        $("#skuCode").val("");
+        $("#formNo").attr("readonly","readonly");
+        $("#formNo").val("");
+        $("#formNo").addClass("uinp-no-more");
+        $("#categoryType").attr("disabled","disabled");
+
+        $("#sourceBranchName").removeAttr("readonly","readonly");
+        $("#sourceBranchName").removeClass("uinp-no-more");
+        $("#sourceBranchName").val("");
+        $("#sourceBranchId").val("");
+
+    }else if(type=="branch"){
+        $("#categoryName").val("");
+        $("#categoryName").addClass("uinp-no-more");
+        $("#categoryButon").removeAttr("onclick");
+        $('#categoryTypeDiv').hide();
+        $("#skuCode").attr("readonly","readonly");
+        $("#skuCode").addClass("uinp-no-more");
+        $("#skuCode").val("");
+        $("#formNo").attr("readonly","readonly");
+        $("#formNo").val("");
+        $("#formNo").addClass("uinp-no-more");
+
+        $("#sourceBranchName").removeAttr("readonly","readonly");
+        $("#sourceBranchName").removeClass("uinp-no-more");
+        $("#sourceBranchName").val("");
+        $("#sourceBranchId").val("");
+
+    }
 }
 
 function showCashier(){

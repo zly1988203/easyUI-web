@@ -6,7 +6,6 @@ $(function(){
 	//开始和结束时间
 	toChangeDatetime(10);
 	initDatagridRequireOrders();
-	branchId = $("#branchId").val();
 
     //机构选择初始化 发货机构
     $('#sourceBranch').branchSelect({
@@ -192,14 +191,16 @@ function exportExcel(){
 	$("#exportWin").window("close");
 	var fromObjStr = $('#queryForm').serializeObject();
     // 去除编码
-    fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)
+    fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1);
+    fromObjStr.sourceBranchName = fromObjStr.sourceBranchName.substring(fromObjStr.sourceBranchName.lastIndexOf(']')+1);
     fromObjStr.categoryName = fromObjStr.categoryName.substring(fromObjStr.categoryName.lastIndexOf(']')+1)
 	$("#queryForm").form({
 		success : function(result){
 			
 		}
 	});
-	$('#branchName').val(fromObjStr.branchName);
+	$('#targetBranchName').val(fromObjStr.targetBranchName);
+    $('#sourceBranchName').val(fromObjStr.sourceBranchName);
 	$('#categoryName').val(fromObjStr.categoryName);
 	
 	$("#queryForm").attr("action",contextPath+'/form/deliverReport/exportDeliverFormList')
