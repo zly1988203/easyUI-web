@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>日誌級別變更</title>
+    <title>日志级别变更</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
     <style>
@@ -37,7 +37,7 @@
             </div>
             <div class="ub ub-ac umar-r40">
                 <div class="umar-r10 uw-70 ut-r">日志名称:</div>
-                <input id="loggerName" name="loggerName" value="">
+                <input id="loggerName" name="loggerName" value="" class="uinp uw-300">
             </div>
             <div class="ub ub-ac umar-r40">
                 <div class="umar-r10 uw-70 ut-r">日志级别:</div>
@@ -64,17 +64,21 @@
     };
 
     var update = function () {
-        $_jxc.ajax({
-            url:contextPath+"/log4j/change",
-            type:"POST",
-            data:{"system":$("#system").val(),"loggerName":$("#loggerName").val(),"loggerLevel":$("#loggerLevel").val()}
-        },function(result){
-            if (result.code=="0"){
-                $_jxc.alert("修改成功!");
-            }else{
-                $_jxc.alert("修改失败!");
-            }
-        });
+    	$_jxc.confirm('确认修改 【' + $('#system').find('option:selected').text() + '】 的日志级别?',function(r){
+    		if(r){
+		        $_jxc.ajax({
+		            url:contextPath+"/log4j/change",
+		            type:"POST",
+		            data:{"system":$("#system").val(),"loggerName":$("#loggerName").val(),"loggerLevel":$("#loggerLevel").val()}
+		        },function(result){
+		            if (result.code=="0"){
+		                $_jxc.alert("修改成功!");
+		            }else{
+		                $_jxc.alert("修改失败!");
+		            }
+		        });
+    		}
+    	});
     };
 </script>
 </c:if>
