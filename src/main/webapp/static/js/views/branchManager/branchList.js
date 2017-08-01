@@ -179,11 +179,7 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#formList").form({
-		success : function(result){
-			
-		}
-	});
+
 	$("#formList").attr("action",contextPath+"/archive/branch/exportHandel");
 	$("#formList").submit();
 }

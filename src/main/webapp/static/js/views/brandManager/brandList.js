@@ -68,12 +68,7 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#queryForm").form({
-		success : function(result){
-			var dataObj=eval("("+result+")");
-            $_jxc.alert(dataObj.message);
-		}
-	});
+
 	$("#queryForm").attr("action",contextPath+"/common/brand/exportList");
 	$("#queryForm").submit();
 }

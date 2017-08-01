@@ -384,19 +384,14 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#queryForm").form({
-		success : function(result){
-			var dataObj=eval("("+result+")");
-			$_jxc.alert(dataObj.message);
-		}
-	});
+
 	//获取左侧缓存查询数据
 	var obj = localStorageUtil.getLocalStorageItem("storge");
 	$("#categoryCode").val(obj.categoryCode);
-	
+
 	//导出记录上一次查询条件
 	$("#queryForm").attr("action",contextPath+"/goods/report/exportList");
-	$("#queryForm").submit(); 
+	$("#queryForm").submit();
 }
 
 
