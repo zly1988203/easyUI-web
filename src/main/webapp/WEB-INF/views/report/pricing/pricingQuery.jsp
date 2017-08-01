@@ -37,11 +37,11 @@
             </div>
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
-                <div class="ub  ub-ac">
+                <div class="ub  ub-ac" id="branchSelect">
                    <div class="umar-r10 uw-70 ut-r">店铺名称:</div>
-	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
-                        <input class="uinp ub ub-f1" type="text" id="branchName"  name="branchName">
-                   <div class="uinp-more" onclick="searchBranch()">...</div>
+                   <input class="uinp ub ub-f1" type="hidden" id="branchId" name="branchId">
+                   <input class="uinp ub ub-f1" type="text" id="branchName"  name="branchName">
+                   <div class="uinp-more">...</div>
                 </div>
                 <div class="ub ub-ac  umar-l20">
                     <div class="umar-r10 uw-70 ut-r">货号/条码:</div>
@@ -54,12 +54,12 @@
             </div>
             
            <div class="ub umar-t8">
-                 <div class="ub  ub-ac">
-                  <div class="umar-r10 uw-70 ut-r">审核人:</div>
+                <div class="ub  ub-ac" id="operateorSelect">
+                  	<div class="umar-r10 uw-70 ut-r">审核人:</div>
                     <input class="uinp ub ub-f1" type="hidden" id="createUserId" name="createUserId">
-                       <input class="uinp ub ub-f1" type="text" id="createUserName"  name="createUserName">
-                  <div class="uinp-more" onclick="selectOperator()">...</div>
-               </div>
+                    <input class="uinp ub ub-f1" type="text" id="createUserName"  name="createUserName">
+                    <div class="uinp-more">...</div>
+                </div>
                 <div class="ub ub-ac  uselectw umar-l20">
                     <div class="umar-r10 uw-70 ut-r">是否生效:</div>
                        <!--select-->
