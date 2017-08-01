@@ -412,14 +412,17 @@
 				<text><![CDATA[当前库存]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="659" y="4" width="35" height="22" uuid="2dcdeaa6-8500-4b3b-b8a9-03657c2ff722"/>
+				<reportElement x="659" y="3" width="35" height="22" uuid="2dcdeaa6-8500-4b3b-b8a9-03657c2ff722"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[库存成本金额]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="696" y="4" width="38" height="22" uuid="de292ecb-7a62-40cc-a5f3-e06ef051c071"/>
+				<reportElement x="696" y="3" width="35" height="22" uuid="de292ecb-7a62-40cc-a5f3-e06ef051c071">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
