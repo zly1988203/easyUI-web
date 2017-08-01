@@ -820,6 +820,7 @@ function publicGoodsServiceHandel(param,callback){
     }
     if(param.isRadio&&param.isRadio==1){
         dalogObj["onLoad"] =function(){
+        	initForm(param);
             initGoodsRadioCallBack(function(data){
                 callback( [data]);
                 $(good_dalogTemp).dialog('close');
@@ -829,6 +830,7 @@ function publicGoodsServiceHandel(param,callback){
         };
     }else{
         dalogObj["onLoad"] =function(){
+        	initForm(param);
             initGoodsRadioCallBack();
             initSearch(param);
         };
