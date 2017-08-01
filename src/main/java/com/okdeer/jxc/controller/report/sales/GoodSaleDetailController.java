@@ -120,6 +120,7 @@ public class GoodSaleDetailController extends ReportController {
 			
 			DataRecord data = goodSaleDetailServiceApi.getTotal(map);
 			dataList.add(data);
+			cleanDataMaps(getPriceAccess(), dataList);
 			exportListForXLSX(response, dataList, reportFileName, templateName);
 		} catch (Exception e) {
 			LOG.error("新品销售分析导出失败", e);
