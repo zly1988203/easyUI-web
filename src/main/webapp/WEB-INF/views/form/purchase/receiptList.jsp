@@ -38,25 +38,25 @@
 	                <input class="uinp" name="formType" id="formType" type="hidden" value="PA">
 	                <input class="uinp" name="formNo" id="formNo" type="text">
 	            </div>
-	            <div class="ub ub-ac umar-r40">
+	            <div class="ub ub-ac umar-r40" id="supplierSelect">
 	                <div class="umar-r10 uw-60 ut-r">供应商:</div>
 	                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
 	                <input class="uinp" id="supplierName" name="supplierName" type="text" maxlength="50">
-	                <div class="uinp-more" onclick="selectSupplier()">...</div>
+	                <div class="uinp-more">...</div>
 	            </div>
-	            <div class="ub ub-ac umar-r40">
+	            <div class="ub ub-ac umar-r40" id="operateorSelect">
 	                <div class="umar-r10 uw-60 ut-r">操作员:</div>
 	                <input class="uinp" name="operateUserId" id="operateUserId" type="hidden">
 	                <input class="uinp" id="operateUserName" name="operateUserName" type="text" maxlength="50">
-	                <div class="uinp-more" onclick="selectOperator()">...</div>
+	                <div class="uinp-more">...</div>
 	            </div>
 	        </div>
 	        <div class="ub umar-t8">
-	        	<div class="ub ub-ac umar-r40">
+	        	<div class="ub ub-ac umar-r40" id="branchSelect">
 	                <div class="umar-r10 uw-60 ut-r">收货机构:</div>
 	                <input class="uinp" name="branchId" id="branchId" type="hidden">
 	                <input class="uinp" id="branchName" name="branchName" type="text" maxlength="50">
-	                <div class="uinp-more" onclick="selectBranch()">...</div>
+	                <div class="uinp-more">...</div>
 	            </div>
 	            <div class="ub ub-ac umar-r40" id="refFormNoDiv">
 	                <div class="umar-r10 uw-60 ut-r">采购单号:</div>

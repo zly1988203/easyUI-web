@@ -32,6 +32,26 @@ $(function(){
 		initDatagridFormPA();
 		query();
     }
+    
+    //机构选择组件初始化
+    $('#branchSelect').branchSelect()
+    
+    //供应商组件初始化
+    $('#supplierSelect').supplierSelect({
+    	loadFilter:function(data){
+			data.supplierId = data.id;
+			return data;
+		}
+    })
+    
+    //操作员组件初始化
+	$('#operateorSelect').operatorSelect({
+		loadFilter:function(data){
+			data.operateUserId = data.id;
+			return data;
+		}
+	});
+	
 });
 
 //加载选项卡
@@ -240,9 +260,13 @@ function receiptAdd(){
 
 function query(){
 	var fromObjStr = $('#queryForm').serializeObject();
+	//2.7精确查询 
+	fromObjStr.supplierName = "";
+	fromObjStr.operateUserName = "";
+	fromObjStr.branchName = "";
+	
 	fromObjStr.isAllowRefOverdueForm = 0;
 	$("#" + tableIdName).datagrid('options').url = contextPath+tempURL;
-	//$("#" + tableIdName).datagrid('options').queryParams = fromObjStr;
 	$("#" + tableIdName).datagrid('load',fromObjStr);
 }
 
