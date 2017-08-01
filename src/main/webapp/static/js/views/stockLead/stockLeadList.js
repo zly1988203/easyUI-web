@@ -8,6 +8,26 @@ $(function() {
 	initDatagridRequire();
 	// 单据状态切换
 	changeStatus();
+	
+	//机构组件初始化
+	$('#branchSelect').branchSelect({
+		param:{
+			formType:'IU'
+		},
+		loadFilter:function(data){
+			data.createBranchId = data.branchId;
+			return data;
+		}
+	});
+	
+	//操作员组件初始化
+	$('#operateorSelect').operatorSelect({
+		loadFilter:function(data){
+			data.salesmanId = data.id;
+			return data;
+		}
+	});
+	
 });
 
 // 单据状态切换
@@ -123,9 +143,12 @@ function initDatagridRequire() {
 // 查询领用单
 function queryForm() {
 	var fromObjStr = $('#queryForm').serializeObject();
+	//2.7精确查询
+	fromObjStr.branchName = "";
+	fromObjStr.createUserName = "";
+	
 	$("#stockLeadList").datagrid("options").method = "post";
-	$("#stockLeadList").datagrid('options').url = contextPath
-			+ '/stock/lead/getStockFormList';
+	$("#stockLeadList").datagrid('options').url = contextPath + '/stock/lead/getStockFormList';
 	$("#stockLeadList").datagrid('load', fromObjStr);
 }
 

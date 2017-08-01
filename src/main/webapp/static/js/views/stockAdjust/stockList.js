@@ -9,6 +9,25 @@ $(function(){
     initDatagridRequireOrders();
     //单据状态切换
     changeStatus();
+    
+  //机构组件初始化
+	$('#branchSelect').branchSelect({
+		param:{
+			formType:'BF'
+		},
+		loadFilter:function(data){
+			data.createBranchId = data.branchId;
+			return data;
+		}
+	});
+	
+	//操作员组件初始化
+	$('#operateorSelect').operatorSelect({
+		loadFilter:function(data){
+			data.salesmanId = data.id;
+			return data;
+		}
+	});
 });
 
 //单据状态切换
@@ -100,6 +119,10 @@ function addStockForm(){
 //查询入库单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
+	//2.7精确查询
+	fromObjStr.branchName = "";
+	fromObjStr.createUserName = "";
+	
 	$("#stockFromList").datagrid("options").method = "post";
 	$("#stockFromList").datagrid('options').url = contextPath + '/stock/adjust/getStockFormList';
 	$("#stockFromList").datagrid('load', fromObjStr);
