@@ -168,12 +168,7 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#formGoodsCategory").form({
-		success : function(result){
-			var dataObj=eval("("+result+")");
-            $_jxc.alert(dataObj.message);
-		}
-	});
+
 	$("#formGoodsCategory").attr("action",contextPath+"/common/category/exportList");
 	$("#formGoodsCategory").submit();
 }

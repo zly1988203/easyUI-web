@@ -178,19 +178,7 @@ BaseController<GoodsReportController> {
 			// 如果没有选择店铺，则查询登录人所在机构的商品
 			if (StringUtils.isEmpty(qo.getBranchId())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
-			}else{
-				String branchName = qo.getBranchName();
-				if (StringUtils.isNotBlank(branchName) && branchName.contains("[")
-						&& branchName.contains("]")) {
-					int length = branchName.indexOf("]");
-					qo.setBranchName(branchName.substring(length+1, branchName.length()));
-				}
-
-				List<Branches> branchList = branchesService.getBranchByKeyword(qo.getBranchName());
-				if(branchList.size()==1){
-					qo.setBranchId(branchList.get(0).getBranchesId());
-				}
-			}	
+			}
 			PageUtils<GoodsReportVo> goodsReport = goodsReportService.queryListToPage(qo);
 			// 过滤数据权限字段
 			cleanAccessData(goodsReport);
@@ -217,21 +205,11 @@ BaseController<GoodsReportController> {
 
 		LOG.debug("商品查询导出execl：vo" + qo);
 		try {
+			// 机构条件只根据id查询
+			qo.setBranchName(null);
 			// 如果没有选择店铺，则查询登录人所在机构的商品
-			if (StringUtils.isEmpty(qo.getBranchName())) {
+			if (StringUtils.isEmpty(qo.getBranchId())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
-			}else{
-				String branchName = qo.getBranchName();
-				if (StringUtils.isNotBlank(branchName) && branchName.contains("[")
-						&& branchName.contains("]")) {
-					int length = branchName.indexOf("]");
-					qo.setBranchName(branchName.substring(length+1, branchName.length()));
-				}
-
-				List<Branches> branchList = branchesService.getBranchByKeyword(qo.getBranchName());
-				if(branchList.size()==1){
-					qo.setBranchId(branchList.get(0).getBranchesId());
-				}
 			}
 
 			List<GoodsReportVo> exportList = goodsReportService.queryList(qo);
