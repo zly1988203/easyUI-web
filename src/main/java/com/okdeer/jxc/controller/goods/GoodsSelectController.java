@@ -132,6 +132,10 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
+			
+			if(StringUtils.isEmpty(vo.getFormType())){
+				vo.setFormType(vo.getType());
+			}
 			// 如果页面上有传入机构 则选择页面上的
 			// 没有传入机构则选择登录机构
 			String branchId = vo.getBranchId();
