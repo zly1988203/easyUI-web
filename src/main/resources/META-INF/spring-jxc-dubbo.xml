@@ -37,4 +37,7 @@
 		<dubbo:method name="getAllSupplierSkuCount" async="true"></dubbo:method>
 	</dubbo:reference>
 
+	<dubbo:reference interface="com.okdeer.jxc.report.service.TradeOrderCountServiceApi" id="tradeOrderCountServiceApi" version="1.0.0" check="false">
+		<dubbo:method name="queryTradeOrderCountSum" async="true"></dubbo:method>
+	</dubbo:reference>
 </beans>
