@@ -218,11 +218,7 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#formFinanceList").form({
-		success : function(result){
-			
-		}
-	});
+
 	$("#formFinanceList").attr("action",contextPath+"/archive/financeCode/exportHandel");
 	$("#formFinanceList").submit();
 }

@@ -141,11 +141,6 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#queryForm").form({
-		success : function(result){
-			
-		}
-	});
 	$("#queryForm").attr("action",contextPath+"/finance/storeChargeSearch/exportExcelList");
 	$("#queryForm").submit();
 }
