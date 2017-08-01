@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/branchManager/editBranch.js?V=3"></script>
+<script src="${ctx}/static/js/views/branchManager/editBranch.js?V=${versionNo}"></script>
 <div id="branchEdit" class="easyui-tabs" style="width: 100%; height: 100%;">
 	<div title="基本信息" data-options="fit:true,border:false"
 		style="width: 100%; padding: 10px; display: none;">
