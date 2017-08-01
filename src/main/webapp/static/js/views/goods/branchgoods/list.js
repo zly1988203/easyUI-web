@@ -366,7 +366,6 @@ function selectBranch() {
 	new publicBranchService(function(data) {
 		$("#branchId").val(data.branchesId);
 		$("#branchName").val("[" + data.branchCode + "]" + data.branchName);
-		debugger;
 		$("#branchType").val(data.type);
 		query();
 
