@@ -20,6 +20,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.base.common.utils.StringUtils;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -107,6 +108,11 @@ public class SupplierCommonController extends BaseController<SupplierCommonContr
 					    // 把父级的id加入条件查询分公司的供应商
 					    qo.setBranchId(branches.getParentId());
 					}
+				}
+				// 只对门店做允许门店订货控制
+				if (branches != null && !(BranchTypeEnum.FRANCHISE_STORE_B.getCode().equals(branches.getType())
+						|| BranchTypeEnum.FRANCHISE_STORE_C.getCode().equals(branches.getType()))) {
+					qo.setIsAllowPurchase(null);
 				}
 			}
 			//公共组件默认带出总部的供应商
