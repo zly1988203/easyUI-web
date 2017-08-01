@@ -7,7 +7,7 @@
     <title>加盟店结算列表</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/settle/franchise/settle/settleList.js?V=2.6.0"></script>
+    <script  src="${ctx}/static/js/views/settle/franchise/settle/settleList.js?V=${versionNo}"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>

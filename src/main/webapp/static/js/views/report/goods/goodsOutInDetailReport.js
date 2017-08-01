@@ -1,8 +1,7 @@
 $(function(){
 	//开始和结束时间
-    // $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-    // $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    toChangeDatetime(4);
+    $("#txtStartDate").val(dateUtil.getPreMonthDate().format("yyyy-MM-dd hh:mm:ss"));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd hh:mm:ss"));
     initDatagridRequire();
 });
 var gridHandel = new GridClass();

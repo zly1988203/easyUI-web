@@ -7,7 +7,7 @@
     <title>加盟店往来账款</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-    <script  src="${ctx}/static/js/views/settle/franchise/account/accountList.js?V=2.6.0"></script>
+    <script  src="${ctx}/static/js/views/settle/franchise/account/accountList.js?V=${versionNo}"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
