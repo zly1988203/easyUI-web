@@ -100,12 +100,12 @@
                    <input class="uinp" type="text" id="remark" name="remark">
                </div>
                
-               <div class="ub ub-ac uw-300 umar-l24">
-                    <div class="uw-80 ut-r10 umar-r4">原单备注:&nbsp;</div>
+               <div class="ub ub-ac uw-300 umar-l40">
+                    <div class="uw-70 ut-r10">原单备注:</div>
                     <input class="uinp" type="text" id="DAremark" name="DAremark"  readonly="readonly">
                 </div>
                 
-               <div class="ub ub-ac umar-l56 uw-300">
+               <div class="ub ub-ac umar-l40 uw-300">
                    <div class="umar-r10 uw-70 ut-r">审核人员:</div>
                    <div class="utxt"></div>
                </div>

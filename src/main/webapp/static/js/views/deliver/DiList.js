@@ -246,15 +246,6 @@ function queryForm(){
 	$("#" + tableIdName).datagrid('load',fromObjStr);
 }
 
-function setQueryDataDOBranbch(){
-	$("#targetBranchId").val(targetBranchId);
-	$("#targetBranchName").val(branchName);
-}
-
-function setQueryDataDIBranbch(){
-		$("#targetBranchId").val(targetBranchId);
-		$("#targetBranchName").val(branchName);
-}
 //删除
 function delDeliverForm(){
 	var tab = $('#tabs').tabs('getSelected');
@@ -362,14 +353,12 @@ function toBtnEnable(addId,delId){
 function setQueryDataDO() {
 	tempURL = '/form/deliverSelect/getDeliverFormList';
 	tableIdName = 'deliverFormList';
-	setQueryDataDOBranbch();
 }
 
 // 设置值
 function setQueryDataDI() {
 	tempURL = '/form/deliverForm/getDeliverForms';
 	tableIdName = 'processedFormList';
-	setQueryDataDIBranbch();
 }
 
 var deliverAuditStatus = '0';

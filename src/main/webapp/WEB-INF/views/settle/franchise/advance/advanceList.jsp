@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>加盟店预收款</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/settle/franchise/advance/advanceList.js?V=2.6.0"></script>
+    <script  src="${ctx}/static/js/views/settle/franchise/advance/advanceList.js?V=${versionNo}"></script>
     <style>
     .datagrid-header .datagrid-cell {text-align: center!important;font-weight: bold;}
     </style>
