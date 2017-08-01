@@ -11,9 +11,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.dubbo.rpc.RpcContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,7 +55,8 @@ import com.okdeer.jxc.system.entity.SysUser;
 @RequestMapping("bill/tradeOrderCount")
 public class TradeOrderCountController extends BasePrintController<TradeOrderCountController, TradeOrderCountVo> {
 
-	@Reference(version = "1.0.0", check = false)
+	//@Reference(version = "1.0.0", check = false)
+	@Resource
 	TradeOrderCountServiceApi tradeOrderCountServiceApi;
 
 	@Reference(version = "1.0.0", check = false)
@@ -101,11 +105,14 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 			}
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
+			tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
+			Future<TradeOrderCountVo> tradeOrderCountVo = RpcContext.getContext().getFuture();
+
 			PageUtils<TradeOrderCountVo> tradeOrderCountVos = tradeOrderCountServiceApi.queryLists(vo);
-			TradeOrderCountVo tradeOrderCountVo = tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
+
 			List<TradeOrderCountVo> footer = new ArrayList<TradeOrderCountVo>();
 			if (tradeOrderCountVo != null) {
-				footer.add(tradeOrderCountVo);
+				footer.add(tradeOrderCountVo.get());
 			}
 			tradeOrderCountVos.setFooter(footer);
 
@@ -142,9 +149,10 @@ public class TradeOrderCountController extends BasePrintController<TradeOrderCou
 				vo.setBranchId(getCurrBranchId());
 			}
 			List<TradeOrderCountVo> exportList = tradeOrderCountServiceApi.queryTradeOrderCount(vo);
-			TradeOrderCountVo tradeOrderCountVo = tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
-			tradeOrderCountVo.setBranchName("合计：");
-			exportList.add(tradeOrderCountVo);
+			//刪除合計功能,建議採用excel的模板合計,提高效率
+			//TradeOrderCountVo tradeOrderCountVo = tradeOrderCountServiceApi.queryTradeOrderCountSum(vo);
+			//tradeOrderCountVo.setBranchName("合计：");
+			///exportList.add(tradeOrderCountVo);
 			// 过滤数据权限字段
 			cleanAccessData(exportList);
 			String fileName = "店铺销售排名";
