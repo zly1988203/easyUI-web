@@ -37,7 +37,7 @@ $(function(){
 	    }
         var formId = $("#formId").val();
         url = contextPath+"/form/deliverFormList/getDeliverFormListsById";
-        $.ajax({
+        $_jxc.ajax({
                 type:"POST",
                 url:url,
                 data:{

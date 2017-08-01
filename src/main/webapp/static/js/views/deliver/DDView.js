@@ -572,10 +572,10 @@ function saveOrder(){
 	});
     
 //    gFunStartLoading();
-    $.ajax({
+    $_jxc.ajax({
         url:contextPath+"/form/deliverForm/updateDeliverForm",
         contentType:"application/json",
-        data:JSON.stringify(reqObj),
+        data:JSON.stringify(reqObj)
     },function(result){
 //        gFunEndLoading();
         if(result['code'] == 0){
