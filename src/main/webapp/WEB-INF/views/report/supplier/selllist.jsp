@@ -18,10 +18,18 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
-	                <div class="ubtns-item" onclick="query()">查询</div>
-	                <div class="ubtns-item" onclick="exportData()">导出</div>
-				    <div class="ubtns-item" onclick="printReport()">打印</div>
-	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
+					<shiro:hasPermission name="JxcSupplierSellRp:print">
+					<div class="ubtns-item" onclick="query()">查询</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcSupplierSellRp:export">
+					<div class="ubtns-item" onclick="exportData()">导出</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcSupplierSellRp:print">
+					<div class="ubtns-item" onclick="printReport()">打印</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcSupplierSellRp:reset">
+					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
+					</shiro:hasPermission>
 	                <div class="ubtns-item" onclick="toClose()">关闭</div>
 					<input type="hidden" id="startCount" name="startCount" />
 					<input type="hidden" id="endCount" name="endCount" />
