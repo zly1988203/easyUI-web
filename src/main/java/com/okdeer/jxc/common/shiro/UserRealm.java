@@ -7,14 +7,10 @@
 
 package com.okdeer.jxc.common.shiro;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
+import com.okdeer.jxc.system.entity.SysRole;
+import com.okdeer.jxc.system.service.SysRoleService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -46,6 +42,8 @@ import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.system.service.SysUserCategoryGrantServiceApi;
 import com.okdeer.jxc.system.service.SysUserServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
+
+import javax.annotation.Resource;
 
 /**
  * ClassName: UserRealm 
@@ -99,6 +97,9 @@ public class UserRealm extends CasRealm {
 	 */
 	@Autowired
 	private SupplierServiceApi supplierService;
+
+	@Resource
+	private SysRoleService sysRoleService;
 
 	// 支持的运算符和运算符优先级
 	public static final Map<String, Integer> expMap = new HashMap<String, Integer>() {
@@ -239,6 +240,12 @@ public class UserRealm extends CasRealm {
 					info.addStringPermissions(sysMenuPermissionDto.getPermissions(null));
 				}
 			}
+			SysRole role = sysRoleService.getRoleByUserId(sysUser.getId());
+			info.setRoles(new HashSet<String>(){
+				{
+					add(role.getRoleCode());
+				}
+			});
 			LOG.debug("授权查询回调函数信息：{}", info);
 			return info;
 		} catch (Exception e) {
