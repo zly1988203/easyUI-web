@@ -249,8 +249,10 @@ function changeDatePrice(newV,oldV){
 function calculateMoney(){
 	//线上
 	var _onPriceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'dayavgSaleAmountOnline');
+	_onPriceValue = parseFloat(_onPriceValue||0);
 	//线下
 	var _upPriceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'dayavgSaleAmountOffline');
+	_upPriceValue = parseFloat(_upPriceValue||0);
 	
 	var _temPrice = parseFloat(_onPriceValue)+parseFloat(_upPriceValue);
 
@@ -369,12 +371,12 @@ function savePlan(){
 		if(obj){
 			
 			//数字转字符串
-			obj.dayavgSaleAmount = obj.dayavgSaleAmount+"";
-			obj.monthCostAmount = obj.monthCostAmount+"";
-			obj.monthSaleAmount = obj.monthSaleAmount+"";
-			obj.dayavgSaleAmountOnline = obj.dayavgSaleAmountOnline+"";
-			obj.dayavgSaleAmountOffline = obj.dayavgSaleAmountOffline+"";
-			obj.dayavgCostAmount = obj.dayavgCostAmount+"";
+			obj.dayavgSaleAmount = parseFloat(obj.dayavgSaleAmount||0)+"";
+			obj.monthCostAmount = parseFloat(obj.monthCostAmount||0)+"";
+			obj.monthSaleAmount = parseFloat(obj.monthSaleAmount||0)+"";
+			obj.dayavgSaleAmountOnline = parseFloat(obj.dayavgSaleAmountOnline||0)+"";
+			obj.dayavgSaleAmountOffline = parseFloat(obj.dayavgSaleAmountOffline||0)+"";
+			obj.dayavgCostAmount = parseFloat(obj.dayavgCostAmount||0)+"";
 			
 			if(parseFloat(obj.dayavgSaleAmountOnline||0) > 0 || parseFloat(obj.dayavgSaleAmountOffline||0) > 0 || parseFloat(obj.dayavgCostAmount||0) > 0 ){
 				_errorFlag = true;
