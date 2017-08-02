@@ -382,6 +382,11 @@ public class ExcelReaderUtil {
 				if (!jsonObject.containsKey(columnName)) {
 					jsonObject.element(columnName, "");
 				}
+				// 读取条码后需要去掉空格
+				if ("barCode".equals(columnName)) {
+					String barCode = (String) jsonObject.get(columnName);
+					jsonObject.put(columnName, barCode.replace(" ", ""));
+				}
 			}
 		}
 	}
