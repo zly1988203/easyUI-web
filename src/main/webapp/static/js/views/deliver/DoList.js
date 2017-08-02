@@ -15,6 +15,7 @@ $(function(){
 	toBtnDisable('btnAdd','btnDel');
 	setQueryDataDA();
     $("#checkDiv").removeClass("uhide");
+    setDivTime();
 	// delDivAuditStatus();
 	if(getUrlQueryString('message')=='0'){
 		$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");

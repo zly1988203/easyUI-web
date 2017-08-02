@@ -125,9 +125,9 @@
 				<div class='ub ub-ac umar-l20 uw-300 uhide' id='orderStatus'>
 					<div class='umar-r10 uw-68 ut-r'>单据状态:</div>
 					<div class='ub ub-ac umar-r10'>
-						<input class='ub' type='radio' id='deliverOrderStatus0'
+						<input class='ub' type='radio' id='deliverOrderStatus'
 							name='deliverStatus' value='' checked='checked'
-							onclick='queryForm()' /><label for='deliverOrderStatus0'>全部</label>
+							onclick='queryForm()' /><label for='deliverOrderStatus'>全部</label>
 					</div>
 					<div class='ub ub-ac umar-r10'>
 						<input class='ub' type='radio' id='deliverOrderStatus0'
