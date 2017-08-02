@@ -1431,4 +1431,26 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		return branchSpecServiceApi;
 	}
 	
+    /**
+     * @Description: 查询当天已审核的要货单数量
+	 * @param sourceBranchId 发货机构id
+	 * @param targetBranchId 要货机构id
+     * @return
+     * @author zhengwj
+     * @date 2017年8月2日
+     */
+    @RequestMapping(value = "getTodayCheckDaCount", method = RequestMethod.POST)
+    @ResponseBody
+    public RespJson getTodayCheckDaCount(String sourceBranchId, String targetBranchId) {
+        RespJson resp = RespJson.success();
+        try {
+            Integer count = deliverFormServiceApi.getTodayCheckDaCount(sourceBranchId, targetBranchId);
+            resp.put("count", count);
+        } catch (Exception e) {
+            LOG.error("查询当天已审核的要货单数量异常:{}", e);
+            resp = RespJson.error("查询当天已审核的要货单数量异常");
+        }
+        return resp;
+    }
+	
 }
