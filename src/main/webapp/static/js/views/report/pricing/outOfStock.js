@@ -12,8 +12,6 @@ $(function(){
     initDataGrid();
 	//选择报表类型
 	changeType();
-	// //切换radio 禁启用
-	// checktype();
     
     //机构选择初始化 要货机构
     $('#targetBranch').branchSelect({
@@ -21,10 +19,11 @@ $(function(){
             $("#targetBranchId").val(data.branchId);
         }
     });
+    
+    initBranchSelect();
 
 });
 
-var initBranchFlag = false;
 
 function initBranchSelect() {
 	//机构选择初始化 发货机构
@@ -52,7 +51,6 @@ function checktype(value){
 		if(value == '0'){
 			// $('#sourceBranchName').attr("readonly","readonly");
 			// $('#sourceBranchName').addClass('uinp-no-more');
-			$('.uinp-sourceName').removeAttr('onclick');
 			$('#formNo').removeClass('uinp-no-more');
 			$('#formNo').removeAttr("readonly");
 
@@ -104,11 +102,7 @@ function checktype(value){
             $('#skuCode').addClass('uinp-no-more');
 
 		}
-		
-		if(value && value !== 0 && !initBranchFlag){
-			initBranchFlag = true;
-			initBranchSelect()
-		}
+
 
 }
 //清空所有数据值
