@@ -82,7 +82,7 @@ public class SSOMainController extends BaseController<SSOMainController> {
 		try {
 			Subject subject = SecurityUtils.getSubject();
 			subject.logout();
-			response.sendRedirect(casServerUrlPrefix + "/login?service=" + serviceUrl);
+			response.sendRedirect(casServerUrlPrefix + "/logout?service=" + serviceUrl);
 		} catch (IOException e) {
 			LOG.error("logout error:", e);
 		}
