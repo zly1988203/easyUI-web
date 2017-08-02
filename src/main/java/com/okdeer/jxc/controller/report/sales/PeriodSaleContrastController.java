@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -97,7 +98,7 @@ public class PeriodSaleContrastController extends BaseController<PeriodSaleContr
 			handlerParam(qo);
 			List<PeriodSaleContrastResult> list = periodSaleContrastFacade.queryPeriodSaleContrastResultPage(qo);
 
-			String fileName = "时段销售对比分析";
+			String fileName = "时段销售对比分析" + "_" + DateUtils.getCurrSmallStr();;
 
 			String[] headers = { "项目/时段", "", "月均销售", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月",
 					"12月", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" };
