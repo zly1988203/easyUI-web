@@ -47,8 +47,8 @@
 				/scale/** = anon
 				/static/** = anon
 				/cas=casFilter
+				/logout = anon
 				/** = user
-				/logout = logout
 			</value>
 		</property>
 	</bean>
