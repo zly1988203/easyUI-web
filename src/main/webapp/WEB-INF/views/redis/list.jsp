@@ -32,6 +32,10 @@
                         <option value="LOCK*">LOCK*</option>
                     </select>
                 </div>
+                <div class="ub ub-ac umar-r40">
+                    <div class="umar-r10 uw-70 ut-r">key:</div>
+                    <input id="key" name="key" value="" class="uinp uw-300">
+                </div>
             </div>
         </form>
         <table id="dg"></table>
@@ -57,8 +61,14 @@
         });
 
         var query = function () {
+            var key = $("#key").val()||"";
+            if(key!=""&&condition(key)) $_jxc.alert("输入的key不合法,必须是STOCK或者LOCK开头!");
             $('#dg').datagrid({
-                url:contextPath+"/redis/list?pattern=" + $("#pattern").val(),
+                url:contextPath+"/redis/list",
+                queryParams: {
+                    pattern: $("#pattern").val(),
+                    key: key
+                },
                 nowrap:false,
                 columns:[[
                     {field:'key',title:'key',width:500},
@@ -68,6 +78,9 @@
             });
         };
 
+        function condition(file){
+            return !/^STOCK|LOCK.*$/.test(file)
+        }
 
         var deleteKey= function () {
             var rows =$("#dg").datagrid("getChecked");

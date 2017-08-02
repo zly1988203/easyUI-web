@@ -214,7 +214,8 @@ BaseController<GoodsReportController> {
 
 			List<GoodsReportVo> exportList = goodsReportService.queryList(qo);
 			if(CollectionUtils.isNotEmpty(exportList)){
-				String branchName = StringUtils.isNotBlank(qo.getBranchName()) ? qo.getBranchName() : getCurrentUser().getBranchName();
+				Branches branches = branchesService.getBranchInfoById(qo.getBranchId());
+				String branchName = branches != null ? branches.getBranchName() : getCurrentUser().getBranchName();
 				String fileName = branchName + "商品查询列表" + "_" + DateUtils.getCurrSmallStr();
 
 				String templateName = ExportExcelConstant.GOODSREPORT;
