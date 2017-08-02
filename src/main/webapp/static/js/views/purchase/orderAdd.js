@@ -103,7 +103,7 @@ function initDatagridEditOrder(){
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'60px',align:'left'},
             {field:'purchaseSpec',title:'进货规格',width:'90px',align:'left'},
-            {field:'weekSale',title:'周销售量',width:'80px',align:'right',
+            {field:'daySaleNum',title:'周销售量',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -111,7 +111,7 @@ function initDatagridEditOrder(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'monthSale',title:'月销售量',width:'80px',align:'right',
+            {field:'monthSaleNum',title:'月销售量',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';

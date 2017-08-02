@@ -72,7 +72,7 @@ function initDatagridEditOrder(){
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
             {field:'purchaseSpec',title:'进货规格',width:'90px',align:'left'},
-            {field:'weekSale',title:'周销售量',width:'80px',align:'right',
+            {field:'daySaleNum',title:'周销售量',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -80,7 +80,7 @@ function initDatagridEditOrder(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field:'monthSale',title:'月销售量',width:'80px',align:'right',
+            {field:'monthSaleNum',title:'月销售量',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -296,10 +296,45 @@ function initQueryData(){
         url:contextPath+"/form/purchase/detailList?formId="+formId
     },function(result){
         if(result && result.rows.length > 0){
-            $("#"+gridName).datagrid("loadData",result.rows);
+            selectStockAndPrice(result.rows);
         }
     });
 }
+
+//查询周销售量 和 月销量
+function selectStockAndPrice(data){
+
+    var GoodsStockVo = {
+        branchId : "",
+        fieldName : 'id',
+        stockBranchId : $("#branchId").val(),
+        goodsSkuVo : []
+    };
+    $.each(data,function(i,val){
+        var temp = {
+            id : val.skuId
+        };
+        GoodsStockVo.goodsSkuVo[i] = temp;
+    });
+    $_jxc.ajax({
+        url : contextPath+"/goods/goodsSelect/queryAlreadyNum",
+        data : {
+            goodsStockVo : JSON.stringify(GoodsStockVo)
+        }
+    },function(result){
+        $.each(data,function(i,val){
+            $.each(result.data,function(j,obj){
+                if(val.skuId==obj.skuId){
+                    data[i].alreadyNum = obj.alreadyNum;
+                    data[i].daySaleNum = obj.daySaleNum;
+                    data[i].monthSaleNum = obj.monthSaleNum;
+                }
+            })
+        })
+        $("#"+gridName).datagrid("loadData",data);
+    });
+}
+
 
 
 //限制转换次数
