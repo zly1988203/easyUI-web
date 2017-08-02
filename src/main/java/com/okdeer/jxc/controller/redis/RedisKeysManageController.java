@@ -13,6 +13,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.retail.facade.stock.facade.RedisKeysManageFacade;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,17 +52,29 @@ public class RedisKeysManageController {
 
     @RequestMapping(value = "/list")
     @RequiresRoles("jxc_admin_role")
-    public List<Map<String,Object>> getKeysList(String pattern){
+    public List<Map<String,Object>> getKeysList(String pattern,String key){
         List<Map<String,Object>> list = Lists.newArrayList();
-        Set<String> keys = redisKeysManageFacade.getKeys(pattern);
-        Map<String,Object> map;
-        for (String key : keys){
-            map = Maps.newHashMap();
-            map.put("key",key);
-            long timeout = redisKeysManageFacade.ttlKey(key);
-            map.put("timeout",timeout==-1?"永久":timeout);
-            map.put("vale",redisKeysManageFacade.getVal(key));
-            list.add(map);
+        Map<String, Object> map;
+        if (StringUtils.isNotBlank(key)){
+            String val =redisKeysManageFacade.getVal(key);
+            if(StringUtils.isNotBlank(val)) {
+                map = Maps.newHashMap();
+                map.put("key", key);
+                long timeout = redisKeysManageFacade.ttlKey(key);
+                map.put("timeout", timeout == -1 ? "永久" : timeout);
+                map.put("vale", val);
+                list.add(map);
+            }
+        }else {
+            Set<String> keys = redisKeysManageFacade.getKeys(pattern);
+            for (String str : keys) {
+                map = Maps.newHashMap();
+                map.put("key", str);
+                long timeout = redisKeysManageFacade.ttlKey(str);
+                map.put("timeout", timeout == -1 ? "永久" : timeout);
+                map.put("vale", redisKeysManageFacade.getVal(str));
+                list.add(map);
+            }
         }
         return list;
     }

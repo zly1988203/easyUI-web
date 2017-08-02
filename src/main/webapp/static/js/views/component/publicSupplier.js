@@ -6,6 +6,7 @@ var saleWayNot="";
 var branchId="";
 var isDirect = "";
 var isAllowPurchase = "";
+var supplierSelectType="";
 function initSupplierView(param){
 	
 	console.log('param',param)
@@ -29,7 +30,9 @@ function initSupplierView(param){
     isDirect = $("#isDirect").val();
     
     isAllowPurchase = param.isAllowPurchase ||"";
-    
+
+    supplierSelectType = param.supplierSelectType||"";
+
     initTreeSupplier(); //初始树
     initDatagridSupplier(saleWayNot,isDirect,branchId, supplierCodeOrName); //初始化表格
 }
@@ -89,7 +92,8 @@ function zTreeOnClick(event, treeId, treeNode) {
 	   	isDirect:isDirect,
 	   	isAllowPurchase:isAllowPurchase,
     	branchId:branchId,
-    	supplierNameOrsupplierCode:supplierNameOrsupplierCode
+    	supplierNameOrsupplierCode:supplierNameOrsupplierCode,
+       supplierSelectType:supplierSelectType
    };
    $("#gridSupplier").datagrid("options").method = "post";
    $("#gridSupplier").datagrid("options").url =contextPath + "/common/supplier/getComponentList",
@@ -108,7 +112,8 @@ function initDatagridSupplier(saleWayNot, isDirect, branchId, supplierNameOrsupp
         	isDirect:isDirect,
         	isAllowPurchase:isAllowPurchase,
         	branchId:branchId,
-        	supplierNameOrsupplierCode:supplierNameOrsupplierCode
+        	supplierNameOrsupplierCode:supplierNameOrsupplierCode,
+            supplierSelectType:supplierSelectType
         },
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
@@ -138,7 +143,8 @@ function supplierSearch(){
 	   	isDirect:isDirect,
 	   	isAllowPurchase:isAllowPurchase,
 		branchId:branchId,
-    	supplierNameOrsupplierCode:supplierNameOrsupplierCode
+    	supplierNameOrsupplierCode:supplierNameOrsupplierCode,
+        supplierSelectType:supplierSelectType
 	};
 	$("#gridSupplier").datagrid("options").method = "post";
 	$("#gridSupplier").datagrid("options").url =contextPath+"/common/supplier/getComponentList",
