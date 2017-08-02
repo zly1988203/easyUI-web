@@ -870,7 +870,7 @@ function selectForm(){
 	var refFormNoType = $(':radio[name=refFormNoType]:checked').val();
 	if(refFormNoType == 'PI'){
         var param = {
-            type:"PI",
+    		formType:"PI",
         }
 
 		new publicPurchaseFormService(param,function(data){

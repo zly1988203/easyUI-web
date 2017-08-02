@@ -543,7 +543,7 @@ function selectOperator(){
 }
 function selectPurchaseFormService(){
     var param = {
-        type:"PA",
+    	formType:"PA",
     }
     new publicPurchaseFormService(param,function(data){
 		//data.Id

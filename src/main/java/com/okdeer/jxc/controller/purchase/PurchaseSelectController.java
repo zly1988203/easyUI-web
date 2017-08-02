@@ -66,10 +66,8 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 	 * @date 2016年8月6日
 	 */
 	@RequestMapping(value = "view")
-	public String view(String type, Integer isAllowRefOverdueForm, Model model) {
-		model.addAttribute("type", type);
-		model.addAttribute("isAllowRefOverdueForm", isAllowRefOverdueForm);
-		return "component/publicForm";
+	public String view(Model model) {
+		return "component/publicPurchaseForm";
 	}
 
 	/**

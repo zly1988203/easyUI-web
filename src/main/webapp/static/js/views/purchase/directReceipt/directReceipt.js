@@ -1143,7 +1143,11 @@ function directDelete(){
 
 
 function selectPurchaseForm(){
-	new publicPurchaseFormService("PA",function(data){
+	var param = {
+        formType:"PA",
+        isDirectSupplier:1
+    }
+	new publicPurchaseFormService(param,function(data){
 		$("#refFormNo").val(data.form.formNo);
 		$("#refFormId").val(data.form.id);
 		//根据选择的采购单，带出采购单的信息
