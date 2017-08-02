@@ -62,6 +62,16 @@ function initGoodsView(data,flag){
 			minMaxSalePrice();
 		}
 	});
+	
+	//2.7 20392  默认是联营  是否管理库存默认不勾选
+	if($("#saleWay").val() == "C"){
+        $("#managerStock").removeAttr("checked");
+        $("#managerStock").prop("disabled","disabled");
+	}else{
+        $("#managerStock").prop("checked","checked");
+        $("#managerStock").removeProp("disabled");
+	}
+	
 }
 //获取列表复制的值
 function getSelectionRow(data){
