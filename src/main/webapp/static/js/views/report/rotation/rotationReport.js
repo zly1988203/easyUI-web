@@ -4,8 +4,10 @@ $(function(){
 	$("#branchName").val(sessionBranchCodeName);
 	$("#branchCompleCode").val(sessionBranchCompleCode);
 	$("#branchId").val(sessionBranchId);
+	
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    
     initDatagridRequire();
     
     $(".radioItem").on("change",function(){

@@ -4,7 +4,11 @@
  */
 $(function(){
 	//开始和结束时间
-	toChangeDatetime(10);
+	//toChangeDatetime(10);
+	
+	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
+	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd")+" 23:59");
+	
 	initDatagridRequireOrders();
 
     //机构选择初始化 发货机构

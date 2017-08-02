@@ -4,7 +4,7 @@
  */
 $(function() {
 	//开始和结束时间
-	$("#txtStartDate").val(dateUtil.getPreMonthDate().format("yyyy-MM-dd"));
+	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	
 	//选择报表类型

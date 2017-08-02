@@ -4,7 +4,10 @@
  */
 $(function(){
 	//开始和结束时间
-	toChangeDate(10);
+	//toChangeDate(10);
+	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	
 	initDatagridRequireOrders();
 	branchId = $("#branchId").val();
 	brancheType = $("#brancheType").val();
