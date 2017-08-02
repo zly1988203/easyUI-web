@@ -10,10 +10,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.dubbo.rpc.RpcContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,7 +53,8 @@ import com.okdeer.jxc.utils.UserUtil;
 @RequestMapping("report/goodsUnsale")
 public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleReportController> {
 
-	@Reference(version = "1.0.0", check = false)
+	//@Reference(version = "1.0.0", check = false)
+	@Resource
 	private GoodsUnsaleReportService goodsUnsaleReportService;
 	/**
 	 * 
@@ -84,13 +88,14 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			goodsUnsaleReportService.queryGoodsUnsaleReportSum(vo);
 			PageUtils<GoodsUnsaleReportVo> list = goodsUnsaleReportService.getGoodsUnsaleReportList(vo);
-			GoodsUnsaleReportVo goodsUnsaleReportVo = goodsUnsaleReportService.queryGoodsUnsaleReportSum(vo);
+			Future<GoodsUnsaleReportVo> goodsUnsaleReportVo = RpcContext.getContext().getFuture();
 			// 过滤数据权限字段
             cleanAccessData(goodsUnsaleReportVo);
 			List<GoodsUnsaleReportVo> footer = new ArrayList<GoodsUnsaleReportVo>();
 			if(goodsUnsaleReportVo !=null){
-				footer.add(goodsUnsaleReportVo);
+				footer.add(goodsUnsaleReportVo.get());
 			}
 			list.setFooter(footer);
 			// 过滤数据权限字段
@@ -116,10 +121,11 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 		RespJson resp = RespJson.success();
 		try {
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			//goodsUnsaleReportService.queryGoodsUnsaleReportSum(vo);
 			List<GoodsUnsaleReportVo> exportList = goodsUnsaleReportService.exportList(vo);
-			GoodsUnsaleReportVo goodsUnsaleReportVo = goodsUnsaleReportService.queryGoodsUnsaleReportSum(vo);
-			goodsUnsaleReportVo.setBranchCode("合计:");
-			exportList.add(goodsUnsaleReportVo);
+			//Future<GoodsUnsaleReportVo> goodsUnsaleReportVo = RpcContext.getContext().getFuture();
+			//goodsUnsaleReportVo.setBranchCode("合计:");
+			//exportList.add(goodsUnsaleReportVo);
 			// 过滤数据权限字段
 			cleanAccessData(exportList);
 			String fileName = "商品滞销查询报表_"+DateUtils.getCurrSmallStr();
@@ -146,11 +152,13 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 	public String printReport(GoodsUnsaleReportQo qo, HttpServletResponse response, HttpServletRequest request) {
 		try {
 			qo.setSourceBranchId(UserUtil.getCurrBranchId());
+			goodsUnsaleReportService.queryGoodsUnsaleReportSum(qo);
 			List<GoodsUnsaleReportVo> exportList = goodsUnsaleReportService.exportList(qo);
-			GoodsUnsaleReportVo goodsUnsaleReportVo = goodsUnsaleReportService.queryGoodsUnsaleReportSum(qo);
-			if(goodsUnsaleReportVo !=null){
-				goodsUnsaleReportVo.setBranchCode("合计:");
-				exportList.add(goodsUnsaleReportVo);
+			Future<GoodsUnsaleReportVo> goodsUnsaleReportVo = RpcContext.getContext().getFuture();
+			GoodsUnsaleReportVo vo = goodsUnsaleReportVo.get();
+			if(vo !=null){
+				vo.setBranchCode("合计:");
+				exportList.add(vo);
 			}
 			int lenght= exportList.size();
 			if(lenght>PrintConstant.PRINT_MAX_ROW){
