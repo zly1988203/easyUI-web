@@ -34,6 +34,7 @@
         <div class="ub uline umar-t8"></div>
         <input type="hidden" id="formId" value="${form.id}">
         <input type="hidden" id="formNo" value="${form.formNo}">
+        <input type="hidden" id="branchId" value="${form.branchId}">
         <div class="ub umar-t8">
             <div class="ub ub-ac umar-r80">
                 <div class="umar-r10 uw-60 ut-r">供应商:</div>
