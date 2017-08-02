@@ -13,6 +13,10 @@ $(function() {
 	$('#branchSelects').branchSelect();
 	
 	$('#supplierComponent').supplierSelect({
+        param:{
+        	//总部是否查询所以的供应商
+            supplierSelectType:'1'
+		},
         loadFilter:function(data){
             data.supplierId = data.id;
             return data;
