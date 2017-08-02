@@ -1,7 +1,7 @@
 var pageSize = 50;
 $(function() {
 	//开始和结束时间
-	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	//初始化默认条件
     initDatagridByFormNo();
@@ -445,7 +445,7 @@ function getGoodsType(){
 function resetForm(){
 	$("#queryForm").form('clear');
 	//开始和结束时间
-	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 };
 

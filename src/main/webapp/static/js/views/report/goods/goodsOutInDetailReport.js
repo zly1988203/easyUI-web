@@ -1,6 +1,6 @@
 $(function(){
 	//开始和结束时间
-    $("#txtStartDate").val(dateUtil.getPreMonthDate().format("yyyy-MM-dd")+" 00:00:00");
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00:00");
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd")+ " 23:59:59");
     initDatagridRequire();
 });
@@ -294,7 +294,7 @@ function selectSupplier(){
  */
 var resetForm = function() {
 	 $("#queryForm").form('clear');
-	 $("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+	 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
 	 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	 $('#formType').combobox('setText','全部');
 	 $('#formType').combobox('setValue','');

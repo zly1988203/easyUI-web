@@ -316,10 +316,10 @@ function initDatagridEditOrder(){
         		data.forEach(function(obj,index){
         			//编辑后 可以再次选择商品 新选的 priceBack为空
         			if(!obj.priceBack){
-        				if(obj.isGift && obj.isGift != '1'){
+        				if(parseFloat(obj.isGift) === 0){
         					//非赠品
         					obj.price = obj.purchasePrice;
-        				}else if(obj.isGift && obj.isGift == '1'){
+        				}else if(parseFloat(obj.isGift) === 1){
         					//赠品
         					obj.amount = 0;
         				}

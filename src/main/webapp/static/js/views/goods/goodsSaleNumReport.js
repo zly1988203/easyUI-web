@@ -1,7 +1,8 @@
 $(function(){
 	//开始和结束时间
-	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    
     initDatagridRequire();
 });
 var gridHandel = new GridClass();
@@ -174,6 +175,6 @@ function exportExcel(){
  */
 var resetForm = function() {
 	 $("#queryForm").form('clear');
-	 $("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+	 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
 	 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 };
