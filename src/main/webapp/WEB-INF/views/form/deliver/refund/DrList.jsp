@@ -97,7 +97,10 @@
 				<div class="ub ub-ac uw-300 umar-l20">
 						<div class="umar-r10 uw-70 ut-r">单据状态:</div>
 						<div class="ub ub-ac umar-r10">
-						<input class="ub radioItem" type="radio" name="deliverStatus" value="0" id="orstatus_1" checked="checked" /><label for="orstatus_1">未处理</label>
+						<input class="ub radioItem" type="radio" name="deliverStatus" value="" id="orstatus_5" checked="checked" /><label for="orstatus_5">全部</label>
+						</div>
+						<div class="ub ub-ac umar-r10">
+						<input class="ub radioItem" type="radio" name="deliverStatus" value="0" id="orstatus_1" /><label for="orstatus_1">未处理</label>
 						</div>
 						<div class="ub ub-ac umar-r10">
 						<input class="ub radioItem" type="radio" name="deliverStatus" value="1" id="orstatus_2" /><label for="orstatus_2">部分发货</label>
@@ -107,9 +110,6 @@
 						</div>
 						<div class="ub ub-ac umar-r10">
 						<input class="ub radioItem" type="radio" name="deliverStatus" value="3" id="orstatus_4" /><label for="orstatus_4">终止</label>
-						</div>
-						<div class="ub ub-ac umar-r10">
-						<input class="ub radioItem" type="radio" name="deliverStatus" value="" id="orstatus_5" /><label for="orstatus_5">全部</label>
 						</div>
 				</div>
 			</div>
