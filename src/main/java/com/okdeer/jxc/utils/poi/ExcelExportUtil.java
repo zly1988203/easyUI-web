@@ -301,7 +301,7 @@ public class ExcelExportUtil {
 			HSSFRow row = sheet.createRow(0);
 			HSSFCell cell = row.createCell(0);
 			cell.setCellStyle(style);
-			HSSFRichTextString text = new HSSFRichTextString(reportFileName);
+			HSSFRichTextString text = new HSSFRichTextString(reportFileName.substring(0, reportFileName.indexOf('_')));
 			cell.setCellValue(text);
 			// 合并标题单元格
 			sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, headers.length - 1));

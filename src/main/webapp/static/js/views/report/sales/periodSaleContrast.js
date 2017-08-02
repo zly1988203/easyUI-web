@@ -418,10 +418,15 @@ function exportExcel(){
 		}
 	});
 	var exportUrl;
+	var datadg = $('#'+datagridId).datagrid('getData');;
 	if(serviceType == 'timeSale'){
 		exportUrl = contextPath+"/report/periodSaleContrast/exportList?"+fromObjStr;
 	}else{
 		exportUrl = contextPath+"/report/goodsSaleContrast/exportList?"+fromObjStr;
+	}
+	if(datadg.total == 0){
+		$_jxc.alert("无数据可导！");
+		return;
 	}
 	$("#queryForm").attr("action",exportUrl);
 	$("#queryForm").submit();
