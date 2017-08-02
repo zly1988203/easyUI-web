@@ -804,7 +804,7 @@ function selectBranch(){
 }
 function selectPurchaseForm(){
     var param = {
-        type:"PA",
+    	formType:"PA",
         isAllowRefOverdueForm:0
     }
 	new publicPurchaseFormService(param,function(data){

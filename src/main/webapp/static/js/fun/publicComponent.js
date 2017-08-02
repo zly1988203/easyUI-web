@@ -654,14 +654,15 @@ function publicBranchAreaService(callback) {
 * */
 function publicPurchaseFormService(param, callback){
     var tempParam = {
-        type:"PA",
-        isAllowRefOverdueForm:""
+        formType:"PA",
+        isAllowRefOverdueForm:"",
+        isDirectSupplier:""
     }
     param = $.extend(tempParam,param)
 
   //公有属性
   var  dalogTemp = $('<div/>').dialog({
-      href:contextPath + "/form/purchaseSelect/view?type="+param.type+"&isAllowRefOverdueForm="+param.isAllowRefOverdueForm,
+      href:contextPath + "/form/purchaseSelect/view",
       width:1200,
       height:dialogHeight,
       title:"单据选择",
@@ -672,6 +673,7 @@ function publicPurchaseFormService(param, callback){
       },
       modal:true,
       onLoad:function(){
+    	  initParam(param);
     	  initFormCallBack(callBackHandel)
       }
   });
