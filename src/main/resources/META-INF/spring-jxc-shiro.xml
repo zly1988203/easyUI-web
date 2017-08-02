@@ -46,7 +46,7 @@
 				/health = anon
 				/scale/** = anon
 				/static/** = anon
-				/system/logout = anon
+				/logout = logout
 				/cas=casFilter
 				/** = user
 			</value>
