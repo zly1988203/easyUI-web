@@ -124,6 +124,12 @@ public class CategorySaleReportController extends ReportController {
 						BigDecimal saleAmount=(BigDecimal)data.get("profitAmount");
 						data.put("marginrate",BigDecimal.ZERO.compareTo(sumSaleAmount)==0?"0%":saleAmount.divide(sumSaleAmount,BigDecimal.ROUND_HALF_UP,4).multiply(new BigDecimal("100"))+"%" );
 					}
+					if(data.get("profitRate")!=null){
+						data.put("profitRate", data.get("profitRate")+"%");
+					}
+					if(data.get("saleRotationRate")!=null){
+						data.put("saleRotationRate", data.get("saleRotationRate")+"%");
+					}
 				}
 			}
 			dataList.add(sumRecord);
