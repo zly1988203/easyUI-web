@@ -18,7 +18,7 @@
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
 	            <div class="ubtns">
-					<shiro:hasPermission name="JxcSupplierSellRp:print">
+					<shiro:hasPermission name="JxcSupplierSellRp:search">
 					<div class="ubtns-item" onclick="query()">查询</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcSupplierSellRp:export">
