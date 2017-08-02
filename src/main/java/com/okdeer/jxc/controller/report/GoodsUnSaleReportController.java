@@ -88,11 +88,14 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			goodsUnsaleReportService.getGoodsUnsaleReportList(vo);
+			Future<PageUtils<GoodsUnsaleReportVo>> listFuture = RpcContext.getContext().getFuture();
 			goodsUnsaleReportService.queryGoodsUnsaleReportSum(vo);
-			PageUtils<GoodsUnsaleReportVo> list = goodsUnsaleReportService.getGoodsUnsaleReportList(vo);
 			Future<GoodsUnsaleReportVo> unsaleReportVoFuture = RpcContext.getContext().getFuture();
+
+			PageUtils<GoodsUnsaleReportVo> list = listFuture.get();
+
 			GoodsUnsaleReportVo reportVo = unsaleReportVoFuture.get();
-			
 			List<GoodsUnsaleReportVo> footer = new ArrayList<GoodsUnsaleReportVo>();
 			if(reportVo !=null){
 				// 过滤数据权限字段
@@ -124,7 +127,9 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 		try {
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			//goodsUnsaleReportService.queryGoodsUnsaleReportSum(vo);
-			List<GoodsUnsaleReportVo> exportList = goodsUnsaleReportService.exportList(vo);
+			goodsUnsaleReportService.exportList(vo);
+			Future<List<GoodsUnsaleReportVo>> listFuture = RpcContext.getContext().getFuture();
+			List<GoodsUnsaleReportVo> exportList = listFuture.get();
 			//Future<GoodsUnsaleReportVo> goodsUnsaleReportVo = RpcContext.getContext().getFuture();
 			//goodsUnsaleReportVo.setBranchCode("合计:");
 			//exportList.add(goodsUnsaleReportVo);
@@ -154,10 +159,12 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 	public String printReport(GoodsUnsaleReportQo qo, HttpServletResponse response, HttpServletRequest request) {
 		try {
 			qo.setSourceBranchId(UserUtil.getCurrBranchId());
+			goodsUnsaleReportService.exportList(qo);
 			goodsUnsaleReportService.queryGoodsUnsaleReportSum(qo);
-			List<GoodsUnsaleReportVo> exportList = goodsUnsaleReportService.exportList(qo);
+			Future<List<GoodsUnsaleReportVo>> exportListFuture = RpcContext.getContext().getFuture();
 			Future<GoodsUnsaleReportVo> unsaleReportVoFuture = RpcContext.getContext().getFuture();
 			GoodsUnsaleReportVo vo = unsaleReportVoFuture.get();
+			List<GoodsUnsaleReportVo> exportList = exportListFuture.get();
 			if(vo !=null){
 				vo.setBranchCode("合计:");
 				exportList.add(vo);

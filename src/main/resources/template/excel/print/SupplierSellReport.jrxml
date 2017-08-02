@@ -411,7 +411,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{profitRate}==null?"":new BigDecimal($F{profitRate}).setScale(2, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{profitRate}==null?"0.00%":new BigDecimal($F{profitRate}).multiply(new BigDecimal("100")).setScale(2, BigDecimal.ROUND_HALF_UP).toString()+"%"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="508" y="2" width="47" height="24" uuid="4da46bdb-81fc-46dc-9923-f80dd88c9308"/>
