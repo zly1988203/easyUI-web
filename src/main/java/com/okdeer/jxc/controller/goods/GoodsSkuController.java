@@ -291,6 +291,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		
 		
 		try {
+			sku.setBarCode(sku.getBarCode().replace(" ", ""));
 			// 如果非普通商品没有设置条码，则把当前商品代码
 			if (StringUtils.isEmpty(sku.getBarCode())
 					&& !PricingTypeEnum.ORDINARY.equals(sku.getPricingType())) {
@@ -355,6 +356,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		}
 		
 		try {
+			sku.setBarCode(sku.getBarCode().replace(" ", ""));
 			if (sku.getVipPrice()==null || sku.getVipPrice().compareTo(price) == 0) {
 				sku.setVipPrice(sku.getSalePrice());
 			}
@@ -426,6 +428,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		/**
 		 * 2.4 新增条码表，判断是否重复要在条码表取值
 		 */
+		barCode = barCode.replace(" ", "");
 		boolean isExists = goodsBarcodeService.queryCountBaseByBarCode(barCode,id) > 0;
 		if (isExists) { // 重复
 			RespJson json = RespJson.error("商品条码重复");
