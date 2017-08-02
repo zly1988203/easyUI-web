@@ -12,8 +12,8 @@ $(function(){
     initDataGrid();
 	//选择报表类型
 	changeType();
-	//切换radio 禁启用
-	checktype();
+	// //切换radio 禁启用
+	// checktype();
     
     //机构选择初始化 要货机构
     $('#targetBranch').branchSelect({
@@ -50,8 +50,8 @@ function changeType(){
 //切换radio 4个状态的禁用和启用 以及值的清空
 function checktype(value){
 		if(value == '0'){
-			$('#sourceBranchName').attr("readonly","readonly");
-			$('#sourceBranchName').addClass('uinp-no-more');
+			// $('#sourceBranchName').attr("readonly","readonly");
+			// $('#sourceBranchName').addClass('uinp-no-more');
 			$('.uinp-sourceName').removeAttr('onclick');
 			$('#formNo').removeClass('uinp-no-more');
 			$('#formNo').removeAttr("readonly");
@@ -65,8 +65,8 @@ function checktype(value){
             $('#skuCode').removeClass('uinp-no-more');
 		}
 		else if(value == '1'){
-            $("#sourceBranchName").removeAttr("readonly");
-			$('#sourceBranchName').removeClass('uinp-no-more');
+            // $("#sourceBranchName").removeAttr("readonly");
+			// $('#sourceBranchName').removeClass('uinp-no-more');
 			$('#formNo').addClass('uinp-no-more');
 			$('#formNo').attr("readonly","readonly");
 
@@ -78,8 +78,8 @@ function checktype(value){
             $('#skuCode').removeProp("readonly","readonly");
             $('#skuCode').removeClass('uinp-no-more');
 		}else if(value == '2'){
-            $("#sourceBranchName").removeAttr("readonly");
-            $('#sourceBranchName').removeClass('uinp-no-more');
+            // $("#sourceBranchName").removeAttr("readonly");
+            // $('#sourceBranchName').removeClass('uinp-no-more');
             $('#formNo').removeClass('uinp-no-more');
             $('#formNo').removeAttr("readonly");
             $('#categoryName').attr("readonly","readonly");
@@ -91,8 +91,8 @@ function checktype(value){
             $('#skuCode').addClass('uinp-no-more');
 
 		}else if(value == '3'){
-            $("#sourceBranchName").removeAttr("readonly");
-            $('#sourceBranchName').removeClass('uinp-no-more');
+            // $("#sourceBranchName").removeAttr("readonly");
+            // $('#sourceBranchName').removeClass('uinp-no-more');
             $('#formNo').addClass('uinp-no-more');
             $('#formNo').attr("readonly","readonly");
             $('#categoryName').attr("readonly","readonly");

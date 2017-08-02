@@ -14,7 +14,9 @@ $(function(){
 	loadTabs();
 	toBtnDisable('btnAdd','btnDel');
 	setQueryDataDA();
-	delDivAuditStatus();
+    $("#checkDiv").removeClass("uhide");
+    setDivTime();
+	// delDivAuditStatus();
 	if(getUrlQueryString('message')=='0'){
 		$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
 		$('#tabs').tabs({'selected':1});
@@ -318,13 +320,20 @@ function loadTabs(){
 			if (indexTab === 0) {
 				toBtnDisable('btnAdd','btnDel');
 				setQueryDataDA();
-				delDivAuditStatus();
-				initDatagridRequireOrdersDA();
+				// delDivAuditStatus();
+                $("#auditStatus").addClass("uhide");
+                $("#orderStatus").addClass("uhide");
+                $("#checkDiv").removeClass("uhide");
+
+                initDatagridRequireOrdersDA();
 			} else {
 				toBtnEnable('btnAdd','btnDel');
 				setQueryDataDO();
-				delDivTime();
-				initDatagridRequireOrdersDO();
+				// delDivTime();
+                $("#auditStatus").removeClass("uhide");
+                $("#orderStatus").removeClass("uhide");
+                $("#checkDiv").addClass("uhide");
+                initDatagridRequireOrdersDO();
 			}
 		}
 	});
