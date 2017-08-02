@@ -252,11 +252,7 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#queryForm").form({
-		success : function(result){
-			
-		}
-	});
+
 	$("#queryForm").attr("action",contextPath+"/report/pricingQuery/exportList");
 	$("#queryForm").submit();
 }

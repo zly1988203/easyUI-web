@@ -101,11 +101,7 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#queryForm").form({
-		success : function(result){
-			$_jxc.alert(result);
-		}
-	});
+
 	$("#queryForm").attr("action",contextPath+"/storeGoods/report/exportList");
 	$("#queryForm").submit();
 }

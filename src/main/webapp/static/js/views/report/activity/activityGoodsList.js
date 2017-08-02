@@ -220,12 +220,6 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#queryForm").form({
-		success : function(result){
-			var dataObj=eval("("+result+")");
-			$_jxc.alert(dataObj.message);
-		}
-	});
 	getCheckBoxValue();
 	$("#queryForm").attr("action",contextPath+"/activity/goods/exportList");
 	$("#queryForm").submit();

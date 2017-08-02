@@ -134,11 +134,6 @@ function exportExcel(){
     fromObjStr.targetBranchName = "";
     fromObjStr.sourceBranchName = "";
 
-	$("#queryForm").form({
-		success : function(result){
-			//$_jxc.alert(result);
-		}
-	});
 	$("#queryForm").attr("action",contextPath+'/form/deliverReport/exportList')
 	$("#queryForm").submit();
 }
