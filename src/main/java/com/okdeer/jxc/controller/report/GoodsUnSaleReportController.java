@@ -90,12 +90,14 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			goodsUnsaleReportService.queryGoodsUnsaleReportSum(vo);
 			PageUtils<GoodsUnsaleReportVo> list = goodsUnsaleReportService.getGoodsUnsaleReportList(vo);
-			Future<GoodsUnsaleReportVo> goodsUnsaleReportVo = RpcContext.getContext().getFuture();
-			// 过滤数据权限字段
-            cleanAccessData(goodsUnsaleReportVo);
+			Future<GoodsUnsaleReportVo> unsaleReportVoFuture = RpcContext.getContext().getFuture();
+			GoodsUnsaleReportVo reportVo = unsaleReportVoFuture.get();
+			
 			List<GoodsUnsaleReportVo> footer = new ArrayList<GoodsUnsaleReportVo>();
-			if(goodsUnsaleReportVo !=null){
-				footer.add(goodsUnsaleReportVo.get());
+			if(reportVo !=null){
+				// 过滤数据权限字段
+				cleanAccessData(reportVo);
+				footer.add(reportVo);
 			}
 			list.setFooter(footer);
 			// 过滤数据权限字段
@@ -154,8 +156,8 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			qo.setSourceBranchId(UserUtil.getCurrBranchId());
 			goodsUnsaleReportService.queryGoodsUnsaleReportSum(qo);
 			List<GoodsUnsaleReportVo> exportList = goodsUnsaleReportService.exportList(qo);
-			Future<GoodsUnsaleReportVo> goodsUnsaleReportVo = RpcContext.getContext().getFuture();
-			GoodsUnsaleReportVo vo = goodsUnsaleReportVo.get();
+			Future<GoodsUnsaleReportVo> unsaleReportVoFuture = RpcContext.getContext().getFuture();
+			GoodsUnsaleReportVo vo = unsaleReportVoFuture.get();
 			if(vo !=null){
 				vo.setBranchCode("合计:");
 				exportList.add(vo);
