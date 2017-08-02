@@ -325,6 +325,7 @@ public class OperateNewGoodsApplyController extends BaseController<OperateNewGoo
 			return RespJson.error("请选择商品类别！");
 		}
 		try {
+			sku.setBarCode(sku.getBarCode().replace(" ", ""));
 			// 如果非普通商品没有设置条码，则把当前商品代码
 			if (StringUtils.isEmpty(sku.getBarCode())
 					&& !PricingTypeEnum.ORDINARY.equals(sku.getPricingType())) {
@@ -380,6 +381,7 @@ public class OperateNewGoodsApplyController extends BaseController<OperateNewGoo
 			return RespJson.error(errorMessage);
 		}
 		try {
+			sku.setBarCode(sku.getBarCode().replace(" ", ""));
 			BigDecimal price = BigDecimal.ZERO;
 			if (sku.getSalePrice()==null) {
 				sku.setSalePrice(price);
@@ -501,6 +503,7 @@ public class OperateNewGoodsApplyController extends BaseController<OperateNewGoo
 		
 		String currBranchId = UserUtil.getCurrBranchId();
 		if(StringUtils.isNotBlank(barCode)){
+			barCode = barCode.replace(" ", "");
 			//1、校验标准库商品条码重复
 			/**
 			 * 2.4 新增条码表，判断是否重复要在条码表取值
