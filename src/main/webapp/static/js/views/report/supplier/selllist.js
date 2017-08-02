@@ -82,7 +82,7 @@ function initGoodsTotalAnalysiGrid() {
            },
            {field: 'profitRate', title: '毛利率', width:120, align: 'right',
         	   formatter:function(value,row,index){
-        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+        		   return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'%</b>';
         	   }   
            },
            {field: 'skuCount', title: 'SKU数', width:120, align: 'right',
