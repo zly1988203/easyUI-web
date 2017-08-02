@@ -2,19 +2,69 @@
  * Created by huangj02 on 2016/8/9.
  */
 $(function(){
+    initQueryData();
     initDatagridEditOrder();
     if($("#close").val()){
     	$("#addButton").addClass("unhide");
     	$("#toBackByJSButton").attr("onclick","window.parent.closeTab()");
     }
 });
+
+
+
+
+function initQueryData(){
+    var formId = $("#formId").val();
+    $_jxc.ajax({
+        url:contextPath+"/form/purchase/detailList?formId="+formId
+    },function(result){
+        if(result && result.rows.length > 0){
+            selectStockAndPrice(result.rows);
+        }
+    });
+}
+
+//查询周销售量 和 月销量
+function selectStockAndPrice(data){
+
+    var GoodsStockVo = {
+        branchId : "",
+        fieldName : 'id',
+        stockBranchId : $("#branchId").val(),
+        goodsSkuVo : []
+    };
+    $.each(data,function(i,val){
+        var temp = {
+            id : val.skuId
+        };
+        GoodsStockVo.goodsSkuVo[i] = temp;
+    });
+    $_jxc.ajax({
+        url : contextPath+"/goods/goodsSelect/queryAlreadyNum",
+        data : {
+            goodsStockVo : JSON.stringify(GoodsStockVo)
+        }
+    },function(result){
+        $.each(data,function(i,val){
+            $.each(result.data,function(j,obj){
+                if(val.skuId==obj.skuId){
+                    data[i].alreadyNum = obj.alreadyNum;
+                    data[i].daySaleNum = obj.daySaleNum;
+                    data[i].monthSaleNum = obj.monthSaleNum;
+                }
+            })
+        })
+        $("#"+gridName).datagrid("loadData",data);
+    });
+}
+
 var gridHandel = new GridClass();
 var gridName= "gridEditOrder";
 function initDatagridEditOrder(){
-	var formId = $("#formId").val();
+
     gridHandel.setGridName("gridEditOrder");
     $("#gridEditOrder").datagrid({
-    	url:contextPath+"/form/purchase/detailList?formId="+formId,
+    	// url:contextPath+"/form/purchase/detailList?formId="+formId,
         align:'center',
         singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
@@ -35,6 +85,22 @@ function initDatagridEditOrder(){
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
             {field:'purchaseSpec',title:'进货规格',width:'90px',align:'left'},
+            {field:'daySaleNum',title:'周销售量',width:'80px',align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
+            {field:'monthSaleNum',title:'月销售量',width:'80px',align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                }
+            },
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){

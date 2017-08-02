@@ -34,6 +34,30 @@ function initDatagridViewRequireOrder(){
 			/*{field:'twoCategoryCode',title:'类别编号',width:'90px',align:'left'},
 			{field:'twoCategoryName',title:'类别名称',width:'90px',align:'left'},*/
             {field:'distributionSpec',title:'配送规格',width:'80px',align:'left'},
+
+            // {field: 'daySaleNum', title: '周销售量', width: '80px', align: 'right',
+            //     formatter: function (value, row, index) {
+            //         if (row.isFooter) {
+            //             return
+            //         }
+            //         if (!row.daySaleNum) {
+            //             row.daySaleNum = parseFloat(value || 0).toFixed(2);
+            //         }
+            //         return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
+            //     }
+            // },
+            // {field: 'monthSaleNum', title: '月销售量', width: '80px', align: 'right',
+            //     formatter: function (value, row, index) {
+            //         if (row.isFooter) {
+            //             return
+            //         }
+            //         if (!row.daySaleNum) {
+            //             row.daySaleNum = parseFloat(value || 0).toFixed(2);
+            //         }
+            //         return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
+            //     }
+            // },
+
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
