@@ -14,7 +14,9 @@ $(function(){
 	loadTabs();
 	toBtnDisable('btnAdd','btnDel');
 	setQueryDataDA();
-	delDivAuditStatus();
+    $("#checkDiv").removeClass("uhide");
+    setDivTime();
+	// delDivAuditStatus();
 	if(getUrlQueryString('message')=='0'){
 		$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
 		$('#tabs').tabs({'selected':1});
@@ -152,7 +154,7 @@ function initDatagridRequireOrdersDO(){
 				}
 			}},
 			{field:'status',title: '审核状态', width: '100px', align: 'center'},
-			{field: 'dealStatusDO', title: '单据状态', width: '100px', align: 'center'},
+			{field: 'dealStatus', title: '单据状态', width: '100px', align: 'center'},
 			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
 			{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
 			{field:'referenceNo',title:'引用单号',width:'140px',align:'left',formatter:function(value,row,index){
@@ -318,13 +320,20 @@ function loadTabs(){
 			if (indexTab === 0) {
 				toBtnDisable('btnAdd','btnDel');
 				setQueryDataDA();
-				delDivAuditStatus();
-				initDatagridRequireOrdersDA();
+				// delDivAuditStatus();
+                $("#auditStatus").addClass("uhide");
+                $("#orderStatus").addClass("uhide");
+                $("#checkDiv").removeClass("uhide");
+
+                initDatagridRequireOrdersDA();
 			} else {
 				toBtnEnable('btnAdd','btnDel');
 				setQueryDataDO();
-				delDivTime();
-				initDatagridRequireOrdersDO();
+				// delDivTime();
+                $("#auditStatus").removeClass("uhide");
+                $("#orderStatus").removeClass("uhide");
+                $("#checkDiv").addClass("uhide");
+                initDatagridRequireOrdersDO();
 			}
 		}
 	});
