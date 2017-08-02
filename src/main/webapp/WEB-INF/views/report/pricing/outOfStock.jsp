@@ -63,7 +63,7 @@
 				<div class="ub  ub-ac umar-l20" id="sourceBranch">
 					<div class="umar-r10 uw-70 ut-r">发货机构:</div>
 					<input class="uinp ub ub-f1 " type="hidden" id="sourceBranchId" name="sourceBranchId">
-					<input class="uinp ub ub-f1 uinp-no-more" type="text" id="sourceBranchName" name="sourceBranchName" readonly>
+					<input class="uinp ub ub-f1 uinp-no-more" type="text" id="sourceBranchName" name="sourceBranchName">
 					<div class="uinp-more uinp-sourceName">...</div>
 				</div>
 
