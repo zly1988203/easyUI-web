@@ -554,6 +554,9 @@ function selectGoods(searchKey){
         	var rec = data[i];
         	rec.remark = "";
         }
+
+        data = selectStockAndPrice(data);
+
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
         var keyNames = {
@@ -576,6 +579,42 @@ function selectGoods(searchKey){
              gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
          },100)
     });
+}
+
+
+//查询周销售量 和 月销量
+function selectStockAndPrice(data){
+
+    var GoodsStockVo = {
+        branchId : "",
+        fieldName : 'id',
+        stockBranchId : $("#branchId").val(),
+        goodsSkuVo : []
+    };
+    $.each(data,function(i,val){
+        var temp = {
+            id : val.skuId
+        };
+        GoodsStockVo.goodsSkuVo[i] = temp;
+    });
+    $_jxc.ajax({
+        url : contextPath+"/goods/goodsSelect/queryAlreadyNum",
+        data : {
+            goodsStockVo : JSON.stringify(GoodsStockVo)
+        }
+    },function(result){
+        $.each(data,function(i,val){
+            $.each(result.data,function(j,obj){
+                if(val.skuId==obj.skuId){
+                    data[i].alreadyNum = obj.alreadyNum;
+                    data[i].daySaleNum = obj.daySaleNum;
+                    data[i].monthSaleNum = obj.monthSaleNum;
+                }
+            })
+        })
+    });
+
+    return data;
 }
 
 function updateListData(data){
@@ -657,7 +696,7 @@ function saveItemHandel(){
     }
 
     if(isCheckResult){
-        if(isChcekPrice){
+        if(isChcekPrice && hasPurchasePrice){
             $_jxc.confirm("单价存在为0，重新修改",function(r){
                 if (r){
                     return ;
@@ -856,6 +895,7 @@ function toImportproduct(type){
         branchId:branchId,
     }
     new publicUploadFileService(function(data){
+        data = selectStockAndPrice(data);
         updateListData(data);
         
     },param)

@@ -555,12 +555,7 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#formGoodsArchives").form({
-		success : function(result){
-			var dataObj=eval("("+result+")");
-			$_jxc.alert(dataObj.message);
-		}
-	});
+
 	$("#formGoodsArchives").attr("action",contextPath+"/goods/operateNewGoodsApply/exportGoods");
 	$("#formGoodsArchives").submit();
 }

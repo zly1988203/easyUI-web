@@ -653,7 +653,7 @@ function saveItemHandel(){
     }
 
     if(isCheckResult){
-        if(isChcekPrice){
+        if(isChcekPrice && hasPurchasePrice){
             $_jxc.confirm("单价存在为0，重新修改",function(r){
                 if (r){
                     return ;
@@ -956,6 +956,7 @@ function toImportproduct(type){
         branchId:branchId,
     }
     new publicUploadFileService(function(data){
+        data = selectStockAndPrice(data);
         updateListData(data);
         
     },param)
