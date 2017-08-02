@@ -559,13 +559,7 @@ function exportExcel(){
     formData.sourceBranchName = "";
     formData.categoryCode = formData.categoryCode.substring(formData.categoryCode.lastIndexOf(']')+1);
     $('#categoryCode').val(formData.categoryCode);
-	$("#queryForm").form({
-		success : function(data){
-			if(data.code > 0){
-				$_jxc.alert(data.message);
-			}
-		}
-	});
+
 	$("#queryForm").attr("action",contextPath+'/report/deliverTotalReport/exportDeliverExcel')
 	$("#queryForm").submit();
 }

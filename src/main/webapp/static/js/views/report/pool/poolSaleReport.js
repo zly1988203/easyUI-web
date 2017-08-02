@@ -369,16 +369,7 @@ function exportExcel(){
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	
-	$("#queryForm").form({
-		success : function(data){
-			if(data==null){
-				$_jxc.alert("导出数据成功！");
-			}else{
-				$_jxc.alert(JSON.parse(data).message);
-			}
-		}
-	});
+
 	var checkType = $("input[name='searchType']:checked").val();
 	if (checkType=="goodsTotal") {
 		$("#queryForm").attr("action",contextPath+"/report/poolSale/exportList?"+fromObjStr);

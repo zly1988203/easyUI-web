@@ -75,12 +75,6 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#queryForm").form({
-		success : function(result){
-			var dataObj=eval("("+result+")");
-			$_jxc.alert(dataObj.message);
-		}
-	});
 	
 	//导出记录上一次查询条件
 	$("#queryForm").attr("action",contextPath+"/integral/giftExchangeRecode/exportList");
