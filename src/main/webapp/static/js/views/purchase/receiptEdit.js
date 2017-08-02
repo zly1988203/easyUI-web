@@ -420,6 +420,13 @@ function onChangeRealNum(newV,oldV) {
 //监听商品单价
 function onChangePrice(newV,oldV) {
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
+    
+    //否 赠品 在修改价格的同时 同步priceBack;2.7
+    var _initIsGift = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'isGift');
+    if( (!_tempGift && _initIsGift == '0') || (_tempGift && _tempGift.id == '0')){
+    	gridHandel.setFieldsData({priceBack:parseFloat(newV)});
+    }
+    
     gridHandel.setFieldValue('amount',realNumVal*newV);                          //金额=数量*单价
     updateFooter();
 }
@@ -429,8 +436,15 @@ function onChangeAmount(newV,oldV) {
     var taxVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'tax');
     gridHandel.setFieldValue('taxAmount',(taxVal*(newV/(1+parseFloat(taxVal)))).toFixed(2));
 }
+
+//用于判断价格的变化 以便修改piceBack 2.7
+var _tempGift;
+
 //监听是否赠品
 function onSelectIsGift(data){
+	
+	_tempGift = data;
+	
     var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
     if(!_skuName)return;
 
@@ -442,8 +456,6 @@ function onSelectIsGift(data){
     if(arrs.length==0){
         var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
-            //var priceVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
-            //$('#gridEditOrder').datagrid('getRows')[gridHandel.getSelectRowIndex()]["oldPrice"] = priceVal;
             $(targetPrice).numberbox('setValue',0);
             gridHandel.setFieldValue('amount',0);
             $(targetPrice).numberbox('disable');
