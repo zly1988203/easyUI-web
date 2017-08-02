@@ -47,7 +47,7 @@
 				/scale/** = anon
 				/static/** = anon
 				/cas=casFilter
-				/logout = anon
+				/system/logout = anon
 				/** = user
 			</value>
 		</property>

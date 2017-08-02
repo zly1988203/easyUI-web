@@ -49,7 +49,7 @@
                    	   <option value="4"> &gt;= </option>
                    	   <option value="5"> = </option>
                    </select>
-                   <input class="uinp ut-r uw-152" onblur='$_jxc.checkNUM(this)' name="targetSaleAmount" type="text" >
+                   <input class="uinp easyui-numberbox uw-152" name="targetSaleAmount" type="text" >
                 </div>
                 <div class="ub  ub-ac umar-l20">
                    <div class="umar-r10 uw-80 ut-r">总完成率:</div>
@@ -60,7 +60,7 @@
                    	   <option value="4"> &gt;= </option>
                    	   <option value="5"> = </option>
                    </select>
-                   <input class="uinp ut-r uw-152" onblur='$_jxc.checkNUM(this)' name="totalComplePercent" type="text" >%
+                   <input class="uinp easyui-numberbox uw-152" name="totalComplePercent" type="text" >%
                 </div>
                 
             </div>
@@ -78,7 +78,7 @@
                    	   <option value="4"> &gt;= </option>
                    	   <option value="5"> = </option>
                    </select>
-                   <input class="uinp ut-r uw-100" onblur='$_jxc.checkNUM(this)' name="otherSaleAmount" type="text" >
+                   <input class="uinp easyui-numberbox uw-100"  name="otherSaleAmount" type="text" >
                 </div>
                 <div class="ub  ub-ac umar-l30">
                    <div class="umar-r10 uw-80 ut-r">其他完成率:</div>
@@ -93,7 +93,7 @@
                    	   <option value="4"> &gt;= </option>
                    	   <option value="5"> = </option>
                    </select>
-                   <input class="uinp ut-r uw-100" onblur='$_jxc.checkNUM(this)' name="otherComplePercent" type="text" >%
+                   <input class="uinp easyui-numberbox uw-100" name="otherComplePercent" type="text" >%
                 </div>
                 <div class="ub  ub-ac" style="margin-left:100px;">
                 	<input type="checkbox" name="isShowZero" value="1" id="isShowZero" checked="checked" >

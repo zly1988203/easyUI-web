@@ -1014,20 +1014,12 @@ function selectMonth(){
 
 /*----------------jxc component js start  ---------------------------*/
 var $_jxc = {
+	
 	/**
 	 * bwp 07/07/13
 	 * 数字金额最大值
 	 */
 	MAXNUMBER:999999.99,
-	/**
-	 * bwp 07/08/02
-	 * 校验输入字符 非数字字符 返回 ''
-	 */
-	checkNUM:function(obj){
-		if(obj.value != '' &&  isNaN(obj.value)){
-			obj.value = '';
-		}
-	},	
 	/**
 	 * bwp 07/06/07
 	 * 进销存机构类型枚举对象(参照后台BranchesTypeEnum.java类设置)
@@ -1083,6 +1075,7 @@ var $_jxc = {
             }
 		});  
 	},
+	
 	
 	/**
 	 * bwp 07/07/06

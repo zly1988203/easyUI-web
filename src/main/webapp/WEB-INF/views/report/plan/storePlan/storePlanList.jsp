@@ -55,7 +55,7 @@
                    	   <option value="4"> &gt;= </option>
                    	   <option value="5"> = </option>
                    </select>
-                   <input class="uinp uw-152 ut-r" onblur='$_jxc.checkNUM(this)' name="targetSaleAmount" type="text" >
+                   <input class="uinp easyui-numberbox uw-152" data-options="precision:2" name="targetSaleAmount" type="text" >
                 </div>
                 <div class="ub  ub-ac umar-l20">
                    <div class="umar-r10 uw-80 ut-r">总完成率:</div>
@@ -66,7 +66,7 @@
                    	   <option value="4"> &gt;= </option>
                    	   <option value="5"> = </option>
                    </select>
-                   <input class="uinp  uw-152 ut-r" onblur='$_jxc.checkNUM(this)' name="totalComplePercent" type="text" >%
+                   <input class="uinp easyui-numberbox uw-152" data-options="precision:2" name="totalComplePercent" type="text" >%
                 </div>
                 
             </div>
@@ -84,7 +84,7 @@
                    	   <option value="4"> &gt;= </option>
                    	   <option value="5"> = </option>
                    </select>
-                   <input class="uinp  uw-100 ut-r"  onblur='$_jxc.checkNUM(this)' name="otherSaleAmount" type="text" >
+                   <input class="uinp easyui-numberbox uw-100"  data-options="precision:2" name="otherSaleAmount" type="text" >
                 </div>
                 <div class="ub  ub-ac umar-l30">
                    <div class="umar-r10 uw-80 ut-r">其他完成率:</div>
@@ -99,7 +99,7 @@
                    	   <option value="4"> &gt;= </option>
                    	   <option value="5"> = </option>
                    </select>
-                   <input class="uinp  uw-100 ut-r" onblur='$_jxc.checkNUM(this)' name="otherComplePercent" type="text" >%
+                   <input class="uinp easyui-numberbox uw-100" data-options="precision:2" name="otherComplePercent" type="text" >%
                 </div>
                 
                 <div class="ub  ub-ac" style="margin-left:100px;">
