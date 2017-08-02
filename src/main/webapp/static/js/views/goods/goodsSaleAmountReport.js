@@ -181,16 +181,7 @@ function exportExcel(){
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	
-	$("#queryForm").form({
-		success : function(data){
-			if(data==null){
-				$_jxc.alert('提示',"导出数据成功！");
-			}else{
-				$_jxc.alert('提示',JSON.parse(data).message);
-			}
-		}
-	});
+
 	$("#queryForm").attr("action",contextPath+"/goods/goodsSaleAmount/exportList?"+fromObjStr);
 	$("#queryForm").submit();
 }
