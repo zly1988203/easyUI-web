@@ -833,15 +833,49 @@ function saveOrder(){
     var _footerRow = gridHandel.getFooterRow();
     var formAmount = _footerRow[0].amount||0;
 
-    if(parseFloat(minAmount) > parseFloat(formAmount)){
-    	$_jxc.confirm('您的要货单金额低于起订金额，起订金额为：' + minAmount +',是否继续保存？',function(data){
-    		if(data){
-    			saveDeliverForm(rows);
-    		}
-    	});
-    }else{
-    	saveDeliverForm(rows);
+	// 要货机构
+	var targetBranchId = $("#targetBranchId").val();
+	// 发货机构
+	var sourceBranchId = $("#sourceBranchId").val();
+	
+    //判定发货分店是否存在
+    if(sourceBranchId==""){
+        $_jxc.alert("请先选择发货机构");
+        return;
     }
+    
+    if(targetBranchId==""){
+    	$_jxc.alert("请先选择要货机构");
+    	return;
+    }
+    
+    var targetBranchType = $("#targetBranchType").val();
+    if(targetBranchType==='0'){
+        $_jxc.alert("要货机构不能选择总部");
+        return;
+    }
+    	
+    var jsonData = {
+    		sourceBranchId:sourceBranchId,
+    		targetBranchId:targetBranchId
+        };
+	$_jxc.ajax({
+    	url : contextPath+"/form/deliverForm/getTodayCheckDaCount",
+    	data : jsonData
+    },function(result){
+   		 if(result.count > 0){
+   			 // 已经存在已审核的要货单，不校验起订金额
+   			saveDeliverForm(rows);
+   		 }else if(parseFloat(minAmount) > parseFloat(formAmount)){
+   	    	$_jxc.confirm('您的要货单金额低于起订金额，起订金额为：' + minAmount +',是否继续保存？',function(data){
+   	    		if(data){
+   	    			saveDeliverForm(rows);
+   	    		}
+   	    	});
+   	    }else{
+   	    	saveDeliverForm(rows);
+   	    }
+    });
     
 }
 
