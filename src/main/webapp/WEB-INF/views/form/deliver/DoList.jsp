@@ -124,7 +124,11 @@
 
 				<div class='ub ub-ac umar-l20 uw-300 uhide' id='orderStatus'>
 					<div class='umar-r10 uw-68 ut-r'>单据状态:</div>
-
+					<div class='ub ub-ac umar-r10'>
+						<input class='ub' type='radio' id='deliverOrderStatus'
+							name='deliverStatus' value='' checked='checked'
+							onclick='queryForm()' /><label for='deliverOrderStatus'>全部</label>
+					</div>
 					<div class='ub ub-ac umar-r10'>
 						<input class='ub' type='radio' id='deliverOrderStatus0'
 							name='deliverStatus' value='0' onclick='queryForm()' /><label
@@ -133,22 +137,17 @@
 					<div class='ub ub-ac umar-r10'>
 						<input class='ub' type='radio' id='deliverOrderStatus1'
 							name='deliverStatus' value='1' onclick='queryForm()' /><label
-							for='deliverOrderStatus1'>部分发货</label>
+							for='deliverOrderStatus1'>部分收货</label>
 					</div>
                     <div class='ub ub-ac umar-r10'>
                     <input class='ub' type='radio' id='deliverOrderStatus2'
                     name='deliverStatus' value='2' onclick='queryForm()' /><label
-                    for='deliverOrderStatus2'>全部发货</label>
+                    for='deliverOrderStatus2'>全部收货</label>
                     </div>
 					<div class='ub ub-ac umar-r10'>
 						<input class='ub' type='radio' id='deliverOrderStatus3'
 							name='deliverStatus' value='3' onclick='queryForm()' /><label
 							for='deliverOrderStatus3'>终止</label>
-					</div>
-					<div class='ub ub-ac umar-r10'>
-						<input class='ub' type='radio' id='deliverOrderStatus'
-							name='deliverStatus' value='' checked='checked'
-							onclick='queryForm()' /><label for='deliverOrderStatus'>全部</label>
 					</div>
 				</div>
 
