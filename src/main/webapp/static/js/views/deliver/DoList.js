@@ -154,7 +154,7 @@ function initDatagridRequireOrdersDO(){
 				}
 			}},
 			{field:'status',title: '审核状态', width: '100px', align: 'center'},
-			{field: 'dealStatusDO', title: '单据状态', width: '100px', align: 'center'},
+			{field: 'dealStatus', title: '单据状态', width: '100px', align: 'center'},
 			{field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
 			{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
 			{field:'referenceNo',title:'引用单号',width:'140px',align:'left',formatter:function(value,row,index){
