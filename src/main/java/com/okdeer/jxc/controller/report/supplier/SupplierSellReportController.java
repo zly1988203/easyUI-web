@@ -8,22 +8,22 @@
  */
 package com.okdeer.jxc.controller.report.supplier;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Future;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.rpc.RpcContext;
-import com.google.common.collect.Lists;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.okdeer.jxc.common.utils.JsonMapper;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.PrintConstant;
+import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
+import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.controller.print.JasperHelper;
+import com.okdeer.jxc.finance.iccard.enums.BranchesTypeEnum;
+import com.okdeer.jxc.utils.UserUtil;
+import com.okdeer.retail.common.page.PageUtils;
+import com.okdeer.retail.facade.report.entity.SupplierSell;
+import com.okdeer.retail.facade.report.facade.SupplierSellFacade;
+import com.okdeer.retail.facade.report.qo.SupplierSellQo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,17 +31,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.okdeer.jxc.common.constant.ExportExcelConstant;
-import com.okdeer.jxc.common.constant.PrintConstant;
-import com.okdeer.jxc.common.result.RespJson;
-import com.okdeer.jxc.common.utils.DateUtils;
-import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.controller.print.JasperHelper;
-import com.okdeer.retail.common.page.PageUtils;
-import com.okdeer.retail.facade.report.entity.SupplierSell;
-import com.okdeer.retail.facade.report.facade.SupplierSellFacade;
-import com.okdeer.retail.facade.report.qo.SupplierSellQo;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.concurrent.Future;
 
 /**
  *
@@ -62,6 +57,9 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
     //@Reference(version = "1.0.0", check = false)
     @Resource
     private SupplierSellFacade supplierStockFacade;
+
+    @Reference(version = "1.0.0", check = false)
+    BranchesServiceApi branchesServiceApi;
 
     @RequestMapping(value = "")
     public ModelAndView list() {
@@ -93,7 +91,12 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
                 if(StringUtils.isNotBlank(vo.getBranchId())){
                     supplierStockFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
                 }else {
-                    supplierStockFacade.getAllSupplierSkuCount();
+                    Branches branches = branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
+                    if(branches.getType()== BranchesTypeEnum.HEAD_QUARTERS.getCode()||branches.getType()==BranchesTypeEnum.BRANCH_COMPANY.getCode()) {
+                        supplierStockFacade.getAllSupplierSkuCount();
+                    }else{
+                        supplierStockFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
+                    }
                 }
                 Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
                  //   futures.add(future);
