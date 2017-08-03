@@ -175,14 +175,6 @@ function printDesign(){
  * 导出
  */
 function exportExcel(){
-	$("#queryForm").form({
-		success : function(data){
-			if(data.code > 0){
-				$_jxc.alert(data.message);
-			}
-		}
-	});
-
 	var isValid = $("#queryForm").form('validate');
 	if(!isValid){
 		return;

@@ -310,12 +310,6 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#formList").form({
-		success : function(result){
-			var dataObj=eval("("+result+")");
-			$_jxc.alert(dataObj.message);
-		}
-	});
 	$("#formList").attr("action",contextPath+"/supplierBranchGoods/exportList");
 	$("#formList").submit();
 }

@@ -788,15 +788,6 @@ function exportExcel(){
 		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
-	$("#searchForm").form({
-		success : function(data){
-			if(data==null){
-				$_jxc.alert("导出数据成功！");
-			}else{
-				$_jxc.alert(JSON.parse(data).message);
-			}
-		}
-	});
 	$("#searchForm").attr("action",contextPath+"/stock/adjust/exportList");
 	$("#searchForm").submit();
 

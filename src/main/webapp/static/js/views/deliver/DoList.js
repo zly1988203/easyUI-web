@@ -16,7 +16,7 @@ $(function(){
 	setQueryDataDA();
     $("#checkDiv").removeClass("uhide");
     setDivTime();
-	// delDivAuditStatus();
+
 	if(getUrlQueryString('message')=='0'){
 		$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
 		$('#tabs').tabs({'selected':1});
@@ -320,7 +320,7 @@ function loadTabs(){
 			if (indexTab === 0) {
 				toBtnDisable('btnAdd','btnDel');
 				setQueryDataDA();
-				// delDivAuditStatus();
+
                 $("#auditStatus").addClass("uhide");
                 $("#orderStatus").addClass("uhide");
                 $("#checkDiv").removeClass("uhide");
@@ -356,50 +356,6 @@ function setQueryDataDO() {
 var deliverAuditStatus = '0';
 var checkboxTime = 'checked';
 var popupSearchDateTime = dateUtil.getCurrentDateTime().format("yyyy-MM-dd hh:mm");
-
-// 移除要货查询时间div
-function delDivTime() {
-	// 清空div
-	// $("#checkDiv").empty();
-	// 移除div
-	var checkDiv = document.getElementById("checkDiv");
-	if (checkDiv) {
-		if($("#checkboxTime").is(':checked')){
-			checkboxTime = 'checked';
-		} else {
-			checkboxTime = '';
-		}
-		popupSearchDateTime = $("#popupSearchDateTime").val();
-		checkDiv.parentNode.removeChild(checkDiv);
-	}
-	$("#remarkDiv").after("<div class='ub ub-ac umar-l20 uw-300' id='auditStatus' style='visibility:visible;'><div class='umar-r10 uw-70 ut-r'>审核状态:</div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus0' name='deliverAuditStatus' value='0' checked='checked' onclick='queryForm()'/><label for='deliverAuditStatus0'>未审核</span></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus1' name='deliverAuditStatus'  value='1' onclick='queryForm()'/><label for='deliverAuditStatus1'>已审核</label></div><div class='ub ub-ac umar-r10'><input class='ub' type='radio' id='deliverAuditStatus2' name='deliverAuditStatus' value='' onclick='queryForm()'/><label for='deliverAuditStatus2'>全部</label></div></div>");
-	setAuditStatusVal();
-}
-
-// 移除配送出库查询深圳状态div
-function delDivAuditStatus() {
-	// 清空div
-	// $("#auditStatus").empty();
-	// 移除div
-	var auditStatus = document.getElementById("auditStatus");
-	if (auditStatus) {
-		deliverAuditStatus = $("#auditStatus input[name='deliverAuditStatus']:checked").val();
-		auditStatus.parentNode.removeChild(auditStatus);
-	}
-	$("#remarkDiv").after("<div class='umar-l20' id='checkDiv' style='visibility:visible;'><input type='checkbox' id='checkboxTime' name='checkboxTime'/><span class='umar-l15  umar-r10'>结束时间:</span><input class='Wdate' style='width:212px' readonly='readonly' name='tempEndTime' id='popupSearchDateTime' onclick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})\" /></div>");
-	setDivTime();
-}
-
-// 添加被移除之前的审核值
-function setAuditStatusVal(){
-	if (deliverAuditStatus == '0') {
-		$("#deliverAuditStatus0").attr('checked','checked');
-	} else if (deliverAuditStatus == '1') {
-		$("#deliverAuditStatus1").attr('checked','checked');
-	} else {
-		$("#deliverAuditStatus2").attr('checked','checked');
-	}
-}
 
 // 添加被移除之前的时间值
 function setDivTime(){

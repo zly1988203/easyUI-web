@@ -198,12 +198,7 @@ function exportAccountList(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#queryForm").form({
-		success : function(result){
-			var dataObj=eval("("+result+")");
-			$_jxc.alert(dataObj.message);
-		}
-	});
+
 	$("#queryForm").attr("action",contextPath+"/settle/franchiseAccountCurrent/exportList");
 	$("#queryForm").submit(); 
 }

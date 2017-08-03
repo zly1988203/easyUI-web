@@ -558,15 +558,7 @@ function exportExcel(){
 		return;
 	}
 	var fromObjStr = $('#queryForm').serializeObject();
-	$("#queryForm").form({
-		success : function(data){
-			if(data==null){
-				$_jxc.alert("导出数据成功！");
-			}else{
-				$_jxc.alert(JSON.parse(data).message);
-			}
-		}
-	});
+
 	$("#queryForm").attr("action",contextPath+"/stocktaking/diffSearch/exportDiffSearchList?"+fromObjStr);
 	$("#queryForm").submit();
 }
