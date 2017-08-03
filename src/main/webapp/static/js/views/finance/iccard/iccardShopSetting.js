@@ -136,6 +136,9 @@ function initGridShopList(cardType) {
         	})
         },
         loadFilter:function(data){
+        	//显示现实数据转换 后台不返回 rows 节点结构啦 2.7
+        	data = $_jxc.gridLoadFilter(data);
+        	
         	if(data.rows && data.rows.length > 0){
         		
         		data.rows.forEach(function(obj,index){

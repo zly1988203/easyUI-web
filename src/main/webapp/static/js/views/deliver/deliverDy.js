@@ -390,6 +390,9 @@ function initDatagridRequireOrder(){
             }
         },
         loadFilter:function(data){
+        	//显示现实数据转换 后台不返回 rows 节点结构啦 2.7
+        	data = $_jxc.gridLoadFilter(data);
+        	
         	if(loadFilterFlag && data && data.length > 0 ){
         		loadFilterFlag = false;
         		data.forEach(function(obj,index){

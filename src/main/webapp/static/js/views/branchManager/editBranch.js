@@ -205,6 +205,9 @@ function initGridCostCommon(gridName) {
             },
         ]],
         loadFilter:function(data){
+            //显示现实数据转换 后台不返回 rows 节点结构啦 2.7
+        	data = $_jxc.gridLoadFilter(data);
+        	
         	data.forEach(function(obj,index){
         		if(obj && obj.startTime){
         			obj.startTime = new Date(obj.startTime).format('yyyy-MM-dd')
