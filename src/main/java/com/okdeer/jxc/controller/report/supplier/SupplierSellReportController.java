@@ -90,7 +90,11 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
                 List<SupplierSell> lists = pageUtils.getList();
                 //List<Future<BigDecimal>> futures = Lists.newArrayList();
                 //for (SupplierSell supplierSell : lists) {
-                supplierStockFacade.getAllSupplierSkuCount();
+                if(StringUtils.isNotBlank(vo.getBranchId())){
+                    supplierStockFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
+                }else {
+                    supplierStockFacade.getAllSupplierSkuCount();
+                }
                 Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
                  //   futures.add(future);
                 //}
@@ -139,8 +143,11 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
         try {
             if (StringUtils.isNotBlank(vo.getStartTime())) {
                 List<SupplierSell> exportList = supplierStockFacade.exportSupplierSells(vo);
-                supplierStockFacade.getAllSupplierSkuCount();
-                Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
+                if(StringUtils.isNotBlank(vo.getBranchId())){
+                    supplierStockFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
+                }else {
+                    supplierStockFacade.getAllSupplierSkuCount();
+                }                Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
                 // 过滤数据权限字段
                 cleanAccessData(exportList);
                 String fileName = "供应商销售报表_" + DateUtils.getCurrSmallStr();
@@ -184,7 +191,11 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
                 if (exportList.size() > PrintConstant.PRINT_MAX_ROW) {
                     return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
                 }
-                supplierStockFacade.getAllSupplierSkuCount();
+                if(StringUtils.isNotBlank(vo.getBranchId())){
+                    supplierStockFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
+                }else {
+                    supplierStockFacade.getAllSupplierSkuCount();
+                }
                 Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
                 String path = PrintConstant.SUPPLIER_SELL_REPORT;
                 Map<String, Object> map = new HashMap<String, Object>();
