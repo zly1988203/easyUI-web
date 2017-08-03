@@ -78,8 +78,11 @@ function initStorePlanList(){
             }
         ]],
         onLoadSuccess:function(data){
-        	console.log('data',data)
             gridHandel.setDatagridHeader("center");
+        	if(data.rows.length < 1) {
+        		$(this).datagrid('reloadFooter',[])
+        		return;
+        	}
             //合并单元格 表体
             var merges = getMergesData(data.rows);
 			for(var i=0; i<merges.length; i++){
@@ -131,7 +134,6 @@ function getMergesData(sc_data){
     var ne_data = []; //目标数组
     var no_Num = 0;  //游标
     var _currentObj; //当前统计小项 用于小小项合计
-    console.time('s');
     if(sc_data.length > 0){
         sc_data.forEach(function(obj,ind){
             operateInData(obj);
@@ -175,8 +177,6 @@ function getMergesData(sc_data){
         
 
     }
-    console.timeEnd('s');
-    console.log(JSON.stringify(ne_data));
     return ne_data;
 }
 
