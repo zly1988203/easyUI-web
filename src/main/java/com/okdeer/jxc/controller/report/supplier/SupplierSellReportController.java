@@ -149,8 +149,14 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
                 if(StringUtils.isNotBlank(vo.getBranchId())){
                     supplierStockFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
                 }else {
-                    supplierStockFacade.getAllSupplierSkuCount();
-                }                Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
+                    Branches branches = branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
+                    if(branches.getType()== BranchesTypeEnum.HEAD_QUARTERS.getCode()||branches.getType()==BranchesTypeEnum.BRANCH_COMPANY.getCode()) {
+                        supplierStockFacade.getAllSupplierSkuCount();
+                    }else{
+                        supplierStockFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
+                    }
+                }
+                Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
                 // 过滤数据权限字段
                 cleanAccessData(exportList);
                 String fileName = "供应商销售报表_" + DateUtils.getCurrSmallStr();
@@ -197,7 +203,12 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
                 if(StringUtils.isNotBlank(vo.getBranchId())){
                     supplierStockFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
                 }else {
-                    supplierStockFacade.getAllSupplierSkuCount();
+                    Branches branches = branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
+                    if(branches.getType()== BranchesTypeEnum.HEAD_QUARTERS.getCode()||branches.getType()==BranchesTypeEnum.BRANCH_COMPANY.getCode()) {
+                        supplierStockFacade.getAllSupplierSkuCount();
+                    }else{
+                        supplierStockFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
+                    }
                 }
                 Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
                 String path = PrintConstant.SUPPLIER_SELL_REPORT;
