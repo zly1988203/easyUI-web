@@ -368,13 +368,12 @@ function exportExcel(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	var fromObjStr = $('#queryForm').serializeObject();
 
 	var checkType = $("input[name='searchType']:checked").val();
 	if (checkType=="goodsTotal") {
-		$("#queryForm").attr("action",contextPath+"/report/poolSale/exportList?"+fromObjStr);
+		$("#queryForm").attr("action",contextPath+"/report/poolSale/exportList");
 	}else if (checkType=="goodsDetail") {
-		$("#queryForm").attr("action",contextPath+"/report/poolSale/exportDetailList?"+fromObjStr);
+		$("#queryForm").attr("action",contextPath+"/report/poolSale/exportDetailList");
 	} 
 	
 	$("#queryForm").submit();

@@ -221,9 +221,8 @@ function exportExcel(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	var fromObjStr = $('#queryForm').serializeObject();
 
-	$("#queryForm").attr("action",contextPath+"/report/sectionSell/exportTimeSectionSellReportList?"+fromObjStr);
+	$("#queryForm").attr("action",contextPath+"/report/sectionSell/exportTimeSectionSellReportList");
 	$("#queryForm").submit();
 }
 /**

@@ -221,9 +221,8 @@ function exportExcel(){
 		$_jxc.alert('提示',"没有数据");
 		return;
 	}
-	var fromObjStr = urlEncode($('#queryForm').serializeObject());
 
-	$("#queryForm").attr("action",contextPath + '/iccard/trading/exports?params='+fromObjStr);
+	$("#queryForm").attr("action",contextPath + '/iccard/trading/exports');
 	
 	$("#queryForm").submit();
 }

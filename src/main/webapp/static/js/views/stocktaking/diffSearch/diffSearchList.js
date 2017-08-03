@@ -557,9 +557,8 @@ function exportExcel(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	var fromObjStr = $('#queryForm').serializeObject();
 
-	$("#queryForm").attr("action",contextPath+"/stocktaking/diffSearch/exportDiffSearchList?"+fromObjStr);
+	$("#queryForm").attr("action",contextPath+"/stocktaking/diffSearch/exportDiffSearchList");
 	$("#queryForm").submit();
 }
 

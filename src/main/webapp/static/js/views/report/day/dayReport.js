@@ -355,9 +355,8 @@ function exportExcel(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	var fromObjStr = $('#queryForm').serializeObject();
 
-	$("#queryForm").attr("action",contextPath+"/report/day/exportList?"+fromObjStr);
+	$("#queryForm").attr("action",contextPath+"/report/day/exportList");
 	
 	$("#queryForm").submit();
 }

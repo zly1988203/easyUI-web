@@ -118,9 +118,8 @@ function exportExcel(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	var fromObjStr = $('#queryForm').serializeObject();
 
-	$("#queryForm").attr("action",contextPath+"/categorySale/report/exportList?"+fromObjStr);
+	$("#queryForm").attr("action",contextPath+"/categorySale/report/exportList");
 	$("#queryForm").submit();
 }
 

@@ -169,9 +169,8 @@ function exportExcel(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	var fromObjStr = urlEncode($('#queryForm').serializeObject());
 
-	$("#queryForm").attr("action",contextPath + '/iccard/account/management/exports?params='+fromObjStr);
+	$("#queryForm").attr("action",contextPath + '/iccard/account/management/exports');
 	
 	$("#queryForm").submit();
 }
