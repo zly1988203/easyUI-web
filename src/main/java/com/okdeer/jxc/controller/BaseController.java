@@ -44,7 +44,7 @@ import com.okdeer.retail.common.report.DataRecord;
  * ----------------+----------------+-------------------+-------------------------------------------
  * 商业管理系统1.0.0	  2016年8月18日			 liwb			  Controller基类
  */
-
+@SuppressWarnings("deprecation")
 public class BaseController<T> {
 
 	/**

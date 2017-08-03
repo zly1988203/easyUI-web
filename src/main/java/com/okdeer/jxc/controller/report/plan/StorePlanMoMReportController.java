@@ -66,8 +66,9 @@ public class StorePlanMoMReportController extends BaseController<StorePlanMoMRep
 		LOG.debug("查询门店目标计划环比条件：{}", qo);
 
 		try {
-
-			return storePlanReportService.getStorePlanMomReportForPage(qo);
+			PageUtils<StorePlanMomReportPo> page = storePlanReportService.getStorePlanMomReportForPage(qo);
+			cleanAccessData(page);
+			return page;
 		} catch (Exception e) {
 			LOG.error("分页查询门店目标计划环比异常:", e);
 		}
@@ -111,6 +112,8 @@ public class StorePlanMoMReportController extends BaseController<StorePlanMoMRep
 
 			// 模板名称，包括后缀名
 			List<StorePlanMomReportPo> dataList = storePlanReportService.getStorePlanMomReportForExport(qo);
+			
+			cleanAccessData(dataList);
 
 			exportListForXLSX(response, dataList, reportFileName, templateName);
 
