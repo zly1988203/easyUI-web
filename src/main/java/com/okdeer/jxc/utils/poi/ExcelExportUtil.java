@@ -87,8 +87,8 @@ public class ExcelExportUtil {
 
 	}
 
-	public static void exportExcel(String reportFileName, String[] headers, String[] columns, List<JSONObject> dataList,
-			HttpServletResponse response) {
+	public static void exportExcel(String reportFileName, String[] headers, String[] columns,
+			List<JSONObject> dataList, HttpServletResponse response) {
 		// 默认Sheet标签名称
 		String sheetName = "Sheet0";
 		// 默认时间格式
@@ -123,7 +123,8 @@ public class ExcelExportUtil {
 			// 设置表格默认列宽度为20个字节
 			sheet.setDefaultColumnWidth(20);
 
-			HSSFCellStyle style = getHSSFCellStyle(workbook);
+			// 表头样式
+			HSSFCellStyle headerStyle = getHSSFHeaderCellStyle(workbook);
 
 			// 声明一个画图的顶级管理器
 			HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
@@ -133,37 +134,30 @@ public class ExcelExportUtil {
 			 * 
 			 * // 生成并设置另一个样式 HSSFCellStyle style2 = workbook.createCellStyle();
 			 * style2.setFillForegroundColor(HSSFColor.LIGHT_YELLOW.index);
-			 * style2.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-			 * style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-			 * style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-			 * style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-			 * style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-			 * style2.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-			 * style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER); //
-			 * 生成另一个字体 HSSFFont font2 = workbook.createFont();
-			 * font2.setBoldweight(HSSFFont.BOLDWEIGHT_NORMAL); // 把字体应用到当前的样式
-			 * style2.setFont(font2); // 声明一个画图的顶级管理器 HSSFPatriarch patriarch =
-			 * sheet.createDrawingPatriarch();
+			 * style2.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND); style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+			 * style2.setBorderLeft(HSSFCellStyle.BORDER_THIN); style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
+			 * style2.setBorderTop(HSSFCellStyle.BORDER_THIN); style2.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+			 * style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER); // 生成另一个字体 HSSFFont font2 =
+			 * workbook.createFont(); font2.setBoldweight(HSSFFont.BOLDWEIGHT_NORMAL); // 把字体应用到当前的样式
+			 * style2.setFont(font2); // 声明一个画图的顶级管理器 HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
 			 * 
 			 * 
-			 * // 定义注释的大小和位置,详见文档 HSSFComment comment =
-			 * patriarch.createComment(new HSSFClientAnchor(0, 0, 0, 0, (short)
-			 * 4, 2, (short) 6, 5)); // 设置注释内容 comment.setString(new
-			 * HSSFRichTextString("可以在POI中添加注释！")); //
+			 * // 定义注释的大小和位置,详见文档 HSSFComment comment = patriarch.createComment(new HSSFClientAnchor(0, 0, 0, 0, (short)
+			 * 4, 2, (short) 6, 5)); // 设置注释内容 comment.setString(new HSSFRichTextString("可以在POI中添加注释！")); //
 			 * 设置注释作者，当鼠标移动到单元格上是可以在状态栏中看到该内容. comment.setAuthor("leno");
 			 */
 
 			// 产生表格标题行
 			// 表头的样式
-			HSSFCellStyle titleStyle = workbook.createCellStyle();// 创建样式对象
-			titleStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);// 水平居中
-			titleStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直居中
-			// 设置字体
-			HSSFFont titleFont = workbook.createFont(); // 创建字体对象
-			titleFont.setFontHeightInPoints((short) 15); // 设置字体大小
-			titleFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 设置粗体
-			// titleFont.setFontName("黑体"); // 设置为黑体字
-			// titleStyle.setFont(titleFont);
+//			HSSFCellStyle titleStyle = workbook.createCellStyle();// 创建样式对象
+//			titleStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);// 水平居中
+//			titleStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直居中
+//			// 设置字体
+//			HSSFFont titleFont = workbook.createFont(); // 创建字体对象
+//			titleFont.setFontHeightInPoints((short) 15); // 设置字体大小
+//			titleFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 设置粗体
+//			// titleFont.setFontName("黑体"); // 设置为黑体字
+//			 titleStyle.setFont(titleFont);
 			// sheet.addMergedRegion(new Region(0, (short) 0, 0, (short)
 			// (headers.length - 1)));// 指定合并区域
 			// HSSFRow rowHeader = sheet.createRow(0);
@@ -177,7 +171,7 @@ public class ExcelExportUtil {
 			HSSFRow row = sheet.createRow(0);
 			for (int i = 0; i < headers.length; i++) {
 				HSSFCell cell = row.createCell((short) i);
-				cell.setCellStyle(style);
+				cell.setCellStyle(headerStyle);
 				HSSFRichTextString text = new HSSFRichTextString(headers[i]);
 				cell.setCellValue(text);
 			}
@@ -209,8 +203,8 @@ public class ExcelExportUtil {
 							sheet.setColumnWidth(i, (short) (35.7 * 80));
 							// sheet.autoSizeColumn(i);
 							byte[] bsValue = (byte[]) value;
-							HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 1023, 255, (short) 6, index, (short) 6,
-									index);
+							HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 1023, 255, (short) 6, index,
+									(short) 6, index);
 							anchor.setAnchorType(2);
 							patriarch.createPicture(anchor,
 									workbook.addPicture(bsValue, HSSFWorkbook.PICTURE_TYPE_JPEG));
@@ -296,7 +290,7 @@ public class ExcelExportUtil {
 			// 声明一个画图的顶级管理器
 			HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
 
-			HSSFCellStyle style = getHSSFCellStyle(workbook);
+			HSSFCellStyle style = getHSSFHeaderCellStyle(workbook);
 			// 设置标题头
 			HSSFRow row = sheet.createRow(0);
 			HSSFCell cell = row.createCell(0);
@@ -387,29 +381,15 @@ public class ExcelExportUtil {
 			// 设置表格默认列宽度为20个字节
 			sheet.setDefaultColumnWidth(20);
 
-			HSSFCellStyle style = getHSSFCellStyle(workbook);
+			HSSFCellStyle style = getHSSFHeaderCellStyle(workbook);
 
 			// 声明一个画图的顶级管理器
 			HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
 
-			// 产生表格标题行
-			// 表头的样式
-			// 创建样式对象
-			HSSFCellStyle titleStyle = workbook.createCellStyle();
-			// 水平居中
-			titleStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
-			// 垂直居中
-			titleStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-			// 设置字体
-			// 创建字体对象
-			HSSFFont titleFont = workbook.createFont();
-			// 设置字体大小
-			titleFont.setFontHeightInPoints((short) 15);
-			// 设置粗体
-			titleFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-
 			// 设置标题头
 			HSSFRow row = sheet.createRow(0);
+			// 设置行高为28px;
+			row.setHeightInPoints(28);
 			HSSFCell cell = row.createCell(0);
 			cell.setCellStyle(style);
 			HSSFRichTextString text = new HSSFRichTextString(reportFileName);
@@ -419,6 +399,9 @@ public class ExcelExportUtil {
 
 			// 设置表头
 			row = sheet.createRow(1);
+			
+			// 设置行高为25px;
+			row.setHeightInPoints(25);
 			for (int i = 0; i < headers.length; i++) {
 				cell = row.createCell(i);
 				cell.setCellStyle(style);
@@ -468,6 +451,10 @@ public class ExcelExportUtil {
 			String pattern, HSSFWorkbook workbook, HSSFSheet sheet, HSSFPatriarch patriarch, int rowIndex) {
 		HSSFRow row;
 		HSSFCell cell;
+
+		// 边框样式
+		HSSFCellStyle style = getHSSFBodyCellStyle(workbook);
+
 		// 遍历集合数据，产生数据行
 		if (dataList != null) {
 			// int rowIndex = 1;
@@ -478,6 +465,7 @@ public class ExcelExportUtil {
 				row = sheet.createRow(rowIndex);
 				for (int columnIndex = 0; columnIndex < columns.length; columnIndex++) {
 					cell = row.createCell(columnIndex);
+					cell.setCellStyle(style);
 					String fieldName = columns[columnIndex];
 					Object value = jsonObject.get(fieldName);
 
@@ -500,6 +488,8 @@ public class ExcelExportUtil {
 						anchor.setAnchorType(2);
 						patriarch.createPicture(anchor, workbook.addPicture(bsValue, HSSFWorkbook.PICTURE_TYPE_JPEG));
 					} else {
+						// 设置行高为20px;
+						row.setHeightInPoints(20);
 						// 其它数据类型都当作字符串简单处理
 						textValue = value.toString();
 					}
@@ -523,8 +513,7 @@ public class ExcelExportUtil {
 					if (mergeColumns.contains(fieldName)) {
 						if (mergeValue.containsKey(fieldName) && mergeValue.get(fieldName).equals(textValue)) {
 							// 与上一行数据一致，需要合并
-							sheet.addMergedRegion(
-									new CellRangeAddress(rowIndex - 1, rowIndex, columnIndex, columnIndex));
+							sheet.addMergedRegion(new CellRangeAddress(rowIndex - 1, rowIndex, columnIndex, columnIndex));
 						} else {
 							// 与上一行数据不一致，另起合并
 							mergeValue.put(fieldName, textValue);
@@ -540,13 +529,13 @@ public class ExcelExportUtil {
 	}
 
 	/**
-	 * @Description: 获取单元格样式
+	 * @Description: 获取表头单元格样式
 	 * @param workbook 工作表workbook
 	 * @return 样式
 	 * @author zuowm
 	 * @date 2017年7月28日
 	 */
-	private static HSSFCellStyle getHSSFCellStyle(HSSFWorkbook workbook) {
+	private static HSSFCellStyle getHSSFHeaderCellStyle(HSSFWorkbook workbook) {
 		// 生成一个样式
 		HSSFCellStyle style = workbook.createCellStyle();
 		// 设置这些样式
@@ -567,6 +556,37 @@ public class ExcelExportUtil {
 
 		// 指定当单元格内容显示不下时自动换行
 		style.setWrapText(true);
+		return style;
+	}
+
+	/**
+	 * @Description: 获取数据内容单元格样式
+	 * @param workbook 工作表workbook
+	 * @return 样式
+	 * @author zuowm
+	 * @date 2017年7月28日
+	 */
+	private static HSSFCellStyle getHSSFBodyCellStyle(HSSFWorkbook workbook) {
+		// 生成一个样式
+		HSSFCellStyle style = workbook.createCellStyle();
+		// 设置这些样式
+		// style.setFillForegroundColor(HSSFColor.GOLD.index);
+		// style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+		style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+		style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+		// style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		// // 生成一个字体
+		// HSSFFont font = workbook.createFont();
+		// font.setColor(HSSFColor.VIOLET.index);
+		// // font.setFontHeightInPoints((short) 12);
+		// font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		// // 把字体应用到当前的样式
+		// style.setFont(font);
+
+		// 指定当单元格内容显示不下时自动换行
+		// style.setWrapText(true);
 		return style;
 	}
 }
