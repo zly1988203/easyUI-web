@@ -1432,12 +1432,10 @@ var $_jxc = {
 	 * <br> $_jxc.gridLoadFilter(data);
 	 */
 	gridLoadFilter:function(data){
-		console.log('gridLoadFilter1',data;)
 		//判断 data 非数组下执行
 		if(!(data instanceof Array)) {
 			data.rows = data.list;
 		}
-		console.log('gridLoadFilter2',data;)
 		return data;
 	}
 	
