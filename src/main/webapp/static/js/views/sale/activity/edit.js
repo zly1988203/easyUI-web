@@ -16,8 +16,6 @@ var mmscomOldData = {};
 var checkUtil = new checkUtil();
 
 $(function(){
-	optionHide();
-	
 	checkUtil.setFormId('queryFormEditAct');
 	
 	//开始和结束时间
@@ -31,7 +29,8 @@ $(function(){
 		$("#branchName").unbind("click");
 	}
 	
-	initDatagridSpecial();	
+	initDatagridSpecial();
+    optionHide();
 	
     //禁止按钮点击事件
     disableGoods('','GoodsType');
@@ -424,8 +423,8 @@ function optionHide(){
 	$('#dailyStartTime').val("00:00:00");
 	$('#dailyEndTime').val("23:59:59");
 	$('#branchName').val("");
-	$('#saleMangeadd').datagrid('loadData', { total: 0, rows: [] });
-	$("#saleMangeadd").datagrid("options").url ="";
+	// $('#saleMangeadd').datagrid('loadData', { total: 0, rows: [] });
+	// $("#saleMangeadd").datagrid("options").url ="";
 	//$('#salesetmj').datagrid('loadData', { total: 0, rows: [] });
 	$('.ubcheckweek').prop('checked',true);
 	
