@@ -640,11 +640,7 @@ function exportTotal(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#queryForm").form({
-		success : function(result){
-			
-		}
-	});
+
 	$("#queryForm").attr("action",contextPath+'/report/purchase/exportTotal');
 	$("#queryForm").submit();		
 

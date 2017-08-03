@@ -116,13 +116,7 @@ function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
 
-	var fromObjStr = $('#queryForm').serializeObject();
-	$("#queryForm").form({
-		success : function(data){
-			$_jxc.alert(data.message);
-		}
-	});
-	$("#queryForm").attr("action",contextPath+"/stocktaking/miss/exportMissList?"+fromObjStr);
+	$("#queryForm").attr("action",contextPath+"/stocktaking/miss/exportMissList");
 	$("#queryForm").submit();
 }
 

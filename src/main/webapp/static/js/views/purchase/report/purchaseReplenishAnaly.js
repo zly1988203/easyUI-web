@@ -280,18 +280,18 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#queryForm").form({
-		url:contextPath+"/purchaseReplenishAnaly/exportReportList",
-		onSubmit: function(){    
-			// do some check    
-			// return false to prevent submit;    
-		},   
-		success : function(result){
-			var dataObj=eval("("+result+")");
-			$_jxc.alert(dataObj.message);
-		}
-	});
-	//$("#queryForm").attr("action",contextPath+"/purchaseReplenishAnaly/exportReportList");
+	// $("#queryForm").form({
+	// 	url:contextPath+"/purchaseReplenishAnaly/exportReportList",
+	// 	onSubmit: function(){
+	// 		// do some check
+	// 		// return false to prevent submit;
+	// 	},
+	// 	success : function(result){
+	// 		var dataObj=eval("("+result+")");
+	// 		$_jxc.alert(dataObj.message);
+	// 	}
+	// });
+	$("#queryForm").attr("action",contextPath+"/purchaseReplenishAnaly/exportReportList");
 	$("#queryForm").submit();
 }
 

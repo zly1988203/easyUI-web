@@ -252,7 +252,6 @@ function exportExcel(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	var fromObjStr = $('#queryForm').serializeObject();
 
 	$("#queryForm").attr("action",contextPath+"/report/month/export/list");
 	

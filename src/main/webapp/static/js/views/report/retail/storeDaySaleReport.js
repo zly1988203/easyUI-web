@@ -1301,9 +1301,8 @@ function exportExcel(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	var fromObjStr = $('#queryForm').serializeObject();
 
-	$("#queryForm").attr("action",contextPath+"/storeDaySale/report/exportList?"+fromObjStr);
+	$("#queryForm").attr("action",contextPath+"/storeDaySale/report/exportList");
 	$("#queryForm").submit();
 }
 
