@@ -348,6 +348,7 @@ function selectGoods(searchKey){
         targetBranchId:"",
         branchId:branchId,
         supplierId:'',
+        isManagerStock:1,
         flag:'0',
         statuses : '0,1,2'//包括正常、停售、停购的商品
     }

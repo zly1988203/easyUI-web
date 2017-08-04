@@ -293,7 +293,7 @@ function selectGoods(searchKey){
 		$_jxc.alert("请选择捆绑商品");
 		 return;
 	   }
-	   var param = {goodsTypeList:'0,1,2',key:searchKey}
+	   var param = {goodsTypeList:'0,1,2',key:searchKey,statusList:'0,1,2'}
         new publicGoodsServiceTem(param,function(data){
 		  if(data.length==0){
 	            return;

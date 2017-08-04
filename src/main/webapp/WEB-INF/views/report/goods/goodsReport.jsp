@@ -46,7 +46,7 @@
 					
 					<input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
 					<div class="umar-r10 uw-60 ut-r">机构:</div>
-					<input type="text" name="branchName" id="branchName" class="uinp"/>
+					<input type="text" id="branchName" class="uinp"/>
 					<input type="hidden" name="branchId" id="branchId">
 					<div class="uinp-more">...</div>
 				</div>
