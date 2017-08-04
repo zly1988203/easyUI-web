@@ -908,7 +908,7 @@ function selectDeliver(){
 	var refDeliverType = "";
 	var orderStatus = $('input[name="order_status"]:checked').val();
     var param = {
-        type:orderStatus
+    	formType:orderStatus
     }
 	new publicDeliverFormService(param,function(data){
         isSelectDeliver = true;

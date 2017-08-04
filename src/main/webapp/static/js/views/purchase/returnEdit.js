@@ -865,7 +865,7 @@ function selectForm(){
 		});
 	}else if(refFormNoType == 'DI'){
         var param = {
-            type:'DI',
+        	formType:'DI',
             targetBranchId:$('#branchId').val()
         }
 		new publicDeliverFormService(param,function(data){

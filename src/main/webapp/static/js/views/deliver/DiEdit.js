@@ -706,7 +706,7 @@ function selectOperator(){
 function selectDeliver(){
 	var referenceId = "";
     var param = {
-        type:'DA'
+    	formType:'DA'
     }
 	new publicDeliverFormService (param,function(data){
 		referenceId = data.id;
