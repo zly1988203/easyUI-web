@@ -973,8 +973,11 @@ function toImportproduct(type){
         branchId:branchId,
     }
     new publicUploadFileService(function(data){
-        data = selectStockAndPrice(data);
-        updateListData(data);
+        
+        if(data instanceof Array && data.length > 0){
+        	data = selectStockAndPrice(data);
+            updateListData(data);
+    	}
         
     },param)
 }
