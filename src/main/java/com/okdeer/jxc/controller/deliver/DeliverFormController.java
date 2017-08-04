@@ -18,6 +18,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.okdeer.base.common.utils.mapper.JsonMapper;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -33,7 +34,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.okdeer.jxc.branch.entity.BranchSpec;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.entity.BranchesGrow;
@@ -471,7 +471,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		long start = System.currentTimeMillis();
 		LOG.debug(LogConstant.OUT_PARAM, formVo);
 		try {
-			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
+			DeliverFormVo vo = JsonMapper.nonDefaultMapper().fromJson(formVo, DeliverFormVo.class);
 			//配送出库，入库，如果引用订单，需要验证商品条目
             if ((FormType.DI.toString().equals(vo.getFormType()) || FormType.DO.toString().equals(vo.getFormType()))
                     && StringUtils.isNotBlank(vo.getReferenceNo())) {
@@ -577,7 +577,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		long start = System.currentTimeMillis();
 		LOG.debug(LogConstant.OUT_PARAM, formVo);
 		try {
-			DeliverFormVo vo = new ObjectMapper().readValue(formVo, DeliverFormVo.class);
+			DeliverFormVo vo = JsonMapper.nonDefaultMapper().fromJson(formVo, DeliverFormVo.class);
 	         //不是引用订单，需要验证
             if((FormType.DI.toString().equals(vo.getFormType()) || FormType.DO.toString().equals(vo.getFormType()))
                     && StringUtils.isNotBlank(vo.getReferenceNo())){
@@ -645,7 +645,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				LOG.error("未选择要删除的单据！");
 				return RespJson.error("未选择要删除的单据！");
 			}
-			List<String> formIdsList = new ObjectMapper().readValue(formIds, List.class);
+			List<String> formIdsList = JsonMapper.nonDefaultMapper().fromJson(formIds, List.class);
 			if (CollectionUtils.isEmpty(formIdsList)) {
 				LOG.error("未选择要删除的单据！");
 				return RespJson.error("未选择要删除的单据！");
