@@ -97,6 +97,10 @@ function initStorePlanList(){
             }
         ]],
         onLoadSuccess:function(data){
+        	if(data.rows.length < 1) {
+        		$(this).datagrid('reloadFooter',[])
+        		return;
+        	}
             gridHandel.setDatagridHeader("center");
         }       
     });
