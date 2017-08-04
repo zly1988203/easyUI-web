@@ -868,7 +868,7 @@ function selectDeliver(){
 	var referenceId = "";
 	var refDeliverType = "";
     var param = {
-        type:'DA'
+    	formType:'DA'
     }
 	new publicDeliverFormService (param,function(data){
 		referenceId = data.id;

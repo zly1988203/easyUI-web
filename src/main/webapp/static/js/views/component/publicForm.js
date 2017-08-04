@@ -1,140 +1,64 @@
 
 /**
- * Created by huangj02 on 2016/8/11.
- * 公共组件-单据选择
+ * 序列化param 对象到 dom 结构中
+ * @param param
  */
-$(function(){
-	// 开始和结束时间
-	$("#popupSearchDateTime").val(dateUtil.getCurrentDateTime().format("yyyy-MM-dd hh:mm"));
-	var type=$("#type").val();
-	if(type=="PA" || type=="PI" || type=="PR"){
-		initDatagridForm(type);
-	}else{
-		initDatagridDeliverForm(type);
+function initParam(param){
+	if(param){
+		//根据参数序列化到dom结构中
+		for(key in param){
+			//nameOrCode赋值
+			var _inpStr = "<input type='hidden' id='"+key+"' name='"+key+"' value='"+(param[key]||"")+"' />";
+			$('#deliverForm').append(_inpStr);
+		}
 	}
-    gFunSetEnterKey(formCx);
-})
-
-var formCallBack ;
-var deliverFormCallBack;
-var param = null;
-//初始化回调函数
-function initFormCallBack(cb){
-    formCallBack = cb;
+	if($('#formType').val() != "DA"){
+		$('#timeDom').remove();
+	}else{
+		$("#popupSearchDateTime").val(dateUtil.getCurrentDateTime().format("yyyy-MM-dd hh:mm"));
+	}
+	
+	initDatagridDeliverForm();
 }
+
+/**
+ * 获取form 参数对象
+ * @returns {___anonymous496_503}
+ */
+function serializeParam(){
+	var _formObj = $('#deliverForm').serializeObject();
+	_formObj.formNo = $.trim(_formObj.formNo||'');
+	return _formObj;
+}
+
+var deliverFormCallBack;
+
 //初始化回调函数
 function initDeliverFormCallBack(cb){
 	deliverFormCallBack = cb;
 }
 //搜索
 function formCx(){
-	var formNo=$("#formNo").val();
-	var type = $("#type").val();
-	var isAllowRefOverdueForm = $("#isAllowRefOverdueForm").val() || "";
-    var targetBranchId = $('#targetBranchId').val();
-	if($("#type").val()=='DA'||$("#type").val()=='DO'||$("#type").val()=='DI'||$("#type").val()=='DY'||$("#type").val()=='DR'){
-		var endTime=$("#popupSearchDateTime").val();
-
-		$("#gridForm").datagrid("options").queryParams = {formNo:formNo,endTime:endTime,formType:type,targetBranchId:targetBranchId};
-		$("#gridForm").datagrid("options").url = contextPath+'/form/deliverSelect/getDeliverFormList';
-	}else{
-		  $("#gridForm").datagrid("options").queryParams = {formNo:formNo,formType:type, isAllowRefOverdueForm:isAllowRefOverdueForm};
-		  $("#gridForm").datagrid("options").url = contextPath+'/form/purchaseSelect/getPurchaseFormList';
-	}
+	$("#gridForm").datagrid("options").queryParams = serializeParam();
     $("#gridForm").datagrid("options").method = "post";
+    $("#gridForm").datagrid("options").url = contextPath+'/form/deliverSelect/getDeliverFormList';
     $("#gridForm").datagrid("load");
 }
-//选择单行
-function formClickRow(rowIndex, rowData){
-    getItemData(rowData.id);
 
-}
-//获取单据详情
-function getItemData(formId){
-
-    $_jxc.ajax({
-        url:contextPath+'/form/purchaseSelect/getPurchaseForm?formId='+formId,
-        type:'get'
-    },function(result){
-        if(result['code'] == 0){
-            if(formCallBack){
-                formCallBack(result);
-            }
-        }else{
-            $_jxc.alert(result['message']);
-        }
-    })
-
-}
 //选择单行
 function deliverFormClickRow(rowIndex, rowData){
     if(deliverFormCallBack){
     	deliverFormCallBack(rowData);
     }
 }
-//初始化表格 单据选择（采购）
-function initDatagridForm(type){
-	var isAllowRefOverdueForm = $("#isAllowRefOverdueForm").val() || "";
-	
-    $("#gridForm").datagrid({
-        //title:'普通表单-用键盘操作',
-        method:'post',
-        align:'center',
-        queryParams : {
-        	formType : type,
-        	isAllowRefOverdueForm:isAllowRefOverdueForm
-        },
-        url:contextPath+'/form/purchaseSelect/getPurchaseFormList',
-        //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect:true,  //单选  false多选
-        rownumbers:true,    //序号
-        pagination:true,    //分页
-        fitColumns:true,    //每列占满
-        //fit:true,            //占满
-        showFooter:true,
-        height:'100%',
-        width:'100%',
-        columns:[[
-            {field:'formNo',title:'单号',width:135,align:'left'},
-            {field:'branchName',title:'收货机构',width:100,align:'left'},
-            {field:'supplierName',title:'供应商',width:100,align:'left'},
-            {field:'amount',title:'单据金额',width:100,align:'right',
-            	formatter : function(value, row, index) {
-            		return parseFloat(value||0).toFixed(2);
-            	}
-            },
-            {field:'validTime',title:'审核时间',width:100,align:'center', formatter: function (value, row, index) {
-                if (value) {
-                	return new Date(value).format('yyyy-MM-dd hh:mm');
-                }
-                return "";
-            }}
-        ]],
-        onLoadSuccess : function() {
-        	$('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
-        },
-        onClickRow:formClickRow,
-    });
 
-    if(hasPurchasePrice==false){
-        priceGrantUtil.grantPurchasePrice("gridForm",["amount"])
-    }
-}
 //初始化表格 单据选择（调拨）
-function initDatagridDeliverForm(type){
-	var data = "";
-    var targetBranchId = $('#targetBranchId').val();
-	if($("#type").val()=='DA'){
-		var endTime=$("#popupSearchDateTime").val();
-		data = {endTime:endTime,formType:type};
-	}else{
-		data = {formType:type,targetBranchId:targetBranchId};
-	}
+function initDatagridDeliverForm(){
     $("#gridForm").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
-        queryParams : data,
+        queryParams : serializeParam(),
         url:contextPath+'/form/deliverSelect/getDeliverFormList',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选

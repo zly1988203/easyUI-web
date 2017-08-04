@@ -700,7 +700,8 @@ function publicDeliverFormService(param,callback){
     var type = 'undefined'!=typeof(param.type)?param.type:'';
 //公有属性
 var  dalogTemp = $('<div/>').dialog({
-    href:contextPath + "/form/deliverSelect/view?type="+type+"&targetBranchId="+targetBranchId,
+    //href:contextPath + "/form/deliverSelect/view?type="+type+"&targetBranchId="+targetBranchId,
+	href:contextPath + "/form/deliverSelect/view",
     width:1200,
     height:dialogHeight,
     title:"单据选择",
@@ -711,6 +712,7 @@ var  dalogTemp = $('<div/>').dialog({
     },
     modal:true,
     onLoad:function(){
+    	initParam(param)
         initDeliverFormCallBack(callBackHandel);
     }
 });

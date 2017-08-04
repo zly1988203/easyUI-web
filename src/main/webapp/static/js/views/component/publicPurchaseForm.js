@@ -14,6 +14,7 @@ function initParam(param){
 		}
 	}
 	initDatagridForm();
+	gFunSetEnterKey(formCx);
 }
 
 /**

@@ -660,7 +660,7 @@ function selectDeliver(){
 	
 	var referenceId = "";
     var param = {
-        type:'DO'
+        formType:'DO',
     }
 	new publicDeliverFormService (param,function(data){
 		referenceId = data.id;
