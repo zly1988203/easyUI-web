@@ -20,12 +20,12 @@ function updateWdatePicker(){
 var datagridId = "yueJXCList"
 
 var gridHandel = new GridClass();
-var gridHandelDetail = new GridClass();
 
 var gridYueJXCList;
 
 //初始化表格
 function initDatagridYueJXC(){
+    gridHandel.setGridName(datagridId);
 	gridYueJXCList = $("#"+datagridId).datagrid({
 		method:'post',
 		align:'center',

@@ -466,7 +466,7 @@ function initAddModifyPriceGridEdit() {
         salePrice:["oldSalePrice","newSalePrice"],
     }
     priceGrantUtil.grantPrice(datagridId,param);
-
+    gridHandel.setLoadData([$.extend({},gridDefault)]);
 }
 //新进货价
 function changeNewPurPrice(newVal,oldVal) {

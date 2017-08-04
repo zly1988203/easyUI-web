@@ -1129,7 +1129,7 @@ function initDatagridSpecial(){
 		                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		                },
 		            },
-					{field: 'purchasePrice', title: '成本价', width: 100, align: 'right',
+					{field: 'purchasePrice', title: '进货价', width: 100, align: 'right',
 						formatter : function(value, row, index) {
 							if(row.isFooter){
 								return;
@@ -1477,7 +1477,7 @@ function initDatagridoneZk(){
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    }
 			},
-            {field: 'purchasePrice', title: '成本价', width: 100, align: 'right',
+            {field: 'purchasePrice', title: '进货价', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;
@@ -1683,7 +1683,7 @@ function initDatagridOddtj(){
 //			        }
 //			    },
 			},
-            {field: 'purchasePrice', title: '成本价', width: '100px', align: 'right',
+            {field: 'purchasePrice', title: '进货价', width: '100px', align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;

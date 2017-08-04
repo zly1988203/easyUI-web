@@ -12,7 +12,6 @@ $(function(){
 			 initDatagridRequireOrders();
 	    }else{
     initDatagridRequireOrders();
-    sourceBranchId = $("#sourceBranchId").val();
     
  // 开始和结束时间
 	if(!$("#txtStartDate").val()){
@@ -31,9 +30,8 @@ $(function(){
 	 
 	//机构组件初始化
 	$('#branchSelect').branchSelect({
-		loadFilter:function(data){
-			data.sourceBranchId = data.branchId;
-			return data;
+        onAfterRender:function(data){
+            $("#sourceBranchId").val(data.branchId);
 		}
 	});
 	
@@ -44,6 +42,13 @@ $(function(){
 			return data;
 		}
 	});
+
+    //机构选择初始化 收货机构
+    $('#targetBranch').branchSelect({
+        onAfterRender:function(data){
+            $("#targetBranchId").val(data.branchId);
+        }
+    });
 });
 
 $(document).on('input','#remark',function(){
@@ -73,9 +78,6 @@ $(document).on('input','#remark',function(){
 	
 });
 
-
-
-var sourceBranchId;
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequireOrders(){
@@ -146,11 +148,9 @@ function addDeliverForm(){
 //查询要货单
 function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
-	// 去除编码
-//    fromObjStr.sourceBranchName = fromObjStr.sourceBranchName.substring(fromObjStr.sourceBranchName.lastIndexOf(']')+1)
-//    fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
     //2.7精确查询
     fromObjStr.sourceBranchName = "";
+    fromObjStr.targetBranchName = "";
     fromObjStr.operateUserName = "";
 
 	$("#deliverFormList").datagrid("options").method = "post";
@@ -209,16 +209,6 @@ function selectOperator(){
 		console.log(data.userCode)
 		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
 	});
-}
-/**
- * 机构
- */
-function selectBranches(){
-	new publicAgencyService(function(data){
-//		$("#targetBranchId").val(data.branchesId);
-		//$("#targetBranchName").val(data.branchName);
-		$("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
-	},'',sourceBranchId);
 }
 
 //打印

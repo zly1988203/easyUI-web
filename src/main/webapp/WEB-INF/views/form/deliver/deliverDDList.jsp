@@ -42,7 +42,7 @@
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac" id="branchSelect">
 	                    <div class="umar-r10 uw-70 ut-r" >发货机构:</div>
-	                    <input type="hidden" id="sourceBranchId" name="sourceBranchId" value="${sourceBranchId}"/>
+	                    <input type="hidden" id="sourceBranchId" name="sourceBranchId"/>
 	                    <input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" />
 	                    <div class="uinp-more">...</div>
 	                </div>
@@ -54,10 +54,19 @@
 	                </div>
 	            </div>
 	            <div class="ub umar-t8">
-	                <div class="ub ub-ac ">
+					<div class="ub ub-ac" id="targetBranch">
+					<div class="umar-r10 uw-70 ut-r">收货机构:</div>
+					<input type="hidden" id="targetBranchId" name="targetBranchId"/>
+					<input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" />
+					<div class="uinp-more">...</div>
+
+					</div>
+
+
+	                <div class="ub ub-ac uw-300 umar-l20">
 	                   <div class="umar-r10 uw-70 ut-r">单据编号:</div>
 	                    <input type="hidden" id="deliverType" name="deliverType" value="DD" />
-	                    <input class="uinp" type="text" id="formNo" name="formNo">
+	                    <input class="uinp ub ub-f1" type="text" id="formNo" name="formNo">
 	                
 	                </div>
 	                <!--input-checkbox-->
@@ -86,9 +95,9 @@
 	            </div>
 	        
 	         <div class="ub umar-t8">
-	                <div class="ub ub-ac">
+	                <div class="ub ub-ac uw-602">
 	        			<div class="umar-r10 uw-70 ut-r">备注:</div>
-	                    <input class="uinp" type="text" id="remark" name="remark">
+	                    <input class="uinp ub ub-f1" type="text" id="remark" name="remark">
 	         		</div>
 	         		 <div class="ub ub-ac umar-l20">
 	                    <div class="umar-r10 uw-70 ut-r">单据状态:</div>
