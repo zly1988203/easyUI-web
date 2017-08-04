@@ -27,8 +27,8 @@
             <div class="ub ub-ac umar-r40">
                 <div class="umar-r10 uw-70 ut-r">系统:</div>
                 <select class="uinp ub ub-f1"  id="system" name="system" >
-                    <option value="retail-service">零售后台</option>
                     <option value="retail">零售web</option>
+                    <option value="retail-service">零售后台</option>
                     <option value="retail-service-stock">库存service</option>
                     <option value="retail-service-report">报表service</option>
                     <option value="pos">pos</option>
@@ -41,15 +41,15 @@
             </div>
             <div class="ub ub-ac umar-r40">
                 <div class="umar-r10 uw-70 ut-r">日志级别:</div>
-                <select class="uinp ub ub-f1" id="loggerLevel" name="loggerLevel">
-                    <option value="DEBUG">DEBUG</option>
-                    <option value="TRACE">TRACE</option>
-                    <option value="INFO">INFO</option>
-                    <option value="WARN">WARN</option>
-                    <option value="ERROR">ERROR</option>
-                    <option value="FATAL">FATAL</option>
-                    <option value="ALL">ALL</option>
-                    <option value="OFF">OFF</option>
+                <select class="uinp ub ub-f1" id="loggerLevel" name="loggerLevel" >
+                    <option value="DEBUG" <c:if test="${level eq 'DEBUG'}">selected="selected"</c:if> >DEBUG</option>
+                    <option value="TRACE" <c:if test="${level eq 'TRACE'}">selected="selected"</c:if> >TRACE</option>
+                    <option value="INFO"  <c:if test="${level eq 'INFO'}">selected="selected"</c:if>  >INFO</option>
+                    <option value="WARN"  <c:if test="${level eq 'WARN'}">selected="selected"</c:if>  >WARN</option>
+                    <option value="ERROR" <c:if test="${level eq 'ERROR'}">selected="selected"</c:if> >ERROR</option>
+                    <option value="FATAL" <c:if test="${level eq 'FATAL'}">selected="selected"</c:if> >FATAL</option>
+                    <option value="ALL"   <c:if test="${level eq 'ALL'}">selected="selected"</c:if>   >ALL</option>
+                    <option value="OFF"   <c:if test="${level eq 'OFF'}">selected="selected"</c:if>   >OFF</option>
                 </select>
             </div>
         </div>
@@ -62,6 +62,19 @@
     var resetForm = function(){
         location.href=contextPath+"/log4j";
     };
+
+    $(function () {
+        //$("#loggerLevel").val(level);
+        $("#system").on("change",function () {
+            $_jxc.ajax({
+                url:contextPath+"/log4j/level",
+                type:"POST",
+                data:{"system":$("#system").val()}
+            },function(result){
+                $("#loggerLevel").val(result.level);
+            });
+        });
+    });
 
     var update = function () {
     	$_jxc.confirm('确认修改 【' + $('#system').find('option:selected').text() + '】 的日志级别?',function(r){
