@@ -1432,9 +1432,10 @@ var $_jxc = {
 	 * <br> $_jxc.gridLoadFilter(data);
 	 */
 	gridLoadFilter:function(data){
+		//判断 data 非数组下执行
 		if(!(data instanceof Array)) {
 			//后台没有返回的rows节点情况下执行
-			if(data.rows == undefined){
+			if(typeof data.rows == 'undefined'){
 				data.rows = data.list||[];
 			}
 		}
