@@ -1207,7 +1207,7 @@ function initDatagridSpecial(){
 		                    }
 		                },
 		            },
-            {field: 'purchasePrice', title: '成本价', width: 100, align: 'right',
+            {field: 'purchasePrice', title: '进货价', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;
@@ -1492,7 +1492,7 @@ function initDatagridoneZk(){
 //			        }
 //			    },
 			},
-            {field: 'purchasePrice', title: '成本价', width: 100, align: 'right',
+            {field: 'purchasePrice', title: '进货价', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;
@@ -1665,7 +1665,7 @@ function initDatagridOddtj(){
 //			        }
 //			    },
 			},
-            {field: 'purchasePrice', title: '成本价', width: 100, align: 'right',
+            {field: 'purchasePrice', title: '进货价', width: 100, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;
