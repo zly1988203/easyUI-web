@@ -9,6 +9,7 @@
 package com.okdeer.jxc.controller.log;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.google.common.collect.Maps;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.log.service.LogService;
 import com.okdeer.retail.common.util.Log4jUtils;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static sun.misc.Version.print;
 
@@ -54,7 +58,37 @@ public class ChangeLogLevelController {
     @RequestMapping(value = "")
     @RequiresRoles("jxc_admin_role")
     public ModelAndView list() {
-        return new ModelAndView("/log/list");
+        return new ModelAndView("/log/list", new HashMap<String, String>() {
+            {
+                put("level",Log4jUtils.getLoggerLevel());
+            }
+        });
+    }
+
+    @RequestMapping(value = "/level", method = RequestMethod.POST)
+    @RequiresRoles("jxc_admin_role")
+    public Map<String,String> level(String system){
+        String level ="";
+        switch (system){
+            case "retail-service":
+                level=logService.getLoggerLevel();
+                break;
+            case "pos":
+                break;
+            case "m-pos":
+                break;
+            case "retail-service-stock":
+                level=stockLogFacade.getLoggerLevel();
+                break;
+            case "retail-service-report":
+                level=logFacade.getLoggerLevel();
+                break;
+            default:
+                level=Log4jUtils.getLoggerLevel();
+        }
+        Map<String,String> maps = Maps.newHashMap();
+        maps.put("level",level);
+        return maps;
     }
 
     @RequestMapping(value = "/change", method = RequestMethod.POST)
