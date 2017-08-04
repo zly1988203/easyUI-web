@@ -417,6 +417,7 @@ function selectGoods(searchKey){
         targetBranchId:"",
         branchId:branchId,
         supplierId:'',
+        isManagerStock:1,
         flag:'0',
     }
     new publicGoodsServiceTem(param,function(data){

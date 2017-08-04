@@ -447,12 +447,14 @@ function selectGoodsDialog(searchKey) {
 function gFunGoodsSelect(searchKey,branchId){
     var param = {
         type:'',
+        statusList:'0,1,2',
         key:searchKey,
         isRadio:0,
         sourceBranchId:"",
         targetBranchId:"",
         branchId:branchId,
         supplierId:'',
+        isManagerStock:1,
         flag:'0',
     }
     new publicGoodsServiceTem(param,function(data){
