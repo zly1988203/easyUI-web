@@ -27,6 +27,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -548,6 +549,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	public RespJson save(@RequestBody String jsonText) {
 		// PurchaseFormVo formVo = new PurchaseFormVo();
 
+		StopWatch sw = new StopWatch();
 		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
 		
 		//验证
@@ -556,7 +558,9 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		for (PurchaseFormDetailVo detailVo : detailList) {
 			skuIds.add(detailVo.getSkuId());
 		}
+		sw.start("保存采购订单校验商品");
 		RespJson resp = saveValid(skuIds,formVo.getBranchId());
+		sw.stop();
 		if(!resp.isSuccess()){
 			return resp;
 		}
@@ -616,11 +620,14 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			list.add(formDetail);
 		}
 
+		sw.start("保存采购订单");
 		// 保存采购订单
 		RespJson respJson = purchaseFormServiceApi.save(form, list);
+		sw.stop();
 		if (respJson.isSuccess()) {
 			respJson.put("formId", formId);
 		}
+		LOG.debug(sw.prettyPrint());
 		return respJson;
 	}
 
@@ -1008,7 +1015,9 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson check(String formId, Integer status) {
+		StopWatch sw = new StopWatch();
 		PurchaseFormPO po = purchaseFormServiceApi.selectPOById(formId);
+		sw.start("审核采购订单校验商品");
 		if(po.getFormType().equals(FormType.PA)){
 			//所有商品ID
 			List<String> skuIds = new ArrayList<String>();
@@ -1022,15 +1031,19 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				return resp;
 			}
 		}
+		sw.stop();
 		
 		SysUser user = UserUtil.getCurrentUser();
 		RespJson respJson = RespJson.success();
 		try {
+			sw.start("审核采购订单");
 			respJson = purchaseFormServiceApi.check(formId, FormStatus.enumValueOf(status), user.getId());
+			sw.stop();
 		} catch (RuntimeException e) {
 			LOG.error("审核出现异常，单据id：" + formId, e);
 			respJson = RespJson.error("审核出现异常，原因：" + e.getMessage());
 		}
+		LOG.debug(sw.prettyPrint());
 		return respJson;
 	}
 	
