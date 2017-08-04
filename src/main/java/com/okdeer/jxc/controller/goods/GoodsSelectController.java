@@ -577,12 +577,18 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 		List<Map<String, Object>> goodsSelect = new ArrayList<Map<String, Object>>();
 		try {
 			GoodsStockVo goodsStockVos = new ObjectMapper().readValue(goodsStockVo, GoodsStockVo.class);
+			
+			if(CollectionUtils.isEmpty(goodsStockVos.getGoodsSkuVo())){
+				return RespJson.argumentError("参数异常");
+			}
+			
 			goodsSelect = goodsSelectServiceApi.queryAlreadyNum(goodsStockVos);
 			JSONArray jsonObject = JSONArray.fromObject(goodsSelect);
 			respJson.put("data", jsonObject);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			respJson.put(RespJson.KEY_CODE, ResultCodeEnum.FAIL.getCode());
 			LOG.error("获取商品库存、价格 异常:{}", e);
+			return RespJson.businessError("获取商品库存、价格异常");
 		}
 		return respJson;
 	}
