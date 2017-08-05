@@ -606,7 +606,7 @@ function saveOrder(){
     },function(result){
         if(result['code'] == 0){
         	$_jxc.alert("操作成功！",function(){
-        		location.href = contextPath +"/form/deliverForm/addDeliverForm?deliverFormId=" + $("#formId").val();
+        		location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + $("#formId").val();
         	});
         }else{
             $_jxc.alert(result['message']);

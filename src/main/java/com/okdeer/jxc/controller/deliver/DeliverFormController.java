@@ -680,6 +680,9 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			SysUser user = UserUtil.getCurrentUser();
 			vo.setUpdateUserId(user.getId());
 			return deliverFormServiceApi.check(vo);
+		} catch (RuntimeException e) {
+            LOG.warn(e.getMessage());
+            return RespJson.error("审核操作失败:" + e.getMessage());
 		} catch (Exception e) {
 			LOG.error("配送单审核操作失败", e);
 			return RespJson.error("审核操作失败！");
