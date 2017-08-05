@@ -181,7 +181,6 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	        PageUtils<StocktakingDifferenceDetailVo> diffDetailPageList = PageUtils.emptyPage();
 	        // 复制分页属性值
 	        BeanUtils.copyProperties(diffDetailPageList, stocktakingBatchList);
-	        diffDetailPageList.setRows(diffDetailList);
 	        diffDetailPageList.setList(diffDetailList);
 	        diffDetailPageList.setFooter(diffFooterList);
 	        
