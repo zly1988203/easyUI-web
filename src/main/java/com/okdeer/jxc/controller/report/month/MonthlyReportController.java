@@ -109,7 +109,7 @@ public class MonthlyReportController extends BaseController<MonthlyReportControl
 			return PageUtils.emptyPage();
 		}
 		// 汇总合计
-		List<MonthlyReportVo> vos = pageUtils.getRows();
+		List<MonthlyReportVo> vos = pageUtils.getList();
 		if (!CollectionUtils.isEmpty(vos)) {
 			if (pageUtils != null) {
 			    	MonthlyReportVo footer = monthStatementService.sumMonthReportList(vo);

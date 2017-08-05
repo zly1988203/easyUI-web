@@ -328,8 +328,8 @@ public class BaseController<T> {
 	    if(CollectionUtils.isNotEmpty(page.getList())){
 	        cleanAccessData(page.getList());
 	    }
-	    if(CollectionUtils.isNotEmpty(page.getRows())){
-	        cleanAccessData(page.getRows());
+	    if(CollectionUtils.isNotEmpty(page.getList())){
+	        cleanAccessData(page.getList());
 	    }
 	}
 

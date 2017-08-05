@@ -132,7 +132,7 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 			// 查询数据
 			EasyUIPageInfo<V> page = getReportFade().queryListPage(qo);
 			
-			cleanAccessData(page.getRows());
+			cleanAccessData(page.getList());
 			cleanAccessData(page.getFooter());
 			return page;
 		} catch (Exception e) {
