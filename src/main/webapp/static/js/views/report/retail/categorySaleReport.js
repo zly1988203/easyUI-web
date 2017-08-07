@@ -3,6 +3,17 @@ $(function(){
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initDatagridRequire();
+
+    //商品类别选择组件
+    $('#categoryNameDiv').categorySelect({
+        param:{
+            categoryType:$('input[name="categoryLevel"]:checked').val()||''
+        },
+        onShowBefore:function(){
+            this.param.categoryType = $('input[name="categoryLevel"]:checked').val()||'';
+            return true;
+        }
+    });
 });
 var gridHandel = new GridClass();
 //初始化表格
