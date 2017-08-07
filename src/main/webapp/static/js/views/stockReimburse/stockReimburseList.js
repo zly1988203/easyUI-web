@@ -143,9 +143,7 @@ function initDatagridRequire() {
 // 查询报损单
 function queryForm() {
 	var fromObjStr = $('#queryForm').serializeObject();
-	//2.7精确查询
-	fromObjStr.branchName = "";
-	fromObjStr.createUserName = "";
+	
 	
 	$("#stockReimburseList").datagrid("options").method = "post";
 	$("#stockReimburseList").datagrid('options').url = contextPath + '/stock/reimburse/getStockFormList';
@@ -223,7 +221,6 @@ function selectOperator() {
 // 打印
 function printList() {
 	var fromObjStr = $('#queryForm').serialize();
-	
 	parent.addTabPrint("StockReimbursePrint","报损单列表打印",contextPath+"/stock/reimburse/print?"+fromObjStr);
 }
 
