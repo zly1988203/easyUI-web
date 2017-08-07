@@ -358,8 +358,17 @@ function addTabPrint(id,subtitle, url, icon) {
                 tabid:id
            });
      } else {
+           //$('#component-content').tabs('select', subtitle);
+           //$('#mm-tabupdate').click();
+           //刷新tab页
            $('#component-content').tabs('select', subtitle);
-           $('#mm-tabupdate').click();
+           var currTab = $('#component-content').tabs('getSelected');
+           $('#component-content').tabs('update', {
+               tab : currTab,
+               options : {
+                   content : createFrame(url)
+               }
+           });
      }
      tabClose();
 }
