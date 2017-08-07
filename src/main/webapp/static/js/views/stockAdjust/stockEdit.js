@@ -561,6 +561,11 @@ function saveOrder(){
             isCheckResult = false;
             return false;
         };
+      	 if(!v["realNum"]){
+             $_jxc.alert("第"+(i+1)+"行，数量不能为空");
+             isCheckResult = false;
+             return false;
+         };
     });
     if(!isCheckResult){
         return;
