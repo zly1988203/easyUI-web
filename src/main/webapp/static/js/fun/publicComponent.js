@@ -538,6 +538,7 @@ function publicSupplierService(callback,newParam) {
 //公共组件-选择操作员
 var dalogTemp = null;
 function publicOperatorService(callback,param) {
+    var dialogHeight = $(window).height()*(2/3);
     if(typeof (param) === "undefined"){
         param = {
             type:0
