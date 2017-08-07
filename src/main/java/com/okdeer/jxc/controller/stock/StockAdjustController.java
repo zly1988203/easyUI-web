@@ -38,6 +38,7 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.form.enums.FormStatus;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
@@ -341,7 +342,7 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
 							for (JSONObject obj : excelListSuccessData) {
-								if (obj.get("realNum") != null) {
+								/*if (obj.get("realNum") != null) {
 									String realNum = obj.getString("realNum");
 									try {
 										Double.parseDouble(realNum);
@@ -364,8 +365,24 @@ public class StockAdjustController extends BaseController<StockAdjustController>
 									} catch (Exception e) {
 										obj.element("error", "箱数必填");
 									}
-								}
-
+								}*/
+                                if (obj.get("realNum") == null && obj.get("largeNum") == null) {
+                                    obj.element("error", "箱数/数量必须选填一项");
+                                    continue;
+                                }
+                                String realNum = obj.getString("realNum");
+                                String largeNum = obj.getString("largeNum");
+                                boolean realBoo = StringUtils.isNumeric(realNum);
+                                boolean largeBoo = StringUtils.isNumeric(largeNum);
+                                if(!realBoo && !largeBoo){
+                                    obj.element("error", "箱数/数量必须选填一项数字");
+                                    continue;
+                                }
+                                if ((realBoo && BigDecimal.ZERO.compareTo(new BigDecimal(realNum)) == 0)
+                                        && (largeBoo && BigDecimal.ZERO.compareTo(new BigDecimal(largeNum)) == 0)) {
+                                    obj.element("error", "箱数/数量必须选填一项大于0");
+                                    continue;
+                                }
 							}
 						}
 
