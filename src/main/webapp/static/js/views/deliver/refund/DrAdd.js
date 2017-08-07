@@ -402,7 +402,7 @@ function onChangeLargeNum(newV,oldV){
     var newRealNum = parseFloat(_tempNewRealNum).toFixed(4);
     
     n = 1;
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var _tempAmount = parseFloat(priceValue*_tempNewRealNum).toFixed(4);
     gridHandel.setFieldValue('amount',_tempAmount);//金额=数量*单价
     
@@ -441,7 +441,7 @@ function onChangeRealNum(newV,oldV) {
     
     m=1;
     
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var _tempAmount = priceValue*newV;
     gridHandel.setFieldValue('amount',_tempAmount);                         //金额=数量*单价
     var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
