@@ -87,6 +87,7 @@ function queryForm(){
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
 	var fromObjStr = $('#queryForm').serializeObject();
+    fromObjStr.categoryName = "";
 	$("#categorySale").datagrid("options").method = "post";
 	$("#categorySale").datagrid('options').url = contextPath + '/categorySale/report/getCategorySaleList';
 	$("#categorySale").datagrid('load', fromObjStr);
