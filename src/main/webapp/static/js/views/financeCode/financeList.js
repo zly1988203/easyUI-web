@@ -55,7 +55,7 @@ function initDictList() {
         }
     }
     $_jxc.ajax(param,function (result) {
-        $("#"+gridName).datagrid('loadData',result.rows);
+        $("#"+gridName).datagrid('loadData',result.list);
     })
 }
 

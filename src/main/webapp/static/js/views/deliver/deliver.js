@@ -43,7 +43,7 @@ $(function(){
                     deliverType : 'DA'
                 }
             },function(result){
-                selectStockAndPrice(result.rows);
+                selectStockAndPrice(result.list);
             })
 		initDatagridRequireOrder();
 	    $("div").delegate("button","click",function(){

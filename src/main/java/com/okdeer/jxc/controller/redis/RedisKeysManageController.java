@@ -67,14 +67,7 @@ public class RedisKeysManageController {
             }
         }else {
             Set<String> keys = redisKeysManageFacade.getKeys(pattern);
-            for (String str : keys) {
-                map = Maps.newHashMap();
-                map.put("key", str);
-                long timeout = redisKeysManageFacade.ttlKey(str);
-                map.put("timeout", timeout == -1 ? "永久" : timeout);
-                map.put("vale", redisKeysManageFacade.getVal(str));
-                list.add(map);
-            }
+            list = redisKeysManageFacade.getValsByKeys(keys);
         }
         return list;
     }

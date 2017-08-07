@@ -18,8 +18,8 @@ function initQueryData(){
     $_jxc.ajax({
         url:contextPath+"/form/purchase/detailList?formId="+formId
     },function(result){
-        if(result && result.rows.length > 0){
-            selectStockAndPrice(result.rows);
+        if(result && result.list.length > 0){
+            selectStockAndPrice(result.list);
         }
     });
 }

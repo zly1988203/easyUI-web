@@ -204,7 +204,7 @@ function supplierAutoComple(){
 	var httpUrl = contextPath + "/common/supplier/getComponentList";
 	var args = {"supplierNameOrsupplierCode" : supplierNameOrsupplierCode,"branchId" : branchId};
 	$.post(httpUrl, args,function(data){
-		if(!data || data.rows.length == 0){
+		if(!data || data.list.length == 0){
 			//未查询到数据，设置ID为空
 			$("#supplierId").val("");
 			$("#supplierCodeName").val("");
@@ -212,8 +212,8 @@ function supplierAutoComple(){
 		}
 
 		//如果精确匹配到一条数据
-		if(data.rows.length == 1){
-			var rec = data.rows[0];
+		if(data.list.length == 1){
+			var rec = data.list[0];
 			var supplierId = rec.id;
 			var supplierName = rec.supplierName;
 			var supplierCode = rec.supplierCode;
@@ -224,7 +224,7 @@ function supplierAutoComple(){
 		}
 
 		//如果有多条数据
-		if(data.rows.length > 1){
+		if(data.list.length > 1){
 			selectSupplier();
 		}
 	});
@@ -256,15 +256,15 @@ function categoryAutoComple(){
 	var httpUrl = contextPath + '/common/category/getComponentList';
 	var args = {"categoryNameOrCode" : categoryCodeName,"categoryCode" : categoryCode};
 	$.post(httpUrl, args,function(data){
-		if(!data || data.rows.length == 0){
+		if(!data || data.list.length == 0){
 			//未查询到数据，设置ID为空
 			$("#categoryCode").val("");
 			return;
 		}
 		
 		//如果只有一条数据
-		if(data.rows.length == 1){
-			var rec = data.rows[0];
+		if(data.list.length == 1){
+			var rec = data.list[0];
 			var categoryCode = rec.categoryCode;
 			var categoryName = rec.categoryName;
 			//完善文本显示
@@ -275,7 +275,7 @@ function categoryAutoComple(){
 		}
 		
 		//如果有多条数据，则弹出层选
-		if(data.rows.length > 1){
+		if(data.list.length > 1){
 			searchCategory();
 		}
 	});

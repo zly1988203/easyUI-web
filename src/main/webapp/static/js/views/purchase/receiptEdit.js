@@ -317,8 +317,8 @@ function getGridData(){
    	    		largeNum:'maxlargeNum',
        	    };
    	    
-   	    if(data && data.rows.length > 0){
-   	        var newRows = gFunUpdateKey(data.rows,keyrealNum);
+   	    if(data && data.list.length > 0){
+   	        var newRows = gFunUpdateKey(data.list,keyrealNum);
    	        var newRows = gFunUpdateKey(newRows,keylargeNum);
    	        $("#gridEditOrder").datagrid("loadData",newRows);
    	    }

@@ -328,8 +328,8 @@ function initQueryData(){
     $_jxc.ajax({
         url:contextPath+"/form/purchase/detailList?formId="+formId
     },function(result){
-        if(result && result.rows.length > 0){
-            selectStockAndPrice(result.rows);
+        if(result && result.list.length > 0){
+            selectStockAndPrice(result.list);
         }
     });
 }
@@ -860,8 +860,8 @@ function queryGoodsList() {
         data:queryParams
     },function(data){
 //        gFunStartLoading();
-        if(data && data.rows.length > 0){
-            var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
+        if(data && data.list.length > 0){
+            var addDefaultData  = gridHandel.addDefault(data.list,gridDefault);
             var keyNames = {
                 purchasePrice:'price',
                 id:'skuId',

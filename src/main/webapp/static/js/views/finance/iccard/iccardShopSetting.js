@@ -174,7 +174,7 @@ function selectView(rowData) {
     }
     $_jxc.ajax(param,function (result) {
         getPostData();
-        if(result.rows.length > 0 ){
+        if(result.list.length > 0 ){
             $("#"+gridEquipment).datagrid("loadData",result);
         }else {
             gridEquipmentHandel.setLoadData([$.extend({},gridDefault)])
