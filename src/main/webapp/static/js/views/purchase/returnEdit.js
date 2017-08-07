@@ -347,8 +347,8 @@ function getGridData(){
    	    		largeNum:'maxlargeNum',
        	    };
    	    
-   	    if(data && data.rows.length > 0){
-   	        var newRows = gFunUpdateKey(data.rows,keyrealNum);
+   	    if(data && data.list.length > 0){
+   	        var newRows = gFunUpdateKey(data.list,keyrealNum);
    	        var newRows = gFunUpdateKey(newRows,keylargeNum);
    	        $("#"+gridName).datagrid("loadData",newRows);
    	    }
@@ -753,8 +753,8 @@ function queryGoodsList() {
         data:queryParams
     },function(data){
 //        gFunEndLoading();
-        if(data && data.rows.length > 0){
-            var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
+        if(data && data.list.length > 0){
+            var addDefaultData  = gridHandel.addDefault(data.list,gridDefault);
             var keyNames = {
                 purchasePrice:'price',
                 id:'skuId',

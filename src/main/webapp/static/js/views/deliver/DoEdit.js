@@ -885,7 +885,7 @@ function loadLists(referenceId,refDeliverType){
         url:contextPath+"/form/deliverFormList/getDeliverFormLists?deliverFormId="+referenceId + "&deliverType=DO"+"&refDeliverType=" + refDeliverType,
         type:"post"
     },function(data){
-        var rows = data.rows
+        var rows = data.list
        
         for(var i in rows){
             rows[i]["dealNum"] =  rows[i]["applyNum"]?rows[i]["applyNum"]:rows[i]["dealNum"];

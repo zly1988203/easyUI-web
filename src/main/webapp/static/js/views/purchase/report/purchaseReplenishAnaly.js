@@ -232,7 +232,7 @@ function supplierAutoComple(){
 	var httpUrl = contextPath + "/common/supplier/getComponentList";
 	var args = {"supplierNameOrsupplierCode" : supplierNameOrsupplierCode,"branchId" : branchId};
 	$.post(httpUrl, args,function(data){
-		if(!data || data.rows.length == 0){
+		if(!data || data.list.length == 0){
 			//未查询到数据，设置ID为空
 			$("#supplierId").val("");
 			$("#supplierCodeName").val("");
@@ -240,8 +240,8 @@ function supplierAutoComple(){
 		}
 
 		//如果精确匹配到一条数据
-		if(data.rows.length == 1){
-			var rec = data.rows[0];
+		if(data.list.length == 1){
+			var rec = data.list[0];
 			var supplierId = rec.id;
 			var supplierName = rec.supplierName;
 			var supplierCode = rec.supplierCode;
@@ -252,7 +252,7 @@ function supplierAutoComple(){
 		}
 
 		//如果有多条数据
-		if(data.rows.length > 1){
+		if(data.list.length > 1){
 			selectSupplier();
 		}
 	});

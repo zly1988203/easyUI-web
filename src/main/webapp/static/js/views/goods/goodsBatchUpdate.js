@@ -264,9 +264,9 @@ function categoryAutoComple(){
 	var httpUrl = contextPath + "/common/category/getComponentList";
 	var args = {"categoryNameOrCode" : categoryNameOrCode};
 	$.post(httpUrl, args,function(data){
-		if(null != data && data.rows.length == 1){
-			var categoryName = data.rows[0].categoryName;
-			var categoryCode = data.rows[0].categoryCode;
+		if(null != data && data.list.length == 1){
+			var categoryName = data.list[0].categoryName;
+			var categoryCode = data.list[0].categoryCode;
 			//完善文本显示
 			$("#queryForm #categoryName").val("["+categoryCode+"]"+categoryName);
 			//记录ID值,用于后台查询
@@ -335,10 +335,10 @@ function supplierAutoComple(){
 	var httpUrl = contextPath + "/common/supplier/getComponentList";
 	var args = {"supplierNameOrsupplierCode" : supplierNameOrsupplierCode,"branchId" : branchId};
 	$.post(httpUrl, args,function(data){
-		if(null != data && data.rows.length == 1){
-			var supplierId = data.rows[0].id;
-			var supplierName = data.rows[0].supplierName;
-			var supplierCode = data.rows[0].supplierCode;
+		if(null != data && data.list.length == 1){
+			var supplierId = data.list[0].id;
+			var supplierName = data.list[0].supplierName;
+			var supplierCode = data.list[0].supplierCode;
 			//完善文本显示
 			$("#queryForm #supplierName").val("["+supplierCode+"]"+supplierName);
 			//记录ID值,用于后台查询

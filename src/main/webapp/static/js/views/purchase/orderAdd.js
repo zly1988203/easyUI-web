@@ -811,8 +811,8 @@ function queryGoodsList() {
         type:'POST',
         data:queryParams,
     },function(data){
-        if(data && data.rows.length > 0){
-            var addDefaultData  = gridHandel.addDefault(data.rows,gridDefault);
+        if(data && data.list.length > 0){
+            var addDefaultData  = gridHandel.addDefault(data.list,gridDefault);
             var keyNames = {
                 purchasePrice:'price',
                 id:'skuId',
