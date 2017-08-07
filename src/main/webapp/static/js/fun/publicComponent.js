@@ -882,8 +882,8 @@ function publicCostService(param,callback){
 			data:param
 		},function(data){
 			
-			if(data&&data.rows&&data.rows.length==1){
-				callback(data.rows);
+			if(data&&data.list&&data.list.length==1){
+				callback(data.list);
 			}else{
 				publicCostServiceHandel(param,callback);
 			}
@@ -2262,17 +2262,17 @@ function publicBranchesService(param,callback,cbDom){
 			url:_url,
 			data:_ajaxParam
 		},function(data){
-			if(data&&data.rows){
+			if(data&&data.list){
 				//精确匹配到只有一条数据时立即返回
-				if(data.rows.length==1){
+				if(data.list.length==1){
 					//多选 返回数组 07/06
 					if(param.selectType == 1){
-						callback.call(cbDom,data.rows);
+						callback.call(cbDom,data.list);
 					}else{
 						//单选返回对象
-						callback.call(cbDom,data.rows[0]);
+						callback.call(cbDom,data.list[0]);
 					}
-				}else if(data.rows.length>1){
+				}else if(data.list.length>1){
 					//匹配到多条时 弹窗选择
 					publicBranchesServiceHandel(param,callback,cbDom);
 				}else{
@@ -2474,11 +2474,11 @@ function publicSuppliersService(param,callback,cbDom){
 			url:contextPath+'/common/supplier/getComponentList',
 			data:param
 		},function(data){
-			if(data&&data.rows){
+			if(data&&data.list){
 				//精确匹配到只有一条数据时立即返回
-				if(data.rows.length==1){
-					callback.call(cbDom,data.rows[0]);
-				}else if(data.rows.length>1){
+				if(data.list.length==1){
+					callback.call(cbDom,data.list[0]);
+				}else if(data.list.length>1){
 					//匹配到多条时 弹窗选择
 					publicSuppliersServiceHandel(param,callback,cbDom);
 				}else{
@@ -2662,11 +2662,11 @@ function publicOperatorsService(param,callback,cbDom){
 			url:contextPath+'/system/user/getOperator',
 			data:_ajaxParam
 		},function(data){
-			if(data&&data.rows){
+			if(data&&data.list){
 				//精确匹配到只有一条数据时立即返回
-				if(data.rows.length==1){
-					callback.call(cbDom,data.rows[0]);
-				}else if(data.rows.length>1){
+				if(data.list.length==1){
+					callback.call(cbDom,data.list[0]);
+				}else if(data.list.length>1){
 					//匹配到多条时 弹窗选择
 					publicOperatorsServiceHandel(param,callback,cbDom);
 				}else{
@@ -2801,11 +2801,11 @@ function publicCategorysService(param,callback,cbDom){
 			url:contextPath+'/common/category/getComponentList',
 			data:_ajaxParam
 		},function(data){
-			if(data&&data.rows){
+			if(data&&data.list){
 				//精确匹配到只有一条数据时立即返回
-				if(data.rows.length==1){
-					callback.call(cbDom,data.rows[0]);
-				}else if(data.rows.length>1){
+				if(data.list.length==1){
+					callback.call(cbDom,data.list[0]);
+				}else if(data.list.length>1){
 					//匹配到多条时 弹窗选择
 					publicCategorysServiceHandel(param,callback,cbDom);
 				}else{

@@ -945,7 +945,7 @@ function loadLists(referenceId,refDeliverType){
     $_jxc.ajax({
         url:contextPath+"/form/deliverFormList/getDeliverFormLists?deliverType=DO&deliverFormId="+referenceId+"&refDeliverType=" + refDeliverType,
     },function(data){
-        var rows = data.rows;
+        var rows = data.list;
         for(var i in rows){
             rows[i]["dealNum"] =  rows[i]["applyNum"]?rows[i]["applyNum"]:rows[i]["dealNum"];
             rows[i]["amount"]  = parseFloat(rows[i]["price"]||0)*parseFloat(rows[i]["dealNum"]||0);

@@ -399,10 +399,10 @@ function brandAutoComple(){
 	var httpUrl = contextPath + "/common/brand/getComponentList";
 	var args = {"brandCodeOrName" : brandCodeOrName};
 	$.post(httpUrl, args,function(data){
-		if(null != data && data.rows.length == 1){
-			var brandId = data.rows[0].id;
-			var brandName = data.rows[0].brandName;
-			var brandCode = data.rows[0].brandCode;
+		if(null != data && data.list.length == 1){
+			var brandId = data.list[0].id;
+			var brandName = data.list[0].brandName;
+			var brandCode = data.list[0].brandCode;
 			//完善文本显示
 			$("#brandName").val("["+brandCode+"]"+brandName);
 			//记录ID值,用于后台查询
@@ -439,10 +439,10 @@ function supplierAutoComple(){
 	var httpUrl = contextPath + "/common/supplier/getComponentList";
 	var args = {"supplierNameOrsupplierCode" : supplierNameOrsupplierCode,"branchId" : branchId};
 	$.post(httpUrl, args,function(data){
-		if(null != data && data.rows.length == 1){
-			var supplierId = data.rows[0].id;
-			var supplierName = data.rows[0].supplierName;
-			var supplierCode = data.rows[0].supplierCode;
+		if(null != data && data.list.length == 1){
+			var supplierId = data.list[0].id;
+			var supplierName = data.list[0].supplierName;
+			var supplierCode = data.list[0].supplierCode;
 			//完善文本显示
 			$("#supplierName").val("["+supplierCode+"]"+supplierName);
 			//记录ID值,用于后台查询
