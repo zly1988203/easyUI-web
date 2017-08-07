@@ -1284,17 +1284,21 @@ function GridClass(){
      * @returns {*}
      */
     this.getRowsWhere = function(argWhere){
-        $("#"+gridName).datagrid("endEdit",rowIndex);
-        var rows = _this.getRows();
-        var newRows = [];
-        $.each(rows,function(i,row){
-            $.each(argWhere,function(key,val){
-                if(row[key]){
-                    newRows.push(row);
-                }
-            })
-        });
-        return newRows;
+    	var newRows = [];
+    	try{
+    		$("#"+gridName).datagrid("endEdit",rowIndex);
+    		var rows = _this.getRows();
+    		$.each(rows,function(i,row){
+    			$.each(argWhere,function(key,val){
+    				if(row[key]){
+    					newRows.push(row);
+    				}
+    			})
+    		});
+    		return newRows;
+    	}catch(e){
+    		return newRows;
+    	}
     }
     /**
      * 表格添加默认值 黄江
