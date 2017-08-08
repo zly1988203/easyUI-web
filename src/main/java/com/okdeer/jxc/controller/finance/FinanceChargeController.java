@@ -231,10 +231,10 @@ public class FinanceChargeController extends BaseController<FinanceChargeControl
             }
 
             // 导出文件名称，不包括后缀名
-            String fileName = "门店财务费用详情列表" + "_" + DateUtils.getCurrSmallStr();
+            String fileName = "门店固定费用详情列表" + "_" + DateUtils.getCurrSmallStr();
 
             // 模板名称，包括后缀名
-            String templateName = ExportExcelConstant.STORE_CHARGE_MAIN_EXPORT_TEMPLATE;
+            String templateName = ExportExcelConstant.FINANCE_CHARGE_MAIN_EXPORT_TEMPLATE;
 
             // 导出Excel
             exportListForXLSX(response, list, fileName, templateName);
