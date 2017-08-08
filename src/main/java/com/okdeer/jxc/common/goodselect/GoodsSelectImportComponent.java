@@ -9,6 +9,7 @@ package com.okdeer.jxc.common.goodselect;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +17,9 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.okdeer.jxc.goods.vo.GoodsSelectVo;
+import com.okdeer.jxc.stock.service.StocktakingApplyServiceApi;
+import com.okdeer.jxc.stock.vo.StocktakingBatchVo;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -53,6 +57,9 @@ public class GoodsSelectImportComponent {
 
 	@Reference(version = "1.0.0", check = false)
 	private GoodsSelectServiceApi goodsSelectServiceApi;
+
+	@Reference(version = "1.0.0", check = false)
+	private StocktakingApplyServiceApi stocktakingApplyServiceApi;
 
 	@Resource 
 	private StringRedisTemplate redisTemplateTmp;
@@ -257,45 +264,74 @@ public class GoodsSelectImportComponent {
 			if(CollectionUtils.isEmpty(list)){
 				dbList1 = new ArrayList<GoodsSelect>();
 			}else{
-				//根据条码查询商品，过滤掉条码重复的商品
-				dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId, withStock,map_branchid,statusList);
-
-				//---------------------------新增一校验成功数据为准----------------------------//
-
-				/**
-				 * 2.4.0 添加条码表，根据附加条码查询的条码不一定和查询到的条码一致，所以不比较 by yangyq
-				 */
-				List<JSONObject> successData = goodsSelectImportHandle.getExcelListSuccessData();
-				for (int i = 0; i < successData.size(); i++) {
-					JSONObject obj = successData.get(i);	
-					String barCode = obj.getString("barCode");
-					for (GoodsSelect goodsSelect : dbList) {
-						if (barCode.equals(goodsSelect.getBarCode()) || (goodsSelect.getBarCodes() != null
-								&& goodsSelect.getBarCodes().indexOf(barCode) >= 0)) {
-							if (importMap.containsKey(getKeyWithGift(goodsSelect.getBarCode(), obj))) {
-								obj.element("error", GoodsSelectImportBarCodeHandle.CODE_IS_REPEAT);
-								importMap.get(getKeyWithGift(goodsSelect.getBarCode(), obj)).element("error",
-										GoodsSelectImportBarCodeHandle.CODE_IS_REPEAT);
-								dbList1.remove(map.get(getKeyWithGift(goodsSelect.getBarCode(), obj)));
-							} else {
-								importMap.put(getKeyWithGift(goodsSelect.getBarCode(), obj), obj);
-								importMap.put(getKeyWithGift(barCode, obj), obj);
+				if(map_branchid.containsKey("StocktakingForm")) {
+					GoodsSelectVo paramVo = new GoodsSelectVo();
+					paramVo.setBarCodes(list);
+					paramVo.setBranchIds(Arrays.asList(branchId));
+					paramVo.setIsManagerStock(1);
+					// 盘点商品状态（0，1，2）商品状态：0正常，1停售，2停购，3淘汰
+					paramVo.setStatusList(Arrays.asList(0, 1, 2));
+					StocktakingBatchVo batchVo = stocktakingApplyServiceApi.getStocktakingBatchVoById(map_branchid.get("batchId"));
+					if (batchVo != null && StringUtils.isNotBlank(batchVo.getCategoryShowsStr())) {
+						// 过滤类别条件
+						List<String> categoryCodes = Arrays.asList(batchVo.getCategoryShowsStr().split(","));
+						paramVo.setCategoryCodes(categoryCodes);
+					}
+					dbList = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
+					//---------------------------新增一校验成功数据为准----------------------------//
+					List<JSONObject> successData = goodsSelectImportHandle.getExcelListSuccessData();
+					for (int i = 0; i < successData.size(); i++) {
+						JSONObject obj = successData.get(i);
+						String barCode = obj.getString("barCode");
+						for (GoodsSelect goodsSelect : dbList) {
+							if (barCode.equals(goodsSelect.getBarCode())) {
 								dbList1.add(goodsSelect);
-								map.put(getKeyWithGift(goodsSelect.getBarCode(), obj), goodsSelect);
-								map.put(getKeyWithGift(barCode, obj), goodsSelect);
-								if (StringUtils.isNotBlank(goodsSelect.getBarCodes())) {									
-									String[] barCodes = goodsSelect.getBarCodes().split(",");
-									for (int z = 0; z < barCodes.length; z++) {
-										importMap.put(getKeyWithGift(barCodes[z], obj), obj);
-										map.put(getKeyWithGift(barCodes[z], obj), goodsSelect);
-									}
-								}
+								break;
 							}
-							break;
 						}
 					}
+				}else {
+
+					//根据条码查询商品，过滤掉条码重复的商品
+					dbList = goodsSelectServiceApi.queryListByBarCode(list.toArray(new String[list.size()]), branchId, withStock, map_branchid, statusList);
+
+					//---------------------------新增一校验成功数据为准----------------------------//
+
+					/**
+					 * 2.4.0 添加条码表，根据附加条码查询的条码不一定和查询到的条码一致，所以不比较 by yangyq
+					 */
+					List<JSONObject> successData = goodsSelectImportHandle.getExcelListSuccessData();
+					for (int i = 0; i < successData.size(); i++) {
+						JSONObject obj = successData.get(i);
+						String barCode = obj.getString("barCode");
+						for (GoodsSelect goodsSelect : dbList) {
+							if (barCode.equals(goodsSelect.getBarCode()) || (goodsSelect.getBarCodes() != null
+									&& goodsSelect.getBarCodes().indexOf(barCode) >= 0)) {
+								if (importMap.containsKey(getKeyWithGift(goodsSelect.getBarCode(), obj))) {
+									obj.element("error", GoodsSelectImportBarCodeHandle.CODE_IS_REPEAT);
+									importMap.get(getKeyWithGift(goodsSelect.getBarCode(), obj)).element("error",
+											GoodsSelectImportBarCodeHandle.CODE_IS_REPEAT);
+									dbList1.remove(map.get(getKeyWithGift(goodsSelect.getBarCode(), obj)));
+								} else {
+									importMap.put(getKeyWithGift(goodsSelect.getBarCode(), obj), obj);
+									importMap.put(getKeyWithGift(barCode, obj), obj);
+									dbList1.add(goodsSelect);
+									map.put(getKeyWithGift(goodsSelect.getBarCode(), obj), goodsSelect);
+									map.put(getKeyWithGift(barCode, obj), goodsSelect);
+									if (StringUtils.isNotBlank(goodsSelect.getBarCodes())) {
+										String[] barCodes = goodsSelect.getBarCodes().split(",");
+										for (int z = 0; z < barCodes.length; z++) {
+											importMap.put(getKeyWithGift(barCodes[z], obj), obj);
+											map.put(getKeyWithGift(barCodes[z], obj), goodsSelect);
+										}
+									}
+								}
+								break;
+							}
+						}
+					}
+					//----------------------------新增一校验成功数据为准---------------------------//
 				}
-				//----------------------------新增一校验成功数据为准---------------------------//
 			}
 
 		}else{
