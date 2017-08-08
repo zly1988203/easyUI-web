@@ -283,12 +283,13 @@ public class GoodsSelectImportComponent {
 								dbList1.add(goodsSelect);
 								map.put(getKeyWithGift(goodsSelect.getBarCode(), obj), goodsSelect);
 								map.put(getKeyWithGift(barCode, obj), goodsSelect);
-								String[] barCodes = goodsSelect.getBarCodes().split(",");
-								for (int z = 0; z < barCodes.length; z++) {
-									importMap.put(getKeyWithGift(barCodes[z], obj), obj);
-									map.put(getKeyWithGift(barCodes[z], obj), goodsSelect);
+								if (StringUtils.isNotBlank(goodsSelect.getBarCodes())) {									
+									String[] barCodes = goodsSelect.getBarCodes().split(",");
+									for (int z = 0; z < barCodes.length; z++) {
+										importMap.put(getKeyWithGift(barCodes[z], obj), obj);
+										map.put(getKeyWithGift(barCodes[z], obj), goodsSelect);
+									}
 								}
-
 							}
 							break;
 						}
