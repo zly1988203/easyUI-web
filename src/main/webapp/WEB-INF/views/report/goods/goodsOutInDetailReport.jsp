@@ -69,6 +69,7 @@
 								<option value="DI">配送入库</option> 
 								<option value="DO">配送出库</option> 
 								<option value="XS">销售</option> 
+								<option value="XT">销售退货</option> 
 								<option value="IO">库存调整</option>
 								<option value="LP">礼品兑换</option>
 								<option value="IX">组合拆分</option>
@@ -76,6 +77,7 @@
 								<option value="IU">领用单</option>
 								<option value="PD">盘点单</option>
 								<option value="PM">直送收货</option>
+								<option value="IP">成本调价</option>
 				        </select>
                 </div>
                 <div class="ub ub-ac umar-l20">
