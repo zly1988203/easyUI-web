@@ -195,14 +195,14 @@ public class MessageController {
 				: map.get("JxcStockException");
 		if (isJxcStockException) {
 			for (int i = 0; i < detailsCount.size() - 1; ++i) {
-				datas.put(list.get(i), detailsCount.get(i));
+				datas.put(list.get(i), detailsCount.get(i)==null?Integer.valueOf(0):detailsCount.get(i));
 				allCount += detailsCount.get(i)==null?Integer.valueOf(0):detailsCount.get(i);
 			}
 			datas.put("sumOne", detailsCount.get(0));
 			sumOne = detailsCount.get(0);
 		} else {
 			for (int i = 1; i < detailsCount.size() - 1; ++i) {
-				datas.put(list.get(i - 1), detailsCount.get(i));
+				datas.put(list.get(i - 1), detailsCount.get(i)==null?Integer.valueOf(0):detailsCount.get(i));
 				allCount += detailsCount.get(i)==null?Integer.valueOf(0):detailsCount.get(i);
 			}
 			datas.put("sumOne", 0);
