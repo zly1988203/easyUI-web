@@ -178,19 +178,32 @@ public class MessageController {
 		Integer sumOne = Integer.valueOf(0);
 		Integer sumTwo = Integer.valueOf(0);
 		Integer sumThree = Integer.valueOf(0);
+		if(detailsCount==null || detailsCount.isEmpty()){
+			datas.put("sumOne", sumOne);
+			datas.put("sumTwo", sumTwo);
+			datas.put("sumThree", sumThree);
+			datas.put("allCount", allCount);
+			datas.put("sumOther", Integer.valueOf(0));
+			for (String str:list) {
+				datas.put(str, Integer.valueOf(0));
+			}
+			respJson.setData(datas);
+			return respJson;
+		}
+
 		boolean isJxcStockException = map.get("JxcStockException") == null ? Boolean.FALSE
 				: map.get("JxcStockException");
 		if (isJxcStockException) {
 			for (int i = 0; i < detailsCount.size() - 1; ++i) {
 				datas.put(list.get(i), detailsCount.get(i));
-				allCount += detailsCount.get(i);
+				allCount += detailsCount.get(i)==null?Integer.valueOf(0):detailsCount.get(i);
 			}
 			datas.put("sumOne", detailsCount.get(0));
 			sumOne = detailsCount.get(0);
 		} else {
 			for (int i = 1; i < detailsCount.size() - 1; ++i) {
 				datas.put(list.get(i - 1), detailsCount.get(i));
-				allCount += detailsCount.get(i);
+				allCount += detailsCount.get(i)==null?Integer.valueOf(0):detailsCount.get(i);
 			}
 			datas.put("sumOne", 0);
 		}
