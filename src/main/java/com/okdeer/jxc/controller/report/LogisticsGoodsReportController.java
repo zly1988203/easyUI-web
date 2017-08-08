@@ -36,7 +36,6 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.report.qo.GoodsReportQo;
 import com.okdeer.jxc.report.service.GoodsReportService;
-import com.okdeer.jxc.report.vo.GoodsReportVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 
@@ -175,7 +174,7 @@ BaseController<LogisticsGoodsReportController> {
 
 			List<Map<String,Object>> exportList = goodsReportService.queryGoodsLogisticsList(qo);
 			if(CollectionUtils.isNotEmpty(exportList)){
-				String fileName = "物流商品查询列表" + "_" + DateUtils.getCurrSmallStr();
+				String fileName = "SP" + "_" + DateUtils.getCurrSmallStr();
 				String templateName = ExportExcelConstant.GOODSLOGISTICSREPORT;
 				exportListForXLSX(response, exportList, fileName, templateName);
 			} else {
