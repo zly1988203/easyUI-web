@@ -769,8 +769,8 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
 
 				// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
-	            if(BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0 
-	                    && formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0){
+	            if(formDetail.getPriceBack() ==null ||(BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0 
+	                    && formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0)){
 	                formDetail.setPriceBack(formDetail.getPrice());
 	            }
 				formDetail.setId(UUIDHexGenerator.generate());
