@@ -212,7 +212,7 @@
 		});
 		
 		
-		$(".radioItem").on('change',function(){
+		$(":radio[name='template']").on('change',function(){
 			if($(this).val() === "3"){
 				$("#lbTxt").html("请上传自定义模板")
 				$("#dvTemp").removeClass("unhide");
@@ -222,6 +222,7 @@
 				$("#dosheetTemplate").val($(this).val());
 			}
 		})
+		
 		$("input[name='isMinAmount']").on('change',function(){
 			if($(this).val() != "2"){
 				$('#minAmount').numberbox('setValue',0);
@@ -317,7 +318,8 @@
 			$("#lbTxt").html("上传新模板")
 			$("#dosheetTemplate3").attr("checked", "true");
 		}
-			$("#dosheetTemplate").val(dosheetTemplate);
+		
+		$("#dosheetTemplate").val(dosheetTemplate);
 			
 		if (isAllowDoGenerDa === null || isAllowDoGenerDa === 0 || isAllowDoGenerDa === '') {
 			$("#isAllowDoGenerDa0").attr("checked", "true");
@@ -349,8 +351,9 @@
 				var result = JSON.parse(data);
 				gFunEndLoading();
 				if (result['code'] == 0) {
-					$_jxc.alert("保存成功！");
-					//location.reload();
+					$_jxc.alert("保存成功！",function(){
+						location.reload();
+					});
 				} else {
 					$_jxc.alert(result['message']);
 				}
@@ -360,7 +363,7 @@
 			}
 		});
 		
-		$("#settingForm").submit();
+		$("#settingForm").form('submit');
 	}
 	
 	// 下载模板
