@@ -166,6 +166,7 @@ function initDatagridOrders(){
 					{field:'skuCode',title:'商品代号',width:120,align:'left'},
 					{field:'skuName',title:'商品名称',tooltip:true,width:180},
 					{field:"barCode",title:"商品条码",tooltip:true,width:120},
+					{field:"boxBarCode",title:"箱条码",tooltip:true,width:120},
 					{field:"categoryCode",title:"商品类别编号",tooltip:true,width:80},
 					{field:"costPrice",title:"商品成本价",tooltip:true,width:80,align:'right',
 						formatter : function(value,row,index){
@@ -196,7 +197,7 @@ function initDatagridOrders(){
 					{field:"bigUnit",title:"商品大单位",tooltip:true,width:80},
 					{field:"smallUnit",title:"商品小单位",tooltip:true,width:80},
 					{field:"stockUnit",title:"商品库存单位",tooltip:true,width:80},
-					{field:"distributionSpec",title:"大小转换率",tooltip:true,width:80,align:'right',
+					{field:"purchaseSpec",title:"大小转换率",tooltip:true,width:80,align:'right',
 						formatter : function(value,row,index){
 						  if(value){
 							  return parseInt(value);
