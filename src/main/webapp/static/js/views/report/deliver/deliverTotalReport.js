@@ -65,6 +65,9 @@ function changeType(){
 }
 
 function  setReadOnly(type){
+	
+	$('#tarBranLabel').text('要货机构:');
+	
     if (type=="goods") {
         // 初始化列表按收银员汇总
         $("#categoryButon").attr("onclick","getGoodsType()");
@@ -82,6 +85,8 @@ function  setReadOnly(type){
         $("#sourceBranchName").addClass("uinp-no-more");
         $("#sourceBranchName").val("");
         $("#sourceBranchId").val("");
+        //2.6.7 bug20470
+        $('#tarBranLabel').text('查询机构:');
 
     } else if (type=="form") {
         // 初始化列表按门店汇总
@@ -132,10 +137,12 @@ function  setReadOnly(type){
         $("#formNo").val("");
         $("#formNo").addClass("uinp-no-more");
 
-        $("#sourceBranchName").removeAttr("readonly","readonly");
-        $("#sourceBranchName").removeClass("uinp-no-more");
+        //2.6.7 bug20470
+        $("#sourceBranchName").attr("readonly","readonly");
+        $("#sourceBranchName").addClass("uinp-no-more");
         $("#sourceBranchName").val("");
         $("#sourceBranchId").val("");
+        $('#tarBranLabel').text('查询机构:');
 
     }
 }
