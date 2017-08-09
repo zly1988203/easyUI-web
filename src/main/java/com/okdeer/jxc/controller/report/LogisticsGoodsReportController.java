@@ -174,7 +174,7 @@ BaseController<LogisticsGoodsReportController> {
 
 			List<Map<String,Object>> exportList = goodsReportService.queryGoodsLogisticsList(qo);
 			if(CollectionUtils.isNotEmpty(exportList)){
-				String fileName = "物流商品查询列表" + "_" + DateUtils.getCurrSmallStr();
+				String fileName = "SP" + "_" + DateUtils.getCurrSmallStr();
 				String templateName = ExportExcelConstant.GOODSLOGISTICSREPORT;
 				exportListForXLSX(response, exportList, fileName, templateName);
 			} else {
