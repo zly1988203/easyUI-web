@@ -3,9 +3,9 @@
  * 商品销售汇总分析
  */
 $(function() {
-	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    
+	/*$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));*/
+	toChangeDatetime(0);
 	//选择报表类型
 	initGoodsTotalAnalysiGrid();
 	
