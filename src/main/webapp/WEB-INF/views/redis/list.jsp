@@ -28,7 +28,9 @@
                 <div class="ub ub-ac umar-r40">
                     <div class="umar-r10 uw-70 ut-r">keys:</div>
                     <select class="uinp ub ub-f1"  id="pattern" name="pattern" >
+<%--
                         <option value="STOCK*">STOCK*</option>
+--%>
                         <option value="LOCK*">LOCK*</option>
                     </select>
                 </div>
@@ -50,7 +52,6 @@
 
         $(function () {
             $('#dg').datagrid({
-                url:contextPath+"/redis/list?pattern=STOCK*",
                 nowrap:false,
                 columns:[[
                     {field:'key',title:'key',width:500},
