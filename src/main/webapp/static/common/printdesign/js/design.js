@@ -819,7 +819,7 @@ function initDraggable(groups) {
 //主区域初始化
 function initMainFrame() {
     var width = $(document.body).innerWidth();
-    var height = $(document.body).innerHeight();
+    var height = $(window).height()*(5/6);//scrollHeight innerHeight()
     $("#t").layout({ width: width, height: height });
     $("#t").layout('add', {
         split: true,
@@ -916,6 +916,8 @@ function initDroppable(templateType) {
             }
             div.css({ position: "absolute", top: (proxyPos.top - top1) + 'px', left: (proxyPos.left - left1) + 'px' });
             div.css("font-size", "10pt");
+            // div.css("font-family","微软雅黑");
+            div.css("cursor", "move");
             //特别处理审核状态
             if (div.hasClass(".holder") && div.html() == "_审核状态") {
                 div.addClass("borderable");
