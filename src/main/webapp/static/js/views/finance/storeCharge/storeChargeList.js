@@ -91,7 +91,7 @@ function queryStoreCharge() {
 }
 
 function storeChargeAdd() {
-    toAddTab("新增门店费用",contextPath + "/finance/storeCharge/toAdd");
+    toAddTab("新增门店运营费用",contextPath + "/finance/storeCharge/toAdd");
 }
 
 function editHandel(formId) {
