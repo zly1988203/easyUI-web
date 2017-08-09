@@ -99,6 +99,7 @@
 				            <option value="1">微信</option>
 				            <option value="2">POS订单</option>
 				            <option value="3">扫码购</option>
+							<option value="4">会员自助</option>
 				        </select>
                 </div>
              <!-- 
