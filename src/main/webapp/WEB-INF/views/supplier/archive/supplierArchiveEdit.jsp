@@ -43,7 +43,7 @@
 					<div class="umar-r10 uw-80 ut-r">经营方式:</div>
 					<select class="uselect easyui-combobox" name="saleWay" id="saleWay"
 						style="width: 204px;"
-						data-options="onChange:onChangeSaleWay,editable:false">
+						data-options="onChange:onChangeSaleWay,editable:false,disabled:true">
 						<c:forEach var="i" items="${saleWayEnums }">
 							<option value="${i.name }"
 								<c:if test="${supplier.saleWay eq  i.name}">selected="selected"</c:if>>${i.value }
