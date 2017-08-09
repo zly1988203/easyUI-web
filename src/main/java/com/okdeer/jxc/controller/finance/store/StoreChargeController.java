@@ -246,7 +246,7 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			return RespJson.success();
 
 		} catch (Exception e) {
-			LOG.error("导出门店费用单据失败：", e);
+			LOG.error("导出门店运营费用单据失败：", e);
 		}
 		return RespJson.error();
 	}
