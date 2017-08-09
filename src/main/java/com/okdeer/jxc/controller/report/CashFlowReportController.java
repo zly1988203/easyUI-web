@@ -136,10 +136,16 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 		}
 
 		if ("3".equals(qo.getOrderType())) {
+			// 扫码购
 			qo.setOrderType("2");
 			qo.setSource(2);
 		} else if ("2".equals(qo.getOrderType())) {
+			// POS订单
 			qo.setSource(1);
+		} else if ("4".equals(qo.getOrderType())) {
+			// 会员自助
+			qo.setOrderType("2");
+			qo.setSource(3);
 		}
 
 		return qo;
