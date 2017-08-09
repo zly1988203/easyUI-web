@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.enums.GoodsStatusEnum;
 import com.okdeer.jxc.common.enums.GoodsTypeEnum;
 import com.okdeer.jxc.common.enums.PricingTypeEnum;
@@ -152,11 +153,24 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		SupplierQo supplier = new SupplierQo();
 		supplier.setSupplierName("默认供应商");
 		String branchId = UserUtil.getCurrBranchId();
-		supplier.setBranchId(branchId);
+		String branchCompleCode = UserUtil.getCurrBranchCompleCode();
+		String branchType = UserUtil.getCurrBranchType().toString();
+		// 如果是店铺类型，则查询上级的默认供应商
+		if(BranchTypeEnum.FRANCHISE_STORE_B.getValue().equals(branchType)
+		        ||BranchTypeEnum.FRANCHISE_STORE_C.getValue().equals(branchType)
+		        ||BranchTypeEnum.SELF_STORE.getValue().equals(branchType)){
+		    supplier.setBranchCompleCode(branchCompleCode.substring(0, 10));
+		} else{
+		    supplier.setBranchId(branchId);
+		}
 		supplier.setPageNumber(Constant.ONE);
 		supplier.setPageSize(Constant.ONE);
 		PageUtils<SupplierPo> suppliers = supplierService.queryLists(supplier);
-		model.addAttribute("supplier", suppliers.getList().get(0));
+        if (suppliers != null && suppliers.getList().size() > 0) {
+            model.addAttribute("supplier", suppliers.getList().get(0));
+        } else {
+            model.addAttribute("supplier", null);
+        }
 		
 		// 将计价方式，商品状态，商品类型的枚举放入model中
 		addEnum(model);

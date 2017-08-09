@@ -209,13 +209,19 @@ function delLineHandel(event){
 //选择商品
 function selectGoods(key){
 	var branchId = $("#branchId").val();
-    new publicGoodsSkuService(function(data){
+	var param = {
+        key:key,
+        isRadio:0,
+        branchId:branchId
+    }
+
+    new publicGoodsServiceTem(param,function (data) {
         if(data.length==0){
             return;
         }
         for(var i in data){
-        	var rec = data[i];
-        	rec.remark = "";
+            var rec = data[i];
+            rec.remark = "";
         }
         var nowRows = gridHandel.getRowsWhere({skuName:'1'});
         var addDefaultData  = gridHandel.addDefault(data,gridDefault);
@@ -233,7 +239,7 @@ function selectGoods(key){
 
         $("#gridSupplierArchiveList").datagrid("loadData",newRows);
         gridHandel.setLoadFocus();
-    },0,key,branchId);
+    })
 }
 
 
