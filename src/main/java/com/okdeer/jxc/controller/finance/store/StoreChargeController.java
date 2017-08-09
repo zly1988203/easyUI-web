@@ -235,7 +235,7 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			}
 
 			// 导出文件名称，不包括后缀名
-			String fileName = "门店费用详情列表" + "_" + DateUtils.getCurrSmallStr();
+			String fileName = "门店运营费用详情列表" + "_" + DateUtils.getCurrSmallStr();
 
 			// 模板名称，包括后缀名
 			String templateName = ExportExcelConstant.STORE_CHARGE_MAIN_EXPORT_TEMPLATE;

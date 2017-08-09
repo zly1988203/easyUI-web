@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -374,7 +375,14 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 							public void errorDataFormatter(List<JSONObject> list) {
 								LOG.debug("errorDataFormatter");
 							}
-						},null);
+						},new HashMap<String, String>(){
+							private static final long serialVersionUID = -1669603197463403925L;
+
+							{
+								put("StocktakingForm",Boolean.TRUE.toString());
+								put("batchId",batchId);
+							}
+						});
 			}
 			// 作金额计算
 			List<GoodsSelectByStockTaking> stcoktakingVos = vo.getList();

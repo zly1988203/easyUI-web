@@ -29,7 +29,8 @@
 	             <!-- 引入时间选择控件 -->
 	           <div class="ub ub-ac">
 	            	<div class="umar-r10 uw-80 ut-r">日期:</div>
-	       			<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
+	       			<%-- <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%> --%>
+	       			<%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
 	           </div>
             </div>
 	        <div class="ub uline umar-t8">
