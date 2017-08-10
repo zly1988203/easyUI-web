@@ -86,20 +86,25 @@
 	background:url('../images/go.png') no-repeat center center;
 }
 
-.icon-new-normal {
-    background:url('../images/page_add.png') no-repeat center center;
-}
 .icon-new-sheet {
-    background:url('../images/fileNew.png') no-repeat center center;
+    background:url('../images/add.png') no-repeat center center;
 }
 .icon-saveas {
-    background:url('../images/fileSaveAs.png') no-repeat center center;
+    /*background:url('../images/fileSaveAs.png') no-repeat center center;*/
+	background:url('../images/saveas.png') no-repeat center center;
 }
+
+.icon-save {
+	/*background:url('../images/fileSaveAs.png') no-repeat center center;*/
+	background:url('../images/save.png') no-repeat center center;
+}
+
 .icon-delete {
-    background:url('../images/fileDelete.png') no-repeat center center;
+    background:url('../images/del.png') no-repeat center center;
+	/*background:url('../images/fileDelete.png') no-repeat center center;*/
 }
 .icon-pageset {
-    background:url('../images/page_gear.png') no-repeat center center;
+    background:url('../images/pageset.png') no-repeat center center;
 }
 .icon-sheetset {
     background:url('../images/table_gear.png') no-repeat center center;
@@ -108,13 +113,13 @@
     background:url('../images/column_set.png') no-repeat center center;
 }
 .icon-setdefault {
-    background:url('../images/filePrintQuick.png') no-repeat center center;
+    background:url('../images/setdefault.png') no-repeat center center;
 }
 .icon-printPreview {
-    background:url('../images/filePrintPreview.png') no-repeat center center;
+    background:url('../images/printPreview.png') no-repeat center center;
 }
 .icon-elementDelete {
-    background:url('../images/elementDelete.png') no-repeat center center;
+    background:url('../images/elementDelete1.png') no-repeat center center;
 }
 
 .icon-paste-large{

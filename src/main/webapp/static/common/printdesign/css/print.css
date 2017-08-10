@@ -10,13 +10,19 @@ border:1px dashed skyblue;
 }
 
 ul {
-list-style:none;
+/*list-style:none;*/
 }
 
 ul li div {
 font-size: 15px;
 
 }
+
+ul li .item:active {
+	/*border: 1px solid lightgray;*/
+	background: #c9c9c9;
+}
+
 
 .c2,.c2:hover{
 	color: #fff;
@@ -61,3 +67,12 @@ a.c5:hover{
         font-size: 16px !important;
         line-height: 28px;
     }
+
+	.print {
+		margin: 10px;
+	}
+
+	/*#t{*/
+		/*width: 100%;*/
+		/*height: 100%;*/
+	/*}*/
