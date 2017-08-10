@@ -41,6 +41,9 @@ function goodsArchives() {
 var goodsClass = new goodsArchives();
 
 $(function() {
+	$('#eliminate_div').addClass('hide');
+	$('#selectBranches').addClass('hide');
+	
 	initView();
 	initTreeArchives();
 	// 初始化机构ID，机构名称
@@ -622,9 +625,11 @@ $(document).on('change', "input[name='status']", function() {
 	if (value == 0) {
 		$('#eliminate_div').removeClass('hide');
 		$('#recovery_div').removeClass('hide');
+		$('#selectBranches').removeClass('hide');
 	} else {
 		$('#eliminate_div').addClass('hide');
 		$('#recovery_div').addClass('hide');
+		$('#selectBranches').addClass('hide');
 	}
 })
 
