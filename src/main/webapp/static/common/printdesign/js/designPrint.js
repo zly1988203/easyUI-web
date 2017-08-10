@@ -32,7 +32,8 @@
             } else {
                 jq.find(".work").empty();
             }
-            jq.css({ top: "0px", left: "0px" });
+            var height = $(window).height()*(5/6);
+            jq.css({ top: "0px", left: "0px",height:height });
             currentPage = jq;
             currentPageNo += 1;            
             return jq;
@@ -245,6 +246,7 @@
         function getPrintPageSizeWithMargin(jqPage) {           
             var h = jqPage.height();
             var w = jqPage.width();
+            // var h = $(window).height()*(5/6);
             return { height: h, width: w };
         }
 
@@ -374,6 +376,7 @@
             if (paperSetting.unit == "mm") {
                 w = paper.size.width / 25.4;
                 h = paper.size.height / 25.4;
+                // h = $(window).height()*(5/6);
             }
             size = w + "in " + h + "in";
         }

@@ -24,7 +24,7 @@
     <script type="text/javascript" src="${ctx}/static/common/printdesign/js/json2.js"></script>        
     <script type="text/javascript" src="${ctx}/static/common/printdesign/js/loader.js"></script>
     
-    <link rel="stylesheet" href="${ctx}/static/common/printdesign/css/print.css?ver=2" />
+    <link rel="stylesheet" href="${ctx}/static/common/printdesign/css/print.css?ver=4" />
     <link rel="stylesheet" href="${ctx}/static/common/printdesign/css/mediaPrint.css?ver=4" />
     
     <script type="text/javascript" src="${ctx}/static/common/printdesign/js/global.js?time="+ $.now()></script>
@@ -38,7 +38,7 @@
     <script type="text/javascript" src="${ctx}/static/common/printdesign/js/control.js?ver=1"></script>
 	<script type="text/javascript" src="${ctx}/static/common/printdesign/js/designData.js?ver=1"></script>
 	<script type="text/javascript" src="${ctx}/static/common/printdesign/js/defaultData.js?ver=1"></script>
-	<script type="text/javascript" src="${ctx}/static/common/printdesign/js/design.js?ver=8"></script>
+	<script type="text/javascript" src="${ctx}/static/common/printdesign/js/design.js?ver=3"></script>
 
 </body>
 </html>

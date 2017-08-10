@@ -8,6 +8,25 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>打印预览</title>
     <link rel="stylesheet" href="${ctx}/static/common/printdesign/css/easyui.css" />
+	<style>
+		#btnPrint{
+		display: inline-block;
+		width: 70px;
+		height: 32px;
+		line-height: 32px;
+		text-align: center;
+		background-color: #f2f2f2;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+	}
+
+	#divPrint {
+	margin-top: 10px;
+	border: 1px solid #ccc;
+	background: gray;
+		<%--border:1px solid #ccc;--%>
+	}
+	</style>
 </head>
 <body>
 <iframe id="${sheetNo}" scrolling="auto" frameborder="0" src="${ctx}/printdesign/design?page=${page}&amp;controller=${controllerUrl}&amp;template=${template}&amp;sheetNo=${sheetNo}&amp;gridFlag=PAGrid" style="width:0;height:0;"></iframe>
@@ -33,7 +52,7 @@
     <script type="text/javascript" src="${ctx}/static/common/printdesign/js/jquery-migrate-1.1.0.js"></script>
     <script type="text/javascript" src="${ctx}/static/common/printdesign/js/helper.js?ver="></script>
     <script type="text/javascript" src="${ctx}/static/common/printdesign/js/jqprint.js?ver="></script>
-    <script type="text/javascript" src="${ctx}/static/common/printdesign/js/designPrint.js?ver="></script>
+    <script type="text/javascript" src="${ctx}/static/common/printdesign/js/designPrint.js?ver=6"></script>
      
     <script type="text/javascript" src="${ctx}/static/common/printdesign/js/control.js?ver="></script>
 	<script type="text/javascript" src="${ctx}/static/common/printdesign/js/designData.js?ver="></script>

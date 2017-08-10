@@ -1,6 +1,7 @@
 
 .assigned {
     border: 1px solid gray;
+	border-radius: 3px
 }
 .label.assigned {
 text-align:right;
@@ -11,6 +12,10 @@ border:1px dashed skyblue;
 
 ul {
 /*list-style:none;*/
+}
+
+.root{
+	font-weight: 600;
 }
 
 ul li div {
@@ -72,7 +77,4 @@ a.c5:hover{
 		margin: 10px;
 	}
 
-	/*#t{*/
-		/*width: 100%;*/
-		/*height: 100%;*/
-	/*}*/
+
