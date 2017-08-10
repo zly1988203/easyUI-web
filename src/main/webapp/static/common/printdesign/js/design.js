@@ -779,7 +779,7 @@ function initToolbar() {
 function initDraggable(groups) {
 
     function createGroup(text) {
-        var li = $("<li class='group'><div>" + text + "</div></li>");
+        var li = $("<li class='group'><div class='root'>" + text + "</div></li>");
         return li;
     }
 
@@ -917,7 +917,7 @@ function initDroppable(templateType) {
             div.css({ position: "absolute", top: (proxyPos.top - top1) + 'px', left: (proxyPos.left - left1) + 'px' });
             div.css("font-size", "10pt");
             // div.css("font-family","微软雅黑");
-            div.css("cursor", "move");
+            div.css("border-radius", "5px");
             //特别处理审核状态
             if (div.hasClass(".holder") && div.html() == "_审核状态") {
                 div.addClass("borderable");
@@ -1014,7 +1014,7 @@ function bindDropElementEvent(target) {
     var t = $(target);
     t.draggable({
         revert: false,
-        cursor: 'pointer',
+        cursor: 'move',
         edge: 5,
 
         onDrag: function (e) {
