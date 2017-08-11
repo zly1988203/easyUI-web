@@ -3051,6 +3051,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:0,
+	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
 	          detailList : []
 	  };
 	  $.each(rows,function(i,data){
@@ -3075,6 +3076,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:0,
+	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
 	          detailList : []
 	  };
 	  $.each(rows,function(i,data){
@@ -3104,6 +3106,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:activityScopedis,
+	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
 	          detailList : []
 	  };
 	  // 活动状态为折扣--单品折扣
@@ -3154,6 +3157,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:activityScopemj,
+	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
 	          detailList : []
 	  };
 	// 活动状态为满减 -商品
@@ -3248,6 +3252,7 @@ function saveDataHandel(rows,setrows){
 	          activityPattern:$('#activitymmsType').combobox('getValue')||'',
 	          allowActivity:$("#mmsofactType1").is(":checked")?1:0,
 	          allowMultiple:$("#mmsofactType2").is(":checked")?1:0,
+	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
 	          detailList:setrows, //活动范围数据集合
 	          gradientList:rows //梯度集合
 	  };

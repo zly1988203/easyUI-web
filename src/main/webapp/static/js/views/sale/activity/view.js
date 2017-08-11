@@ -73,6 +73,10 @@ function  editstart(selectType){
 	    		  // 活动名称
 	    		  console.log(data.obj.activityName);
 	    		  $('#activityName').val(data.obj.activityName);
+	    		  $("#memberExclusive").prop('checked',data.obj.memberExclusive == 1?true:false);
+	    			$(document).on('click','input[name="memberExclusive"]',function(){
+	    				return false;
+	    			})
 	    		  // 日期转换格式
 		    	  var startTimeedit= new Date(listinfo.startTime);
 		    	  var endTimeedit=new Date(listinfo.endTime);
@@ -141,12 +145,13 @@ function  editstart(selectType){
 						
 						//买满送
 					  }else if(activtype==10){
+						  $("#dvVip").addClass("umar-l100");
 						  var activityScopemms = listinfo.activityScope;
 						  var activityPattern  = listinfo.activityPattern;
 						  var allowActivity = listinfo.allowActivity;
 						  var allowMultiple = listinfo.allowMultiple;
 						  
-						  selectOptionmms(activityScopemms,activityPattern,allowActivity,allowMultiple,activityId);
+						  selectOptionmms(activityScopemms,activityPattern,allowActivity,allowMultiple,activityId,data.obj.memberExclusive);
 					  }
 						// 其他类型请求
 						else{
@@ -419,7 +424,7 @@ function clickmmsTab(type){
 }
 
 //买满送  
-function selectOptionmms(activityScope,activityPattern,allowActivity,allowMultiple,activityId){
+function selectOptionmms(activityScope,activityPattern,allowActivity,allowMultiple,activityId,memberExclusive){
 	//optionHide();
 	disableGoods('','GoodsType');
 	$('#consaleadd').addClass('unhide');
@@ -435,6 +440,8 @@ function selectOptionmms(activityScope,activityPattern,allowActivity,allowMultip
 	//初始化 倍数送 促销商品参与
 	$("#mmsofactType1").prop('checked',allowActivity == 1?true:false);
 	$("#mmsofactType2").prop('checked',allowMultiple == 1?true:false);
+	
+	$("#memberExclusive").prop('checked',memberExclusive == 1?true:false);
 	
 	gridTitleName = activityPattern == 1 ?'买满数量':'买满金额';
 	

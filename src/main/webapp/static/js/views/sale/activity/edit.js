@@ -140,6 +140,7 @@ function  editstart(selectType){
 		    		//活动名称
 	    		    //console.log(data.obj.activityName);
 		    		$('#activityName').val(data.obj.activityName);
+		    		$("#memberExclusive").prop('checked',data.obj.memberExclusive == 1?true:false);
 		    		//日期转换格式
 		    	    var startTimeedit= new Date(listinfo.startTime);
 		    	    var endTimeedit=new Date(listinfo.endTime);
@@ -224,7 +225,7 @@ function  editstart(selectType){
 						}
 						//买满送
 					  }else if(activtype==10){
-                        $("#dvVip").addClass("umar-l100")
+                        $("#dvVip").addClass("umar-l100");
 						  var activityScopemms = listinfo.activityScope;
 						  var activityPattern  = listinfo.activityPattern;
 						  var allowActivity = listinfo.allowActivity;
@@ -3102,6 +3103,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:0,
+	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
 	          detailList : []
 	  };
 	  $.each(rows,function(i,data){
@@ -3126,6 +3128,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:0,
+	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
 	          detailList : []
 	  };
 	  $.each(rows,function(i,data){
@@ -3155,6 +3158,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:activityScopedis,
+	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
 	          detailList : []
 	  };
 	  // 活动状态为折扣--单品折扣
@@ -3204,6 +3208,7 @@ function saveDataHandel(rows,setrows){
 	          dailyEndTime:dailyEndTime,
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:activityScopemj,
+	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
 	          detailList : []
 	  };
 	// 活动状态为满减 -商品
@@ -3299,6 +3304,7 @@ function saveDataHandel(rows,setrows){
 	          activityPattern:$('#activitymmsType').combobox('getValue')||'',
 	          allowActivity:$("#mmsofactType1").is(":checked")?1:0,
 	          allowMultiple:$("#mmsofactType2").is(":checked")?1:0,
+	    	  memberExclusive:$("#memberExclusive").is(":checked")?1:0,
 	          detailList:setrows, //活动范围数据集合
 	          gradientList:temRows //梯度集合
 	  };
