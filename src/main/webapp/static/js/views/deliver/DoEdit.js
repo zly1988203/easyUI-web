@@ -264,6 +264,14 @@ function initDatagridEditRequireOrder(){
                     row["taxAmount"] = taxAmount;
                     return "<b>"+parseFloat(taxAmount||0).toFixed(2)+ "<b>";
                 },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        disabled:true,
+                        min:0,
+                        precision:2,
+                    }
+                },
             },
             {field:'originPlace',title:'产地',width:'100px',align:'left'},
             {field:'sourceStock',title:'当前库存',width:'80px',align:'right',
@@ -390,9 +398,15 @@ function onChangeLargeNum(newV,oldV){
     
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
+    var _tempAmount = purchaseSpecValue*priceValue*newV;
 
     gridHandel.setFieldValue('amount',(purchaseSpecValue*priceValue*newV).toFixed(4));             //金额=箱数*规格*单价
     gridHandel.setFieldValue('saleAmount',(purchaseSpecValue*salePriceValue*newV).toFixed(4));      //零售金额=箱数*规格*零售价
+
+    var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+    var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);
+    gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
+
     
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'dealNum');
     var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);//parseFloat(Math.round(purchaseSpecValue*newV*1000)/1000).toFixed(4);
@@ -447,6 +461,11 @@ function onChangeRealNum(newV,oldV) {
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
     gridHandel.setFieldValue('amount',(priceValue*newV).toFixed(4));             //金额=数量*单价
+
+    var _tempAmount = priceValue*newV;
+    var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
+    var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);
+    gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
 
     var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
     var largeNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
