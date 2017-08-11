@@ -482,6 +482,7 @@ function onChangeLargeNum(newV,oldV){
 		errroPurL = false;
 		return;
 	}
+
 	if("" == newV){
 		m = 2;
 		 $_jxc.alert("商品箱数输入有误");
@@ -504,7 +505,7 @@ function onChangeLargeNum(newV,oldV){
     }
 
     //金额 = 规格 * 单价 * 箱数
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var _tempAmount = parseFloat(purchaseSpecValue*priceValue*newV);
     gridHandel.setFieldValue('amount',_tempAmount.toFixed(4));
     
@@ -522,12 +523,13 @@ function onChangeLargeNum(newV,oldV){
 //监听商品数量
 //不符合规格标示 bug 20079 要货申请选择商品规格大于1的商品，先输入数量为1，然后再输入箱数为1后，不会自动计算数量
 var errroPur = false;
-function onChangeRealNum(newV,oldV,event) {
+function onChangeRealNum(newV,oldV) {
 	//bug 20079 要货申请选择商品规格大于1的商品，先输入数量为1，然后再输入箱数为1后，不会自动计算数量
 	if(errroPur){
 		errroPur = false;
 		return;
 	}
+
 	if("" == newV){
 		n= 2;
 		 $_jxc.alert("商品数量输入有误");
@@ -567,9 +569,10 @@ function onChangeRealNum(newV,oldV,event) {
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));        return;
     }
     
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var _tempAmount = priceValue*newV;
-    gridHandel.setFieldValue('amount',_tempAmount);                         //金额=数量*单价
+    gridHandel.setFieldValue('amount',_tempAmount);
+                   //金额=数量*单价
 
     var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
     var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);
@@ -597,7 +600,8 @@ function onSelectIsGift(data){
     };
     var arrs = gridHandel.searchDatagridFiled(gridHandel.getSelectRowIndex(),checkObj);
     if(arrs.length==0){
-		var targetPrice = gridHandel.getFieldTarget('price');        if(data.id=="1"){
+		var targetPrice = gridHandel.getFieldTarget('price');
+		if(data.id=="1"){
 	        $(targetPrice).numberbox('setValue',0);
             gridHandel.setFieldValue('amount',0);//总金额
             gridHandel.setFieldValue('taxAmount',0);//税额

@@ -173,6 +173,13 @@
 	                    </div>
 		            </div>
 	          	  </div>
+
+				<div id="dvVip" class="ub ub-ac umar-l30">
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="checkbox" id="isVip"  name="isVip"  value="1" /><label for="isVip">会员独享</label>
+					</div>
+				</div>
+
 	        </div>
        	</form>
            

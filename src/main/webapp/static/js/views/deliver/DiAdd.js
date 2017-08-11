@@ -321,7 +321,7 @@ function onChangeLargeNum(newV,oldV){
     }
     
     //金额 = 规格 * 单价 * 箱数
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4));  
     
     var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'receiveNum');
@@ -361,7 +361,7 @@ function onChangeRealNum(newV,oldV) {
         $_jxc.alert("配送规格不能为0");
         return;
     }
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
 
     var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
