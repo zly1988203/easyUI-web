@@ -388,7 +388,7 @@ function onChangeLargeNum(newV,oldV){
         return;
     }
     
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
 
     gridHandel.setFieldValue('amount',(purchaseSpecValue*priceValue*newV).toFixed(4));             //金额=箱数*规格*单价
@@ -444,7 +444,7 @@ function onChangeRealNum(newV,oldV) {
         gridHandel.setFieldValue('defectNum',defectNumVal);
     }
 
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
     gridHandel.setFieldValue('amount',(priceValue*newV).toFixed(4));             //金额=数量*单价
 

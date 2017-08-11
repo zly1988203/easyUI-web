@@ -112,6 +112,7 @@ function onChangeSelect(){
     var priceVal=$("#activityType").combobox('getValue');
     var changeType = function(){
 	    gVarLastActivityType = priceVal;
+        $("#dvVip").addClass("umar-l30")
 	    switch(priceVal)
 	    {
 	 	    case "1":
@@ -139,6 +140,7 @@ function onChangeSelect(){
 			    disableGoods('','GoodsType');
 			    break;
 		    case "10": //买满送
+                $("#dvVip").addClass("umar-l100")//这个类型排版奇葩
 		    	selectOptionmms();
 			    break;
 	    }

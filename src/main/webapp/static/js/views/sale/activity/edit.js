@@ -224,6 +224,7 @@ function  editstart(selectType){
 						}
 						//买满送
 					  }else if(activtype==10){
+                        $("#dvVip").addClass("umar-l100")
 						  var activityScopemms = listinfo.activityScope;
 						  var activityPattern  = listinfo.activityPattern;
 						  var allowActivity = listinfo.allowActivity;
@@ -259,41 +260,6 @@ function  editstart(selectType){
 	          }
 	  });
 }
-//select 选择切换
-function onChangeSelect(){
- var priceVal=$("#activityType").combobox('getValue');
-	 switch(priceVal)
-	 {
-	 case "1":
-	   selectOptionSpecial();
-	   //禁止按钮点击事件
-	   disableGoods('','GoodsType');
-	   
-	   break;
-	 case "2":
-	   selectOptionzk();
-	   break;
-	 case "3":
-	   selectOptionOdd();
-	   disableGoods('','GoodsType');
-	   break;
-	 case "4":
-	   initDatagridRedemption();
-	   disableGoods('','GoodsType');
-	   break;
-	 case "5":
-	   selectOptionMj();
-	   break;
-	 case "6":
-	   initDatagridCompose();
-	   disableGoods('','GoodsType');
-	  break;
-	 case "10": //买满送
-	    	selectOptionmms();
-		    break;
-     }	
-}
-
 
 //特价状态选择隐藏
 function selectOptionSpecial(){
