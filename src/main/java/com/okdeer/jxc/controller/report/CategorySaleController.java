@@ -104,8 +104,10 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			List<CategorySaleReportVo> exportList = categorySaleReportServiceApi.exportList(vo);
 			CategorySaleReportVo categorySaleReportVo = categorySaleReportServiceApi.getCategorySaleCountSum(vo);
-			categorySaleReportVo.setBranchName("合计：");
-			exportList.add(categorySaleReportVo);
+			if(categorySaleReportVo != null){
+			    categorySaleReportVo.setBranchName("合计：");
+			    exportList.add(categorySaleReportVo);
+			}
 			String fileName = "类别销售分析表";
 			String templateName = ExportExcelConstant.CATEGORY_SALE_REPORT;
 
