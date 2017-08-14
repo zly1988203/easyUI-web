@@ -176,16 +176,7 @@ function selectBranch (){
 		$("#createBranchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
-/**
- * 操作员列表下拉选
- */
-function selectOperator(){
-	new publicOperatorService(function(data){
-		//data.Id
-		$("#createUserId").val(data.id);
-		$("#createUserName").val("["+data.userCode+"]"+data.userName);
-	});
-}
+
 
 /**
  * 重置
