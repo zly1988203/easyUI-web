@@ -8,7 +8,9 @@
 package com.okdeer.jxc.controller.deliver;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,8 +29,10 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.form.deliver.entity.DeliverFormGoods;
 import com.okdeer.jxc.form.deliver.entity.DeliverFormList;
+import com.okdeer.jxc.form.deliver.service.DeliverFormServiceApi;
 import com.okdeer.jxc.form.deliver.service.DeliverSuggestNumService;
 import com.okdeer.jxc.form.deliver.service.QueryDeliverFormListServiceApi;
+import com.okdeer.jxc.form.deliver.vo.DeliverFormBranchVo;
 import com.okdeer.jxc.form.deliver.vo.DeliverSuggestNumVo;
 import com.okdeer.jxc.form.deliver.vo.QueryDeliverFormVo;
 import com.okdeer.jxc.form.enums.FormType;
@@ -53,6 +57,9 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 	
 	@Reference(version = "1.0.0", check = false)
 	private DeliverSuggestNumService deliverSuggestNumService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private DeliverFormServiceApi deliverFormService;
 
 	/**
 	 * @Description: 引入单据明细查询，单价查询
@@ -125,30 +132,40 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 		LOG.debug("DeliverFormListController.export:" + formNo);
 		try {
 			List<DeliverFormList> exportList = queryDeliverFormListServiceApi.getDeliverList(formNo);
+			
+			DeliverFormBranchVo branchVo = deliverFormService.getDeliverBranchInfoByFormNo(formNo);
+			
 	         // 过滤数据权限字段
             cleanAccessData(exportList);
 			String fileName = "";
 			String templateName = "";
+			String branchName = "";
 
 			if (FormType.DA.toString().equals(type)) {
 				// 导出文件名称，不包括后缀名
-				fileName = "要货单" + "_" + DateUtils.getCurrSmallStr();
+				branchName = branchVo.getTargetBranchName(); //要货机构，即入库机构
+				fileName = branchName + "要货单" + "_" + DateUtils.getCurrSmallStr();
 			} else if (FormType.DO.toString().equals(type)) {
 				// 导出文件名称，不包括后缀名
-				fileName = "出库单" + "_" + DateUtils.getCurrSmallStr();
+				branchName = branchVo.getSourceBranchName(); //出库机构
+				fileName = branchName + "出库单" + "_" + DateUtils.getCurrSmallStr();
 			}else if (FormType.DD.toString().equals(type)){
 				// 导出文件名称，不包括后缀名
-				fileName = "店间配送单" + "_" + DateUtils.getCurrSmallStr();
+				branchName = branchVo.getTargetBranchName(); //要货机构，即入库机构
+				fileName = branchName + "店间配送单" + "_" + DateUtils.getCurrSmallStr();
 			}else if (FormType.DY.toString().equals(type)){
 				// 导出文件名称，不包括后缀名
-				fileName = "直送要货单" + "_" + DateUtils.getCurrSmallStr();
+				branchName = branchVo.getTargetBranchName(); //要货机构，即入库机构
+				fileName = branchName + "直送要货单" + "_" + DateUtils.getCurrSmallStr();
 			}else if (FormType.DR.toString().equals(type)){
 				// 导出文件名称，不包括后缀名
-				fileName = "退货单" + "_" + DateUtils.getCurrSmallStr();
+				branchName = branchVo.getSourceBranchName(); //出库机构
+				fileName = branchName + "退货单" + "_" + DateUtils.getCurrSmallStr();
 			}
 			else {
 				// 导出文件名称，不包括后缀名
-				fileName = "入库单" + "_" + DateUtils.getCurrSmallStr();
+				branchName = branchVo.getTargetBranchName(); //即入库机构
+				fileName = branchName + "入库单" + "_" + DateUtils.getCurrSmallStr();
 			}
 			if (Constant.STRING_ONE.equals(pattern)) {
 				// 模板名称，包括后缀名
@@ -161,8 +178,7 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 				}else if (FormType.DO.toString().equals(type)) {
 					// 模板名称，包括后缀名
 					templateName = ExportExcelConstant.DELIVERFORM_DO;
-				}
-				else if (FormType.DD.toString().equals(type)) {
+				} else if (FormType.DD.toString().equals(type)) {
 					// 模板名称，包括后缀名
 					templateName = ExportExcelConstant.DELIVERFORM_DD;
 				}else if (FormType.DY.toString().equals(type)) {
@@ -177,8 +193,12 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 				}
 			}
 			BigDecimalUtils.toFormatBigDecimal(exportList, 4);
-			// 导出Excel
-			exportListForXLSX(response, exportList, fileName, templateName);
+			
+			// 导出Excel			
+			Map<String, Object> param = new HashMap<>();
+			param.put("branchName", branchName);
+			exportParamListForXLSX(response, exportList, param, fileName, templateName);
+			
 		} catch (Exception e) {
 			LOG.error("GoodsPriceAdjustController:exportList:", e);
 		}
