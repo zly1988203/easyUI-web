@@ -91,6 +91,7 @@ public class DeliverTotalReportController extends ReportController {
 			map.put("branchId", UserUtil.getCurrBranchId());
 		}
 		map.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
+		map.put("status", "1");
 		return map;
 	}
 
