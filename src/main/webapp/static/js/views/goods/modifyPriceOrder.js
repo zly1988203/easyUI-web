@@ -11,6 +11,15 @@ $(function(){
     //初始化列表
     initModifyPriceGrid();
     modifyPriceOrderCx();
+
+    //操作人
+    $('#operatorComponent').operatorSelect({
+        //数据过滤
+        loadFilter:function(data){
+            data.createUserId = data.id;
+            return data;
+        }
+    });
     
 });
 

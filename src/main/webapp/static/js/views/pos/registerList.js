@@ -4,6 +4,16 @@
  */
 $(function(){
     initDatagridPosOrders();
+    //机构选择初始化 收货机构
+    $('#regBranch').branchSelect({
+        param:{
+            formType:"DP"
+        },
+        onAfterRender:function(data){
+            $("#branchInfo").val(data.branchName);
+            //$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName)
+        }
+    });
 });
 var gridHandel = new GridClass();
 //初始化表格
