@@ -11,6 +11,15 @@ $(function(){
     //初始化列表
     initModifyPriceGrid();
     modifyPriceOrderCx();
+
+    //操作人
+    $('#operatorComponent').operatorSelect({
+        //数据过滤
+        loadFilter:function(data){
+            data.createUserId = data.id;
+            return data;
+        }
+    });
     
 });
 
@@ -167,16 +176,7 @@ function selectBranch (){
 		$("#createBranchName").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
-/**
- * 操作员列表下拉选
- */
-function selectOperator(){
-	new publicOperatorService(function(data){
-		//data.Id
-		$("#createUserId").val(data.id);
-		$("#createUserName").val("["+data.userCode+"]"+data.userName);
-	});
-}
+
 
 /**
  * 重置

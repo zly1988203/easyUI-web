@@ -23,14 +23,14 @@ function getBranchInfo(){
     	var rec = data.data;
         $.each(rec.branch,function(key,value){
             //普通的input(过滤branchCompleCode隐藏域赋值)
-            if($("#"+key).prop("tagName") == "INPUT" && !(key === 'branchCompleCode')){
-                if($("#"+key).attr('type')=="checkbox"){
+            if($("#formEdit #"+key).prop("tagName") == "INPUT"){
+                if($("#formEdit #"+key).attr('type')=="checkbox"){
                     if(value){ //传到前端checkbox选中的值是true
-                        $("#"+key).attr("checked","checked");
+                        $("#formEdit #"+key).attr("checked","checked");
                     }
                 }else{
-                        if($("#"+key).hasClass('easyui-numberbox')){
-                            $("#"+key).numberbox('setValue', value);
+                        if($("#formEdit #"+key).hasClass('easyui-numberbox')){
+                            $("#formEdit #"+key).numberbox('setValue', value);
                         }else{
                             if(key === "status"){
                                 if(value == 1){
@@ -40,14 +40,14 @@ function getBranchInfo(){
                                 }
                             }
 
-                            $("#"+key).val(value);
+                            $("#formEdit #"+key).val(value);
                         }
                 }
             }
-            else if($("#"+key).prop("tagName") =="TEXTAREA"){ //普通的textarea
-                $("#"+key).html(value);
+            else if($("#formEdit #"+key).prop("tagName") =="TEXTAREA"){ //普通的textarea
+                $("#formEdit #"+key).html(value);
             }
-            else if($("#"+key).prop("tagName") == "SELECT"){
+            else if($("#formEdit #"+key).prop("tagName") == "SELECT"){
                 if(value != undefined && typeof (value) != "undefined"){
 
 
@@ -59,7 +59,7 @@ function getBranchInfo(){
                         }
                     }
 
-                    $("#"+key+" option").each(function(i,n){
+                    $("#formEdit #"+key+" option").each(function(i,n){
                         if($(n).val() == value || $(n).val()==value.name){
                             $(n).attr("selected",true);
                         }

@@ -4,6 +4,16 @@
  */
 $(function(){
     initDatagridPosOrders();
+    //机构选择初始化 收货机构
+    $('#regBranch').branchSelect({
+        param:{
+            formType:"DP"
+        },
+        onAfterRender:function(data){
+            $("#branchInfo").val(data.branchName);
+            //$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName)
+        }
+    });
 });
 var gridHandel = new GridClass();
 //初始化表格
@@ -76,17 +86,6 @@ function queryForm(){
 	$("#registerList").datagrid('options').url = contextPath + '/pos/register/queryList';
 	$("#registerList").datagrid('load', fromObjStr);
 }
-
-/**
- * 店铺名称
- */
-function selectBranches(){
-	new publicAgencyService(function(data){
-		$("#regBranchId").val(data.branchesId);
-		$("#branchInfo").val(data.branchName);
-	},'DP','');
-}
-
 
 //解除绑定
 function bindPosForm(){

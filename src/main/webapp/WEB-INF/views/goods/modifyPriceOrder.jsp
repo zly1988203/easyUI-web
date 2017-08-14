@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>档案-调价单</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/goods/modifyPriceOrder.js?V=${versionNo}"></script>
+    <script  src="${ctx}/static/js/views/goods/modifyPriceOrder.js?V=${versionNo}1"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 upad-8">
@@ -41,11 +41,11 @@
 	                    <div class="umar-r10 uw-70 ut-r">单据编号:</div>
 	                    <input class="uinp" name="formNo" type="text">
 	                </div>
-	                <div class="ub ub-ac uw-300 umar-l20">
+	                <div class="ub ub-ac uw-300 umar-l20" id="operatorComponent">
 	                    <div class="umar-r10 uw-70 ut-r">操作员:</div>
 	                    <input class="uinp ub ub-f1" name="createUserId"  id="createUserId" type="hidden" >
 	                    <input class="uinp ub ub-f1"  type="text"  id="createUserName">
-	                    <div class="uinp-more" onclick="selectOperator();">...</div>
+	                    <div class="uinp-more">...</div>
 	                </div>
 	                <div class="ub ub-ac uw-300 umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r" >制单机构:</div>
