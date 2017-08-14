@@ -79,11 +79,9 @@
 						</div>
 
 						<div class="ub ub-ac">
-							<div class="umar-r10 uw-80 ut-r">参考分店:</div>
-							<input id="refBranchName" name="refBranchName" type="text"
-								class="uinp uinp-no-more" maxlength="50"
-								readonly="readonly">
-
+						<div class="umar-r10 uw-80 ut-r">邮政编码:</div>
+						<input id="zipCode" name="zipCode" type="number"
+						class="uinp uinp-no-more" readonly="readonly">
 						</div>
 
 					</div>
@@ -107,10 +105,11 @@
 						</div>
 
 						<div class="ub ub-ac">
-							<div class="umar-r10 uw-80 ut-r">加价率(%):</div>
-							<input id="markupRate" name="markupRate" type="text"
-								class="uinp uinp-no-more" maxlength="50"
-								readonly="readonly">
+						<div class="umar-r10 uw-80 ut-r">参考分店:</div>
+						<input id="refBranchName" name="refBranchName" type="text"
+						class="uinp uinp-no-more" maxlength="50"
+						readonly="readonly">
+
 						</div>
 
 					</div>
@@ -133,11 +132,10 @@
 						</div>
 
 						<div class="ub ub-ac">
-							<div class="umar-r10 uw-80 ut-r">业务专员:</div>
-							<input id="salesman" name="salesman" type="text"
-								class="uinp uinp-no-more" maxlength="50"
-								readonly="readonly">
-
+						<div class="umar-r10 uw-80 ut-r">加价率(%):</div>
+						<input id="markupRate" name="markupRate" type="text"
+						class="uinp uinp-no-more" maxlength="50"
+						readonly="readonly">
 						</div>
 
 					</div>
@@ -158,10 +156,18 @@
 
 						</div> -->
 
-						<div class="ub ub-ac">
+						<div class="ub ub-ac uw-340">
 							<div class="umar-r10 uw-100 ut-r">店铺面积(m<sup>2</sup>):</div>
 							<input id="areaSize" name="areaSize" type="text" value=""
 								class="uinp easyui-numberbox" data-options="min:0,precision:2">
+						</div>
+
+						<div class="ub ub-ac">
+						<div class="umar-r10 uw-80 ut-r">业务专员:</div>
+						<input id="salesman" name="salesman" type="text"
+						class="uinp uinp-no-more" maxlength="50"
+						readonly="readonly">
+
 						</div>
 					</div>
 
