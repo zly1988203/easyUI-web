@@ -184,12 +184,26 @@ public interface ExportExcelConstant {
 	String STOCK_INDEX_BAR_TEMPLE = "StockIndexBarTemple.xlsx";
 
 	/**
-	 * 商品档案导出模板
+	 * 商品供应商档案模板
 	 */
 	String SUPPLIER_EXPORT_EXCEL = "supplierExport.xlsx";
 	
+	/**
+	 * 物流供应商档案导出模板
+	 */
+	String SUPPLIER_LOGISTICS_EXPORT_EXCEL = "supplierLogisticsExport.xlsx";
+	
 	/*** 机构信息导出模板  */
 	String BRANCH_EXPORT_TEMPLATE = "branchExportTemplate.xlsx";
+	
+	/*** 机构信息导出模板  */
+	String BRANCH_LOGISTICS_EXPORT = "branchLogisticsExport.xlsx";
+	
+	/*** 物流导出销售单模板  */
+	String DELIVER_FORM_LISTLOGISTICS = "DeliverFormListLogistics.xlsx";
+	
+	/*** 物流导出退货单模板  */
+	String DELIVER_FORM_RETURN_LISTLOGISTICS = "DeliverFormListReturnLogistics.xlsx";
 	
 	/*** 财务代码导出模板  */
 	String FINANCE_CODE_EXPORT_TEMPLATE = "financeCodeExportTemplate.xlsx";
@@ -295,6 +309,11 @@ public interface ExportExcelConstant {
 	 * @Fields PURCHASEFORM : 采购单 退货单 收货单
 	 */
 	String PURCHASEFORM = "purchaseForm.xlsx";
+	
+	/**
+	 * @Fields PURCHASEFORM : 物流导出采购单
+	 */
+	String PURCHASE_FORM_LOGISTICS = "purchaseFormLogistics.xlsx";
 
 	/**
 	 * @Fields DIRECTRECEIPTFORM : 直送收货单
@@ -330,6 +349,11 @@ public interface ExportExcelConstant {
 	 * @Fields RETURN_FORM : ReturnForm.xlsx
 	 */
 	String RETURN_FORM = "ReturnForm.xlsx";
+	
+	/**
+	 * @Fields RETURN_FORM : 
+	 */
+	String RETURN_FORM_LOGISTICS = "ReturnFormLogistics.xlsx";
 
 	/**
 	 * 商品采购货号导入模板
@@ -475,12 +499,22 @@ public interface ExportExcelConstant {
 	 * @Fields GOODS_BRAND_REPORT : 商品品牌报表
 	 */
 	String GOODS_BRAND_REPORT = "GoodsBrandReport.xlsx";
+	
+	/**
+	 * @Fields GOODS_BARCODE_REPORT : 物流商品条码报表
+	 */
+	String GOODS_BARCODE_REPORT = "GoodsBarcodeReport.xlsx";
 
 	/**
 	 * @Fields GOODS_CATEGORY_REPORT : 商品类别报表
 	 */
 	String GOODS_CATEGORY_REPORT = "GoodsCategoryReport.xlsx";
 
+	/**
+	* @Fields GOODSREPORT : 物流类别报表
+	*/
+	String GOODS_CATEGORY_LOGISTICS_REPORT = "GoodsCategoryLogisticsReport.xlsx";
+	
 	/**
 	 * 时段客单
 	 */
