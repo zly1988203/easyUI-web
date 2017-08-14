@@ -34,7 +34,7 @@
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
                 <div class="ub ub-ac" id="branchSelect">
-                   <div class="umar-r10 uw-80 ut-r">机构:</div>
+                   <div class="umar-r10 uw-80 ut-r">机　　构:</div>
                    <input type="hidden" id="branchCompleCode" name="branchCompleCode">
                    <input class="uinp " style="width:262px;" type="text" id="branchCodeName" name="branchCodeName"
                    		readonly="readonly">
