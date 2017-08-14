@@ -22,8 +22,8 @@ function getBranchInfo(){
     	
     	var rec = data.data;
         $.each(rec.branch,function(key,value){
-            //普通的input
-            if($("#"+key).prop("tagName") == "INPUT"){
+            //普通的input(过滤branchCompleCode隐藏域赋值)
+            if($("#"+key).prop("tagName") == "INPUT" && !(key === 'branchCompleCode')){
                 if($("#"+key).attr('type')=="checkbox"){
                     if(value){ //传到前端checkbox选中的值是true
                         $("#"+key).attr("checked","checked");
