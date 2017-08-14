@@ -9,7 +9,17 @@
 <title>档案-新增调价单</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
+
 <script src="${ctx}/static/js/views/goods/addModifyPriceOrder.js?V=${versionNo}"></script>
+	<%--特殊处理提示框--%>
+	<style>
+	.messager-body{
+	padding: 10px 10px 30px 10px;
+	overflow: auto;
+	white-space: normal;
+	word-break: break-all;
+	}
+	</style>
 
 </head>
 <body class="ub uw uh ufs-14 uc-black">
