@@ -75,8 +75,12 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			vo.setBranchCompleCode(getCurrBranchCompleCode());
-			buildParam(vo);
+			//修改zhuangrh20170815 start
+			if (StringUtils.isBlank(vo.getBranchCompleCode())){ //如果前端不传取当前用户机构编码
+				vo.setBranchCompleCode(getCurrBranchCompleCode());
+			}
+			//buildParam(vo);
+			//修改zhuangrh20170815 end
 			PageUtils<GoodsSaleReportVo> goodsSaleReportList = goodsSaleReportServiceApi.getGoodsSaleList(vo);
 			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
 			List<GoodsSaleReportVo> footer = new ArrayList<GoodsSaleReportVo>();
