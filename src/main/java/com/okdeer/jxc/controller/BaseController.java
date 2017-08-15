@@ -126,6 +126,17 @@ public class BaseController<T> {
 		SysUser user = getCurrentUser();
 		return user == null ? null : user.getBranchCode();
 	}
+	
+	/**
+	 * @Description: 获取当前机构名称
+	 * @return
+	 * @author liwb
+	 * @date 2016年8月5日
+	 */
+	protected String getCurrBranchName() {
+		SysUser user = getCurrentUser();
+		return user == null ? null : user.getBranchName();
+	}
 
 	/**
 	 * @Description: 获取当前登录用户机构完整code
