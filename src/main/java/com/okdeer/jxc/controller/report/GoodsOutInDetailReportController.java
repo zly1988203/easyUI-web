@@ -8,9 +8,12 @@ package com.okdeer.jxc.controller.report;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.dubbo.rpc.RpcContext;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +48,8 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 	/**
 	 * 商品出入库明细报表Dubbo接口
 	 */
-	@Reference(version = "1.0.0", check = false)
+	//@Reference(version = "1.0.0", check = false)
+	@Resource
 	private GoodsOutInDetailServiceApi goodsOutInDetailServiceApi;
 	
 	/**
@@ -92,17 +96,24 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 			
 			//机构编号
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			
+			goodsOutInDetailServiceApi.getGoodsOutInDetailList(vo);
+			Future<PageUtils<GoodsOutInDetailVo>> goodsOutInfoDetailListFuture = RpcContext.getContext().getFuture();
+
+			goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
+			Future<GoodsOutInDetailVo> goodsOutInDetailVoFuture = RpcContext.getContext().getFuture();
+
 			//报表数据
-			PageUtils<GoodsOutInDetailVo> goodsOutInfoDetailList = goodsOutInDetailServiceApi.getGoodsOutInDetailList(vo);
+			//PageUtils<GoodsOutInDetailVo> goodsOutInfoDetailList =
 			//汇总数据
-			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
+			//GoodsOutInDetailVo goodsOutInDetailVo =
 			// 过滤数据权限字段
-			cleanAccessData(goodsOutInDetailVo);
 			List<GoodsOutInDetailVo> footer = new ArrayList<GoodsOutInDetailVo>();
+			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailVoFuture.get();
 			if (goodsOutInDetailVo != null){
+				cleanAccessData(goodsOutInDetailVo);
 				footer.add(goodsOutInDetailVo);
 			}
+			PageUtils<GoodsOutInDetailVo> goodsOutInfoDetailList = goodsOutInfoDetailListFuture.get();
 			goodsOutInfoDetailList.setFooter(footer);
 
 			// 过滤数据权限字段
@@ -141,13 +152,16 @@ public class GoodsOutInDetailReportController extends BaseController<GoodsOutInD
 			
 			//机构编号
 			vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
-			
-			//报表数据
-			List<GoodsOutInDetailVo> exportList = goodsOutInDetailServiceApi.exportList(vo);
-			
-			//汇总数据
-			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
+
+			goodsOutInDetailServiceApi.exportList(vo);
+			Future<List<GoodsOutInDetailVo>> goodsOutInfoDetailListFuture = RpcContext.getContext().getFuture();
+
+			goodsOutInDetailServiceApi.queryGoodsOutInDetailCountSum(vo);
+			Future<GoodsOutInDetailVo> goodsOutInDetailVoFuture = RpcContext.getContext().getFuture();
+			GoodsOutInDetailVo goodsOutInDetailVo = goodsOutInDetailVoFuture.get();
 			goodsOutInDetailVo.setBranchCode("合计：");
+
+			List<GoodsOutInDetailVo> exportList = goodsOutInfoDetailListFuture.get();
 			exportList.add(goodsOutInDetailVo);
 			// 过滤数据权限字段
 			cleanAccessData(exportList);
