@@ -8,6 +8,7 @@
 package com.okdeer.jxc.controller.deliver;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -116,7 +117,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			List<DeliverFormVo> footer = new ArrayList<DeliverFormVo>();
 			DeliverFormVo vo = deliverFormReportServiceApi.queryListsSum(qo);
 			// 过滤数据权限字段
-            cleanAccessData(vo);
+			cleanAccessData(vo);
 			if (vo != null) {
 				footer.add(vo);
 			}
@@ -180,10 +181,20 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			exportList.add(vo);
 			// 过滤数据权限字段
 			cleanAccessData(exportList);
-			String fileName = "要货单状态跟踪";
+			String branchName = "";
+
+			if (StringUtils.isNotBlank(qo.getTargetBranchId())) {
+				Branches branch = branchesServiceApi.getBranchInfoById(qo.getTargetBranchId());
+				branchName = branch.getBranchName();
+			}
+
+			String fileName = branchName + "要货单状态跟踪";
 			String templateName = ExportExcelConstant.DELIVER_REPORT;
+
 			// 导出Excel
-			exportListForXLSX(response, exportList, fileName, templateName);
+			Map<String, Object> param = new HashMap<>();
+			param.put("branchName", branchName);
+			exportParamListForXLSX(response, exportList, param, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("DeliverReportController:exportList:", e);
 		}
@@ -212,16 +223,16 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			if (StringUtils.isNullOrEmpty(vo.getDeliverType())) {
 				vo.setDeliverType("");
 			}
-//			if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
-//				vo.setBranchId(null);
-//			}
+			// if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
+			// vo.setBranchId(null);
+			// }
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<DeliverDaAndDoFormListVo> page = deliverFormReportServiceApi.queryDaAndDoFormList(vo);
 			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi
 					.queryDaAndDoFormListsSum(vo);
 			// 过滤数据权限字段
-            cleanAccessData(deliverDaAndDoFormListVo);
+			cleanAccessData(deliverDaAndDoFormListVo);
 			List<DeliverDaAndDoFormListVo> footer = new ArrayList<DeliverDaAndDoFormListVo>();
 			if (deliverDaAndDoFormListVo != null) {
 				footer.add(deliverDaAndDoFormListVo);
@@ -245,30 +256,41 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	 * @date 2016年10月25日
 	 */
 	@RequestMapping(value = "exportDeliverFormList")
-	public void exportDeliverFormList(HttpServletResponse response, DeliverFormReportQo vo) {
-		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
+	public void exportDeliverFormList(HttpServletResponse response, DeliverFormReportQo qo) {
+		LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 		try {
-			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
-				vo.setBranchId(UserUtil.getCurrBranchId());
+			if (StringUtils.isNullOrEmpty(qo.getBranchId())) {
+				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
-			if (StringUtils.isNullOrEmpty(vo.getDeliverType())) {
-				vo.setDeliverType("");
+			if (StringUtils.isNullOrEmpty(qo.getDeliverType())) {
+				qo.setDeliverType("");
 			}
-//			if (BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
-//				vo.setBranchId(null);
-//			}
-			List<DeliverDaAndDoFormListVo> exportList = deliverFormReportServiceApi.queryDaAndDoFormLists(vo);
+			// if (BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
+			// vo.setBranchId(null);
+			// }
+			List<DeliverDaAndDoFormListVo> exportList = deliverFormReportServiceApi.queryDaAndDoFormLists(qo);
 
 			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi
-					.queryDaAndDoFormListsSum(vo);
+					.queryDaAndDoFormListsSum(qo);
 			deliverDaAndDoFormListVo.setFormNo("合计：");
 			exportList.add(deliverDaAndDoFormListVo);
 			// 过滤数据权限字段
 			cleanAccessData(exportList);
-			String fileName = "配送明细查询";
+
+			String branchName = "";
+			if (StringUtils.isNotBlank(qo.getTargetBranchId())) {
+				Branches branch = branchesServiceApi.getBranchInfoById(qo.getTargetBranchId());
+				branchName = branch.getBranchName();
+			}
+
+			String fileName = branchName + "配送明细查询";
+
 			String templateName = ExportExcelConstant.DELIVER_FORM_LIST_REPORT;
+
 			// 导出Excel
-			exportListForXLSX(response, exportList, fileName, templateName);
+			Map<String, Object> param = new HashMap<>();
+			param.put("branchName", branchName);
+			exportParamListForXLSX(response, exportList, param, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("DeliverReportController:exportList:", e);
 		}
@@ -324,7 +346,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			vo.setPageSize(pageSize);
 			PageUtils<DeliverDaAndDoFormListVo> page = deliverFormReportServiceApi.queryBDFormLists(vo);
 			// 过滤数据权限字段
-            cleanAccessData(page.getList());
+			cleanAccessData(page.getList());
 			DeliverDaAndDoFormListVo deliverDaAndDoFormListVo = deliverFormReportServiceApi.queryBDFormListsSum(vo);
 			// 过滤数据权限字段
 			cleanAccessData(deliverDaAndDoFormListVo);
@@ -360,10 +382,20 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			exportList.add(vo);
 			// 过滤数据权限字段
 			cleanAccessData(exportList);
-			String fileName = "BD业绩报表";
+
+			String branchName = "";
+			if (StringUtils.isNotBlank(qo.getBranchId())) {
+				Branches branch = branchesServiceApi.getBranchInfoById(qo.getBranchId());
+				branchName = branch.getBranchName();
+			}
+
+			String fileName = branchName + "BD业绩报表";
 			String templateName = ExportExcelConstant.DILIVER_REPORT;
+			
 			// 导出Excel
-			exportListForXLSX(response, exportList, fileName, templateName);
+			Map<String, Object> param = new HashMap<>();
+			param.put("branchName", branchName);
+			exportParamListForXLSX(response, exportList, param, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("DeliverReportController:exportBDList:", e);
 		}

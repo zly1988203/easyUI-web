@@ -264,7 +264,7 @@ public class GoodsSelectImportComponent {
 			if(CollectionUtils.isEmpty(list)){
 				dbList1 = new ArrayList<GoodsSelect>();
 			}else{
-				if(map_branchid.containsKey("StocktakingForm")) {
+				if (map_branchid != null && map_branchid.containsKey("StocktakingForm")) {
 					GoodsSelectVo paramVo = new GoodsSelectVo();
 					paramVo.setBarCodes(list);
 					paramVo.setBranchIds(Arrays.asList(branchId));

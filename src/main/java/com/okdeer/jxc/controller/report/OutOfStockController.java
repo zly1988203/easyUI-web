@@ -6,6 +6,7 @@
  */
 
 package com.okdeer.jxc.controller.report;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,7 @@ import com.okdeer.retail.common.report.DataRecord;
  */
 @Controller
 @RequestMapping("report/outOfStock")
-public class OutOfStockController  extends ReportController{
+public class OutOfStockController extends ReportController {
 
 	/**
 	 * @Fields PricingQueryService : tiaojdservice
@@ -53,7 +54,7 @@ public class OutOfStockController  extends ReportController{
 		model.addAttribute("branchId", getCurrBranchId());
 		return "report/pricing/outOfStock";
 	}
-	
+
 	@Override
 	public ReportService getReportService() {
 		return outOfStockServiceApi;
@@ -61,11 +62,11 @@ public class OutOfStockController  extends ReportController{
 
 	@Override
 	public Map<String, Object> getParam(HttpServletRequest request) {
-		Map<String,Object> map= this.builderParams(request, null);
+		Map<String, Object> map = this.builderParams(request, null);
 		map.put("sourceBranchCompleteCode", UserUtil.getCurrBranchCompleCode());
 		return map;
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 导出
@@ -81,32 +82,38 @@ public class OutOfStockController  extends ReportController{
 		Map<String, Object> map = getParam(request);
 		map.put("startCount", Integer.parseInt(map.get("startCount").toString()));
 		map.put("endCount", Integer.parseInt(map.get("endCount").toString()));
-		List<DataRecord> reportList=null;
-		String fileName=null;
-		String templateName=null;
-		//判断是否是汇总查询/明细
+		List<DataRecord> reportList = null;
+		String fileName = null;
+		String templateName = null;
+		// 判断是否是汇总查询/明细
 		try {
+			String branchName = getCurrBranchName();
 			DataRecord dataRecord = outOfStockServiceApi.getTotal(map);
 			if ("0".equals(map.get("type"))) {
 				LOG.debug("导出配送缺货率分析明细导出查询参数:{}" + map.toString());
 				reportList = outOfStockServiceApi.getList(map);
-				fileName = "配送缺货率明细表" + map.get("startTime").toString().replaceAll("-", "") + '-'
+				fileName = branchName + "配送缺货率明细表" + map.get("startTime").toString().replaceAll("-", "") + '-'
 						+ map.get("endTime").toString().replaceAll("-", "");
 				templateName = ExportExcelConstant.DELIVERY_DETAIL;
 				dataRecord.put("inFormNo", "合计");
-				
-			}else{
+
+			} else {
 				LOG.debug("导出配送缺货率分析汇总导出查询参数:{}" + map.toString());
-				reportList=outOfStockServiceApi.getList(map);
-				fileName = "配送缺货率汇总表" + map.get("startTime").toString().replaceAll("-", "")+'-'+map.get("endTime").toString().replaceAll("-", "");
+				reportList = outOfStockServiceApi.getList(map);
+				fileName = branchName + "配送缺货率汇总表" + map.get("startTime").toString().replaceAll("-", "") + '-'
+						+ map.get("endTime").toString().replaceAll("-", "");
 				templateName = ExportExcelConstant.DELIVERY_SUM;
 				dataRecord.put("skuCode", "合计");
 			}
-			
+
 			reportList.add(dataRecord);
 			cleanDataMaps(getPriceAccess(), reportList);
-			exportListForXLSX(response, reportList, fileName, templateName);
 			
+			// 导出Excel
+			Map<String, Object> param = new HashMap<>();
+			param.put("branchName", branchName);
+			exportParamListForXLSX(response, reportList, param, fileName, templateName);
+
 		} catch (Exception e) {
 			LOG.error("调价单导出查询异常:", e);
 		}
@@ -130,7 +137,7 @@ public class OutOfStockController  extends ReportController{
 
 	@Override
 	public void formatter(DataRecord dataRecord) {
-		
+
 	}
 
 	/**
@@ -140,8 +147,7 @@ public class OutOfStockController  extends ReportController{
 	@Override
 	public Map<String, String> getPriceAccess() {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put(PriceConstant.DISTRIBUTION_PRICE, "inAmount,outAmount,DIAmount"); 
+		map.put(PriceConstant.DISTRIBUTION_PRICE, "inAmount,outAmount,DIAmount");
 		return map;
 	}
 }
-

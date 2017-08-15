@@ -118,18 +118,22 @@ public class DeliverTotalReportController extends ReportController {
 		if(map.get("queryType")==null||StringUtils.isEmpty(map.get("queryType").toString())){
 			return ;
 		}
-		if("goods".equals(map.get("queryType"))){
-			reportFileName="配送汇总"+ "_" + DateUtils.getCurrSmallStr()+"-"+"商品查询";
-			templateName="deliverTotalByGoods.xlsx";
-		}else if("form".equals(map.get("queryType"))){
-			reportFileName="配送汇总"+ "_" + DateUtils.getCurrSmallStr()+"-"+"订单查询";
-			templateName="deliverTotalByForm.xlsx";
-		}else if("category".equals(map.get("queryType"))){
-			reportFileName="配送汇总"+ "_" + DateUtils.getCurrSmallStr()+"-"+"类别汇总查询";
-			templateName="deliverTotalByCategory.xlsx";
-		}else if("branch".equals(map.get("queryType"))){
-			reportFileName="配送汇总"+ "_" + DateUtils.getCurrSmallStr()+"-"+"往来汇总查询";
-			templateName="deliverTotalBybranch.xlsx";
+		
+		// 机构名称默认为当前登录机构
+		String branchName = getCurrBranchName();
+		
+		if ("goods".equals(map.get("queryType"))) {
+			reportFileName = branchName + "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "商品查询";
+			templateName = "deliverTotalByGoods.xlsx";
+		} else if ("form".equals(map.get("queryType"))) {
+			reportFileName = branchName + "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "订单查询";
+			templateName = "deliverTotalByForm.xlsx";
+		} else if ("category".equals(map.get("queryType"))) {
+			reportFileName = branchName + "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "类别汇总查询";
+			templateName = "deliverTotalByCategory.xlsx";
+		} else if ("branch".equals(map.get("queryType"))) {
+			reportFileName = branchName + "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "往来汇总查询";
+			templateName = "deliverTotalBybranch.xlsx";
 		}
 		// 模板名称，包括后缀名
 		List<DataRecord> dataList=deliverTotalReportServiceApi.getList(map);
@@ -140,7 +144,11 @@ public class DeliverTotalReportController extends ReportController {
 		}
 		
 		cleanDataMaps(getPriceAccess(), dataList);
-		exportListForXLSX(response, dataList, reportFileName, templateName);
+		
+		// 导出Excel
+		Map<String, Object> param = new HashMap<>();
+		param.put("branchName", branchName);
+		exportParamListForXLSX(response, dataList, param, reportFileName, templateName);
 	}
 
 	@Override
