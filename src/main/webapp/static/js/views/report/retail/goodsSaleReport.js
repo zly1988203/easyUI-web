@@ -7,6 +7,16 @@ $(function(){
             return data;
         }
     });
+    
+    //机构选择初始化
+    $('#branchSelect').branchSelect({
+    	param:{
+    		formType:'BF'
+    	}
+    })
+    
+    //类别选择初始化
+    $('#categorySelect').categorySelect()
 
 	//开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
@@ -255,15 +265,6 @@ function queryForm(){
 	 
 }*/
 
-/**
- * 机构名称
- */
-function searchBranch(){
-	new publicAgencyService(function(data){
-//		$("#branchId").val(data.branchesId);
-		$("#branchName").val(data.branchName);
-	},'BF','');
-}
 /**
  * 商品类别
  */
