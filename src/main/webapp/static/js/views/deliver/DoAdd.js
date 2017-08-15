@@ -420,7 +420,7 @@ function onChangeLargeNum(newV,oldV){
         return;
     }
     
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
     var _tempAmount = purchaseSpecValue*priceValue*newV;
 
@@ -489,7 +489,7 @@ function onChangeRealNum(newV,oldV) {
     //    gridHandel.setFieldFocus(gridHandel.getFieldTarget('dealNum'));
     //    return;
     //}
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
 	var _tempAmount = priceValue*newV;
     gridHandel.setFieldValue('amount',_tempAmount.toFixed(4));             //金额=数量*单价

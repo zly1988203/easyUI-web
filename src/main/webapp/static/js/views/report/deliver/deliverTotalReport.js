@@ -576,6 +576,15 @@ function query(){
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
 	var formData = $("#queryForm").serializeObject();
+	
+	var queryType = $("input[name='queryType']:checked").val();
+	if(queryType == 'goods' || queryType == 'branch'){
+		var branchId = $("#targetBranchId").val();
+		if(!$.trim(branchId)){
+			$_jxc.alert("请选择查询机构");
+			return;
+		}
+	}
 	// 去除编码
     // formData.branchName = formData.branchName.substring(formData.branchName.lastIndexOf(']')+1)
     formData.categoryCode = formData.categoryCode.substring(formData.categoryCode.lastIndexOf(']')+1)

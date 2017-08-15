@@ -30,7 +30,7 @@
 					<div class="ub ub-ac umar-r40">
 						<div class="umar-r10 uw-60 ut-r">机构:</div>
 						<input class="uinp" name="branchId" id="branchId" type="hidden">
-						<input class="uinp" id="branchName" name="branchName" type="text" maxlength="50" onblur="branchAutoComple()" onkeyup="branchAutoComple()">
+						<input class="uinp" id="branchName" type="text" maxlength="50" onblur="branchAutoComple()" onkeyup="branchAutoComple()">
 						<div class="uinp-more" onclick="chooseBranch('queryForm')">...</div>
 					</div>
 					<div class="ub ub-ac umar-r40">

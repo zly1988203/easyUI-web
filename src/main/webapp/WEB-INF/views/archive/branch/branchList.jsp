@@ -51,7 +51,7 @@
 				</div>
 			</div>
 			<form action="" id="formList" method="post">
-				<input type="hidden" id="branchCompleCode" name="branchCompleCode">
+			    <input type="hidden" id="branchCompleCode" name="branchCompleCode">
 				<div class="ub umar-t12">
 					<div class="ub ub-ac umar-r10">
 						<div class="umar-r10 uw-80 ut-r">机构名称:</div>

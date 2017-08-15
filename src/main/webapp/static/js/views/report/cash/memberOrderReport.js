@@ -118,16 +118,16 @@ function initMemberOrderListGrid() {
 			},
 			{field: 'salePrice', title: '销售价', width: 80, align: 'right',
 				formatter : function(value, row,index) {
-					if (!value) {
-						return '';
+					if(!value && parseFloat(value) != 0){
+					    return ''
 					}
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
 			{field: 'originalPrice', title: '原价', width: 80, align: 'right',
 				formatter : function(value, row,index) {
-					if (!value) {
-						return '';
+					if(!value && parseFloat(value) != 0){
+					    return ''
 					}
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}

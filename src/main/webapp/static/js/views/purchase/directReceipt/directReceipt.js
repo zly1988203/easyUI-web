@@ -339,10 +339,6 @@ function initDirectDataGrid(){
 
                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                },
-               options:{
-                   min:0,
-                   precision:4,
-               }
            },
            {field:'taxAmount',title:'税额',width:'80px',align:'right',
                formatter : function(value, row, index) {
@@ -528,7 +524,7 @@ function onChangeLargeNum(newV,oldV) {
         return;
     }
 
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4)); //金额=箱数*单价*规格
 
 
@@ -575,7 +571,7 @@ function onChangeRealNum(newV,oldV) {
     }
     
     
-    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
 
     var largeNumVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'largeNum');

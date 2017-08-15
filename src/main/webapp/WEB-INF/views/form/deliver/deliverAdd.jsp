@@ -8,7 +8,7 @@
     <title>要货单-新增</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/deliver/deliver.js?V=${versionNo}&v=2.6.4"></script>
+	<script src="${ctx}/static/js/views/deliver/deliver.js?V=${versionNo}&v=2.6.5"></script>
 </head>
 <body class="ub ub-ver ufs-14 uc-black">
 

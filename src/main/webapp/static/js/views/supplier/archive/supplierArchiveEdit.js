@@ -19,6 +19,7 @@ function onChangeSaleWay() {
 }
 
 function updateSupplier() {
+	$("#saleWay").combobox({disabled:false});
 	var formObj = $('#formEdit').serializeObject();
 	var isValid = $("#formEdit").form('validate');
 	if (!isValid) {

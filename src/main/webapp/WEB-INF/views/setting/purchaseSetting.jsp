@@ -187,7 +187,9 @@
 				var result = JSON.parse(data);
 				gFunEndLoading();
 				if (result['code'] == 0) {
-					messager("保存成功！");
+					$_jxc.alert("保存成功！",function(){
+						location.reload();
+					});
 				} else {
 					$_jxc.alert(result['message']);
 				}
@@ -197,6 +199,8 @@
 			}
 		});
 		$("#settingForm").submit();
+		
+		$("#settingForm").form('submit');
 	}
 </script>
 </html>

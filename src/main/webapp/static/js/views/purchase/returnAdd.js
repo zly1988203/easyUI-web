@@ -465,6 +465,7 @@ function onSelectIsGift(data){
         	$(targetPrice).numberbox('setValue',0);
             gridHandel.setFieldValue('amount',0);//总金额
             gridHandel.setFieldValue('taxAmount',0);//税额
+            $(targetPrice).numberbox('disable');
         }else{
         	if(isEdit == false){
         		$(targetPrice).numberbox('enable');
