@@ -13,10 +13,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.dubbo.rpc.RpcContext;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,7 +55,8 @@ import com.okdeer.retail.facade.report.qo.SupplierStockQo;
 @RequestMapping("/report/supplier/stock")
 public class SupplierStockReportController extends BaseController<SupplierStockReportController> {
 
-    @Reference(version = "1.0.0", check = false)
+    //@Reference(version = "1.0.0", check = false)
+    @Resource
     private SupplierStockFacade supplierStockFacade;
 
     @RequestMapping(value = "")
@@ -73,23 +77,35 @@ public class SupplierStockReportController extends BaseController<SupplierStockR
         }else{
             vo.setBranchCode(vo.getBranchCompleCode());
         }
-        if (StringUtils.isNotBlank(vo.getStartTime())) {
-            PageUtils<SupplierStock> pageUtils = supplierStockFacade.getSupplierStocks(vo);
+        try {
 
-            if(pageUtils!=null){
-               SupplierStock reportVo = supplierStockFacade.sumSupplierStocks(vo);
-                if(reportVo!=null){
+            if (StringUtils.isNotBlank(vo.getStartTime())) {
+                supplierStockFacade.sumSupplierStocks(vo);
+                Future<SupplierStock> sumSupplierStockFuture = RpcContext.getContext().getFuture();
+
+                supplierStockFacade.getSupplierStocks(vo);
+                Future<PageUtils<SupplierStock>> supplierStockFuture = RpcContext.getContext().getFuture();
+
+                PageUtils<SupplierStock> pageUtils;
+
+                SupplierStock reportVo = sumSupplierStockFuture.get();
+                if (reportVo != null) {
                     reportVo.setSupplierCode("SUM");
-                    pageUtils.setFooter(new ArrayList<SupplierStock>(Arrays.asList(reportVo)));
-                }else{
-                    pageUtils.setFooter(new ArrayList<SupplierStock>());
-               }
+                    pageUtils = supplierStockFuture.get();
+                    pageUtils.setFooter(new ArrayList<>(Arrays.asList(reportVo)));
+                } else {
+                    pageUtils = supplierStockFuture.get();
+                    pageUtils.setFooter(new ArrayList<>());
+                }
                 // 过滤数据权限字段
                 cleanAccessData(pageUtils);
                 return pageUtils;
             }
+        }catch (Exception e){
+            LOG.error("查询供应商进货报表异常",e);
         }
         return PageUtils.emptyPage();
+
     }
 
     @RequestMapping(value = "/export/list", method = RequestMethod.POST)

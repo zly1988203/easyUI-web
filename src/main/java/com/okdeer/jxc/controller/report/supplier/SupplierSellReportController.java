@@ -56,7 +56,7 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
 
     //@Reference(version = "1.0.0", check = false)
     @Resource
-    private SupplierSellFacade supplierStockFacade;
+    private SupplierSellFacade supplierSellFacade;
 
     @Reference(version = "1.0.0", check = false)
     BranchesServiceApi branchesServiceApi;
@@ -81,21 +81,21 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
         }
         try {
             if (StringUtils.isNotBlank(vo.getStartTime())) {
-                PageUtils<SupplierSell> pageUtils = supplierStockFacade.getSupplierSells(vo);
+                PageUtils<SupplierSell> pageUtils = supplierSellFacade.getSupplierSells(vo);
 
-                supplierStockFacade.sumSupplierSells(vo);
+                supplierSellFacade.sumSupplierSells(vo);
                 Future<SupplierSell> sumSupplierSells = RpcContext.getContext().getFuture();
                 List<SupplierSell> lists = pageUtils.getList();
                 //List<Future<BigDecimal>> futures = Lists.newArrayList();
                 //for (SupplierSell supplierSell : lists) {
                 if(StringUtils.isNotBlank(vo.getBranchId())){
-                    supplierStockFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
+                    supplierSellFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
                 }else {
                     Branches branches = branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
                     if(branches.getType()== BranchesTypeEnum.HEAD_QUARTERS.getCode()||branches.getType()==BranchesTypeEnum.BRANCH_COMPANY.getCode()) {
-                        supplierStockFacade.getAllSupplierSkuCount();
+                        supplierSellFacade.getAllSupplierSkuCount();
                     }else{
-                        supplierStockFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
+                        supplierSellFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
                     }
                 }
                 Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
@@ -145,15 +145,15 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
         }
         try {
             if (StringUtils.isNotBlank(vo.getStartTime())) {
-                List<SupplierSell> exportList = supplierStockFacade.exportSupplierSells(vo);
+                List<SupplierSell> exportList = supplierSellFacade.exportSupplierSells(vo);
                 if(StringUtils.isNotBlank(vo.getBranchId())){
-                    supplierStockFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
+                    supplierSellFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
                 }else {
                     Branches branches = branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
                     if(branches.getType()== BranchesTypeEnum.HEAD_QUARTERS.getCode()||branches.getType()==BranchesTypeEnum.BRANCH_COMPANY.getCode()) {
-                        supplierStockFacade.getAllSupplierSkuCount();
+                        supplierSellFacade.getAllSupplierSkuCount();
                     }else{
-                        supplierStockFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
+                        supplierSellFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
                     }
                 }
                 Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
@@ -194,20 +194,20 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
         try {
 
             if (StringUtils.isNotBlank(vo.getStartTime())) {
-                List<SupplierSell> exportList = supplierStockFacade.exportSupplierSells(vo);
+                List<SupplierSell> exportList = supplierSellFacade.exportSupplierSells(vo);
                 // 过滤数据权限字段
                 cleanAccessData(exportList);
                 if (exportList.size() > PrintConstant.PRINT_MAX_ROW) {
                     return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
                 }
                 if(StringUtils.isNotBlank(vo.getBranchId())){
-                    supplierStockFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
+                    supplierSellFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
                 }else {
                     Branches branches = branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
                     if(branches.getType()== BranchesTypeEnum.HEAD_QUARTERS.getCode()||branches.getType()==BranchesTypeEnum.BRANCH_COMPANY.getCode()) {
-                        supplierStockFacade.getAllSupplierSkuCount();
+                        supplierSellFacade.getAllSupplierSkuCount();
                     }else{
-                        supplierStockFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
+                        supplierSellFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
                     }
                 }
                 Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
