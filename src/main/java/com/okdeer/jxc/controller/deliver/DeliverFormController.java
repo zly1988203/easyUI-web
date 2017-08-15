@@ -829,8 +829,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("sourceBranchName",
 				deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		// 有效期限
-		replaceMap.put("_有效期限", deliverForm.getValidityTime() != null ? deliverForm.getValidityTime() : "");
-		replaceMap.put("validityTime", deliverForm.getValidityTime() != null ? deliverForm.getValidityTime() : "");
+		replaceMap.put("_有效期限", deliverForm.getValidityTime() != null ? DateUtils.formatDate(deliverForm.getValidityTime(), "yyyy-MM-dd HH:mm:ss") : "");
+		replaceMap.put("validityTime", deliverForm.getValidityTime() != null ? DateUtils.formatDate(deliverForm.getValidityTime(), "yyyy-MM-dd HH:mm:ss") : "");
 		// 备注
 		replaceMap.put("_备注", deliverForm.getRemark() != null ? deliverForm.getRemark() : "");
 		replaceMap.put("targetBranchRemark",
@@ -840,11 +840,11 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap
 				.put("createUserName", deliverForm.getCreateUserName() != null ? deliverForm.getCreateUserName() : "");
 		// 制单日期
-		replaceMap.put("_制单日期", deliverForm.getCreateTime() != null ? deliverForm.getCreateTime() : "");
-		replaceMap.put("createTime",deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(), "yyyy-MM-dd HH:mm") : "");
+		replaceMap.put("_制单日期", deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(), "yyyy-MM-dd HH:mm:ss") : "");
+		replaceMap.put("createTime", deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(), "yyyy-MM-dd HH:mm:ss") : "");
 		// 审核日期
-		replaceMap.put("_审核日期", deliverForm.getValidTime() != null ? deliverForm.getValidTime() : "");
-		replaceMap.put("validTime",deliverForm.getValidTime() != null ? DateUtils.formatDate(deliverForm.getValidTime(), "yyyy-MM-dd HH:mm") : "");
+		replaceMap.put("_审核日期", deliverForm.getValidTime() != null ? DateUtils.formatDate(deliverForm.getValidTime(), "yyyy-MM-dd HH:mm:ss") : "");
+		replaceMap.put("validTime",deliverForm.getValidTime() != null ? DateUtils.formatDate(deliverForm.getValidTime(), "yyyy-MM-dd HH:mm:ss") : "");
 		// 审核人员
 		replaceMap.put("_审核人员", deliverForm.getValidUserName() != null ? deliverForm.getValidUserName() : "");
 		replaceMap.put("validUserName", deliverForm.getValidUserName() != null ? deliverForm.getValidUserName() : "");
@@ -900,15 +900,6 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			replaceMap.put("_备注", deliverForm.getRemark() != null ? deliverForm.getRemark() : "");
 			replaceMap.put("reamrk", deliverForm.getRemark() != null ? deliverForm.getRemark() : "");
 
-			// 制单日期
-			replaceMap.put(
-					"_制单日期",
-					deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(),
-							"yyyy-MM-dd") : "");
-			replaceMap.put(
-					"createTime",
-					deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(),
-							"yyyy-MM-dd") : "");
 		}
 		cleanDataMap(getPriceAccess(), replaceMap);
 		return replaceMap;
