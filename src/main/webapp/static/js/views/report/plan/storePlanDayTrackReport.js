@@ -1,6 +1,6 @@
 $(function(){
 	//开始和结束时间
-    $("#rptDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    $("#rptDate").val(dateUtil.getCurrDayPreOrNextDay("prev", 1).format("yyyy-MM-dd"));
     
     $("#branchCodeName").val(sessionBranchCodeName);
     $("#branchCompleCode").val(sessionBranchCompleCode);

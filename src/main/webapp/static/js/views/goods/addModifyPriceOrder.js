@@ -616,51 +616,61 @@ function saveModifyPriceOrder() {
 	                };
             	}
             }
+            
+            var saveUrl = contextPath + "/goods/priceAdjust/saveForm";
 
             if(indexsStr.length > 0){
                 $_jxc.confirm("第"+indexsStr+"行，新会员价小于等于0,是否继续?",function (r) {
                     if (!r)return;
 
-                    if(isCheck == false){
-                        //gFunEndLoading();
-                        return;
-                    };
+                    if (!isCheck)return;
+                    
+                    saveCommon(formData, detailList, saveUrl);
 
-                    if (datagridUtil.isCheckPrice()) {
-                        if(datagridUtil.isCheckRemark()){
-                            var params = {
-                                goodsPriceForm:formData,
-                                goodsPriceFormDetailList:detailList,
-                                branchIds:$("#branchId").val()
-                            }
-                            var reqObj = JSON.stringify(params);
-                            // 调用后台保存方法，成功提示
-                            $_jxc.ajax({
-                                url : contextPath + "/goods/priceAdjust/saveForm",
-                                data :reqObj,
-                                contentType : "application/json",
-                            },function(data){
-                                if (data.code == 0) {
-                                    isClickSaveData = true;
-                                    // 代表点击过保存单据数据
-                                    $_jxc.alert('单据保存成功！',function() {
-                                        //保存成功后 跳转页面
-                                        window.location.href = contextPath+"/goods/priceAdjust/showDetail?formNo="+data.goodsPriceForm.formNo
-                                    });
-                                } else {
-                                    // 失败提示
-                                    $_jxc.alert(data.message);
-                                }
-                            });
-                        }
-                    }
                 });
 
+            }else{
+            	if (!isCheck)return;
+            	
+            	saveCommon(formData, detailList, saveUrl);
             }
 
         }
     }
 }
+
+function saveCommon(formData, detailList, url){
+	if (datagridUtil.isCheckPrice()) {
+        if(datagridUtil.isCheckRemark()){
+            var params = {
+                goodsPriceForm:formData,
+                goodsPriceFormDetailList:detailList,
+                branchIds:$("#branchId").val()
+            }
+            var reqObj = JSON.stringify(params);
+            // 调用后台保存方法，成功提示
+            $_jxc.ajax({
+                url : url,
+                data :reqObj,
+                contentType : "application/json",
+            },function(data){
+                if (data.code == 0) {
+                    isClickSaveData = true;
+                    // 代表点击过保存单据数据
+                    $_jxc.alert('单据保存成功！',function() {
+                        //保存成功后 跳转页面
+                        window.location.href = contextPath+"/goods/priceAdjust/showDetail?formNo="+data.goodsPriceForm.formNo
+                    });
+                } else {
+                    // 失败提示
+                    $_jxc.alert(data.message);
+                }
+            });
+        }
+    }
+}
+
+
 // 修改调价单
 function updateModifyPriceOrder() {
     // 判断用户是否选择区域，选择为true，未选择为false，则提示用户选择
@@ -696,45 +706,21 @@ function updateModifyPriceOrder() {
                 }
             }
         }
+        
+        var saveUrl = contextPath + "/goods/priceAdjust/updateForm";
 
         if(indexsStr.length > 0){
             $_jxc.confirm("第"+indexsStr+"行，新会员价小于等于0,是否继续?",function (r) {
                 if (!r)return;
-                if(isCheck === false){
-                    gFunEndLoading();
-                    return;
-                }
+                if (!isCheck)return;
 
-                if (datagridUtil.isHasDataGrid()) {
-                    if(datagridUtil.isCheckRemark()){
-                        var params = {
-                            goodsPriceForm:formData,
-                            goodsPriceFormDetailList:detailList,
-                            branchIds:$("#branchId").val()
-                        }
-                        var reqObj = JSON.stringify(params);
-                        // 调用后台保存方法，成功提示
-                        $_jxc.ajax({
-                            url : contextPath + "/goods/priceAdjust/updateForm",
-                            contentType : "application/json",
-                            data : reqObj
-                        },function(data){
-//                    gFunEndLoading();
-                            if (data.code == 0) {
-                                isClickSaveData = true;
-                                // 代表点击过保存单据数据
-                                $_jxc.alert('单据保存成功！',function() {
-                                    //修改成功后跳转
-                                    window.location.href = contextPath+"/goods/priceAdjust/showDetail?formNo="+formData.formNo;
-                                });
-                            } else {
-                                // 失败提示
-                                $_jxc.alert(data.message);
-                            }
-                        });
-                    }
-                }
+                saveCommon(formData, detailList, saveUrl);
+                
             })
+        }else{
+        	if (!isCheck)return;
+        	
+        	saveCommon(formData, detailList, saveUrl);
         }
 
 

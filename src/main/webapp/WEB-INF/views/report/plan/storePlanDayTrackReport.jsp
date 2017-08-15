@@ -28,7 +28,7 @@
 	            </div>
 	           	<!-- 引入时间选择控件 -->
 	           <div class="ub ub-ac umar-l20">
-	              	<input class="Wdate"  readonly="readonly" name="rptDate" id="rptDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/>
+	              	<input class="Wdate"  readonly="readonly" name="rptDate" id="rptDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-{%d-1}',readOnly:true})"/>
 	           </div>
             </div>
 	        <div class="ub uline umar-t8"></div>
