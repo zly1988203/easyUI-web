@@ -98,7 +98,7 @@ public class GoodsSaleContrastController extends BaseController<GoodsSaleContras
 
 			List<PeriodSaleContrastResult> list = periodSaleContrastFacade.queryGoodsSaleContrastList(qo);
 			if (CollectionUtils.isNotEmpty(list)) {
-				String fileName = "货类销售对比分析" + "_" + DateUtils.getCurrSmallStr();
+				String fileName = "类别销售对比分析" + "_" + DateUtils.getCurrSmallStr();
 
 				String templateName = ExportExcelConstant.GOODS_SALE_CONTRAST;
 				exportListForXLSX(response, list, fileName, templateName);

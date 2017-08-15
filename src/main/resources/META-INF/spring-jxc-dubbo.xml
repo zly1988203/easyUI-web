@@ -34,8 +34,6 @@
 
 	<dubbo:reference id="supplierSellFacade" interface="com.okdeer.retail.facade.report.facade.SupplierSellFacade" version="1.0.0" check="false">
 		<dubbo:method name="sumSupplierSells" async="true"></dubbo:method>
-		<dubbo:method name="getAllSupplierSkuCount" async="true"></dubbo:method>
-		<dubbo:method name="getSupplierSkuCountByBranchId" async="true"></dubbo:method>
 	</dubbo:reference>
 
 	<dubbo:reference id="supplierStockFacade" interface="com.okdeer.retail.facade.report.facade.SupplierStockFacade" version="1.0.0" check="false">
