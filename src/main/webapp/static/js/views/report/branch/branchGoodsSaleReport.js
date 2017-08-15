@@ -459,9 +459,15 @@ function query(){
 	
 	//将左侧查询条件设置缓存中
 	setLocalStorage();
+	
+	var formData = $("#queryForm").serializeObject();
+	
+	formData.startTime = formData.startTime + " 00:00";
+	formData.endTime = formData.endTime + " 00:00";
+	
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
-	$("#goodsTab").datagrid("options").queryParams = $("#queryForm").serializeObject();
+	$("#goodsTab").datagrid("options").queryParams = formData;
 	$("#goodsTab").datagrid("options").method = "post";
 	$("#goodsTab").datagrid("options").url = contextPath+"/report/branchGoodsSaleReport/getList";
 	$("#goodsTab").datagrid("load");
