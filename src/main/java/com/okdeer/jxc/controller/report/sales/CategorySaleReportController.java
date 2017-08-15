@@ -95,7 +95,7 @@ public class CategorySaleReportController extends ReportController {
 			}
 			String timeStr = StringUtil.replaceAll((String) map.get("startTime"), "-", "") + "-"
 					+ StringUtil.replaceAll((String) map.get("endTime"), "-", "") + "-";
-			reportFileName = "品类销售分析" + timeStr;
+			reportFileName = "类别销售分析" + timeStr;
 			if ("1".equals(map.get("reportType"))||1==Integer.parseInt(map.get("reportType").toString())) {
 				templateName = "categoryBigSaleReport.xlsx";
 			} else if ("2".equals(map.get("reportType"))||2==Integer.parseInt(map.get("reportType").toString())) {
