@@ -47,6 +47,7 @@
 			        <div class="umar-r10 uw-70 ut-r">单据编号:</div>
 			        <input type="text" name="orderNo" id="orderNo" class="uinp" />
 			    </div>
+			    <!-- 
 			    <div class="ub ub-ac umar-r40">
 			    	<div class="umar-r10 uw-70 ut-r">订单类型:</div>
 			    	<select class='uinp easyui-combobox' id="orderType" style="width:204px;" name="orderType" data-options="editable:false" >
@@ -57,6 +58,7 @@
 			    		<option value="3">扫码购</option>
                  	</select>
 			    </div>
+			     -->
 			</div>
 			<div class="ub umar-t8">
 			    <div class="ub ub-ac umar-r40">

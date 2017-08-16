@@ -106,7 +106,7 @@ public class GoodsGrossProfitRateController extends BaseController<GoodsGrossPro
 			cleanAccessData(list);
 
 			if (CollectionUtils.isNotEmpty(list)) {
-				String fileName = "商品毛利率报表" + "_" + DateUtils.getCurrSmallStr();
+				String fileName = "商品毛利率分析" + "_" + DateUtils.getCurrSmallStr();
 
 				String templateName = ExportExcelConstant.GOODS_GROSS_PROFIT_RATE;
 				exportListForXLSX(response, list, fileName, templateName);

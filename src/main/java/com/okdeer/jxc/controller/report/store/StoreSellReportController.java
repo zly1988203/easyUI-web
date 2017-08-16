@@ -101,7 +101,7 @@ public class StoreSellReportController extends BaseController<StoreSellReportCon
             List<StoreSell> exportList = storeSellFacade.exportStoreSells(vo);
             // 过滤数据权限字段
             cleanAccessData(exportList);
-            String fileName = "门店销售报表_" + DateUtils.getCurrSmallStr();
+            String fileName = "门店商品进销汇总分析_" + DateUtils.getCurrSmallStr();
             String templateName = ExportExcelConstant.STORE_SELL_REPORT;
             exportListForXLSX(response, exportList, fileName, templateName);
         }else {

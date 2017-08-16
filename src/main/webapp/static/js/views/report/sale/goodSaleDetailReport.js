@@ -122,9 +122,8 @@ function initGoodsTotalAnalysiGrid() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
             },
-            {field: 'cashier', title: '收银员', width:80, align: 'left'},
-            {field: 'orderTypeStr', title: '订单类型', width:80, align: 'left'},
-            {field: 'ticketNo', title: '小票号', width:180, align: 'left'}
+            {field: 'cashier', title: '收银员', width:80, align: 'left'}
+            
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");

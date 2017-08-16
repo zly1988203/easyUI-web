@@ -56,7 +56,7 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
 
     //@Reference(version = "1.0.0", check = false)
     @Resource
-    private SupplierSellFacade supplierStockFacade;
+    private SupplierSellFacade supplierSellFacade;
 
     @Reference(version = "1.0.0", check = false)
     BranchesServiceApi branchesServiceApi;
@@ -81,37 +81,54 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
         }
         try {
             if (StringUtils.isNotBlank(vo.getStartTime())) {
-                PageUtils<SupplierSell> pageUtils = supplierStockFacade.getSupplierSells(vo);
+                PageUtils<SupplierSell> pageUtils = supplierSellFacade.getSupplierSells(vo);
 
-                supplierStockFacade.sumSupplierSells(vo);
+                supplierSellFacade.sumSupplierSells(vo);
                 Future<SupplierSell> sumSupplierSells = RpcContext.getContext().getFuture();
                 List<SupplierSell> lists = pageUtils.getList();
                 //List<Future<BigDecimal>> futures = Lists.newArrayList();
                 //for (SupplierSell supplierSell : lists) {
-                if(StringUtils.isNotBlank(vo.getBranchId())){
-                    supplierStockFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
+                /*if(StringUtils.isNotBlank(vo.getBranchId())){
+
+                    supplierSellFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
                 }else {
                     Branches branches = branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
                     if(branches.getType()== BranchesTypeEnum.HEAD_QUARTERS.getCode()||branches.getType()==BranchesTypeEnum.BRANCH_COMPANY.getCode()) {
-                        supplierStockFacade.getAllSupplierSkuCount();
+                        supplierSellFacade.getAllSupplierSkuCount();
                     }else{
-                        supplierStockFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
+                        supplierSellFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
                     }
                 }
-                Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
+                Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();*/
                  //   futures.add(future);
                 //}
 
                 SupplierSell supplierSell;
-                Map<String,BigDecimal> allSkuCount = future.get();
+                Map<String,BigDecimal> skuCountMap;
+                BigDecimal allskuCount = BigDecimal.ZERO;
+                //Map<String,BigDecimal> allSkuCount = future.get();
                 for (int i = 0,length = lists.size();i<length;++i){
                     supplierSell = lists.get(i);
-                    supplierSell.setSkuCount(allSkuCount.get(supplierSell.getSupplierId()));
+
+                    if(StringUtils.isNotBlank(vo.getBranchId())){
+
+                        skuCountMap = supplierSellFacade.getSupplierSkuCountByBranchId(vo.getBranchId(),supplierSell.getSupplierId(),supplierSell.getSkuCodes());
+                    }else {
+                        Branches branches = branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
+                        if(branches.getType().equals(BranchesTypeEnum.HEAD_QUARTERS.getCode())||branches.getType().equals(BranchesTypeEnum.BRANCH_COMPANY.getCode())) {
+                            skuCountMap = supplierSellFacade.getAllSupplierSkuCount(supplierSell.getSupplierId(),supplierSell.getSkuCodes());
+                        }else{
+                            skuCountMap = supplierSellFacade.getSupplierSkuCountByBranchId(branches.getBranchId(),supplierSell.getSupplierId(),supplierSell.getSkuCodes());
+                        }
+                    }
+                    supplierSell.setSkuCount(skuCountMap.get(supplierSell.getSupplierId()));
                     lists.set(i,supplierSell);
+                    allskuCount = allskuCount.add(supplierSell.getSkuCount());
                 }
                 SupplierSell reportVo = sumSupplierSells.get();
                 if (reportVo != null) {
                     reportVo.setSupplierCode("SUM");
+                    reportVo.setSkuCount(allskuCount);
                     pageUtils.setFooter(new ArrayList<SupplierSell>(Arrays.asList(reportVo)));
                 } else {
                     pageUtils.setFooter(new ArrayList<SupplierSell>());
@@ -145,29 +162,48 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
         }
         try {
             if (StringUtils.isNotBlank(vo.getStartTime())) {
-                List<SupplierSell> exportList = supplierStockFacade.exportSupplierSells(vo);
-                if(StringUtils.isNotBlank(vo.getBranchId())){
-                    supplierStockFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
+                List<SupplierSell> exportList = supplierSellFacade.exportSupplierSells(vo);
+                /*if(StringUtils.isNotBlank(vo.getBranchId())){
+                    supplierSellFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
                 }else {
                     Branches branches = branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
                     if(branches.getType()== BranchesTypeEnum.HEAD_QUARTERS.getCode()||branches.getType()==BranchesTypeEnum.BRANCH_COMPANY.getCode()) {
-                        supplierStockFacade.getAllSupplierSkuCount();
+                        supplierSellFacade.getAllSupplierSkuCount();
                     }else{
-                        supplierStockFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
+                        supplierSellFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
                     }
-                }
-                Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
+                }*/
+                //Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
                 // 过滤数据权限字段
                 cleanAccessData(exportList);
                 String fileName = "供应商销售报表_" + DateUtils.getCurrSmallStr();
                 String templateName = ExportExcelConstant.SUPPLIER_SELL_REPORT;
                 SupplierSell supplierSell;
-                Map<String,BigDecimal> allSkuCount = future.get();
+                Map<String,BigDecimal> skuCountMap;
+                //Map<String,BigDecimal> allSkuCount = future.get();
+                for (int i = 0,length = exportList.size();i<length;++i){
+                    supplierSell = exportList.get(i);
+
+                    if(StringUtils.isNotBlank(vo.getBranchId())){
+
+                        skuCountMap = supplierSellFacade.getSupplierSkuCountByBranchId(vo.getBranchId(),supplierSell.getSupplierId(),supplierSell.getSkuCodes());
+                    }else {
+                        Branches branches = branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
+                        if(branches.getType().equals(BranchesTypeEnum.HEAD_QUARTERS.getCode())||branches.getType().equals(BranchesTypeEnum.BRANCH_COMPANY.getCode())) {
+                            skuCountMap = supplierSellFacade.getAllSupplierSkuCount(supplierSell.getSupplierId(),supplierSell.getSkuCodes());
+                        }else{
+                            skuCountMap = supplierSellFacade.getSupplierSkuCountByBranchId(branches.getBranchId(),supplierSell.getSupplierId(),supplierSell.getSkuCodes());
+                        }
+                    }
+                    supplierSell.setSkuCount(skuCountMap.get(supplierSell.getSupplierId()));
+                    exportList.set(i,supplierSell);
+                }
+                /*Map<String,BigDecimal> allSkuCount = future.get();
                 for (int i = 0,length = exportList.size();i<length;++i){
                     supplierSell = exportList.get(i);
                     supplierSell.setSkuCount(allSkuCount.get(supplierSell.getSupplierId()));
                     exportList.set(i,supplierSell);
-                }
+                }*/
                 exportListForXLSX(response, exportList, fileName, templateName);
             } else {
                 resp = RespJson.error();
@@ -194,35 +230,54 @@ public class SupplierSellReportController extends BaseController<SupplierSellRep
         try {
 
             if (StringUtils.isNotBlank(vo.getStartTime())) {
-                List<SupplierSell> exportList = supplierStockFacade.exportSupplierSells(vo);
+                List<SupplierSell> exportList = supplierSellFacade.exportSupplierSells(vo);
                 // 过滤数据权限字段
                 cleanAccessData(exportList);
                 if (exportList.size() > PrintConstant.PRINT_MAX_ROW) {
                     return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
                 }
-                if(StringUtils.isNotBlank(vo.getBranchId())){
-                    supplierStockFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
+                /*if(StringUtils.isNotBlank(vo.getBranchId())){
+                    supplierSellFacade.getSupplierSkuCountByBranchId(vo.getBranchId());
                 }else {
                     Branches branches = branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
                     if(branches.getType()== BranchesTypeEnum.HEAD_QUARTERS.getCode()||branches.getType()==BranchesTypeEnum.BRANCH_COMPANY.getCode()) {
-                        supplierStockFacade.getAllSupplierSkuCount();
+                        supplierSellFacade.getAllSupplierSkuCount();
                     }else{
-                        supplierStockFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
+                        supplierSellFacade.getSupplierSkuCountByBranchId(branches.getBranchId());
                     }
-                }
-                Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
+                }*/
+                //Future<Map<String,BigDecimal>> future = RpcContext.getContext().getFuture();
                 String path = PrintConstant.SUPPLIER_SELL_REPORT;
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("startDate", vo.getStartTime());
                 map.put("endDate", vo.getStartTime());
                 map.put("printName", getCurrentUser().getUserName());
                 SupplierSell supplierSell;
-                Map<String,BigDecimal> allSkuCount = future.get();
+                Map<String,BigDecimal> skuCountMap;
+                //Map<String,BigDecimal> allSkuCount = future.get();
+                for (int i = 0,length = exportList.size();i<length;++i){
+                    supplierSell = exportList.get(i);
+
+                    if(StringUtils.isNotBlank(vo.getBranchId())){
+
+                        skuCountMap = supplierSellFacade.getSupplierSkuCountByBranchId(vo.getBranchId(),supplierSell.getSupplierId(),supplierSell.getSkuCodes());
+                    }else {
+                        Branches branches = branchesServiceApi.getBranchInfoById(UserUtil.getCurrBranchId());
+                        if(branches.getType().equals(BranchesTypeEnum.HEAD_QUARTERS.getCode())||branches.getType().equals(BranchesTypeEnum.BRANCH_COMPANY.getCode())) {
+                            skuCountMap = supplierSellFacade.getAllSupplierSkuCount(supplierSell.getSupplierId(),supplierSell.getSkuCodes());
+                        }else{
+                            skuCountMap = supplierSellFacade.getSupplierSkuCountByBranchId(branches.getBranchId(),supplierSell.getSupplierId(),supplierSell.getSkuCodes());
+                        }
+                    }
+                    supplierSell.setSkuCount(skuCountMap.get(supplierSell.getSupplierId()));
+                    exportList.set(i,supplierSell);
+                }
+                /*Map<String,BigDecimal> allSkuCount = future.get();
                 for (int i = 0,length = exportList.size();i<length;++i){
                     supplierSell = exportList.get(i);
                     supplierSell.setSkuCount(allSkuCount.get(supplierSell.getSupplierId()));
                     exportList.set(i,supplierSell);
-                }
+                }*/
                 JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, exportList, "");
             }
         }catch (Exception e){
