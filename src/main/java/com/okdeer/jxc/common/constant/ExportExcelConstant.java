@@ -471,9 +471,19 @@ public interface ExportExcelConstant {
 	String DELIVERY_DETAIL = "deliveryDetail.xlsx";
 
 	/**
-	 * @Fields PURCHASEFORM : 导出配送缺货率分析汇总
+	 * @Fields DELIVERY_SUM_GOODS : 导出配送缺货率分析商品汇总
 	 */
-	String DELIVERY_SUM = "deliverySum.xlsx";
+	String DELIVERY_SUM_GOODS = "deliverySumGoods.xlsx";
+	
+	/**
+	 * @Fields DELIVERY_SUM_FORM : 导出配送缺货率分析单据汇总
+	 */
+	String DELIVERY_SUM_FORM = "deliverySumForm.xlsx";
+	
+	/**
+	 * @Fields DELIVERY_SUM_BRANCH : 导出配送缺货率分析店铺汇总
+	 */
+	String DELIVERY_SUM_BRANCH = "deliverySumBranch.xlsx";
 
 	/**
 	* @Fields 供应商机构商品关系报表
