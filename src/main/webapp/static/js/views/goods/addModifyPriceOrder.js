@@ -599,21 +599,17 @@ function saveModifyPriceOrder() {
                 return;
             }
 
-            var isCheck = true;
             var indexsStr = "";
+            var priceStr = "";
             if($('#memberPrice').is(':checked')){
                 for(var i=0;i<detailList.length;i++){
                     var item = detailList[i];
                     if(parseFloat(item["newVipPrice"]) <= 0){
                         indexsStr = indexsStr +(i+1)+",";
-                        // $_jxc.alert("第"+(i+1)+"行，新会员价不能小于等于0");
-                        // isCheck = false;
-                    };
+                    }
 	                if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
-	                    $_jxc.alert("第"+(i+1)+"行，新会员价要小于新销售价");
-	                    isCheck = false;
-	                    break;
-	                };
+                        priceStr = priceStr +(i+1)+",";
+	                }
             	}
             }
             
@@ -623,16 +619,25 @@ function saveModifyPriceOrder() {
                 $_jxc.confirm("第"+indexsStr+"行，新会员价小于等于0,是否继续?",function (r) {
                     if (!r)return;
 
-                    if (!isCheck)return;
-                    
-                    saveCommon(formData, detailList, saveUrl);
-
+                    if(priceStr.length > 0){
+                        $_jxc.confirm("第"+priceStr+"行，会员价大于零售价,是否继续?",function (r) {
+                            if (!r)return;
+                            saveCommon(formData, detailList, saveUrl);
+                        })
+                    }else {
+                        saveCommon(formData, detailList, saveUrl);
+                    }
                 });
-
             }else{
-            	if (!isCheck)return;
-            	
-            	saveCommon(formData, detailList, saveUrl);
+
+                if(priceStr.length > 0){
+                    $_jxc.confirm("第"+priceStr+"行，会员价大于零售价,是否继续?",function (r) {
+                        if (!r)return;
+                        saveCommon(formData, detailList, saveUrl);
+                    })
+                }else {
+                    saveCommon(formData, detailList, saveUrl);
+                }
             }
 
         }
@@ -687,22 +692,17 @@ function updateModifyPriceOrder() {
             return;
         }
 
-        var isCheck = true;
         var indexsStr ="";
+        var priceStr = "";
         if($('#memberPrice').is(':checked')){
             for(var i=0;i<detailList.length;i++){
                 var item = detailList[i];
                 if(parseFloat(item["newVipPrice"]) <= 0){
                     indexsStr = indexsStr +(i+1)+",";
-                    // $_jxc.alert("第"+(i+1)+"行，新会员价不能小于等于0");
-                    // isCheck = false;
-                    // break;
                 };
 
                 if(parseFloat(item["newSalePrice"]) < parseFloat(item["newVipPrice"])){
-                    $_jxc.alert("第"+(i+1)+"行，新会员价要小于新销售价");
-                    isCheck = false;
-                    break;
+                    priceStr = priceStr +(i+1)+",";
                 }
             }
         }
@@ -712,15 +712,25 @@ function updateModifyPriceOrder() {
         if(indexsStr.length > 0){
             $_jxc.confirm("第"+indexsStr+"行，新会员价小于等于0,是否继续?",function (r) {
                 if (!r)return;
-                if (!isCheck)return;
 
-                saveCommon(formData, detailList, saveUrl);
-                
+                if(priceStr.length > 0){
+                    $_jxc.confirm("第"+priceStr+"行，会员价大于零售价,是否继续?",function (r) {
+                        if (!r)return;
+                        saveCommon(formData, detailList, saveUrl);
+                    })
+                }else {
+                    saveCommon(formData, detailList, saveUrl);
+                }
             })
         }else{
-        	if (!isCheck)return;
-        	
-        	saveCommon(formData, detailList, saveUrl);
+            if(priceStr.length > 0){
+                $_jxc.confirm("第"+priceStr+"行，会员价大于零售价,是否继续?",function (r) {
+                    if (!r)return;
+                    saveCommon(formData, detailList, saveUrl);
+                })
+            }else {
+                saveCommon(formData, detailList, saveUrl);
+            }
         }
 
 
