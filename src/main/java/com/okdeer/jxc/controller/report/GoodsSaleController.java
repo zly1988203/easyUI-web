@@ -6,18 +6,7 @@
  */    
 package com.okdeer.jxc.controller.report;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.result.RespJson;
@@ -26,6 +15,17 @@ import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.service.GoodsSaleReportServiceApi;
 import com.okdeer.jxc.report.vo.GoodsSaleReportVo;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Future;
 
 
 /**
@@ -42,7 +42,8 @@ import com.okdeer.jxc.report.vo.GoodsSaleReportVo;
 @Controller
 @RequestMapping("goodsSale/report")
 public class GoodsSaleController extends BaseController<GoodsSaleController> {
-	@Reference(version = "1.0.0", check = false)
+	//@Reference(version = "1.0.0", check = false)
+	@Resource
 	private GoodsSaleReportServiceApi goodsSaleReportServiceApi;
 	/**
 	 * 
@@ -81,12 +82,18 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 			}
 			//buildParam(vo);
 			//修改zhuangrh20170815 end
-			PageUtils<GoodsSaleReportVo> goodsSaleReportList = goodsSaleReportServiceApi.getGoodsSaleList(vo);
-			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
+			goodsSaleReportServiceApi.getGoodsSaleList(vo);
+			Future<PageUtils<GoodsSaleReportVo>> goodsSaleReportListFuture = RpcContext.getContext().getFuture();
+
+			goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
+			Future<GoodsSaleReportVo> goodsSaleReportVoFuture = RpcContext.getContext().getFuture();
+
+			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportVoFuture.get();
 			List<GoodsSaleReportVo> footer = new ArrayList<GoodsSaleReportVo>();
 			if(goodsSaleReportVo !=null){
 				footer.add(goodsSaleReportVo);
 			}
+			PageUtils<GoodsSaleReportVo> goodsSaleReportList = goodsSaleReportListFuture.get();
 			goodsSaleReportList.setFooter(footer);
 			LOG.debug(LogConstant.PAGE, goodsSaleReportList.toString());
 			// 过滤数据权限字段
@@ -128,9 +135,18 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 		try {
 			vo.setBranchCompleCode(getCurrBranchCompleCode());
 			buildParam(vo);
-			List<GoodsSaleReportVo> exportList = goodsSaleReportServiceApi.exportList(vo);
-			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
+			//List<GoodsSaleReportVo> exportList =
+			goodsSaleReportServiceApi.exportList(vo);
+			Future<List<GoodsSaleReportVo>> exportListFuture = RpcContext.getContext().getFuture();
+
+			//GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
+			goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
+			Future<GoodsSaleReportVo> goodsSaleReportVoFuture = RpcContext.getContext().getFuture();
+
+			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportVoFuture.get();
+
 			goodsSaleReportVo.setBranchName("合计：");
+			List<GoodsSaleReportVo> exportList = exportListFuture.get();
 			exportList.add(goodsSaleReportVo);
 			String fileName = "商品销售汇总表";
 

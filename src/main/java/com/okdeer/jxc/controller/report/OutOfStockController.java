@@ -82,33 +82,42 @@ public class OutOfStockController extends ReportController {
 		Map<String, Object> map = getParam(request);
 		map.put("startCount", Integer.parseInt(map.get("startCount").toString()));
 		map.put("endCount", Integer.parseInt(map.get("endCount").toString()));
-		List<DataRecord> reportList = null;
 		String fileName = null;
 		String templateName = null;
 		// 判断是否是汇总查询/明细
 		try {
 			String branchName = getCurrBranchName();
+			List<DataRecord> reportList = outOfStockServiceApi.getList(map);
 			DataRecord dataRecord = outOfStockServiceApi.getTotal(map);
 			if ("0".equals(map.get("type"))) {
-				LOG.debug("导出配送缺货率分析明细导出查询参数:{}" + map.toString());
-				reportList = outOfStockServiceApi.getList(map);
-				fileName = branchName + "配送缺货率明细表" + map.get("startTime").toString().replaceAll("-", "") + '-'
+				LOG.debug("导出配送缺货率分析商品明细导出查询参数:{}" + map.toString());
+				fileName = branchName + "配送缺货率商品明细表" + map.get("startTime").toString().replaceAll("-", "") + '-'
 						+ map.get("endTime").toString().replaceAll("-", "");
 				templateName = ExportExcelConstant.DELIVERY_DETAIL;
 				dataRecord.put("inFormNo", "合计");
-
-			} else {
-				LOG.debug("导出配送缺货率分析汇总导出查询参数:{}" + map.toString());
-				reportList = outOfStockServiceApi.getList(map);
-				fileName = branchName + "配送缺货率汇总表" + map.get("startTime").toString().replaceAll("-", "") + '-'
+			} else if ("1".equals(map.get("type"))) {
+				LOG.debug("导出配送缺货率分析商品汇总导出查询参数:{}" + map.toString());
+				fileName = branchName + "配送缺货率商品汇总表" + map.get("startTime").toString().replaceAll("-", "") + '-'
 						+ map.get("endTime").toString().replaceAll("-", "");
-				templateName = ExportExcelConstant.DELIVERY_SUM;
+				templateName = ExportExcelConstant.DELIVERY_SUM_GOODS;
 				dataRecord.put("skuCode", "合计");
+			} else if ("2".equals(map.get("type"))) {
+				LOG.debug("导出配送缺货率分析单据汇总导出查询参数:{}" + map.toString());
+				fileName = branchName + "配送缺货率单据汇总表" + map.get("startTime").toString().replaceAll("-", "") + '-'
+						+ map.get("endTime").toString().replaceAll("-", "");
+				templateName = ExportExcelConstant.DELIVERY_SUM_FORM;
+				dataRecord.put("targetBranchName", "合计");
+			} else if ("3".equals(map.get("type"))) {
+				LOG.debug("导出配送缺货率分析店铺汇总导出查询参数:{}" + map.toString());
+				fileName = branchName + "配送缺货率店铺汇总表" + map.get("startTime").toString().replaceAll("-", "") + '-'
+						+ map.get("endTime").toString().replaceAll("-", "");
+				templateName = ExportExcelConstant.DELIVERY_SUM_BRANCH;
+				dataRecord.put("targetBranchName", "合计");
 			}
 
 			reportList.add(dataRecord);
 			cleanDataMaps(getPriceAccess(), reportList);
-			
+
 			// 导出Excel
 			Map<String, Object> param = new HashMap<>();
 			param.put("branchName", branchName);
