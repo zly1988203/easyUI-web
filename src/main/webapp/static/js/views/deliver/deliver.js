@@ -166,7 +166,7 @@ function initDatagridRequireOrder(){
                     return str;
                 }
             },
-            {field:'sourceStock',title:'目标库存',width:'80px',align:'right',
+            {field:'sourceStock',title:'发货机构库存',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
                         return
