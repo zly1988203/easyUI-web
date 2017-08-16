@@ -139,6 +139,10 @@ function closeViewDialog() {
 
 function delNotice() {
     var rows = $("#"+gridName).datagrid("getChecked")
+    if(rows.length <= 0){
+        $_jxc.alert("请最少选择一条数据.");
+        return;
+    }
     var formIds=[];
     var flag = false;
     $.each(rows,function(i,v){
