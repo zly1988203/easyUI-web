@@ -27,6 +27,8 @@
 		   <!--left end-->
 
      <div class="ub ub-ver ub-f1 upad-8">
+        <form id="exportForm" method="post">
+        </form>
 		<form id="queryForm" method="post">
 			<div class="ub ub-ac">
 				<div class="ubtns">
