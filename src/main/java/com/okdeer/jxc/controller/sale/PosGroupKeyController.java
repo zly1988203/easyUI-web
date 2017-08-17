@@ -40,14 +40,14 @@ public class PosGroupKeyController extends BaseController<PosGroupKeyController>
         return new ModelAndView("sale/pos/group/keylist", model);
     }
     
-	@RequestMapping(value = "addGroup", method = RequestMethod.GET)
+	@RequestMapping(value = "/addGroup", method = RequestMethod.GET)
 	public ModelAndView addGroupInfo() {
-		return new ModelAndView("sale/group/addGroup");
+		return new ModelAndView("sale/pos/group/addGroup");
 	}
 	
-	@RequestMapping(value = "editGroup", method = RequestMethod.GET)
+	@RequestMapping(value = "/editGroup", method = RequestMethod.GET)
 	public ModelAndView editGroupInfo() {
-		return new ModelAndView("sale/group/editGroup");
+		return new ModelAndView("sale/pos/group/editGroup");
 	}
 
 }

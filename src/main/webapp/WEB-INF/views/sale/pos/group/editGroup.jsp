@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.okdeer.jxc.utils.UserUtil"%>
 
-<title>新增分组</title>
+<title>编辑分组</title>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
@@ -11,7 +11,7 @@
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
 		<div class="ubtns">
-			<button class="ubtns-item" onclick="saveGroup()" id="saveBtn">保存</button>
+			<button class="ubtns-item" onclick="updateGroup()" id="saveBtn">保存</button>
 			<button class="ubtns-item" onclick="closeCardDialog()">关闭</button>
 		</div>
 	</div>
