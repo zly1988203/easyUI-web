@@ -74,8 +74,8 @@ function editKeyGroup(index) {
     var item =  $("#keygrid").datagrid('getSelected');
     cardDialog = $('<div/>').dialog({
         href: contextPath+"/pos/group/key/editGroup",
-        width:500,
-        height:500,
+        width:400,
+        height:300,
         title: "编辑分组",
         closable: true,
         resizable: true,
@@ -225,7 +225,7 @@ function saveform() {
 }
 
 function copyfrom() {
-    if(!$("branchId").val()){
+    if(!$("#branchId").val()){
         $_jxc.alert("请选择机构");
         return;
     }
@@ -250,14 +250,14 @@ function copyfrom() {
 }
 
 function addgroup() {
-    if(!$("branchId").val()){
+    if(!$("#branchId").val()){
         $_jxc.alert("请选择机构");
         return;
     }
     cardDialog = $('<div/>').dialog({
         href: contextPath+"/pos/group/key/addGroup",
-        width:500,
-        height:500,
+        width:400,
+        height:300,
         title: "新增分组",
         closable: true,
         resizable: true,
