@@ -10,7 +10,9 @@ package com.okdeer.jxc.controller.sale;
 
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.controller.BaseController;
+
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,5 +39,15 @@ public class PosGroupKeyController extends BaseController<PosGroupKeyController>
         Map<String, String> model = Maps.newHashMap();
         return new ModelAndView("sale/pos/group/keylist", model);
     }
+    
+	@RequestMapping(value = "addGroup", method = RequestMethod.GET)
+	public ModelAndView addGroupInfo() {
+		return new ModelAndView("sale/group/addGroup");
+	}
+	
+	@RequestMapping(value = "editGroup", method = RequestMethod.GET)
+	public ModelAndView editGroupInfo() {
+		return new ModelAndView("sale/group/editGroup");
+	}
 
 }
