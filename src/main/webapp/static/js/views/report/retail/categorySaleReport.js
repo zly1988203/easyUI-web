@@ -62,7 +62,16 @@ function initDatagridRequire(){
                      }
                  }
             },
-            {field:'saleRate', title: '销售占比', width: '80px', align: 'right'},
+            {field:'skuNum', title: 'SKU数', width: '80px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+                        return '<b>'+parseInt(value||0)+'</b>';
+                    }
+                   
+                    return '<b>'+parseInt(value||0)+'</b>';
+                }
+            },
+            {field:'saleRate', title: '销售占比', width: '80px', align: 'right'}
       ]],
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
