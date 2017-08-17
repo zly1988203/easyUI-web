@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.dubbo.rpc.RpcException;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
@@ -200,6 +201,12 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 		try {
 			RespJson respJson = goodsBranchPriceService.branchesLeadInto(brancheList, skuIdList, user.getId());
 			return respJson;
+        } catch (RpcException e) {
+            LOG.error("多机构引入商品失败异常:{}", e);
+            return RespJson.error("多机构引入商品失败");
+        } catch (RuntimeException e) {
+            LOG.error("多机构引入商品失败异常:{}", e);
+            return RespJson.error(e.getMessage());
 		} catch (Exception e) {
 			return RespJson.error("多机构引入商品失败!");
 		}
