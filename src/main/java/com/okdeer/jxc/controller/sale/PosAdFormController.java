@@ -35,7 +35,7 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
     @RequestMapping(value = "/list")
     public ModelAndView add() {
         Map<String, String> model = Maps.newHashMap();
-        return new ModelAndView("sale/pos/adlist", model);
+        return new ModelAndView("sale/pos/ad/adlist", model);
     }
 
 }
