@@ -9,7 +9,6 @@
 <title>新增pos客屏活动</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="/static/js/views/purchase/orderAdd.js?V="></script>
 
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
@@ -17,12 +16,10 @@
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
-				<shiro:hasPermission name="JxcPurchaseOrder:add">
-					<div class="ubtns-item" onclick="saveItemHandel()">保存</div>
-				</shiro:hasPermission>
-				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-				<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
-				<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
+				<div class="ubtns-item" onclick="selectPrize()">奖品选择</div>
+				<div class="ubtns-item" onclick="uploadPic()">上传图片</div>
+				<div class="ubtns-item" onclick="saveWheelsurf()">保存</div>
+				<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>
 		</div>
@@ -30,71 +27,62 @@
 			<div class="ub ub-ver ">
 				<div class="ub umar-t8">
 					<div class="ub ub-ac umar-r80">
-						<div class="umar-r10 uw-60 ut-r">供应商:</div>
-						<input class="uinp" name="supplierId" id="supplierId"type="hidden">
-						<input class="uinp" readonly="readonly" id="supplierName" type="text" onclick="selectSupplier()">
-						<div class="uinp-more" onclick="selectSupplier()">...</div>
+						<div class="umar-r10 uw-60 ut-r">活动时间:</div>
+						<input id="actStarTime" class="Wdate easyui-validatebox"
+						data-options="required:true" type="text"
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+	至
+						<input id="actEndTime" class="Wdate easyui-validatebox"
+						data-options="required:true" type="text"
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
 					</div>
 					<div class="ub ub-ac umar-r80">
-						<div class="umar-r10 uw-60 ut-r">交货期限:</div>
-						<input id="deliverTime" class="Wdate easyui-validatebox"
+						<div class="umar-r10 uw-60 ut-r">奖品有效期:</div>
+						<input id="prizeStarTime" class="Wdate easyui-validatebox"
 							data-options="required:true" type="text"
 							onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+	至
+						<input id="prizeEndTime" class="Wdate easyui-validatebox"
+						data-options="required:true" type="text"
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
 					</div>
-					<div class="ub ub-ac umar-r80">
-						<div class="umar-r10 uw-60 ut-r">制单人员:</div>
-						<div class="utxt"><%=UserUtil.getCurrentUser().getUserName()%></div>
-					</div>
-					<div class="ub ub-ac">
-						<div class="umar-r10 uw-60 ut-r">制单时间:</div>
-						<div class="utxt" id="createTime"></div>
-					</div>
+
 				</div>
 				<div class="ub umar-t8">
 					<div class="ub ub-ac umar-r80">
-						<div class="umar-r10 uw-60 ut-r">收货机构:</div>
-						<input class="uinp" name="branchId" id="branchId" type="hidden">
-						<input id="branchName" class="uinp" readonly="readonly" type="text" onclick="selectBranch()">
-						<div class="uinp-more" onclick="selectBranch()">...</div>
+						<div class="umar-r10 uw-60 ut-r">活动名称:</div>
+						<input id="branchName" class="uinp"  type="text">
 					</div>
 					<div class="ub ub-ac umar-r80">
-						<div class="umar-r10 uw-60 ut-r">采购员:</div>
-						<input class="uinp" name="salesmanId" id="salesmanId"
-							type="hidden"> <input class="uinp" id="operateUserName"
-							type="text" readonly="readonly" onclick="selectOperator()">
-						<div class="uinp-more" onclick="selectOperator()">...</div>
+						<div class="umar-r10 uw-70 ut-r">活动类型:</div>
+						<select class="uselect easyui-combobox" name="activityType"
+						data-options="editable:false">
+						<option value="">全部</option>
+						<option value="1">抽奖</option>
+						</select>
 
 					</div>
-					<div class="ub ub-ac umar-r80">
-						<div class="umar-r10 uw-60 ut-r">审核人员:</div>
-						<div class="utxt"></div>
-					</div>
-					<div class="ub ub-ac">
-						<div class="umar-r10 uw-60 ut-r">审核时间:</div>
-						<div class="utxt"></div>
-					</div>
+
 				</div>
 				<div class="ub umar-t8">
-					<div class="ub ub-ac uw-610" style="width: 624px;">
-						<div class="umar-r10 uw-60 ut-r">备注:</div>
-						<input class="uinp ub ub-f1" name="remark" id="remark" type="text"
-							onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-							onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-							oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-							maxlength="100">
+					<div class="ub ub-ac umar-r40" id="branchTemp">
+					<div class="umar-r10 uw-60 ut-r">活动机构:</div>
+					<input class="uinp ub ub-f1" type="hidden" id="branchId"
+					name="branchId"> <input class="uinp ub ub-f1" type="text"
+					id="branchName" name="branchName">
+					<div class="uinp-more">...</div>
+					</div>
+					<div class="ub ub-ac umar-r40">
+					<div class="umar-r10 uw-60 ut-r">抽奖次数:</div>
+					<input class="uinp" name="activityNo" id="activityNo" type="text">
 					</div>
 				</div>
 			</div>
 		</form>
 		<div class="ub uw umar-t8 ub-f1">
-			<table id="gridEditOrder"></table>
+			<table id="gridAddPosAct"></table>
 		</div>
 	</div>
-
-	<!-- 是否有改价权限 -->
-	<shiro:hasPermission name="JxcPurchaseOrder:updatePrice">
-		<input type="hidden" id="allowUpdatePrice" />
-	</shiro:hasPermission>
 
 </body>
 </html>
