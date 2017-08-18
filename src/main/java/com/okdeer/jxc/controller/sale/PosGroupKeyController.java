@@ -11,15 +11,17 @@ package com.okdeer.jxc.controller.sale;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.JsonMapper;
+import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.pos.service.PosGroupKeyService;
 import com.okdeer.jxc.pos.vo.PosGroupKeyVo;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,5 +74,56 @@ public class PosGroupKeyController extends BaseController<PosGroupKeyController>
 		}
 	}
 
+    @RequestMapping(value = "/save/groups", method = RequestMethod.POST)
+    public RespJson saveGroups(String jsontext ,String branchId) {
+
+        try {
+            List<PosGroupKeyVo> posGroupKeys = JsonMapper.nonDefaultMapper().fromJson(jsontext,JsonMapper.nonDefaultMapper().contructCollectionType(ArrayList.class, PosGroupKeyVo.class));
+            if(CollectionUtils.isNotEmpty(posGroupKeys)) {
+                posGroupKeyService.savePosGroupKeys(posGroupKeys,branchId);
+                return RespJson.success();
+            }else{
+                return RespJson.error("保存分组失败!");
+            }
+        }catch (Exception e){
+            LOG.error("保存分组失败!" ,e);
+            return RespJson.error("保存分组失败!" );
+        }
+    }
+
+    @RequestMapping(value = "/del/group/{id}", method = RequestMethod.POST)
+    public RespJson delGroup(@PathVariable(value = "id")String id) {
+        try {
+            posGroupKeyService.deletePosGroupKey(id);
+            return RespJson.success();
+        }catch (Exception e){
+            LOG.error("删除分组失败!" ,e);
+            return RespJson.error("删除分组失败!" );
+        }
+    }
+
+    @RequestMapping(value = "/update/group", method = RequestMethod.POST)
+    public RespJson updateGroup(PosGroupKeyVo posGroupKey) {
+        try {
+            posGroupKeyService.updatePosGroupKey(posGroupKey);
+            return RespJson.success();
+        }catch (Exception e){
+            LOG.error("更新分组失败!" ,e);
+            return RespJson.error("更新分组失败!" );
+        }
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public RespJson list(String branchId,
+                              @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+                              @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+        try {
+            PageUtils<PosGroupKeyVo> posGroupKeyList = this.posGroupKeyService.getPosGroupKeyList(branchId, pageSize, pageNumber);
+            return RespJson.success(posGroupKeyList);
+        }catch (Exception e){
+            LOG.error("获取分组列表失败!" ,e);
+            return RespJson.error("获取分组列表失败!" );
+        }
+    }
 
 }

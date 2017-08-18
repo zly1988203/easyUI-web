@@ -8,18 +8,17 @@ $(function () {
     //机构选择初始化 发货机构
     $('#branchTemp').branchSelect({
         //数据过滤
-        loadFilter:function(data){
-            data.salesmanId = data.id;
-            return data;
+        onAfterRender:function(data){
+            getGroupList(data.branchId);
         }
     });
 })
 
 var keygridHandle = new GridClass();
 var keygridDefault = {
-    code:"01",
-    name:"热销商品",
-    sort:01
+    groupNo:"01",
+    groupName:"热销商品",
+    sortNo:01
 }
 function  initKeygrid() {
     keygridHandle.setGridName("keygrid");
@@ -36,7 +35,8 @@ function  initKeygrid() {
         width:'100%',
         pageSize:50,
         columns:[[
-            {field:'code',title:'分组编号',width:'85px',align:'left',
+            {field:'id',title:'id',width:'85px',align:'left',hidden:true},
+            {field:'groupNo',title:'分组编号',width:'85px',align:'left',
                 formatter : function(value, row,index) {
                     var str =  '<a name="edit" onclick="editKeyGroup('+index+')" ' +
                         ' class="ualine">'+value+'</a>';
@@ -44,8 +44,8 @@ function  initKeygrid() {
                     return str;
                 },
             },
-            {field:'name',title:'分组名称',width:'85px',align:'left'},
-            {field:'sort',title:'排序',width:'85px',align:'right',
+            {field:'groupName',title:'分组名称',width:'85px',align:'left'},
+            {field:'sortNo',title:'排序',width:'85px',align:'right',
                 formatter:function(value,row,index){
                     return  '<b>'+parseFloat(value||0).toFixed(0)+'</b>';
                 },
@@ -86,7 +86,7 @@ function editKeyGroup(index) {
     $('#keygrid').datagrid('selectRow',index);
     var item =  $("#keygrid").datagrid('getSelected');
     cardDialog = $('<div/>').dialog({
-        href: contextPath+"/pos/group/key/editGroup",
+        href: contextPath+"/pos/group/key/editGroup/",
         width:400,
         height:300,
         title: "编辑分组",
@@ -211,7 +211,7 @@ function delLineHandel(event){
 }
 
 function saveform() {
-
+    $("#keygrid").datagrid("endEdit", keygridHandle.getSelectRowIndex());
 
     if(!$("#branchId").val()){
         $_jxc.alert("请选择机构");
@@ -219,11 +219,12 @@ function saveform() {
     }
 
     var param = {
-        branchId : data.branchId
-    }
+        jsontext:JSON.stringify(keygridHandle.getRows()),
+        branchId :$("#branchId").val()
+    };
     $_jxc.ajax({
-        url:contextPath+'/common/chargeSelect/getChargeComponentList',
-        data:param,
+        url:contextPath+'/pos/group/key/save/groups',
+        data: param,
     },function(result){
         if(result.code == 0){
 
@@ -265,11 +266,11 @@ function getGroupList(branchId) {
     }
 
     $_jxc.ajax({
-        url:contextPath+'/common/chargeSelect/getChargeComponentList',
+        url:contextPath+'/pos/group/key/list',
         data:param,
     },function(result){
         if(result.code == 0){
-
+            keygridHandle.setLoadData(result.data.list);
         }else{
             $_jxc.alert(result['message']);
         }
@@ -315,25 +316,19 @@ function delgroup() {
             return;
         }
 
-        var param = {
-            groupId : row.id
-        }
         $_jxc.ajax({
-            url:contextPath+'/common/chargeSelect/getChargeComponentList',
-            data:param,
+            url:contextPath+'/pos/group/key/del/group/'+row.id
         },function(result){
             if(result.code == 0){
-
+                $_jxc.alert("删除分组成功",function () {
+                    getGroupList($("#branchId").val());
+                })
             }else{
                 $_jxc.alert(result['message']);
             }
         })
 
     })
-
-
-
-
 
 }
 
@@ -342,7 +337,7 @@ function savegoods() {
         branchId : data.branchId
     }
     $_jxc.ajax({
-        url:contextPath+'/common/chargeSelect/getChargeComponentList',
+        url:contextPath+'/pos/group/key/save/groups',
         data:param,
     },function(result){
         if(result.code == 0){

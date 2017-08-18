@@ -15,13 +15,14 @@
 		</div>
 	</div>
 	<div class="ub uline"></div>
-	<form id="groupAdd">
+	<form id="groupEdit">
 		<div class="ub ub-ver upad-4">
 			<div class="ub upad-4 umar-t10">
 				<div class="ub ub-ac">
 					<div class="umar-r10 uw-70 ut-r">分组编号:</div>
 					<input class="uinp ub ub-f1 uinp-no-more" type="text" id="groupNo"
 						name="groupNo" readOnly/>
+					<input type="hidden" id="id" name="id">
 				</div>
 			</div>
 
