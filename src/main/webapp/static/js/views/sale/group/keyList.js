@@ -249,24 +249,31 @@ function copyfrom() {
 
         $_jxc.confirm("是否确定从选择机构复制数据到当前机构?",function (r) {
             if(!r)return;
-            var param = {
-                branchId : data.branchId
-            }
-            $_jxc.ajax({
-                url:contextPath+'/common/chargeSelect/getChargeComponentList',
-                data:param,
-            },function(result){
-                if(result.code == 0){
-
-                }else{
-                    $_jxc.alert(result['message']);
-                }
-            })
+            getGroupList(data.branchId);
         })
-
-
     });
+}
 
+function getGroupList(branchId) {
+    var param = {
+        branchId :""
+    }
+    if(!branchId){
+        param.branchId = $("#branchId").val();
+    }else {
+        param.branchId = branchId;
+    }
+
+    $_jxc.ajax({
+        url:contextPath+'/common/chargeSelect/getChargeComponentList',
+        data:param,
+    },function(result){
+        if(result.code == 0){
+
+        }else{
+            $_jxc.alert(result['message']);
+        }
+    })
 }
 
 function addgroup() {

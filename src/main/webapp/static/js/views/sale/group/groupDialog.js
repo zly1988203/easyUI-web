@@ -27,7 +27,10 @@ function saveGroup() {
         data:formObj,
     },function(result){
         if(result.code == 0){
-            $_jxc.alert("新增分组成功!",closeCardDialog());
+            $_jxc.alert("添加分组成功",function () {
+                closeCardDialog();
+                getGroupList();
+            })
         }else{
             $_jxc.alert(result['message']);
         }
@@ -52,7 +55,10 @@ function updateGroup() {
         data:formObj,
     },function(result){
         if(result.code == 0){
-
+            $_jxc.alert("添加分组成功",function () {
+                closeCardDialog();
+                getGroupList();
+            })
         }else{
             $_jxc.alert(result['message']);
         }

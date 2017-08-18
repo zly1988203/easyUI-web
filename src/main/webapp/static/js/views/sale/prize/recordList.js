@@ -46,16 +46,16 @@ function initgridRecord() {
 
 function queryRecord() {
     var fromObjStr = $('#queryForm').serializeObject();
-    $("#gridRecordList").datagrid("options").method = "post";
-    $("#gridRecordList").datagrid('options').url = contextPath +'/sale/activity/listData';
-    $("#gridRecordList").datagrid('load', fromObjStr);
+    $("#"+gridName).datagrid("options").method = "post";
+    $("#"+gridName).datagrid('options').url = contextPath +'/sale/activity/listData';
+    $("#"+gridName).datagrid('load', fromObjStr);
 }
 
 /**
  * 导出
  */
 function exportData(){
-    var length = $('#gridRecordList').datagrid('getData').rows.length;
+    var length = $("#"+gridName).datagrid('getData').rows.length;
     if(length == 0){
         $_jxc.alert("无数据可导");
         return;
@@ -65,7 +65,7 @@ function exportData(){
         left:($(window).width()-500) * 0.5
     });
     $("#exportWin").show();
-    $("#totalRows").html($('#gridRecordList').datagrid('getData').total);
+    $("#totalRows").html($("#"+gridName).datagrid('getData').total);
     $("#exportWin").window("open");
 }
 
