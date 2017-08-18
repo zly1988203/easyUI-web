@@ -4,6 +4,10 @@
 $(function () {
     
 })
+//编辑状态下 赋值
+function initKeyGroupData(item) {
+    
+}
 
 function saveGroup() {
     if(!$("#sort").val()){
@@ -11,7 +15,7 @@ function saveGroup() {
         return;
     }
 
-    if(!("#name").val()){
+    if(!$("#name").val()){
         $_jxc.alert("请输入分组名称");
         return;
     }
@@ -36,7 +40,7 @@ function updateGroup() {
         return;
     }
 
-    if(!("#name").val()){
+    if(!$("#name").val()){
         $_jxc.alert("请输入分组名称");
         return;
     }
