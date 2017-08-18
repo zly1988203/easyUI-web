@@ -42,3 +42,22 @@ function initgridPosActivity() {
         }
     })
 }
+
+function queryPosActivity() {
+    var fromObjStr = $('#queryForm').serializeObject();
+    $("#"+gridName).datagrid("options").method = "post";
+    $("#"+gridName).datagrid('options').url = contextPath +'/sale/activity/listData';
+    $("#"+gridName).datagrid('load', fromObjStr);
+}
+
+function addPosActivity() {
+    toAddTab("新增Pos客屏活动",contextPath + "/sale/pos/wheelsurf/add");
+}
+
+function copyPosActivity() {
+    
+}
+
+function delPosActivity() {
+    
+}
