@@ -3,6 +3,9 @@
  */
 $(function () {
     initgridRecord();
+    // 开始和结束时间
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     //机构选择初始化 发货机构
     $('#branchTemp').branchSelect();
 
