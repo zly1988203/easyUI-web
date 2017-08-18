@@ -171,7 +171,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 			}
 			LOG.debug(LogConstant.OUT_PARAM, vo);
 			PageUtils<StocktakingFormVo> stocktakingFormList = stocktakingOperateServiceApi.getStocktakingFormList(vo);
-			LOG.debug(LogConstant.PAGE, stocktakingFormList.toString());
+			LOG.debug(LogConstant.PAGE, stocktakingFormList);
 			return stocktakingFormList;
 		} catch (Exception e) {
 			LOG.error("存货盘点查询列表信息异常:{}", e);
@@ -189,8 +189,8 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 	@RequestMapping(value = "/saveStocktakingForm", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson saveStocktakingForm(String data) {
-		RespJson respJson = RespJson.success();
-		LOG.debug("保存存货盘点 ：data{}" + data);
+		RespJson respJson;
+        LOG.debug("保存存货盘点 ：data{}", data);
 		SysUser user = UserUtil.getCurrentUser();
 		if (user == null) {
 			respJson = RespJson.error("用户不能为空！");
@@ -206,15 +206,11 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 				// 新增
 				vo.setCreateUserId(user.getId());
 				vo.setCreateUserName(user.getUserName());
-				//String jsonText = redisTemplateTmp.opsForValue().get("jxc_goodsSelectImport_" + UserUtil.getCurrentUser().getId());
-				//List<Map<String,String>> unknownSKU = JsonMapper.nonEmptyMapper().fromJson(jsonText, List.class);
 				return stocktakingOperateServiceApi.saveStocktakingForm(vo);
 			} else {
 				// 修改
 				vo.setUpdateUserId(user.getId());
 				vo.setUpdateUserName(user.getUserName());
-				//String jsonText = redisTemplateTmp.opsForValue().get("jxc_goodsSelectImport_" + UserUtil.getCurrentUser().getId());
-				//List<Map<String,String>> unknownSKU = JsonMapper.nonEmptyMapper().fromJson(jsonText, List.class);
 				return stocktakingOperateServiceApi.updateStocktakingForm(vo);
 			}
 		} catch (Exception e) {
@@ -297,7 +293,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 									double stocktakingNum = 0;
 									String errorStr = "盘点数量必须为0到" + ExportExcelConstant.MAXNUM + "的数字";
 									// 校验空
-									if (obj.get("stocktakingNum") == null || obj.get("stocktakingNum") == null) {
+									if (obj.get("stocktakingNum") == null ) {
 										obj.element("error", errorStr);
 										continue;
 									}
@@ -348,7 +344,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 									double stocktakingNum = 0;
 									String errorStr = "盘点数量必须为0到" + ExportExcelConstant.MAXNUM + "的数字";
 									// 校验空
-									if (obj.get("stocktakingNum") == null || obj.get("stocktakingNum") == null) {
+									if (obj.get("stocktakingNum") == null) {
 										obj.element("error", errorStr);
 										continue;
 									}

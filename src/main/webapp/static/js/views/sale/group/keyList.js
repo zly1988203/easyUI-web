@@ -316,6 +316,9 @@ function delgroup() {
             return;
         }
 
+        var param = {
+            groupId : row.id
+        }
         $_jxc.ajax({
             url:contextPath+'/pos/group/key/del/group/'+row.id
         },function(result){
@@ -329,6 +332,10 @@ function delgroup() {
         })
 
     })
+
+
+
+
 
 }
 

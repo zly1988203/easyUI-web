@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
@@ -100,7 +99,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			PageUtils<StocktakingBatchVo> stocktakingBatchList = stocktakingApplyServiceApi.getStocktakingBatchList(vo);
 			// 过滤数据权限字段
             cleanAccessData(stocktakingBatchList);
-			LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
+			LOG.debug(LogConstant.PAGE, stocktakingBatchList);
 			return stocktakingBatchList;
 		} catch (Exception e) {
 			LOG.error("盘点申请查询列表信息异常:{}", e);
@@ -184,10 +183,8 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	        diffDetailPageList.setList(diffDetailList);
 	        diffDetailPageList.setFooter(diffFooterList);
 	        
-	        LOG.debug(LogConstant.PAGE, diffDetailPageList.toString());
+	        LOG.debug(LogConstant.PAGE, diffDetailPageList);
 	        return diffDetailPageList;
-//	        LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
-//	        return stocktakingBatchList;
 	    } catch (Exception e) {
 	        LOG.error("盘点申请查询列表信息异常:{}", e);
 	    }
@@ -259,8 +256,8 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	@RequestMapping(value = "/saveDiffDispose", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson saveDiffDispose(String data) {
-		RespJson respJson = RespJson.success();
-		LOG.debug("保存差异详情 ：data{}" + data);
+	    RespJson respJson;
+        LOG.debug("保存差异详情 ：data{}", data);
 		SysUser user = UserUtil.getCurrentUser();
 		if (user == null) {
 			respJson = RespJson.error("用户不能为空！");
@@ -296,7 +293,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	public RespJson auditDiffDispose(String data) {
 		RespJson respJson = RespJson.success();
 		try {
-			LOG.debug("审核差异处理详情 ：data{}" + data);
+            LOG.debug("审核差异处理详情 ：data{}", data);
 			SysUser user = UserUtil.getCurrentUser();
 			if (user == null) {
 				respJson = RespJson.error("用户不能为空！");
@@ -315,9 +312,6 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			vo.setValidUserName(user.getUserName());
 			vo.setValidTime(DateUtils.getCurrFullStr());
 			return stocktakingOperateServiceApi.auditDiffDispose(vo);
-		} catch (RpcException e) {
-            LOG.error("审核差异处理信息异常:{}", e);
-            respJson = RespJson.error("审核差异处理信息异常");
         } catch (RuntimeException e) {
 			LOG.error("审核差异处理信息异常:{}", e);
 			respJson = RespJson.error(e.getMessage());
