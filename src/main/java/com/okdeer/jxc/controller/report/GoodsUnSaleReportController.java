@@ -6,24 +6,7 @@
  */    
 package com.okdeer.jxc.controller.report;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Future;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.alibaba.dubbo.rpc.RpcContext;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
@@ -36,6 +19,20 @@ import com.okdeer.jxc.report.qo.GoodsUnsaleReportQo;
 import com.okdeer.jxc.report.service.GoodsUnsaleReportService;
 import com.okdeer.jxc.report.vo.GoodsUnsaleReportVo;
 import com.okdeer.jxc.utils.UserUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Future;
 
 
 /**
@@ -160,8 +157,8 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 		try {
 			qo.setSourceBranchId(UserUtil.getCurrBranchId());
 			goodsUnsaleReportService.exportList(qo);
-			goodsUnsaleReportService.queryGoodsUnsaleReportSum(qo);
 			Future<List<GoodsUnsaleReportVo>> exportListFuture = RpcContext.getContext().getFuture();
+			goodsUnsaleReportService.queryGoodsUnsaleReportSum(qo);
 			Future<GoodsUnsaleReportVo> unsaleReportVoFuture = RpcContext.getContext().getFuture();
 			GoodsUnsaleReportVo vo = unsaleReportVoFuture.get();
 			List<GoodsUnsaleReportVo> exportList = exportListFuture.get();

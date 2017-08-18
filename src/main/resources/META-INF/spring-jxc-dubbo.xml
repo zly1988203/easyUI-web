@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+
+
 			http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
 	<dubbo:application name="${dubbo.application.name}"  />
@@ -48,6 +48,7 @@
 	<dubbo:reference interface="com.okdeer.jxc.report.service.GoodsUnsaleReportService" id="goodsUnsaleReportService" version="1.0.0" check="false">
 		<dubbo:method name="queryGoodsUnsaleReportSum" async="true"></dubbo:method>
 		<dubbo:method name="getGoodsUnsaleReportList" async="true"></dubbo:method>
+		<dubbo:method name="exportList" async="true"></dubbo:method>
 	</dubbo:reference>
 
 	<dubbo:reference interface="com.okdeer.jxc.report.service.GoodsOutInDetailServiceApi" id="goodsOutInDetailServiceApi" version="1.0.0" check="false">
@@ -55,4 +56,11 @@
 		<dubbo:method name="getGoodsOutInDetailList" async="true"></dubbo:method>
 		<dubbo:method name="exportList" async="true"></dubbo:method>
 	</dubbo:reference>
+	
+	<dubbo:reference interface="com.okdeer.jxc.report.service.GoodsSaleReportServiceApi" id="goodsSaleReportServiceApi" version="1.0.0" check="false">
+		<dubbo:method name="getGoodsSaleList" async="true"></dubbo:method>
+		<dubbo:method name="queryGoodsSaleCountSum" async="true"></dubbo:method>
+		<dubbo:method name="exportList" async="true"></dubbo:method>
+	</dubbo:reference>
+
 </beans>

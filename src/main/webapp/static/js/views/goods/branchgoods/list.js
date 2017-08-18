@@ -406,51 +406,38 @@ function selectBranches() {
 		if(data == 'NO')return;
 		if(data && data.length>0){
 			var ids = [];
+			var type;
 			data.forEach(function(obj,inx){
-				if(obj.type == -1){
-					ids.push(obj.branchId);
-				}
+				type = obj.type;
+				ids.push(obj.branchId);
 			})
+			console.log('data',data);
+			console.log('ids',ids);
 			if(ids.length == 0) return;
-			var param = {
-				"groupIds":ids.join(',')
-			}
-			//拉取分组详细
-			publicGetBranchGroupDetail(param,function(result){
-				if(result&&result.branchId){
-					$_jxc.confirm('是否引入所选机构未引入的商品', function(data) {
-						if (data) {
-							console.log('branchIdList',result.branchId);
-							branchesLeadInto(result.branchId);
-						}
-					});
+			if(type == -1){
+				var param = {
+						"groupIds":ids.join(',')
 				}
-			})
+				//拉取分组详细
+				publicGetBranchGroupDetail(param,function(result){
+					if(result&&result.branchId){
+						$_jxc.confirm('是否引入所选机构未引入的商品', function(data) {
+							if (data) {
+								console.log('branchIdList',result.branchId);
+								branchesLeadInto(result.branchId);
+							}
+						});
+					}
+				})
+			} else{
+				$_jxc.confirm('是否引入所选机构未引入的商品', function(data) {
+					console.log('ids2',ids);
+					if (data) {
+						branchesLeadInto(ids.join(','));
+					}
+				});
+			}
 		}
-		
-//		
-//		var branchesId="";
-//		var flag = true;
-//		$.each(data,function(i,k){
-//			branchesId=k.branchesId+","+branchesId;
-//			if ($("#branchType").val() == $_jxc.branchTypeEnum.BRANCH_COMPANY) {
-//				if (k.type == $_jxc.branchTypeEnum.BRANCH_COMPANY){
-//					flag = false;
-//				}
-//			} else {
-//				flag = false;
-//			}
-//		});
-//		if (flag) {
-//			$_jxc.alert("商品引入时未选择所属分公司:" + $("#branchName").val());
-//			return;
-//		}
-//		branchesId = branchesId.substring(0,branchesId.length - 1);
-//		$_jxc.confirm('是否引入所选机构未引入的商品', function(data) {
-//			if (data) {
-//				branchesLeadInto(branchesId);
-//			}
-//		});
 	})
 }
 

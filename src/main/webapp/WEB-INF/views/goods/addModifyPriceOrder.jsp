@@ -10,7 +10,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
 
-<script src="${ctx}/static/js/views/goods/addModifyPriceOrder.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/goods/addModifyPriceOrder.js?V=${versionNo}2"></script>
 	<%--特殊处理提示框--%>
 	<style>
 	.messager-body{
