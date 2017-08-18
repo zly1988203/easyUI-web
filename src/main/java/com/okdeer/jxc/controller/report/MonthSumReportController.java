@@ -30,7 +30,7 @@ import com.okdeer.retail.facade.report.vo.MonthSumReportVo;
  *
  */
 @Controller
-@RequestMapping("report/month")
+@RequestMapping("report/month_new")
 public class MonthSumReportController extends BaseReportController<MonthSumReportQo, MonthSumReportVo> {
 	/**
 	 * 日进销存报表Dubbo接口

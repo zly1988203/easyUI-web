@@ -417,9 +417,13 @@ function exportExcel(){
 	var obj = localStorageUtil.getLocalStorageItem("storge");
 	$("#categoryCode").val(obj.categoryCode);
 	
+	var formData = $("#queryForm").serializeObject();
+	
+	formData.startTime = formData.startTime + " 00:00";
+	formData.endTime = formData.endTime + " 00:00";
 	//导出记录上一次查询条件
-	$("#queryForm").attr("action",contextPath+"/report/branchGoodsSaleReport/exportList");
-	$("#queryForm").submit(); 
+	$("#exportForm").attr("action",contextPath+"/report/branchGoodsSaleReport/exportList?" + $.param(formData));
+	$("#exportForm").submit(); 
 }
 
 
