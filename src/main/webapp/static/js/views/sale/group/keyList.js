@@ -236,9 +236,14 @@ function copyfrom() {
         $_jxc.alert("请选择机构");
         return;
     }
+    var param = {
+        branchTypesStr:$_jxc.branchTypeEnum.OWN_STORES+','+$_jxc.branchTypeEnum.FRANCHISE_STORE_B+','+$_jxc.branchTypeEnum.FRANCHISE_STORE_C
+    }
 
     //按钮弹框选择机构
-    publicBranchService(function (data) {
+    publicBranchesService(param,function (data) {
+        if(data == 'NO') return;
+
         $_jxc.confirm("是否确定从选择机构复制数据到当前机构?",function (r) {
             if(!r)return;
             var param = {
@@ -257,7 +262,7 @@ function copyfrom() {
         })
 
 
-    },0);
+    });
 
 }
 
