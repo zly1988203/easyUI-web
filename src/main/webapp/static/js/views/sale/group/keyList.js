@@ -62,6 +62,13 @@ function  initKeygrid() {
                 keygridHandle.setSelectFieldName("sort");
             }
         },
+        onSelect:function (rowIndex,rowData) {
+            if(rowData.code == "01"){
+                $('#btnHot').addClass('ubtns-item').removeClass('ubtns-item-disabled event-none');
+            }else{
+                $('#btnHot').removeClass('ubtns-item').addClass('ubtns-item-disabled event-none');
+            }
+        },
         onLoadSuccess:function(data){
             keygridHandle.setDatagridHeader("center");
         }
@@ -85,7 +92,7 @@ function editKeyGroup(index) {
         },
         modal: true,
         onLoad: function () {
-            initCardTypeData(item);
+            initKeyGroupData(item);
         }
     })
 }
@@ -175,13 +182,7 @@ function  initGoodsgrid() {
                 goodsgridHandel.setSelectFieldName("sort");
             }
         },
-        onSelect:function (rowIndex,rowData) {
-            if(rowData.code == "01"){
-                $('#btnHot').addClass('ubtns-item').removeClass('ubtns-item-disabled event-none');
-            }else{
-                $('#btnHot').removeClass('ubtns-item').addClass('ubtns-item-disabled event-none');
-            }
-        },
+
         onLoadSuccess:function(data){
             goodsgridHandel.setDatagridHeader("center");
         }
@@ -214,8 +215,8 @@ function saveform() {
     $_jxc.ajax({
         url:contextPath+'/common/chargeSelect/getChargeComponentList',
         data:param,
-    },function(res){
-        if(res.code == 0){
+    },function(result){
+        if(result.code == 0){
 
         }else{
             $_jxc.alert(result['message']);
@@ -238,8 +239,8 @@ function copyfrom() {
         $_jxc.ajax({
             url:contextPath+'/common/chargeSelect/getChargeComponentList',
             data:param,
-        },function(res){
-            if(res.code == 0){
+        },function(result){
+            if(result.code == 0){
 
             }else{
                 $_jxc.alert(result['message']);
@@ -317,8 +318,8 @@ function savegoods() {
     $_jxc.ajax({
         url:contextPath+'/common/chargeSelect/getChargeComponentList',
         data:param,
-    },function(res){
-        if(res.code == 0){
+    },function(result){
+        if(result.code == 0){
 
         }else{
             $_jxc.alert(result['message']);
@@ -340,9 +341,9 @@ function hotgoods() {
     $_jxc.ajax({
         url:contextPath+'/common/chargeSelect/getChargeComponentList',
         data:param,
-    },function(res){
-        if(res.code == 0){
-            $("#goodsgrid").datagrid("loadData",res.list);
+    },function(result){
+        if(result.code == 0){
+            $("#goodsgrid").datagrid("loadData",result.list);
         }else{
             $_jxc.alert(result['message']);
         }
