@@ -6,11 +6,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>采购订单</title>
+<title>会员活动领取记录</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/purchase/orderList.js"></script>
-<%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+
+	<c:set var="ctx" value="${pageContext.request.contextPath}" />
+<script src="${ctx}/static/js/views/sale/prize/recordList.js?V=${versionNo}"></script>
+	<style>
+	.datagrid-header-row .datagrid-cell {
+	text-align: center !important;
+	}
+	</style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -32,19 +40,22 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">奖品名称:</div>
-					<input class="uinp" name="formNo" id="formNo" type="text">
+					<input class="uinp" name="name" id="name" type="text">
 				</div>
 				<div class="ub ub-ac umar-r40">
-					<div class="umar-r10 uw-60 ut-r">会员号:</div>
-                    <input class="uinp" name="formNo" id="formNo" type="text">
+					<div class="umar-r10 uw-70 ut-r">会员号:</div>
+                    <input class="uinp" name="VipNo" id="VipNo" type="text">
 				</div>
 
 			</div>
 			<div class="ub umar-t8">
 
-				<div class="ub ub-ac umar-r40">
+				<div class="ub ub-ac umar-r40" id="branchTemp">
 					<div class="umar-r10 uw-60 ut-r">活动机构:</div>
-					<input class="uinp" name="formNo" id="formNo" type="text">
+					<input class="uinp ub ub-f1" type="hidden" id="branchId"
+					name="branchId"> <input class="uinp ub ub-f1" type="text"
+					id="branchName" name="branchName">
+					<div class="uinp-more">...</div>
 				</div>
 
                 <div class="ub ub-ac umar-r40">
@@ -60,7 +71,7 @@
 
 		</form>
 		<div class="ub uw umar-t8 ub-f1">
-			<table id="gridOrders"></table>
+			<table id="gridRecordList"></table>
 		</div>
 
 	</div>

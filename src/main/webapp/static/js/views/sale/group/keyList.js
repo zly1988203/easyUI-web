@@ -6,7 +6,13 @@ $(function () {
     initKeygrid();
     initGoodsgrid();
     //机构选择初始化 发货机构
-    $('#branchTemp').branchSelect();
+    $('#branchTemp').branchSelect({
+        //数据过滤
+        loadFilter:function(data){
+            data.salesmanId = data.id;
+            return data;
+        }
+    });
 })
 
 var keygridHandle = new GridClass();
@@ -233,19 +239,24 @@ function copyfrom() {
 
     //按钮弹框选择机构
     publicBranchService(function (data) {
-        var param = {
-            branchId : data.branchId
-        }
-        $_jxc.ajax({
-            url:contextPath+'/common/chargeSelect/getChargeComponentList',
-            data:param,
-        },function(result){
-            if(result.code == 0){
-
-            }else{
-                $_jxc.alert(result['message']);
+        $_jxc.confirm("是否确定从选择机构复制数据到当前机构?",function (r) {
+            if(!r)return;
+            var param = {
+                branchId : data.branchId
             }
+            $_jxc.ajax({
+                url:contextPath+'/common/chargeSelect/getChargeComponentList',
+                data:param,
+            },function(result){
+                if(result.code == 0){
+
+                }else{
+                    $_jxc.alert(result['message']);
+                }
+            })
         })
+
+
     },0);
 
 }
