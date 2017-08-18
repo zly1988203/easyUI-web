@@ -211,10 +211,6 @@ function delLineHandel(event){
 }
 
 function saveform() {
-
-
-
-
     var param = {
         branchId : data.branchId
     }

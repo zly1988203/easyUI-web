@@ -51,13 +51,24 @@ function queryPosActivity() {
 }
 
 function addPosActivity() {
-    toAddTab("新增Pos客屏活动",contextPath + "/sale/pos/wheelsurf/add");
+    toAddTab("新增Pos客屏活动",contextPath + "/pos/wheelsurf/form/add");
 }
 
 function copyPosActivity() {
-    
+    var row =  $("#"+gridName).datagrid('getSelected');
+    if(!row){
+        $_jxc.alert("请选择一条数据");
+        return;
+    }
+
+
+
 }
 
 function delPosActivity() {
-    
+    var row =  $("#"+gridName).datagrid('getSelected');
+    if(!row){
+        $_jxc.alert("请选择一条数据");
+        return;
+    }
 }

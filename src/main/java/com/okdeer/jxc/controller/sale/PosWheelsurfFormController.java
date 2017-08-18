@@ -10,6 +10,7 @@ package com.okdeer.jxc.controller.sale;
 
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.controller.BaseController;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,9 +34,18 @@ import java.util.Map;
 public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormController> {
 
     @RequestMapping(value = "/list")
-    public ModelAndView add() {
+    public ModelAndView list() {
         Map<String, String> model = Maps.newHashMap();
         return new ModelAndView("sale/pos/wheelsurf/wheelsurflist", model);
     }
+    
+	/**
+	 * 跳转到新增页面
+	 */
+	@RequestMapping(value = "add")
+	public ModelAndView viewAdd() {
+		 Map<String, String> model = Maps.newHashMap();
+		return new ModelAndView("sale/pos/wheelsurf/addWheelsurf",model);
+	}
 
 }
