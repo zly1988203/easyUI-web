@@ -17,13 +17,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.form.entity.PurchaseSelect;
+import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.form.purchase.qo.PurchaseFormDetailPO;
 import com.okdeer.jxc.form.purchase.qo.PurchaseFormPO;
 import com.okdeer.jxc.form.purchase.service.PurchaseFormServiceApi;
@@ -56,6 +59,9 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 	
 	@Reference(version = "1.0.0", check = false)
 	private BranchSpecServiceApi branchSpecService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private BranchesServiceApi branchService;
 	
 	/**
 	 * @Description: 选择页面
@@ -138,15 +144,36 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 	 */
 	@RequestMapping(value = "getPurchaseForm")
 	@ResponseBody
-	public RespJson getPurchaseForm(String formId){
+	public RespJson getPurchaseForm(String formId) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
-		List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetailById(formId);
+		List<PurchaseFormDetailPO> list = null;
+
+		if (FormType.PA.equals(form.getFormType())) {
+			String branchId = form.getBranchId();
+			Branches branch = branchService.getBranchInfoById(branchId);
+
+			// 取分公司数据
+			if (branch.getType() > 1) {
+				branchId = branch.getParentId();
+			}
+
+			BranchSpecVo branchSpec = branchSpecService.queryByBranchId(branchId);
+			// 允许采购收货取采购订单价格：0.否，1.是
+			if (branchSpec.getIsAllowPiGetPaPrice().intValue() == 0) {
+				list = purchaseFormServiceApi.getDetailAndPriceById(formId);
+			} else {
+				list = purchaseFormServiceApi.selectDetailById(formId);
+			}
+		} else {
+			list = purchaseFormServiceApi.selectDetailById(formId);
+		}
+
 		RespJson resp = RespJson.success();
 		resp.put("form", form);
-		//cleanAccessData(list);
+		// cleanAccessData(list);
 		resp.put("list", list);
 		return resp;
-		
+
 	}
 	
 }

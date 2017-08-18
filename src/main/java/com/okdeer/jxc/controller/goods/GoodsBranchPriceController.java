@@ -43,6 +43,7 @@ import com.okdeer.jxc.common.goodselect.BranchGoodsImportVo;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.entity.GoodsBranchPrice;
@@ -54,7 +55,6 @@ import com.okdeer.jxc.goods.service.GoodsSkuSyncServiceApi;
 import com.okdeer.jxc.goods.vo.BranchGoodsPropVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
-import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
 
 /**
  * ClassName: GoodsBranchPriceController 
@@ -93,14 +93,9 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 	@RequestMapping(value = "listData", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<GoodsBranchPriceVo> listData(GoodsBranchPriceQo qo) {
-		if (StringUtils.isBlank(qo.getBranchId())) {
-			SysUser user = UserUtil.getCurrentUser();
-			qo.setBranchId(user.getBranchId());
-		}
-		if (qo.getStatus() == null) {
-			qo.setStatus(0);
-		}
+		
 		try {
+			buildSearchParams(qo);
 			Integer branchType = null;
 			if (StringUtils.isBlank(qo.getBranchType())) {
 				branchType = UserUtil.getCurrBranchType();
@@ -126,6 +121,22 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 			LOG.error("查询店铺商品异常:", e);
 		}
 		return PageUtils.emptyPage();
+	}
+
+	/**
+	 * @Description: 构建查询参数
+	 * @param qo
+	 * @author liwb
+	 * @date 2017年8月18日
+	 */
+	private void buildSearchParams(GoodsBranchPriceQo qo) {
+		if (StringUtils.isBlank(qo.getBranchId())) {
+			SysUser user = UserUtil.getCurrentUser();
+			qo.setBranchId(user.getBranchId());
+		}
+		if (qo.getStatus() == null) {
+			qo.setStatus(0);
+		}
 	}
 
 	/**
@@ -615,18 +626,59 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 			LOG.error("导出模板异常", e);
 		}
 	}
+	
+	@RequestMapping(value = "exportHandel", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportHandel(GoodsBranchPriceQo qo, HttpServletResponse response) {
+		try {
+			buildSearchParams(qo);
+			Integer branchType = null;
+			if (StringUtils.isBlank(qo.getBranchType())) {
+				branchType = UserUtil.getCurrBranchType();
+			} else {
+				branchType = Integer.valueOf(qo.getBranchType());
+			}
+			// 查询机构商品
+			List<GoodsBranchPriceVo> exportList = null;
+			
+			if(branchType>1){
+				exportList = goodsBranchPriceService.queryBranchGoodsList(qo);
+			}else{
+				exportList = goodsBranchPriceService.queryBranchCompanyGoodsList(qo);
+			}
+			
+			String branchId = qo.getBranchId();
+			String branchName = branchesServiceApi.getBranchInfoById(branchId).getBranchName();
+			String fileName = "商品信息列表";
+			switch(qo.getStatus()){
+				case 0:
+					fileName = "已有商品";
+					break;
+				case 1:
+					fileName = "未引入商品";
+					break;
+				default:
+					fileName = "所有商品";
+			}
+			
+			// 导出文件名称，不包括后缀名
+			fileName = branchName + fileName + DateUtils.getCurrSmallStr();
 
-	/**
-	 * @Description: 导出后缀名为“.xlsx”的Excel公用方法
-	 * @param response	
-	 * @param dataList	数据集合
-	 * @param fileName	导出文件名称，不包括后缀名
-	 * @param templateName	模板名称，包括后缀名
-	 * @author liwb
-	 * @date 2016年8月22日
-	 */
-	protected void exportListForXLSX(HttpServletResponse response, List<?> dataList, String fileName,
-			String templateName) {
-		ReportExcelUtil.exportListForXLSX(response, dataList, fileName, templateName);
+			// 模板名称，包括后缀名
+			String templateName = ExportExcelConstant.BRANCH_GOODS_EXPORT_TEMPLATE;
+
+			// 导出Excel			
+			Map<String, Object> param = new HashMap<>();
+			param.put("fileName", fileName);
+			exportParamListForXLSX(response, exportList, param, fileName, templateName);
+			return null;
+
+		} catch (Exception e) {
+			LOG.error("导出机构信息失败", e);
+		}
+		return RespJson.error();
 	}
+
+	
+	
 }

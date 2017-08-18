@@ -7,8 +7,9 @@
     <title>商品引入</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
+    <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
  
-	<script src="${ctx}/static/js/views/goods/branchgoods/list.js?V=${versionNo}"></script>
+	<script src="${ctx}/static/js/views/goods/branchgoods/list.js?V=${versionNo}11"></script>
     <style>
     .ubtns .hide{display:none!important;}
     .show{display:block!important;}
@@ -38,6 +39,9 @@
 		                <shiro:hasPermission name="JxcGoodsIntroduce:search">
 		                 <div class="ubtns-item" onclick="query()">查询</div>
 		                </shiro:hasPermission>
+		                 <shiro:hasPermission name="JxcGoodsIntroduce:export">
+		                 <div class="ubtns-item" onclick="exportData()">导出</div>
+		                 </shiro:hasPermission>
 		                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 		                <shiro:hasPermission name="JxcGoodsIntroduce:importBySkuCode">
 		                  <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
@@ -65,6 +69,8 @@
 		                <!-- 隐藏类别编号 -->
 		                <input class="uinp" name="categoryCode" id="categoryCode" type="hidden">
 		                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
+		                <input type="hidden" id="startCount" name="startCount" >
+						<input type="hidden" id="endCount" name="endCount" >
 		                
 		                <div class="ub ub-ac" id="branchGroupComponent">
 		                	<div class="umar-r10 uw-60 ut-r">机构:</div>
