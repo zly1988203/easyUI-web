@@ -10,24 +10,24 @@ function initKeyGroupData(item) {
 }
 
 function saveGroup() {
-    if(!$("#sort").val()){
+    if(!$("#sortNo").val()){
         $_jxc.alert("请输入排序");
         return;
     }
 
-    if(!$("#name").val()){
+    if(!$("#groupName").val()){
         $_jxc.alert("请输入分组名称");
         return;
     }
 
-    var formObj = $("groupAdd").serializeObject();
+    var formObj = $("#groupAdd").serializeObject();
 
     $_jxc.ajax({
-        url:contextPath+'/common/chargeSelect/getChargeComponentList',
+        url:contextPath+'/pos/group/key/save/group',
         data:formObj,
     },function(result){
         if(result.code == 0){
-
+            $_jxc.alert("新增分组成功!",closeCardDialog());
         }else{
             $_jxc.alert(result['message']);
         }
@@ -35,17 +35,17 @@ function saveGroup() {
 }
 
 function updateGroup() {
-    if(!$("#sort").val()){
+    if(!$("#sortNo").val()){
         $_jxc.alert("请输入排序");
         return;
     }
 
-    if(!$("#name").val()){
+    if(!$("#groupName").val()){
         $_jxc.alert("请输入分组名称");
         return;
     }
 
-    var formObj = $("groupEdit").serializeObject();
+    var formObj = $("#groupEdit").serializeObject();
 
     $_jxc.ajax({
         url:contextPath+'/common/chargeSelect/getChargeComponentList',

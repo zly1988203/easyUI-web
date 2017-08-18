@@ -213,7 +213,10 @@ function delLineHandel(event){
 function saveform() {
 
 
-
+    if(!$("#branchId").val()){
+        $_jxc.alert("请选择机构");
+        return;
+    }
 
     var param = {
         branchId : data.branchId
@@ -272,7 +275,7 @@ function addgroup() {
         return;
     }
     cardDialog = $('<div/>').dialog({
-        href: contextPath+"/pos/group/key/addGroup",
+        href: contextPath+"/pos/group/key/addGroup/"+$("#branchId").val(),
         width:400,
         height:300,
         title: "新增分组",
