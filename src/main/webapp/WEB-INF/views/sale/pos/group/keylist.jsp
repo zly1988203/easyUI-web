@@ -19,7 +19,7 @@
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/sale/group/keyList.js?V=${versionNo}3"></script>
+	src="${ctx}/static/js/views/sale/group/keyList.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell {
 	text-align: center !important;
