@@ -20,14 +20,17 @@ function saveGroup() {
         return;
     }
 
-    var formObj = $("groupAdd").serializeObject();
+    var formObj = $("#groupAdd").serializeObject();
 
     $_jxc.ajax({
         url:contextPath+'/common/chargeSelect/getChargeComponentList',
         data:formObj,
     },function(result){
         if(result.code == 0){
-
+            $_jxc.alert("添加分组成功",function () {
+                closeCardDialog();
+                getGroupList();
+            })
         }else{
             $_jxc.alert(result['message']);
         }
@@ -45,14 +48,17 @@ function updateGroup() {
         return;
     }
 
-    var formObj = $("groupEdit").serializeObject();
+    var formObj = $("#groupEdit").serializeObject();
 
     $_jxc.ajax({
         url:contextPath+'/common/chargeSelect/getChargeComponentList',
         data:formObj,
     },function(result){
         if(result.code == 0){
-
+            $_jxc.alert("添加分组成功",function () {
+                closeCardDialog();
+                getGroupList();
+            })
         }else{
             $_jxc.alert(result['message']);
         }
