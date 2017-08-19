@@ -42,11 +42,11 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">奖品名称:</div>
-					<input class="uinp" name="name" id="name" type="text">
+					<input class="uinp" name="prizeName" id="prizeName" type="text">
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-70 ut-r">会员号:</div>
-                    <input class="uinp" name="VipNo" id="VipNo" type="text">
+                    <input class="uinp" name="mobile" id="mobile" type="text">
 				</div>
 
 			</div>
@@ -62,7 +62,7 @@
 
                 <div class="ub ub-ac umar-r40">
                 <div class="umar-r10 uw-70 ut-r">活动类型:</div>
-                <select class="uselect easyui-combobox" name="activityType"
+                <select class="uselect easyui-combobox" name="formType" id="formType"
                 data-options="editable:false">
                 <option value="">全部</option>
                 <option value="1">抽奖</option>

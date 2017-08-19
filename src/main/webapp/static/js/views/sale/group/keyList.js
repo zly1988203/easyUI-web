@@ -424,10 +424,13 @@ function savegoods() {
 }
 
 function getGgoodsList() {
+    $("#goodsgrid").datagrid("endEdit", goodsgridHandel.getSelectRowIndex());
     $("#keygrid").datagrid("endEdit", keygridHandle.getSelectRowIndex());
+    var row = $("#keygrid").datagrid("getSelected");
     var branchId = $("#branchId").val();
     var param = {
-        branchId : branchId
+        branchId : branchId,
+        groupId : row.id
     }
     $_jxc.ajax({
         url:contextPath+'/pos/group/key/goods//list',
