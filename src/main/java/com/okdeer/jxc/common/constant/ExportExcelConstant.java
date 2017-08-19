@@ -805,4 +805,9 @@ public interface ExportExcelConstant {
 	 * 日进销存报表
 	 */
 	String DAY_SUM_REPORT = "daySumReport.xlsx";
+
+	/**
+	 * 会员活动领取记录详情
+	 */
+	String POS_PRIZE_RECORD_DETAIL = "posPrizeRecordDetail.xlsx";
 }
