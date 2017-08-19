@@ -156,7 +156,8 @@ function  initGoodsgrid() {
                     return str;
                 }
             },
-
+            {field:'cid',title:'cid',align:'left',hidden:true},
+            {field:'skuId',title:'skuId',align:'left',hidden:true},
             {field:'skuCode',title:'货号',width: '70px',align:'left',editor:'textbox'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
             {field:'barCode',title:'条码',width:'150px',align:'left'},
@@ -164,8 +165,8 @@ function  initGoodsgrid() {
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
             {field:'price',title:'零售价',width:'80px',align:'right'},
-            {field:'skuName',title:'简称',width:'200px',align:'left'},
-            {field:'sort',title:'排序',width:'200px',align:'right',
+            {field:'shortName',title:'简称',width:'200px',align:'left'},
+            {field:'sortNo',title:'排序',width:'200px',align:'right',
                 formatter:function(value,row,index){
                     return  '<b>'+parseFloat(value||0).toFixed(0)+'</b>';
                 },
@@ -227,7 +228,7 @@ function saveform() {
         data: param,
     },function(result){
         if(result.code == 0){
-
+            $_jxc.alert('保存分组成功!');
         }else{
             $_jxc.alert(result['message']);
         }
@@ -250,7 +251,23 @@ function copyfrom() {
 
         $_jxc.confirm("是否确定从选择机构复制数据到当前机构?",function (r) {
             if(!r)return;
-            getGroupList(data.branchId);
+
+            var param = {
+                sourceBranchId : data.branchId,
+                targetBranchId : $("#branchId").val()
+            };
+
+            $_jxc.ajax({
+                url:contextPath+'/pos/group/key/copy',
+                data:param,
+            },function(result){
+                if(result.code == 0){
+                    getGroupList($("#branchId").val());
+                }else{
+                    $_jxc.alert(result['message']);
+                }
+            })
+
         })
     });
 }
@@ -258,7 +275,7 @@ function copyfrom() {
 function getGroupList(branchId) {
     var param = {
         branchId :""
-    }
+    };
     if(!branchId){
         param.branchId = $("#branchId").val();
     }else {
@@ -318,7 +335,7 @@ function delgroup() {
 
         var param = {
             groupId : row.id
-        }
+        };
         $_jxc.ajax({
             url:contextPath+'/pos/group/key/del/group/'+row.id
         },function(result){
@@ -340,15 +357,22 @@ function delgroup() {
 }
 
 function savegoods() {
+    $("#goodsgrid").datagrid("endEdit", goodsgridHandel.getSelectRowIndex());
+    $("#keygrid").datagrid("endEdit", keygridHandle.getSelectRowIndex());
+
+    var row = $("#keygrid").datagrid("getSelected");
     var param = {
-        branchId : data.branchId
-    }
+        groupId : row.id,
+        jsontext:JSON.stringify(goodsgridHandel.getRows())
+    };
     $_jxc.ajax({
-        url:contextPath+'/pos/group/key/save/groups',
+        url:contextPath+'/pos/group/key/save/goods',
         data:param,
     },function(result){
         if(result.code == 0){
-
+            $_jxc.alert("保存商品成功",function () {
+                //getGroupList();
+            })
         }else{
             $_jxc.alert(result['message']);
         }
@@ -356,6 +380,7 @@ function savegoods() {
 }
 
 function hotgoods() {
+    $("#keygrid").datagrid("endEdit", keygridHandle.getSelectRowIndex());
 
     var branchId = $("#branchId").val();
     if(!branchId){
@@ -367,11 +392,11 @@ function hotgoods() {
         branchId : data.branchId
     }
     $_jxc.ajax({
-        url:contextPath+'/common/chargeSelect/getChargeComponentList',
+        url:contextPath+'/pos/group/key/goods/top/list',
         data:param,
     },function(result){
         if(result.code == 0){
-            $("#goodsgrid").datagrid("loadData",result.list);
+            $("#goodsgrid").datagrid("loadData",result.data.list);
         }else{
             $_jxc.alert(result['message']);
         }

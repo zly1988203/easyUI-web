@@ -62,8 +62,6 @@
 					<div id="btnHot" class="event-none ubtns-item-disabled"
 						onclick="hotgoods()">热销商品</div>
 					<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-					<div class="ubtns-item" onclick="delgoods()">删除</div>
-
 				</div>
 			</div>
 		</div>
