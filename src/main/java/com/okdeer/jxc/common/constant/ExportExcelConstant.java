@@ -738,6 +738,10 @@ public interface ExportExcelConstant {
 	 * 加盟店预收账款明细
 	 */
 	String FRANCHISE_ACCOUNT6 = "FranchiseAccount6.xlsx";
+	/**
+	 * 加盟店毛利明细
+	 */
+	String FRANCHISE_ACCOUNT7 = "FranchiseAccount7.xlsx";
 
 	/**
 	 * 到期账款
