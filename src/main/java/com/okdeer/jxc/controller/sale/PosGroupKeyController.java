@@ -15,6 +15,7 @@ import com.okdeer.jxc.common.utils.JsonMapper;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.pos.service.PosGroupKeyService;
+import com.okdeer.jxc.pos.vo.PosGroupKeyDetailVo;
 import com.okdeer.jxc.pos.vo.PosGroupKeyVo;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -123,6 +124,59 @@ public class PosGroupKeyController extends BaseController<PosGroupKeyController>
         }catch (Exception e){
             LOG.error("获取分组列表失败!" ,e);
             return RespJson.error("获取分组列表失败!" );
+        }
+    }
+    @RequestMapping(value = "/copy", method = RequestMethod.POST)
+    public RespJson copy(String sourceBranchId,String targetBranchId){
+        try {
+            List<PosGroupKeyVo> datas = this.posGroupKeyService.copy(sourceBranchId,targetBranchId);
+            return RespJson.success(datas);
+        }catch (Exception e){
+            LOG.error("获取分组列表失败!" ,e);
+            return RespJson.error("获取分组列表失败!" );
+        }
+    }
+
+    @RequestMapping(value = "/goods/top/list", method = RequestMethod.POST)
+    public RespJson goodsTopList(String branchId,String groupId,
+                              @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+                              @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+        try {
+            PageUtils<PosGroupKeyDetailVo> posGroupKeyList = this.posGroupKeyService.selectPosGroupKeyDetailList(branchId,groupId,true ,pageSize, pageNumber);
+            return RespJson.success(posGroupKeyList);
+        }catch (Exception e){
+            LOG.error("获取分组列表失败!" ,e);
+            return RespJson.error("获取分组列表失败!" );
+        }
+    }
+
+    @RequestMapping(value = "/goods/list", method = RequestMethod.POST)
+    public RespJson goodsList(String branchId,String groupId,
+                         @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+                         @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+        try {
+            PageUtils<PosGroupKeyDetailVo> posGroupKeyList = this.posGroupKeyService.selectPosGroupKeyDetailList(branchId,groupId,false ,pageSize, pageNumber);
+            return RespJson.success(posGroupKeyList);
+        }catch (Exception e){
+            LOG.error("获取分组列表失败!" ,e);
+            return RespJson.error("获取分组列表失败!" );
+        }
+    }
+
+    @RequestMapping(value = "/save/goods", method = RequestMethod.POST)
+    public RespJson saveGoods(String jsontext,String groupId) {
+        try {
+            List<PosGroupKeyDetailVo> posGroupKeys = JsonMapper.nonDefaultMapper().fromJson(jsontext,JsonMapper.nonDefaultMapper().contructCollectionType(ArrayList.class, PosGroupKeyDetailVo.class));
+            for (int i = 0 ,length = posGroupKeys.size();i<length;++i){
+                PosGroupKeyDetailVo vo = posGroupKeys.get(i);
+                vo.setGroupId(groupId);
+                posGroupKeys.set(i,vo);
+            }
+            posGroupKeyService.savePosGroupKeyDetails(posGroupKeys);
+            return RespJson.success();
+        }catch (Exception e){
+            LOG.error("保存分组商品失败!" ,e);
+            return RespJson.error("保存分组商品失败!" );
         }
     }
 
