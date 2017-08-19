@@ -17,6 +17,7 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.pos.service.PosGroupKeyService;
 import com.okdeer.jxc.pos.vo.PosGroupKeyDetailVo;
 import com.okdeer.jxc.pos.vo.PosGroupKeyVo;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,6 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -164,9 +167,9 @@ public class PosGroupKeyController extends BaseController<PosGroupKeyController>
     }
 
     @RequestMapping(value = "/save/goods", method = RequestMethod.POST)
-    public RespJson saveGoods(String jsontext,String groupId) {
+    public RespJson saveGoods(HttpServletRequest request,String groupId) {
         try {
-            List<PosGroupKeyDetailVo> posGroupKeys = JsonMapper.nonDefaultMapper().fromJson(jsontext,JsonMapper.nonDefaultMapper().contructCollectionType(ArrayList.class, PosGroupKeyDetailVo.class));
+            List<PosGroupKeyDetailVo> posGroupKeys = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("jsontext"),JsonMapper.nonDefaultMapper().contructCollectionType(ArrayList.class, PosGroupKeyDetailVo.class));
             for (int i = 0 ,length = posGroupKeys.size();i<length;++i){
                 PosGroupKeyDetailVo vo = posGroupKeys.get(i);
                 vo.setGroupId(groupId);
