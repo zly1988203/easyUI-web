@@ -11,7 +11,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
-
+	<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 	<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script src="${ctx}/static/js/views/sale/prize/recordList.js?V=${versionNo}"></script>
 	<style>
@@ -27,10 +27,12 @@
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryRecord()">查询</div>
 
-					<div class="ubtns-item" onclick="exprotData()">导出</div>
+					<div class="ubtns-item" onclick="exportData()">导出</div>
 
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
+					<input type="hidden" id="startCount" name="startCount" />
+					<input type="hidden" id="endCount" name="endCount" />
 				</div>
 
 				<!-- 引入时间选择控件 -->

@@ -13,10 +13,10 @@ $(function () {
 
 var gridName = "gridRecordList";
 var gridRecordHandle = new GridClass();
-
+var dg;
 function initgridRecord() {
     gridRecordHandle.setGridName(gridName);
-    $("#"+gridName).datagrid({
+    dg = $("#"+gridName).datagrid({
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
@@ -29,14 +29,20 @@ function initgridRecord() {
         width:'100%',
         pageSize:50,
         columns:[[
-            {field:'skuName',title:'会员号',width:'200px',align:'left'},
-            {field:'barCode',title:'奖品名称',width:'200px',align:'left'},
-            {field:'barCode',title:'中奖数量',width:'100px',align:'right'},
-            {field:'barCode',title:'奖品状态',width:'150px',align:'left'},
-            {field:'barCode',title:'数量',width:'100px',align:'right'},
-            {field:'barCode',title:'机构编码',width:'150px',align:'left'},
-            {field:'barCode',title:'活动机构',width:'200px',align:'left'},
-            {field:'barCode',title:'中奖时间',width:'150px',align:'left'},
+            {field:'mobile',title:'会员号',width:'200px',align:'left'},
+            {field:'prizeName',title:'奖品名称',width:'200px',align:'left'},
+            {field:'prizeNum',title:'中奖数量',width:'100px',align:'right',
+                formatter:function(value,row,index){
+                    return  '<b>'+parseFloat(value||0).toFixed(0)+'</b>';
+                }},
+            {field:'statusStr',title:'奖品状态',width:'150px',align:'left'},
+            {field:'winNum',title:'数量',width:'100px',align:'right',
+                formatter:function(value,row,index){
+                    return  '<b>'+parseFloat(value||0).toFixed(0)+'</b>';
+                }},
+            {field:'branchCode',title:'机构编码',width:'150px',align:'left'},
+            {field:'branchName',title:'活动机构',width:'200px',align:'left'},
+            {field:'winTimeStr',title:'中奖时间',width:'150px',align:'left'},
         ]],
         onLoadSuccess:function(data){
             gridRecordHandle.setDatagridHeader("center");
@@ -45,10 +51,13 @@ function initgridRecord() {
 }
 
 function queryRecord() {
+
     var fromObjStr = $('#queryForm').serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid('options').url = contextPath +'/sale/activity/listData';
+    $("#"+gridName).datagrid('options').url = contextPath +'/pos/prize/record/load/list';
     $("#"+gridName).datagrid('load', fromObjStr);
+    $("#startCount").attr("value",null);
+    $("#endCount").attr("value",null);
 }
 
 /**
@@ -65,7 +74,7 @@ function exportData(){
         left:($(window).width()-500) * 0.5
     });
     $("#exportWin").show();
-    $("#totalRows").html($("#"+gridName).datagrid('getData').total);
+    $("#totalRows").html(dg.datagrid('getData').total);
     $("#exportWin").window("open");
 }
 
@@ -73,6 +82,6 @@ function exportExcel(){
     $("#exportWin").hide();
     $("#exportWin").window("close");
 
-    $("#queryForm").attr("action",contextPath+"/stock/report/exportList");
+    $("#queryForm").attr("action",contextPath+"/pos/prize/record/exports");
     $("#queryForm").submit();
 }
