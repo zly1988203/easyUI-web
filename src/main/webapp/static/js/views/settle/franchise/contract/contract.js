@@ -103,7 +103,7 @@ function initContact(){
             },
             {field:'quotaEnd',title:'毛利额度止',width:'100',align:'right',
             	formatter:function(value,row,index){
-            		return value == "" || typeof value == "undefined"? '' : '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return value == "" || typeof value == "undefined" || value == null? '' : '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	},
             	editor:{
             		type:'numberbox',
@@ -116,7 +116,7 @@ function initContact(){
             },
             {field:'targetAllocation',title:'甲方分配（%）',width:'100',align:'right',
             	formatter:function(value,row,index){
-            		return value == "" || typeof value == "undefined"? '' : '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return value == "" || typeof value == "undefined" || value == null? '' : '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	},
             	editor:{
             		type:'numberbox',
@@ -131,7 +131,7 @@ function initContact(){
             },
             {field:'franchiseAllocation',title:'乙方分配（%）',width:'100',align:'right',
             	formatter:function(value,row,index){
-            		return value == "" || typeof value == "undefined" ? '' : '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		return value == "" || typeof value == "undefined" || value == null? '' : '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	},
             	editor:{
             		type:'numberbox',
@@ -336,6 +336,7 @@ function saveContract(){
 	if($('#formId').val()){
 		save_url = contextPath+"/settle/franchiseContract/contractUpdate";
 		param.id = $('#formId').val();
+		param.formNo = $('#formNo').val();
 	}
 	
 	$_jxc.ajax({
