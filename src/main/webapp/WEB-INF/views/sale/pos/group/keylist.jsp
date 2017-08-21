@@ -30,10 +30,18 @@
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
 		<div class="ub ub-ac">
 			<div class="ubtns">
-				<div class="ubtns-item" onclick="saveform()">保存</div>
-				<div class="ubtns-item" style="width: 120px;" onclick="copyfrom()">从其他机构复制</div>
-				<div class="ubtns-item" onclick="addgroup()">新增分组</div>
-				<div class="ubtns-item" onclick="delgroup()">删除</div>
+				<shiro:hasPermission name="posGroupKey:save">
+					<div class="ubtns-item" onclick="saveform()">保存</div>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="posGroupKey:copyBranch">
+					<div class="ubtns-item" style="width: 120px;" onclick="copyfrom()">从其他机构复制</div>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="posGroupKey:addGroup">
+					<div class="ubtns-item" onclick="addgroup()">新增分组</div>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="posGroupKey:delete">
+					<div class="ubtns-item" onclick="delgroup()">删除</div>
+				</shiro:hasPermission>
 				<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>

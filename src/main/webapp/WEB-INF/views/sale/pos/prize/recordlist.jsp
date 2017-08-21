@@ -25,10 +25,12 @@
 		<form id="queryForm">
 			<div class="ub ub-ac">
 				<div class="ubtns">
-					<div class="ubtns-item" onclick="queryRecord()">查询</div>
-
-					<div class="ubtns-item" onclick="exportData()">导出</div>
-
+					<shiro:hasPermission name="posPrizeRecord:search">
+						<div class="ubtns-item" onclick="queryRecord()">查询</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="posPrizeRecord:export">
+						<div class="ubtns-item" onclick="exportData()">导出</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 					<input type="hidden" id="startCount" name="startCount" />

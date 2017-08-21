@@ -11,10 +11,14 @@ $(function () {
         $("#actEndTime").val(dateUtil.getCurrentDateStr());
         $("#prizeStarTime").val(dateUtil.getCurrentDateStr());
         $("#prizeEndTime").val(dateUtil.getCurrentDateStr());
-    }else if($("#pageStatue").val() == "edit"){
-
-    }else if($("#pageStatue").val() == "check"){
-
+    }else if($("#pageStatue").val() == "0"){
+        $_jxc.ajax({url:contextPath+"/pos/wheelsurf/form/edit/detail/"+$("#formId").val()},function (data) {
+            $("#gridAddPosAct").datagrid("loadData",data.detail);
+        });
+    }else{
+        $_jxc.ajax({url:contextPath+"/pos/wheelsurf/form/edit/detail/"+$("#formId").val()},function (data) {
+            $("#gridAddPosAct").datagrid("loadData",data.detail);
+        });
     }
 
 })
@@ -37,6 +41,8 @@ function initgridAddPosAct() {
         height:'100%',
         width:'100%',
         columns:[[
+            {field:'id',title:'id',align:'left',hidden:true},
+            {field:'skuId',title:'skuId',align:'left',hidden:true},
             {field:'prizeType',title:'奖品类型',width:'200px',align:'left',
                 formatter:function(value,row){
                     if(row.isFooter){
@@ -63,8 +69,8 @@ function initgridAddPosAct() {
                     }
                 }
             },
-            {field:'prizeName',title:'奖品名称',width:'200px',align:'left'},
-            {field:'shortName',title:'奖品简称',width:'100px',align:'right',
+            {field:'prizeFullName',title:'奖品名称',width:'200px',align:'left'},
+            {field:'prizeShortName',title:'奖品简称',width:'100px',align:'right',
                 editor:{
                     type:'textbox',
                     options:{
@@ -72,11 +78,11 @@ function initgridAddPosAct() {
                     }
                 }
             },
-            {field:'sortNo',title:'顺序',width:'150px',align:'left'},
+            {field:'rowNo',title:'顺序',width:'150px',align:'left'},
             {field:'winNum',title:'中奖数量',width:'100px',align:'right'},
-            {field:'barCode',title:'中奖概率',width:'150px',align:'left'},
+            {field:'winRate',title:'中奖概率',width:'150px',align:'left'},
             {
-                field : 'imagePath',
+                field : 'picUrl',
                 title : '图片',
                 align : 'center',
                 width : 250,
@@ -103,8 +109,10 @@ function initgridAddPosAct() {
         }
     })
 
-    gridAddPosActHandle.setLoadData([$.extend({},gridDefault),$.extend({},gridDefault),
-        $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
+    if($("#pageStatue").val() == "add") {
+        gridAddPosActHandle.setLoadData([$.extend({}, gridDefault), $.extend({}, gridDefault),
+            $.extend({}, gridDefault), $.extend({}, gridDefault), $.extend({}, gridDefault), $.extend({}, gridDefault)]);
+    }
 }
 
 function onSelectprizeType(data) {
@@ -133,7 +141,7 @@ function selectPrize() {
     }
 
     var queryParams = {
-        type:'PA',
+        type:'HD',
         key:"",
         isRadio:0,
         'branchId': $('#branchId').val(),
@@ -146,10 +154,12 @@ function selectPrize() {
         if(data.length==0){
             return;
         }
-
         var nowRows = gridAddPosActHandle.getRowsWhere();
+        $.each(data,function (index,item) {
+            data[index]['prizeFullName'] = item.skuName;
+        });
         var newRows = nowRows.push(data);
-        $("#goodsgrid").datagrid("loadData",newRows);
+        $("#gridAddPosAct").datagrid("loadData",newRows);
 
         setTimeout(function(){
             gridAddPosActHandle.setBeginRow(gridAddPosActHandle.getSelectRowIndex()||0);
@@ -238,13 +248,15 @@ function saveWheelsurf() {
 }
 
 function updateWheelsurf() {
+    $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
+
     var branchId = $("#branchId").val();
     if(!branchId){
         $_jxc.alert("请先选择活动机构");
         return;
     }
 
-    var actName = $("#actName").val();
+    var actName = $("#wheelsurfName").val();
     if(!actName){
         $_jxc.alert("请填写活动名称");
         return;
@@ -261,16 +273,18 @@ function updateWheelsurf() {
     var formObj = $("#formAdd").serializeObject();
 
     var param = {
-        formObj : formObj,
-        list : rows
+        formObj : JSON.stringify(formObj),
+        list : JSON.stringify(gridAddPosActHandle.getRows())
     };
 
     $_jxc.ajax({
-        url:contextPath+'/pos/group/key/copy',
-        data:JSON.stringify(param),
+        url:contextPath+'/pos/wheelsurf/form/update',
+        data:param,
     },function(result){
         if(result.code == 0){
-            getGroupList($("#branchId").val());
+            $_jxc.alert("保存成功",function () {
+                gFunRefresh();
+            })
         }else{
             $_jxc.alert(result['message']);
         }
@@ -278,7 +292,7 @@ function updateWheelsurf() {
 }
 
 function checkWheelsurf() {
-    var actName = $("#actName").val();
+    var actName = $("#wheelsurfName").val();
     if(!actName){
         $_jxc.alert("请填写活动名称");
         return;
@@ -292,13 +306,15 @@ function checkWheelsurf() {
     }
 
     $_jxc.ajax({
-        url:contextPath+'/pos/group/key/copy',
+        url:contextPath+'/pos/wheelsurf/form/audit',
         data:{
             formId : $("#formId").val(),
         },
     },function(result){
         if(result.code == 0){
-            getGroupList($("#branchId").val());
+            $_jxc.alert("审核成功",function () {
+                gFunRefresh();
+            });
         }else{
             $_jxc.alert(result['message']);
         }
@@ -307,11 +323,6 @@ function checkWheelsurf() {
 }
 
 function overWheelsurf() {
-    var actName = $("#actName").val();
-    if(!actName){
-        $_jxc.alert("请填写活动名称");
-        return;
-    }
 
     $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
 
@@ -321,15 +332,21 @@ function overWheelsurf() {
     }
 
     $_jxc.ajax({
-        url:contextPath+'/pos/group/key/copy',
+        url:contextPath+'/pos/wheelsurf/form/over',
         data:{
             formId : $("#formId").val(),
         },
     },function(result){
         if(result.code == 0){
-            getGroupList($("#branchId").val());
+            $_jxc.alert("终止成功",function () {
+                gFunRefresh();
+            });
         }else{
             $_jxc.alert(result['message']);
         }
     })
+}
+
+function copyPosActivity(id) {
+    window.parent.addTab('复制POS客屏活动',contextPath+'/pos/wheelsurf/form/copy/'+id);
 }
