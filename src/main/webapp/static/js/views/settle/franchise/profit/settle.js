@@ -111,8 +111,8 @@ function initSupChkAcoAdd(){
         width:'100%',
         columns:[[
             {field:'cb',checkbox:true},
-            {field:'franchiseBranchCode',title:'加盟店编号',width:'120',align:'left'},
-            {field:'franchiseBranchName',title:'加盟店名称',width:'140',align:'left'},
+            {field:'branchCode',title:'加盟店编号',width:'120',align:'left'},
+            {field:'branchName',title:'加盟店名称',width:'140',align:'left'},
             {field:'skuCode',title:'货号',width:'140',align:'left'},
             {field:'skuName',title:'商品名称',width:'140',align:'left'},
             {field:'barCode',title:'条码',width:'140',align:'left'},
