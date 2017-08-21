@@ -135,8 +135,57 @@ function initDatagridEditOrder(){
                     }
                 }
             },
+            {field: 'productionDate', title: '生成日期', width: 120, align: 'center',
+            	formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '';
+                    }
+                    return value;
+                },
+                editor:{
+                    type:'datebox',
+                    options:{
+                        required:true,
+                    	editable:false,
+                    	formatter:function(date){
+                    		var y = date.getFullYear();
+                    		var m = date.getMonth()+1;
+                    		var d = date.getDate();
+                    		return y+'-'+ (m<10?'0'+m:m) + '-'+ (d<10?'0'+d:d);
+                    	},
+                    	onChange:changeProDate
+                    }
+                },
+            },
+            {field: 'expiryDate', title: '到期日期', width: 120, align: 'center',
+            	formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '';
+                    }
+                    return value;
+                },
+                editor:{
+                    type:'datebox',
+                    options:{
+                        required:true,
+                    	editable:false,
+                    	formatter:function(date){
+                    		var y = date.getFullYear();
+                    		var m = date.getMonth()+1;
+                    		var d = date.getDate();
+                    		return y+'-'+ (m<10?'0'+m:m) + '-'+ (d<10?'0'+d:d);
+                    	},
+                    	onChange:changeEndDate
+                    },
+                   
+                },
+            },
+            {field: 'distanceDay', title: '距到期天数', width: 50, align: 'right',
+            	formatter:function(value,row,index){
+            		return '<b>'+parseInt(value||0)+'</b>';
+            	}
+            },
             {field:'applyDesc',title:'申请说明',width:'200px',align:'left',editor:'textbox'},
-           
             {field:'auditDesc',title:'处理意见',width:'200px',align:'left'}
            
         ]],
@@ -172,6 +221,51 @@ function initDatagridEditOrder(){
                             $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
                             $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
 }
+
+//生成日期
+var proFlag = false;
+function changeProDate(date,oDate){
+	if(proFlag){
+		proFlag = false;
+		return;
+	}
+	var _expiryDate = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'expiryDate')
+	if(_expiryDate && date && new Date(date) >  new Date(_expiryDate)){
+		$_jxc.alert('生成日期不能大于到期日期')
+		proFlag = true;
+		$(this).datebox('setValue',oDate);
+		return;
+	}
+	
+	if(_expiryDate && date)getDistanceDay(date,_expiryDate);
+	
+}
+
+//到期日期
+var endFlag = false;
+function changeEndDate(date,oDate){
+	if(endFlag){
+		endFlag = false;
+		return;
+	}
+	var _productionDate = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'productionDate')
+	if(_productionDate && date && new Date(date) <  new Date(_productionDate)){
+		$_jxc.alert('到期日期不能小于生成日期')
+		endFlag = true;
+		$(this).datebox('setValue',oDate);
+		return;
+	}
+	if(_productionDate && date)getDistanceDay(_productionDate,date);
+}
+
+//计算天数
+function getDistanceDay(arg1,arg2){
+	
+	var _d = new Date(arg2).getTime() - new Date(arg1).getTime();
+	_d = _d/(60*60*1000*24)+1;//距离天数
+	gridHandel.setFieldsData({distanceDay:_d})
+}
+
 
 //限制转换次数
 var n = 0;
