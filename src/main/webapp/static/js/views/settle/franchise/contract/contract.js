@@ -12,6 +12,7 @@ $(function(){
     		branchTypesStr:$_jxc.branchTypeEnum.BRANCH_COMPANY
     	},
     	onAfterRender:function(data){
+    		$('#branchId').val(data.branchId);
     		$('#contactsA').val(data.contacts);
     		$('#mobileA').val(data.mobile);
     	}
@@ -33,7 +34,7 @@ $(function(){
 var gridHandel = new GridClass();
 
 var gridDefault = {
-	taxStart:0
+	quotaStart:0
 }
 
 function initContact(){
@@ -55,16 +56,16 @@ function initContact(){
                 }
                 
             },
-            {field:'taxStart',title:'毛利额度起',width:'100',align:'right',
+            {field:'quotaStart',title:'毛利额度起',width:'100',align:'right',
             	formatter:function(value,row,index){
-            		console.log('taxStart',value)
+            		console.log('quotaStart',value)
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	},
             	styler:function(value,row,index){
                 	return 'background-color:#f2f2f2;';
                 }
             },
-            {field:'taxEnd',title:'毛利额度止',width:'100',align:'right',
+            {field:'quotaEnd',title:'毛利额度止',width:'100',align:'right',
             	formatter:function(value,row,index){
             		return value == "" || typeof value == "undefined"? '' : '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	},
@@ -77,7 +78,7 @@ function initContact(){
             		}
             	}
             },
-            {field:'taxA',title:'甲方分配（%）',width:'100',align:'right',
+            {field:'targetAllocation',title:'甲方分配（%）',width:'100',align:'right',
             	formatter:function(value,row,index){
             		return value == "" || typeof value == "undefined"? '' : '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	},
@@ -92,7 +93,7 @@ function initContact(){
             		}
             	}
             },
-            {field:'taxB',title:'乙方分配（%）',width:'100',align:'right',
+            {field:'franchiseAllocation',title:'乙方分配（%）',width:'100',align:'right',
             	formatter:function(value,row,index){
             		return value == "" || typeof value == "undefined" ? '' : '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	},
@@ -112,14 +113,14 @@ function initContact(){
             {field:'remark',title:'备注',width:'200',align:'left',editor:'textbox'}
         ]],
         onClickCell:function(rowIndex,field,value){
-        	//if(field == 'taxStart' && !checkIfCanEdit(rowIndex))return;
+        	//if(field == 'quotaStart' && !checkIfCanEdit(rowIndex))return;
             gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
             var target = gridHandel.getFieldTarget(field);
             if(target){
                 gridHandel.setFieldFocus(target);
             }else{
-                gridHandel.setSelectFieldName("taxA");
+                gridHandel.setSelectFieldName("targetAllocation");
             }
         },
         onLoadSuccess:function(data){
@@ -155,19 +156,19 @@ function delLineHandel(event){
 //检验数据
 function checkTaxData(index){
 	gridHandel.endEditRow();
-	var _taxEnd = gridHandel.getFieldData(index,'taxEnd');
-	if(_taxEnd == ""){
+	var _quotaEnd = gridHandel.getFieldData(index,'quotaEnd');
+	if(_quotaEnd == ""){
 		$_jxc.alert('毛利额度止不能为空');
 		return false;
 	}
-	if(parseFloat(_taxEnd) == 0){
+	if(parseFloat(_quotaEnd) == 0){
 		$_jxc.alert('毛利额度止要大于0');
 		return false;
 	}
 	
-	var _taxA = gridHandel.getFieldData(index,'taxA');
-	var _taxB = gridHandel.getFieldData(index,'taxB');
-	if(_taxA == ""){
+	var _targetAllocation = gridHandel.getFieldData(index,'targetAllocation');
+	var _franchiseAllocation = gridHandel.getFieldData(index,'franchiseAllocation');
+	if(_targetAllocation == ""){
 		$_jxc.alert('甲方分配百分比不能为空');
 		return false;
 	}
@@ -183,7 +184,7 @@ function checkIfCanEdit(index){
 
 //改变默认数据
 function changeDefaultData(index){
-	gridDefault.taxStart = gridHandel.getFieldData(index,'taxEnd');
+	gridDefault.quotaStart = gridHandel.getFieldData(index,'quotaEnd');
 }
 
 //毛利额度止 监听
@@ -199,8 +200,8 @@ function changeTaxEnd(newV,oldV){
 		$(this).numberbox('setValue',oldV);
 		return 
 	}
-	var _taxStart = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'taxStart');
-	if(parseFloat(newV) <= parseFloat(_taxStart)){
+	var _quotaStart = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'quotaStart');
+	if(parseFloat(newV) <= parseFloat(_quotaStart)){
 		$_jxc.alert("毛利额度止不能小于等于毛利额度起");
 		chTaxFlag = true;
 		$(this).numberbox('setValue',oldV);
@@ -212,7 +213,7 @@ function changeTaxEnd(newV,oldV){
 		$('#'+dataGridId).datagrid('updateRow',{
 			index:gridHandel.getSelectRowIndex()+1,
 			row: {
-				taxStart: newV
+				quotaStart: newV
 			}
 		});
 	}
@@ -231,7 +232,7 @@ function changeTaxA(newV,oldV){
 		$(this).numberbox('setValue',oldV);
 		return 
 	}
-	gridHandel.setFieldValue('taxB',parseFloat(100-newV).toFixed(4));
+	gridHandel.setFieldValue('franchiseAllocation',parseFloat(100-newV).toFixed(4));
 }
 
 // 保存
@@ -267,24 +268,38 @@ function saveContract(){
 		return;
 	}
 	
-	var _taxList = checkTaxListData();
-	if(!_taxList) return;
+	var _ruleList = checkTaxListData();
+	if(!_ruleList) return;
 	
 	var param = {
-		contactName:_contactName,
-		startTime:_startTime,
-		endTime:_endTime,
-		branchId:_companyA,
-		branchIdB:_companyB,
-		contactsA:$.trim($('#contactsA').val())||'',
-		mobileA:$.trim($('#mobileA').val())||'',
-		contactsB:$.trim($('#contactsB').val())||'',
-		mobileB:$.trim($('#mobileB').val())||'',
+		formName:_contactName,
+		validityTimeStart:_startTime,
+		validityTimeEnd:_endTime,
+		targetBranchId:_companyA,
+		franchiseBranchId:_companyB,
+		targetAgentName:$.trim($('#contactsA').val())||'',
+		targetAgentPhone:$.trim($('#mobileA').val())||'',
+		franchiseAgentName:$.trim($('#contactsB').val())||'',
+		franchiseAgentPhone:$.trim($('#mobileB').val())||'',
 		remark:$.trim($('#remark').val())||'',
-		taxList:_taxList
+		ruleList:_ruleList
 	}
 	
 	console.log(param);
+
+	$_jxc.ajax({
+    	url:contextPath+"/settle/franchiseContract/contractSave",
+    	data:{"data":JSON.stringify(param)}
+    },function(result){
+		if(result['code'] == 0){
+			$_jxc.alert("操作成功！",function(){
+				location.href = contextPath +"/settle/franchiseContract/contractEdit?id="+result['formId'];
+			});
+		}else{
+			$_jxc.alert(result['message']);
+		}
+    });
+
 	
 }
 
@@ -294,17 +309,17 @@ function checkTaxListData(){
 	var _rows = $('#'+dataGridId).datagrid('getRows');
 	var errorFlag = true;
 	_rows.forEach(function(obj,index){
-		if(obj.taxEnd == '' || typeof obj.taxEnd == 'undefined'){
+		if((obj.quotaEnd == '' || typeof obj.quotaEnd == 'undefined') && _rows.length != index + 1){
 			$_jxc.alert("毛利梯度第"+(index+1)+"行 毛利额度止不能为空");
 			errorFlag = false;
 			return errorFlag;
 		}
-		if(parseFloat(obj.taxEnd) < parseFloat(obj.taxStart)){
+		if(parseFloat(obj.quotaEnd) < parseFloat(obj.quotaStart)){
 			$_jxc.alert("毛利梯度第"+(index+1)+"行 毛利额度止不能小于毛利额度起");
 			errorFlag = false;
 			return errorFlag;
 		}
-		if(obj.taxB == ''){
+		if(obj.franchiseAllocation == ''){
 			$_jxc.alert("毛利梯度第"+(index+1)+"行 甲方分配百分比不能为空");
 			errorFlag = false;
 			return errorFlag;

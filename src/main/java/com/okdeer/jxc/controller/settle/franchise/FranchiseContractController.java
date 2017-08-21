@@ -189,8 +189,8 @@ public class FranchiseContractController extends BaseController<FranchiseContrac
 		try {
 			respJson = franchiseContractService.terminateContract(ids, getCurrUserId());
 		} catch (Exception e) {
-			LOG.error("删除加盟店合同异常:", e);
-			respJson = RespJson.error("删除加盟店合同失败！");
+			LOG.error("终止加盟店合同异常:", e);
+			respJson = RespJson.error("终止加盟店合同失败！");
 		}
 		return respJson;
 	}
