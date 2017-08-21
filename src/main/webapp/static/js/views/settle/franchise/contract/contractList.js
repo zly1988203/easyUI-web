@@ -40,29 +40,31 @@ function initDatagridRequire() {
 		pageSize:50,
         columns:[[
                 {field:'cb',checkbox:true},
-                {field: 'contractNo', title: '合同编号', width: '140px', align: 'left',
+                {field: 'formNo', title: '合同编号', width: '140px', align: 'left',
                 	formatter:function(value,row,index){
-                    	var strHtml = '';
-                    	if(row.auditStatus == 1){
-                    		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'合同明细\',\''+ contextPath +'/settle/franchiseSettle/settleView?id='+ row.id +'\')">' + value + '</a>';
-                    	}else{
-                    		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'合同明细\',\''+ contextPath +'/settle/franchiseSettle/settleEdit?id='+ row.id +'\')">' + value + '</a>';
-                    	}
+                    	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'合同明细\',\''+ contextPath +'/settle/franchiseContract/contractEdit?id='+ row.id +'\')">' + value + '</a>';
                 		return strHtml;
                     }
                 },
-                {field: 'contractName', title: '合同名称', width: '140px', align: 'left'},
-                {field: 'auditStatus',title: '审核状态', width: '80px', align: 'center',
+                {field: 'formName', title: '合同名称', width: '140px', align: 'left'},
+                {field: 'status',title: '审核状态', width: '80px', align: 'center',
                 	formatter:function(value,row,index){
-                		return value == '1'?'已审核':'未审核';
+                		if(value == '0'){
+                			return '未审核';
+                		}else if(value == '1'){
+                			return '已审核';
+                		}else if(value == '2'){
+                			return '已终止';
+                		}
+                		return '';
                 	}
                 },
-      			{field: 'branchCode', title: '机构编号', width: '140px', align: 'left'},
-    			{field: 'branchName', title: '机构名称', width: '140px', align: 'left'},
-    			{field: 'operateUserName', title: '经办人', width: '80px', align: 'left'},
-    			{field: 'operateUserPhone', title: '联系电话', width: '80px', align: 'left'},
-    			{field: 'ofCompany', title: '所属分公司', width: '80px', align: 'left'},
-    			{field: 'startTime', title: '有效期起', width: '120px', align: 'center',
+      			{field: 'franchiseBranchCode', title: '机构编号', width: '140px', align: 'left'},
+    			{field: 'franchiseBranchName', title: '机构名称', width: '140px', align: 'left'},
+    			{field: 'franchiseAgentName', title: '经办人', width: '80px', align: 'left'},
+    			{field: 'franchiseAgentPhone', title: '联系电话', width: '80px', align: 'left'},
+    			{field: 'targetBranchName', title: '所属分公司', width: '80px', align: 'left'},
+    			{field: 'validityTimeStart', title: '有效期起', width: '120px', align: 'center',
     				formatter: function (value, row, index) {
     					if (value) {
     						return new Date(value).format('yyyy-MM-dd hh:mm');
@@ -70,7 +72,7 @@ function initDatagridRequire() {
     					return "";
     				}
     			},
-    			{field: 'endTime', title: '有效期止', width: '120px', align: 'center',
+    			{field: 'validityTimeEnd', title: '有效期止', width: '120px', align: 'center',
     				formatter: function (value, row, index) {
     					if (value) {
     						return new Date(value).format('yyyy-MM-dd hh:mm');
@@ -87,8 +89,8 @@ function initDatagridRequire() {
     					return "";
     				}
     			},
-                {field: 'createUserName', title: '修改人', width: '80px', align: 'left'},
-                {field: 'createTime', title: '修改时间', width: '120px', align: 'center',
+                {field: 'updateUserName', title: '修改人', width: '80px', align: 'left'},
+                {field: 'updateTime', title: '修改时间', width: '120px', align: 'center',
     				formatter: function (value, row, index) {
     					if (value) {
     						return new Date(value).format('yyyy-MM-dd hh:mm');
@@ -117,7 +119,7 @@ function initDatagridRequire() {
 function queryForm() {
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#"+datagirdID).datagrid("options").method = "post";
-	$("#"+datagirdID).datagrid('options').url = contextPath + '/stock/lead/getStockFormList';
+	$("#"+datagirdID).datagrid('options').url = contextPath + '/settle/franchiseContract/getContractList';
 	$("#"+datagirdID).datagrid('load', fromObjStr);
 }
 
@@ -128,7 +130,33 @@ function addContact() {
 
 // 终止加盟店合同
 function endContact(){
-	
+	var rows =$("#"+datagirdID).datagrid("getChecked");
+	if(rows.length <= 0){
+		 $_jxc.alert('请选中一行进行终止！');
+		return null;
+	}
+	var tempIds = [];
+	rows.forEach(function(data,index){
+    	tempIds.push(data.id);
+	})
+    
+	$_jxc.confirm('是否要终止选中数据?',function(data){
+		if(data){
+			$_jxc.ajax({
+		    	url:contextPath+"/settle/franchiseContract/contractTerminate",
+		    	data:{
+		    		ids:tempIds
+		    	}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功");
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
+	    		$("#"+datagirdID).datagrid('reload');
+		    });
+		}
+	});
 }
 
 //删除加盟店合同
@@ -146,7 +174,7 @@ function delContact(){
 	$_jxc.confirm('是否要删除选中数据?',function(data){
 		if(data){
 			$_jxc.ajax({
-		    	url:contextPath+"/stock/lead/delete",
+		    	url:contextPath+"/settle/franchiseContract/contractDelete",
 		    	data:{
 		    		ids:tempIds
 		    	}
@@ -164,10 +192,10 @@ function delContact(){
 
 
 // 打印
-function printList() {
+/*function printList() {
 	var fromObjStr = $('#queryForm').serialize();
 	parent.addTabPrint("StockLeadPrint","加盟店合同列表打印",contextPath+"/stock/lead/print?"+fromObjStr);
-}
+}*/
 
 /**
  * 重置
