@@ -59,7 +59,7 @@ function initDatagridRequireOrders(){
             {field: 'formNO', title: '单据编号', width: '135px', align: 'left',
             	formatter:function(value,row,index){
 		   			if(row.formNO){
-		   				var hrefStr='parent.addTab("详情","'+contextPath+'/goods/priceAdjust/showDetail?report=close&formNo='+row.formNO+'")';
+		   				var hrefStr='parent.addTab("调价单详情","'+contextPath+'/goods/priceAdjust/showDetail?report=close&formNo='+row.formNO+'")';
 		   				return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 		   			}
 	           }   
@@ -158,6 +158,22 @@ function initDatagridRequireOrders(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 }
+            },
+            {field: 'oldGrossProfitRate', title: '原毛利率', width: '60px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(!value){
+            			return   '<b>0.00</b>';
+            		}
+            		return '<b>'+ value +'</b>';
+            	}
+            },
+            {field: 'newGrossProfitRate', title: '新毛利率', width: '60px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(!value){
+            			return '<b>0.00</b>';
+            		}
+            		return '<b>'+ value +'</b>';
+            	}
             },
 			//{field: 'oldGrossProfitRate', title: '原毛利率', width: '60px', align: 'right'},
 			//{field: 'newGrossProfitRate', title: '现毛利率', width: '60px', align: 'right'},

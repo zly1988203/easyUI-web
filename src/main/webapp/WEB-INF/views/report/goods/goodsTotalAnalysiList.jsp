@@ -8,7 +8,7 @@
 <title>商品销售汇总分析</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/goods/goodsTotalAnalysiList.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/report/goods/goodsTotalAnalysiList.js?V=${versionNo}4"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -44,8 +44,8 @@
 			    
 			    <div id="categoryNameDiv" class="ub ub-ac">
 			        <div class="umar-r10 uw-84 ut-r">商品类别:</div>
-			        <!-- <input type="hidden" name="categoryCode" id="categoryCode" class="uinp" /> -->
-			        <input type="text" name="categoryCode" id="categoryCode" class="uinp " maxlength="50" />
+			        <input type="hidden" name="categoryCode" id="categoryCode"  />
+			        <input type="text" name="categoryName" id="categoryName" class="uinp " maxlength="50" />
 			        <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
 			    </div>
 
