@@ -1370,7 +1370,12 @@ function GridClass(){
     this.getFieldValue = function(rowIndex,fieldName){
         var ed = $('#'+gridName).datagrid('getEditor', {index:rowIndex,field:fieldName});
         if(ed&&ed.target){
-            return $(ed.target).numberbox('getValue');
+        	//2.7.1 bwp扩展
+        	if(ed.type == 'datebox'){
+        		return $(ed.target).datebox('getValue');
+        	}else{
+        		return $(ed.target).numberbox('getValue');
+        	}
         }
         return "";
     }
