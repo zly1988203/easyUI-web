@@ -137,7 +137,7 @@
 				        <div class="ub uh-200 datagrid-edit">
 				        	<table id="taxList"></table>
 				        </div>
-				        <p class="umar-t10">温馨说明：您好，最后一行的毛利额度止不需要录入，系统会默认为无穷大</p>
+				        <p class="umar-t10 uc-red">温馨说明：您好，最后一行的毛利额度止不需要录入，系统会默认为无穷大</p>
 			    	</div>
 			    </div>
 			</div>

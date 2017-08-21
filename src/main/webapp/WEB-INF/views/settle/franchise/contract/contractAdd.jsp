@@ -56,6 +56,7 @@
 				        	<div class="ub ub-ac uw-524 umar-t12" id="companyA">
 				        		<label class="ub uw-110 ub-pe umar-r8 ">甲方(公司):</label>
 				        		<input type="hidden" name="targetBranchId" id="targetBranchId">
+				        		<input type="hidden" name="branchCompleCode" id="branchCompleCode">
 				        		<input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" >
 				        		<div class="uinp-more">...</div>
 				        		<i class="ub ub-ac uc-red">*</i>
@@ -137,7 +138,7 @@
 				        <div class="ub uh-200 datagrid-edit">
 				        	<table id="taxList"></table>
 				        </div>
-				        <p class="umar-t10">温馨说明：您好，最后一行的毛利额度止不需要录入，系统会默认为无穷大</p>
+				        <p class="umar-t10 uc-red">温馨说明：您好，最后一行的毛利额度止不需要录入，系统会默认为无穷大</p>
 			    	</div>
 			    </div>
 			</div>
