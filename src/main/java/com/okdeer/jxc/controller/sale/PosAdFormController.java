@@ -33,9 +33,21 @@ import java.util.Map;
 public class PosAdFormController extends BaseController<PosAdFormController> {
 
     @RequestMapping(value = "/list")
-    public ModelAndView add() {
+    public ModelAndView list() {
         Map<String, String> model = Maps.newHashMap();
         return new ModelAndView("sale/pos/ad/adlist", model);
+    }
+    
+    @RequestMapping(value = "/add")
+    public ModelAndView add() {
+        Map<String, String> model = Maps.newHashMap();
+        return new ModelAndView("sale/pos/ad/addAd", model);
+    }
+    
+    @RequestMapping(value = "edit")
+    public ModelAndView edit() {
+        Map<String, String> model = Maps.newHashMap();
+        return new ModelAndView("sale/pos/ad/editAd", model);
     }
 
 }
