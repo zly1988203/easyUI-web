@@ -3,7 +3,32 @@
  */
 var dataGridId = "taxList";
 var pageStatus = 'add';
+var oldData = {}
+var url;
 $(function(){
+    
+    
+    //新增
+    if(!$('#formId').val()){
+    	$('#createTime').text(new Date().format('yyyy-MM-dd HH:mm:ss'));
+    }else{
+    	//编辑
+    	pageStatus = 'edit';
+    	url = contextPath+"/settle/franchiseContract/getRuleList?formId="+$('#formId').val();
+    	oldData = {
+			formName:$('#formName').val(),
+			validityTimeStart:$('#startTime').val(),
+			validityTimeEnd:$('#endTime').val(),
+			targetBranchId:$('#targetBranchId').val(),
+			franchiseBranchId:$('#franchiseBranchId').val(),
+			targetAgentName:$.trim($('#targetAgentName').val())||'',
+			targetAgentPhone:$.trim($('#targetAgentPhone').val())||'',
+			franchiseAgentName:$.trim($('#franchiseAgentName').val())||'',
+			franchiseAgentPhone:$.trim($('#franchiseAgentPhone').val())||'',
+			remark:$.trim($('#remark').val())||''
+    	}
+    }
+    
     initContact();
     
     //甲方公司
@@ -12,21 +37,31 @@ $(function(){
     		branchTypesStr:$_jxc.branchTypeEnum.BRANCH_COMPANY
     	},
     	onAfterRender:function(data){
-    		$('#branchId').val(data.branchId);
-    		$('#contactsA').val(data.contacts);
-    		$('#mobileA').val(data.mobile);
+    		$('#targetBranchId').val(data.branchId);
+    		$('#targetAgentName').val(data.contacts);
+    		$('#targetAgentPhone').val(data.mobile);
     	}
     })
     
     //乙方公司
     $('#companyB').branchSelect({
     	param:{
+    		branchId:$('#targetBranchId').val(),
     		branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B+','+$_jxc.branchTypeEnum.FRANCHISE_STORE_C
     	},
+    	onShowBefore:function(){
+    		this.param.branchId = $('#targetBranchId').val();
+    		if(!$('#targetBranchId').val()){
+    			$_jxc.alert('请先选择甲方(公司)');
+    			return false;
+    		}
+    		return true;
+    	},
     	onAfterRender:function(data){
-    		$('#branchIdB').val(data.branchId);
-    		$('#contactsB').val(data.contacts);
-    		$('#mobileB').val(data.mobile);
+    		$('#franchiseBranchId').val(data.branchId);
+    		$('#franchiseBranchCode').val(data.branchCode);
+    		$('#franchiseAgentName').val(data.contacts);
+    		$('#franchiseAgentPhone').val(data.mobile);
     	}
     })
     
@@ -41,6 +76,8 @@ function initContact(){
     gridHandel.setGridName(dataGridId);
     $("#"+dataGridId).datagrid({
         align:'center',
+        method:'get',
+        url:url,
         singleSelect:false,  // 单选 false多选
         rownumbers:true,    // 序号
         showFooter:true,
@@ -58,7 +95,6 @@ function initContact(){
             },
             {field:'quotaStart',title:'毛利额度起',width:'100',align:'right',
             	formatter:function(value,row,index){
-            		console.log('quotaStart',value)
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	},
             	styler:function(value,row,index){
@@ -125,6 +161,13 @@ function initContact(){
         },
         onLoadSuccess:function(data){
             gridHandel.setDatagridHeader("center");
+            if(pageStatus == 'edit'){
+            	if(!oldData["grid"]){
+                	oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+                        return $.extend(true,{},obj);//返回对象的深拷贝
+                    });
+                }
+            }
         }
     });
     
@@ -132,6 +175,7 @@ function initContact(){
     	gridHandel.setLoadData([$.extend({},gridDefault)])
     }
 }
+
 
 
 // 插入一行
@@ -238,7 +282,7 @@ function changeTaxA(newV,oldV){
 // 保存
 function saveContract(){
 	//合同名称
-	var _contactName = $.trim($("#contactName").val());
+	var _contactName = $.trim($("#formName").val());
 	if(!_contactName){
 		$_jxc.alert('合同名称不能为空');
 		return;
@@ -256,13 +300,13 @@ function saveContract(){
 		return;
 	}
 	//甲方公司
-	var _companyA = $.trim($("#branchId").val());
+	var _companyA = $.trim($("#targetBranchId").val());
 	if(!_companyA){
 		$_jxc.alert('甲方(公司)不能为空');
 		return;
 	}
 	//乙方公司
-	var _companyB = $.trim($("#branchIdB").val());
+	var _companyB = $.trim($("#franchiseBranchId").val());
 	if(!_companyB){
 		$_jxc.alert('乙方(签约机构)不能为空');
 		return;
@@ -277,18 +321,25 @@ function saveContract(){
 		validityTimeEnd:_endTime,
 		targetBranchId:_companyA,
 		franchiseBranchId:_companyB,
-		targetAgentName:$.trim($('#contactsA').val())||'',
-		targetAgentPhone:$.trim($('#mobileA').val())||'',
-		franchiseAgentName:$.trim($('#contactsB').val())||'',
-		franchiseAgentPhone:$.trim($('#mobileB').val())||'',
+		franchiseBranchCode:$('#franchiseBranchCode').val(),
+		targetAgentName:$.trim($('#targetAgentName').val())||'',
+		targetAgentPhone:$.trim($('#targetAgentPhone').val())||'',
+		franchiseAgentName:$.trim($('#franchiseAgentName').val())||'',
+		franchiseAgentPhone:$.trim($('#franchiseAgentPhone').val())||'',
 		remark:$.trim($('#remark').val())||'',
 		ruleList:_ruleList
 	}
-	
-	console.log(param);
 
+	console.log('param',param);
+	
+	var save_url = contextPath+"/settle/franchiseContract/contractSave";
+	if($('#formId').val()){
+		save_url = contextPath+"/settle/franchiseContract/contractUpdate";
+		param.id = $('#formId').val();
+	}
+	
 	$_jxc.ajax({
-    	url:contextPath+"/settle/franchiseContract/contractSave",
+    	url:save_url,
     	data:{"data":JSON.stringify(param)}
     },function(result){
 		if(result['code'] == 0){
@@ -299,7 +350,6 @@ function saveContract(){
 			$_jxc.alert(result['message']);
 		}
     });
-
 	
 }
 
@@ -319,7 +369,7 @@ function checkTaxListData(){
 			errorFlag = false;
 			return errorFlag;
 		}
-		if(obj.franchiseAllocation == ''){
+		if(typeof obj.targetAllocation == 'undefined' || obj.targetAllocation == ''){
 			$_jxc.alert("毛利梯度第"+(index+1)+"行 甲方分配百分比不能为空");
 			errorFlag = false;
 			return errorFlag;
@@ -330,6 +380,55 @@ function checkTaxListData(){
 	
 	return _rows;
 }
+
+
+//审核加盟店合同
+function checkContract(){
+	gridHandel.endEditRow();
+	var newData = {
+		formName:$('#formName').val(),
+		validityTimeStart:$('#startTime').val(),
+		validityTimeEnd:$('#endTime').val(),
+		targetBranchId:$('#targetBranchId').val(),
+		franchiseBranchId:$('#franchiseBranchId').val(),
+		targetAgentName:$.trim($('#targetAgentName').val())||'',
+		targetAgentPhone:$.trim($('#targetAgentPhone').val())||'',
+		franchiseAgentName:$.trim($('#franchiseAgentName').val())||'',
+		franchiseAgentPhone:$.trim($('#franchiseAgentPhone').val())||'',
+		remark:$.trim($('#remark').val())||'',
+		grid:$.map(gridHandel.getRows(), function(obj){
+            return $.extend(true,{},obj);//返回对象的深拷贝
+        })
+	}
+
+    if(!gFunComparisonArray(oldData,newData)){
+    	$_jxc.alert("数据有修改，请先保存再审核");
+        return;
+    }
+	
+	var reqObj = {
+		formId:$('#formId').val()
+	}
+	
+	$_jxc.confirm('是否审核通过?',function(r){
+		if(r){
+			$_jxc.ajax({
+		    	url : contextPath+"/settle/franchiseContract/contractAudit",
+		    	data:{"data":JSON.stringify(reqObj)}
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("操作成功！",function(){
+	    				location.href = contextPath +"/settle/franchiseContract/contractEdit?id=" + result["formId"];
+	    			});
+	    		}else{
+	            	 $_jxc.alert(result['message'],'审核失败');
+	    		}
+		    } );
+		}
+	})
+}
+
+
 
 
 /**

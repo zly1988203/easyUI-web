@@ -42,7 +42,7 @@ function initDatagridRequire() {
                 {field:'cb',checkbox:true},
                 {field: 'formNo', title: '合同编号', width: '140px', align: 'left',
                 	formatter:function(value,row,index){
-                    	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'合同明细\',\''+ contextPath +'/settle/franchiseContract/contractEdit?id='+ row.id +'\')">' + value + '</a>';
+                    	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'加盟店合同明细\',\''+ contextPath +'/settle/franchiseContract/contractEdit?id='+ row.id +'\')">' + value + '</a>';
                 		return strHtml;
                     }
                 },
@@ -112,7 +112,7 @@ function initDatagridRequire() {
 			gridHandel.setDatagridHeader("center");
 		}
     });
-	//queryForm();
+	queryForm();
 }
 
 // 查询加盟店合同
