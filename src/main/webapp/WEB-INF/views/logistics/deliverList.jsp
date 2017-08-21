@@ -41,10 +41,6 @@
 	                    <input class="uinp ub ub-f1" type="text" id="operateUserName" name="operateUserName" type="text" />
 	                    <div class="uinp-more" onclick="selectOperator()">...</div>
 	                </div>
-	                <div class="ub ub-ac umar-l40">
-	                    <div class="umar-r10 uw-70 ut-r">业务人员:</div>
-	                    <input class="uinp ub ub-f1" type="text" id="salesman" name="salesman">
-	                </div>
 	            </div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
@@ -59,30 +55,9 @@
 	                    <input class="uinp" type="text" id="formNo" name="formNo">
 	                </div>
 	                <div class="ub ub-ac umar-l40">
-	                    <div class="umar-r10 uw-70 ut-r">单据状态:</div>
-	                    <div class="ub ub-ac umar-r10">
-							<label>
-							<input type="radio" name="deliverStatus" value="" checked="checked" onclick="queryForm()"/><span>全部</span>
-							</label>
-
-	                    </div>
-	                    <div class="ub ub-ac umar-r10">
-							<label>
-							<input  type="radio" name="deliverStatus" value="0" onclick="queryForm()"/><span>待处理</span>
-							</label>
-
-	                    </div>
-	                    <div class="ub ub-ac umar-r10">
-							<label>
-							<input  type="radio" name="deliverStatus" value="1" onclick="queryForm()"/><span>部分发货</span>
-							</label>
-
-	                    </div>
-	                    <div class="ub ub-ac umar-r10">
-							<label>
-							<input type="radio" name="deliverStatus" value="2" onclick="queryForm()"/><span>全部发货</span>
-							</label>
-	                    </div>
+						<input type='checkbox' id='checkboxTime' name='checkboxTime' />
+	                    <div class="umar-r10 uw-70 ut-r">结束时间:</div>
+						<input class='Wdate' style='width: 212px' readonly='readonly' name='tempEndTime' id='popupSearchDateTime' onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" />
 	                </div>
 	            </div>
        	</form>
