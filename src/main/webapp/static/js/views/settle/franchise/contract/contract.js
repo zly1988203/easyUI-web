@@ -38,19 +38,16 @@ $(function(){
     	},
     	onAfterRender:function(data){
     		$('#targetBranchId').val(data.branchId);
-    		$('#targetAgentName').val(data.contacts);
-    		$('#targetAgentPhone').val(data.mobile);
     	}
     })
     
     //乙方公司
     $('#companyB').branchSelect({
     	param:{
-    		branchId:$('#targetBranchId').val(),
     		branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B+','+$_jxc.branchTypeEnum.FRANCHISE_STORE_C
     	},
     	onShowBefore:function(){
-    		this.param.branchId = $('#targetBranchId').val();
+    		this.param.branchCompleCode = $('#branchCompleCode').val();
     		if(!$('#targetBranchId').val()){
     			$_jxc.alert('请先选择甲方(公司)');
     			return false;
@@ -60,8 +57,6 @@ $(function(){
     	onAfterRender:function(data){
     		$('#franchiseBranchId').val(data.branchId);
     		$('#franchiseBranchCode').val(data.branchCode);
-    		$('#franchiseAgentName').val(data.contacts);
-    		$('#franchiseAgentPhone').val(data.mobile);
     	}
     })
     
@@ -149,7 +144,6 @@ function initContact(){
             {field:'remark',title:'备注',width:'200',align:'left',editor:'textbox'}
         ]],
         onClickCell:function(rowIndex,field,value){
-        	//if(field == 'quotaStart' && !checkIfCanEdit(rowIndex))return;
             gridHandel.setBeginRow(rowIndex);
             gridHandel.setSelectFieldName(field);
             var target = gridHandel.getFieldTarget(field);
@@ -201,7 +195,7 @@ function delLineHandel(event){
 function checkTaxData(index){
 	gridHandel.endEditRow();
 	var _quotaEnd = gridHandel.getFieldData(index,'quotaEnd');
-	if(_quotaEnd == ""){
+	if(_quotaEnd == "" || typeof _quotaEnd == 'undefined'){
 		$_jxc.alert('毛利额度止不能为空');
 		return false;
 	}
@@ -211,8 +205,7 @@ function checkTaxData(index){
 	}
 	
 	var _targetAllocation = gridHandel.getFieldData(index,'targetAllocation');
-	var _franchiseAllocation = gridHandel.getFieldData(index,'franchiseAllocation');
-	if(_targetAllocation == ""){
+	if(_targetAllocation == "" || typeof _targetAllocation == 'undefined'){
 		$_jxc.alert('甲方分配百分比不能为空');
 		return false;
 	}
@@ -238,6 +231,7 @@ function changeTaxEnd(newV,oldV){
 		chTaxFlag = false;
 		return;
 	}
+	
 	if(newV == ""){
 		$_jxc.alert("毛利额度止不能为空");
 		chTaxFlag = true;
@@ -254,6 +248,13 @@ function changeTaxEnd(newV,oldV){
 	
 	//不是最后一行
 	if(gridHandel.getSelectRowIndex() < ($('#'+dataGridId).datagrid('getRows').length-1)){
+		var _nextQuotaEnd = gridHandel.getFieldData(gridHandel.getSelectRowIndex()+1,'quotaEnd');
+		if(_nextQuotaEnd && parseFloat(newV) > parseFloat(_nextQuotaEnd)){
+			$_jxc.alert("当前毛利额度止不能大于下一行的毛利额度止");
+			chTaxFlag = true;
+			$(this).numberbox('setValue',oldV);
+			return;
+		}
 		$('#'+dataGridId).datagrid('updateRow',{
 			index:gridHandel.getSelectRowIndex()+1,
 			row: {
@@ -374,6 +375,11 @@ function checkTaxListData(){
 			$_jxc.alert("毛利梯度第"+(index+1)+"行 甲方分配百分比不能为空");
 			errorFlag = false;
 			return errorFlag;
+		}
+		
+		//去掉最后一行毛利额度止
+		if(index == _rows.length-1){
+			obj.quotaEnd = '';
 		}
 	})
 	
