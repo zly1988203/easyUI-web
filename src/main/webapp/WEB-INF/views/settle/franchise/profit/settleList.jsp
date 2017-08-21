@@ -18,9 +18,15 @@
 	            <div class="ubtns">
 	            	<!-- 记得加权限 -->
 					<div class="ubtns-item" onclick="queryForm()">查询</div>
-					<div class="ubtns-item" onclick="addProfitSetForm()">新增</div>
-					<div class="ubtns-item" onclick="delProfitSetForm()">删除</div>
-					<div class="ubtns-item-disabled">设置</div>
+					<shiro:hasPermission name="JxcFranchiseProfit:add">
+						<div class="ubtns-item" onclick="addProfitSetForm()">新增</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcFranchiseProfit:delete">
+						<div class="ubtns-item" onclick="delProfitSetForm()">删除</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcFranchiseProfit:setting">
+						<div class="ubtns-item-disabled">设置</div>
+					</shiro:hasPermission>
 	                <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
 	                <div class="ubtns-item" onclick="toClose()">关闭</div>
 	            </div>
@@ -32,7 +38,7 @@
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac" id="branchComponent">
 	                    <div class="umar-r10 uw-70 ut-r">机构:</div>
-	                    <input type="hidden" id="branchId" name="branchId"/>
+	                    <input type="hidden" id="branchId" name="franchiseBranchId"/>
 	                    <input class="uinp ub ub-f1" type="text" id="branchName"/>
 	                    <div class="uinp-more">...</div>
 	                </div>

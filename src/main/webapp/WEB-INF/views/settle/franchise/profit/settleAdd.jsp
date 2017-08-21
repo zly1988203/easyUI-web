@@ -17,13 +17,23 @@
     <div class="ub ub-ver ub-f1 umar-4  ubor">
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-           		<div class="ubtns-item" onclick="addProfitSetForm()">新增</div>
-              	<div class="ubtns-item" onclick="saveProSet()">保存</div>
-              	<div class="ubtns-item" >计算账款</div>
-               	<div class="ubtns-item-disabled">审核</div>
-               	<div class="ubtns-item-disabled">删除</div>
-               	<div class="ubtns-item-disabled">导出明细</div>
-               	<div class="ubtns-item-disabled">打印</div>
+				<shiro:hasPermission name="JxcFranchiseProfit:add">
+	           		<div class="ubtns-item" onclick="addProfitSetForm()">新增</div>
+	              	<div class="ubtns-item" onclick="saveProSet()">保存</div>
+              	</shiro:hasPermission>
+              	<div class="ubtns-item" onclick="calAmount()">计算账款</div>
+				<shiro:hasPermission name="JxcFranchiseProfit:add">
+               		<div class="ubtns-item-disabled">审核</div>
+               	</shiro:hasPermission>
+				<shiro:hasPermission name="JxcFranchiseProfit:delete">
+               		<div class="ubtns-item-disabled">删除</div>
+               	</shiro:hasPermission>
+				<shiro:hasPermission name="JxcFranchiseProfit:export">
+               		<div class="ubtns-item-disabled">导出明细</div>
+               	</shiro:hasPermission>
+				<shiro:hasPermission name="JxcFranchiseProfit:print">
+               		<div class="ubtns-item-disabled">打印</div>
+               	</shiro:hasPermission>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
@@ -32,8 +42,8 @@
             <div class="ub ub-ac uw-296 umar-l20" id="branchComponent">
                 <div class="umar-r10 uw-70 ut-r">加盟店:</div>
                 <div class="ub ub-f1">
-                    <input type="hidden" id="branchId" name="branchId"/>
-                    <input type="hidden" id="branchCode" name="branchCode"/>
+                    <input type="hidden" id="branchId" name="franchiseBranchId"/>
+                    <input type="hidden" id="branchCode" name="franchiseBranchCode"/>
                     <input class="uinp ub ub-f1" type="text" id="franchiseBranchName" readonly="readonly"/>
                     <div class="uinp-more">...</div>
                 </div>
@@ -42,7 +52,7 @@
             
             <div class="ub ub-ac uw-300 umar-l24">
                  <div class="umar-r10 uw-90 ut-r">联系人:</div>
-	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="contractName" readonly='readonly'  name="contractName">
+	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="contractName" readonly='readonly'  name="contacts">
              </div>
             
             <div class="ub ub-ac umar-l36">
@@ -57,9 +67,9 @@
          <div class="ub umar-t8">
          		<div class="ub ub-ac uw-316 umar-l6">
            			<div class="umar-r10 uw-90 ut-r">计算时间:</div>
-           			<input id="beginDate" name="beginDate" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\')||dateUtil.getCurrDayPreOrNextDay(\'prev\',1)}' })" />
+           			<input id="beginDate" name="settleTimeStart" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'endDate\')||dateUtil.getCurrDayPreOrNextDay(\'prev\',1)}' })" />
            				&nbsp;至&nbsp;
-           			<input id="endDate" name="endDate" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\');}',maxDate:'%y-%M-{%d-1}'})" />
+           			<input id="endDate" name="settleTimeEnd" class="Wdate ub ub-f1" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginDate\');}',maxDate:'%y-%M-{%d-1}'})" />
            			<i class="ub ub-ac uc-red">*</i>
            		</div>
            		<div class="ub ub-ac uw-316 umar-l12">
@@ -87,7 +97,7 @@
             </div>
             <div class="ub ub-ac uw-300 umar-l28">
                  <div class="umar-r10 uw-90 ut-r">毛利:</div>
-	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="profit" readonly='readonly'  name="profit">
+	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="profit" readonly='readonly'  name="profitAmount">
              </div>
              <div class="ub ub-ac umar-l40">
                  <div class="umar-r10 uw-70 ut-r">审核人员:</div>
@@ -101,15 +111,15 @@
          <div class="ub umar-t8">
              <div class="ub ub-ac uw-310 umar-l6">
                  <div class="umar-r10 uw-90 ut-r">公司应得毛利:</div>
-	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="profitOfCompany" readonly='readonly'  name="profitOfCompany">
+	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="profitOfCompany" readonly='readonly'  name="targetProfitAmount">
              </div>
              <div class="ub ub-ac uw-320 umar-l8">
              	 <div class="umar-r10 uw-110 ut-r">加盟店应得毛利:</div>
-	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="profitSupper" readonly='readonly'  name="profitSupper">
+	             <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="profitSupper" readonly='readonly'  name="franchiseProfitAmount">
              </div>
              <div class="ub ub-ac uw-304 umar-l20">
                  <div class="umar-r10 uw-90 ut-r">本次收款金额:</div>
-             	 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="amount" readonly='readonly'  name="amount">
+             	 <input class="uinp ub ub-f1 uinp-no-more" type="text" value="0.00" id="amount" readonly='readonly'  name="totalAmount">
              </div>
              <div class="ub ub-ac uw-300 umar-l16">
              	 <div class="umar-r10 uw-90 ut-r">其他收款金额:</div>
