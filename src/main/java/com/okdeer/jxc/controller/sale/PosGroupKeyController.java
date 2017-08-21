@@ -17,16 +17,14 @@ import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.pos.service.PosGroupKeyService;
 import com.okdeer.jxc.pos.vo.PosGroupKeyDetailVo;
 import com.okdeer.jxc.pos.vo.PosGroupKeyVo;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -129,6 +127,7 @@ public class PosGroupKeyController extends BaseController<PosGroupKeyController>
             return RespJson.error("获取分组列表失败!" );
         }
     }
+
     @RequestMapping(value = "/copy", method = RequestMethod.POST)
     public RespJson copy(String sourceBranchId,String targetBranchId){
         try {

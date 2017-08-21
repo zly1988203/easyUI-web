@@ -23,12 +23,16 @@
 		<form id="queryForm">
 			<div class="ub ub-ac">
 				<div class="ubtns">
-					<div class="ubtns-item" onclick="queryPosActivity()">查询</div>
-					<shiro:hasPermission name="JxcPurchaseOrder:add">
+					<shiro:hasPermission name="posWheelsurfForm:search">
+						<div class="ubtns-item" onclick="queryPosActivity()">查询</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="posWheelsurfForm:add">
 						<div class="ubtns-item" onclick="addPosActivity()">新增</div>
 					</shiro:hasPermission>
-					<div class="ubtns-item" onclick="copyPosActivity()">复制</div>
-					<shiro:hasPermission name="JxcPurchaseOrder:delete">
+					<shiro:hasPermission name="posWheelsurfForm:copy">
+						<div class="ubtns-item" onclick="copyPosActivity()">复制</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="posWheelsurfForm:delete">
 						<div class="ubtns-item" onclick="delPosActivity()">删除</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
@@ -49,11 +53,11 @@
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">活动编号:</div>
-                    <input class="uinp" name="activityNo" id="activityNo" type="text">
+                    <input class="uinp" name="formNo" id="formNo" type="text">
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-70 ut-r">活动类型:</div>
-					<select class="uselect easyui-combobox" name="activityType"
+					<select class="uselect easyui-combobox" name="formType" id="formType"
 						data-options="editable:false">
 						<option value="">全部</option>
 						<option value="1">抽奖</option>
@@ -65,29 +69,29 @@
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">活动名称:</div>
-					<input class="uinp" name="name" id="name" type="text">
+					<input class="uinp" name="wheelsurfName" id="wheelsurfName" type="text">
 				</div>
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">审核状态:</div>
                     <div class="ub ub-ac umar-r10">
-                    <input class="radioItem" type="radio" name="status"
+                    <input class="radioItem" type="radio" name="auditStatus"
                     id="status_all" value="" /><label for="status_all">全部</label>
                     </div>
 
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="status" id="status_no"
+						<input class="radioItem" type="radio" name="auditStatus" id="status_no"
 							value="0" checked="checked" /><label for="status_no">未审核
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="status"
+						<input class="radioItem" type="radio" name="auditStatus"
 							id="status_yes" value="1" /><label for="status_yes">已审核
 						</label>
 					</div>
 
                     <div class="ub ub-ac umar-r10">
-                    <input class="radioItem" type="radio" name="status"
+                    <input class="radioItem" type="radio" name="auditStatus"
                     id="status_over" value="2" /><label for="status_over">已终止
                     </label>
                     </div>

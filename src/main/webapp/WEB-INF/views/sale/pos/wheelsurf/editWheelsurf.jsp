@@ -19,66 +19,92 @@
 
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
-	<input type='hidden' id="formId" name="formId" value="${form.formId}">
-	<input type='hidden' id="pageStatue" name="pageStatue" value="${form.status}">
+	<input type='hidden' id="formId" name="formId" value="${form.id}">
+	<input type='hidden' id="pageStatue" name="pageStatue" value="${form.auditStatus}">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
-				<div class="ubtns-item" onclick="selectPrize()">奖品选择</div>
-				<div class="ubtns-item" onclick="uploadPic()">上传图片</div>
-				<div class="ubtns-item" onclick="updateWheelsurf()">保存</div>
-				<div class="ubtns-item" onclick="checkWheelsurf()">审核</div>
-				<div class="ubtns-item" onclick="overWheelsurf()">终止</div>
-				<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
+				<c:choose>
+					<c:when test="${form.auditStatus eq '0'}">
+						<div class="ubtns-item" onclick="selectPrize()">奖品选择</div>
+						<div class="ubtns-item" onclick="uploadPic()">上传图片</div>
+						<div class="ubtns-item" onclick="updateWheelsurf()">保存</div>
+					</c:when>
+				</c:choose>
+				<shiro:hasPermission name="posWheelsurfForm:audit">
+					<c:choose>
+						<c:when test="${form.auditStatus eq '0'}">
+							<div class="ubtns-item" onclick="checkWheelsurf()">审核</div>
+						</c:when>
+					</c:choose>
+				</shiro:hasPermission>
+				<c:choose>
+					<c:when test="${form.auditStatus eq '1'}">
+						<div class="ubtns-item" onclick="overWheelsurf()">终止</div>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${form.auditStatus eq '0'}">
+						<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
+					</c:when>
+				</c:choose>
+				<shiro:hasPermission name="posWheelsurfForm:copy">
+					<div class="ubtns-item" onclick="copyPosActivity('${form.id}')">复制</div>
+				</shiro:hasPermission>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>
 		</div>
 
 	<c:choose>
-		<c:when test="${form.status eq '1'}">
+		<c:when test="${form.auditStatus eq '2'}">
 			<div class="already-examine" id="already-examine"><span>已终止</span></div>
 		</c:when>
-		<c:otherwise>
+		<c:when test="${form.auditStatus eq '1'}">
 			<div class="already-examine" id="already-examine"><span>已审核</span></div>
-		</c:otherwise>
+		</c:when>
 	</c:choose>
 
 		<form id="formAdd">
+			<input type='hidden' name="id" value="${form.id}">
 			<div class="ub ub-ver ">
 				<div class="ub umar-t8 umar-l4">
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-60 ut-r">活动时间:</div>
-						<input id="actStarTime" class="Wdate easyui-validatebox"
+						<input id="beginTime" name="beginTime" class="Wdate easyui-validatebox"
 						data-options="required:true" type="text"
-						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.beginTime}" pattern="yyyy-MM-dd" />"/>
 	至
-						<input id="actEndTime" class="Wdate easyui-validatebox"
+						<input id="overTime" name="overTime" class="Wdate easyui-validatebox"
 						data-options="required:true" type="text"
-						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.overTime}" pattern="yyyy-MM-dd"/>" />
 					</div>
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-80 ut-r">奖品有效期:</div>
-						<input id="prizeStarTime" class="Wdate easyui-validatebox"
+						<input id="validBeginTime" name="validBeginTime" class="Wdate easyui-validatebox"
 							data-options="required:true" type="text"
-							onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+							onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.validBeginTime}" pattern="yyyy-MM-dd"/>"/>
 	至
-						<input id="prizeEndTime" class="Wdate easyui-validatebox"
+						<input id="validOverTime" name="validOverTime" class="Wdate easyui-validatebox"
 						data-options="required:true" type="text"
-						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.validOverTime}" pattern="yyyy-MM-dd"/>" />
 					</div>
 
 				</div>
 				<div class="ub umar-t8 umar-l4">
 					<div class="ub ub-ac umar-r30">
 						<div class="umar-r10 uw-60 ut-r">活动名称:</div>
-						<input id="actName" name="actName" class="uinp uw-416"  type="text">
+						<input id="wheelsurfName" name="wheelsurfName" class="uinp uw-416"  type="text" value="<c:out value="${form.wheelsurfName}"/>">
 					</div>
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-70 ut-r">活动类型:</div>
-						<select class="uselect easyui-combobox" style="width:420px;" name="activityType"
+						<select class="uselect easyui-combobox" style="width:420px;" name="formType" id="formType"
 						data-options="editable:false">
 						<%--<option value="">全部</option>--%>
-						<option value="1">抽奖</option>
+							<c:choose>
+								<c:when test="${form.formType eq '1'}">
+									<option value="1" selected>抽奖</option>
+								</c:when>
+							</c:choose>
 						</select>
 
 					</div>
@@ -88,15 +114,15 @@
 					<div class="ub ub-ac umar-r40" id="branchTemp">
 					<div class="umar-r10 uw-60 ut-r">活动机构:</div>
 					<input class="uinp ub ub-f1" type="hidden" id="branchId"
-					name="branchId"> <input class="uinp ub ub-f1 uw-416" type="text"
-					id="branchName" name="branchName">
+					name="branchId" value="<c:out value="${form.branchId}"/>"> <input class="uinp ub ub-f1 uw-416" type="text"
+					id="branchName" name="branchName" value="<c:out value="[${form.branchCode}]${form.branchName}"/>">
 					<div class="uinp-more">...</div>
 					</div>
 					<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">抽奖次数:</div>
-					<input  name="activityNo"
-						id="activityNo" class="uinp uw-416 easyui-numberbox easyui-validatebox"
-						data-options="min:1,max:999999,precision:0" type="text" >
+					<input  name="wheelsurfTime"
+						id="wheelsurfTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
+						data-options="min:1,max:999999,precision:0" type="text" value="<c:out value="${form.wheelsurfTime}"/>">
 					</div>
 				</div>
 			</div>

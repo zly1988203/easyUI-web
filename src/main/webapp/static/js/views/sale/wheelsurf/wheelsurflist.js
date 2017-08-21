@@ -26,19 +26,33 @@ function initgridPosActivity() {
         width:'100%',
         pageSize:50,
         columns:[[
-            {field:'skuName',title:'活动编号',width:'200px',align:'left'},
-            {field:'barCode',title:'活动名称',width:'200px',align:'left'},
-            {field:'barCode',title:'活动类型',width:'100px',align:'right'},
-            {field:'barCode',title:'开始时间',width:'150px',align:'left'},
-            {field:'barCode',title:'结束时间',width:'100px',align:'right'},
-            {field:'barCode',title:'奖品有效期',width:'150px',align:'left'},
-            {field:'barCode',title:'活动状态',width:'200px',align:'left'},
-            {field:'barCode',title:'制单人',width:'150px',align:'left'},
-            {field:'barCode',title:'审核人',width:'150px',align:'left'},
-            {field:'barCode',title:'审核日期',width:'150px',align:'left'},
+            {field:'id',title:'id',align:'left',hidden:true},
+            {field:'formNo',title:'活动编号',width:'200px',align:'left',formatter:function(value,row,index){
+                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看POS客屏活动\',\''+contextPath+'/pos/wheelsurf/form/edit/'+row.id+'\')">' + value + '</a>';
+                return strHtml;
+            }},
+            {field:'wheelsurfName',title:'活动名称',width:'200px',align:'left'},
+            {field:'formTypeStr',title:'活动类型',width:'100px',align:'right'},
+            {field:'beginTimeStr',title:'开始时间',width:'150px',align:'left'},
+            {field:'overTimeStr',title:'结束时间',width:'100px',align:'right'},
+            {field:'validTimeStr',title:'奖品有效期',width:'150px',align:'left'},
+            {field:'auditStatus',title:'活动状态',width:'200px',align:'left',formatter:function(value,row,index){
+                    if(value == '0'){
+                        return '未审核';
+                    }else if(value == '1'){
+                        return '已审核';
+                    }else if(value == '2'){
+                        return '已终止';
+                    }else{
+                        return '未知类型：'+ value;
+                    }
+                }},
+            {field:'createUserName',title:'制单人',width:'150px',align:'left'},
+            {field:'auditUerName',title:'审核人',width:'150px',align:'left'},
+            {field:'auditTimeStr',title:'审核日期',width:'150px',align:'left'},
         ]],
         onLoadSuccess:function(data){
-            gridRecordHandle.setDatagridHeader("center");
+            gridPosActivityHandle.setDatagridHeader("center");
         }
     })
 }
@@ -46,7 +60,7 @@ function initgridPosActivity() {
 function queryPosActivity() {
     var fromObjStr = $('#queryForm').serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid('options').url = contextPath +'/sale/activity/listData';
+    $("#"+gridName).datagrid('options').url = contextPath +'/pos/wheelsurf/form/list';
     $("#"+gridName).datagrid('load', fromObjStr);
 }
 
@@ -60,9 +74,7 @@ function copyPosActivity() {
         $_jxc.alert("请选择一条数据");
         return;
     }
-
-
-
+    window.parent.addTab('复制POS客屏活动',contextPath+'/pos/wheelsurf/form/copy/'+row.id);
 }
 
 function delPosActivity() {
@@ -71,4 +83,20 @@ function delPosActivity() {
         $_jxc.alert("请选择一条数据");
         return;
     }
+
+    $_jxc.confirm("是否删除选中数据",function (r) {
+        if(!r)return;
+
+        $_jxc.ajax({
+            url:contextPath+'/pos/wheelsurf/form/del/'+row.id
+        },function(result){
+            if(result.code == 0){
+                $_jxc.alert("删除POS客屏活动成功",function () {
+                    queryPosActivity();
+                })
+            }else{
+                $_jxc.alert(result['message']);
+            }
+        })
+    })
 }
