@@ -31,7 +31,7 @@
 				        	<input type="hidden" name="id" id="formId" value="${contractVo.id}">
 				        	<div class="ub ub-ac uw-520 umar-t12 ">
 				        		<label class="ub uw-110 ub-pe umar-r8 ">合同编号:</label>
-				        		<input class="uinp uinp-no-more ub ub-f1" readonly="readonly" type="text" name="formNo" value="${contractVo.formNo}" >
+				        		<input class="uinp uinp-no-more ub ub-f1" readonly="readonly" id="formNo" type="text" name="formNo" value="${contractVo.formNo}" >
 				        	</div>
 				        	
 				        	<div class="ub ub-ac uw-524 umar-t12 ">
@@ -43,12 +43,12 @@
 				        	<div class="ub ub-ac umar-t12">
 				        		<div class="ub ub-ac uw-280">
 					        		<label class="ub uw-110 ub-pe umar-r8">有效期起:</label>
-					        		<input class="Wdate" style="width: 155px;" readonly="readonly" value="<fmt:formatDate value="${contractVo.validityTimeStart}" pattern="yyyy-MM-dd HH:mm"/>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',maxDate:'#F{$dp.$D(\'endTime\');}'})" type="text" id="startTime" name="validityTimeStart" >
+					        		<input class="Wdate" style="width: 155px;" readonly="readonly" value="<fmt:formatDate value="${contractVo.validityTimeStart}" pattern="yyyy-MM-dd "/>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd ',maxDate:'#F{$dp.$D(\'endTime\');}'})" type="text" id="startTime" name="validityTimeStart" >
 					        		<i class="ub ub-ac uc-red">*</i>
 				        		</div>
 				        		<div class="ub ub-ac uw-230  umar-l8">
 					        		<label class="ub ub-pe umar-r8">有效期止:</label>
-					        		<input class="Wdate" style="width: 155px;" readonly="readonly" value="<fmt:formatDate value="${contractVo.validityTimeEnd}" pattern="yyyy-MM-dd HH:mm"/>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:'#F{$dp.$D(\'startTime\');}'})" type="text" id="endTime" name="validityTimeEnd" >
+					        		<input class="Wdate" style="width: 155px;" readonly="readonly" value="<fmt:formatDate value="${contractVo.validityTimeEnd}" pattern="yyyy-MM-dd "/>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd ',minDate:'#F{$dp.$D(\'startTime\');}'})" type="text" id="endTime" name="validityTimeEnd" >
 					        		<i class="ub ub-ac uc-red">*</i>
 				        		</div>
 				        	</div>
@@ -64,11 +64,11 @@
 				        	<div class="ub ub-ac umar-t12">
 				        		<div class="ub ub-ac uw-280">
 					        		<label class="ub uw-110 ub-pe umar-r8">经办人:</label>
-					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text" id="targetAgentName" name="targetAgentName" readonly="readonly" value="${contractVo.targetAgentName}">
+					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text" id="targetAgentName" name="targetAgentName"  value="${contractVo.targetAgentName}">
 				        		</div>
 				        		<div class="ub ub-ac uw-230  umar-l8">
 					        		<label class="ub ub-pe umar-r8">联系电话:</label>
-					        		<input class="uinp ub ub-f1 uinp-no-more" type="text" id="targetAgentPhone"  name="targetAgentPhone" readonly="readonly" value="${contractVo.targetAgentPhone}">
+					        		<input class="uinp ub ub-f1 uinp-no-more" type="text" onblur="checkPhoneMoblie(this)" id="targetAgentPhone"  name="targetAgentPhone"  value="${contractVo.targetAgentPhone}" maxlength="15" placeholder="18809098888/0755-88880000">
 				        		</div>
 				        	</div>
 				        	
@@ -84,17 +84,17 @@
 				        	<div class="ub ub-ac umar-t12">
 				        		<div class="ub ub-ac uw-280">
 					        		<label class="ub uw-110 ub-pe umar-r8">经办人:</label>
-					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text" readonly="readonly" id="franchiseAgentName" name="franchiseAgentName" value="${contractVo.franchiseAgentName}">
+					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text"  id="franchiseAgentName" name="franchiseAgentName" value="${contractVo.franchiseAgentName}">
 				        		</div>
 				        		<div class="ub ub-ac uw-230  umar-l8">
 					        		<label class="ub ub-pe umar-r8">联系电话:</label>
-					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text" readonly="readonly" id="franchiseAgentPhone" name="franchiseAgentPhone" value="${contractVo.franchiseAgentPhone}">
+					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text" onblur="checkPhoneMoblie(this)"  id="franchiseAgentPhone" name="franchiseAgentPhone" value="${contractVo.franchiseAgentPhone}" maxlength="15" placeholder="18809098888/0755-88880000">
 				        		</div>
 				        	</div>
 				        	
 				        	<div class="ub uw-524 umar-t12 " style="width:518px">
-				        		<label class="ub uw-110 ub-pe umar-r8 ">备注:</label>
-				        		<textarea rows="3" cols="3" name="remark" id="remark" class="uinp ub ub-f1 uh-100" value="${contractVo.remark}"></textarea>
+				        		<label class="ub uw-110 ub-pe umar-r8 ">${contractVo.remark}备注:</label>
+				        		<textarea rows="3" cols="3" name="remark" id="remark" class="uinp ub ub-f1 uh-100">${contractVo.remark}</textarea>
 				        	</div>
 				        	
 				        	<div class="ub umar-t20">

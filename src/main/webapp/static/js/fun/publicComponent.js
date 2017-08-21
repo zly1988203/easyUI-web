@@ -1729,6 +1729,14 @@ function checkPositiveInteger(obj){
 	return obj.value;
 }
 
+//电话号码 020-88888888或者12888888888
+function checkPhoneMoblie(obj){
+	if(!/^((\(\d{2,3}\))|(\d{3}\-))?(\(0\d{2,3}\)|0\d{2,3}-)?[1-9]\d{6,7}(\-\d{1,4})?$/i.test(obj.value) && !/^1\d{10}$/i.test(obj.value)){
+		obj.value = '';
+    }
+	return obj.value;
+}
+
 //输入数字，保留两位小数
 function checkPrice(obj){
 	 obj.value =obj.value.replace(/[^0-9.]/g,'');
