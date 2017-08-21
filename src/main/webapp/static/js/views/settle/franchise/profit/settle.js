@@ -44,20 +44,8 @@ $(function(){
 			},
 			//选择完成之后
 			onAfterRender:function(data){
-				initProfitFormDetail();
-			},
-			//选择之前
-			onShowBefore:function(){
-				if(!$('#beginDate').val()){
-					$_jxc.alert('请选择计算开始时间');
-					return false;
-				}
-				if(!$('#endDate').val()){
-					$_jxc.alert('请选择计算结束时间');
-					return false;
-				}
-				return true;
-			},
+				$('#branchId').val(data.branchId);
+			}
 		});
 	}
 	
@@ -193,7 +181,46 @@ function delLineHandel(event){
 
 //计算账款
 function calAmount(){
+	//加盟店id
+	var _branchId = $.trim($("#branchId").val());
+	if(!_branchId){
+		$_jxc.alert('加盟店id不能为空');
+		return;
+	}
+	//时间起
+	var _startTime = $.trim($("#beginDate").val());
+	if(!_startTime){
+		$_jxc.alert('合同有效期起不能为空');
+		return;
+	}
+	//时间止
+	var _endTime = $.trim($("#endDate").val());
+	if(!_endTime){
+		$_jxc.alert('合同有效期止不能为空');
+		return;
+	}
 	
+	var paramsObj = {
+			"id":$('#id').val(),
+			"franchiseBranchId":_branchId,
+			"settleTimeStart":_startTime,
+			"settleTimeEnd":_endTime
+	};
+	$_jxc.ajax({
+		url : contextPath+"/settle/franchiseProfitSettle/calAmount",
+		data: paramsObj
+	},function(result){
+		if(result['code'] == 0){
+			
+    		$("#"+gridName).datagrid("options").method = "post";
+    		$("#"+gridName).datagrid("options").queryParams = paramsObj;
+    		$("#"+gridName).datagrid('options').url = contextPath + '/settle/franchiseProfitSettle/getFormList';
+    		$("#"+gridName).datagrid('load');
+		}else{
+			$_jxc.alert(result['message'],'计算账款失败');
+		}
+	});
+
 }
 
 //保存
@@ -273,7 +300,7 @@ function delFrachiseForm(){
 	});
 }
 
-//初始化列表
+/*//初始化列表
 function initProfitFormDetail(){
     var branchId = $('#branchId').val();
     var paramsObj = {
@@ -286,7 +313,7 @@ function initProfitFormDetail(){
     $("#"+gridName).datagrid("options").queryParams = paramsObj;
 	$("#"+gridName).datagrid('options').url = contextPath + '/settle/franchiseProfitSettle/getFormList';
 	$("#"+gridName).datagrid('load');
-}
+}*/
 
 
 

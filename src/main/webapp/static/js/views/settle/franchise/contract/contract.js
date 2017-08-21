@@ -407,15 +407,11 @@ function checkContract(){
         return;
     }
 	
-	var reqObj = {
-		formId:$('#formId').val()
-	}
-	
 	$_jxc.confirm('是否审核通过?',function(r){
 		if(r){
 			$_jxc.ajax({
 		    	url : contextPath+"/settle/franchiseContract/contractAudit",
-		    	data:{"data":JSON.stringify(reqObj)}
+		    	data:{"formId":$('#formId').val()}
 		    },function(result){
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("操作成功！",function(){
