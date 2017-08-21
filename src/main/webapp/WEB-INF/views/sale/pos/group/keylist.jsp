@@ -19,7 +19,7 @@
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/sale/group/keyList.js?V=${versionNo}5"></script>
+	src="${ctx}/static/js/views/sale/group/keyList.js?V=${versionNo}2"></script>
 <style>
 .datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -62,15 +62,13 @@
 					<div id="btnHot" class="event-none ubtns-item-disabled"
 						onclick="hotgoods()">热销商品</div>
 					<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-					<div class="ubtns-item" onclick="delgoods()">删除</div>
-
 				</div>
 			</div>
 		</div>
 
-		<div class="ub">
+		<form id="goodsgridForm" class="ub">
 			<table id="goodsgrid"></table>
-		</div>
+		</form>
 
 	</div>
 
