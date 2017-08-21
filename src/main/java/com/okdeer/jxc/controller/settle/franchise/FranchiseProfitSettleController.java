@@ -103,6 +103,8 @@ public class FranchiseProfitSettleController
 			int auditCount = franchiseProfitSettleService.getAuditCount(franchiseBranchId);
 			if (auditCount > 0) {
 				respJson = RespJson.error("存在未审核的毛利结算单");
+			} else {
+				respJson = franchiseProfitSettleService.getSettleTimeStart(franchiseBranchId);
 			}
 		} catch (Exception e) {
 			LOG.error("获取未审核结算单数量异常:", e);
