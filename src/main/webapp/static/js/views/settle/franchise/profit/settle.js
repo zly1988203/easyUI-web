@@ -25,7 +25,7 @@ $(function(){
 //		  }
 	}else if(pageStatus === 'edit'){
 		/*var formId = $("#formId").val();
-		url = contextPath+"/settle/franchiseSettle/getDetailList?formId="+formId;
+		url = contextPath+"/settle/franchiseProfitSettle/getDetailList?formId="+formId;
 		oldData = {
 		        remark:$("#remark").val(),                  // 备注
 		        payType:$('input[type="hidden"][name="payType"]').val()||'',   //支付方式
@@ -123,43 +123,36 @@ function initSupChkAcoAdd(){
         width:'100%',
         columns:[[
             {field:'cb',checkbox:true},
-            {field:'branchCode',title:'加盟店编号',width:'120',align:'left'},
-            {field:'branchName',title:'加盟店名称',width:'140',align:'left'},
-            {field:'skuNo',title:'货号',width:'140',align:'left'},
+            {field:'franchiseBranchCode',title:'加盟店编号',width:'120',align:'left'},
+            {field:'franchiseBranchName',title:'加盟店名称',width:'140',align:'left'},
+            {field:'skuCode',title:'货号',width:'140',align:'left'},
             {field:'skuName',title:'商品名称',width:'140',align:'left'},
-            {field:'skuCode',title:'条码',width:'140',align:'left'},
+            {field:'barCode',title:'条码',width:'140',align:'left'},
+            {field:'spec',title:'规格',width:'60',align:'left'},
             {field:'unit',title:'单位',width:'60',align:'left'},
-            {field:'sellNum',title:'销售数量',width:'100',align:'right',
+            {field:'saleCount',title:'销售数量',width:'100',align:'right',
             	formatter:function(value,row,index){
-            		if(!value)row.sellNum = 0;
+            		if(!value)row.saleCount = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'sellAmount',title:'销售金额',width:'100',align:'right',
+            {field:'saleAmount',title:'销售金额',width:'100',align:'right',
             	formatter:function(value,row,index){
-            		if(!value)row.payedAmount = 0;
+            		if(!value)row.saleAmount = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
             {field:'costAmount',title:'成本金额',width:'100',align:'right',
             	formatter:function(value,row,index){
-            		if(!value)row.unpayAmount = 0;
+            		if(!value)row.costAmount = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field:'profit',title:'实收金额',width:'100',align:'right',
+            {field:'profitAmount',title:'毛利',width:'100',align:'right',
             	formatter:function(value,row,index){
-            		if(!value)row.profit = 0;
+            		if(!value)row.profitAmount = 0;
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
-            },
-            {field:'remark',title:'备注',width:'180',align:'left',
-                editor:{
-                    type:'textbox',
-                    options:{
-                        validType:{maxLength:[20]},
-                    }
-                }
             }
         ]],
         onLoadSuccess:function(data){
@@ -198,18 +191,22 @@ function delLineHandel(event){
     gridHandel.delRow(index);
 }
 
+//计算账款
+function calAmount(){
+	
+}
+
 //保存
 function saveProSet(){
-    var url = $("#pageStatus").val() == 'add' ? contextPath+"/settle/franchiseSettle/settleSave" : contextPath+"/settle/franchiseSettle/settleUpdate";
+    var url = $("#pageStatus").val() == 'add' ? contextPath+"/settle/franchiseProfitSettle/settleSave" : contextPath+"/settle/franchiseProfitSettle/settleUpdate";
     
-    return;
     $_jxc.ajax({
         url:url,
         data:{"data":JSON.stringify(reqObj)},
     },function(result){
         if(result['code'] == 0){
 			$_jxc.alert("操作成功！",function(){
-				location.href = contextPath +"/settle/franchiseSettle/settleEdit?id="+result['formId'];
+				location.href = contextPath +"/settle/franchiseProfitSettle/settleEdit?id="+result['formId'];
 			});
         }else{
             $_jxc.alert(result['message']);
@@ -238,13 +235,13 @@ function auditFranchiseSet(){
 		if(data){
 //            gFunStartLoading();
 			$_jxc.ajax({
-		    	url : contextPath+"/settle/franchiseSettle/settleAudit",
+		    	url : contextPath+"/settle/franchiseProfitSettle/settleAudit",
 		    	data:{"formId":$('#formId').val()||''}
 		    },function(result){
 //                gFunEndLoading();
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("操作成功！",function(){
-	    				location.href = contextPath +"/settle/franchiseSettle/settleView?id=" + result["formId"];
+	    				location.href = contextPath +"/settle/franchiseProfitSettle/settleView?id=" + result["formId"];
 	    			});
 	    		}else{
 	            	 $_jxc.alert(result['message'],'审核失败');
@@ -261,12 +258,12 @@ function delFrachiseForm(){
 	$_jxc.confirm('是否要删除单据',function(data){
 		if(data){
 			$_jxc.ajax({
-		    	url:contextPath+"/settle/franchiseSettle/settleDelete",
+		    	url:contextPath+"/settle/franchiseProfitSettle/settleDelete",
 		    	dataType: "json",
 		    	data:{"ids":ids}
 		    },function(result){
 	    		if(result['code'] == 0){
-                    toRefreshIframeDataGrid("settle/franchiseSettle/settleList","franchiseAccountAdd");
+                    toRefreshIframeDataGrid("settle/franchiseProfitSettle/settleList","franchiseAccountAdd");
 	    			toClose();
 	    		}else{
 	    			$_jxc.alert(result['message']);
@@ -280,14 +277,14 @@ function delFrachiseForm(){
 function initProfitFormDetail(){
     var branchId = $('#branchId').val();
     var paramsObj = {
-    	branchId:branchId,
-    	beginDate:$('#beginDate').val(),
-    	endDate:$('#endDate').val(),
+    	franchiseBranchId:branchId,
+    	settleTimeStart:$('#beginDate').val(),
+    	settleTimeEnd:$('#endDate').val(),
     }
     
 	$("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid("options").queryParams = paramsObj;
-	$("#"+gridName).datagrid('options').url = contextPath + '/settle/franchiseSettle/getFormList';
+	$("#"+gridName).datagrid('options').url = contextPath + '/settle/franchiseProfitSettle/getFormList';
 	$("#"+gridName).datagrid('load');
 }
 
@@ -296,7 +293,7 @@ function initProfitFormDetail(){
 //导出
 function exportOrder(){
 	var formId = $("#formId").val();
-	window.location.href = contextPath + '/settle/franchiseSettle/exportSheet?page=FranchiseSettle&sheetNo='+formId;
+	window.location.href = contextPath + '/settle/franchiseProfitSettle/exportSheet?page=FranchiseProfitSettle&sheetNo='+formId;
 }
 
 //返回列表页面
