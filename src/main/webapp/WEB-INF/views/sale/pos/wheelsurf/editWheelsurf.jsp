@@ -15,31 +15,34 @@
 	.datagrid-header-row .datagrid-cell {
 	text-align: center !important;
 	}
-	.ualable{
-		position: unset;
-		background:white;
-		border-radius: 0;
-	}
-
-
 	</style>
 
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
-	<input type='hidden' id="pageStatue" name="pageStatue" value="add">
+	<input type='hidden' id="formId" name="formId" value="${form.formId}">
+	<input type='hidden' id="pageStatue" name="pageStatue" value="${form.status}">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
 				<div class="ubtns-item" onclick="selectPrize()">奖品选择</div>
-				<label class="ualable">上传图片
-				<input id="file" name="file" type="file" accept="image/*" class="uafile" value=""
-				onchange="imgUrlChange(event)" readonly="readonly" /></label>
-				<%--<div class="ubtns-item" onclick="uploadPic()">上传图片</div>--%>
-				<div class="ubtns-item" onclick="saveWheelsurf()">保存</div>
+				<div class="ubtns-item" onclick="uploadPic()">上传图片</div>
+				<div class="ubtns-item" onclick="updateWheelsurf()">保存</div>
+				<div class="ubtns-item" onclick="checkWheelsurf()">审核</div>
+				<div class="ubtns-item" onclick="overWheelsurf()">终止</div>
 				<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>
 		</div>
+
+	<c:choose>
+		<c:when test="${form.status eq '1'}">
+			<div class="already-examine" id="already-examine"><span>已终止</span></div>
+		</c:when>
+		<c:otherwise>
+			<div class="already-examine" id="already-examine"><span>已审核</span></div>
+		</c:otherwise>
+	</c:choose>
+
 		<form id="formAdd">
 			<div class="ub ub-ver ">
 				<div class="ub umar-t8 umar-l4">
@@ -98,7 +101,7 @@
 				</div>
 			</div>
 		</form>
-		<form id="gridAddForm" class="ub uw umar-t8 ub-f1">
+		<form id="gridEditForm" class="ub uw umar-t8 ub-f1">
 			<table id="gridAddPosAct"></table>
 		</form>
 	</div>
