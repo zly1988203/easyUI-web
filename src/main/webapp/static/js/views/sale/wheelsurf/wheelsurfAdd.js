@@ -4,7 +4,7 @@
 
 $(function () {
     initgridAddPosAct();
-    //机构选择初始化 发货机构
+    //机构选择初始化
     $('#branchTemp').branchSelect();
     if($("#pageStatue").val() === "add"){
         $("#actStarTime").val(dateUtil.getCurrentDateStr());
@@ -82,9 +82,33 @@ function initgridAddPosAct() {
                     }
                 }
             },
-            {field:'rowNo',title:'顺序',width:'150px',align:'left'},
-            {field:'winNum',title:'中奖数量',width:'100px',align:'right'},
-            {field:'winRate',title:'中奖概率',width:'150px',align:'left'},
+            {field:'rowNo',title:'顺序',width:'150px',align:'left',
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:0,
+                    }
+                },
+            },
+            {field:'winNum',title:'中奖数量',width:'100px',align:'right',
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:0,
+                    }
+                },
+            },
+            {field:'winRate',title:'中奖概率',width:'150px',align:'left',
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0.00,
+                        precision:2,
+                    }
+                },
+            },
             {
                 field : 'picUrl',
                 title : '图片',
@@ -145,9 +169,9 @@ function selectPrize() {
     }
 
     var queryParams = {
-        type:'HD',
+        type:'',
         key:"",
-        isRadio:0,
+        isRadio:1,
         'branchId': $('#branchIds').val(),
         sourceBranchId:'',
         targetBranchId:'',
@@ -158,12 +182,11 @@ function selectPrize() {
         if(data.length==0){
             return;
         }
-        var nowRows = gridAddPosActHandle.getRowsWhere();
-        $.each(data,function (index,item) {
-            data[index]['prizeFullName'] = item.skuName;
-        });
-        var newRows = nowRows.push(data);
-        $("#gridAddPosAct").datagrid("loadData",newRows);
+
+        row['prizeFullName'] = data[0].skuName;
+        row['skuId'] = data[0].skuId;
+
+        $("#gridAddPosAct").datagrid("acceptChanges");
 
         setTimeout(function(){
             gridAddPosActHandle.setBeginRow(gridAddPosActHandle.getSelectRowIndex()||0);
