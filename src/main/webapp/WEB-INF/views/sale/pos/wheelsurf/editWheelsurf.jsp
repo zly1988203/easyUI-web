@@ -113,9 +113,9 @@
 				<div class="ub umar-t8 umar-l4">
 					<div class="ub ub-ac umar-r40" id="branchTemp">
 					<div class="umar-r10 uw-60 ut-r">活动机构:</div>
-					<input class="uinp ub ub-f1" type="hidden" id="branchId"
-					name="branchId" value="<c:out value="${form.branchId}"/>"> <input class="uinp ub ub-f1 uw-416" type="text"
-					id="branchName" name="branchName" value="<c:out value="[${form.branchCode}]${form.branchName}"/>">
+					<input class="uinp ub ub-f1" type="hidden" id="branchIds"
+					name="branchIds" value="<c:out value="${form.branchIds}"/>"> <input class="uinp ub ub-f1 uw-416" type="text"
+					id="branchName" name="branchName" value="<c:out value="${form.branchName}"/>">
 					<div class="uinp-more">...</div>
 					</div>
 					<div class="ub ub-ac umar-r20">
