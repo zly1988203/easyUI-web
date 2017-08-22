@@ -18,7 +18,7 @@ $(function(){
 
 //绑定元素的事件
 function bindElementEvent(){
-	$("#managerStockChecked,#allowActivityChecked,#fastDeliverChecked,#highValueChecked,#attentionChecked,#supplierRateChecked").click(function (){
+	$("#managerStockChecked,#allowActivityChecked,#fastDeliverChecked,#highValueChecked,#attentionChecked,#supplierRateChecked,#allowGiftChecked").click(function (){
 		changeElementStatus(this);
 	});
 	$("#allowAdjustChecked,#safetyCoefficientChecked,#supplierChecked,#categoryChecked,#brandChecked,#safetyCoefficientCascadeChecked,#supplierCascadeChecked").click(function (){
@@ -440,6 +440,17 @@ function changeElementStatus(input){
 		}
 	}
 
+    //是否关注商品
+    if(input.id == "allowGiftChecked"){
+        if($("#allowGiftChecked").is(':checked')){
+            $("#allowGiftChecked").val(true);
+            $("input[name='allowGift']").removeAttr("disabled");
+        }else{
+            $("#allowGiftChecked").val(false);
+            $("input[name='allowGift']").attr("disabled",true);
+        }
+    }
+
 	//安全库存系数
 	if(input.id == "safetyCoefficientChecked"){
 		if($("#safetyCoefficientChecked").is(':checked')){
@@ -583,19 +594,19 @@ function changeBranchType(branchType){
 	switch (branchType){
 		//总部仅可修改：是否管理库存、是否高值商品、是否关注商品、修改商品类别、修改商品品牌、进货规格、配送规格
 		case 0:
-			$("#managerStockChecked,#highValueChecked,#attentionChecked,#categoryChecked,#brandChecked,#purchaseChecked,#distributionChecked").removeAttr("disabled");
+			$("#managerStockChecked,#highValueChecked,#attentionChecked,#categoryChecked,#brandChecked,#purchaseChecked,#distributionChecked,#allowGiftChecked").removeAttr("disabled");
 			break;
 		//分公司仅可修改：是否参与促销、是否直送商品、分店调价、安全库存系数、修改主供应商(物流中心暂当分公司处理)、进货规格、配送规格
 		case 1:
 		case 2:
-			$("#allowActivityChecked,#fastDeliverChecked,#allowAdjustChecked,#safetyCoefficientChecked,#supplierChecked,#purchaseChecked,#distributionChecked").removeAttr("disabled");
+			$("#allowActivityChecked,#fastDeliverChecked,#allowAdjustChecked,#safetyCoefficientChecked,#supplierChecked,#purchaseChecked,#distributionChecked,#allowGiftChecked").removeAttr("disabled");
 			break;
 		//门店仅可修改：安全库存系数、修改主供应商
 		case 3:
 		case 4:
 		case 5:
 		default:
-			$("#safetyCoefficientChecked,#supplierChecked").removeAttr("disabled");
+			$("#safetyCoefficientChecked,#supplierChecked,#allowGiftChecked").removeAttr("disabled");
 			break;
 	}
 }

@@ -415,6 +415,12 @@
 						</label>
 
 					</div>
+					<div class="ub ub-ac umar-r40">
+						<label> <input id="allowGift" name="allowGift"
+									   type="checkbox" name="checkbox" /><span>是否可为赠品</span>
+						</label>
+
+					</div>
 				</div>
 
 			</div>
