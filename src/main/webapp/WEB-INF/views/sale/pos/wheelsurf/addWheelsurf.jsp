@@ -26,7 +26,15 @@
 
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
-	<input type='hidden' id="pageStatue" name="pageStatue" value="add">
+	<c:choose>
+		<c:when test="${form.id != null}">
+			<input type='hidden' id="copyId" name="copyId" value="${form.id}">
+			<input type='hidden' id="pageStatue" name="pageStatue" value="copy">
+		</c:when>
+		<c:otherwise>
+			<input type='hidden' id="pageStatue" name="pageStatue" value="add">
+		</c:otherwise>
+	</c:choose>
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
@@ -45,37 +53,44 @@
 				<div class="ub umar-t8 umar-l4">
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-60 ut-r">活动时间:</div>
-						<input id="actStarTime" class="Wdate easyui-validatebox"
+						<input id="beginTime" name="beginTime" class="Wdate easyui-validatebox"
 						data-options="required:true" type="text"
 						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
 	至
-						<input id="actEndTime" class="Wdate easyui-validatebox"
+						<input id="overTime" name="overTime" class="Wdate easyui-validatebox"
 						data-options="required:true" type="text"
 						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
 					</div>
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-80 ut-r">奖品有效期:</div>
-						<input id="prizeStarTime" class="Wdate easyui-validatebox"
+						<input id="validBeginTime" name="validBeginTime" class="Wdate easyui-validatebox"
 							data-options="required:true" type="text"
-							onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+							onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.validBeginTime}" pattern="yyyy-MM-dd"/>"/>
 	至
-						<input id="prizeEndTime" class="Wdate easyui-validatebox"
+						<input id="validOverTime" name="validOverTime" class="Wdate easyui-validatebox"
 						data-options="required:true" type="text"
-						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.validOverTime}" pattern="yyyy-MM-dd"/>"/>
 					</div>
 
 				</div>
 				<div class="ub umar-t8 umar-l4">
 					<div class="ub ub-ac umar-r30">
 						<div class="umar-r10 uw-60 ut-r">活动名称:</div>
-						<input id="actName" name="actName" class="uinp uw-416"  type="text">
+						<input id="wheelsurfName" name="wheelsurfName" class="uinp uw-416" type="text" value="<c:out value="${form.wheelsurfName}"/>" >
 					</div>
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-70 ut-r">活动类型:</div>
 						<select class="uselect easyui-combobox" style="width:420px;" name="activityType"
 						data-options="editable:false">
 						<%--<option value="">全部</option>--%>
-						<option value="1">抽奖</option>
+							<c:choose>
+								<c:when test="${form.formType eq '1'}">
+									<option value="1" selected>抽奖</option>
+								</c:when>
+								<c:otherwise>
+									<option value="1" selected>抽奖</option>
+								</c:otherwise>
+							</c:choose>
 						</select>
 
 					</div>
@@ -91,13 +106,14 @@
 					</div>
 					<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">抽奖次数:</div>
-					<input  name="activityNo"
-						id="activityNo" class="uinp uw-416 easyui-numberbox easyui-validatebox"
-						data-options="min:1,max:999999,precision:0" type="text" >
+					<input  name="wheelsurfTime"
+						id="wheelsurfTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
+						data-options="min:1,max:999999,precision:0" type="text" value="<c:out value="${form.wheelsurfTime}"/>">
 					</div>
 				</div>
 			</div>
 		</form>
+
 		<form id="gridAddForm" class="ub uw umar-t8 ub-f1">
 			<table id="gridAddPosAct"></table>
 		</form>

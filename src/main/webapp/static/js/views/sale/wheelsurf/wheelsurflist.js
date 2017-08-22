@@ -74,7 +74,7 @@ function copyPosActivity() {
         $_jxc.alert("请选择一条数据");
         return;
     }
-    window.parent.addTab('复制POS客屏活动',contextPath+'/pos/wheelsurf/form/copy/'+row.id);
+    toAddTab('复制POS客屏活动',contextPath+'/pos/wheelsurf/form/copy/'+row.id);
 }
 
 function delPosActivity() {
