@@ -191,7 +191,7 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 			List<PosWheelsurfFormDetailVo> posGroupKeys = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("list"),JsonMapper.nonDefaultMapper().contructCollectionType(ArrayList.class, PosWheelsurfFormDetailVo.class));
 			for (int i = 0,length=posGroupKeys.size();i<length;++i){
 				PosWheelsurfFormDetailVo vo = posGroupKeys.get(i);
-				vo.setPicUrl(StringUtils.replaceChars(vo.getPicUrl(),filePrefix+"/",""));
+				vo.setPicUrl(StringUtils.replace(vo.getPicUrl(),filePrefix+"/",""));
 				posGroupKeys.set(i,vo);
 			}
 			PosWheelsurfFormVo vo = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("formObj"),PosWheelsurfFormVo.class);
@@ -214,6 +214,7 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 				posGroupKeys.set(i,vo);
 			}
 			PosWheelsurfFormVo vo = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("formObj"),PosWheelsurfFormVo.class);
+			vo.setBranchCode(getCurrBranchCode());
 			posWheelsurfServiceApi.insertPosWheelsurfFormAndDetail(vo,posGroupKeys);
 			return RespJson.success();
 		}catch (Exception e){

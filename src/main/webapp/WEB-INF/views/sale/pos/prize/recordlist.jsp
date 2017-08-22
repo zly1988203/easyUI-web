@@ -50,7 +50,15 @@
 					<div class="umar-r10 uw-70 ut-r">会员号:</div>
                     <input class="uinp" name="mobile" id="mobile" type="text">
 				</div>
+				<div class="ub ub-ac umar-r40">
+					<div class="umar-r10 uw-70 ut-r">活动类型:</div>
+					<select class="uselect easyui-combobox" name="formType" id="formType"
+							data-options="editable:false">
+						<option value="">全部</option>
+						<option value="1">抽奖</option>
+					</select>
 
+				</div>
 			</div>
 			<div class="ub umar-t8">
 
@@ -61,16 +69,28 @@
 					id="branchName" name="branchName">
 					<div class="uinp-more">...</div>
 				</div>
+				<div class="ub ub-ac umar-r40">
+					<div class="umar-r10 uw-60 ut-r">奖品状态:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="radioItem" type="radio" name="prizeStatus" id="status_no"
+							   value="1" checked="checked" /><label for="status_no">未领取
+					</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="radioItem" type="radio" name="prizeStatus"
+							   id="status_yes" value="2" /><label for="status_yes">已领取
+					</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" name="prizeStatus" value="9" /><span>已过期
+						</span>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="radioItem" type="radio" name="prizeStatus"
+							   id="status_all" value="4" /><label for="status_all">全部</label>
+					</div>
+				</div>
 
-                <div class="ub ub-ac umar-r40">
-                <div class="umar-r10 uw-70 ut-r">活动类型:</div>
-                <select class="uselect easyui-combobox" name="formType" id="formType"
-                data-options="editable:false">
-                <option value="">全部</option>
-                <option value="1">抽奖</option>
-                </select>
-
-                </div>
 			</div>
 
 		</form>

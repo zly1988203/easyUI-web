@@ -36,10 +36,13 @@ function initgridRecord() {
                     return  '<b>'+parseFloat(value||0).toFixed(0)+'</b>';
                 }},
             {field:'statusStr',title:'奖品状态',width:'150px',align:'left'},
-            {field:'winNum',title:'数量',width:'100px',align:'right',
-                formatter:function(value,row,index){
-                    return  '<b>'+parseFloat(value||0).toFixed(0)+'</b>';
-                }},
+            {field:'formType',title:'活动类型',width:'100px',align:'right',formatter:function(value,row,index){
+                if(value == '1'){
+                    return '抽奖';
+                }else{
+                    return '未知类型：'+ value;
+                }
+            }},
             {field:'branchCode',title:'机构编码',width:'150px',align:'left'},
             {field:'branchName',title:'活动机构',width:'200px',align:'left'},
             {field:'winTimeStr',title:'中奖时间',width:'150px',align:'left'},
