@@ -8,10 +8,13 @@
  */
 package com.okdeer.jxc.controller.sale;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
+import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.okdeer.jxc.pos.service.PosAdServiceApi;
+import com.okdeer.jxc.pos.vo.PosAdFormVo;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
@@ -32,6 +35,9 @@ import java.util.Map;
 @RequestMapping("pos/ad/form")
 public class PosAdFormController extends BaseController<PosAdFormController> {
 
+    @Reference(version = "1.0.0", check = false)
+    private PosAdServiceApi posAdServiceApi;
+
     @RequestMapping(value = "/list")
     public ModelAndView list() {
         Map<String, String> model = Maps.newHashMap();
@@ -43,11 +49,28 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
         Map<String, String> model = Maps.newHashMap();
         return new ModelAndView("sale/pos/ad/addAd", model);
     }
-    
-    @RequestMapping(value = "edit")
-    public ModelAndView edit() {
-        Map<String, String> model = Maps.newHashMap();
+
+    @RequestMapping(value = "edit/{id}")
+    public ModelAndView edit(@PathVariable(value = "id")String id) {
+        Map<String, Object> model = Maps.newHashMap();
+        model.put("form",posAdServiceApi.getPosAdByFormId(id));
         return new ModelAndView("sale/pos/ad/editAd", model);
     }
 
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public PageUtils<PosAdFormVo> list(PosAdFormVo vo,
+                                       @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+                                       @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+        try {
+            vo.setPageNumber(pageNumber);
+            vo.setPageSize(pageSize);
+            PageUtils<PosAdFormVo> posWheelsurfFormVoPageUtils = this.posAdServiceApi.getPosAdList(vo);
+            //return RespJson.success(posWheelsurfFormVoPageUtils);
+            return posWheelsurfFormVoPageUtils;
+        }catch (Exception e){
+            LOG.error("获取POS客屏广告列表失败!" ,e);
+            //return RespJson.error("获取POS客屏活动列表失败!" );
+        }
+        return PageUtils.emptyPage();
+    }
 }
