@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -152,6 +153,12 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 			if (StringUtils.isEmpty(vo.getTargetBranchId())) {
 				vo.setTargetBranchCompleteCode(UserUtil.getCurrBranchCompleCode());
 			}
+			if (StringUtils.isEmpty(vo.getCheckboxTime())) {
+				vo.setTempEndTime(null);
+			} else {
+				vo.setStartTime(null);
+				vo.setEndTime(null);
+			}
 			String sourceBranchName = vo.getSourceBranchName();
 			String targetBranchName = vo.getTargetBranchName();
 			if (StringUtils.isNotEmpty(sourceBranchName)) {
@@ -224,15 +231,18 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 			// 导出文件名称，不包括后缀名
 			String fileName = null;
 			String templateName = null;
+			List<Map<String,Object>> list = queryDeliverFormServiceApi.queryFormsList(deliverFormId);
+			String formNo = "";
+			if (CollectionUtils.isNotEmpty(list)) {
+				formNo = String.valueOf(list.get(0).get("formNo"));
+			}
 			if ("DA".equals(deliverType)) {
-				fileName = "XS" + "_" + DateUtils.formatDate(DateUtils.getCurrDate(), DateUtils.DATE_KEY_STR);
+				fileName = "XS" + "_" + formNo;
 				templateName = ExportExcelConstant.DELIVER_FORM_LISTLOGISTICS;
 			} else {
-				fileName = "PSDTH" + "_" + DateUtils.formatDate(DateUtils.getCurrDate(), DateUtils.DATE_KEY_STR);
+				fileName = "PSDTH" + "_"+ formNo;
 				templateName = ExportExcelConstant.DELIVER_FORM_RETURN_LISTLOGISTICS;
 			}
-			
-			List<Map<String,Object>> list = queryDeliverFormServiceApi.queryFormsList(deliverFormId);
 			// 导出Excel
 			exportListForXLSX(response, list, fileName, templateName);
 			return null;

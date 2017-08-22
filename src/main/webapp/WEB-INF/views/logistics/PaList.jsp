@@ -49,23 +49,11 @@
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r40">
-					<div class="umar-r10 uw-60 ut-r">单据状态:</div>
-					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="dealStatus" id="deal0"
-							value="0" /><label for="deal0">未处理 </label>
-					</div>
-					<!-- <div class="ub ub-ac umar-r10">
-	                    <input class="ub radioItem" type="radio" name="dealStatus" id="deal1" value="1"/><label for="deal1">部分处理  </label>
-	                </div> -->
-					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="dealStatus" id="deal2"
-							value="2" /><label for="deal2">处理完成 </label>
-					</div>
-					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="dealStatus" id="deal4"
-							value="" checked="checked" /><label for="deal4">全部 </label>
-					</div>
+				<div class="ub ub-ac umar-r40" id="branchSelect">
+					<div class="umar-r10 uw-60 ut-r">收货机构:</div>
+						<input class="uinp" name="branchId" id="branchId" type="hidden">
+						<input class="uinp" id="branchName" name="branchName" type="text" maxlength="50">
+					<div class="uinp-more" onclick="selectBranch()">...</div>
 				</div>
 			</div>
 		</form>

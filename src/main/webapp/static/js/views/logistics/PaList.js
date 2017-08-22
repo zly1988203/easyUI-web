@@ -24,7 +24,7 @@ function changeStatus(){
 
 //初始化默认条件
 function initConditionParams(){
-	$("#txtStartDate").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
+	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 }
 
@@ -89,7 +89,7 @@ function initDatagridOrders(){
 				}
 			},
             {field:'updateUserName',title:'操作员',width:'130px',align:'left'},
-            {field:'createTime',title:'操作时间',width:'150px',align:'center', formatter: function (value, row, index) {
+            {field:'validTime',title:'审核时间',width:'150px',align:'center', formatter: function (value, row, index) {
                 if (value) {
                 	return new Date(value).format('yyyy-MM-dd hh:mm');
                 }
@@ -127,7 +127,12 @@ function selectOperator(){
 		$("#operateUserName").val(data.userName);
 	});
 }
-
+function selectBranch(){
+	new publicBranchService(function(data){
+//		$("#branchId").val(data.branchesId);
+		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+	},0);
+}
 /**
  * 重置
  */

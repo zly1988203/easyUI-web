@@ -58,6 +58,7 @@ function exportExcel(){
 function query(){
 	$("#startCount").val('');
 	$("#endCount").val('');
+
 	var formData = $("#queryForm").serializeObject();
 	$("#dataList").datagrid("options").queryParams = formData;
 	$("#dataList").datagrid("options").method = "post";
@@ -69,3 +70,10 @@ function query(){
 function resetForm(){
 	 $("#skuCode").val('');
 };
+
+function searchBranch (){
+	new publicAgencyService(function(data){
+		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
+//		$("#branchId").val(data.branchesId);
+	},"","");
+}
