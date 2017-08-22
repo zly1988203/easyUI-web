@@ -11,20 +11,26 @@ package com.okdeer.jxc.controller.sale;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.service.FileUploadService;
 import com.okdeer.jxc.common.utils.JsonMapper;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.pos.service.PosWheelsurfServiceApi;
 import com.okdeer.jxc.pos.vo.PosWheelsurfFormDetailVo;
 import com.okdeer.jxc.pos.vo.PosWheelsurfFormVo;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -44,6 +50,27 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 
 	@Reference(version = "1.0.0", check = false)
 	PosWheelsurfServiceApi posWheelsurfServiceApi;
+
+	@Resource
+	FileUploadService fileUploadService;
+
+	private static Map<String, String> images = Maps.newHashMap();
+
+	@PostConstruct
+	private void init() {
+		images.put("png","png");
+		images.put("jpg","jpg");
+		images.put("bmp","bmp");
+		images.put("gif","gif");
+		images.put("jpeg","jpeg");
+	}
+
+	/**
+	 * @Fields uploadToken : 文件上传命名空间
+	 */
+	@Value("${fileUploadToken}")
+	private String uploadToken;
+
 
     @RequestMapping(value = "/list")
     public ModelAndView list() {
@@ -149,7 +176,7 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public RespJson saveGoods(HttpServletRequest request) {
+	public RespJson update(HttpServletRequest request) {
 		try {
 
 			List<PosWheelsurfFormDetailVo> posGroupKeys = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("list"),JsonMapper.nonDefaultMapper().contructCollectionType(ArrayList.class, PosWheelsurfFormDetailVo.class));
@@ -160,5 +187,66 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 			LOG.error("保存POS客屏活动失败!" ,e);
 			return RespJson.error("保存POS客屏活动失败!" );
 		}
+	}
+
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public RespJson save(HttpServletRequest request) {
+		try {
+
+			List<PosWheelsurfFormDetailVo> posGroupKeys = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("list"),JsonMapper.nonDefaultMapper().contructCollectionType(ArrayList.class, PosWheelsurfFormDetailVo.class));
+			PosWheelsurfFormVo vo = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("formObj"),PosWheelsurfFormVo.class);
+			posWheelsurfServiceApi.insertPosWheelsurfFormAndDetail(vo,posGroupKeys);
+			return RespJson.success();
+		}catch (Exception e){
+			LOG.error("保存POS客屏活动失败!" ,e);
+			return RespJson.error("保存POS客屏活动失败!" );
+		}
+	}
+
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson upload(MultipartHttpServletRequest request) {
+		RespJson respJson;
+		try {
+			// 最大文件大小
+			long maxSize = 1000000;
+
+			if (!ServletFileUpload.isMultipartContent(request)) {
+				return RespJson.error("请选择文件。");
+			}
+
+			Iterator<String> itr = request.getFileNames();
+			MultipartFile mpf = null;
+			while (itr.hasNext()) {
+				mpf = request.getFile(itr.next());
+				if (mpf == null || StringUtils.isEmpty(mpf.getOriginalFilename())) {
+					continue;
+				}
+				// 获取文件名
+				String fileName = mpf.getOriginalFilename();
+				// 检查文件大小
+				if (mpf.getSize() > maxSize) {
+					return RespJson.error("上传文件大小超过限制。");
+				}
+				// 检查扩展名
+				String fileExt = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
+				if (images.containsKey(StringUtils.lowerCase(fileExt))) {
+					return RespJson.error("不支持该文件类型，请上传图片。");
+				}
+			}
+
+			// 上传文件
+			List<String> filePaths = fileUploadService.getFilePaths(request, uploadToken);
+			if (CollectionUtils.isEmpty(filePaths)) {
+				return RespJson.error("图片上传失败");
+			}
+			// 返回七牛文件路径
+			respJson = RespJson.success();
+			respJson.put("filePath", filePaths.get(0).substring(0, filePaths.get(0).lastIndexOf(".")));
+		} catch (Exception e) {
+			LOG.error("图片上传异常:{}", e);
+			respJson = RespJson.error("图片上传失败");
+		}
+		return respJson;
 	}
 }
