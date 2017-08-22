@@ -30,12 +30,19 @@
 	            </div>
             </div>
 	        <div class="ub umar-t8">
+				<div class="ub ub-ac umar-r20">
+					<div class="umar-r10 uw-60 ut-r">机构:</div>
+						<input type="text" name="branchName" id="branchName" class="uinp" maxlength="50"/>
+						<input type="hidden" name="branchId" id="branchId">
+					<div class="uinp-more" onclick="searchBranch()">...</div>
+				</div>
                 <div class="ub ub-ac">
                     <div class="umar-r10 uw-70 ut-r">关键字:</div>
                     <input type="hidden" name="startCount" id="startCount" value="">
                     <input type="hidden" name="endCount" id="endCount" value="">
                     <input type="text" name="skuCode" id="skuCode" class="uinp" placeholder="输入编号、条码进行查询" maxlength="20"/>
-                </div>  
+                </div>
+
             </div>
        	</form>
        	

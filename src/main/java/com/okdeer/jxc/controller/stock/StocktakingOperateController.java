@@ -1,12 +1,38 @@
 package com.okdeer.jxc.controller.stock;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.google.common.io.Files;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.enums.OperateTypeEnum;
-import com.okdeer.jxc.common.goodselect.*;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportTxt;
+import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -18,26 +44,8 @@ import com.okdeer.jxc.stock.vo.StocktakingFormDetailVo;
 import com.okdeer.jxc.stock.vo.StocktakingFormVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
-import net.sf.json.JSONObject;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import net.sf.json.JSONObject;
 
 /**
  * <p></p>
@@ -382,6 +390,9 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 			}
 			// 作金额计算
 			List<GoodsSelectByStockTaking> stcoktakingVos = vo.getList();
+            if(CollectionUtils.isNotEmpty(stcoktakingVos) && stcoktakingVos.size() > 1000){
+                return RespJson.error("文件导入数量不能大于1000条!");
+            }
 			for (GoodsSelectByStockTaking staking : stcoktakingVos) {
 				BigDecimal result = staking.getSalePrice().multiply(staking.getStocktakingNum());
 				result = result.setScale(4, BigDecimal.ROUND_HALF_UP);
