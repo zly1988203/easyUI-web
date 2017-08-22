@@ -5,7 +5,12 @@
 $(function () {
     initgridAddPosAct();
     //机构选择初始化
-    $('#branchTemp').branchSelect();
+    $('#branchTemp').branchSelect({
+        //数据过滤
+        onAfterRender:function(data){
+           $("#branchIds").val(data.branchId);
+        }
+    });
     if($("#pageStatue").val() === "add"){
         $("#actStarTime").val(dateUtil.getCurrentDateStr());
         $("#actEndTime").val(dateUtil.getCurrentDateStr());
@@ -205,23 +210,21 @@ function selectPrize() {
 
 }
 
-function imgUrlChange(event) {
+function uploadPic() {
     var branchId = $("#branchIds").val();
     if(!branchId){
-        event.stopPropagation();
         $_jxc.alert("请先选择活动机构");
         return;
     }
 
     var row = $("#"+gridName).datagrid("getSelected");
     if(!row){
-        event.stopPropagation();
         $_jxc.alert("请选择一行数据");
         return;
     }
 
     var param = {
-        url:contextPath+'/pos/wheelsurf/form/upload'
+        url:'/pos/wheelsurf/form/upload'
     }
     publicUploadImgService(param,function (data) {
         row.picUrl = data.filePath;
