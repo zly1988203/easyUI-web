@@ -2823,7 +2823,7 @@ function publicCategorysServiceHandel(param,callback,cbDom){
     });
 
      function callBackHandel(data){
-         callback.call(data);
+         callback(data);
          $(uploadImgTemp).panel('destroy');
          uploadImgTemp = null;
      }
