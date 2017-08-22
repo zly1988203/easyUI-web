@@ -2794,4 +2794,39 @@ function publicCategorysServiceHandel(param,callback,cbDom){
 
 /*-----------------------类别选择 end-------------------------------*/
 
+
+/*--------------------------上传图片--------------------------------*/
+    /*
+    * param  {
+    *   url
+    *
+    * }
+    *
+    * */
+ function publicUploadImgService(param,callback) {
+   var uploadImgTemp = $('<div/>').dialog({
+        href: contextPath + "/component/dialog/uploadImg",
+        width:380,
+        height:300,
+        title:"图片上传",
+        closable:true,
+        resizable:true,
+        onClose: function(){
+            $(this).dialog('destroy');
+            uploadImgTemp = null;
+        },
+        modal: true,
+        onLoad: function () {
+            initUploadImgParam(param);
+            initUploadImgCallBack(callBackHandel)
+        },
+    });
+
+     function callBackHandel(data){
+         callback.call(data);
+         $(uploadImgTemp).panel('destroy');
+         uploadImgTemp = null;
+     }
+ }
+/*----------------------------------------------------------------------*/
 /*----------------jxc component js end  ---------------------------*/

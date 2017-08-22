@@ -172,14 +172,17 @@ function selectPrize() {
 }
 
 function imgUrlChange(event) {
+
     var branchId = $("#branchId").val();
     if(!branchId){
+        event.stopPropagation();
         $_jxc.alert("请先选择活动机构");
         return;
     }
 
     var row = $("#"+gridName).datagrid("getSelected");
     if(!row){
+        event.stopPropagation();
         $_jxc.alert("请选择一行数据");
         return;
     }
@@ -193,17 +196,37 @@ function imgUrlChange(event) {
     }
 
     var imgSize = img.size;
-    if(imgSize>2*1024*1024){
-        $_jxc.alert('上传的图片的大于2M,请重新选择');
+    if(imgSize>250*1024){
+        $_jxc.alert('上传的图片的大于250KB,请重新选择');
         return;
     }
 
     var formData = new FormData();
     formData.append("file",$("#file")[0].files[0]);
+    gFunStartLoading('正在上传，请稍后...');
+    uploadPic(formData);
 }
 
-function uploadPic() {
-
+function uploadPic(formData) {
+    $.ajax({
+        url : "",//uploadFileParams.url,
+        type : 'POST',
+        data : formData,
+        processData : false,
+        contentType : false,
+        success : function(data) {
+            gFunEndLoading();
+            if(data.code==0){
+                $_jxc.alert("文件上传成功");
+            }else{
+                $_jxc.alert(data.message);
+            }
+        },
+        error : function(responseStr) {
+            gFunEndLoading();
+            console.log("error");
+        }
+    });
 }
 
 function saveWheelsurf() {
