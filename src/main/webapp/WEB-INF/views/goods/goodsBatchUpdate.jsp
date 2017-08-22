@@ -355,6 +355,29 @@
 
 					</div>
 				</div>
+
+				<div class="ub ub-ac upad-8">
+					<!-- 是否可为赠品 -->
+					<div class="ub uw-120 ub-ac umar-r10">
+						<label>
+							<input id="allowGiftChecked" name="allowGiftChecked" type="checkbox" name="checkbox" />
+							是否可为赠品
+						</label>
+
+					</div>
+					<div class="ub uw-80 ub-ac umar-r10">
+						<label>
+							<input type="radio" id="allowGift1" name="allowGift" value="1" /><span>启用</span>
+						</label>
+
+					</div>
+					<div class="ub uw-300 ub-ac umar-r10">
+						<label>
+							<input type="radio" id="allowGift0" name="allowGift" value="0" checked="checked" /><span>不启用</span>
+						</label>
+
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>
