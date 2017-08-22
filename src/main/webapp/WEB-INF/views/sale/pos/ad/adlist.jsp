@@ -21,10 +21,10 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryAD()">查询</div>
-					<shiro:hasPermission name="JxcPurchaseOrder:add">
+					<shiro:hasPermission name="posADForm:save">
 						<div class="ubtns-item" onclick="adAdd()">新增</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="JxcPurchaseOrder:delete">
+					<shiro:hasPermission name="posADForm:delete">
 						<div class="ubtns-item" onclick="adDelete()">删除</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
@@ -42,8 +42,8 @@
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">制单人员:</div>
-					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
-					<input class="uinp" id="supplierName" name="supplierName"
+					<input class="uinp" name="createUserId" id="createUserId" type="hidden">
+					<input class="uinp" id="createUserName" name="createUserName"
 						type="text" maxlength="50">
 					<div class="uinp-more" onclick="selectSupplier()">...</div>
 				</div>
@@ -53,27 +53,27 @@
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">广告名称:</div>
-					<input class="uinp" name="formNo" id="formNo" type="text">
+					<input class="uinp" name="adName" id="adName" type="text">
 				</div>
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">展示状态:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="status" id="status_no"
+						<input class="radioItem" type="radio" name="auditStatus" id="status_no"
 							value="0" checked="checked" /><label for="status_no">未审核
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="status"
+						<input class="radioItem" type="radio" name="auditStatus"
 							id="status_yes" value="1" /><label for="status_yes">已审核
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" name="status" value="2" /><span>已终止
+						<input class="ub" type="radio" name="auditStatus" value="2" /><span>已终止
 						</span>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="status"
+						<input class="radioItem" type="radio" name="auditStatus"
 							id="status_all" value="" /><label for="status_all">全部</label>
 					</div>
 				</div>

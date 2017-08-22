@@ -54,6 +54,13 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 	@Resource
 	FileUploadService fileUploadService;
 
+
+	/**
+	 * @Fields filePrefix : 七牛文件路径前缀
+	 */
+	@Value("${filePrefix}")
+	private String filePrefix;
+
 	private static Map<String, String> images = Maps.newHashMap();
 
 	@PostConstruct
@@ -113,7 +120,13 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 	public Map<String, List<PosWheelsurfFormDetailVo>> editDetail(@PathVariable(value = "id")String id) {
 		try {
 			Map<String, List<PosWheelsurfFormDetailVo>> model = Maps.newHashMap();
-			model.put("detail" ,posWheelsurfServiceApi.getPosWheelsurfDetailList(id));
+			List<PosWheelsurfFormDetailVo> posGroupKeys = posWheelsurfServiceApi.getPosWheelsurfDetailList(id);
+			for (int i = 0,length=posGroupKeys.size();i<length;++i){
+				PosWheelsurfFormDetailVo vo = posGroupKeys.get(i);
+				vo.setPicUrl(filePrefix+"/"+vo.getPicUrl());
+				posGroupKeys.set(i,vo);
+			}
+			model.put("detail" ,posGroupKeys);
 			return model;
 		}catch (Exception e){
 			LOG.error("编辑POS客屏活动失败!",e);
@@ -176,6 +189,11 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 		try {
 
 			List<PosWheelsurfFormDetailVo> posGroupKeys = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("list"),JsonMapper.nonDefaultMapper().contructCollectionType(ArrayList.class, PosWheelsurfFormDetailVo.class));
+			for (int i = 0,length=posGroupKeys.size();i<length;++i){
+				PosWheelsurfFormDetailVo vo = posGroupKeys.get(i);
+				vo.setPicUrl(StringUtils.replace(vo.getPicUrl(),filePrefix+"/",""));
+				posGroupKeys.set(i,vo);
+			}
 			PosWheelsurfFormVo vo = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("formObj"),PosWheelsurfFormVo.class);
 			posWheelsurfServiceApi.updatePosWheelsurfFormAndDetail(vo,posGroupKeys);
 			return RespJson.success();
@@ -190,7 +208,13 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 		try {
 
 			List<PosWheelsurfFormDetailVo> posGroupKeys = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("list"),JsonMapper.nonDefaultMapper().contructCollectionType(ArrayList.class, PosWheelsurfFormDetailVo.class));
+			for (int i = 0,length=posGroupKeys.size();i<length;++i){
+				PosWheelsurfFormDetailVo vo = posGroupKeys.get(i);
+				vo.setPicUrl(StringUtils.replaceChars(vo.getPicUrl(),filePrefix+"/",""));
+				posGroupKeys.set(i,vo);
+			}
 			PosWheelsurfFormVo vo = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("formObj"),PosWheelsurfFormVo.class);
+			vo.setBranchCode(getCurrBranchCode());
 			posWheelsurfServiceApi.insertPosWheelsurfFormAndDetail(vo,posGroupKeys);
 			return RespJson.success();
 		}catch (Exception e){
@@ -238,7 +262,7 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 			}
 			// 返回七牛文件路径
 			respJson = RespJson.success();
-			respJson.put("filePath", filePaths.get(0).substring(0, filePaths.get(0).lastIndexOf(".")));
+			respJson.put("filePath", filePrefix + "/" + filePaths.get(0));
 		} catch (Exception e) {
 			LOG.error("图片上传异常:{}", e);
 			respJson = RespJson.error("图片上传失败");

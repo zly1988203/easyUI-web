@@ -172,7 +172,7 @@ function initgridAddPosAct() {
                 formatter:function(value,row){
                     var str = "";
                     if(value!="" && value!=null && undefined!=value){
-                        str = "<img style=\"height: 60px;width: 60px;\" src=\""+contextPath+"/"+value+"\"/>";
+                        str = "<img style=\"height: 60px;width: 60px;\" src=\""+value+"\"/>";
                         return str;
                     }
                 }},

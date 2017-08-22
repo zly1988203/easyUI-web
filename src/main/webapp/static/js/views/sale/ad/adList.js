@@ -26,18 +26,27 @@ function initgridAdList() {
             columns:[[
                 {field:'ck',checkbox:true},
                 {field:'id',title:'id',width:'85px',align:'left',hidden:true},
-                {field:'adNo',title:'编号',width: '70px',align:'left'},
+                {field:'formNo',title:'编号',width: '150px',align:'left',formatter:function(value,row,index){
+                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看POS客屏广告\',\''+contextPath+'/pos/ad/form/edit/'+row.id+'\')">' + value + '</a>';
+                    return strHtml;
+                }},
                 {field:'adName',title:'广告名称',width:'200px',align:'left'},
-                {field:'statue',title:'展示状态',width: '70px',align:'left'},
-                {field: 'startTime', title: '开始时间', width:140, align: 'left'},
-                {field: 'endTime', title: '结束时间', width:140, align: 'left',
-                    formatter:function(value,row,index){
-                        return formatDate(value);
+                {field:'auditStatus',title:'展示状态',width: '70px',align:'left',formatter:function(value,row,index){
+                    if(value == '0'){
+                        return '未审核';
+                    }else if(value == '1'){
+                        return '已审核';
+                    }else if(value == '2'){
+                        return '已终止';
+                    }else{
+                        return '未知类型：'+ value;
                     }
-                },
-                {field: 'createUserName', title: '制单人', width:100, align: 'left'},
-                {field: 'validUserName', title: '审核人', width:120, align: 'left'},
-                {field: 'validTime', title: '审核时间', width:140, align: 'left',
+                }},
+                {field:'beginDateStr', title:'展示开始日期', width:140, align: 'left'},
+                {field:'overDateStr', title:'展示结束日期', width:140, align: 'left'},
+                {field:'createUserName', title: '制单人', width:100, align: 'left'},
+                {field:'auditUserName', title: '审核人', width:120, align: 'left'},
+                {field:'auditTimeStr', title: '审核时间', width:140, align: 'left',
                     formatter:function(value,row,index){
                         return formatDate(value);
                     }
@@ -56,7 +65,7 @@ function queryAD() {
     $("#"+gridName).datagrid("options").url = "";
     $("#"+gridName).datagrid("options").queryParams = formData;
     $("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").url =  contextPath+"/sale/activityDetailReport/reportListPage";
+    $("#"+gridName).datagrid("options").url =  contextPath+"/pos/ad/form/list";
     $("#"+gridName).datagrid("load");
 }
 
