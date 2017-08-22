@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.io.Files;
 import com.okdeer.jxc.common.goodselect.*;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -386,6 +388,9 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 			}
 			// 作金额计算
 			List<GoodsSelectByStockTaking> stcoktakingVos = vo.getList();
+            if(CollectionUtils.isNotEmpty(stcoktakingVos) && stcoktakingVos.size() > 1000){
+                return RespJson.error("文件导入数量不能大于1000条!");
+            }
 			for (GoodsSelectByStockTaking staking : stcoktakingVos) {
 				BigDecimal result = staking.getSalePrice().multiply(staking.getStocktakingNum());
 				result = result.setScale(4, BigDecimal.ROUND_HALF_UP);
