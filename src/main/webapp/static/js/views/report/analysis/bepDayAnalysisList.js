@@ -2,11 +2,11 @@
  * Created by zhaoly on 2017/5/26.
  */
 
-var  costTitle = '开店成本(含折旧)';
+var  costTitle = '开店成本(每月均摊)';
 $(function () {
     initGridDayAnalysis();
-    $("#startTime").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-    $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     
     changeStatus();
 })
@@ -65,14 +65,7 @@ function initGridDayAnalysis() {
 //                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 //                },
 //            },
-			{field:'dayFixedAvgAmount',title:costTitle,width:"150px",align:'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
+			
 			{field:'bepDay',title:'日盈亏平衡点',width:"100px",align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
@@ -81,7 +74,71 @@ function initGridDayAnalysis() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-			{field:'dayTotalAmount',title:'销售额',width:"120px",align:'right',
+			{field:'dayTotalAmount',title:'当天销售金额',width:"120px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'dayTotalCost',title:'当天成本金额',width:"120px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'dayTotalProfit',title:'当天毛利金额',width:"120px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'lastMonthProfitMargin',title:'上月毛利率',width:"120px",align:'right',
+            	 formatter : function(value, row, index) {
+                     if(row.isFooter){
+                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                     }
+                     return '<b>'+parseFloat(value||0).toFixed(2)*100+'%</b>';
+                 },
+            },
+            {field:'lastMonthCost',title:'上月成本小计',width:"120px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'dayFixedAvgAmount',title:costTitle,width:"150px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'lastMonthManageCost',title:'上月经营成本',width:"150px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'lastMonthMaterielAmount',title:'上月物料领用金额',width:"150px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'lastMonthFaultyAmount',title:'上月报损金额',width:"150px",align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -127,8 +184,8 @@ function queryDayAnalysis() {
 	$("#startCount").val('');
 	$("#endCount").val('');
     $("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
-    var startTime =  $("#startTime").val();
-    var endTime = $("#endTime").val();
+    var startTime =  $("#txtStartDate").val();
+    var endTime = $("#txtEndDate").val();
     if(DateDiff(startTime,endTime) > 60){
         $_jxc.alert("日盈亏平衡点报表查询天数不能超过60");
         return;
@@ -139,7 +196,7 @@ function queryDayAnalysis() {
     $("#"+gridName).datagrid("load");
 }
 
-function  DateDiff(sDate1,  sDate2){    //sDate1和sDate2是2002-12-18格式
+function  DateDiff(sDate1,  sDate2){
     var  aDate,  oDate1,  oDate2,  iDays
     aDate  =  sDate1.split("-")
     oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])    //转换为12-18-2002格式
