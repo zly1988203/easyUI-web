@@ -29,4 +29,5 @@ public class DialogController {
 	public String toErrorDialog(){
 		return "component/publicErrorDialog";
 	}
+	
 }
