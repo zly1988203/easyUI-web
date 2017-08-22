@@ -151,12 +151,12 @@ $(function(){
 	                    }
 	                }
 	            },
-	            {field: 'productionDate', title: '生成日期', width: 120, align: 'center',
+	            {field: 'productionDate', title: '生产日期', width: 120, align: 'center',
 	            	formatter : function(value, row, index) {
 	                    if(row.isFooter){
 	                        return '';
 	                    }
-	                    return value;
+	                    return row.productionDateStr;
 	                },
 	                editor:{
 	                    type:'datebox',
@@ -178,7 +178,7 @@ $(function(){
 	                    if(row.isFooter){
 	                        return '';
 	                    }
-	                    return value;
+	                    return row.expiryDateStr;
 	                },
 	                editor:{
 	                    type:'datebox',
@@ -196,7 +196,7 @@ $(function(){
 	                   
 	                },
 	            },
-	            {field: 'distanceDay', title: '距到期天数', width: 50, align: 'right',
+	            {field: 'distanceDay', title: '距到期天数', width: 70, align: 'right',
 	            	formatter:function(value,row,index){
 	            		return '<b>'+parseInt(value||0)+'</b>';
 	            	}
