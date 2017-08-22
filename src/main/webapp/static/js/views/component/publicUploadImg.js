@@ -5,10 +5,10 @@
 $(function () {
     
 })
-var param = null;
+var uploadParam = null;
 function initUploadImgParam(param) {
     if(param){
-       param = param;
+        uploadParam = param;
     }
 }
 
@@ -39,9 +39,8 @@ function toUploadImgHandel() {
     formData.append("file",$("#file")[0].files[0]);
     gFunStartLoading('正在上传，请稍后...');
 
-
     $.ajax({
-        url : "",//uploadFileParams.url,
+        url : contextPath+uploadParam.url,
         type : 'POST',
         data : formData,
         processData : false,
