@@ -18,13 +18,13 @@
 	text-align: center !important;
 	}
 	img{
-		width:150px;
-		height:150px;
+		width:200px;
+		height:200px;
 		border:1px solid;
 	}
 
-	.imgUpload{
-
+	.uploadFile{
+		position: absolute;
 	}
 	</style>
 
@@ -35,11 +35,10 @@
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
 				<shiro:hasPermission name="JxcPurchaseOrder:add">
-					<div class="ubtns-item" onclick="saveItemHandel()">保存</div>
+					<div class="ubtns-item" onclick="saveAd()">保存</div>
 				</shiro:hasPermission>
-				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
-				<div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
-				<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
+				<div class="ubtns-item-disabled">审核</div>
+				<div class="ubtns-item-disabled">终止</div>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>
 		</div>
@@ -137,36 +136,30 @@
 			<div class="ub umar-10">
 				<div class="ub ub-ac umar-r20">
 				<div class="umar-r10 uw-60 ut-r">展示时长:</div>
-				<input id="actName" name="actName" class="uinp uw-300" type="text">
+				<input id="timeNum" name="timeNum" class="uinp uw-416 easyui-numberbox easyui-validatebox"
+					data-options="min:1,max:999999,precision:0" type="text" > 秒
 				</div>
 			</div>
 
-			<div class="ub umar-10">
-				<div class="ub ub-ac umar-r20">
+			<div class="ub umar-10 umar-b30">
+				<div class="ub ub-ac umar-r20 ">
 				<div class="umar-r10 uw-60 ut-r">主图:</div>
-
-					<img id="mainImg" name="mainImg" src="${ctx}/static/images/addImg.png"/>
-
-					<input id="file" name="file" type="file" accept="image/*" class="uafile" value=""
-					onchange="imgUrlChange(event)" readonly="readonly" />
-
+					<img id="mainImg" name="mainImg" src="${ctx}/static/images/addImg.png" onclick="imgUpload()"/>
 				</div>
 			</div>
 
 				<div class="ub umar-10">
 				<div class="ub ub-ac umar-r20">
 				<div class="umar-r10 uw-60 ut-r">次图:</div>
-					<img id="img1" name="mainImg" src="${ctx}/static/images/addImg.png"/>
+					<img id="img1"  src="${ctx}/static/images/addImg.png"/>
 				</div>
 
 				<div class="ub ub-ac umar-r20">
-
-				<img id="img2" name="mainImg" src="${ctx}/static/images/addImg.png"/>
+					<img id="img2"  src="${ctx}/static/images/addImg.png"/>
 				</div>
 
-
 				<div class="ub ub-ac umar-r20">
-					<img id="img3" name="mainImg" src="${ctx}/static/images/addImg.png"/>
+						<img id="img3"  src="${ctx}/static/images/addImg.png"/>
 				</div>
 
 				</div>

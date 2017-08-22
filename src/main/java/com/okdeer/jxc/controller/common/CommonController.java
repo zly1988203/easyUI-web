@@ -52,6 +52,19 @@ public class CommonController extends BaseController<CommonController> {
 	public String uploadTemplateView(HttpServletRequest req, Model model) {
 		return "component/publicUploadTemplate";
 	}
+	
+	/**
+	 * 
+	 * @Description: 图片上传
+	 * @return String  
+	 * @author Reyn
+	 * @date 2018年8月22日
+	 */
+	@RequestMapping(value = "uploadImg")
+	public String uploadImgView(HttpServletRequest req, Model model) {
+		return "component/publicUploadImgDialog";
+	}
+
 
 	/**
 	 * 
