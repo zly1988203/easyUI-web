@@ -6,11 +6,15 @@ $(function () {
     initgridAddPosAct();
     //机构选择初始化 发货机构
     $('#branchTemp').branchSelect();
-    if($("#pageStatue").val() == "add"){
+    if($("#pageStatue").val() === "add"){
         $("#actStarTime").val(dateUtil.getCurrentDateStr());
         $("#actEndTime").val(dateUtil.getCurrentDateStr());
         $("#prizeStarTime").val(dateUtil.getCurrentDateStr());
         $("#prizeEndTime").val(dateUtil.getCurrentDateStr());
+    }else if ($("#pageStatue").val() == "copy"){
+        $_jxc.ajax({url:contextPath+"/pos/wheelsurf/form/edit/detail/"+$("#copyId").val()},function (data) {
+            $("#gridAddPosAct").datagrid("loadData",data.detail);
+        });
     }else if($("#pageStatue").val() == "0"){
         $_jxc.ajax({url:contextPath+"/pos/wheelsurf/form/edit/detail/"+$("#formId").val()},function (data) {
             $("#gridAddPosAct").datagrid("loadData",data.detail);
@@ -207,20 +211,21 @@ function uploadPic() {
 }
 
 function saveWheelsurf() {
+    $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
+
     var branchId = $("#branchId").val();
     if(!branchId){
         $_jxc.alert("请先选择活动机构");
         return;
     }
 
-    var actName = $("#actName").val();
+    var actName = $("#wheelsurfName").val();
     if(!actName){
         $_jxc.alert("请填写活动名称");
         return;
     }
 
     $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
-    var rows = $("#"+gridName).getRows({skuId:"1"})
 
     var isValid = $("#gridAddForm").form('validate');
     if (!isValid) {
@@ -229,16 +234,18 @@ function saveWheelsurf() {
     var formObj = $("#formAdd").serializeObject();
 
     var param = {
-       formObj : formObj,
-        list : rows
+        formObj : JSON.stringify(formObj),
+        list : JSON.stringify(gridAddPosActHandle.getRows())
     };
 
     $_jxc.ajax({
-        url:contextPath+'/pos/group/key/copy',
-        data:JSON.stringify(param),
+        url:contextPath+'/pos/wheelsurf/form/save',
+        data:param
     },function(result){
         if(result.code == 0){
-            getGroupList($("#branchId").val());
+            $_jxc.alert("保存成功",function (data) {
+                window.parent.frames[src]=contextPath+'/pos/wheelsurf/form/edit/'+data.id;
+            })
         }else{
             $_jxc.alert(result['message']);
         }
