@@ -3,6 +3,7 @@
  * 物流销售单导出
  */
 $(function(){
+	setDivTime();
 	toChangeDatetime(0);
     initDatagridRequireOrders();
     targetBranchId = $("#targetBranchId").val();
@@ -251,3 +252,14 @@ var resetForm = function() {
 	 $("#queryForm").form('clear');
 };
 
+var checkboxTime = 'checked';
+var popupSearchDateTime = dateUtil.getCurrentDateTime().format("yyyy-MM-dd hh:mm");
+// 添加被移除之前的时间值
+function setDivTime(){
+	if (checkboxTime == 'checked') {
+		$("#checkboxTime").attr('checked','checked');
+	} else {
+		$("#checkboxTime").attr('checked',false);
+	}
+	$("#popupSearchDateTime").val(popupSearchDateTime);
+}
