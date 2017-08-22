@@ -102,10 +102,6 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 		try {
 			Map<String, Object> model = Maps.newHashMap();
 			model.put("form",posWheelsurfServiceApi.getPosWheelsurfByFormId(id));
-			//ObjectMapper mapper = new ObjectMapper();
-			//mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-			//mapper.configure(JsonGenerator.Feature.QUOTE_FIELD_NAMES, false);
-			//model.put("detail" , mapper.writeValueAsString(posWheelsurfServiceApi.getPosWheelsurfDetailList(id)));
 			return new ModelAndView("sale/pos/wheelsurf/editWheelsurf",model);
 		}catch (Exception e){
 			LOG.error("编辑POS客屏活动失败!",e);
