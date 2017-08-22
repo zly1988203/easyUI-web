@@ -73,7 +73,14 @@ function initgridAddPosAct() {
                     }
                 }
             },
-            {field:'prizeFullName',title:'奖品名称',width:'200px',align:'left'},
+            {field:'prizeFullName',title:'奖品名称',width:'200px',align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        disabled:true
+                    }
+                }
+            },
             {field:'prizeShortName',title:'奖品简称',width:'100px',align:'right',
                 editor:{
                     type:'textbox',
@@ -144,13 +151,13 @@ function initgridAddPosAct() {
 }
 
 function onSelectprizeType(data) {
-    if(data.id == "0"){
-        gridAddPosActHandle.setFieldValue("prizeName","谢谢惠顾");
-        gridAddPosActHandle.setFieldTextValue("shortName","谢谢惠顾")
+    if(data.id == "3"){
+        gridAddPosActHandle.setFieldTextValue("prizeFullName","谢谢惠顾");
+        gridAddPosActHandle.setFieldTextValue("prizeShortName","谢谢惠顾")
 
     }else {
-        gridAddPosActHandle.setFieldValue("prizeName","");
-        gridAddPosActHandle.setFieldTextValue("shortName","")
+        gridAddPosActHandle.setFieldTextValue("prizeFullName","");
+        gridAddPosActHandle.setFieldTextValue("prizeShortName","")
 
     }
 }
@@ -213,47 +220,15 @@ function imgUrlChange(event) {
         return;
     }
 
-    var value=$("#file").val();
-    var img = $("#file")[0].files[0];
-    // 判断图片格式
-    if(!(img.type.indexOf('image')==0 && img.type && /\.(?:jpg|png|gif)$/.test(img.name)) ){
-        $_jxc.alert('图片只能是jpg,gif,png');
-        return;
+    var param = {
+        url:contextPath+'/pos/wheelsurf/form/upload'
     }
-
-    var imgSize = img.size;
-    if(imgSize>250*1024){
-        $_jxc.alert('上传的图片的大于250KB,请重新选择');
-        return;
-    }
-
-    var formData = new FormData();
-    formData.append("file",$("#file")[0].files[0]);
-    gFunStartLoading('正在上传，请稍后...');
-    uploadPic(formData);
-}
-
-function uploadPic(formData) {
-    $.ajax({
-        url : "",//uploadFileParams.url,
-        type : 'POST',
-        data : formData,
-        processData : false,
-        contentType : false,
-        success : function(data) {
-            gFunEndLoading();
-            if(data.code==0){
-                $_jxc.alert("文件上传成功");
-            }else{
-                $_jxc.alert(data.message);
-            }
-        },
-        error : function(responseStr) {
-            gFunEndLoading();
-            console.log("error");
-        }
+    publicUploadImgService(param,function (data) {
+        row.picUrl = data.filePath;
+        $("#gridAddPosAct").datagrid("acceptChanges");
     });
 }
+
 
 function saveWheelsurf() {
     $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
