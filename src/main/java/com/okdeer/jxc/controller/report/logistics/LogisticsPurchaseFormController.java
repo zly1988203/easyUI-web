@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
-import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.Disabled;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -97,6 +97,12 @@ public class LogisticsPurchaseFormController extends BaseController<LogisticsPur
 			cal.add(Calendar.DATE, 1);
 			qo.setEndTime(cal.getTime());
 		}
+		String branchName = qo.getBranchName();
+		if(StringUtils.isNotBlank(branchName)){
+			branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+			qo.setBranchName(branchName);
+		}
+		
 		String supplierName = qo.getSupplierName();
 		if (StringUtils.isNotBlank(supplierName)) {
 			supplierName = supplierName.substring(supplierName.lastIndexOf("]") + 1, supplierName.length());
@@ -136,7 +142,7 @@ public class LogisticsPurchaseFormController extends BaseController<LogisticsPur
 		
 		request.setAttribute("form", form);
 		if (FormType.PA.toString().equals(form.getFormType().toString())) {
-			request.setAttribute("status", FormDealStatus.STOP.getLabel());
+			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
 			request.setAttribute("close", report);
 			return "logistics/PaView";
 		} else if (FormType.PR.toString().equals(form.getFormType().toString())){
@@ -144,7 +150,7 @@ public class LogisticsPurchaseFormController extends BaseController<LogisticsPur
 			request.setAttribute("close", report);
 			return "logistics/PrView";
 		} else {
-			request.setAttribute("status", FormDealStatus.STOP.getLabel());
+			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
 			request.setAttribute("close", report);
 			return "logistics/PaView";
 		}
@@ -164,13 +170,17 @@ public class LogisticsPurchaseFormController extends BaseController<LogisticsPur
 	public void exportList(HttpServletResponse response, String formId, String type) {
 		try {
 			List<Map<String,Object>> exportList = purchaseFormServiceApi.queryFormsList(formId);
+			String formNo = "";
+			if (CollectionUtils.isNotEmpty(exportList)) {
+				formNo = String.valueOf(exportList.get(0).get("formNo"));
+			}
 			String fileName = "";
 			String templateName = "";
 			if (FormType.PA.toString().equals(type)) {
-				fileName = "CG" + "_" + DateUtils.formatDate(DateUtils.getCurrDate(), DateUtils.DATE_KEY_STR);
+				fileName = "CG" + "_" + formNo;
 				templateName = ExportExcelConstant.PURCHASE_FORM_LOGISTICS;
 			} else {
-				fileName = "GYSTH" + "_" + DateUtils.formatDate(DateUtils.getCurrDate(), DateUtils.DATE_KEY_STR);
+				fileName = "GYSTH" + "_" + formNo;
 				templateName = ExportExcelConstant.RETURN_FORM_LOGISTICS;
 			}
 			// 导出Excel

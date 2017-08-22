@@ -15,7 +15,7 @@
 				readonly="readonly" /></label>
 		</div>
 		<div class="uabtns ">
-			<button class="uabtn umar-r30" onclick="toUploadImgHandel()">上传</button>
+			<button id="btnUploadImg" class="uabtn umar-r30 uhide" onclick="toUploadImgHandel()">上传</button>
 			<button class="uabtn" onclick="toCancel()">取消</button>
 		</div>
 		<div id="message" class="ub umar-10 ufs-14"></div>

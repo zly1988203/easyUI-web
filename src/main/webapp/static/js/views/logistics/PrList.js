@@ -64,7 +64,7 @@ function initDatagridOrders(){
             },
             {field:'refFormNo',title:'引用单号',width:'200px',align:'left'},
             {field:'updateUserName',title:'操作员',width:'130px',align:'left'},
-            {field:'createTime',title:'操作时间',width:'150px',align:'center', formatter: function (value, row, index) {
+            {field:'validTime',title:'审核时间',width:'150px',align:'center', formatter: function (value, row, index) {
                 if (value) {
                 	return new Date(value).format('yyyy-MM-dd hh:mm');
                 }

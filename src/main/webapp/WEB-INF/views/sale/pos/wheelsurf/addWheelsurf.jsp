@@ -15,12 +15,6 @@
 	.datagrid-header-row .datagrid-cell {
 	text-align: center !important;
 	}
-	.ualable{
-		position: unset;
-		background:white;
-		border-radius: 0;
-	}
-
 
 	</style>
 

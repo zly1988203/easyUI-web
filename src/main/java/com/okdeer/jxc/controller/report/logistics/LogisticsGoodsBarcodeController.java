@@ -26,6 +26,7 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.qo.GoodsBarcodeQo;
 import com.okdeer.jxc.goods.service.GoodsBarcodeService;
+import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * 
@@ -77,11 +78,17 @@ public class LogisticsGoodsBarcodeController extends BaseController<LogisticsGoo
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
+			String branchName = qo.getBranchName();
+			if(StringUtils.isNotBlank(branchName)){
+				branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+				qo.setBranchName(branchName);
+			}
 			if(StringUtils.isNotBlank(qo.getSkuCode())){
 				qo.setSkuCode(qo.getSkuCode().trim());
 			}else{
 				qo.setSkuCode("");
 			}
+			qo.setBranchCompleCode(getCurrBranchCompleCode());
 			PageUtils<Map<String,Object>> goodsBarcode = goodsBarcodeService.queryListsPage(qo);
 			return goodsBarcode;
 		} catch (Exception e) {
