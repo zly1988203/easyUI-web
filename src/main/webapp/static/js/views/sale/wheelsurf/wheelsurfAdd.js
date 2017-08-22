@@ -156,7 +156,7 @@ function onSelectprizeType(data) {
 }
 
 function selectPrize() {
-    var branchId = $("#branchId").val();
+    var branchId = $("#branchIds").val();
     if(!branchId){
         $_jxc.alert("请先选择活动机构");
         return;
@@ -172,7 +172,7 @@ function selectPrize() {
         type:'',
         key:"",
         isRadio:1,
-        'branchId': $('#branchId').val(),
+        'branchId': $('#branchIds').val(),
         sourceBranchId:'',
         targetBranchId:'',
         flag:'0',
@@ -199,8 +199,7 @@ function selectPrize() {
 }
 
 function imgUrlChange(event) {
-
-    var branchId = $("#branchId").val();
+    var branchId = $("#branchIds").val();
     if(!branchId){
         event.stopPropagation();
         $_jxc.alert("请先选择活动机构");
@@ -259,7 +258,7 @@ function uploadPic(formData) {
 function saveWheelsurf() {
     $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
 
-    var branchId = $("#branchId").val();
+    var branchId = $("#branchIds").val();
     if(!branchId){
         $_jxc.alert("请先选择活动机构");
         return;
@@ -303,7 +302,7 @@ function saveWheelsurf() {
 function updateWheelsurf() {
     $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
 
-    var branchId = $("#branchId").val();
+    var branchId = $("#branchIds").val();
     if(!branchId){
         $_jxc.alert("请先选择活动机构");
         return;
