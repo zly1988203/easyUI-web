@@ -2805,9 +2805,9 @@ function publicCategorysServiceHandel(param,callback,cbDom){
     * */
  function publicUploadImgService(param,callback) {
    var uploadImgTemp = $('<div/>').dialog({
-        href: contextPath + "/component/dialog/uploadImg",
+        href: contextPath + "/common/uploadImg",
         width:380,
-        height:300,
+        height:200,
         title:"图片上传",
         closable:true,
         resizable:true,

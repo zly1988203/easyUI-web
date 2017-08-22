@@ -143,22 +143,30 @@
 			<div class="ub umar-10 umar-b30">
 				<div class="ub ub-ac umar-r20 ">
 				<div class="umar-r10 uw-60 ut-r">主图:</div>
-					<img id="mainImg" name="mainImg" src="${ctx}/static/images/addImg.png" onclick="imgUpload()"/>
+				<input class="uinp ub ub-f1" type="hidden" id="imgVal"
+				name="imgVal">
+				<img id="mainImg" name="mainImg" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
 				</div>
 			</div>
 
 				<div class="ub umar-10">
 				<div class="ub ub-ac umar-r20">
 				<div class="umar-r10 uw-60 ut-r">次图:</div>
-					<img id="img1"  src="${ctx}/static/images/addImg.png"/>
+					<input class="uinp ub ub-f1" type="hidden" id="img1Val"
+					name="img1Val">
+					<img id="img1"  src="${ctx}/static/images/addImg.png" onclick="imgUpload()"/>
 				</div>
 
 				<div class="ub ub-ac umar-r20">
-					<img id="img2"  src="${ctx}/static/images/addImg.png"/>
+					<input class="uinp ub ub-f1" type="hidden" id="img2Val"
+					name="img2Val">
+					<img id="img2"  src="${ctx}/static/images/addImg.png" onclick="imgUpload()"/>
 				</div>
 
 				<div class="ub ub-ac umar-r20">
-						<img id="img3"  src="${ctx}/static/images/addImg.png"/>
+					<input class="uinp ub ub-f1" type="hidden" id="img3Val"
+					name="img3Val">
+					<img id="img3"  src="${ctx}/static/images/addImg.png" onclick="imgUpload()"/>
 				</div>
 
 				</div>

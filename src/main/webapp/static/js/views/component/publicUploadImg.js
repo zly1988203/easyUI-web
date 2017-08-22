@@ -17,9 +17,9 @@ function initUploadImgCallBack(cb) {
     uploadImgCallback = cb;
 }
 
-
 function imgUrlChange(event) {
     var img = $("#file")[0].files[0];
+    $("#filelink").val($("#file").val());
     var imgName = img.name.toLowerCase();
     // 判断图片格式
     if(!(img.type.indexOf('image')==0 && img.type && /\.(?:jpg|png|gif)$/.test(imgName)) ){
@@ -39,6 +39,7 @@ function toUploadImgHandel() {
     formData.append("file",$("#file")[0].files[0]);
     gFunStartLoading('正在上传，请稍后...');
 
+
     $.ajax({
         url : "",//uploadFileParams.url,
         type : 'POST',
@@ -47,7 +48,7 @@ function toUploadImgHandel() {
         contentType : false,
         success : function(data) {
             gFunEndLoading();
-            initUploadImgCallBack(data)
+            uploadImgCallback(data)
             if(data.code==0){
                 $_jxc.alert("文件上传成功");
             }else{
@@ -56,7 +57,7 @@ function toUploadImgHandel() {
         },
         error : function(responseStr) {
             gFunEndLoading();
-            initUploadImgCallBack(data)
+            uploadImgCallback(data)
         }
     });
 }

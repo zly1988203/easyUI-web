@@ -60,7 +60,7 @@ public class CommonController extends BaseController<CommonController> {
 	 */
 	@RequestMapping(value = "uploadImg")
 	public String uploadImgView(HttpServletRequest req, Model model) {
-		return "component/publicUploadImgDialog";
+		return "component/publicUploadImg";
 	}
 
 
