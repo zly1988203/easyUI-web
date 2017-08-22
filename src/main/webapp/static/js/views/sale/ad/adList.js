@@ -53,11 +53,11 @@ function initgridAdList() {
 
 function queryAD() {
     var formData = $("#queryForm").serializeObject();
-    $("#"+datagridID).datagrid("options").url = "";
-    $("#"+datagridID).datagrid("options").queryParams = formData;
-    $("#"+datagridID).datagrid("options").method = "post";
-    $("#"+datagridID).datagrid("options").url =  contextPath+"/sale/activityDetailReport/reportListPage";
-    $("#"+datagridID).datagrid("load");
+    $("#"+gridName).datagrid("options").url = "";
+    $("#"+gridName).datagrid("options").queryParams = formData;
+    $("#"+gridName).datagrid("options").method = "post";
+    $("#"+gridName).datagrid("options").url =  contextPath+"/sale/activityDetailReport/reportListPage";
+    $("#"+gridName).datagrid("load");
 }
 
 function adAdd() {
