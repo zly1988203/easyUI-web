@@ -51,7 +51,14 @@ function initgridAddPosAct() {
         width:'100%',
         columns:[[
             {field:'id',title:'id',align:'left',hidden:true},
-            {field:'skuId',title:'skuId',align:'left',hidden:true},
+            {field:'skuId',title:'skuId',align:'left',hidden:true,
+                editor:{
+                    type:'textbox',
+                    options:{
+                        disabled:true
+                    }
+                }
+            },
             {field:'prizeType',title:'奖品类型',width:'200px',align:'left',
                 formatter:function(value,row){
                     if(row.isFooter){
@@ -156,15 +163,20 @@ function initgridAddPosAct() {
 }
 
 function onSelectprizeType(data) {
+    var row = $("#"+gridName).datagrid("getSelected");
+    gridAddPosActHandle.setFieldTextValue("skuId","");
+    // var target = gridAddPosActHandle.getFieldTarget("prizeType");
     if(data.id == "3"){
+        // $(target).combobox("setValue","3");
         gridAddPosActHandle.setFieldTextValue("prizeFullName","谢谢惠顾");
-        gridAddPosActHandle.setFieldTextValue("prizeShortName","谢谢惠顾")
-
+        gridAddPosActHandle.setFieldTextValue("prizeShortName","谢谢惠顾");
     }else {
+        // $(target).combobox("setValue","1");
         gridAddPosActHandle.setFieldTextValue("prizeFullName","");
-        gridAddPosActHandle.setFieldTextValue("prizeShortName","")
-
+        gridAddPosActHandle.setFieldTextValue("prizeShortName","");
     }
+    row['prizeType'] = data.id;
+    // $("#"+gridName).datagrid("acceptChanges");
 }
 
 function selectPrize() {
@@ -175,7 +187,7 @@ function selectPrize() {
     }
 
     var row = $("#"+gridName).datagrid("getSelected");
-    if(!row || row.prizeType == "0"){
+    if(!row || row.prizeType == "3"){
         $_jxc.alert("请选择一行奖品类型为商品的数据");
         return;
     }
@@ -197,8 +209,10 @@ function selectPrize() {
 
         row['prizeFullName'] = data[0].skuName;
         row['skuId'] = data[0].skuId;
+        gridAddPosActHandle.setFieldTextValue("prizeFullName",data[0].skuName);
+        gridAddPosActHandle.setFieldTextValue("skuId", data[0].skuId);
 
-        $("#gridAddPosAct").datagrid("acceptChanges");
+        // $("#"+gridName).datagrid("acceptChanges");
 
         setTimeout(function(){
             gridAddPosActHandle.setBeginRow(gridAddPosActHandle.getSelectRowIndex()||0);
@@ -234,7 +248,6 @@ function uploadPic() {
 
 
 function saveWheelsurf() {
-    $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
 
     var branchId = $("#branchIds").val();
     if(!branchId){
