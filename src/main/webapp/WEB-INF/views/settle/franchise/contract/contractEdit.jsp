@@ -93,7 +93,7 @@
 				        	</div>
 				        	
 				        	<div class="ub uw-524 umar-t12 " style="width:518px">
-				        		<label class="ub uw-110 ub-pe umar-r8 ">${contractVo.remark}备注:</label>
+				        		<label class="ub uw-110 ub-pe umar-r8 ">备注:</label>
 				        		<textarea rows="3" cols="3" name="remark" id="remark" class="uinp ub ub-f1 uh-100">${contractVo.remark}</textarea>
 				        	</div>
 				        	

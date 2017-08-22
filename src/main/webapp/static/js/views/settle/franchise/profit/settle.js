@@ -10,6 +10,7 @@ var gridDefault = {
 //列表数据查询url
 var url = "";
 var gridName = "proFitAdd";
+var oldData = {};
 var pageStatus;
 
 $(function(){
@@ -24,12 +25,18 @@ $(function(){
 //			$('#franchiseBranchName').val(sessionBranchCodeName)
 //		  }
 	}else if(pageStatus === 'edit'){
-		/*var formId = $("#formId").val();
+		var formId = $("#formId").val();
 		url = contextPath+"/settle/franchiseProfitSettle/getDetailList?formId="+formId;
+		//时间起
+		var _startTime = $.trim($("#beginDate").val());
+		//时间止
+		var _endTime = $.trim($("#endDate").val());
+		//保存时用于比较
+		$('#oldTime').val(_startTime+''+_endTime);
 		oldData = {
 		        remark:$("#remark").val(),                  // 备注
 		        payType:$('input[type="hidden"][name="payType"]').val()||'',   //支付方式
-		}*/
+		}
 	    
 	}
 	
@@ -44,7 +51,22 @@ $(function(){
 			},
 			//选择完成之后
 			onAfterRender:function(data){
-				$('#branchId').val(data.branchId);
+				// 判断是否存在未审核的毛利结算单
+			    $_jxc.ajax({
+			        url:contextPath+"/settle/franchiseProfitSettle/checkAuditCount",
+			        data:{"franchiseBranchId":data.branchId},
+			    },function(result){
+			        if(result['code'] == 0){
+			        	$('#branchId').val(data.branchId);
+			        	$('#branchCode').val(data.branchCode);
+			        	$('#contractName').val(data.contacts);
+						$('#beginDate').val(result['settleTimeStart']);
+			        }else{
+			        	$('#franchiseBranchName').val('');
+			            $_jxc.alert(result['message']);
+			        }
+			    });
+			    
 			}
 		});
 	}
@@ -100,7 +122,7 @@ function initSupChkAcoAdd(){
     })
 
     $("#"+gridName).datagrid({
-        method:'post',
+        method:'get',
     	url:url,
         align:'center',
         singleSelect:false,  //单选  false多选
@@ -111,7 +133,15 @@ function initSupChkAcoAdd(){
         width:'100%',
         columns:[[
             {field:'cb',checkbox:true},
-            {field:'branchCode',title:'加盟店编号',width:'120',align:'left'},
+            {field:'skuId',hidden:true},
+            {field:'branchCode',title:'加盟店编号',width:'120',align:'left',
+            	formatter:function(value,row){
+            		if(row.isFooter){
+            			 return '<div class="ub ub-pc">合计</div> ';
+            		}
+                    return value;
+                }
+            },
             {field:'branchName',title:'加盟店名称',width:'140',align:'left'},
             {field:'skuCode',title:'货号',width:'140',align:'left'},
             {field:'skuName',title:'商品名称',width:'140',align:'left'},
@@ -160,7 +190,7 @@ function initSupChkAcoAdd(){
 
 //合计
 function updateFooter(){
-    var fields = {};
+    var fields = {saleCount:0,saleAmount:0,costAmount:0,profitAmount:0};
     var argWhere = {}
     gridHandel.updateFooter(fields,argWhere);
 }
@@ -201,7 +231,7 @@ function calAmount(){
 	}
 	
 	var paramsObj = {
-			"id":$('#id').val(),
+			"id":$('#formId').val(),
 			"franchiseBranchId":_branchId,
 			"settleTimeStart":_startTime,
 			"settleTimeEnd":_endTime
@@ -211,6 +241,13 @@ function calAmount(){
 		data: paramsObj
 	},function(result){
 		if(result['code'] == 0){
+    		//保存时用于比较
+    		$('#oldTime').val(_startTime+''+_endTime);
+			
+			$("#profit").val(parseFloat(result['profitAmount']).toFixed(2));
+			$("#profitOfCompany").val(parseFloat(result['targetProfitAmount']).toFixed(2));
+			$("#profitSupper").val(parseFloat(result['franchiseProfitAmount']).toFixed(2));
+			$("#amount").val((parseFloat($("#profitOfCompany").val()) + parseFloat($("#otherAmount").val())).toFixed(2));
 			
     		$("#"+gridName).datagrid("options").method = "post";
     		$("#"+gridName).datagrid("options").queryParams = paramsObj;
@@ -226,6 +263,44 @@ function calAmount(){
 //保存
 function saveProSet(){
     var url = $("#pageStatus").val() == 'add' ? contextPath+"/settle/franchiseProfitSettle/settleSave" : contextPath+"/settle/franchiseProfitSettle/settleUpdate";
+	
+    var branchId = $('#branchId').val();
+	var beginDate = $.trim($('#beginDate').val());
+	var endDate = $.trim($('#endDate').val());
+	var payMoneyTime = $('#payMoneyTime').val();
+
+    if(!$.trim(branchId)){
+    	$_jxc.alert('加盟店信息不能为空!');
+    	return false;
+    }
+    if(!beginDate){
+    	$_jxc.alert('计算开始时间信息不能为空');
+    	return false;
+    }
+    if(!endDate){
+    	$_jxc.alert('计算结算时间信息不能为空');
+    	return false;
+    }
+    if(!payMoneyTime){
+    	$_jxc.alert('付款日期信息不能为空');
+    	return false;
+    }
+	
+    var _rows = $('#'+gridName).datagrid('getRows');
+    if(_rows.length <= 0){
+    	$_jxc.alert("表格不能为空");
+    	return;
+    }
+    
+    if((beginDate+''+endDate) != $('#oldTime').val()){
+    	$_jxc.alert('时间已经发生变化，请重新选择计算账款');
+    	return;
+    }
+    _rows.forEach(function(obj,index){
+    	obj.rowNo = (index+1);
+    });
+    var reqObj = $('#profitSettleForm').serializeObject();
+    reqObj.detailList = _rows;
     
     $_jxc.ajax({
         url:url,
@@ -243,15 +318,12 @@ function saveProSet(){
 }
 
 //审核
-function auditFranchiseSet(){
+function auditProfitSettle(){
     //验证数据是否修改
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
     var newData = {
         remark:$("#remark").val(),                  // 备注
-        payType:$('input[type="hidden"][name="payType"]').val()||'',   //支付方式
-        grid:$.map(gridHandel.getRows(), function(obj){
-            return $.extend(true,{},obj);//返回对象的深拷贝
-        })
+        payType:$('input[type="hidden"][name="payType"]').val()||''   //支付方式
     }
 
     if(!gFunComparisonArray(oldData,newData)){
@@ -268,7 +340,7 @@ function auditFranchiseSet(){
 //                gFunEndLoading();
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("操作成功！",function(){
-	    				location.href = contextPath +"/settle/franchiseProfitSettle/settleView?id=" + result["formId"];
+	    				location.href = contextPath +"/settle/franchiseProfitSettle/settleEdit?id=" + result["formId"];
 	    			});
 	    		}else{
 	            	 $_jxc.alert(result['message'],'审核失败');
@@ -318,7 +390,7 @@ function initProfitFormDetail(){
 
 
 //导出
-function exportOrder(){
+function exportProfitSettle(){
 	var formId = $("#formId").val();
 	window.location.href = contextPath + '/settle/franchiseProfitSettle/exportSheet?page=FranchiseProfitSettle&sheetNo='+formId;
 }
