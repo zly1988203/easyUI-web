@@ -26,7 +26,7 @@
 					<shiro:hasPermission name="posWheelsurfForm:search">
 						<div class="ubtns-item" onclick="queryPosActivity()">查询</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="posWheelsurfForm:add">
+					<shiro:hasPermission name="posWheelsurfForm:append">
 						<div class="ubtns-item" onclick="addPosActivity()">新增</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="posWheelsurfForm:copy">
