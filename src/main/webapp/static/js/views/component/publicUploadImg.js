@@ -48,8 +48,8 @@ function toUploadImgHandel() {
         contentType : false,
         success : function(data) {
             gFunEndLoading();
-            uploadImgCallback(data)
             if(data.code==0){
+                uploadImgCallback(data)
                 $_jxc.alert("文件上传成功");
             }else{
                 $_jxc.alert(data.message);

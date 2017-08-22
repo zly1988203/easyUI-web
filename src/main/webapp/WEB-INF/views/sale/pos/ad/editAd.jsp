@@ -32,18 +32,46 @@ img {
 
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
-	<input type='hidden' id="cascadeGoods" name="cascadeGoods" value="">
+	<input type='hidden' id="formId" name="formId" value="${form.id}">
+	<input type='hidden' id="pageStatus" name="pageStatus" value="${form.auditStatus}">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
 				<shiro:hasPermission name="JxcPurchaseOrder:add">
 					<div class="ubtns-item" onclick="saveAd()">保存</div>
 				</shiro:hasPermission>
-				<div class="ubtns-item" onclick="checkAd()">审核</div>
-				<div class="ubtns-item" onclick="overAd()">终止</div>
+
+				<shiro:hasPermission name="posWheelsurfForm:audit">
+					<c:choose>
+						<c:when test="${form.auditStatus eq '0'}">
+							<div class="ubtns-item" onclick="checkAd()">审核</div>
+						</c:when>
+					</c:choose>
+				</shiro:hasPermission>
+				<c:choose>
+					<c:when test="${form.auditStatus eq '1'}">
+						<div class="ubtns-item" onclick="overAd()">终止</div>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${form.auditStatus eq '0'}">
+						<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
+					</c:when>
+				</c:choose>
+
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>
 		</div>
+
+	<c:choose>
+		<c:when test="${form.auditStatus eq '2'}">
+			<div class="already-examine" id="already-examine"><span>已终止</span></div>
+		</c:when>
+		<c:when test="${form.auditStatus eq '1'}">
+			<div class="already-examine" id="already-examine"><span>已审核</span></div>
+		</c:when>
+	</c:choose>
+
 		<form id="formAdd">
 			<div class="ub ub-ver umar-l8">
 				<div class="ub umar-t8">
@@ -171,7 +199,6 @@ img {
 				</div>
 
 			</div>
-
 
 		</div>
 

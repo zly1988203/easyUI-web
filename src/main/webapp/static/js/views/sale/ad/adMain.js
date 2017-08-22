@@ -2,10 +2,22 @@
  * Created by zhaoly on 2017/8/21.
  */
 $(function () {
-    $("#dailyStartTime").val("00:00:00");
-    $("#dailyEndTime").val("23:59:59");
+
+
     //机构选择初始化 发货机构
     $('#branchTemp').branchSelect();
+
+    if($("#pageStatus").val() == "add"){
+        $("#startTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+        $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+        $("#dailyStartTime").val("00:00:00");
+        $("#dailyEndTime").val("23:59:59");
+
+    }else if($("#pageStatus").val() == "0"){
+
+    }else{
+
+    }
 })
 
 function saveAd() {
