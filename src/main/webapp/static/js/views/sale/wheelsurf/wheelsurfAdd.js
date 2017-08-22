@@ -5,12 +5,7 @@
 $(function () {
     initgridAddPosAct();
     //机构选择初始化
-    $('#branchTemp').branchSelect({
-        //数据过滤
-        onAfterRender:function(data){
-           $("#branchIds").val(data.branchId);
-        }
-    });
+    initBranchGroup();
     if($("#pageStatue").val() === "add"){
         $("#actStarTime").val(dateUtil.getCurrentDateStr());
         $("#actEndTime").val(dateUtil.getCurrentDateStr());
@@ -31,6 +26,47 @@ $(function () {
     }
 
 })
+
+
+function initBranchGroup(){
+    $('#branchTemp').branchSelect({
+        param:{
+            selectType:1,  //多选
+            view:'group', //分组
+            formType:''
+        },
+        loadFilter:function(data){
+            if(data && data.length >0 ){
+                data.forEach(function(obj,index){
+                    obj.branchIds = obj.branchId;
+                })
+            }
+            return data;
+        },
+        onAfterRender:function(data){
+            $('#branchName').attr('title',$('#branchName').val());
+            if(data && data.length>0){
+                var ids = [];
+                data.forEach(function(obj,inx){
+                    if(obj.type == -1){
+                        ids.push(obj.branchId);
+                    }
+                })
+                if(ids.length == 0) return;
+                var param = {
+                    "groupIds":ids.join(',')
+                }
+                //拉取分组详细
+                publicGetBranchGroupDetail(param,function(result){
+                    $('#branchIds').val(result&&result.branchId);
+                    $('#branchName').attr('title',result&&result.branchName);
+                    // $('#branchsFullName').val(result&&result.branchName);
+                })
+            }
+        }
+    });
+}
+
 
 var gridName = "gridAddPosAct";
 var gridAddPosActHandle = new GridClass();
