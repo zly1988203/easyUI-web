@@ -81,12 +81,7 @@ function initProfitSetList(){
                 {field:'cb',checkbox:true},
                 {field: 'formNo', title: '单据编号', width: '140', align: 'left',
                 	formatter:function(value,row,index){
-                    	var strHtml = '';
-                    	if(row.auditStatus == 1){
-                    		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'加盟店毛利结算明细\',\''+ contextPath +'/settle/franchiseSettle/settleView?id='+ row.id +'\')">' + value + '</a>';
-                    	}else{
-                    		strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'加盟店毛利结算明细\',\''+ contextPath +'/settle/franchiseSettle/settleEdit?id='+ row.id +'\')">' + value + '</a>';
-                    	}
+                    	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'加盟店毛利结算明细\',\''+ contextPath +'/settle/franchiseProfitSettle/settleEdit?id='+ row.id +'\')">' + value + '</a>';
                 		return strHtml;
                     }
                 },
@@ -95,9 +90,9 @@ function initProfitSetList(){
                 		return value == '1'?'已审核':'未审核';
                 	}
                 },
-      			{field: 'branchCode', title: '加盟店编号', width: '140', align: 'left'},
-    			{field: 'branchName', title: '加盟店名称', width: '140', align: 'left'},
-    			{field: 'profit', title: '毛利', width: '100', align: 'right',
+      			{field: 'franchiseBranchCode', title: '加盟店编号', width: '140', align: 'left'},
+    			{field: 'franchiseBranchName', title: '加盟店名称', width: '140', align: 'left'},
+    			{field: 'profitAmount', title: '毛利', width: '100', align: 'right',
     				formatter:function(value,row,index){
     					if(row.isFooter){
                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -105,7 +100,7 @@ function initProfitSetList(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
     				}
     			},
-    			{field: 'profitOfCompany', title: '公司应得毛利', width: '100', align: 'right',
+    			{field: 'targetProfitAmount', title: '公司应得毛利', width: '100', align: 'right',
     				formatter:function(value,row,index){
     					if(row.isFooter){
                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -113,7 +108,7 @@ function initProfitSetList(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
     				}
     			},
-    			{field: 'profitOfSupper', title: '加盟店应得毛利', width: '100', align: 'right',
+    			{field: 'franchiseProfitAmount', title: '加盟店应得毛利', width: '100', align: 'right',
     				formatter:function(value,row,index){
     					if(row.isFooter){
                             return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -121,18 +116,18 @@ function initProfitSetList(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
     				}
     			},
-    			{field: 'startTime', title: '结算日期起', width: '120', align: 'center',
+    			{field: 'settleTimeStart', title: '结算日期起', width: '120', align: 'center',
     				formatter: function (value, row, index) {
     					if (value) {
-    						return new Date(value).format('yyyy-MM-dd hh:mm');
+    						return new Date(value).format('yyyy-MM-dd');
     					}
     					return "";
     				}
     			},
-    			{field: 'endTime', title: '结算日期止', width: '120', align: 'center',
+    			{field: 'settleTimeEnd', title: '结算日期止', width: '120', align: 'center',
     				formatter: function (value, row, index) {
     					if (value) {
-    						return new Date(value).format('yyyy-MM-dd hh:mm');
+    						return new Date(value).format('yyyy-MM-dd');
     					}
     					return "";
     				}
@@ -175,7 +170,7 @@ function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 
 	$("#"+datagirdID).datagrid("options").method = "post";
-	$("#"+datagirdID).datagrid('options').url = contextPath + '/settle/franchiseSettle/getSettleList';
+	$("#"+datagirdID).datagrid('options').url = contextPath + '/settle/franchiseProfitSettle/getSettleList';
 	$("#"+datagirdID).datagrid('load', fromObjStr);
 }
 
@@ -194,7 +189,7 @@ function delProfitSetForm(){
 	$_jxc.confirm('是否要删除选中数据',function(data){
 		if(data){
 			$_jxc.ajax({
-		    	url:contextPath+"/settle/franchiseSettle/settleDelete",
+		    	url:contextPath+"/settle/franchiseProfitSettle/settleDelete",
                 data: {"ids":ids}
 		    },function(result){
 	    		if(result['code'] == 0){
