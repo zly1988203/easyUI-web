@@ -379,7 +379,7 @@ function saveWheelsurf() {
     },function(result){
         if(result.code == 0){
             $_jxc.alert("保存成功",function (data) {
-                window.location.href=contextPath+'/pos/wheelsurf/form/edit/'+data.id;
+                window.location.href=contextPath+'/pos/wheelsurf/form/edit/'+result.data.id;
             })
         }else{
             $_jxc.alert(result['message']);

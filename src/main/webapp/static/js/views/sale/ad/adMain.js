@@ -13,13 +13,27 @@ $(function () {
         $("#dailyStartTime").val("00:00:00");
         $("#dailyEndTime").val("23:59:59");
 
-    }else if($("#pageStatus").val() == "0"){
-
+    }else if ($("#pageStatue").val() == "copy"){
+        StrweekCheckDay($("#displayDay").val());
+    }else if($("#pageStatue").val() == "0"){
+        StrweekCheckDay($("#displayDay").val());
     }else{
-
+        StrweekCheckDay($("#displayDay").val());
     }
+
 })
 
+/**
+* 星期拆分字符串赋值checkbox
+*/
+function StrweekCheckDay(weekstr){
+    $(".ubcheckweek .radioItem").prop("checked",false);
+    var arrWeek = weekstr.split("");
+    $.each(arrWeek,function(i,val){
+        $("#weekcheckbox"+val).prop("checked",true);
+    })
+
+}
 
 function initBranchGroup(){
     $('#branchTemp').branchSelect({
@@ -61,7 +75,7 @@ function initBranchGroup(){
 }
 
 function saveAd() {
-    var branchId = $("#branchId").val();
+    var branchId = $("#branchIds").val();
     if(!branchId){
         $_jxc.alert("请先选择活动机构");
         return;
@@ -74,14 +88,16 @@ function saveAd() {
     var formObj = $("#formAdd").serializeObject();
 
     $_jxc.ajax({
-        url:contextPath+'/pos/wheelsurf/form/save',
+        url:contextPath+'/pos/ad/form/save',
         data:{
             formObj : JSON.stringify(formObj),
+            mainImg : $("#mainImg").attr("src"),
+            imgs : [$("#img1").attr("src"),$("#img2").attr("src"),$("#img3").attr("src")]
         }
     },function(result){
         if(result.code == 0){
             $_jxc.alert("保存成功",function (data) {
-                window.parent.frames[src]=contextPath+'/pos/wheelsurf/form/edit/'+data.id;
+                window.location.href=contextPath+'/pos/ad/form/edit/'+result.data.id;
             })
         }else{
             $_jxc.alert(result['message']);
@@ -89,11 +105,42 @@ function saveAd() {
     })
 }
 
+var updateAd = function(){
+    var branchId = $("#branchIds").val();
+    if(!branchId){
+        $_jxc.alert("请先选择活动机构");
+        return;
+    }
+
+    var isValid = $("#formAdd").form('validate');
+    if (!isValid) {
+        return;
+    }
+    var formObj = $("#formAdd").serializeObject();
+
+    $_jxc.ajax({
+        url:contextPath+'/pos/ad/form/update',
+        data:{
+            formObj : JSON.stringify(formObj),
+            mainImg : $("#mainImg").attr("src"),
+            imgs : [$("#img1").attr("src"),$("#img2").attr("src"),$("#img3").attr("src")]
+        }
+    },function(result){
+        if(result.code == 0){
+            $_jxc.alert("保存成功",function () {
+                gFunRefresh();
+            })
+        }else{
+            $_jxc.alert(result['message']);
+        }
+    })
+};
+
 function checkAd() {
     $_jxc.ajax({
-        url:contextPath+'/pos/wheelsurf/form/audit',
+        url:contextPath+'/pos/ad/form/audit',
         data:{
-            formId : $("#formId").val(),
+            formId : $("#formId").val()
         },
     },function(result){
         if(result.code == 0){
@@ -108,13 +155,13 @@ function checkAd() {
 
 function overAd() {
     $_jxc.ajax({
-        url:contextPath+'/pos/wheelsurf/form/audit',
+        url:contextPath+'/pos/ad/form/over',
         data:{
             formId : $("#formId").val(),
         },
     },function(result){
         if(result.code == 0){
-            $_jxc.alert("审核成功",function () {
+            $_jxc.alert("终止成功",function () {
                 gFunRefresh();
             });
         }else{
@@ -124,7 +171,7 @@ function overAd() {
 }
 
 function imgUpload(event) {
-    var branchId = $("#branchId").val();
+    var branchId = $("#branchIds").val();
     if(!branchId){
         $_jxc.alert("请先选择活动机构");
         return;
@@ -132,11 +179,11 @@ function imgUpload(event) {
     var id = event.target.id;
 
     var param = {
-        url:""
+        url:"/pos/wheelsurf/form/upload"
     }
     publicUploadImgService(param,function (data) {
         var data = data;
-        $("#"+id).attr("src",getObjectURL(data.filePath))
+        $("#"+id).attr("src",data.filePath);
     });
 }
 

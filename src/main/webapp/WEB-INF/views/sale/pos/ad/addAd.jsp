@@ -10,8 +10,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
-
-<script src="${ctx}/static/js/views/sale/ad/adMain.js?V==${versionNo}"></script>
+<script src="${ctx}/static/js/views/sale/ad/adMain.js?V=${versionNo}"></script>
 	<style>
 	.datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -29,11 +28,19 @@
 
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
-	<input type='hidden' id="pageStatus" name="pageStatus" value="add">
+	<c:choose>
+		<c:when test="${form.id != null}">
+			<input type='hidden' id="copyId" name="copyId" value="${form.id}">
+			<input type='hidden' id="pageStatue" name="pageStatue" value="copy">
+		</c:when>
+		<c:otherwise>
+			<input type='hidden' id="pageStatue" name="pageStatue" value="add">
+		</c:otherwise>
+	</c:choose>
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
-				<shiro:hasPermission name="JxcPurchaseOrder:add">
+				<shiro:hasPermission name="posADForm:append">
 					<div class="ubtns-item" onclick="saveAd()">保存</div>
 				</shiro:hasPermission>
 				<div class="ubtns-item-disabled">审核</div>
@@ -46,21 +53,21 @@
 				<div class="ub umar-t8">
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-60 ut-r">展示时间:</div>
-						<input class="Wdate newWdate" readonly="readonly" name="startTime"
-							id="startTime"
-							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'endTime\');}'})" />&nbsp;至&nbsp;
-						<input class="Wdate newWdate" readonly="readonly" name="endTime"
-							id="endTime"
-							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\');}'})" />
+						<input class="Wdate newWdate" readonly="readonly" name="beginDate"
+							id="beginDate"
+							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'overDate\');}'})" value="<fmt:formatDate value="${form.beginDate}" pattern="yyyy-MM-dd" />"/>&nbsp;至&nbsp;
+						<input class="Wdate newWdate" readonly="readonly" name="overDate"
+							id="overDate"
+							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'beginDate\');}'})" value="<fmt:formatDate value="${form.overDate}" pattern="yyyy-MM-dd" />"/>
 					</div>
 					<div class="ub ub-ac">
 						<div class="umar-r10 uw-60 ut-r">展示时段:</div>
 						<input class="Wdate newWdate" readonly="readonly"
-							name="dailyStartTime" id="dailyStartTime"
-							onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'dailyEndTime\');}'})" />&nbsp;至&nbsp;
+							name="beginTime" id="beginTime"
+							onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'overTime\');}'})" value="<fmt:formatDate value="${form.beginTime}" pattern="HH:mm:ss" />"/>&nbsp;至&nbsp;
 						<input class="Wdate newWdate" readonly="readonly"
-							name="dailyEndTime" id="dailyEndTime"
-							onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'dailyStartTime\');}'})" />
+							name="overTime" id="overTime"
+							onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'beginTime\');}'})" value="<fmt:formatDate value="${form.overTime}" pattern="HH:mm:ss" />"/>
 					</div>
 
 					<div class="ub ub-ac " id="weekday">
@@ -100,21 +107,21 @@
 								name="weekcheckbox" value="7" checked="checked" /><span
 								class="umar-l10">日</span></label>
 						</div>
-						<input class="uinp ub ub-f1" type="hidden" id="weeklyActivityDay"
-							name="weeklyActivityDay" value=" ">
+						<input class="uinp ub ub-f1" type="hidden" id="displayDay"
+							name="displayDay" value="<c:out value="${form.displayDay}"/>">
 					</div>
 				</div>
 				<div class="ub umar-t8">
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-60 ut-r">广告名称:</div>
-						<input id="actName" name="actName" class="uinp uw-300" type="text">
+						<input id="adName" name="adName" class="uinp uw-300" type="text" value="<c:out value="${form.adName}"/>">
 					</div>
 
 					<div class="ub ub-ac umar-r40" id="branchTemp">
 						<div class="umar-r10 uw-60 ut-r">机构列表:</div>
-						<input class="uinp ub ub-f1" type="hidden" id="branchId"
-							name="branchId"> <input class="uinp uw-300" type="text"
-							id="branchName" name="branchName">
+						<input class="uinp ub ub-f1" type="hidden" id="branchIds"
+							name="branchIds" value="<c:out value="${form.branchIds}"/>"> <input class="uinp uw-300" type="text"
+							id="branchName" name="branchName" value="<c:out value="${form.branchName}"/>">
 						<div class="uinp-more">...</div>
 					</div>
 
@@ -126,54 +133,46 @@
 							onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
 							onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
 							oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-							maxlength="50">
+							maxlength="50" value="<c:out value="${form.remark}"/>">
 					</div>
 				</div>
 			</div>
-		</form>
+
 	<div class="ub ub-ver  umar-8 ubor ub-f1">
 			<div class="ub umar-10">
 				<div class="ub ub-ac umar-r20">
 				<div class="umar-r10 uw-60 ut-r">展示时长:</div>
-				<input id="timeNum" name="timeNum" class="uinp uw-416 easyui-numberbox easyui-validatebox"
-					data-options="min:1,max:999999,precision:0" type="text" > 秒
+				<input id="intervalTime" name="intervalTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
+					data-options="min:1,max:999999,precision:0" type="text" value="<c:out value="${form.intervalTime}"/>"> 秒
 				</div>
 			</div>
 
 			<div class="ub umar-10 umar-b30">
 				<div class="ub ub-ac umar-r20 ">
 				<div class="umar-r10 uw-60 ut-r">主图:</div>
-				<input class="uinp ub ub-f1" type="hidden" id="imgVal"
-				name="imgVal">
-				<img id="mainImg" name="mainImg" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
+				<img id="mainImg" name="mainImg" src="<c:out value="${detail[0].picUrl}"/>" onclick="imgUpload(event)"/>
 				</div>
 			</div>
 
 				<div class="ub umar-10">
 				<div class="ub ub-ac umar-r20">
 				<div class="umar-r10 uw-60 ut-r">次图:</div>
-					<input class="uinp ub ub-f1" type="hidden" id="img1Val"
-					name="img1Val">
-					<img id="img1"  src="${ctx}/static/images/addImg.png" onclick="imgUpload()"/>
+					<img id="img1" name="imgs1"  src="<c:out value="${detail[1].picUrl}"/>" onclick="imgUpload(event)"/>
 				</div>
 
 				<div class="ub ub-ac umar-r20">
-					<input class="uinp ub ub-f1" type="hidden" id="img2Val"
-					name="img2Val">
-					<img id="img2"  src="${ctx}/static/images/addImg.png" onclick="imgUpload()"/>
+					<img id="img2" name="imgs2" src="<c:out value="${detail[2].picUrl}"/>" onclick="imgUpload(event)"/>
 				</div>
 
 				<div class="ub ub-ac umar-r20">
-					<input class="uinp ub ub-f1" type="hidden" id="img3Val"
-					name="img3Val">
-					<img id="img3"  src="${ctx}/static/images/addImg.png" onclick="imgUpload()"/>
+					<img id="img3"   name="imgs3" src="<c:out value="${detail[3].picUrl}"/>" onclick="imgUpload(event)"/>
 				</div>
 
 				</div>
 
 
 	</div>
-
+		</form>
 	</div>
 
 </body>
