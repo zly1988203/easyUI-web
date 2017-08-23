@@ -316,7 +316,7 @@ function saveWheelsurf() {
     },function(result){
         if(result.code == 0){
             $_jxc.alert("保存成功",function (data) {
-                window.parent.frames[src]=contextPath+'/pos/wheelsurf/form/edit/'+data.id;
+                window.location.href=contextPath+'/pos/wheelsurf/form/edit/'+data.id;
             })
         }else{
             $_jxc.alert(result['message']);
