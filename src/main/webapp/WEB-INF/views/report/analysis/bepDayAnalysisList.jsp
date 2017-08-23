@@ -33,39 +33,30 @@
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
 
-			<div class="ub umar-l20">
-		<!-- 	<input class="Wdate uw-300 uinp-no-more" name="startTime" id="startTime"
-			onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
-			<input class="Wdate uw-300 uinp-no-more" name="endTime" id="endTime"
-			onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" /> -->
-			   <!-- 引入时间选择控件 -->
-	           <div class="ub ub-ac">
-	            	<div class="umar-r10 uw-80 ut-r">日期:</div>
-	       			<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
-	           </div>
-			</div>
+				<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
 
 			</div>
 
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">机构名称:</div>
-					<input name="branchId" id="branchId" type="hidden">
-					<input name="branchCompleCode" id="branchCompleCode" type="hidden">
-					<input class="uinp" id="branchCodeName" name="branchCodeName" type="text"
-						 onclick="selectListBranches()" readonly="readonly" maxlength="50">
+					<input name="branchId" id="branchId" type="hidden"> <input
+						name="branchCompleCode" id="branchCompleCode" type="hidden">
+					<input class="uinp" id="branchCodeName" name="branchCodeName"
+						type="text" onclick="selectListBranches()" readonly="readonly"
+						maxlength="50">
 					<div class="uinp-more" onclick="selectListBranches()">...</div>
-					
-					<input type="hidden" id="startCount" name="startCount" >
-					<input type="hidden" id="endCount" name="endCount" >
+
+					<input type="hidden" id="startCount" name="startCount"> <input
+						type="hidden" id="endCount" name="endCount">
 				</div>
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">费用类型:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="costType" id="status_no"
-							value="0" checked="checked" /><label for="status_no">含折旧费用
-						</label>
+						<input class="radioItem" type="radio" name="costType"
+							id="status_no" value="0" checked="checked" /><label
+							for="status_no">含折旧费用 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="costType"
@@ -75,11 +66,37 @@
 				</div>
 
 				<div class="ub ub-ac umar-r20">
-				<div class="umar-r10 uw-600 ut-r uc-red ">说明：日盈亏平衡点计算公式 = 其他成本(设备折旧费用+累计摊销费用+长期待摊费用) / 毛利率</div>
+					<div class="umar-r10 uw-600 ut-r uc-red ">说明：日盈亏平衡点计算公式 =
+						其他成本(设备折旧费用+累计摊销费用+长期待摊费用) / 毛利率</div>
 				</div>
 
 			</div>
 
+			<div class="ub umar-t8">
+				<div class="ub ub-ac">
+					<div class="umar-r10 uw-60 ut-r">店铺类型:</div>
+					<div class="ub ub-ac umar-r10">
+						<label> <input class="radioItem" id="allType" type="radio"
+							name="branchesType" checked="checked" value="" /> 所有
+						</label>
+					</div>
+					<div class="ub ub-ac  uh-36">
+						<label class="umar-r10"> <input class=" radioItem"
+							id="OWN_STORE" type="radio" name="branchesType" value="3" />直营店
+						</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<label> <input class="radioItem" id='FRANCHISE_STORE_B'
+							type="radio" name="branchesType" value="4" />B加盟店
+						</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<label> <input class="radioItem" id='FRANCHISE_STORE_C'
+							type="radio" name="branchesType" value="5" />C加盟店
+						</label>
+					</div>
+				</div>
+			</div>
 		</form>
 		<div class="ub uw umar-t8 ub-f1">
 			<table id="gridDayAnalysis"></table>

@@ -32,34 +32,47 @@
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
-				
-				<input class="Wdate uw-300 uinp-no-more"
-					name="txtStartDate" id="txtStartDate"
-					onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-{%M-1}'})" />
-				<input class="Wdate uw-300 uinp-no-more"
-					name="txtEndDate" id="txtEndDate"
-					onclick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-{%M-1}'})" />
+
+				<div class="ub ub-ac umar-l20">
+					<input class="Wdate"  readonly="readonly" name="txtStartDate" id="txtStartDate" onfocus="updateWdatePicker(0)"/>&nbsp;至&nbsp;
+					<input class="Wdate"  readonly="readonly" name="txtEndDate" id="txtEndDate" onfocus="updateWdatePicker(1)"/>
+				<!--     <div class="ub ub-ac umar-l10">
+				        <input class="ub" type="radio" name="dateradio" id="this_month" onclick="toChangeDate(4,'yyyy-MM');"/><label for="this_month">本月</label>
+				    </div> -->
+				    <div class="ub ub-ac umar-l10">
+				        <input class="ub" type="radio" name="dateradio" id="last_month" onclick="toChangeDate(5,'yyyy-MM');"/><label for="last_month">上月</label>
+				    </div>
+				    <div class="ub ub-ac umar-l10">
+				        <input class="ub" type="radio" name="dateradio" id="this_season" onclick="toChangeDate(6,'yyyy-MM');"/><label for="this_season">本季</label>
+				    </div>
+				    <div class="ub ub-ac umar-l10">
+				        <input class="ub" type="radio" name="dateradio" id="last_season" onclick="toChangeDate(7,'yyyy-MM');"/><label for="last_season">上季</label>
+				    </div>
+				    <div class="ub ub-ac umar-l10">
+				        <input class="ub" type="radio" name="dateradio" id="this_year" onclick="toChangeDate(8,'yyyy-MM');"/><label for="this_year">今年</label>
+				    </div>
+				</div>
 			</div>
 
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">机构名称:</div>
-					<input name="branchId" id="branchId" type="hidden">
-					<input name="branchCompleCode" id="branchCompleCode" type="hidden">
-					<input class="uinp" id="branchCodeName" name="branchCodeName" type="text" 
-						readonly="readonly" onclick="selectListBranches()">
+					<input name="branchId" id="branchId" type="hidden"> <input
+						name="branchCompleCode" id="branchCompleCode" type="hidden">
+					<input class="uinp" id="branchCodeName" name="branchCodeName"
+						type="text" readonly="readonly" onclick="selectListBranches()">
 					<div class="uinp-more" onclick="selectListBranches()">...</div>
-					
-					<input type="hidden" id="startCount" name="startCount" >
-					<input type="hidden" id="endCount" name="endCount" >
-					
+
+					<input type="hidden" id="startCount" name="startCount"> <input
+						type="hidden" id="endCount" name="endCount">
+
 				</div>
 
 				<div class="ub ub-ac umar-r40">
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="costType" id="status_no"
-							value="0" checked="checked" /><label for="status_no">含折旧费用
-						</label>
+						<input class="radioItem" type="radio" name="costType"
+							id="status_no" value="0" checked="checked" /><label
+							for="status_no">含折旧费用 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="costType"
@@ -68,7 +81,36 @@
 					</div>
 				</div>
 
+				
 			</div>
+			
+			<div class="ub umar-t8">
+					<div class="ub ub-ac">
+						<div class="umar-r10 uw-60 ut-r">店铺类型:</div>
+						<div class="ub ub-ac umar-r10">
+							<label> <input class="radioItem" id="allType"
+								type="radio" name="branchesType" checked="checked" value="" />
+								所有
+							</label>
+						</div>
+						<div class="ub ub-ac  uh-36">
+							<label class="umar-r10"> <input class=" radioItem"
+								id="OWN_STORE" type="radio" name="branchesType" value="3" />直营店
+							</label>
+						</div>
+						<div class="ub ub-ac umar-r10">
+							<label> <input class="radioItem" id='FRANCHISE_STORE_B'
+								type="radio" name="branchesType" value="4" />B加盟店
+							</label>
+						</div>
+						<div class="ub ub-ac umar-r10">
+							<label> <input class="radioItem" id='FRANCHISE_STORE_C'
+								type="radio" name="branchesType" value="5" />C加盟店
+							</label>
+						</div>
+					</div>
+				</div>
+			
 
 		</form>
 		<div class="ub uw umar-t8 ub-f1">
@@ -77,4 +119,31 @@
 
 	</div>
 </body>
+<script>
+    function updateWdatePicker(type){
+    	
+    	if(type==0){
+   		 WdatePicker({
+   	                	dateFmt:'yyyy-MM',
+   	                	maxDate:'#F{$dp.$D(\'txtStartDate\');}',
+   	                    onpicked:function(dp){
+   	                        $("input:radio[name='dateradio']").attr("checked",false);
+   	                    }
+   	                })
+	   	}else{
+	   		 WdatePicker({
+		   	                	dateFmt:'yyyy-MM',
+		   	                	maxDate:'#F{$dp.$D(\'txtStartDate\')}',
+		   	                    onpicked:function(dp){
+		   	                        $("input:radio[name='dateradio']").attr("checked",false);
+		   	                    }
+		   	                })
+	   	}
+    	
+    }
+    
+    
+
+    
+</script>
 </html>
