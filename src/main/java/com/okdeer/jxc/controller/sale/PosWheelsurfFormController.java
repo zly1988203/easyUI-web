@@ -9,6 +9,7 @@
 package com.okdeer.jxc.controller.sale;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.service.FileUploadService;
@@ -206,7 +207,7 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 				vo.setPicUrl(StringUtils.replace(vo.getPicUrl(),filePrefix+"/",""));
 				posGroupKeys.set(i,vo);
 			}
-			PosWheelsurfFormVo vo = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("formObj"),PosWheelsurfFormVo.class);
+			PosWheelsurfFormVo vo = JSON.parseObject(request.getParameter("formObj"),PosWheelsurfFormVo.class);
 			vo.setUpdateTime(new Date());
 			vo.setUpdateUserId(getCurrUserId());
 			posWheelsurfServiceApi.updatePosWheelsurfFormAndDetail(vo,posGroupKeys);
@@ -227,7 +228,7 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 				vo.setPicUrl(StringUtils.replace(vo.getPicUrl(),filePrefix+"/",""));
 				posGroupKeys.set(i,vo);
 			}
-			PosWheelsurfFormVo vo = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("formObj"),PosWheelsurfFormVo.class);
+			PosWheelsurfFormVo vo = JSON.parseObject(request.getParameter("formObj"),PosWheelsurfFormVo.class);
 			vo.setBranchCode(getCurrBranchCode());
 			vo.setCreateUserId(getCurrUserId());
 			vo.setCreateUserName(getCurrentUser().getUserName());
