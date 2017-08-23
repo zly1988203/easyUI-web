@@ -136,7 +136,7 @@ function initDatagridEditOrder(){
                     }
                 },
             },
-            {field:'maxlargeNum',title:'原箱数',width:'80px',align:'right',hidden:false,
+            {field:'maxlargeNum',title:'原箱数',width:'80px',align:'right',hidden:true,
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -144,7 +144,7 @@ function initDatagridEditOrder(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'maxRealNum',title:'原数据',width:'80px',align:'right',hidden:false,
+            {field:'maxRealNum',title:'原数据',width:'80px',align:'right',hidden:true,
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -360,7 +360,6 @@ function onChangeLargeNum(newV,oldV){
         $_jxc.alert("没有商品规格,请审查");
         return;
     }
-    
     var maxlargeNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'maxlargeNum');
     if(maxlargeNum&&(parseFloat(newV)>parseFloat(maxlargeNum))){
     	i = 1;
