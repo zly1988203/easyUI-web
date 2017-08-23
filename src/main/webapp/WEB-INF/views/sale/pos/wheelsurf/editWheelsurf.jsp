@@ -104,6 +104,9 @@
 								<c:when test="${form.formType eq '1'}">
 									<option value="1" selected>抽奖</option>
 								</c:when>
+								<c:otherwise>
+									<option value="1" selected>抽奖</option>
+								</c:otherwise>
 							</c:choose>
 						</select>
 

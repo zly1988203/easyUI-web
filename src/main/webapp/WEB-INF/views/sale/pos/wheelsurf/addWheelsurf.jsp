@@ -71,7 +71,7 @@
 					</div>
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-70 ut-r">活动类型:</div>
-						<select class="uselect easyui-combobox" style="width:420px;" name="activityType"
+						<select class="uselect easyui-combobox" style="width:420px;" name="formType" id="formType"
 						data-options="editable:false">
 						<%--<option value="">全部</option>--%>
 							<c:choose>
