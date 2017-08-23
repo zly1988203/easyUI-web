@@ -121,8 +121,8 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
             posAdServiceApi.delPosAdFormAndDetail(id);
             return RespJson.success();
         }catch (Exception e){
-            LOG.error("删除POS客屏活动失败!" ,e);
-            return RespJson.error("删除POS客屏活动失败!" );
+            LOG.error("删除POS客屏广告失败!" ,e);
+            return RespJson.error("删除POS客屏广告失败!" );
         }
     }
 
@@ -137,8 +137,8 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
             posAdServiceApi.updatePosAdForm(vo);
             return RespJson.success();
         }catch (Exception e){
-            LOG.error("终止POS客屏活动失败!" ,e);
-            return RespJson.error("终止POS客屏活动失败!" );
+            LOG.error("终止POS客屏广告失败!" ,e);
+            return RespJson.error("终止POS客屏广告失败!" );
         }
     }
 
@@ -153,8 +153,8 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
             posAdServiceApi.updatePosAdForm(vo);
             return RespJson.success();
         }catch (Exception e){
-            LOG.error("审核POS客屏活动失败!" ,e);
-            return RespJson.error("审核POS客屏活动失败!" );
+            LOG.error("审核POS客屏广告失败!" ,e);
+            return RespJson.error("审核POS客屏广告失败!" );
         }
     }
 
@@ -203,8 +203,8 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
             posAdServiceApi.updatePosAdFormAndDetail(vo);
             return RespJson.success();
         }catch (Exception e){
-            LOG.error("保存POS客屏活动失败!" ,e);
-            return RespJson.error("保存POS客屏活动失败!" );
+            LOG.error("保存POS客屏广告失败!" ,e);
+            return RespJson.error("保存POS客屏广告失败!" );
         }
     }
 

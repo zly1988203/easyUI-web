@@ -105,6 +105,37 @@ function saveAd() {
     })
 }
 
+var updateAd = function(){
+    var branchId = $("#branchIds").val();
+    if(!branchId){
+        $_jxc.alert("请先选择活动机构");
+        return;
+    }
+
+    var isValid = $("#formAdd").form('validate');
+    if (!isValid) {
+        return;
+    }
+    var formObj = $("#formAdd").serializeObject();
+
+    $_jxc.ajax({
+        url:contextPath+'/pos/ad/form/update',
+        data:{
+            formObj : JSON.stringify(formObj),
+            mainImg : $("#mainImg").attr("src"),
+            imgs : [$("#img1").attr("src"),$("#img2").attr("src"),$("#img3").attr("src")]
+        }
+    },function(result){
+        if(result.code == 0){
+            $_jxc.alert("保存成功",function () {
+                gFunRefresh();
+            })
+        }else{
+            $_jxc.alert(result['message']);
+        }
+    })
+};
+
 function checkAd() {
     $_jxc.ajax({
         url:contextPath+'/pos/ad/form/audit',

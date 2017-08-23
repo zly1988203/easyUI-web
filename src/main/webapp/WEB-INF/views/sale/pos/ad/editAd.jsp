@@ -38,7 +38,7 @@ img {
 				<shiro:hasPermission name="posADForm:append">
 					<c:choose>
 						<c:when test="${form.auditStatus eq '0'}">
-						<div class="ubtns-item" onclick="saveAd()">保存</div>
+						<div class="ubtns-item" onclick="updateAd()">保存</div>
 						</c:when>
 					</c:choose>
 				</shiro:hasPermission>
@@ -69,6 +69,7 @@ img {
 	</c:choose>
 
 		<form id="formAdd">
+			<input type='hidden' name="id" value="${form.id}">
 			<div class="ub ub-ver umar-l8">
 				<div class="ub umar-t8">
 					<div class="ub ub-ac umar-r20">
