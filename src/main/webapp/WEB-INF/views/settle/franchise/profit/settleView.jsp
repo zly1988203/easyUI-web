@@ -37,9 +37,11 @@
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
+        <div class="ub umar-t8 uc-black">【单号】:<span>${settleVo.formNo}</span></div>
+        <div class="already-examine" id="already-examine"><span>已审核</span></div>
         <div class="ub uline umar-t8"></div>
         <input type="hidden" id="oldTime">
-        <form id="profitSettleForm" class="ub uw ub-ver ub-f1 umar-t8">
+        <form id="profitSettleForm">
 		<input type="hidden" name="id" id="formId" value="${settleVo.id}">
 		<input type="hidden" name="formNo" id="formNo" value="${settleVo.formNo}">
         <div class="ub umar-t8">
@@ -54,12 +56,12 @@
                  <i class="ub ub-ac uc-red">*</i>
             </div>
             
-            <div class="ub ub-ac uw-300 umar-l24">
+            <div class="ub ub-ac uw-300 umar-l24" style="margin-left:22px;">
                  <div class="umar-r10 uw-90 ut-r">联系人:</div>
 	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="contractName" readonly='readonly' name="contacts" value="${settleVo.contacts}">
              </div>
             
-            <div class="ub ub-ac umar-l36">
+            <div class="ub ub-ac umar-l40">
                 <div class="umar-r10 uw-70 ut-r">制单人:</div>
                 <div class="utxt">${settleVo.createUserName}</div>
             </div>
@@ -71,15 +73,15 @@
          <div class="ub umar-t8">
          		<div class="ub ub-ac uw-316 umar-l6">
            			<div class="umar-r10 uw-90 ut-r">计算时间:</div>
-           			<input id="beginDate" name="settleTimeStart" class="Wdate ub ub-f1" type="text" value="<fmt:formatDate value="${settleVo.settleTimeStart}" pattern="yyyy-MM-dd"/>"/>
+           			<input id="beginDate" name="settleTimeStart" class="Wdate ub ub-f1" type="text" readonly="readonly" value="<fmt:formatDate value="${settleVo.settleTimeStart}" pattern="yyyy-MM-dd"/>"/>
            				&nbsp;至&nbsp;
-           			<input id="endDate" name="settleTimeEnd" class="Wdate ub ub-f1" type="text" value="<fmt:formatDate value="${settleVo.settleTimeEnd}" pattern="yyyy-MM-dd"/>"/>
+           			<input id="endDate" name="settleTimeEnd" class="Wdate ub ub-f1" type="text" readonly="readonly" value="<fmt:formatDate value="${settleVo.settleTimeEnd}" pattern="yyyy-MM-dd"/>"/>
            			<i class="ub ub-ac uc-red">*</i>
            		</div>
            		<div class="ub ub-ac uw-316 umar-l12">
            			<div class="umar-r10 uw-100 ut-r">付款日期:</div>
 	                <div class="ub ub-f1">
-	                   <input id="payMoneyTime" name = "payTime" class="Wdate ub ub-f1" type="text" value="<fmt:formatDate value="${settleVo.payTime}" pattern="yyyy-MM-dd"/>"/>
+	                   <input id="payMoneyTime" name = "payTime" class="Wdate ub ub-f1" readonly="readonly" type="text" value="<fmt:formatDate value="${settleVo.payTime}" pattern="yyyy-MM-dd"/>"/>
 	                </div>
 	                <i class="ub ub-ac uc-red">*</i>
            		</div>
@@ -95,7 +97,7 @@
          <div class="ub umar-t8">
          	 <div class="ub ub-ac uw-290 umar-l20">
 				 <div class="umar-r12 uw-70 ut-r">付款方式:</div>
-                 <select class='uinp easyui-combobox' id="payType" name="payType" data-options="valueField:'id',value:'${settleVo.payType}',textField:'label',loadFilter:loadFilter,url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',editable:false" style="width:208px;" readonly="readonly">
+                 <select class='uinp easyui-combobox' id="payType" name="payType" data-options="valueField:'id',value:'${settleVo.payType}',textField:'label',url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',editable:false" style="width:208px;" readonly="readonly">
                  </select>
                  <i class="ub ub-ac uc-red">*</i>
             </div>
@@ -135,12 +137,12 @@
                  <div class="umar-r10 uw-70 ut-r">备注:</div>
                  <input class="uinp ub ub-f1" type="text" value="${settleVo.remark}" id="remark" maxlength="20" readonly='readonly' name="remark">
              </div>               
-         </div
+         </div>
 		 </form>
            <%--datagrid-edit--%>
-         <from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+         <div id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
          	<table id="proFitAdd" ></table>
-         </from>
+         </div>
     </div>
 </body>
 </html>

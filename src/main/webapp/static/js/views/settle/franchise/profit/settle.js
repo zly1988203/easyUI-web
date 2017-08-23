@@ -18,12 +18,6 @@ $(function(){
 	if(pageStatus === 'add'){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
 		  $('#createTime').text(new Date().format('yyyy-MM-dd hh:mm'));
-		// 机构默认有值
-//		  if(sessionBranchType == '4' || sessionBranchType == '5'){
-//			$('#franchiseBranchId').val(sessionBranchId);
-//			$('#branchCode').val(sessionBranchCode);
-//			$('#franchiseBranchName').val(sessionBranchCodeName)
-//		  }
 	}else if(pageStatus === 'edit'){
 		var formId = $("#formId").val();
 		url = contextPath+"/settle/franchiseProfitSettle/getDetailList?formId="+formId;
@@ -34,10 +28,12 @@ $(function(){
 		//保存时用于比较
 		$('#oldTime').val(_startTime+''+_endTime);
 		oldData = {
-		        remark:$("#remark").val(),                  // 备注
-		        payType:$('input[type="hidden"][name="payType"]').val()||'',   //支付方式
+	        remark:$("#remark").val(),// 备注
+	        time:_startTime+''+_endTime,
+	        payMoneyTime:$('#payMoneyTime').val()||'',
+	        otherAmount:$('input[type="hidden"][name="otherAmount"]').val(),
+	        payType:$('input[type="hidden"][name="payType"]').val()||'',   //支付方式
 		}
-	    
 	}
 	
 	initSupChkAcoAdd();
@@ -51,6 +47,13 @@ $(function(){
 			},
 			//选择完成之后
 			onAfterRender:function(data){
+				$('#endDate').val('');
+				$('#profit').val('0.00');
+				$('#profitOfCompany').val('0.00');
+				$('#profitSupper').val('0.00');
+				$('#amount').val('0.00');
+				$('#otherAmount').val('0.00');
+				gridHandel.setLoadData([]);
 				// 判断是否存在未审核的毛利结算单
 			    $_jxc.ajax({
 			        url:contextPath+"/settle/franchiseProfitSettle/checkAuditCount",
@@ -73,17 +76,9 @@ $(function(){
 	
 })
 
-//解决bug 19930
-function filterData(e){
-	gridHandel.endEditRow();
-}
-
-//支付方式 默认勾选第一个
-function loadFilter(data){
-	if(pageStatus === 'add'){
-		data[0].selected = true
-	}
-	return data;
+//计算金额 本次收款金额
+function calulateMoney(newV,oldV){
+	$('#amount').val((parseFloat($('#amount').val()||0)+parseFloat(newV||0)).toFixed(2));
 }
 
 
@@ -132,7 +127,6 @@ function initSupChkAcoAdd(){
         height:"100%",
         width:'100%',
         columns:[[
-            {field:'cb',checkbox:true},
             {field:'skuId',hidden:true},
             {field:'branchCode',title:'加盟店编号',width:'120',align:'left',
             	formatter:function(value,row){
@@ -214,19 +208,19 @@ function calAmount(){
 	//加盟店id
 	var _branchId = $.trim($("#branchId").val());
 	if(!_branchId){
-		$_jxc.alert('加盟店id不能为空');
+		$_jxc.alert('加盟店不能为空');
 		return;
 	}
 	//时间起
 	var _startTime = $.trim($("#beginDate").val());
 	if(!_startTime){
-		$_jxc.alert('合同有效期起不能为空');
+		$_jxc.alert('计算开始时间不能为空');
 		return;
 	}
 	//时间止
 	var _endTime = $.trim($("#endDate").val());
 	if(!_endTime){
-		$_jxc.alert('合同有效期止不能为空');
+		$_jxc.alert('计算结束时间不能为空');
 		return;
 	}
 	
@@ -268,19 +262,27 @@ function saveProSet(){
 	var beginDate = $.trim($('#beginDate').val());
 	var endDate = $.trim($('#endDate').val());
 	var payMoneyTime = $('#payMoneyTime').val();
-
+	var payType = $('input[type="hidden"][name="payType"]').val();
+	
     if(!$.trim(branchId)){
     	$_jxc.alert('加盟店信息不能为空!');
     	return false;
     }
+    
     if(!beginDate){
     	$_jxc.alert('计算开始时间信息不能为空');
     	return false;
     }
     if(!endDate){
-    	$_jxc.alert('计算结算时间信息不能为空');
+    	$_jxc.alert('计算结束时间信息不能为空');
     	return false;
     }
+    
+    if(!payType){
+    	$_jxc.alert('付款方式不能为空!');
+    	return false;
+    }
+    
     if(!payMoneyTime){
     	$_jxc.alert('付款日期信息不能为空');
     	return false;
@@ -321,8 +323,12 @@ function saveProSet(){
 function auditProfitSettle(){
     //验证数据是否修改
     $("#"+gridName).datagrid("endEdit", gridHandel.getSelectRowIndex());
+    
     var newData = {
-        remark:$("#remark").val(),                  // 备注
+        remark:$("#remark").val(),// 备注
+        time:$.trim($("#beginDate").val())+''+$.trim($("#endDate").val()),
+        payMoneyTime:$('#payMoneyTime').val()||'',
+        otherAmount:$('input[type="hidden"][name="otherAmount"]').val(),
         payType:$('input[type="hidden"][name="payType"]').val()||''   //支付方式
     }
 
@@ -332,18 +338,16 @@ function auditProfitSettle(){
     }
 	$_jxc.confirm('是否审核通过？',function(data){
 		if(data){
-//            gFunStartLoading();
 			$_jxc.ajax({
 		    	url : contextPath+"/settle/franchiseProfitSettle/settleAudit",
 		    	data:{"formId":$('#formId').val()||''}
 		    },function(result){
-//                gFunEndLoading();
 	    		if(result['code'] == 0){
 	    			$_jxc.alert("操作成功！",function(){
 	    				location.href = contextPath +"/settle/franchiseProfitSettle/settleEdit?id=" + result["formId"];
 	    			});
 	    		}else{
-	            	 $_jxc.alert(result['message'],'审核失败');
+	            	 $_jxc.alert(result['message']);
 	    		}
 		    });
 		}
@@ -351,7 +355,7 @@ function auditProfitSettle(){
 }
 
 //删除
-function delFrachiseForm(){
+function deleteProfitSettle(){
 	var ids = [];
 	ids.push($("#formId").val());
 	$_jxc.confirm('是否要删除单据',function(data){
@@ -362,7 +366,7 @@ function delFrachiseForm(){
 		    	data:{"ids":ids}
 		    },function(result){
 	    		if(result['code'] == 0){
-                    toRefreshIframeDataGrid("settle/franchiseProfitSettle/settleList","franchiseAccountAdd");
+                    toRefreshIframeDataGrid("settle/franchiseProfitSettle/settleList","profitSettList");
 	    			toClose();
 	    		}else{
 	    			$_jxc.alert(result['message']);
@@ -371,22 +375,6 @@ function delFrachiseForm(){
 		}
 	});
 }
-
-/*//初始化列表
-function initProfitFormDetail(){
-    var branchId = $('#branchId').val();
-    var paramsObj = {
-    	franchiseBranchId:branchId,
-    	settleTimeStart:$('#beginDate').val(),
-    	settleTimeEnd:$('#endDate').val(),
-    }
-    
-	$("#"+gridName).datagrid("options").method = "post";
-    $("#"+gridName).datagrid("options").queryParams = paramsObj;
-	$("#"+gridName).datagrid('options').url = contextPath + '/settle/franchiseProfitSettle/getFormList';
-	$("#"+gridName).datagrid('load');
-}*/
-
 
 
 //导出
