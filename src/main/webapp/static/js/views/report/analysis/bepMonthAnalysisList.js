@@ -191,3 +191,35 @@ function exportExcel(){
 	$("#queryForm").attr("action",contextPath+"/report/bepMonthAnalysis/exportExcelList");
 	$("#queryForm").submit();
 }
+
+function toChangeDate(index,fmt){
+	if(typeof fmt === "undefined"){
+		fmt = "yyyy-MM-dd"
+	}
+	
+    switch (index){
+        case 4: //本月
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentMonth()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format(fmt));
+            break;
+        case 5: //上月
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousMonth()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousMonth()[1]).format(fmt));
+            break;
+        case 6: //本季
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentSeason()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousMonth()[1]).format(fmt));
+            break;
+        case 7: //上季
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousSeason()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousSeason()[1]).format(fmt));
+            break;
+        case 8: //今年
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentYear()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousMonth()[1]).format(fmt));
+            break;
+
+        default :
+            break;
+    }
+}

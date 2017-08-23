@@ -165,7 +165,13 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 	@RequestMapping(value = "/over", method = RequestMethod.POST)
 	public RespJson over(String formId){
 		try {
-			posWheelsurfServiceApi.updatePosWheelsurfForm(formId,2);
+			PosWheelsurfFormVo vo = new PosWheelsurfFormVo();
+			vo.setId(formId);
+			vo.setAuditStatus(2);
+			vo.setAuditTime(new Date());
+			vo.setAuditUserId(getCurrUserId());
+			vo.setAuditUerName(getCurrentUser().getUserName());
+			posWheelsurfServiceApi.updatePosWheelsurfForm(vo);
 			return RespJson.success();
 		}catch (Exception e){
 			LOG.error("终止POS客屏活动失败!" ,e);
@@ -176,7 +182,13 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 	@RequestMapping(value = "/audit", method = RequestMethod.POST)
 	public RespJson audit(String formId){
 		try {
-			posWheelsurfServiceApi.updatePosWheelsurfForm(formId,1);
+			PosWheelsurfFormVo vo = new PosWheelsurfFormVo();
+			vo.setId(formId);
+			vo.setAuditStatus(1);
+			vo.setAuditTime(new Date());
+			vo.setAuditUserId(getCurrUserId());
+			vo.setAuditUerName(getCurrentUser().getUserName());
+			posWheelsurfServiceApi.updatePosWheelsurfForm(vo);
 			return RespJson.success();
 		}catch (Exception e){
 			LOG.error("审核POS客屏活动失败!" ,e);
@@ -195,6 +207,8 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 				posGroupKeys.set(i,vo);
 			}
 			PosWheelsurfFormVo vo = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("formObj"),PosWheelsurfFormVo.class);
+			vo.setUpdateTime(new Date());
+			vo.setUpdateUserId(getCurrUserId());
 			posWheelsurfServiceApi.updatePosWheelsurfFormAndDetail(vo,posGroupKeys);
 			return RespJson.success();
 		}catch (Exception e){
@@ -210,11 +224,13 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 			List<PosWheelsurfFormDetailVo> posGroupKeys = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("list"),JsonMapper.nonDefaultMapper().contructCollectionType(ArrayList.class, PosWheelsurfFormDetailVo.class));
 			for (int i = 0,length=posGroupKeys.size();i<length;++i){
 				PosWheelsurfFormDetailVo vo = posGroupKeys.get(i);
-				vo.setPicUrl(StringUtils.replaceChars(vo.getPicUrl(),filePrefix+"/",""));
+				vo.setPicUrl(StringUtils.replace(vo.getPicUrl(),filePrefix+"/",""));
 				posGroupKeys.set(i,vo);
 			}
 			PosWheelsurfFormVo vo = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("formObj"),PosWheelsurfFormVo.class);
 			vo.setBranchCode(getCurrBranchCode());
+			vo.setCreateUserId(getCurrUserId());
+			vo.setCreateUserName(getCurrentUser().getUserName());
 			posWheelsurfServiceApi.insertPosWheelsurfFormAndDetail(vo,posGroupKeys);
 			return RespJson.success();
 		}catch (Exception e){
