@@ -117,15 +117,15 @@
          <div class="ub umar-t8">
              <div class="ub ub-ac uw-310 umar-l6">
                  <div class="umar-r10 uw-90 ut-r">公司应得毛利:</div>
-	             <input class="uinp ub ub-f1 uinp-no-more" data-options="precision:2" value="<fmt:formatNumber value="${settleVo.targetProfitAmount}" pattern="0.0#"/>" id="profitOfCompany" readonly='readonly'  name="targetProfitAmount">
+	             <input class="uinp ub ub-f1 uinp-no-more" value="<fmt:formatNumber value="${settleVo.targetProfitAmount}" pattern="0.0#"/>" id="profitOfCompany" readonly='readonly'  name="targetProfitAmount">
              </div>
              <div class="ub ub-ac uw-320 umar-l8">
              	 <div class="umar-r10 uw-110 ut-r">加盟店应得毛利:</div>
-	             <input class="uinp ub ub-f1 uinp-no-more"data-options="precision:2" value="<fmt:formatNumber value="${settleVo.franchiseProfitAmount}" pattern="0.0#"/>" id="profitSupper" readonly='readonly'  name="franchiseProfitAmount">
+	             <input class="uinp ub ub-f1 uinp-no-more" value="<fmt:formatNumber value="${settleVo.franchiseProfitAmount}" pattern="0.0#"/>" id="profitSupper" readonly='readonly'  name="franchiseProfitAmount">
              </div>
              <div class="ub ub-ac uw-304 umar-l20">
                  <div class="umar-r10 uw-90 ut-r">本次收款金额:</div>
-             	 <input class="uinp ub ub-f1 uinp-no-more" data-options="precision:2" value="<fmt:formatNumber value="${settleVo.totalAmount}" pattern="0.0#"/>" id="amount" readonly='readonly'  name="totalAmount">
+             	 <input class="uinp ub ub-f1 uinp-no-more" value="<fmt:formatNumber value="${settleVo.totalAmount}" pattern="0.0#"/>" id="amount" readonly='readonly'  name="totalAmount">
              </div>
              <div class="ub ub-ac uw-300 umar-l16">
              	 <div class="umar-r10 uw-90 ut-r">其他收款金额:</div>
