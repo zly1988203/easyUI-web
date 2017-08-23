@@ -296,7 +296,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 	public RespJson auditDiffDispose(String data) {
 		RespJson respJson = RespJson.success();
 		try {
-			LOG.debug("审核差异处理详情 ：data{}" + data);
+			LOG.debug("审核差异处理详情 ：data{}", data);
 			SysUser user = UserUtil.getCurrentUser();
 			if (user == null) {
 				respJson = RespJson.error("用户不能为空！");
@@ -320,7 +320,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
             respJson = RespJson.error("审核差异处理信息异常");
         } catch (RuntimeException e) {
 			LOG.error("审核差异处理信息异常:{}", e);
-			respJson = RespJson.error(e.getMessage());
+            respJson = RespJson.error(StringUtils.isBlank(e.getMessage()) ? "审核差异处理信息异常" : e.getMessage());
 		} catch (Exception e) {
             LOG.error("审核差异处理信息异常:{}", e);
             respJson = RespJson.error("审核差异处理信息异常");
