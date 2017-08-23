@@ -360,7 +360,6 @@ function onChangeLargeNum(newV,oldV){
         $_jxc.alert("没有商品规格,请审查");
         return;
     }
-    
     var maxlargeNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'maxlargeNum');
     if(maxlargeNum&&(parseFloat(newV)>parseFloat(maxlargeNum))){
     	i = 1;
