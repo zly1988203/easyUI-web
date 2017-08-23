@@ -39,7 +39,7 @@
         </div>
         <div class="ub uline umar-t8"></div>
         <input type="hidden" id="oldTime">
-        <form id="profitSettleForm" class="ub uw ub-ver ub-f1 umar-t8">
+        <form id="profitSettleForm">
         <div class="ub umar-t8">
             <div class="ub ub-ac uw-296 umar-l20" id="branchComponent">
                 <div class="umar-r10 uw-70 ut-r">加盟店:</div>
@@ -52,12 +52,12 @@
                  <i class="ub ub-ac uc-red">*</i>
             </div>
             
-            <div class="ub ub-ac uw-300 umar-l24">
+            <div class="ub ub-ac uw-300 umar-l24" style="margin-left:22px;">
                  <div class="umar-r10 uw-90 ut-r">联系人:</div>
 	             <input class="uinp ub ub-f1 uinp-no-more" type="text" id="contractName" readonly='readonly'  name="contacts">
              </div>
             
-            <div class="ub ub-ac umar-l36">
+            <div class="ub ub-ac umar-l40">
                 <div class="umar-r10 uw-70 ut-r">制单人:</div>
                 <div class="utxt"><%=UserUtil.getCurrentUser().getUserName() %></div>
             </div>
@@ -93,7 +93,7 @@
          <div class="ub umar-t8">
          	 <div class="ub ub-ac uw-290 umar-l20">
 				 <div class="umar-r12 uw-70 ut-r">付款方式:</div>
-                 <select class='uinp easyui-combobox' id="payType" name="payType" data-options="valueField:'id',textField:'label',loadFilter:loadFilter,url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',editable:false" style="width:208px;">
+                 <select class='uinp easyui-combobox' id="payType" name="payType" data-options="valueField:'id',textField:'label',url:'${ctx}/archive/financeCode/getDictListByTypeCode?dictTypeCode=101003',editable:false" style="width:208px;">
                  </select>
                  <i class="ub ub-ac uc-red">*</i>
             </div>
@@ -125,7 +125,7 @@
              </div>
              <div class="ub ub-ac uw-300 umar-l16">
              	 <div class="umar-r10 uw-90 ut-r">其他收款金额:</div>
-             	 <input class="uinp easyui-numberbox" data-options="precision:2" value="0.00" type="text"  id="otherAmount"  name="otherAmount">
+             	 <input class="uinp easyui-numberbox" data-options="precision:2,onChange:calulateMoney" value="0.00" type="text"  id="otherAmount"  name="otherAmount">
              </div>
          </div>
          <div class="ub umar-t8">
@@ -133,10 +133,10 @@
                  <div class="umar-r10 uw-70 ut-r">备注:</div>
                  <input class="uinp ub ub-f1" type="text" id="remark" maxlength="20"  name="remark">
              </div>               
-         </div
+         </div>
 		 </form>
            <%--datagrid-edit--%>
-         <from id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
+         <div id="gridFrom" class="ub ub-ver ub-f1 umar-t8">
          	<table id="proFitAdd" ></table>
          </from>
     </div>
