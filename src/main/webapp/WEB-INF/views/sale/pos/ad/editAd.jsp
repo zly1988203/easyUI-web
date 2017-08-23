@@ -11,8 +11,7 @@
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
-
-<script src="${ctx}/static/js/views/sale/ad/adMain.js?V==${versionNo}"></script>
+<script src="${ctx}/static/js/views/sale/ad/adMain.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -36,8 +35,12 @@ img {
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
-				<shiro:hasPermission name="posADForm:add">
-					<div class="ubtns-item" onclick="saveAd()">保存</div>
+				<shiro:hasPermission name="posADForm:append">
+					<c:choose>
+						<c:when test="${form.auditStatus eq '0'}">
+						<div class="ubtns-item" onclick="saveAd()">保存</div>
+						</c:when>
+					</c:choose>
 				</shiro:hasPermission>
 
 				<shiro:hasPermission name="posADForm:audit">
@@ -52,12 +55,6 @@ img {
 						<div class="ubtns-item" onclick="overAd()">终止</div>
 					</c:when>
 				</c:choose>
-				<c:choose>
-					<c:when test="${form.auditStatus eq '0'}">
-						<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
-					</c:when>
-				</c:choose>
-
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>
 		</div>
@@ -87,47 +84,47 @@ img {
 						<div class="umar-r10 uw-60 ut-r">展示时段:</div>
 						<input class="Wdate newWdate" readonly="readonly"
 							name="beginTime" id="beginTime"
-							onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'overTime\');}'})" />&nbsp;至&nbsp;
+							onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'overTime\');}'})" value="<fmt:formatDate value="${form.beginTime}" pattern="HH:mm:ss" />" />&nbsp;至&nbsp;
 						<input class="Wdate newWdate" readonly="readonly"
 							name="overTime" id="overTime"
-							onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'beginTime\');}'})" />
+							onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'beginTime\');}'})" value="<fmt:formatDate value="${form.overTime}" pattern="HH:mm:ss" />" />
 					</div>
 
 					<div class="ub ub-ac " id="weekday">
 						<div class="umar-r10 uw-70 ut-r">活动日:</div>
 						<div class="ub ub-ac umar-l10 ubcheckweek">
 							<label><input class="radioItem" type="checkbox"
-								name="weekcheckbox" value="1" checked="checked" /><span
+								name="weekcheckbox" id="weekcheckbox1" value="1" checked="checked" /><span
 								class="umar-l10">一</span></label>
 						</div>
 						<div class="ub ub-ac umar-l10 ubcheckweek">
 							<label><input class="radioItem " type="checkbox"
-								name="weekcheckbox" value="2" checked="checked" /><span
+								name="weekcheckbox" id="weekcheckbox2" value="2" checked="checked" /><span
 								class="umar-l10">二</span></label>
 						</div>
 						<div class="ub ub-ac umar-l10 ubcheckweek">
 							<label><input class="radioItem " type="checkbox"
-								name="weekcheckbox" value="3" checked="checked" /><span
+								name="weekcheckbox" id="weekcheckbox3" value="3" checked="checked" /><span
 								class="umar-l10">三</span></label>
 						</div>
 						<div class="ub ub-ac umar-l10 ubcheckweek">
 							<label><input class="radioItem " type="checkbox"
-								name="weekcheckbox" value="4" checked="checked" /><span
+								name="weekcheckbox" id="weekcheckbox4" value="4" checked="checked" /><span
 								class="umar-l10">四</span></label>
 						</div>
 						<div class="ub ub-ac umar-l10 ubcheckweek">
 							<label><input class="radioItem " type="checkbox"
-								name="weekcheckbox" value="5" checked="checked" /><span
+								name="weekcheckbox" id="weekcheckbox5" value="5" checked="checked" /><span
 								class="umar-l10">五</span></label>
 						</div>
 						<div class="ub ub-ac umar-l10 ubcheckweek">
 							<label><input class="radioItem " type="checkbox"
-								name="weekcheckbox" value="6" checked="checked" /><span
+								name="weekcheckbox" id="weekcheckbox6" value="6" checked="checked" /><span
 								class="umar-l10">六</span></label>
 						</div>
 						<div class="ub ub-ac umar-l10 ubcheckweek">
 							<label><input class="radioItem " type="checkbox"
-								name="weekcheckbox" value="7" checked="checked" /><span
+								name="weekcheckbox" id="weekcheckbox7" value="7" checked="checked" /><span
 								class="umar-l10">日</span></label>
 						</div>
 						<input class="uinp ub ub-f1" type="hidden" id="displayDay"
@@ -160,12 +157,11 @@ img {
 					</div>
 				</div>
 			</div>
-		</form>
 		<div class="ub ub-ver  umar-8 ubor ub-f1">
 			<div class="ub umar-10">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">展示时长:</div>
-					<input id="timeNum" name="timeNum"
+					<input id="intervalTime" name="intervalTime"
 						class="uinp uw-416 easyui-numberbox easyui-validatebox"
 						data-options="min:1,max:999999,precision:0" type="text" value="<c:out value="${form.intervalTime}"/>">
 					秒
@@ -176,30 +172,31 @@ img {
 				<div class="ub ub-ac umar-r20 ">
 					<div class="umar-r10 uw-60 ut-r">主图:</div>
 					<img id="mainImg" name="mainImg"
-						src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)" />
+						src="<c:out value="${detail[0].picUrl}"/>" onclick="imgUpload(event)" />
 				</div>
 			</div>
 
 			<div class="ub umar-10">
 				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">次图:</div>
-					<img id="img1" src="${ctx}/static/images/addImg.png"
-						onclick="imgUpload()" />
+					<img id="img1" name="imgs1" src="<c:out value="${detail[1].picUrl}"/>"
+						onclick="imgUpload(event)" />
 				</div>
 
 				<div class="ub ub-ac umar-r20">
-					<img id="img2" src="${ctx}/static/images/addImg.png"
-						onclick="imgUpload()" />
+					<img id="img2" name="imgs2" src="<c:out value="${detail[2].picUrl}"/>"
+						onclick="imgUpload(event)" />
 				</div>
 
 				<div class="ub ub-ac umar-r20">
-					<img id="img3" src="${ctx}/static/images/addImg.png"
-						onclick="imgUpload()" />
+					<img id="img3" name="imgs3" src="<c:out value="${detail[3].picUrl}"/>"
+						onclick="imgUpload(event)" />
 				</div>
 
 			</div>
 
 		</div>
+		</form>
 
 	</div>
 
