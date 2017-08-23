@@ -231,8 +231,12 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 			vo.setBranchCode(getCurrBranchCode());
 			vo.setCreateUserId(getCurrUserId());
 			vo.setCreateUserName(getCurrentUser().getUserName());
-			posWheelsurfServiceApi.insertPosWheelsurfFormAndDetail(vo,posGroupKeys);
-			return RespJson.success();
+			String id = posWheelsurfServiceApi.insertPosWheelsurfFormAndDetail(vo,posGroupKeys);
+			return RespJson.success(new HashMap<String,String>(){
+				{
+					put("id",id);
+				}
+			});
 		}catch (Exception e){
 			LOG.error("保存POS客屏活动失败!" ,e);
 			return RespJson.error("保存POS客屏活动失败!" );
