@@ -347,9 +347,15 @@ function getGridData(){
    	    		largeNum:'maxlargeNum',
        	    };
    	    
+   	    var newRows = [];
    	    if(data && data.list.length > 0){
-   	        var newRows = gFunUpdateKey(data.list,keyrealNum);
-   	        var newRows = gFunUpdateKey(newRows,keylargeNum);
+   	     if($("#refFormNo").val()){
+   	    	newRows = gFunUpdateKey(data.list,keyrealNum);
+   	        newRows = gFunUpdateKey(newRows,keylargeNum);
+   	    }else{
+   	    	newRows = data.list;
+   	    }
+   	    	
    	        $("#"+gridName).datagrid("loadData",newRows);
    	    }
    });
