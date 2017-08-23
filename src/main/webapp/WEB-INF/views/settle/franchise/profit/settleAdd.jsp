@@ -131,7 +131,7 @@
          <div class="ub umar-t8">
              <div class="ub ub-ac umar-l20 uw-600 " style="width:618px;" >
                  <div class="umar-r10 uw-70 ut-r">备注:</div>
-                 <input class="uinp ub ub-f1" type="text" id="remark" maxlength="20"  name="remark">
+                 <input class="uinp ub ub-f1" type="text" id="remark" maxlength="50"  name="remark">
              </div>               
          </div>
 		 </form>
