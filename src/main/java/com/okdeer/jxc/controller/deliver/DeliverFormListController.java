@@ -224,4 +224,22 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 		}
 		return itemList;
 	}
+	
+	@RequestMapping(value = "importDelverList", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<DeliverFormList> importDelverList(QueryDeliverFormVo vo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		try {
+			vo.setPageNumber(1);
+			vo.setPageSize(999999);
+			LOG.debug("vo:{}", vo.toString());
+			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi.importDelverList(vo.getDeliverFormId());
+			LOG.debug("page:{}", deliverFormLists.toString());
+			return deliverFormLists;
+		} catch (Exception e) {
+			LOG.error("要货单查询明细数据出现异常", e);
+		}
+		return null;
+	}
 }
