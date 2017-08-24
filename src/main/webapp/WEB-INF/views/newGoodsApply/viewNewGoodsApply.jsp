@@ -297,6 +297,11 @@ pageEncoding="UTF-8"%>
 						<input id="fastDeliver" name="fastDeliver" 
 						class="ub" type="checkbox" name="checkbox" disabled/><span>是否直送商品</span>
 					</div>
+					<div class="ub ub-ac umar-r40">
+						<label>
+							<input id="allowGift" name="allowGift" type="checkbox" name="checkbox" /><span>是否可为赠品</span>
+						</label>
+					</div>
 				</div>
 
 			</div>
