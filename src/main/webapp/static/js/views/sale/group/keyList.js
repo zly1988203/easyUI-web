@@ -161,7 +161,7 @@ function  initGoodsgrid() {
             {field:'categoryName',title:'类别名称',width:'150px',align:'left'},
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
-            {field:'price',title:'零售价',width:'80px',align:'right'},
+            {field:'salePrice',title:'零售价',width:'80px',align:'right'},
             {field:'shortName',title:'简称',width:'200px',align:'left',
                 editor:{
                     type:'textbox',
