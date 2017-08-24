@@ -943,7 +943,7 @@ function selectTargetBranchData(targetBranchId){
 
 function loadLists(referenceId,refDeliverType){
     $_jxc.ajax({
-        url:contextPath+"/form/deliverFormList/getDeliverFormLists?deliverType=DO&deliverFormId="+referenceId+"&refDeliverType=" + refDeliverType,
+        url:contextPath+"/form/deliverFormList/importDelverList?deliverType=DO&deliverFormId="+referenceId+"&refDeliverType=" + refDeliverType,
     },function(data){
         var rows = data.list;
         for(var i in rows){
