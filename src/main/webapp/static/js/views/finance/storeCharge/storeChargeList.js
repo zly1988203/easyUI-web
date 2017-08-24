@@ -6,6 +6,10 @@ $(function () {
     initGridBranchCostList();
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    
+    $(".radioItem").change(function () {
+        queryStoreCharge();
+    })
 })
 
 var gridName = "gridStoreChargeList";
@@ -60,6 +64,7 @@ function initGridBranchCostList() {
             {field:'remark',title:'备注',width:200,align:'left'},
         ]]
     })
+    queryStoreCharge();
 }
 
 /**

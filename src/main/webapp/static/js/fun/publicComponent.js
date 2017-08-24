@@ -2808,7 +2808,7 @@ function publicCategorysServiceHandel(param,callback,cbDom){
     *
     * */
  function publicUploadImgService(param,callback) {
-   var uploadImgTemp = $('<div id="id="uploadImg"/>').dialog({
+   var uploadImgTemp = $('<div id="uploadImg"/>').dialog({
         href: contextPath + "/common/uploadImg",
         width:380,
         height:200,
