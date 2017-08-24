@@ -45,13 +45,6 @@ function initDatagridStoreYHOrder(){
     }
 }
 
-//合计
-//function updateFooter(){
-//    var fields = {largeNum:0,applyNum:0,amount:0,isGift:0, };
-//    var argWhere = {name:'isGift',value:0}
-//    gridHandel.updateFooter(fields,argWhere);
-//}
-
 function exportListData(){
     window.location.href=contextPath+'/LogisticsDeliverForm/exportList?deliverFormId='+$("#formId").val() + '&deliverType=DR';
 }
