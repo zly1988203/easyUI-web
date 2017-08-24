@@ -105,7 +105,7 @@ function initGridDayAnalysis() {
                      if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
                          return '';
                      }
-                     return '<b>'+parseFloat(value||0).toFixed(4)*100+'%</b>';
+                     return '<b>'+(parseFloat(value||0)*100).toFixed(2)'%</b>';
                  },
             },
             {field:'lastMonthCost',title:'上月成本小计',width:"120px",align:'right',
