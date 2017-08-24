@@ -47,16 +47,16 @@ function initGridMonthAnalysis() {
             {field:'monthStr',title:'月份',width:"80px",align:'left'},
             {field:'bepMonth',title:'月盈亏平衡点',width:"100px",align:'right',
                 formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
+                        return '';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field:'bepDay',title:'日盈亏平衡点',width:"100px",align:'right',
                 formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
+                        return '';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
@@ -79,8 +79,8 @@ function initGridMonthAnalysis() {
             },
             {field:'grossProfitRateStr',title:'毛利率(%)',width:"80px",align:'right',
                 formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
+                        return '';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
