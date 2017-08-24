@@ -21,7 +21,9 @@ function changeStatus(){
         }
         $("#"+gridName).datagrid('loadData', { total: 0, rows: [] }); 
         $("#"+gridName).datagrid("options").url = "";
+    	
         initGridDayAnalysis();
+        $('#'+gridName).datagrid('reloadFooter',[]);
         //queryDayAnalysis();
     });
 }

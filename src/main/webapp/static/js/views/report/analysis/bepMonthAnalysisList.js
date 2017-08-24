@@ -21,6 +21,7 @@ function changeStatus(){
         $("#"+gridName).datagrid('loadData', { total: 0, rows: [] });
         $("#"+gridName).datagrid("options").url = "";
         initGridMonthAnalysis();
+        $('#'+gridName).datagrid('reloadFooter',[]);
         //queryMonthAnalysis();
     });
 }
