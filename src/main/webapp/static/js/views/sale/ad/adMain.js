@@ -2,20 +2,18 @@
  * Created by zhaoly on 2017/8/21.
  */
 $(function () {
-
-
     //机构选择初始化
     initBranchGroup();
 
     if($("#pageStatus").val() == "add"){
-        $("#startTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-        $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-        $("#dailyStartTime").val("00:00:00");
-        $("#dailyEndTime").val("23:59:59");
+        $("#beginDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+        $("#overDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+        $("#beginTime").val("00:00:00");
+        $("#overTime").val("23:59:59");
 
-    }else if ($("#pageStatue").val() == "copy"){
+    }else if ($("#pageStatus").val() == "copy"){
         StrweekCheckDay($("#displayDay").val());
-    }else if($("#pageStatue").val() == "0"){
+    }else if($("#pageStatus").val() == "0"){
         StrweekCheckDay($("#displayDay").val());
     }else{
         StrweekCheckDay($("#displayDay").val());

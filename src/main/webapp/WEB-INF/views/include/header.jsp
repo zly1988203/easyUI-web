@@ -52,10 +52,10 @@ $(function(){
    document.onkeypress = banBackSpace;
    //对功能按键的获取
    document.onkeydown = banBackSpace;
+
 })
-	
-	
-window.addEventListener('message',function(e){
+
+    window.addEventListener('message',function(e){
 			window.onbeforeunload = null;
             window.location.replace('${ctx}');
         },false);
@@ -86,6 +86,7 @@ if(sessionSupplierCode && sessionSupplierName){
 	sessionSupplierCodeName = "["+sessionSupplierCode+"]"+sessionSupplierName;
 }
 var sessionSupplierDiliveCycle = '${sessionSupplier.diliveCycle}';
+
 </script>
 <script src="${ctx}/static/js/fun/priceGrant.js"></script>
 <!-- 导入 -->
@@ -94,3 +95,9 @@ var sessionSupplierDiliveCycle = '${sessionSupplier.diliveCycle}';
 <script src="${ctx}/static/libs/xlsx/excel.js"></script>
 <script  src="${ctx}/static/libs/xlsx/upfile.js"></script>
 <script src="${ctx}/static/js/views/retail/priceprint.js"></script>
+
+
+
+<script>
+
+</script>

@@ -169,32 +169,57 @@ img {
 				</div>
 			</div>
 
-			<div class="ub umar-10 umar-b30">
-				<div class="ub ub-ac umar-r20 ">
-					<div class="umar-r10 uw-60 ut-r">主图:</div>
-					<img id="mainImg" name="mainImg"
-						src="<c:out value="${detail[0].picUrl}"/>" onclick="imgUpload(event)" />
-				</div>
-			</div>
+		<div class="ub umar-10 umar-b30">
+		<div class="ub ub-ac umar-r20 ">
+		<div class="umar-r10 uw-60 ut-r">主图:</div>
+		<c:choose>
+			<c:when test="${detail[0].picUrl != null}">
+				<img id="mainImg" name="mainImg" src="<c:out value="${detail[0].picUrl}"/>" onclick="imgUpload(event)"/>
+			</c:when>
+			<c:otherwise>
+				<img id="mainImg" name="mainImg" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
+			</c:otherwise>
+		</c:choose>
 
-			<div class="ub umar-10">
-				<div class="ub ub-ac umar-r20">
-					<div class="umar-r10 uw-60 ut-r">次图:</div>
-					<img id="img1" name="imgs1" src="<c:out value="${detail[1].picUrl}"/>"
-						onclick="imgUpload(event)" />
-				</div>
+		</div>
+		</div>
 
-				<div class="ub ub-ac umar-r20">
-					<img id="img2" name="imgs2" src="<c:out value="${detail[2].picUrl}"/>"
-						onclick="imgUpload(event)" />
-				</div>
+		<div class="ub umar-10">
+		<div class="ub ub-ac umar-r20">
+		<div class="umar-r10 uw-60 ut-r">次图:</div>
+		<c:choose>
+			<c:when test="${detail[1].picUrl != null}">
+				<img id="img1" name="img1" src="<c:out value="${detail[1].picUrl}"/>" onclick="imgUpload(event)"/>
+			</c:when>
+			<c:otherwise>
+				<img id="img1" name="img1" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
+			</c:otherwise>
+		</c:choose>
+		</div>
 
-				<div class="ub ub-ac umar-r20">
-					<img id="img3" name="imgs3" src="<c:out value="${detail[3].picUrl}"/>"
-						onclick="imgUpload(event)" />
-				</div>
+		<div class="ub ub-ac umar-r20">
+		<c:choose>
+			<c:when test="${detail[2].picUrl != null}">
+				<img id="img2" name="img2" src="<c:out value="${detail[2].picUrl}"/>" onclick="imgUpload(event)"/>
+			</c:when>
+			<c:otherwise>
+				<img id="img2" name="img2" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
+			</c:otherwise>
+		</c:choose>
+		</div>
 
-			</div>
+		<div class="ub ub-ac umar-r20">
+		<c:choose>
+			<c:when test="${detail[3].picUrl != null}">
+				<img id="img3" name="img3" src="<c:out value="${detail[3].picUrl}"/>" onclick="imgUpload(event)"/>
+			</c:when>
+			<c:otherwise>
+				<img id="img3" name="img3" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
+			</c:otherwise>
+		</c:choose>
+		</div>
+
+		</div>
 
 		</div>
 		</form>

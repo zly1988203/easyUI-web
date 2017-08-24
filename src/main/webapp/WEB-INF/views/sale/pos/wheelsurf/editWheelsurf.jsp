@@ -20,7 +20,7 @@
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
 	<input type='hidden' id="formId" name="formId" value="${form.id}">
-	<input type='hidden' id="pageStatue" name="pageStatue" value="${form.auditStatus}">
+	<input type='hidden' id="pageStatus" name="pageStatus" value="${form.auditStatus}">
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
