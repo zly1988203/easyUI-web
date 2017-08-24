@@ -145,7 +145,6 @@ function initDatagridEditOrder(){
                 editor:{
                     type:'datebox',
                     options:{
-                        required:true,
                     	editable:false,
                     	formatter:function(date){
                     		var y = date.getFullYear();
@@ -167,7 +166,6 @@ function initDatagridEditOrder(){
                 editor:{
                     type:'datebox',
                     options:{
-                        required:true,
                     	editable:false,
                     	formatter:function(date){
                     		var y = date.getFullYear();
@@ -182,6 +180,9 @@ function initDatagridEditOrder(){
             },
             {field: 'distanceDay', title: '距到期天数', width: 70, align: 'right',
             	formatter:function(value,row,index){
+            		if($_jxc.isStringNull(value)){
+            			return '';
+            		}
             		return '<b>'+parseInt(value||0)+'</b>';
             	}
             },
@@ -204,7 +205,6 @@ function initDatagridEditOrder(){
         },
         onAfterEdit:function(rowIndex, rowData, changes){
             if(typeof(rowData.id) === 'undefined'){
-                // $("#"+gridName).datagrid('acceptChanges');
             }else{
                 if(editRowData.skuCode != changes.skuCode){
                     rowData.skuCode = editRowData.skuCode;
@@ -382,19 +382,15 @@ function selectGoods(searchKey){
 
 //保存
 function saveItemHandel(){
-
-    var isValid = $("#formAdd").form('validate');
-    if(!isValid){
-        return;
-    }
+    
     
     if(!$.trim($('#remark').val())){
     	$_jxc.alert("备注不能为空");
     	return;
     }
-
+   
     $("#overdueEditGrid").datagrid("endEdit", gridHandel.getSelectRowIndex());
-
+    
     var rows = gridHandel.getRowsWhere({skuName:'1'});
     $(gridHandel.getGridName()).datagrid("loadData",rows);
     if(rows.length==0){

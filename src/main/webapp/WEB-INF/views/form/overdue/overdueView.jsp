@@ -78,9 +78,31 @@
 	            {field:'barCode',title:'条码',width:'130px',align:'left'},
 	            {field:'unit',title:'单位',width:'60px',align:'left'},
 	            {field:'spec',title:'规格',width:'90px',align:'left'},
-	            {field:'applyNum',title:'数量',width:'80px',align:'right'},
-	            {field:'applyPrice',title:'单价',width:'80px',align:'right'},
-	            {field:'applyAmount',title:'金额',width:'80px',align:'right'},
+	            {field:'applyNum',title:'数量',width:'80px',align:'right',
+	            	formatter:function(value,row,index){
+	            		return '<b>'+parseInt(value||0)+'</b>';
+	            	}	
+	            },
+	            {field:'applyPrice',title:'单价',width:'80px',align:'right',
+	            	formatter:function(value,row,index){
+	            		return '<b>'+parseInt(value||0)+'</b>';
+	            	}	
+	            },
+	            {field:'applyAmount',title:'金额',width:'80px',align:'right',
+	            	formatter:function(value,row,index){
+	            		return '<b>'+parseInt(value||0)+'</b>';
+	            	}	
+	            },
+	            {field: 'productionDateStr', title: '生产日期', width: 120, align: 'center'},
+	            {field: 'expiryDateStr', title: '到期日期', width: 120, align: 'center'},
+	            {field: 'distanceDay', title: '距到期天数', width: 70, align: 'right',
+	            	formatter:function(value,row,index){
+	            		if($_jxc.isStringNull(value)){
+	            			return '';
+	            		}
+	            		return '<b>'+parseInt(value||0)+'</b>';
+	            	}
+	            },
 	            {field:'applyDesc',title:'申请说明',width:'200px',align:'left'},
 	            {field:'auditDesc',title:'处理意见',width:'200px',align:'left'}
 	        ]],

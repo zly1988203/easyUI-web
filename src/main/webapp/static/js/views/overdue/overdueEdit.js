@@ -1,15 +1,15 @@
 var hiddenEdit=true;
 var hiddenStatus;
 $(function(){
-	hiddenStatus = $("#hiddenStatus").val();
-	
+hiddenStatus = $("#hiddenStatus").val();
+
 	if($("#hiddenEdit").val()==="0") hiddenEdit=false;
-	    initDatagridEditOrder();
-	    $("div").delegate("button","click",function(){
-	    	$("p").slideToggle();
-	    });
-	    
-	});
+    initDatagridEditOrder();
+    $("div").delegate("button","click",function(){
+    	$("p").slideToggle();
+    });
+    
+});
 	var printReport = function(){
 		parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/form/overdue/edit/report/print?formNo="+$("#formNo").val());
 	}
@@ -156,12 +156,12 @@ $(function(){
 	                    if(row.isFooter){
 	                        return '';
 	                    }
-	                    return row.productionDateStr;
+	                    row.productionDate = new Date(value).format('yyyy-mm-dd');
+	                    return new Date(value).format('yyyy-mm-dd');
 	                },
 	                editor:{
 	                    type:'datebox',
 	                    options:{
-	                        required:true,
 	                    	editable:false,
 	                    	formatter:function(date){
 	                    		var y = date.getFullYear();
@@ -178,12 +178,12 @@ $(function(){
 	                    if(row.isFooter){
 	                        return '';
 	                    }
-	                    return row.expiryDateStr;
+	                    row.expiryDate = new Date(value).format('yyyy-mm-dd');
+	                    return new Date(value).format('yyyy-mm-dd');
 	                },
 	                editor:{
 	                    type:'datebox',
 	                    options:{
-	                        required:true,
 	                    	editable:false,
 	                    	formatter:function(date){
 	                    		var y = date.getFullYear();
@@ -198,6 +198,9 @@ $(function(){
 	            },
 	            {field: 'distanceDay', title: '距到期天数', width: 70, align: 'right',
 	            	formatter:function(value,row,index){
+	            		if($_jxc.isStringNull(value)){
+	            			return '';
+	            		}
 	            		return '<b>'+parseInt(value||0)+'</b>';
 	            	}
 	            },
