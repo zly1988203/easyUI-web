@@ -18,12 +18,15 @@ $(function(){
 	$('#branchComponent').branchSelect({
 		//ajax参数
 		param:{
-			branchTypesStr:$_jxc.branchTypeEnum.HEAD_QUARTERS + ',' + $_jxc.branchTypeEnum.BRANCH_COMPANY
-			+ ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+			branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+		},
+		//选择完成之后
+		onAfterRender:function(data){
+			$('#branchId').val(data.branchId);
 		}
 	});	
 	
-	//供应商选择初始化
+	//制单人选择初始化
 	$('#operatorComponent').operatorSelect({
 		//数据过滤
 		loadFilter:function(data){

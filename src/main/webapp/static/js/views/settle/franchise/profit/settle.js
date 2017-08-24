@@ -78,9 +78,11 @@ $(function(){
 
 //计算金额 本次收款金额
 function calulateMoney(newV,oldV){
-	$('#amount').val((parseFloat($('#amount').val()||0)+parseFloat(newV||0)).toFixed(2));
+	if(newV == ''){
+		$(this).numberbox('setValue',0);
+	}
+	$('#amount').val((parseFloat($('#profitOfCompany').val()||0)+parseFloat(newV||0)).toFixed(2));
 }
-
 
 $(document).on('input','#remark',function(){
 	var val=$(this).val();
@@ -241,7 +243,7 @@ function calAmount(){
 			$("#profit").val(parseFloat(result['profitAmount']).toFixed(2));
 			$("#profitOfCompany").val(parseFloat(result['targetProfitAmount']).toFixed(2));
 			$("#profitSupper").val(parseFloat(result['franchiseProfitAmount']).toFixed(2));
-			$("#amount").val((parseFloat($("#profitOfCompany").val()) + parseFloat($("#otherAmount").val())).toFixed(2));
+			$("#amount").val((parseFloat($("#profitOfCompany").val()||0) + parseFloat($("#otherAmount").val()||0)).toFixed(2));
 			
     		$("#"+gridName).datagrid("options").method = "post";
     		$("#"+gridName).datagrid("options").queryParams = paramsObj;

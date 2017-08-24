@@ -147,7 +147,7 @@ function getAccountColumns(){
 	            		return str;
                 	}
 				},
-				{field: 'settleTimeStart', title: '结算日期起', width: '120px', align: 'left',
+				{field: 'settleTimeStart', title: '结算日期起', width: '100px', align: 'left',
 					formatter: function (value, row, index) {
 						if(!value){
 							return '';
@@ -155,7 +155,7 @@ function getAccountColumns(){
 						return new Date(value).format('yyyy-MM-dd');
 					}
 				},
-				{field: 'settleTimeEnd', title: '结算日期止', width: '120px', align: 'left',
+				{field: 'settleTimeEnd', title: '结算日期止', width: '100px', align: 'left',
 					formatter: function (value, row, index) {
 						if(!value){
 							return '';
@@ -163,42 +163,42 @@ function getAccountColumns(){
 						return new Date(value).format('yyyy-MM-dd');
 					}
 				},
-				{field: 'saleCount', title: '销售数量', width: '80px', align: 'right',
+				{field: 'saleCount', title: '销售数量', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 					}
 				},
-				{field: 'saleAmount', title: '销售金额', width: '80px', align: 'right',
+				{field: 'saleAmount', title: '销售金额', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 					}
 				},
-				{field: 'costAmount', title: '成本金额', width: '80px', align: 'right',
+				{field: 'costAmount', title: '成本金额', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 					}
 				},
-				{field: 'profitAmount', title: '毛利金额', width: '80px', align: 'right',
+				{field: 'profitAmount', title: '毛利金额', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 					}
 				},
-				{field: 'targetProfitAmount', title: '公司所得毛利', width: '80px', align: 'right',
+				{field: 'targetProfitAmount', title: '公司所得毛利', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 					}
 				},
-				{field: 'franchiseProfitAmount', title: '加盟店所得毛利', width: '80px', align: 'right',
+				{field: 'franchiseProfitAmount', title: '加盟店所得毛利', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 					}
 				},
-				{field: 'otherAmount', title: '其他收款金额', width: '80px', align: 'right',
+				{field: 'otherAmount', title: '其他收款金额', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 					}
 				},
-				{field: 'totalAmount', title: '本次收款金额', width: '80px', align: 'right',
+				{field: 'totalAmount', title: '本次收款金额', width: '100px', align: 'right',
 					formatter: function (value, row, index) {
 						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 					}

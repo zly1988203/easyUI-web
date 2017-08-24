@@ -11,7 +11,14 @@ $(function() {
 	
 	initDatagridRequire();
 	//机构组件初始化
-	$('#branchSelect').branchSelect();
+	$('#branchSelect').branchSelect({
+    	param:{
+    		branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B+','+$_jxc.branchTypeEnum.FRANCHISE_STORE_C
+    	},
+    	onAfterRender:function(data){
+    		$('#branchId').val(data.branchId);
+    	}
+    });
 	
 });
 
@@ -62,7 +69,7 @@ function initDatagridRequire() {
       			{field: 'franchiseBranchCode', title: '机构编号', width: '140px', align: 'left'},
     			{field: 'franchiseBranchName', title: '机构名称', width: '140px', align: 'left'},
     			{field: 'franchiseAgentName', title: '经办人', width: '80px', align: 'left'},
-    			{field: 'franchiseAgentPhone', title: '联系电话', width: '80px', align: 'left'},
+    			{field: 'franchiseAgentPhone', title: '联系电话', width: '100px', align: 'left'},
     			{field: 'targetBranchName', title: '所属分公司', width: '80px', align: 'left'},
     			{field: 'validityTimeStart', title: '有效期起', width: '120px', align: 'center',
     				formatter: function (value, row, index) {
