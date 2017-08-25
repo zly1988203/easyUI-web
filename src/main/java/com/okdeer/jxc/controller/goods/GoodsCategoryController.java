@@ -107,10 +107,10 @@ public class GoodsCategoryController extends
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
 			//判断类别类型1.goodsTotal 商品汇总 2.categoryTotal 类别汇总
-			if("goodsTotal".equals(categoryType)) {
-				//qo.setCategoryLevel("3");
-				qo.setCategoryLevelList(Arrays.asList("3","4"));
-			}
+//			if("goodsTotal".equals(categoryType)) {
+//				//qo.setCategoryLevel("3");
+//				qo.setCategoryLevelList(Arrays.asList("3","4"));
+//			}
 			if("categoryTotal".equals(categoryType)) {
 				qo.setCategoryLevel("1");
 			}

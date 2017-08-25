@@ -135,7 +135,7 @@ public class ExcelReaderUtil {
 		LOG.warn("文件[{}]后缀名错误, 后缀名为=[{}]", fileName, postfix);
 		return Collections.emptyList();
 	}
-	
+
 	/**
 	 * @Description: 读取Excel，返回数据列表，自动判断格式 xls（2003），xlsx（2007）
 	 * @param fileName 文件名
@@ -149,15 +149,15 @@ public class ExcelReaderUtil {
 		if (StringUtils.isBlank(fileName)) {
 			return Collections.emptyList();
 		}
-		
+
 		// 根据文件名，获取文件后缀
 		String postfix = getSuffix(fileName);
-		
+
 		if (StringUtils.isBlank(postfix)) {
 			LOG.warn("文件名 [{}] suffix is empty", fileName);
 			return Collections.emptyList();
 		}
-		
+
 		// xls(2003)格式
 		if (OFFICE_EXCEL_2003_POSTFIX.equals(postfix)) {
 			return readXls(is, fields);
@@ -168,7 +168,6 @@ public class ExcelReaderUtil {
 		LOG.warn("文件[{}]后缀名错误, 后缀名为=[{}]", fileName, postfix);
 		return Collections.emptyList();
 	}
-	
 
 	/**
 	 * @Description: 读取Excel第一列的数据，并返回数据列表
@@ -301,7 +300,7 @@ public class ExcelReaderUtil {
 		}
 		return Collections.emptyList();
 	}
-	
+
 	/**
 	 * @Description: 读取xlsx 2007  格式的Excel，并返回List JSONObject数据
 	 * @param is	InputStream 文件流
@@ -312,13 +311,13 @@ public class ExcelReaderUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<JSONObject> readXlsx(InputStream is, String[] fields) {
-		
+
 		LOG.debug("读取Excel文件, 表头为={}", Arrays.toString(fields));
 		XSSFWorkbook workbook = null;
 		try {
 			workbook = new XSSFWorkbook(is);
 			JSONArray jArray = readSheet(workbook, fields);
-			
+
 			return JSONArray.toList(jArray, new JSONObject(), new JsonConfig());
 		} catch (IOException e) {
 			LOG.error("读取Excel文件出错:", e);
@@ -374,7 +373,7 @@ public class ExcelReaderUtil {
 
 			readCell(row, fields, jArray);
 		}
-		
+
 		// 读取表格后循环检查所有字段是否存在，不存在的补空，防止后面使用时报错
 		for (int i = 0; i < jArray.size(); i++) {
 			JSONObject jsonObject = jArray.getJSONObject(i);
@@ -390,6 +389,7 @@ public class ExcelReaderUtil {
 			}
 		}
 	}
+
 	/**
 	 * @Description: 读取单元格
 	 * @param row
@@ -400,12 +400,12 @@ public class ExcelReaderUtil {
 	 */
 	private static void readCell(Row row, String[] fields, JSONArray jArray) {
 		JSONObject json = null;
-		
+
 		boolean isBlankRow = true;
-		
+
 		// Read the Cell，循环遍历Excel单元格
 		for (int cellNum = 0; cellNum < fields.length; cellNum++) {
-			if (json == null){
+			if (json == null) {
 				json = new JSONObject();
 			}
 			Cell cell = row.getCell(cellNum);
@@ -413,15 +413,15 @@ public class ExcelReaderUtil {
 				continue;
 			}
 			Object content = getValue(cell);
-			
+
 			if (isBlankRow && ((content instanceof String && StringUtils.isNotBlank((String) content))
 					|| content instanceof Double)) {
 				isBlankRow = false;
 			}
-			
+
 			json.element(fields[cellNum], content);
 		}
-		
+
 		if (!isBlankRow && json != null && !json.isEmpty()) {
 			jArray.add(json);
 		}
@@ -573,7 +573,7 @@ public class ExcelReaderUtil {
 		}
 		return Collections.emptyList();
 	}
-	
+
 	/**
 	 * @Description: 读取xlsx 2003  格式的Excel，并返回List JSONObject数据
 	 * @param is
@@ -668,9 +668,9 @@ public class ExcelReaderUtil {
 		} else {
 			// 如果是纯数字
 			obj = cell.getNumericCellValue();
-			
-			//解决数字，默认加0的问题
-			if(cell.toString().endsWith(".0")){
+
+			// 解决数字，默认加0的问题
+			if (cell.toString().endsWith(".0")) {
 				obj = new DecimalFormat("#").format(Double.parseDouble(cell.toString()));
 			}
 		}
@@ -682,4 +682,126 @@ public class ExcelReaderUtil {
 		return obj;
 	}
 
+	/**
+	 * @Description: 读取xlsx 2003  格式的Excel，并返回List数据
+	 * @param is	InputStream 文件流
+	 * @param fields 标题字段名称
+	 * @param entity 实体类对象	
+	 * @return 实体类列表
+	 * @author liwb
+	 * @date 2016年8月31日
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> List<T> readXls(InputStream is, int beginSkip, int endSkip, int[] columns, String[] fields,
+			T entity) {
+		LOG.debug("读取Excel文件, 文件表头为={}, 数据实体为={}", Arrays.toString(fields), entity);
+		HSSFWorkbook workbook = null;
+		try {
+			workbook = new HSSFWorkbook(is);
+			JSONArray jArray = readSheet(workbook, beginSkip, endSkip, columns, fields);
+			return JSONArray.toList(jArray, entity, new JsonConfig());
+		} catch (IOException e) {
+			LOG.error("读取Excel文件出错:", e);
+		} finally {
+			closeIO(is, workbook);
+		}
+		return Collections.emptyList();
+	}
+
+	/**
+	 * @Description: 读取sheet
+	 * @param workbook
+	 * @param fields
+	 * @return
+	 * @author liwb
+	 * @date 2016年9月24日
+	 */
+	private static JSONArray readSheet(Workbook workbook, int beginSkip, int endSkip, int[] columns, String[] fields) {
+		JSONArray jArray = new JSONArray();
+
+		// sheet count
+		int sheetCount = workbook.getNumberOfSheets();
+
+		// Read the Sheet，循环遍历sheet页
+		for (int sheetNum = 0; sheetNum < sheetCount; sheetNum++) {
+			Sheet sheet = workbook.getSheetAt(sheetNum);
+			if (sheet == null) {
+				continue;
+			}
+
+			readRow(sheet, beginSkip, endSkip, columns, fields, jArray);
+		}
+
+		return jArray;
+	}
+
+	/**
+	 * @Description: 读取行
+	 * @param sheet
+	 * @param fields
+	 * @param jArray
+	 * @author liwb
+	 * @date 2016年9月24日
+	 */
+	private static void readRow(Sheet sheet, int beginSkip, int endSkip, int[] columns, String[] fields,
+			JSONArray jArray) {
+		int rowCount = sheet.getLastRowNum();
+		// Read the Row，循环遍历Excel行数,从第0行开始读取，第0行为标题，用于判断货号和条码，判断模板是否正确
+		for (int rowNum = beginSkip; rowNum <= rowCount - endSkip; rowNum++) {
+			Row row = sheet.getRow(rowNum);
+			if (row == null) {
+				continue;
+			}
+
+			readCell(row, columns, fields, jArray);
+		}
+
+		// 读取表格后循环检查所有字段是否存在，不存在的补空，防止后面使用时报错
+		for (int i = 0; i < jArray.size(); i++) {
+			JSONObject jsonObject = jArray.getJSONObject(i);
+			for (String columnName : fields) {
+				if (!jsonObject.containsKey(columnName)) {
+					jsonObject.element(columnName, "");
+				}
+			}
+		}
+	}
+
+	/**
+	 * @Description: 读取单元格
+	 * @param row
+	 * @param fields
+	 * @param jArray
+	 * @author liwb
+	 * @date 2016年9月24日
+	 */
+	private static void readCell(Row row, int[] columns, String[] fields, JSONArray jArray) {
+		JSONObject json = null;
+
+		boolean isBlankRow = true;
+
+		// Read the Cell，循环遍历Excel单元格
+		for (int cellNum = 0; cellNum < columns.length; cellNum++) {
+			if (json == null) {
+				json = new JSONObject();
+			}
+
+			Cell cell = row.getCell(columns[cellNum]);
+			if (cell == null) {
+				continue;
+			}
+			Object content = getValue(cell);
+
+			if (isBlankRow && ((content instanceof String && StringUtils.isNotBlank((String) content))
+					|| content instanceof Double)) {
+				isBlankRow = false;
+			}
+
+			json.element(fields[cellNum], content);
+		}
+
+		if (!isBlankRow && json != null && !json.isEmpty()) {
+			jArray.add(json);
+		}
+	}
 }

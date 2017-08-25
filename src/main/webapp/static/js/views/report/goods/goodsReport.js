@@ -172,14 +172,15 @@ function initDatagridOrders(){
 	            	 }
 	              },
 		          {field:'skuName',title:'商品名称'}, 
-		          {field:"barCode",title:"条码",sortable:true,tooltip:true,width:100},
-		          {field:"memoryCode",title:"助记码",sortable:true,tooltip:true,width:80},
-		          {field:"oneCategoryName",title:"商品一级类别",sortable:true,tooltip:true,width:80},
-		          {field:"category",title:"商品类别",sortable:true,tooltip:true,width:80},
-		          {field:"spec",title:"规格",sortable:true,tooltip:true,width:80},
-		          {field:"brand",title:"品牌",sortable:true,tooltip:true,width:80},
-		          {field:"unit",title:"库存单位",sortable:true,tooltip:true,width:60},
-		          {field:"purchaseSpec",title:"进货规格",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"barCode",title:"条码", width:110},
+		          {field:"deputyBarCode",title:"附加条码", width:110},
+		          {field:"memoryCode",title:"助记码", width:80},
+		          {field:"oneCategoryName",title:"商品一级类别", width:80},
+		          {field:"category",title:"商品类别", width:80},
+		          {field:"spec",title:"规格", width:80},
+		          {field:"brand",title:"品牌", width:80},
+		          {field:"unit",title:"库存单位", width:60},
+		          {field:"purchaseSpec",title:"进货规格", width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return parseFloat(value).toFixed(2);
@@ -187,7 +188,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }  
 		          },
-		          {field:"distributionSpec",title:"配送规格",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"distributionSpec",title:"配送规格", width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return parseFloat(value).toFixed(2);
@@ -195,12 +196,12 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }  
 		          },
-		          {field:"vaildity",title:"保质期天数",sortable:true,tooltip:true,width:80,align:'right'},
-		          {field:"originPlace",title:"产地",sortable:true,tooltip:true,width:80},
-		          {field:"supplier",title:"主供应商",sortable:true,tooltip:true,width:80},
-		          {field:"saleWay",title:"经营方式",sortable:true,tooltip:true,width:60,hidden:true},
-		          {field:"saleWayName",title:"经营方式",sortable:true,tooltip:true,width:60,align:'center'},
-		          {field:"supplierRate",title:"联营扣率/代销扣率",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"vaildity",title:"保质期天数", width:80,align:'right'},
+		          {field:"originPlace",title:"产地", width:80},
+		          {field:"supplier",title:"主供应商", width:80},
+		          {field:"saleWay",title:"经营方式", width:60,hidden:true},
+		          {field:"saleWayName",title:"经营方式", width:60,align:'center'},
+		          {field:"supplierRate",title:"联营扣率/代销扣率", width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return parseFloat(value).toFixed(2);
@@ -208,7 +209,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }
 		          },
-		          {field:"purchasePrice",title:"进货价",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"purchasePrice",title:"进货价", width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return parseFloat(value).toFixed(4);
@@ -216,7 +217,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }
 		          },
-		          {field:"salePrice",title:"零售价",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"salePrice",title:"零售价", width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return parseFloat(value).toFixed(4);
@@ -224,7 +225,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }
 		          },
-		          {field:"distributionPrice",title:"配送价",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"distributionPrice",title:"配送价", width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return parseFloat(value).toFixed(4);
@@ -232,7 +233,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }
 		          },
-		          {field:"wholesalePrice",title:"批发价",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"wholesalePrice",title:"批发价", width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return parseFloat(value).toFixed(4);
@@ -240,7 +241,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }
 		          },
-		          {field:"vipPrice",title:"会员价",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"vipPrice",title:"会员价", width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(row.vipPrice){
 		        			  return parseFloat(row.vipPrice).toFixed(4);
@@ -248,7 +249,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }	
 		          },
-		          {field:"status",title:"商品状态",sortable:true,tooltip:true,width:80,align:'center',
+		          {field:"status",title:"商品状态", width:80,align:'center',
 		        	  formatter : function(status){
 		        		  if(status){
 		        			  return status.value;
@@ -256,7 +257,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }	
 		          },
-		          {field:"pricingType",title:"计价方式",sortable:true,tooltip:true,width:80,align:'center',
+		          {field:"pricingType",title:"计价方式", width:80,align:'center',
 		        	  formatter : function(pricingType){
 		        		  if(pricingType){
 		        			  return pricingType.value;
@@ -265,7 +266,7 @@ function initDatagridOrders(){
 		        	  }
 
 		          },
-		          {field:"inputTax",title:"进项税率",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"inputTax",title:"进项税率", width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return (100*(parseFloat(value))).toFixed(2)+"%";
@@ -273,7 +274,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }
 		          },
-		          {field:"outputTax",title:"销项税率",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"outputTax",title:"销项税率", width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return (100*(parseFloat(value))).toFixed(2)+"%";
@@ -281,7 +282,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }
 		          },
-		          {field:"profitAmtRate",title:"毛利率",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"profitAmtRate",title:"毛利率", width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return (100*(parseFloat(value))).toFixed(2)+"%";
@@ -289,7 +290,7 @@ function initDatagridOrders(){
 		        		  return null;
 		        	  }	
 		          },
-		          {field:"safetyCoefficient",title:"安全系数",sortable:true,tooltip:true,width:80,align:'right',
+		          {field:"safetyCoefficient",title:"安全系数", width:80,align:'right',
 		        	  formatter : function(value,row,index){
 		        		  if(value){
 		        			  return ((parseFloat(value))).toFixed(2);

@@ -101,7 +101,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 
 	@Reference(version = "1.0.0", check = false)
 	private PurchaseFormServiceApi purchaseFormServiceApi;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	private GoodsBranchPriceServiceApi goodsBranchPriceService;
 
@@ -110,7 +110,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 
 	@Autowired
 	private OrderNoUtils orderNoUtils;
-	
+
 	@Reference(version = "1.0.0", check = false)
 	BranchesServiceApi branchesServiceApi;
 
@@ -119,7 +119,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	 */
 	@Reference(version = "1.0.0", check = false)
 	private BranchSpecServiceApi branchSpecServiceApi;
-	
+
 	/**
 	 * 跳转到新增采购单页面
 	 * @return
@@ -269,22 +269,22 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "orderEdit")
 	public String orderEdit(String formId, String report, HttpServletRequest request) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
-		
-		if(form == null){
+
+		if (form == null) {
 			String errorMsg = String.format("采购订单不存在或已删除！单据Id：%s", formId);
 			LOG.error(errorMsg);
 			request.setAttribute(ERROR_MSG, errorMsg);
 			return PAGE_500;
 		}
-		
-		//如果已删除
-		if(Disabled.INVALID.ordinal() == form.getDisabled().intValue() ){
+
+		// 如果已删除
+		if (Disabled.INVALID.ordinal() == form.getDisabled().intValue()) {
 			String errorMsg = String.format("采购订单已删除！单据Id：%s", formId);
 			LOG.error(errorMsg);
 			request.setAttribute(ERROR_MSG, errorMsg);
 			return PAGE_500;
 		}
-		
+
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus()) && form.getDealStatus() != null
@@ -308,7 +308,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			request.setAttribute("status", FormDealStatus.STOP.getLabel());
 			return "form/purchase/orderView";
 		}
-		
+
 		if (!UserUtil.getCurrBranchType().equals(BranchTypeEnum.HEAD_QUARTERS.getCode())) {
 			// 查询是否需要自动加载商品
 			BranchSpecVo vo = branchSpecServiceApi.queryByBranchId(UserUtil.getCurrBranchId());
@@ -331,17 +331,17 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "returnEdit")
 	public String returnEdit(String formId, String report, HttpServletRequest request) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
-		if(form == null){
+		if (form == null) {
 			LOG.error("采购订单数据为空：订单Id：{}", formId);
 			return "/error/500";
 		}
-		
-		//如果已删除
-		if(Disabled.INVALID.ordinal() == form.getDisabled().intValue() ){
+
+		// 如果已删除
+		if (Disabled.INVALID.ordinal() == form.getDisabled().intValue()) {
 			LOG.error("采购订已删除：订单Id：{}", formId);
 			return "/error/500";
 		}
-		
+
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
@@ -381,18 +381,18 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "receiptEdit")
 	public String receiptEdit(String formId, String report, HttpServletRequest request) {
 		PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
-		
-		if(form == null){
+
+		if (form == null) {
 			LOG.error("采购订单数据为空：订单Id：{}", formId);
 			return "/error/500";
 		}
-		
-		//如果已删除
-		if(Disabled.INVALID.ordinal() == form.getDisabled().intValue() ){
+
+		// 如果已删除
+		if (Disabled.INVALID.ordinal() == form.getDisabled().intValue()) {
 			LOG.error("采购订已删除：订单Id：{}", formId);
 			return "/error/500";
 		}
-		
+
 		request.setAttribute("form", form);
 		if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 			request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
@@ -480,14 +480,14 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		RespJson resp = new RespJson();
 		if (StringUtils.isNotBlank(formIds)) {
 			String[] arr = formIds.split(",");
-//			for (int i = 0; i < arr.length; i++) {
-//				resp = purchaseFormServiceApi.delete(arr[i], user.getId());
-//			}
+			// for (int i = 0; i < arr.length; i++) {
+			// resp = purchaseFormServiceApi.delete(arr[i], user.getId());
+			// }
 			try {
-                resp = purchaseFormServiceApi.deleteByIds(Arrays.asList(arr), user.getId());
-            } catch (BusinessException e) {
-                return RespJson.posBusinessError(e.getMessage());
-            }
+				resp = purchaseFormServiceApi.deleteByIds(Arrays.asList(arr), user.getId());
+			} catch (BusinessException e) {
+				return RespJson.posBusinessError(e.getMessage());
+			}
 		}
 		return resp;
 	}
@@ -537,6 +537,49 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	}
 
 	/**
+	 * @Description: 根据机构配置，获取采购订单详情信息
+	 * @param formId
+	 * @return
+	 * @author liwb
+	 * @date 2017年8月18日
+	 */
+	@RequestMapping(value = "getDetailListById", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<PurchaseFormDetailPO> getDetailListById(String formId) {
+		try {
+			PurchaseForm form = purchaseFormServiceApi.get(formId);
+			List<PurchaseFormDetailPO> list = null;
+			if (FormType.PA.equals(form.getFormType())) {
+				String branchId = form.getBranchId();
+				Branches branch = branchesServiceApi.getBranchInfoById(branchId);
+
+				// 取分公司数据
+				if (branch.getType() > 1) {
+					branchId = branch.getParentId();
+				}
+
+				BranchSpecVo branchSpec = branchSpecServiceApi.queryByBranchId(branchId);
+				// 允许采购收货取采购订单价格：0.否，1.是
+				if (branchSpec.getIsAllowPiGetPaPrice().intValue() == 0) {
+					list = purchaseFormServiceApi.getDetailAndPriceById(formId);
+				} else {
+					list = purchaseFormServiceApi.selectDetailById(formId);
+				}
+			} else {
+				list = purchaseFormServiceApi.selectDetailById(formId);
+			}
+
+			PageUtils<PurchaseFormDetailPO> page = new PageUtils<PurchaseFormDetailPO>(list);
+
+			return page;
+		} catch (Exception e) {
+			LOG.error("获取采购订单详情出错：", e);
+		}
+
+		return PageUtils.emptyPage();
+	}
+
+	/**
 	 * 保存单据和单据商品详情
 	 * @param validate
 	 * @param form
@@ -551,17 +594,17 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 
 		StopWatch sw = new StopWatch();
 		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
-		
-		//验证
+
+		// 验证
 		List<String> skuIds = new ArrayList<String>();
 		List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
 		for (PurchaseFormDetailVo detailVo : detailList) {
 			skuIds.add(detailVo.getSkuId());
 		}
 		sw.start("保存采购订单校验商品");
-		RespJson resp = saveValid(skuIds,formVo.getBranchId());
+		RespJson resp = saveValid(skuIds, formVo.getBranchId());
 		sw.stop();
-		if(!resp.isSuccess()){
+		if (!resp.isSuccess()) {
 			return resp;
 		}
 
@@ -606,9 +649,9 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
 
 			// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
-			if(BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0 
-			        && formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0){
-			    formDetail.setPriceBack(formDetail.getPrice());
+			if (BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0
+					&& formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0) {
+				formDetail.setPriceBack(formDetail.getPrice());
 			}
 			formDetail.setId(UUIDHexGenerator.generate());
 			formDetail.setFormId(formId);
@@ -634,7 +677,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "saveReturn", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson saveReturn(@RequestBody String jsonText) {
-		
+
 		try {
 			ReturnFormVo formVo = JSON.parseObject(jsonText, ReturnFormVo.class);
 
@@ -681,10 +724,11 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
 
 				// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
-	            if(formDetail.getPriceBack()==null || (BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0 
-	                    && formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0)){
-	                formDetail.setPriceBack(formDetail.getPrice());
-	            }
+				if (formDetail.getPriceBack() == null
+						|| (BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0 && formDetail.getPrice().compareTo(
+								formDetail.getPriceBack()) != 0)) {
+					formDetail.setPriceBack(formDetail.getPrice());
+				}
 				formDetail.setId(UUIDHexGenerator.generate());
 				formDetail.setFormId(formId);
 				formDetail.setCreateTime(now);
@@ -705,32 +749,31 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			LOG.error("保存采购退货异常：", e);
 		}
 		return RespJson.error("保存采购退货异常！");
-		
+
 	}
 
 	@RequestMapping(value = "saveReceipt", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson saveReceipt(@RequestBody String jsonText) {
-		
+
 		try {
 			ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
-			
-			//不是引用订单收货，需要验证
-			if(StringUtils.isNotBlank(formVo.getRefFormNo())){
+
+			// 不是引用订单收货，需要验证
+			if (StringUtils.isNotBlank(formVo.getRefFormNo())) {
 				List<String> skuIds = new ArrayList<String>();
 				List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
-				if(CollectionUtils.isNotEmpty(detailList)){
-				    for (PurchaseFormDetailVo detailVo : detailList) {
-				        skuIds.add(detailVo.getSkuId());
-				    }
+				if (CollectionUtils.isNotEmpty(detailList)) {
+					for (PurchaseFormDetailVo detailVo : detailList) {
+						skuIds.add(detailVo.getSkuId());
+					}
 				}
-				//RespJson resp = saveValid(skuIds,formVo.getBranchId());
+				// RespJson resp = saveValid(skuIds,formVo.getBranchId());
 				RespJson resp = validReceiptItem(skuIds, formVo.getRefFormId());
-				if(!resp.isSuccess()){
+				if (!resp.isSuccess()) {
 					return resp;
 				}
 			}
-
 
 			PurchaseForm form = new PurchaseForm();
 			BeanUtils.copyProperties(formVo, form);
@@ -769,10 +812,11 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
 
 				// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
-	            if(formDetail.getPriceBack() ==null ||(BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0 
-	                    && formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0)){
-	                formDetail.setPriceBack(formDetail.getPrice());
-	            }
+				if (formDetail.getPriceBack() == null
+						|| (BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0 && formDetail.getPrice().compareTo(
+								formDetail.getPriceBack()) != 0)) {
+					formDetail.setPriceBack(formDetail.getPrice());
+				}
 				formDetail.setId(UUIDHexGenerator.generate());
 				formDetail.setFormId(formId);
 				formDetail.setCreateTime(now);
@@ -792,7 +836,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		} catch (Exception e) {
 			LOG.error("保存采购收货异常：", e);
 		}
-		
+
 		return RespJson.error("保存采购收货异常");
 	}
 
@@ -809,14 +853,14 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	public RespJson updateOrder(@RequestBody String jsonText) {
 
 		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
-		//验证
+		// 验证
 		List<String> skuIds = new ArrayList<String>();
 		List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
 		for (PurchaseFormDetailVo detailVo : detailList) {
 			skuIds.add(detailVo.getSkuId());
 		}
-		RespJson resp = saveValid(skuIds,formVo.getBranchId());
-		if(!resp.isSuccess()){
+		RespJson resp = saveValid(skuIds, formVo.getBranchId());
+		if (!resp.isSuccess()) {
 			return resp;
 		}
 
@@ -838,10 +882,10 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
 
 			// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
-            if(BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0 
-                    && formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0){
-                formDetail.setPriceBack(formDetail.getPrice());
-            }
+			if (BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0
+					&& formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0) {
+				formDetail.setPriceBack(formDetail.getPrice());
+			}
 			formDetail.setId(UUIDHexGenerator.generate());
 			formDetail.setFormId(formId);
 			formDetail.setCreateTime(now);
@@ -869,19 +913,19 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	public RespJson updateReceipt(@RequestBody String jsonText) {
 
 		ReceiptFormVo formVo = JSON.parseObject(jsonText, ReceiptFormVo.class);
-		
-		//不是引用订单收货，需要验证
-		if(StringUtils.isNotBlank(formVo.getRefFormNo())){
+
+		// 不是引用订单收货，需要验证
+		if (StringUtils.isNotBlank(formVo.getRefFormNo())) {
 			List<String> skuIds = new ArrayList<String>();
 			List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
-            if(CollectionUtils.isNotEmpty(detailList)){
-                for (PurchaseFormDetailVo detailVo : detailList) {
-                    skuIds.add(detailVo.getSkuId());
-                }
-            }
-			//RespJson resp = saveValid(skuIds,formVo.getBranchId());
+			if (CollectionUtils.isNotEmpty(detailList)) {
+				for (PurchaseFormDetailVo detailVo : detailList) {
+					skuIds.add(detailVo.getSkuId());
+				}
+			}
+			// RespJson resp = saveValid(skuIds,formVo.getBranchId());
 			RespJson resp = validReceiptItem(skuIds, formVo.getRefFormId());
-			if(!resp.isSuccess()){
+			if (!resp.isSuccess()) {
 				return resp;
 			}
 		}
@@ -902,12 +946,12 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
 			BeanUtils.copyProperties(purchaseFormDetailVo, purchaseFormDetail);
-			
+
 			// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
-            if(BigDecimal.ZERO.compareTo(purchaseFormDetail.getPrice()) != 0 
-                    && purchaseFormDetail.getPrice().compareTo(purchaseFormDetail.getPriceBack()) != 0){
-                purchaseFormDetail.setPriceBack(purchaseFormDetail.getPrice());
-            }
+			if (BigDecimal.ZERO.compareTo(purchaseFormDetail.getPrice()) != 0
+					&& purchaseFormDetail.getPrice().compareTo(purchaseFormDetail.getPriceBack()) != 0) {
+				purchaseFormDetail.setPriceBack(purchaseFormDetail.getPrice());
+			}
 			purchaseFormDetail.setId(UUIDHexGenerator.generate());
 			purchaseFormDetail.setFormId(formId);
 			purchaseFormDetail.setCreateTime(now);
@@ -922,32 +966,34 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		RespJson respJson = purchaseFormServiceApi.update(form, list);
 		return respJson;
 	}
-    /***
-     * 
-     * @Description: 验证采购退货商品项
-     * @param skuIds
-     * @param formId
-     * @return
-     * @author xuyq
-     * @date 2017年5月12日
-     */
-    public RespJson validReceiptItem(List<String> skuIds, String formId) {
-        List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetailById(formId);
-        if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() > list.size()) || CollectionUtils.isEmpty(list)) {
-            return RespJson.error("已选采购单号，不允许添加其他商品");
-        }
-        Map<String, PurchaseFormDetailPO> tempMap = new HashMap<String, PurchaseFormDetailPO>();
-        for (PurchaseFormDetailPO pdPo : list) {
-            tempMap.put(pdPo.getSkuId(), pdPo);
-        }
-        for (String skuId : skuIds) {
-            PurchaseFormDetailPO pdPo = tempMap.get(skuId);
-            if (pdPo == null) {
-                return RespJson.error("已选采购单号，不允许添加其他商品");
-            }
-        }
-        return RespJson.success();
-    }
+
+	/***
+	 * 
+	 * @Description: 验证采购退货商品项
+	 * @param skuIds
+	 * @param formId
+	 * @return
+	 * @author xuyq
+	 * @date 2017年5月12日
+	 */
+	public RespJson validReceiptItem(List<String> skuIds, String formId) {
+		List<PurchaseFormDetailPO> list = purchaseFormServiceApi.selectDetailById(formId);
+		if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() > list.size())
+				|| CollectionUtils.isEmpty(list)) {
+			return RespJson.error("已选采购单号，不允许添加其他商品");
+		}
+		Map<String, PurchaseFormDetailPO> tempMap = new HashMap<String, PurchaseFormDetailPO>();
+		for (PurchaseFormDetailPO pdPo : list) {
+			tempMap.put(pdPo.getSkuId(), pdPo);
+		}
+		for (String skuId : skuIds) {
+			PurchaseFormDetailPO pdPo = tempMap.get(skuId);
+			if (pdPo == null) {
+				return RespJson.error("已选采购单号，不允许添加其他商品");
+			}
+		}
+		return RespJson.success();
+	}
 
 	/**
 	 * 修改单据
@@ -983,12 +1029,12 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		for (PurchaseFormDetailVo purchaseFormDetailVo : listVo) {
 			PurchaseFormDetail purchaseFormDetail = new PurchaseFormDetail();
 			BeanUtils.copyProperties(purchaseFormDetailVo, purchaseFormDetail);
-			
+
 			// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
-            if(BigDecimal.ZERO.compareTo(purchaseFormDetail.getPrice()) != 0 
-                    && purchaseFormDetail.getPrice().compareTo(purchaseFormDetail.getPriceBack()) != 0){
-                purchaseFormDetail.setPriceBack(purchaseFormDetail.getPrice());
-            }
+			if (BigDecimal.ZERO.compareTo(purchaseFormDetail.getPrice()) != 0
+					&& purchaseFormDetail.getPrice().compareTo(purchaseFormDetail.getPriceBack()) != 0) {
+				purchaseFormDetail.setPriceBack(purchaseFormDetail.getPrice());
+			}
 			purchaseFormDetail.setId(UUIDHexGenerator.generate());
 			purchaseFormDetail.setFormId(formId);
 			purchaseFormDetail.setCreateTime(now);
@@ -1018,21 +1064,21 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		StopWatch sw = new StopWatch();
 		PurchaseFormPO po = purchaseFormServiceApi.selectPOById(formId);
 		sw.start("审核采购订单校验商品");
-		if(po.getFormType().equals(FormType.PA)){
-			//所有商品ID
+		if (po.getFormType().equals(FormType.PA)) {
+			// 所有商品ID
 			List<String> skuIds = new ArrayList<String>();
 			List<PurchaseFormDetailPO> detailList = purchaseFormServiceApi.selectDetailById(formId);
 			for (PurchaseFormDetailPO detailVo : detailList) {
 				skuIds.add(detailVo.getSkuId());
 			}
-			
-			RespJson resp = saveValid(skuIds,po.getBranchId());
-			if(!resp.isSuccess()){
+
+			RespJson resp = saveValid(skuIds, po.getBranchId());
+			if (!resp.isSuccess()) {
 				return resp;
 			}
 		}
 		sw.stop();
-		
+
 		SysUser user = UserUtil.getCurrentUser();
 		RespJson respJson = RespJson.success();
 		try {
@@ -1046,7 +1092,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		LOG.debug(sw.prettyPrint());
 		return respJson;
 	}
-	
+
 	/**
 	 * @Description: 批量审核
 	 * @param formId
@@ -1058,25 +1104,25 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "batchCheck", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson batchCheck(String formIds, Integer status) {
-		
+
 		LOG.debug("单据Id列表：{}，审核状态：{}", formIds, status);
 		RespJson respJson = RespJson.success();
 		try {
-			if(StringUtils.isBlank(formIds)){
+			if (StringUtils.isBlank(formIds)) {
 				return RespJson.argumentError("单据Id不能为空！");
 			}
-			
-			if(status==null){
+
+			if (status == null) {
 				return RespJson.argumentError("审核状态不能为空！");
 			}
-			
+
 			String[] ids = formIds.split(",");
-			for(String id : ids){
+			for (String id : ids) {
 				respJson = purchaseFormServiceApi.check(id, FormStatus.enumValueOf(status), getCurrUserId());
-				if(!respJson.isSuccess()){
+				if (!respJson.isSuccess()) {
 					LOG.error("采购订单审核失败，订单Id：{},失败消息：{}", id, respJson.getMessage());
 					return respJson;
-				}else{
+				} else {
 					LOG.info("采购订单审核成功，订单Id：{}", id);
 				}
 			}
@@ -1137,13 +1183,15 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			replaceMap.put("refFormNo", form.getRefFormNo() != null ? form.getRefFormNo() : "");
 			// 供应商
 			replaceMap.put("_供应商名称", form.getSupplierName() != null ? form.getSupplierName() : "");
-			replaceMap.put("supplierName", form.getSupplierName() != null ? "["+form.getSupplierCode()+"]"+form.getSupplierName() : "");
+			replaceMap.put("supplierName",
+					form.getSupplierName() != null ? "[" + form.getSupplierCode() + "]" + form.getSupplierName() : "");
 			// 制单人员
 			replaceMap.put("_制单人员", form.getCreateUserName() != null ? form.getCreateUserName() : "");
 			replaceMap.put("createUserName", form.getCreateUserName() != null ? form.getCreateUserName() : "");
 			// 机构名称
 			replaceMap.put("_机构名称", form.getBranchName() != null ? form.getBranchName() : "");
-			replaceMap.put("branchName", form.getBranchName() != null ? "["+form.getBranchCode() +"]"+form.getBranchName() : "");
+			replaceMap.put("branchName",
+					form.getBranchName() != null ? "[" + form.getBranchCode() + "]" + form.getBranchName() : "");
 			// 下单日期
 			if (form.getCreateTime() != null) {
 				replaceMap.put("_下单日期", DateUtils.formatDate(form.getCreateTime(), "yyyy-MM-dd"));
@@ -1214,19 +1262,19 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			replaceMap.put("_机构详细地址", form.getBranchAddress() != null ? form.getBranchAddress() : "");
 			replaceMap.put("_送货地址", form.getBranchAddress() != null ? form.getBranchAddress() : "");
 			replaceMap.put("branchAddress", form.getBranchAddress() != null ? form.getBranchAddress() : "");
-			
+
 			// 付款期限
-			if (form.getPaymentTime() != null){
+			if (form.getPaymentTime() != null) {
 				replaceMap.put("paymentTime", DateUtils.formatDate(form.getPaymentTime(), "yyyy-MM-dd"));
 			}
 			replaceMap.put("saleWay", SaleWayEnum.getValue(form.getSaleWay()));
-			
+
 			// 交货期限
-			if (form.getDeliverTime() != null){
+			if (form.getDeliverTime() != null) {
 				replaceMap.put("_交货期限", DateUtils.formatDate(form.getDeliverTime(), "yyyy-MM-dd"));
 				replaceMap.put("deliverTime", DateUtils.formatDate(form.getDeliverTime(), "yyyy-MM-dd"));
 			}
-			
+
 			/**
 			 * added by zhangqin on 2016-12-01 14:36 end
 			 */
@@ -1237,7 +1285,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		}
 		return replaceMap;
 	}
-	
+
 	private Map<String, String> getPriceAccess() {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put(PriceConstant.PURCHASE_PRICE, "_人民币总金额大写,amountCN,_总金额,amount,_合计金额");
@@ -1287,7 +1335,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			String[] field = null;
 
 			if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-				field = new String[] { "skuCode", "realNum", "price",  "isGift" };
+				field = new String[] { "skuCode", "realNum", "price", "isGift" };
 			} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
 				field = new String[] { "barCode", "realNum", "price", "isGift" };
 			}
@@ -1334,7 +1382,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 
 								BigDecimal price = obj.getPrice();
 								// 非赠品才替换导入文件中的导入价格
-                                if (Constant.ZERO_STR.equals(obj.getIsGift()) && price != null) {
+								if (Constant.ZERO_STR.equals(obj.getIsGift()) && price != null) {
 									obj.setPurchasePrice(price);
 								}
 							}
@@ -1462,7 +1510,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			LOG.error("导出采购导入模板异常", e);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @Description: 采购订单保存验证
@@ -1470,42 +1518,42 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	 * @author zhangq
 	 * @date 2017年3月16日
 	 */
-	public RespJson saveValid(List<String> skuIds,String branchId){
-		//订单明细商品是否有停购或淘汰情况
+	public RespJson saveValid(List<String> skuIds, String branchId) {
+		// 订单明细商品是否有停购或淘汰情况
 		GoodsBranchPriceQo qo = new GoodsBranchPriceQo();
-		
-		//所有商品ID
+
+		// 所有商品ID
 		qo.setGoodsStoreSkuIds(skuIds);
-		
-		//机构ID
+
+		// 机构ID
 		qo.setBranchId(branchId);
-		
-		//其他参数
+
+		// 其他参数
 		qo.setPage(1);
 		qo.setRows(skuIds.size());
-		//查询商品信息
+		// 查询商品信息
 		PageUtils<GoodsBranchPriceVo> page = null;
-		Branches branch = branchesServiceApi.getBranchInfoById(branchId);//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
-		if(branch.getType()==3 || branch.getType()==4 || branch.getType()==5){
+		Branches branch = branchesServiceApi.getBranchInfoById(branchId);// 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
+		if (branch.getType() == 3 || branch.getType() == 4 || branch.getType() == 5) {
 			page = goodsBranchPriceService.queryBranchGoods(qo);
-		}else{
+		} else {
 			page = goodsBranchPriceService.queryBranchCompanyGoods(qo);
 		}
 		List<GoodsBranchPriceVo> list = page.getList();
-		
-		//处理结果
+
+		// 处理结果
 		StringBuilder sb = new StringBuilder();
 		for (GoodsBranchPriceVo branchGoodsVo : list) {
-			//停购
-			if("2".equals(branchGoodsVo.getStatus())){
-				sb.append(branchGoodsVo.getSkuName()+"["+branchGoodsVo.getSkuCode()+"]已停购；\n");
+			// 停购
+			if ("2".equals(branchGoodsVo.getStatus())) {
+				sb.append(branchGoodsVo.getSkuName() + "[" + branchGoodsVo.getSkuCode() + "]已停购；\n");
 			}
-			//淘汰
-			if("3".equals(branchGoodsVo.getStatus())){
-				sb.append(branchGoodsVo.getSkuName()+"["+branchGoodsVo.getSkuCode()+"]已淘汰；\n");
+			// 淘汰
+			if ("3".equals(branchGoodsVo.getStatus())) {
+				sb.append(branchGoodsVo.getSkuName() + "[" + branchGoodsVo.getSkuCode() + "]已淘汰；\n");
 			}
 		}
-		if(!sb.toString().equals("")){
+		if (!sb.toString().equals("")) {
 			return RespJson.error(sb.toString());
 		}
 		return RespJson.success();

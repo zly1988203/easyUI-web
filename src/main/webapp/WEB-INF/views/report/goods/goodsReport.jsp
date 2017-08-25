@@ -54,11 +54,20 @@
 					<div class="umar-r10 uw-60 ut-r">货号:</div>
 					<input type="text" name="skuCode" id="skuCode" class="uinp" placeholder="输入货号、条码" maxlength="20"/>
 				</div>
-				<div class="ub ub-ac umar-r40">
+				<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">品牌:</div>
 					<input type="text" name="brandName" id="brandName" class="uinp" maxlength="50" onblur="brandAutoComple()" onkeyup="brandAutoComple()" />
 					<input type="hidden" name="brandId" id="brandId" class="uinp" maxlength="50" />
 					<div class="uinp-more" onclick="searchBind()">...</div>
+				</div>
+				
+				<div class="ub ub-ac umar-r40">
+					<div class="umar-r10 uw-60 ut-r">一品多码:</div>
+					<select name="barCodeType" id="barCodeType" class="uselect" style="width: 204px;">
+                        <option value="1">只显示主条码</option>
+                        <option value="0">一品多码商品</option>
+                        <option value="">全部</option>
+                    </select>
 				</div>
 			</div>
 			<div class="ub umar-t8">

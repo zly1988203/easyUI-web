@@ -124,6 +124,11 @@ function initCashDailyallGrid(queryType) {
 					return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
                 },
             },
+            {field: 'zzt', title: 'HS深圳通', width:120, align: 'right',rowspan:2,
+            	formatter : function(value, row,index) {
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	},
+            },
             {field: 'qt', title: '其他', width:120, align: 'right',rowspan:2,
 				formatter : function(value, row,index) {
 					return getTwoDecimalB(parseFloat(value||0.00).toFixed(2));
@@ -234,6 +239,11 @@ function initCashDailymdGrid(queryType) {
 				formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
+            },
+            {field: 'zzt', title: 'HS深圳通', width:120, align: 'right',rowspan:2,
+            	formatter : function(value, row,index) {
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	},
             },
             {field: 'qt', title: '其他', width:120, align: 'right',rowspan:2,
 				formatter : function(value, row,index) {
@@ -355,6 +365,11 @@ function initCashDailydateGrid(queryType) {
 				formatter : function(value, row,index) {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
+            },
+            {field: 'zzt', title: 'HS深圳通', width:120, align: 'right',rowspan:2,
+            	formatter : function(value, row,index) {
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	},
             },
             {field: 'qt', title: '其他', width:120, align: 'right',rowspan:2,
 				formatter : function(value, row,index) {

@@ -184,10 +184,14 @@ function changeStatus() {
 }
 
 var gridHandel = new GridClass();
+
+var gridName = "gridOrders";
+var dg;
+
 // 初始化表格
 function initDatagridOrders() {
 	gridHandel.setGridName("gridOrders");
-	$("#gridOrders").datagrid({
+	dg = $("#"+gridName).datagrid({
 		// title:'普通表单-用键盘操作',
 		method : 'post',
 		align : 'center',
@@ -257,25 +261,10 @@ function initDatagridOrders() {
 			width : 100,
 			align : 'left'
 		}, {
-			field : 'status',
+			field : 'statusDesc',
 			title : '商品状态',
 			width : 100,
-			align : 'left',
-			formatter : function(value, row, index) {
-				if (value == '0') {
-					return '正常';
-				} else if (value == '1') {
-					return '停售';
-				} else if (value == '2') {
-					return '停购';
-				} else if (value == '3') {
-					return '淘汰';
-				} else if (!value) {
-					return '未引入';
-				} else {
-					return '未知类型：' + value;
-				}
-			}
+			align : 'left'
 		}, {
 			field : 'purchaseSpec',
 			title : '进货规格',
@@ -293,17 +282,10 @@ function initDatagridOrders() {
 				return formatTwoDecimal(value);
 			}
 		},{
-			field : 'fastDeliver',
+			field : 'fastDeliverStr',
 			title : '是否直送商品',
 			width : 100,
-			align : 'center',
-			formatter : function(value, row, index) {
-				if(value){
-					return '是';
-				}else{
-					return '否';
-				}
-			}
+			align : 'center'
 		},{
 			field : 'salePrice',
 			title : '零售价',
@@ -326,16 +308,10 @@ function initDatagridOrders() {
 			width : 100,
 			align : 'left'
 		},{
-			field : 'updateTime',
+			field : 'updateTimeStr',
 			title : '操作时间',
 			width : 120,
-			align : 'left',
-			formatter: function (value, row, index) {
-                if (value) {
-                	return new Date(value).format('yyyy-MM-dd hh:mm:ss');
-                }
-                return "";
-            }
+			align : 'left'
 		} ] ],
 		onLoadSuccess : function() {
 			gridHandel.setDatagridHeader("center");
@@ -353,6 +329,9 @@ function cleanLeftParam() {
 }
 
 function query() {
+	//搜索需要将左侧查询条件清除
+	$("#startCount").val('');
+	$("#endCount").val('');
 	// 去除左侧选中值
 	cleanLeftParam();
 	// 去除左侧选中样式
@@ -668,5 +647,32 @@ function toImportproduct(type){
     new publicUploadFileService(function(data){
     	$("#gridOrders").datagrid("loadData",data);
     },param)
+}
+
+
+/**
+ * 导出
+ */
+function exportData(){
+	var length = $("#"+gridName).datagrid('getData').rows.length;
+	if(length == 0){
+		$_jxc.alert("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,   
+	    left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+// 调用导出方法
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
+
+	$("#queryForm").attr("action",contextPath+"/branch/goods/exportHandel");
+	$("#queryForm").submit();
 }
 

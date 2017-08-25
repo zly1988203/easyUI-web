@@ -9,7 +9,7 @@
 	
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-	<script src="${ctx}/static/js/views/report/pricing/pricingQuery.js?V=${versionNo}"></script>
+	<script src="${ctx}/static/js/views/report/pricing/pricingQuery.js?V=${versionNo}2"></script>
 	
 	<style>
 		.datagrid-header-row .datagrid-cell{text-align: center!important;}
@@ -24,7 +24,7 @@
 	            <shiro:hasPermission name="JxcPricingQuery:search">
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 	            </shiro:hasPermission>
-	            <shiro:hasPermission name="JxcPricingQuery:export">
+	            <shiro:hasPermission name="JxcPricingQuery:exportDetail">
 	            	<input type="hidden" id="startCount" name="startCount" />
 					<input type="hidden" id="endCount" name="endCount" />
 	                <div class="ubtns-item" onclick="exportData()">导出</div>

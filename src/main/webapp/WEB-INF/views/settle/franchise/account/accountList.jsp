@@ -80,6 +80,11 @@
                                 <input  type="radio" name="type" value="6"  onclick="initfraAcountList()"/><span>预收账款明细</span>
                             </label>
                         </div>
+                        <div class="ub ub-ac umar-r10">
+                            <label>
+                                <input  type="radio" name="type" value="7"  onclick="initfraAcountList()"/><span>加盟店毛利明细</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             

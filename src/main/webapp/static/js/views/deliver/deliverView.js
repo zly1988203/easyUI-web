@@ -29,11 +29,13 @@ function initDatagridViewRequireOrder(){
             {field:'skuCode',title:'货号',width:'70px',align:'left'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
             {field:'barCode',title:'条码',width:'130px',align:'left'},
+            {field:'carryNum',title:'在途数量',width:'80px',align:'left'},
 			{field:'unit',title:'单位',width:'60px',align:'left'},
 			{field:'spec',title:'规格',width:'90px',align:'left'},
 			/*{field:'twoCategoryCode',title:'类别编号',width:'90px',align:'left'},
 			{field:'twoCategoryName',title:'类别名称',width:'90px',align:'left'},*/
             {field:'distributionSpec',title:'配送规格',width:'80px',align:'left'},
+            {field:'purchaseSpec',title:'进货规格',width:'90px',align:'left'},
 
             // {field: 'daySaleNum', title: '周销售量', width: '80px', align: 'right',
             //     formatter: function (value, row, index) {
@@ -90,6 +92,14 @@ function initDatagridViewRequireOrder(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
+			{field:'salePrice',title:'零售价',width:'80px',align:'right',
+				formatter : function(value, row, index) {
+					if(row.isFooter){
+						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					}
+					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				},
+			},
             {field:'inputTax',title:'税率',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
@@ -107,7 +117,7 @@ function initDatagridViewRequireOrder(){
                     return  '<b>'+parseFloat(taxAmountVal||0).toFixed(2)+'</b>';
                 }
             },
-			{field:'sourceStock',title:'目标库存',width:'80px',align:'right',
+			{field:'sourceStock',title:'发货机构库存',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
 						return ;
