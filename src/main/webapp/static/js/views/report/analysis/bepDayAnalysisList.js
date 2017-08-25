@@ -5,8 +5,8 @@
 var  costTitle = '开店成本(每月均摊)';
 $(function () {
     initGridDayAnalysis();
-    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",1));
+    $("#txtEndDate").val(dateUtil.getCurrDayPreOrNextDay("prev",1));
     
     changeStatus();
 })
@@ -105,7 +105,7 @@ function initGridDayAnalysis() {
                      if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
                          return '';
                      }
-                     return '<b>'+parseFloat(value||0).toFixed(4)*100+'%</b>';
+                     return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'</b>';
                  },
             },
             {field:'lastMonthCost',title:'上月成本小计',width:"120px",align:'right',
