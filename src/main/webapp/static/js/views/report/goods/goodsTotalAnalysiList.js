@@ -90,36 +90,36 @@ function resetCondition(){
 
 //类别开启
 function categoryOn(){
-    $("#categoryCode").removeClass("uinp-no-more");
-	$("#categorySelect").attr("onclick","searchCategory()");
-    $("#categoryCode").removeAttr("readonly");
+    $("#categoryName").removeClass("uinp-no-more");
+	$("#categorySelect").prop("onclick","searchCategory()");
+    $("#categoryName").removeProp("readonly");
 }
 //类别禁用
 function categoryOff(){
-    $("#categoryCode").addClass("uinp-no-more");
-	$("#categorySelect").removeAttr("onclick");
-	$("#categoryCode").attr("readonly","readonly");
-	$("#categoryCode").val("");
+    $("#categoryName").addClass("uinp-no-more");
+	$("#categorySelect").removeProp("onclick");
+	$("#categoryName").prop("readonly","readonly");
+	$("#categoryName").val("");
 }
 //商品名称开
 function skuNameOn(){
 	 $("#skuName").removeClass("uinp-no-more");
-	 $("#skuName").removeAttr("readonly");
+	 $("#skuName").removeProp("readonly");
 }
 //关
 function skuNameOff(){
-	$("#skuName").attr("readonly","readonly");
+	$("#skuName").prop("readonly","readonly");
     $("#skuName").addClass("uinp-no-more");
     $("#skuName").val('');
 }
 //货号开启
 function skuCodeOrBarCodeOn(){
     $("#skuCodeOrBarCode").removeClass("uinp-no-more");
-	$("#skuCodeOrBarCode").removeAttr("readonly");
+	$("#skuCodeOrBarCode").removeProp("readonly");
 }
 
 function supplierNameOff() {
-    $("#supplierName").attr("readonly","readonly");
+    $("#supplierName").prop("readonly","readonly");
     $("#supplierName").addClass("uinp-no-more");
     $("#supplierName").val('');
 
@@ -127,13 +127,13 @@ function supplierNameOff() {
 
 function supplierNameOn() {
     $("#supplierName").removeClass("uinp-no-more");
-    $("#supplierName").removeAttr("readonly");
+    $("#supplierName").removeProp("readonly");
 }
 
 
 //货号禁用
 function skuCodeOrBarCodeOff(){
-	$("#skuCodeOrBarCode").attr("readonly","readonly");
+	$("#skuCodeOrBarCode").prop("readonly","readonly");
     $("#skuCodeOrBarCode").addClass("uinp-no-more");
     $("#skuCodeOrBarCode").val("");
 }
@@ -509,8 +509,8 @@ function purchaseTotalCx(){
 			return ;
 		}
 	}*/
-	$("#startCount").attr("value",null);
-	$("#endCount").attr("value",null);
+	$("#startCount").prop("value",null);
+	$("#endCount").prop("value",null);
 	var formData = $("#queryForm").serializeObject();
 	$("#goodsTotalAnalysi").datagrid("options").url = "";
 	$('#goodsTotalAnalysi').datagrid({showFooter:true});
@@ -565,7 +565,7 @@ function exportExcel(){
 		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
 		return;
 	}
-	$("#queryForm").attr("action",contextPath+'/report/goodsTotalAnalysi/exportGoodsAnalsisExcel');
+	$("#queryForm").prop("action",contextPath+'/report/goodsTotalAnalysi/exportGoodsAnalsisExcel');
 	$("#queryForm").submit();	
 }
 /**
@@ -587,9 +587,8 @@ function searchCategory(){
 			categoryType:categoryType
 	}
 	new publicCategoryService(function(data){
-		console.info(data);
-//		$("#categoryCode").val(data.categoryCode);
-		$("#categoryCode").val(data.categoryName);
+		$("#categoryCode").val(data.categoryCode);
+		$("#categoryName").val(data.categoryName);
 	},param);
 }
 /**

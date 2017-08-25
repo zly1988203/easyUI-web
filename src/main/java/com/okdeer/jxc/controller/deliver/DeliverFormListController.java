@@ -21,12 +21,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.entity.Branches;
+import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
+import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.enums.DeliverAuditStatusEnum;
 import com.okdeer.jxc.common.utils.BigDecimalUtils;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.form.deliver.entity.DeliverForm;
 import com.okdeer.jxc.form.deliver.entity.DeliverFormGoods;
 import com.okdeer.jxc.form.deliver.entity.DeliverFormList;
 import com.okdeer.jxc.form.deliver.service.DeliverFormServiceApi;
@@ -60,6 +66,12 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 	
 	@Reference(version = "1.0.0", check = false)
 	private DeliverFormServiceApi deliverFormService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private BranchesServiceApi branchService;
+	
+	@Reference(version = "1.0.0", check = false)
+	private BranchSpecServiceApi branchSpecService;
 
 	/**
 	 * @Description: 引入单据明细查询，单价查询
@@ -108,9 +120,15 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 			vo.setPageNumber(1);
 			vo.setPageSize(999999);
 			LOG.debug("vo:{}", vo.toString());
+			
+			// 允许要货单审核后按类别排序
+			if(FormType.DA.name().equals(vo.getDeliverType())){
+				Integer isAllowDaAuditSort = buildIsAllowDaAuditSortParam(vo.getDeliverFormId());
+				vo.setIsAllowDaAuditSort(isAllowDaAuditSort);
+			}
+			
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi
 					.getDeliverFormListsAndStockByIdOrFormNo(vo);
-			LOG.debug("page:{}", deliverFormLists.toString());
 			long end = System.currentTimeMillis();
 			LOG.debug("配送查询明细所用时间:{}", (end - start));
 			return deliverFormLists;
@@ -118,6 +136,34 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 			LOG.error("要货单查询明细数据出现异常", e);
 		}
 		return PageUtils.emptyPage();
+	}
+	
+	
+	/**
+	 * @Description: 允许要货单审核后按类别排序 参数
+	 * @param formId
+	 * @return
+	 * @author liwb
+	 * @date 2017年8月18日
+	 */
+	private Integer buildIsAllowDaAuditSortParam(String formId){
+		DeliverForm deliverForm = deliverFormService.queryDeliverFormById(formId);
+		
+		if(!DeliverAuditStatusEnum.CHECK_SUCCESS.getName().equals(deliverForm.getStatus())){
+			return null;
+		}
+		
+		Branches branch = branchService.getBranchInfoById(deliverForm.getTargetBranchId());
+		
+		// 取分公司Id
+		String branchId = branch.getBranchId();
+		if(branch.getType()>1){
+			branchId = branch.getParentId();
+		}
+		
+		BranchSpecVo branchSpec = branchSpecService.queryByBranchId(branchId);
+		
+		return branchSpec.getIsAllowDaAuditSort();
 	}
 
 	/**

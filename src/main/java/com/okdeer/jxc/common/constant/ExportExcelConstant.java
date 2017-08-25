@@ -244,6 +244,9 @@ public interface ExportExcelConstant {
 	
 	/*** 门店目标计划环比导出模板  */
 	String STORE_PLAN_MOM_REPORT_TEMPLATE = "storePlanMoMReportTemplate.xlsx";
+	
+	/*** 商品引入导出模板  */
+	String BRANCH_GOODS_EXPORT_TEMPLATE = "branchGoodsExportTemplate.xlsx";
 
 	/**
 	 * 成本调价单导出模板
@@ -738,6 +741,10 @@ public interface ExportExcelConstant {
 	 * 加盟店预收账款明细
 	 */
 	String FRANCHISE_ACCOUNT6 = "FranchiseAccount6.xlsx";
+	/**
+	 * 加盟店毛利明细
+	 */
+	String FRANCHISE_ACCOUNT7 = "FranchiseAccount7.xlsx";
 
 	/**
 	 * 到期账款

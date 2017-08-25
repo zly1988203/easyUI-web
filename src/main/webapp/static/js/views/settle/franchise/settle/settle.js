@@ -151,6 +151,8 @@ function initSupChkAcoAdd(){
                     	str = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'加盟店预收款明细\',\''+ contextPath +'/settle/franchiseCharge/advanceView?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
                     }else if(row.targetFormType == 'FO'){
                     	str = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'加盟店费用明细\',\''+ contextPath +'/settle/franchiseCharge/chargeView?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
+                    }else if(row.targetFormType == 'FG'){
+                    	str = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'加盟店毛利结算明细\',\''+ contextPath +'/settle/franchiseProfitSettle/settleEdit?id='+ row.targetFormId +'\')">' + (value||"") + '</a>';
                     }
             		return str;
             	}

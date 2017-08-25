@@ -74,6 +74,16 @@
 						<label><input type="radio" id="isAllowRefOverdueForm1" name="isAllowRefOverdueForm" value="1" checked="checked"/><span>启用</span></label>
 					</div>
 				</div>
+				
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r">采购收货取采购订单价格：</div>
+					<div class="ub uw-110 ub-ac umar-r10">
+						<label><input type="radio" id="isAllowPiGetPaPrice0" name="isAllowPiGetPaPrice" value="0" /><span>不启用</span></label>
+					</div>
+					<div class="ub uw-110 ub-ac umar-r10">
+						<label><input type="radio" id="isAllowPiGetPaPrice1" name="isAllowPiGetPaPrice" value="1" checked="checked"/><span>启用</span></label>
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -118,6 +128,7 @@
 		var isSupplierCascadeGoodsPr = data.isSupplierCascadeGoodsPr;
 		var isSupplierCascadeGoodsPm = data.isSupplierCascadeGoodsPm;
 		var isAllowRefOverdueForm = data.isAllowRefOverdueForm;
+		var isAllowPiGetPaPrice = data.isAllowPiGetPaPrice;
 		
 		//页面赋值
 		$("#branchId").val(branchId);
@@ -149,6 +160,13 @@
 			$("#isAllowRefOverdueForm1").attr("checked","true");
 		}else{
 			$("#isAllowRefOverdueForm0").attr("checked","true");
+		}
+		
+		//采购设置：允许采购收货取采购订单价格：0.否，1.是
+		if(isAllowPiGetPaPrice == 1){
+			$("#isAllowPiGetPaPrice1").attr("checked","true");
+		}else{
+			$("#isAllowPiGetPaPrice0").attr("checked","true");
 		}
 		
 		changeIsSupplierCascadeGoods();

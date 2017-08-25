@@ -162,9 +162,6 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 				// 2、查询合计
 				CashDailyReportVo cashDailyReportVo = cashDailyReportService.queryCashDailyReportSum(qo);
 				cashDailyReportVo.setBranchCode("合计");
-				if (CollectionUtils.isEmpty(list)) {
-					list = new ArrayList<CashDailyReportVo>();
-				}
 				list.add(cashDailyReportVo);
 				String fileName = "收银日报" + "_" + DateUtils.getCurrSmallStr();
 				

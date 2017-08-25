@@ -20,7 +20,7 @@
 			<div class="ubtns-item" onclick="toClose()">关闭</div>
 		</div>
 	</div>
-	<div class="ub ub-ver ub-f1 umar-4 ubor upad-10">
+	<div class="ub ub-ver ub-f1 umar-4 upad-10">
 		<div class="ub ub-ver">
 			<form id="settingForm" action="${ctx}/branchSetting/save" method="post">
 				<input type="hidden" id="branchId" name="branchId">
@@ -29,6 +29,17 @@
 					<div class="umar-r10 uw-60 ut-r">有效天数:</div>
 					<div class="ub ub-ac umar-r10">
 						<input type="text" class="easyui-numberbox " name="validityDay" id="validityDay" data-options="min:0,precision:0">
+					</div>
+				</div>
+				<div class="ub ub-ac upad-16 ">
+					<div class="ub uw-220 ut-r ">要货单审核后按类别排序:</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isAllowDaAuditSort0" name="isAllowDaAuditSort" value="0" />
+						<label for="isAllowDaAuditSort0">不启用</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="ub" type="radio" id="isAllowDaAuditSort1" name="isAllowDaAuditSort" value="1" />
+						<label for="isAllowDaAuditSort1">启用</label>
 					</div>
 				</div>
 				<div class="ub ub-ac upad-16 ">
@@ -248,6 +259,7 @@
 		var isAllowPmRefPa= data.isAllowPmRefPa;
 		var isAllowPmGenerPa= data.isAllowPmGenerPa;
 		var isAllowDoGenerDa= data.isAllowDoGenerDa;
+		var isAllowDaAuditSort= data.isAllowDaAuditSort;
 
 		//页面赋值
 		$("#branchId").val(branchId);
@@ -325,6 +337,12 @@
 			$("#isAllowDoGenerDa0").attr("checked", "true");
 		} else {
 			$("#isAllowDoGenerDa1").attr("checked", "true");
+		}
+		
+		if (isAllowDaAuditSort === null || isAllowDaAuditSort === 0 || isAllowDaAuditSort === '') {
+			$("#isAllowDaAuditSort0").attr("checked", "true");
+		} else {
+			$("#isAllowDaAuditSort1").attr("checked", "true");
 		}
 
 	}

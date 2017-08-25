@@ -154,14 +154,14 @@ function initgridAddPosAct() {
                     }
                 },
             },
-            {field:'winNum',title:'奖品总份数',width:'150px',align:'right',
+            {field:'prizeCopies',title:'奖品总份数',width:'150px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0)+'</b>';
                     }
 
                     if(!value){
-                        row["winNum"] = parseFloat(value||0);
+                        row["prizeCopies"] = parseFloat(value||0);
                     }
 
                     return '<b>'+parseFloat(value||0)+'</b>';

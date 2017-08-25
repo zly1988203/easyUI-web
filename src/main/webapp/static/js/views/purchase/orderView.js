@@ -179,6 +179,18 @@ function initDatagridEditOrder(){
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
+            {field:'bigCategory',title:'一级类别',width:'120px',align:'left',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return;
+            		}
+            		var str = "";
+            		if(row.bigCategoryCode && row.bigCategoryName){
+            			str = "["+row.bigCategoryCode + "]" + row.bigCategoryName;
+            		}
+            		return str;
+            	},
+            },
             {field:'remark',title:'备注',width:'200px',align:'left'}
         ]],
         onLoadSuccess : function() {

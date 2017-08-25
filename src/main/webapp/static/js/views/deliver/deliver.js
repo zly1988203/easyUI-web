@@ -212,11 +212,23 @@ function initDatagridRequireOrder(){
                     return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
                 }
             },
+            {field: 'carryNum', title: '在途数量', width: '80px', align: 'right',
+                formatter: function (value, row, index) {
+                    if (row.isFooter) {
+                        return
+                    }
+                    if (!row.carryNum) {
+                        row.carryNum = parseFloat(value || 0).toFixed(2);
+                    }
+                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
+                }
+            },
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
             /*{field:'twoCategoryCode',title:'类别编号',width:'90px',align:'left'},
             {field:'twoCategoryName',title:'类别名称',width:'90px',align:'left'},*/
             {field:'distributionSpec',title:'配送规格',width:'90px',align:'left'},
+            {field:'purchaseSpec',title:'进货规格',width:'90px',align:'left'},
 
             {field: 'daySaleNum', title: '周销售量', width: '80px', align: 'right',
                 formatter: function (value, row, index) {
@@ -331,6 +343,19 @@ function initDatagridRequireOrder(){
 //                        onChange: onChangeAmount,
                     }
                 }
+            },
+            {field:'salePrice',title:'零售价',width:'80px',align:'right',
+            	formatter : function(value, row, index) {
+            		if(row.isFooter){
+            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		}
+            		
+            		if(!row.salePrice){
+            			row.salePrice = parseFloat(value||0).toFixed(2);
+            		}
+            		
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	}
             },
             {field:'isGift',title:'赠送',width:'80px',align:'left',
                 formatter:function(value,row){
@@ -745,6 +770,7 @@ function selectStockAndPrice(data,fromClick){
                     data[i].alreadyNum = obj.alreadyNum;
                     data[i].daySaleNum = obj.daySaleNum;
                     data[i].monthSaleNum = obj.monthSaleNum;
+                    data[i].carryNum = obj.carryNum;
                 }
             })
         })

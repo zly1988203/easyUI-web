@@ -11,6 +11,7 @@ package com.okdeer.jxc.controller.sale;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
+import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.service.FileUploadService;
 import com.okdeer.jxc.common.utils.JsonMapper;
@@ -155,8 +156,13 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 	@RequestMapping(value = "/del/{id}", method = RequestMethod.POST)
 	public RespJson del(@PathVariable(value = "id")String id) {
 		try {
-			posWheelsurfServiceApi.delPosWheelsurfFormAndDetail(id);
-			return RespJson.success();
+			PosWheelsurfFormVo vo = posWheelsurfServiceApi.getPosWheelsurfByFormId(id);
+			if(vo.getAuditStatus()==1||vo.getAuditStatus()==2){
+				return RespJson.error("刪除的数据包含已审核或已终止的单据,请刷新再删除!" );
+			}else {
+				posWheelsurfServiceApi.delPosWheelsurfFormAndDetail(id);
+				return RespJson.success();
+			}
 		}catch (Exception e){
 			LOG.error("删除POS客屏活动失败!" ,e);
 			return RespJson.error("删除POS客屏活动失败!" );
@@ -166,14 +172,21 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 	@RequestMapping(value = "/over", method = RequestMethod.POST)
 	public RespJson over(String formId){
 		try {
-			PosWheelsurfFormVo vo = new PosWheelsurfFormVo();
-			vo.setId(formId);
-			vo.setAuditStatus(2);
-			vo.setAuditTime(new Date());
-			vo.setAuditUserId(getCurrUserId());
-			vo.setAuditUerName(getCurrentUser().getUserName());
-			posWheelsurfServiceApi.updatePosWheelsurfForm(vo);
-			return RespJson.success();
+			PosWheelsurfFormVo vo = posWheelsurfServiceApi.getPosWheelsurfByFormId(formId);
+			if(vo.getDisabled()== DisabledEnum.YES.getIndex()){
+				return RespJson.error("该POS客屏活动已被删除,无法终止!" );
+			}else if(vo.getAuditStatus()==0){
+				return RespJson.error("该POS客屏活动未审核,无法终止!" );
+			}else {
+				vo = new PosWheelsurfFormVo();
+				vo.setId(formId);
+				vo.setAuditStatus(2);
+				vo.setAuditTime(new Date());
+				vo.setAuditUserId(getCurrUserId());
+				vo.setAuditUerName(getCurrentUser().getUserName());
+				posWheelsurfServiceApi.updatePosWheelsurfForm(vo);
+				return RespJson.success();
+			}
 		}catch (Exception e){
 			LOG.error("终止POS客屏活动失败!" ,e);
 			return RespJson.error("终止POS客屏活动失败!" );
@@ -183,14 +196,21 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 	@RequestMapping(value = "/audit", method = RequestMethod.POST)
 	public RespJson audit(String formId){
 		try {
-			PosWheelsurfFormVo vo = new PosWheelsurfFormVo();
-			vo.setId(formId);
-			vo.setAuditStatus(1);
-			vo.setAuditTime(new Date());
-			vo.setAuditUserId(getCurrUserId());
-			vo.setAuditUerName(getCurrentUser().getUserName());
-			posWheelsurfServiceApi.updatePosWheelsurfForm(vo);
-			return RespJson.success();
+			PosWheelsurfFormVo vo = posWheelsurfServiceApi.getPosWheelsurfByFormId(formId);
+			if(vo.getDisabled()== DisabledEnum.YES.getIndex()){
+				return RespJson.error("该POS客屏活动已被删除,无法审核!" );
+			}else if(vo.getAuditStatus()==2){
+				return RespJson.error("该POS客屏活动已终止,无需审核!" );
+			}else {
+				vo = new PosWheelsurfFormVo();
+				vo.setId(formId);
+				vo.setAuditStatus(1);
+				vo.setAuditTime(new Date());
+				vo.setAuditUserId(getCurrUserId());
+				vo.setAuditUerName(getCurrentUser().getUserName());
+				posWheelsurfServiceApi.updatePosWheelsurfForm(vo);
+				return RespJson.success();
+			}
 		}catch (Exception e){
 			LOG.error("审核POS客屏活动失败!" ,e);
 			return RespJson.error("审核POS客屏活动失败!" );

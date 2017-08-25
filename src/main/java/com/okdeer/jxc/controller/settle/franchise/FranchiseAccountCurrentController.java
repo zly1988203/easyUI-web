@@ -149,6 +149,10 @@ public class FranchiseAccountCurrentController extends BaseController<FranchiseA
 					fileName = "加盟店预收账款明细" + "_" + DateUtils.getCurrSmallStr();
 					templateName = ExportExcelConstant.FRANCHISE_ACCOUNT6;
 					break;
+				case 7:
+					fileName = "加盟店毛利明细" + "_" + DateUtils.getCurrSmallStr();
+					templateName = ExportExcelConstant.FRANCHISE_ACCOUNT7;
+					break;
 				default:
 					break;
 			}

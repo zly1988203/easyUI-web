@@ -1174,6 +1174,8 @@ var $_jxc = {
 	},
 
 	isStringNull:function (str) {
+        if(str == null || typeof str == 'undefined') return true;
+        str = str.toString();
         if(!str) return true;
         if(str.trim() == "") return true;
         if (str.length == 0) return true;
@@ -1471,12 +1473,55 @@ $.extend($.fn.datagrid.methods, {
     }
 }); 
 
+$.extend($.fn.datagrid.defaults.editors, {
+	numberspinner: {
+		init: function(container, options){
+			var input = $('<input type="text">').appendTo(container);
+			return input.numberspinner(options);
+		},
+		destroy: function(target){
+			$(target).numberspinner('destroy');
+		},
+		getValue: function(target){
+			return $(target).numberspinner('getValue');
+		},
+		setValue: function(target, value){
+			$(target).numberspinner('setValue',value);
+		},
+		resize: function(target, width){
+			$(target).numberspinner('resize',width);
+		}
+	}
+});
+
+$.extend($.fn.datagrid.defaults.editors, {
+	datebox: {
+		init: function(container, options){
+			var input = $('<input type="text">').appendTo(container);
+			return input.datebox(options);
+		},
+		destroy: function(target){
+			$(target).datebox('destroy');
+		},
+		getValue: function(target){
+			return $(target).datebox('getValue');
+		},
+		setValue: function(target, value){
+			$(target).datebox('setValue',value);
+		},
+		resize: function(target, width){
+			$(target).datebox('resize',width);
+		}
+	}
+});
+
 //重写 datarid 默认的 loadFilter 函数  2.7
 $.extend($.fn.datagrid.defaults, {
 	loadFilter:function(data){
 		return $_jxc.gridLoadFilter(data);
 	}
 });
+
 
 //表单验证
 $.extend($.fn.validatebox.defaults.rules, {
@@ -1498,6 +1543,12 @@ $.extend($.fn.validatebox.defaults.rules, {
         },
         message: '请输入至少（2）个字符.'
     },
+    maxLength:{
+        validator: function(value, param){
+            return value.length <= param[0];
+        },
+        message: '最大只能输入{0}个字符'
+    },
     leng: {
         validator: function (value, param) {
             return value.length == param[0];
@@ -1505,9 +1556,9 @@ $.extend($.fn.validatebox.defaults.rules, {
         message: '请输入{0}个字符.'
     },
     length: { validator: function (value, param) {
-        var len = $.trim(value).length;
-        return len >= param[0] && len <= param[1];
-    },
+	        var len = $.trim(value).length;
+	        return len >= param[0] && len <= param[1];
+    	},
         message: "输入内容长度必须介于{0}和{1}之间."
     },
     phone: {// 验证电话号码
