@@ -68,7 +68,7 @@
 				        		</div>
 				        		<div class="ub ub-ac uw-230  umar-l8">
 					        		<label class="ub ub-pe umar-r8">联系电话:</label>
-					        		<input class="uinp ub ub-f1 uinp-no-more" type="text" onblur="checkPhoneMoblie(this)" id="targetAgentPhone"  name="targetAgentPhone"  value="${contractVo.targetAgentPhone}" maxlength="15" placeholder="18809098888/0755-88880000">
+					        		<input class="uinp ub ub-f1 uinp-no-more" type="text"  id="targetAgentPhone"  name="targetAgentPhone"  value="${contractVo.targetAgentPhone}" maxlength="15" placeholder="18809098888/0755-88880000">
 				        		</div>
 				        	</div>
 				        	
@@ -76,7 +76,7 @@
 				        		<label class="ub uw-110 ub-pe umar-r8 ">乙方(签约机构):</label>
 				        		<input type="hidden" name="franchiseBranchId" id="franchiseBranchId" value="${contractVo.franchiseBranchId}">
 				        		<input type="hidden" name="franchiseBranchCode" id="franchiseBranchCode" value="${contractVo.franchiseBranchCode}">
-				        		<input class="uinp ub ub-f1" type="text" name="franchiseBranchName" value="${contractVo.franchiseBranchName}">
+				        		<input class="uinp ub ub-f1" type="text" readonly="readonly" name="franchiseBranchName" value="${contractVo.franchiseBranchName}">
 				        		<div class="uinp-more">...</div>
 				        		<i class="ub ub-ac uc-red">*</i>
 				        	</div>
@@ -88,7 +88,7 @@
 				        		</div>
 				        		<div class="ub ub-ac uw-230  umar-l8">
 					        		<label class="ub ub-pe umar-r8">联系电话:</label>
-					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text" onblur="checkPhoneMoblie(this)"  id="franchiseAgentPhone" name="franchiseAgentPhone" value="${contractVo.franchiseAgentPhone}" maxlength="15" placeholder="18809098888/0755-88880000">
+					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text"   id="franchiseAgentPhone" name="franchiseAgentPhone" value="${contractVo.franchiseAgentPhone}" maxlength="15" placeholder="18809098888/0755-88880000">
 				        		</div>
 				        	</div>
 				        	
@@ -134,7 +134,13 @@
 			    </div>
 			    <div title="毛利分配规则">
 			    	<div class="ub ub-ver ufs-14 upad-8 ">
-				        <div class="ub uh-200 datagrid-edit">
+				        <div class="ub ub-ac upad-4">
+							<div class="ubtns">
+								<div class="ubtns-item" onclick="addRows()">新增</div>
+								<div class="ubtns-item" onclick="delRows()">删除</div>
+							</div>
+						</div>
+				        <div class="ub datagrid-edit umar-t8">
 				        	<table id="taxList"></table>
 				        </div>
 				        <p class="umar-t10 uc-red">温馨说明：您好，最后一行的毛利额度止不需要录入，系统会默认为无穷大</p>
