@@ -138,7 +138,13 @@
 			    </div>
 			    <div title="毛利分配规则">
 			    	<div class="ub ub-ver ufs-14 upad-8 ">
-				        <div class="ub uh-200 datagrid-edit">
+				        <div class="ub ub-ac upad-4">
+							<div class="ubtns">
+								<div class="ubtns-item-disabled">新增</div>
+								<div class="ubtns-item-disabled">删除</div>
+							</div>
+						</div>
+				        <div class="ub datagrid-edit umar-t8">
 				        	<table id="taxList"></table>
 				        </div>
 				        <p class="umar-t10 uc-red">温馨说明：您好，最后一行的毛利额度止不需要录入，系统会默认为无穷大</p>
