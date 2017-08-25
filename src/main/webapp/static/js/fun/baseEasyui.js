@@ -1175,8 +1175,8 @@ var $_jxc = {
 
 	isStringNull:function (str) {
         if(str == null || typeof str == 'undefined') return true;
-        if(!str) return true;
         str = str.toString();
+        if(!str) return true;
         if(str.trim() == "") return true;
         if (str.length == 0) return true;
         if (str.replace(/(^s*)|(s*$)/g, "").length ==0) return true;

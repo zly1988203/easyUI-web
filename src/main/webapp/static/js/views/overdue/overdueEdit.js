@@ -153,11 +153,12 @@ hiddenStatus = $("#hiddenStatus").val();
 	            },
 	            {field: 'productionDate', title: '生产日期', width: 120, align: 'center',
 	            	formatter : function(value, row, index) {
-	                    if(row.isFooter){
+	                    if(row.isFooter || $_jxc.isStringNull(value)){
 	                        return '';
 	                    }
-	                    row.productionDate = new Date(value).format('yyyy-mm-dd');
-	                    return new Date(value).format('yyyy-mm-dd');
+	                    value = row.productionDateStr;
+	                    row.productionDate = row.productionDateStr;
+	                    return value;
 	                },
 	                editor:{
 	                    type:'datebox',
@@ -175,11 +176,12 @@ hiddenStatus = $("#hiddenStatus").val();
 	            },
 	            {field: 'expiryDate', title: '到期日期', width: 120, align: 'center',
 	            	formatter : function(value, row, index) {
-	                    if(row.isFooter){
+	                    if(row.isFooter || $_jxc.isStringNull(value)){
 	                        return '';
 	                    }
-	                    row.expiryDate = new Date(value).format('yyyy-mm-dd');
-	                    return new Date(value).format('yyyy-mm-dd');
+	                    value = row.expiryDateStr;
+	                    row.expiryDate = row.expiryDateStr;
+	                    return value;
 	                },
 	                editor:{
 	                    type:'datebox',
