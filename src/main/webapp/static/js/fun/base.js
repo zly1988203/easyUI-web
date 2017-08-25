@@ -63,23 +63,6 @@ $.extend($.fn.datagrid.defaults.editors, {
 //     }
 // });
 
-
-$.extend($.fn.validatebox.defaults.rules, {
-    minLength: {
-        validator: function(value, param){
-            return value.length >= param[0];
-        },
-        message: '最少输入{0}个字符'
-    },
-    maxLength:{
-        validator: function(value, param){
-            return value.length <= param[0];
-        },
-        message: '最大只能输入{0}个字符'
-    }
-});
-
-
 function getUrlQueryString(name) { 
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
 	var r = window.location.search.substr(1).match(reg); 

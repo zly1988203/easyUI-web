@@ -109,7 +109,7 @@ function initgridAddPosAct() {
                 editor:{
                     type:'textbox',
                     options:{
-                        validType:{maxLength:[20]},
+                        validType:{maxLength:[20],minLength:[1]},
                     }
                 }
             },
@@ -148,8 +148,9 @@ function initgridAddPosAct() {
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:0,
+                        min:1,
                         precision:0,
+                        placeholder:"中奖数量最小为1"
                     }
                 },
             },
@@ -183,7 +184,7 @@ function initgridAddPosAct() {
                     }else{
                         row['winRate'] = value;
                     }
-                    return '<b>'+value+'% </b>';
+                    return '<b>'+parseFloat(value).toFixed(2)+'% </b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -304,7 +305,10 @@ function uploadPic() {
     }
 
     var param = {
-        url:'/pos/wheelsurf/form/upload'
+        url:'/pos/wheelsurf/form/upload',
+        size:250,
+        imgWidth:100,
+        imgHeight:100,
     }
     publicUploadImgService(param,function (data) {
         row.picUrl = data.filePath;
@@ -357,8 +361,19 @@ function saveWheelsurf() {
     var rowNoArr = [];
     var hasRepeat = false;
     var totalRate = 0.00;
-    var hasNoPic = false;
+    var flag = false;
     $.each(rows,function (index,item) {
+        if(item['prizeShortName'] === ""){
+            $_jxc.alert("第"+(index+1)+"行，简称不能为空");
+            flag = true;
+            return false;
+        }
+        if(item['winNum'] === ""){
+            $_jxc.alert("第"+(index+1)+"行，奖品总份数不能为空");
+            flag = true;
+            return false;
+        }
+
         if($.inArray(item.rowNo, rowNoArr) == -1){
             rowNoArr.push(item.rowNo);
         }else{
@@ -367,9 +382,13 @@ function saveWheelsurf() {
         totalRate = totalRate + parseFloat(item.winRate);
 
         if(item.picUrl == ""){
-            hasNoPic = true;
+            $_jxc.alert("第"+(index+1)+"行，图片没有上传")
+            flag = true;
+            return false;
         }
     })
+
+    if(flag)return;
 
     if(hasRepeat){
         $_jxc.alert("顺序不能数字重复")
@@ -377,11 +396,6 @@ function saveWheelsurf() {
     }
     if(totalRate > 100 || totalRate < 100){
         $_jxc.alert("中奖概率总和应为100%,目前为："+totalRate+"%")
-        return;
-    }
-
-    if(hasNoPic){
-        $_jxc.alert("检测到尚有数据未上传图片，请上传")
         return;
     }
 

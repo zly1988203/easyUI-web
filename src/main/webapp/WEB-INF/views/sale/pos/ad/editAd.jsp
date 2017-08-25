@@ -21,6 +21,7 @@ img {
 	width: 200px;
 	height: 200px;
 	border: 1px solid;
+	cursor:pointer;
 }
 
 .uploadFile {
