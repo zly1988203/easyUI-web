@@ -85,7 +85,7 @@
 				        	<div class="ub ub-ac umar-t12">
 				        		<div class="ub ub-ac uw-280">
 					        		<label class="ub uw-110 ub-pe umar-r8">经办人:</label>
-					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text"  id="franchiseAgentName" name="franchiseAgentName" >
+					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text"  id="franchiseAgentName" name="franchiseAgentName" maxlength="10" >
 				        		</div>
 				        		<div class="ub ub-ac uw-230  umar-l8">
 					        		<label class="ub ub-pe umar-r8">联系电话:</label>
@@ -95,7 +95,7 @@
 				        	
 				        	<div class="ub uw-524 umar-t12 " style="width:518px">
 				        		<label class="ub uw-110 ub-pe umar-r8 ">备注:</label>
-				        		<textarea rows="3" cols="3" name="remark" id="remark" class="uinp ub ub-f1 uh-100"></textarea>
+				        		<textarea rows="3" cols="3" name="remark" id="remark" class="uinp ub ub-f1 uh-100" maxlength="200" ></textarea>
 				        	</div>
 				        	
 				        	<div class="ub umar-t20">
@@ -105,7 +105,7 @@
 					            </div>
 					            <div class="ub ub-ac">
 					                <div class="umar-r10 uw-60 ut-r">建档时间:</div>
-					                <div class="utxt" id="createTime">2017-05-08 15:08:30</div>
+					                <div class="utxt" id="createTime"></div>
 					            </div>
 				        	</div>
 				        	

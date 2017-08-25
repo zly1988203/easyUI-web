@@ -104,6 +104,7 @@ function initContact(){
             		type:'numberbox',
             		options:{
             			min:0,
+            			max:999999.99,
             			precision:2,
             			onChange:changeTaxEnd
             		}

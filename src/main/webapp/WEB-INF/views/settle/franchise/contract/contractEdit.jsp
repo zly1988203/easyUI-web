@@ -64,7 +64,7 @@
 				        	<div class="ub ub-ac umar-t12">
 				        		<div class="ub ub-ac uw-280">
 					        		<label class="ub uw-110 ub-pe umar-r8">经办人:</label>
-					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text" id="targetAgentName" name="targetAgentName"  value="${contractVo.targetAgentName}">
+					        		<input class="uinp ub ub-f1 uinp-no-more" type="text" id="targetAgentName" name="targetAgentName" maxlength="10" value="${contractVo.targetAgentName}">
 				        		</div>
 				        		<div class="ub ub-ac uw-230  umar-l8">
 					        		<label class="ub ub-pe umar-r8">联系电话:</label>
@@ -84,7 +84,7 @@
 				        	<div class="ub ub-ac umar-t12">
 				        		<div class="ub ub-ac uw-280">
 					        		<label class="ub uw-110 ub-pe umar-r8">经办人:</label>
-					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text"  id="franchiseAgentName" name="franchiseAgentName" value="${contractVo.franchiseAgentName}">
+					        		<input class="uinp ub ub-f1 uinp-no-more" type="text" id="franchiseAgentName" name="franchiseAgentName" maxlength="10" value="${contractVo.franchiseAgentName}">
 				        		</div>
 				        		<div class="ub ub-ac uw-230  umar-l8">
 					        		<label class="ub ub-pe umar-r8">联系电话:</label>
@@ -94,7 +94,7 @@
 				        	
 				        	<div class="ub uw-524 umar-t12 " style="width:518px">
 				        		<label class="ub uw-110 ub-pe umar-r8 ">备注:</label>
-				        		<textarea rows="3" cols="3" name="remark" id="remark" class="uinp ub ub-f1 uh-100">${contractVo.remark}</textarea>
+				        		<textarea rows="3" cols="3" name="remark" id="remark" class="uinp ub ub-f1 uh-100" maxlength="200" >${contractVo.remark}</textarea>
 				        	</div>
 				        	
 				        	<div class="ub umar-t20">
