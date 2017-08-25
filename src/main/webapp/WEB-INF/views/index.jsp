@@ -11,6 +11,30 @@
 		.msg-ul{width:100%;overflow:hidden;}
 		.msg-li{float:left;width:33.333%;margin-bottom:6px;}
 	</style>
+
+	<style>
+	/*ie浏览器版本提示信息*/
+	.ie-tips {
+	display: none;
+	position: relative;
+	height: 30px;
+	line-height: 30px;
+	background: #f9d272;
+	color: #f00;
+	font-size: 14px;
+	text-align: center;
+	}
+	.ie-tips b {
+	font-weight: bold;
+	}
+	.ie-tips .js-tip-close {
+	position: absolute;
+	top: 0;
+	right: 20px;
+	cursor: pointer;
+	}
+	/*ie浏览器版本提示信息*/
+	</style>
 </head>
 <body>
 
@@ -28,8 +52,10 @@
 			<span style="font-size: 20px;">零售管理系统</span>
 		</a>
 	</div><!--end logo -->
-    
-   	 <!--  refresh -->
+
+	<div class="ie-tips">Sorry. 您使用的浏览器与本系统不能很好兼容，为了更好的使用体验，请更换浏览器，推荐使用<a href="http://rj.baidu.com/soft/detail/14744.html?ald" target="_blank">Chrome谷歌浏览器</a><a onclick="closeDiv()" class="js-tip-close">关闭</a></div>
+
+	<!--  refresh -->
     <div class="mst" id="mst"> 
     	<i class="reload-png" id="reload-btn" title="刷新消息" onclick="synchronousMessage()"></i> <a onClick="openMsg()" title="点击查看"  id="messageAllCount">消息提醒（<span class="uc-red" id="mtext" style="color: #ff0000 !important;">...</span>）</a>
     </div>
@@ -188,6 +214,29 @@
 	    if (event.ctrlKey && event.altKey && 67 == e.keyCode){
 	        alert("当前版本:V2.3.0_A30");
 	    }
+	}
+
+	$(function(){
+	BrowserType();
+	})
+
+	function BrowserType(){
+		var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+		var isOpera = userAgent.indexOf("Opera") > -1; //判断是否Opera浏览器
+		var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera; //判断是否IE浏览器
+		var isEdge = userAgent.indexOf("Windows NT 6.1; Trident/7.0;") > -1 && !isIE; //判断是否IE的Edge浏览器
+		var isFF = userAgent.indexOf("Firefox") > -1; //判断是否Firefox浏览器
+		var isSafari = userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") == -1; //判断是否Safari浏览器
+		var isChrome = userAgent.indexOf("Chrome") > -1 && userAgent.indexOf("Safari") > -1; //判断Chrome浏览器
+		if(isIE){
+		$(".ie-tips").show();
+		}
+
+		<%--if (isChrome) {  $(".ie-tips").show();}--%>
+	}
+
+	function closeDiv(){
+		$(".ie-tips").hide();
 	}
 </script>
 </body>

@@ -10,7 +10,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
-	<script src="${ctx}/static/js/views/sale/wheelsurf/wheelsurfAdd.js?V=${versionNo}6"></script>
+	<script src="${ctx}/static/js/views/sale/wheelsurf/wheelsurfAdd.js?V=${versionNo}4"></script>
 	<style>
 	.datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -23,10 +23,10 @@
 	<c:choose>
 		<c:when test="${form.id != null}">
 			<input type='hidden' id="copyId" name="copyId" value="${form.id}">
-			<input type='hidden' id="pageStatue" name="pageStatue" value="copy">
+			<input type='hidden' id="pageStatus" name="pageStatus" value="copy">
 		</c:when>
 		<c:otherwise>
-			<input type='hidden' id="pageStatue" name="pageStatue" value="add">
+			<input type='hidden' id="pageStatus" name="pageStatus" value="add">
 		</c:otherwise>
 	</c:choose>
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -50,17 +50,17 @@
 	至
 						<input id="overTime" name="overTime" class="Wdate easyui-validatebox"
 						data-options="required:true" type="text"
-						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginTime\')}'})" />
 					</div>
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-80 ut-r">奖品有效期:</div>
 						<input id="validBeginTime" name="validBeginTime" class="Wdate easyui-validatebox"
 							data-options="required:true" type="text"
-							onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.validBeginTime}" pattern="yyyy-MM-dd"/>"/>
+							onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginTime\')}'})" value="<fmt:formatDate value="${form.validBeginTime}" pattern="yyyy-MM-dd"/>"/>
 	至
 						<input id="validOverTime" name="validOverTime" class="Wdate easyui-validatebox"
 						data-options="required:true" type="text"
-						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.validOverTime}" pattern="yyyy-MM-dd"/>"/>
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'overTime\')}'})" value="<fmt:formatDate value="${form.validOverTime}" pattern="yyyy-MM-dd"/>"/>
 					</div>
 
 				</div>

@@ -6,16 +6,16 @@ $(function () {
     initgridAddPosAct();
     //机构选择初始化
     initBranchGroup();
-    if($("#pageStatue").val() === "add"){
-        $("#beginTime").val(dateUtil.getCurrentDateStr());
-        $("#overTime").val(dateUtil.getCurrentDateStr());
-        $("#validBeginTime").val(dateUtil.getCurrentDateStr());
-        $("#validOverTime").val(dateUtil.getCurrentDateStr());
-    }else if ($("#pageStatue").val() == "copy"){
+    if($("#pageStatus").val() === "add"){
+        $("#beginTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+        $("#overTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+        $("#validBeginTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+        $("#validOverTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    }else if ($("#pageStatus").val() == "copy"){
         $_jxc.ajax({url:contextPath+"/pos/wheelsurf/form/edit/detail/"+$("#copyId").val()},function (data) {
             $("#gridAddPosAct").datagrid("loadData",data.detail);
         });
-    }else if($("#pageStatue").val() == "0"){
+    }else if($("#pageStatus").val() == "0"){
         $_jxc.ajax({url:contextPath+"/pos/wheelsurf/form/edit/detail/"+$("#formId").val()},function (data) {
             $("#gridAddPosAct").datagrid("loadData",data.detail);
         });
@@ -32,8 +32,7 @@ function initBranchGroup(){
     $('#branchTemp').branchSelect({
         param:{
             selectType:1,  //多选
-            view:'group', //分组
-            formType:''
+            branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C+','+ $_jxc.branchTypeEnum.OWN_STORES
         },
         loadFilter:function(data){
             if(data && data.length >0 ){
@@ -42,27 +41,6 @@ function initBranchGroup(){
                 })
             }
             return data;
-        },
-        onAfterRender:function(data){
-            $('#branchName').attr('title',$('#branchName').val());
-            if(data && data.length>0){
-                var ids = [];
-                data.forEach(function(obj,inx){
-                    if(obj.type == -1){
-                        ids.push(obj.branchId);
-                    }
-                })
-                if(ids.length == 0) return;
-                var param = {
-                    "groupIds":ids.join(',')
-                }
-                //拉取分组详细
-                publicGetBranchGroupDetail(param,function(result){
-                    $('#branchIds').val(result&&result.branchId);
-                    $('#branchName').attr('title',result&&result.branchName);
-                    // $('#branchsFullName').val(result&&result.branchName);
-                })
-            }
         }
     });
 }
@@ -72,7 +50,7 @@ var gridName = "gridAddPosAct";
 var gridAddPosActHandle = new GridClass();
 var gridDefault = {
     skuId:"",
-    prizeType:1,
+    prizeType:"1",
     rowNo:"",
     winNum:"",
     winRate:"",
@@ -91,22 +69,29 @@ function initgridAddPosAct() {
         height:'100%',
         width:'100%',
         columns:[[
-            {field:'id',title:'id',align:'left',hidden:true},
-            {field:'skuId',title:'skuId',align:'left',hidden:true,
-                editor:{
-                    type:'textbox',
-                    options:{
-                        disabled:true
+            {field:'cz',title:'操作',width:'60px',align:'center',
+                formatter : function(value, row,index) {
+                    var str = "";
+                    if(row.isFooter){
+                        str ='<div class="ub ub-pc">合计</div> '
+                    }else{
+                        str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+                            '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
                     }
-                }
+                    return str;
+                },
+            },
+
+            {field:'id',title:'id',align:'left',hidden:true},
+            {field:'skuId',title:'skuId',align:'left',hidden:true,editor:'textbox'
             },
             {field:'prizeType',title:'奖品类型',width:'200px',align:'left',
                 formatter:function(value,row){
                     if(row.isFooter){
                         return;
                     }
-                    row.prizeType = row.prizeType?row.prizeType:0;
-                    return value=='1'?'商品':'谢谢惠顾';
+                    row.prizeType = row.prizeType?row.prizeType:1;
+                    return value=='1'?'商品':(value=='3'?'谢谢惠顾':'请选择');
                 },
                 editor:{
                     type:'combobox',
@@ -114,7 +99,7 @@ function initgridAddPosAct() {
                         valueField: 'id',
                         textField: 'text',
                         editable:false,
-                        required:true,
+                        // required:true,
                         data: [{
                             "id":'1',
                             "text":"商品",
@@ -130,7 +115,7 @@ function initgridAddPosAct() {
                 editor:{
                     type:'textbox',
                     options:{
-                        disabled:true
+                        disabled:true,
                     }
                 }
             },
@@ -139,27 +124,46 @@ function initgridAddPosAct() {
                     type:'textbox',
                     options:{
                         validType:{maxLength:[20]},
-                        required:true
                     }
                 }
             },
             {field:'rowNo',title:'顺序',width:'150px',align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0)+'</b>';
+                    }
+
+                    if(!value){
+                        row["rowNo"] = parseFloat(value||0);
+                    }
+
+                    return '<b>'+parseFloat(value||0)+'</b>';
+                },
                 editor:{
                     type:'numberbox',
                     options:{
                         min:0,
                         precision:0,
-                        required:true
                     }
                 },
             },
             {field:'winNum',title:'中奖数量',width:'100px',align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0)+'</b>';
+                    }
+
+                    if(!value){
+                        row["winNum"] = parseFloat(value||0);
+                    }
+
+                    return '<b>'+parseFloat(value||0)+'</b>';
+                },
                 editor:{
                     type:'numberbox',
                     options:{
                         min:0,
                         precision:0,
-                        required:true
                     }
                 },
             },
@@ -180,7 +184,6 @@ function initgridAddPosAct() {
                     options:{
                         min:0.00,
                         precision:2,
-                        required:true
                     }
                 },
             },
@@ -212,36 +215,59 @@ function initgridAddPosAct() {
         }
     })
 
-    if($("#pageStatue").val() == "add") {
-        gridAddPosActHandle.setLoadData([$.extend({}, gridDefault), $.extend({}, gridDefault),
-            $.extend({}, gridDefault), $.extend({}, gridDefault), $.extend({}, gridDefault), $.extend({}, gridDefault)]);
+    if($("#pageStatus").val() == "add") {
+        gridAddPosActHandle.setLoadData([$.extend({}, gridDefault)]);
     }
 }
 
+//插入一行
+function addLineHandel(event){
+    event.stopPropagation(event);
+    var rows = gridAddPosActHandle.getRows();
+    if(rows.length == 6){
+        $_jxc.alert("最多添加6条数据");
+        return;
+    }
+
+    var index = $(event.target).attr('data-index')||0;
+    gridAddPosActHandle.addRow(index,gridDefault);
+}
+//删除一行
+function delLineHandel(event){
+    event.stopPropagation();
+    var index = $(event.target).attr('data-index');
+    gridAddPosActHandle.delRow(index);
+}
+
 function onSelectprizeType(data) {
+    // var _skuId = gridAddPosActHandle.getFieldData(gridAddPosActHandle.getSelectRowIndex(),'skuId');
+    // if(!_skuId)return;
 
     var row = $("#"+gridName).datagrid("getSelected");
-
+    row['prizeType'] = data.id;
     if(data.id == "3"){
-        row['skuId'] = "xxhg";
         row['prizeFullName'] = "谢谢惠顾";
         row['prizeShortName'] = "谢谢惠顾";
+        row['skuId'] = "xxhg";
         gridAddPosActHandle.setFieldTextValue("skuId","xxhg");
         gridAddPosActHandle.setFieldTextValue("prizeFullName","谢谢惠顾");
         gridAddPosActHandle.setFieldTextValue("prizeShortName","谢谢惠顾");
     }else {
         if(row.skuId=="" || row.skuId =="xxhg"){
+            row['prizeFullName'] = "";
+            row['prizeShortName'] = "";
+            row['skuId'] = "";
             gridAddPosActHandle.setFieldTextValue("skuId","");
             gridAddPosActHandle.setFieldTextValue("prizeFullName","");
             gridAddPosActHandle.setFieldTextValue("prizeShortName","");
+
         }
     }
 
-    row['prizeType'] = data.id;
-    // $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
-    $("#"+gridName).datagrid("acceptChanges");
-    // $("#"+gridName).datagrid("updateRow",row);
+    // $("#"+gridName).datagrid("acceptChanges");
+    // $("#"+gridName).datagrid("updateRow",{index:gridAddPosActHandle.getSelectRowIndex(),row:row});
     // $("#"+gridName).datagrid("refreshRow",gridAddPosActHandle.getSelectRowIndex())
+
 }
 
 function selectPrize() {
@@ -275,21 +301,23 @@ function selectPrize() {
 
         row['prizeFullName'] = data[0].skuName;
         row['skuId'] = data[0].skuId;
-        gridAddPosActHandle.setFieldTextValue("skuId",data[0].skuId);
-        gridAddPosActHandle.setFieldTextValue("prizeFullName",data[0].skuName);
+        // gridAddPosActHandle.setFieldTextValue("skuId",data[0].skuId);
+        // gridAddPosActHandle.setFieldTextValue("prizeFullName",data[0].skuName);
 
         // $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
         $("#"+gridName).datagrid("acceptChanges");
-        $("#"+gridName).datagrid("updateRow",{index:gridAddPosActHandle.getSelectRowIndex(),row:row});
-        $("#"+gridName).datagrid("refreshRow",gridAddPosActHandle.getSelectRowIndex())
+        // $("#"+gridName).datagrid("updateRow",{index:gridAddPosActHandle.getSelectRowIndex(),row:row});
+        // $("#"+gridName).datagrid("refreshRow",gridAddPosActHandle.getSelectRowIndex())
+
+        var nowRows = gridAddPosActHandle.getRowsWhere({skuId:'1'});
+
+        $("#"+gridName).datagrid("loadData",nowRows);
         // setTimeout(function(){
         //     gridAddPosActHandle.setBeginRow(gridAddPosActHandle.getSelectRowIndex()||0);
         //     gridAddPosActHandle.setSelectFieldName("prizeShortName");
         //     gridAddPosActHandle.setFieldFocus(gridAddPosActHandle.getFieldTarget('prizeShortName'));
         // },100)
     });
-
-
 }
 
 function uploadPic() {
@@ -312,7 +340,7 @@ function uploadPic() {
         row.picUrl = data.filePath;
         // $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
         $("#"+gridName).datagrid("acceptChanges");
-        $("#"+gridName).datagrid("updateRow",row);
+        $("#"+gridName).datagrid("updateRow",{index:gridAddPosActHandle.getSelectRowIndex(),row:row});
         $("#"+gridName).datagrid("refreshRow",gridAddPosActHandle.getSelectRowIndex())
     });
 }
@@ -325,6 +353,16 @@ function saveWheelsurf() {
         $_jxc.alert("请先选择活动机构");
         return;
     }
+
+    // if(dateUtil.compareDate($("#beginTime").val(),$("#validBeginTime").val())){
+    //     $_jxc.alert("奖品有效期开始时间要在活动开始时间之后");
+    //     return;
+    // }
+
+    // if(dateUtil.compareDate($("#overTime").val(),$("#validOverTime").val())){
+    //     $_jxc.alert("奖品有效期结束时间要在活动结束时间之后");
+    //     return;
+    // }
 
     var actName = $("#wheelsurfName").val();
     if(!actName){
@@ -350,6 +388,7 @@ function saveWheelsurf() {
     var rowNoArr = [];
     var hasRepeat = false;
     var totalRate = 0.00;
+    var hasNoPic = false;
     $.each(rows,function (index,item) {
         if($.inArray(item.rowNo, rowNoArr) == -1){
             rowNoArr.push(item.rowNo);
@@ -357,6 +396,10 @@ function saveWheelsurf() {
             hasRepeat = true;
         }
         totalRate = totalRate + parseFloat(item.winRate);
+
+        if(item.picUrl == ""){
+            hasNoPic = true;
+        }
     })
 
     if(hasRepeat){
@@ -365,6 +408,11 @@ function saveWheelsurf() {
     }
     if(totalRate > 100){
         $_jxc.alert("中奖概率总和不能超过100%")
+        return;
+    }
+
+    if(hasRepeat){
+        $_jxc.alert("检测到尚有数据未上传图片，请上传")
         return;
     }
 

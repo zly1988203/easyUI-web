@@ -133,7 +133,7 @@ function initDatagridRequireOrder(){
         method:'post',
     	//url:url,
         align:'center',
-        singleSelect:false,  //单选  false多选
+        singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         showFooter:true,
         height:"100%",
