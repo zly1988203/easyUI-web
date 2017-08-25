@@ -339,7 +339,7 @@ function getGridData(){
    },function(data){
 //           gFunStartLoading();
        	//根据选择的采购单，带出采购单的信息
-   	    var keyrealNum = {
+   	 /*  var keyrealNum = {
    	        realNum:'maxRealNum',
    	    };
    	    
@@ -347,11 +347,18 @@ function getGridData(){
    	    		largeNum:'maxlargeNum',
        	    };
    	    
+   	    var newRows = [];
    	    if(data && data.list.length > 0){
-   	        var newRows = gFunUpdateKey(data.list,keyrealNum);
-   	        var newRows = gFunUpdateKey(newRows,keylargeNum);
-   	        $("#"+gridName).datagrid("loadData",newRows);
+   	     if($("#refFormNo").val()){
+   	    	newRows = gFunUpdateKey(data.list,keyrealNum);
+   	        newRows = gFunUpdateKey(newRows,keylargeNum);
+   	    }else{
+   	    	newRows = data.list;
    	    }
+   	    	
+   	        $("#"+gridName).datagrid("loadData",newRows);
+   	    }*/
+	   $("#"+gridName).datagrid("loadData",data.list);
    });
 }
 

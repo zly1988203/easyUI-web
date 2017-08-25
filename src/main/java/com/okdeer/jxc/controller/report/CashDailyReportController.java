@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.httpclient.util.DateUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -221,8 +222,8 @@ public class CashDailyReportController extends BaseController<CashDailyReportCon
 			}
 			String path = PrintConstant.CASH_DAILY_REPORT;
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("startDate", qo.getStartTime());
-			map.put("endDate", qo.getEndTime());
+			map.put("startDate", null != qo.getStartTime() ? DateUtils.formatDate(qo.getStartTime(), DateUtils.DATE_SMALL_STR_R) : "");
+			map.put("endDate", null != qo.getEndTime() ? DateUtils.formatDate(qo.getEndTime(), DateUtils.DATE_SMALL_STR_R) : "");
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
 			map.put("allTotal", allTotal);
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");

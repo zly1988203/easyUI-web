@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -92,6 +93,21 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 	}
 	
 	/**
+	 * @Description: 跳转要货单页面
+	 * @param model
+	 * @return   
+	 * @return String  
+	 * @throws
+	 * @author zhangchm
+	 * @date 2017年8月9日
+	 */
+	@RequestMapping(value = "viewDb")
+	public String viewDb(Model model) {
+		model.addAttribute("targetBranchId", getCurrBranchId());
+		return "logistics/DbList";
+	}
+	
+	/**
 	 * @Description: 根据要货单跳转页面
 	 * @param vo
 	 * @param report
@@ -152,6 +168,12 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 			if (StringUtils.isEmpty(vo.getTargetBranchId())) {
 				vo.setTargetBranchCompleteCode(UserUtil.getCurrBranchCompleCode());
 			}
+			if (StringUtils.isEmpty(vo.getCheckboxTime())) {
+				vo.setTempEndTime(null);
+			} else {
+				vo.setStartTime(null);
+				vo.setEndTime(null);
+			}
 			String sourceBranchName = vo.getSourceBranchName();
 			String targetBranchName = vo.getTargetBranchName();
 			if (StringUtils.isNotEmpty(sourceBranchName)) {
@@ -173,6 +195,60 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 			return deliverForms;
 		} catch (Exception e) {
 			LOG.error("要货单查询数据出现异常:{}", e);
+		}
+		return PageUtils.emptyPage();
+	}
+	
+	/**
+	 * @Description: 回单查询
+	 * @param vo
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return   
+	 * @return PageUtils<DeliverForm>  
+	 * @throws
+	 * @author zhangchm
+	 * @date 2017年8月24日
+	 */
+	@RequestMapping(value = "getDeliverFormsDB", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<Map<String, Object>> getDeliverFormsDB(QueryDeliverFormVo vo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		LOG.debug(LogConstant.OUT_PARAM, vo);
+		try {
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+			if (StringUtils.isEmpty(vo.getTargetBranchId())) {
+				vo.setTargetBranchCompleteCode(UserUtil.getCurrBranchCompleCode());
+			}
+			if (StringUtils.isEmpty(vo.getCheckboxTime())) {
+				vo.setTempEndTime(null);
+			} else {
+				vo.setStartTime(null);
+				vo.setEndTime(null);
+			}
+			String sourceBranchName = vo.getSourceBranchName();
+			String targetBranchName = vo.getTargetBranchName();
+			if (StringUtils.isNotEmpty(sourceBranchName)) {
+				if (sourceBranchName.contains("[") && sourceBranchName.contains("]")) {
+					vo.setSourceBranchName(null);
+				} else {
+					vo.setSourceBranchId(null);
+				}
+			}
+
+			if (StringUtils.isNotEmpty(targetBranchName)) {
+				if (targetBranchName.contains("[") && targetBranchName.contains("]")) {
+					vo.setTargetBranchName(null);
+				} else {
+					vo.setTargetBranchId(null);
+				}
+			}
+			PageUtils<Map<String, Object>> deliverForms = queryDeliverFormServiceApi.queryFormListsDB(vo);
+			return deliverForms;
+		} catch (Exception e) {
+			LOG.error("回单查询数据出现异常:{}", e);
 		}
 		return PageUtils.emptyPage();
 	}
@@ -224,15 +300,18 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 			// 导出文件名称，不包括后缀名
 			String fileName = null;
 			String templateName = null;
+			List<Map<String,Object>> list = queryDeliverFormServiceApi.queryFormsList(deliverFormId);
+			String formNo = "";
+			if (CollectionUtils.isNotEmpty(list)) {
+				formNo = String.valueOf(list.get(0).get("formNo"));
+			}
 			if ("DA".equals(deliverType)) {
-				fileName = "XS" + "_" + DateUtils.formatDate(DateUtils.getCurrDate(), DateUtils.DATE_KEY_STR);
+				fileName = "XS" + "_" + formNo;
 				templateName = ExportExcelConstant.DELIVER_FORM_LISTLOGISTICS;
 			} else {
-				fileName = "PSDTH" + "_" + DateUtils.formatDate(DateUtils.getCurrDate(), DateUtils.DATE_KEY_STR);
+				fileName = "PSDTH" + "_"+ formNo;
 				templateName = ExportExcelConstant.DELIVER_FORM_RETURN_LISTLOGISTICS;
 			}
-			
-			List<Map<String,Object>> list = queryDeliverFormServiceApi.queryFormsList(deliverFormId);
 			// 导出Excel
 			exportListForXLSX(response, list, fileName, templateName);
 			return null;
@@ -262,4 +341,77 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 		return new ArrayList<Map<String,Object>>();
 	}
 	
+	/**
+	 * @Description: 跳转回调明细页面
+	 * @param vo
+	 * @param model
+	 * @return   
+	 * @return String  
+	 * @throws
+	 * @author zhangchm
+	 * @date 2017年8月24日
+	 */
+	@RequestMapping(value = "DbForm")
+	public String DbForm(QueryDeliverFormVo vo, Model model) {
+		model.addAttribute("type", vo.getFormSources());
+		vo.setFormSources("");
+		List<Map<String,Object>> forms = queryDeliverFormServiceApi.queryFormListsDBs(vo);
+		model.addAttribute("form", forms.get(0));
+		Branches branches = branchesServiceApi.getBranchInfoById(getCurrBranchId());
+		model.addAttribute("minAmount", branches.getMinAmount());
+		return "logistics/DbView";
+	}
+	
+	/**
+	 * @Description: 查询配送回单明细
+	 * @param deliverFormId
+	 * @param deliverType
+	 * @return   
+	 * @return List<Map<String,Object>>  
+	 * @throws
+	 * @author zhangchm
+	 * @date 2017年8月24日
+	 */
+	@RequestMapping(value = "getDeliverFormLists", method = RequestMethod.POST)
+	@ResponseBody
+	public List<Map<String, Object>> getDeliverFormLists (String deliverFormId,String deliverType){
+		try {
+			List<Map<String, Object>> list = queryDeliverFormServiceApi.queryDeliverFormLists(deliverFormId,deliverType);
+			return list;
+		} catch (Exception e) {
+			LOG.error("查询回单明细数据出现异常", e);
+		}
+		return new ArrayList<Map<String, Object>>();
+	}
+	
+	
+	
+	@RequestMapping(value = "exportListData")
+	public RespJson exportListData(String deliverFormId,String deliverType, HttpServletResponse response) {
+		try {
+			if (StringUtils.isEmpty(deliverFormId)) {
+				LOG.warn("未选择导出的行数据!");
+				return RespJson.error("未选择导出的行数据!");
+			}
+			// 导出文件名称，不包括后缀名
+			String fileName = null;
+			String templateName = null;
+			QueryDeliverFormVo vo = new QueryDeliverFormVo();
+			vo.setDeliverFormId(deliverFormId);
+			vo.setDeliverType(deliverType);
+			// 获取单据信息
+			List<Map<String,Object>> forms = queryDeliverFormServiceApi.queryFormListsDBs(vo);
+			Map<String,Object> form = forms.get(0);
+			// 获取明细
+			List<Map<String, Object>> list = queryDeliverFormServiceApi.queryDeliverFormLists(deliverFormId,deliverType);
+			fileName = "CHHD" + "_" + form.get("formNoDB").toString();
+			templateName = ExportExcelConstant.DELIVER_FORM_DBSHEET;
+			// 导出Excel
+			exportParamListForXLSX(response, list, form, fileName, templateName);
+			return null;
+		} catch (Exception e) {
+			LOG.error("导出销售明细失败", e);
+		}
+		return RespJson.error();
+	}
 }

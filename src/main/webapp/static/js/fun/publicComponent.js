@@ -11,7 +11,11 @@ var left = $(window).width()/4;
 
 //公共组件-日期选择
 //改变日期
-function toChangeDate(index){
+function toChangeDate(index,fmt){
+	if(typeof fmt === "undefined"){
+		fmt = "yyyy-MM-dd"
+	}
+	
     switch (index){
         case 0: //今天
             $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
@@ -31,32 +35,32 @@ function toChangeDate(index){
             $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousWeek()[1]).format("yyyy-MM-dd"));
             break;
         case 4: //本月
-            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentMonth()[0]).format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentMonth()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format(fmt));
             break;
         case 5: //上月
-            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousMonth()[0]).format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousMonth()[1]).format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousMonth()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousMonth()[1]).format(fmt));
             break;
         case 6: //本季
-            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentSeason()[0]).format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentSeason()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format(fmt));
             break;
         case 7: //上季
-            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousSeason()[0]).format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousSeason()[1]).format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousSeason()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousSeason()[1]).format(fmt));
             break;
         case 8: //今年
-            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentYear()[0]).format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentYear()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format(fmt));
             break;
         case 9: //昨天
-            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",30)).format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",30)).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format(fmt));
             break;
         case 10: //往后推一个月
-            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreMonthDate()).format("yyyy-MM-dd"));
-            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd"));
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreMonthDate()).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format(fmt));
             break;
         case 11: //明天
             $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("next",1)).format("yyyy-MM-dd"));

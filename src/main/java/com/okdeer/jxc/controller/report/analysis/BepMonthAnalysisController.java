@@ -70,8 +70,8 @@ public class BepMonthAnalysisController extends BaseController<BepMonthAnalysisC
 		LOG.debug("查询月盈亏平衡分析条件：{}", qo);
 
 		try {
-
-			return bepDayAnalysisService.getBepMonthAnalysisForPage(qo);
+			PageUtils<BepMonthAnalysisPo>  page=bepDayAnalysisService.getBepMonthAnalysisForPage(qo);
+			return page;
 		} catch (Exception e) {
 			LOG.error("分页查询月盈亏平衡分析异常:", e);
 		}

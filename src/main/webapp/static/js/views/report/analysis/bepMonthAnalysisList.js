@@ -2,7 +2,7 @@
  * Created by zhaoly on 2017/5/26.
  */
 
-var costTitle = '开店成本(月均摊)';
+var costTitle = '开店成本(每月均摊)';
 $(function () {
     initGridMonthAnalysis();
     $("#txtStartDate").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
@@ -14,13 +14,14 @@ $(function () {
 function changeStatus(){
     $(".radioItem").change(function(){
         if($(this).val() === "0"){
-            costTitle = '开店成本(月均摊)';
+            costTitle = '开店成本(每月均摊)';
         }else{
             costTitle = '开店成本(均摊不含折旧)';
         }
         $("#"+gridName).datagrid('loadData', { total: 0, rows: [] });
         $("#"+gridName).datagrid("options").url = "";
         initGridMonthAnalysis();
+        $('#'+gridName).datagrid('reloadFooter',[]);
         //queryMonthAnalysis();
     });
 }
@@ -45,7 +46,23 @@ function initGridMonthAnalysis() {
             {field:'branchName',title:'机构名称',width:"150px",align:'left'},
             {field:'parentName',title:'所属分公司',width:"150px",align:'left'},
             {field:'monthStr',title:'月份',width:"80px",align:'left'},
-            {field:'fixedTotalAmount',title:'开店成本',width:"100px",align:'right',
+            {field:'bepMonth',title:'月盈亏平衡点',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
+                        return '';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'bepDay',title:'日盈亏平衡点',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
+                        return '';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'totalAmount',title:'商品销售金额',width:"100px",align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -53,34 +70,7 @@ function initGridMonthAnalysis() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-//            {field:'costAvgYear',title:'费用均摊年数',width:"100px",align:'right',
-//                formatter : function(value, row, index) {
-//                	if(!value){
-//                		return "";
-//                	}
-//                    if(row.isFooter){
-//                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-//                    }
-//                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-//                },
-//            },
-            {field:'fixedAvgAmount',title:costTitle,width:"150px",align:'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field:'monthChargeAmount',title:'月经营成本',width:"100px",align:'right',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-            },
-            {field:'totalAmount',title:'销售额',width:"100px",align:'right',
+            {field:'costAmount',title:'商品销售成本',width:"100px",align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -90,13 +80,13 @@ function initGridMonthAnalysis() {
             },
             {field:'grossProfitRateStr',title:'毛利率(%)',width:"80px",align:'right',
                 formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
+                        return '';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'bepMonth',title:'月盈亏平衡点',width:"100px",align:'right',
+            {field:'monthCost',title:'每月成本小计',width:"80px",align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -104,7 +94,40 @@ function initGridMonthAnalysis() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'bepDay',title:'日盈亏平衡点',width:"100px",align:'right',
+            {field:'fixedTotalAmount',title:'开店总成本',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'fixedAvgAmount',title:costTitle,width:"150px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'monthChargeAmount',title:'每月经营成本',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            
+            {field:'materielAmount',title:'物料领用金额',width:"100px",align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field:'faultyAmount',title:'报损金额',width:"100px",align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -168,4 +191,36 @@ function exportExcel(){
 
 	$("#queryForm").attr("action",contextPath+"/report/bepMonthAnalysis/exportExcelList");
 	$("#queryForm").submit();
+}
+
+function toChangeDate(index,fmt){
+	if(typeof fmt === "undefined"){
+		fmt = "yyyy-MM-dd"
+	}
+	
+    switch (index){
+        case 4: //本月
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentMonth()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getCurrentDate()).format(fmt));
+            break;
+        case 5: //上月
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousMonth()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousMonth()[1]).format(fmt));
+            break;
+        case 6: //本季
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentSeason()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousMonth()[1]).format(fmt));
+            break;
+        case 7: //上季
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getPreviousSeason()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousSeason()[1]).format(fmt));
+            break;
+        case 8: //今年
+            $("#txtStartDate").val(dateUtil.addStartTime(dateUtil.getCurrentYear()[0]).format(fmt));
+            $("#txtEndDate").val(dateUtil.addEndTime(dateUtil.getPreviousMonth()[1]).format(fmt));
+            break;
+
+        default :
+            break;
+    }
 }
