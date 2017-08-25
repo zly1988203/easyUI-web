@@ -10,7 +10,7 @@ $(function(){
     
     //新增
     if(!$('#formId').val()){
-    	$('#createTime').text(new Date().format('yyyy-MM-dd HH:mm:ss'));
+    	$('#createTime').text(new Date().format('yyyy-MM-dd hh:mm:ss'));
     }else{
     	//编辑
     	pageStatus = 'edit';
