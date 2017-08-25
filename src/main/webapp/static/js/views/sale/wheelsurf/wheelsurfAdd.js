@@ -52,8 +52,8 @@ var gridDefault = {
     skuId:"",
     prizeType:"1",
     rowNo:"",
-    winNum:"",
-    winRate:"",
+    winNum:"1",
+    winRate:"0.00",
     picUrl:""
 }
 function initgridAddPosAct() {
@@ -69,23 +69,9 @@ function initgridAddPosAct() {
         height:'100%',
         width:'100%',
         columns:[[
-            {field:'cz',title:'操作',width:'60px',align:'center',
-                formatter : function(value, row,index) {
-                    var str = "";
-                    if(row.isFooter){
-                        str ='<div class="ub ub-pc">合计</div> '
-                    }else{
-                        str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
-                            '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
-                    }
-                    return str;
-                },
-            },
-
             {field:'id',title:'id',align:'left',hidden:true},
-            {field:'skuId',title:'skuId',align:'left',hidden:true,editor:'textbox'
-            },
-            {field:'prizeType',title:'奖品类型',width:'200px',align:'left',
+            {field:'skuId',title:'skuId',align:'left',hidden:true,editor:'textbox'},
+            {field:'prizeType',title:'奖品类型',width:'100px',align:'left',
                 formatter:function(value,row){
                     if(row.isFooter){
                         return;
@@ -119,7 +105,7 @@ function initgridAddPosAct() {
                     }
                 }
             },
-            {field:'prizeShortName',title:'奖品简称',width:'100px',align:'left',
+            {field:'prizeShortName',title:'奖品简称',width:'200px',align:'left',
                 editor:{
                     type:'textbox',
                     options:{
@@ -127,7 +113,7 @@ function initgridAddPosAct() {
                     }
                 }
             },
-            {field:'rowNo',title:'顺序',width:'150px',align:'right',
+            {field:'rowNo',title:'顺序',width:'100px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0)+'</b>';
@@ -147,7 +133,27 @@ function initgridAddPosAct() {
                     }
                 },
             },
-            {field:'winNum',title:'中奖数量',width:'100px',align:'right',
+            {field:'winNum',title:'中奖数量',width:'150px',align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0)+'</b>';
+                    }
+
+                    if(!value){
+                        row["winNum"] = parseFloat(value||0);
+                    }
+
+                    return '<b>'+parseFloat(value||0)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:0,
+                    }
+                },
+            },
+            {field:'winNum',title:'奖品总份数',width:'150px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0)+'</b>';
@@ -216,58 +222,25 @@ function initgridAddPosAct() {
     })
 
     if($("#pageStatus").val() == "add") {
-        gridAddPosActHandle.setLoadData([$.extend({}, gridDefault)]);
+        gridAddPosActHandle.setLoadData([$.extend({}, gridDefault),$.extend({}, gridDefault),$.extend({}, gridDefault),
+            $.extend({}, gridDefault),$.extend({}, gridDefault),$.extend({}, gridDefault)]);
     }
-}
-
-//插入一行
-function addLineHandel(event){
-    event.stopPropagation(event);
-    var rows = gridAddPosActHandle.getRows();
-    if(rows.length == 6){
-        $_jxc.alert("最多添加6条数据");
-        return;
-    }
-
-    var index = $(event.target).attr('data-index')||0;
-    gridAddPosActHandle.addRow(index,gridDefault);
-}
-//删除一行
-function delLineHandel(event){
-    event.stopPropagation();
-    var index = $(event.target).attr('data-index');
-    gridAddPosActHandle.delRow(index);
 }
 
 function onSelectprizeType(data) {
-    // var _skuId = gridAddPosActHandle.getFieldData(gridAddPosActHandle.getSelectRowIndex(),'skuId');
-    // if(!_skuId)return;
-
     var row = $("#"+gridName).datagrid("getSelected");
-    row['prizeType'] = data.id;
     if(data.id == "3"){
-        row['prizeFullName'] = "谢谢惠顾";
-        row['prizeShortName'] = "谢谢惠顾";
-        row['skuId'] = "xxhg";
         gridAddPosActHandle.setFieldTextValue("skuId","xxhg");
         gridAddPosActHandle.setFieldTextValue("prizeFullName","谢谢惠顾");
         gridAddPosActHandle.setFieldTextValue("prizeShortName","谢谢惠顾");
     }else {
         if(row.skuId=="" || row.skuId =="xxhg"){
-            row['prizeFullName'] = "";
-            row['prizeShortName'] = "";
-            row['skuId'] = "";
             gridAddPosActHandle.setFieldTextValue("skuId","");
             gridAddPosActHandle.setFieldTextValue("prizeFullName","");
             gridAddPosActHandle.setFieldTextValue("prizeShortName","");
 
         }
     }
-
-    // $("#"+gridName).datagrid("acceptChanges");
-    // $("#"+gridName).datagrid("updateRow",{index:gridAddPosActHandle.getSelectRowIndex(),row:row});
-    // $("#"+gridName).datagrid("refreshRow",gridAddPosActHandle.getSelectRowIndex())
-
 }
 
 function selectPrize() {
@@ -300,23 +273,20 @@ function selectPrize() {
         }
 
         row['prizeFullName'] = data[0].skuName;
+        row['prizeShortName'] = data[0].skuName;
         row['skuId'] = data[0].skuId;
         // gridAddPosActHandle.setFieldTextValue("skuId",data[0].skuId);
         // gridAddPosActHandle.setFieldTextValue("prizeFullName",data[0].skuName);
 
-        // $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
         $("#"+gridName).datagrid("acceptChanges");
-        // $("#"+gridName).datagrid("updateRow",{index:gridAddPosActHandle.getSelectRowIndex(),row:row});
-        // $("#"+gridName).datagrid("refreshRow",gridAddPosActHandle.getSelectRowIndex())
+        $("#"+gridName).datagrid("updateRow",{index:gridAddPosActHandle.getSelectRowIndex(),row:row});
+        $("#"+gridName).datagrid("refreshRow",gridAddPosActHandle.getSelectRowIndex())
 
-        var nowRows = gridAddPosActHandle.getRowsWhere({skuId:'1'});
-
-        $("#"+gridName).datagrid("loadData",nowRows);
-        // setTimeout(function(){
-        //     gridAddPosActHandle.setBeginRow(gridAddPosActHandle.getSelectRowIndex()||0);
-        //     gridAddPosActHandle.setSelectFieldName("prizeShortName");
-        //     gridAddPosActHandle.setFieldFocus(gridAddPosActHandle.getFieldTarget('prizeShortName'));
-        // },100)
+        setTimeout(function(){
+            gridAddPosActHandle.setBeginRow(gridAddPosActHandle.getSelectRowIndex()||0);
+            gridAddPosActHandle.setSelectFieldName("prizeShortName");
+            gridAddPosActHandle.setFieldFocus(gridAddPosActHandle.getFieldTarget('prizeShortName'));
+        },100)
     });
 }
 
@@ -338,7 +308,6 @@ function uploadPic() {
     }
     publicUploadImgService(param,function (data) {
         row.picUrl = data.filePath;
-        // $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
         $("#"+gridName).datagrid("acceptChanges");
         $("#"+gridName).datagrid("updateRow",{index:gridAddPosActHandle.getSelectRowIndex(),row:row});
         $("#"+gridName).datagrid("refreshRow",gridAddPosActHandle.getSelectRowIndex())
@@ -406,12 +375,12 @@ function saveWheelsurf() {
         $_jxc.alert("顺序不能数字重复")
         return;
     }
-    if(totalRate > 100){
-        $_jxc.alert("中奖概率总和不能超过100%")
+    if(totalRate > 100 || totalRate < 100){
+        $_jxc.alert("中奖概率总和应为100%,目前为："+totalRate+"%")
         return;
     }
 
-    if(hasRepeat){
+    if(hasNoPic){
         $_jxc.alert("检测到尚有数据未上传图片，请上传")
         return;
     }

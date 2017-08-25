@@ -4,6 +4,8 @@
  */
 var uploadFileParams;
 var uploadFileCallBack ;
+var maxRows = 1000; //最大能导入的数量
+var maxRowsed; //已导入数量 
 //初始化回调函数
 function initUploadFileCallBack(cb,params){
     if(params.isBtnTemple == false){
@@ -17,8 +19,27 @@ function initUploadFileCallBack(cb,params){
  * @param event
  */
 function fileUrlChange(event){
+	//2.7.0_P01 加入导入最大数量限制校验
+	if(!getOriginTableRows())return;
+	
     var value=$("#file").val();
     $('#filelink').val(value);
+}
+
+/**
+ * 获取导入页已有数量
+ */
+function getOriginTableRows(){
+	var _tableDom = $('#uploadFile').closest('body').find('table[class="datagrid-f"]');
+	if(_tableDom && _tableDom.length < 1)return true;
+	var datagridId = $('#uploadFile').closest('body').find('table[class="datagrid-f"]').attr('id');
+	if(!datagridId)return true;
+	maxRowsed = $('#'+datagridId).datagrid('getRows').length;
+	if(maxRowsed > maxRows){
+		$_jxc.alert('已有'+maxRowsed+'条数据，超过最大导入数' + maxRows +'，请先保存');
+		return false;
+	}
+	return true;
 }
 
 /**
@@ -66,8 +87,12 @@ function toUploadHandel(){
         success : function(data) {
         	gFunEndLoading();
             if(data.code==0){
+				var dbLength = data.importInfo.list.length;
+				if (dbLength + maxRowsed > maxRows) {
+					$_jxc.alert('已有' + maxRowsed + '条数据，导入' + dbLength + '条数据，超过最大导入数' + maxRows +'，请先保存');
+					return;
+				}
                 $("#message").html(data.importInfo.message);
-                console.log(data.importInfo);
                 uploadFileCallBack(data.importInfo.list);
                 if(data.importInfo.errorFileUrl){
                     $("#errorUrl").html("<a href='"+contextPath+data.importInfo.errorFileUrl+"' target='_blank'>下载查看失败数据</a>");

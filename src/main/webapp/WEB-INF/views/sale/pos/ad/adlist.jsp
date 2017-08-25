@@ -69,8 +69,8 @@
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" name="auditStatus" value="2" /><span>已终止
-						</span>
+						<input class="radioItem" type="radio" id="status_over" name="auditStatus" value="2" /><label for="status_over">已终止
+						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="auditStatus"
