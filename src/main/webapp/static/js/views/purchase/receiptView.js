@@ -127,6 +127,18 @@ function initDatagridEditOrder(){
                     return  '<b>'+row.taxAmount+'</b>';
                 },
             },
+            {field:'bigCategory',title:'一级类别',width:'120px',align:'left',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return;
+            		}
+            		var str = "";
+            		if(row.bigCategoryCode && row.bigCategoryName){
+            			str = "["+row.bigCategoryCode + "]" + row.bigCategoryName;
+            		}
+            		return str;
+            	},
+            },
             {field:'goodsCreateDate',title:'生产日期',width:'150px',align:'center', formatter: function (value, row, index) {
                 if (value) {
                 	return new Date(value).format('yyyy-MM-dd hh:mm:ss');

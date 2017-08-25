@@ -1374,7 +1374,12 @@ function GridClass(){
     this.getFieldValue = function(rowIndex,fieldName){
         var ed = $('#'+gridName).datagrid('getEditor', {index:rowIndex,field:fieldName});
         if(ed&&ed.target){
-            return $(ed.target).numberbox('getValue');
+        	//2.7.1 bwp扩展
+        	if(ed.type == 'datebox'){
+        		return $(ed.target).datebox('getValue');
+        	}else{
+        		return $(ed.target).numberbox('getValue');
+        	}
         }
         return "";
     }
@@ -1730,6 +1735,14 @@ function checkInteger(obj){
 function checkPositiveInteger(obj){
 	obj.value = obj.value.replace(/[^\d]/g,"") || 0; //清除"数字"以外的字符
 	obj.value = obj.value.replace(/^0/g,"") || 0; //验证第一个字符是不是为0
+	return obj.value;
+}
+
+//电话号码 020-88888888或者12888888888
+function checkPhoneMoblie(obj){
+	if(!/^((\(\d{2,3}\))|(\d{3}\-))?(\(0\d{2,3}\)|0\d{2,3}-)?[1-9]\d{6,7}(\-\d{1,4})?$/i.test(obj.value) && !/^1\d{10}$/i.test(obj.value)){
+		obj.value = '';
+    }
 	return obj.value;
 }
 

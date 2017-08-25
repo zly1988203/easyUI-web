@@ -232,6 +232,18 @@ function initDatagridEditOrder(){
                     }
                 },
             },
+            {field:'bigCategory',title:'一级类别',width:'120px',align:'left',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return;
+            		}
+            		var str = "";
+            		if(row.bigCategoryCode && row.bigCategoryName){
+            			str = "["+row.bigCategoryCode + "]" + row.bigCategoryName;
+            		}
+            		return str;
+            	},
+            },
             {field:'goodsCreateDate',title:'生产日期',width:'120px',align:'center',
                 formatter : function(value, row,index) {
                     if(row.isFooter){
