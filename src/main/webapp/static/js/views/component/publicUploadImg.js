@@ -30,11 +30,31 @@ function imgUrlChange(event) {
     }
 
     var imgSize = img.size;
-    if(imgSize>250*1024){
-        $_jxc.alert('上传的图片的大于250KB,请重新选择');
+    if(imgSize>(uploadParam.size*1024)){
+        $_jxc.alert('上传的图片的大于'+uploadParam.size+'KB,请重新选择');
         $("#btnUploadImg").addClass("uhide");
         return;
     }
+
+    var reader = new FileReader();
+    reader.readAsDataURL(img);
+    reader.onload = function (e) {
+        var data = e.target.result;
+        //加载图片获取图片真实宽度和高度
+        var image = new Image();
+        image.src = data;
+        image.onload=function(){
+            var width = image.width;
+            var height = image.height;
+            if(width > uploadParam.imgWidth || width < uploadParam.imgWidth
+                || height > uploadParam.imgHeight || height < uploadParam.imgHeight){
+                $_jxc.alert('上传的图片规格要求为：'+uploadParam.imgWidth+"*"+uploadParam.imgHeight);
+                $("#btnUploadImg").addClass("uhide");
+                return;
+            }
+
+        };
+    };
 }
 
 function toUploadImgHandel() {

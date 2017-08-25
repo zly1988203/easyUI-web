@@ -1531,6 +1531,12 @@ $.extend($.fn.validatebox.defaults.rules, {
         },
         message: '身份证号码格式不正确'
     },
+    maxLength:{
+        validator: function(value, param){
+            return value.length <= param[0];
+        },
+        message: '最大只能输入{0}个字符'
+    },
     minLength: {
         validator: function (value, param) {
             return value.length >= param[0];

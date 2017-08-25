@@ -154,11 +154,21 @@ function imgUpload(event) {
     }
     var id = event.target.id;
 
+    if(id === "mainImg"){
+        var width = 800;
+            var height = 586;
+    }else {
+        var width = 270;
+        var height = 170;
+    }
+
     var param = {
-        url:"/pos/wheelsurf/form/upload"
+        url:"/pos/wheelsurf/form/upload",
+        size:250,
+        imgWidth:width,
+        imgHeight:height,
     }
     publicUploadImgService(param,function (data) {
-        var data = data;
         $("#"+id).attr("src",data.filePath);
     });
 }
