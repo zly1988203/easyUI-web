@@ -6,6 +6,10 @@ $(function () {
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initgridAdList();
+    
+    $(".radioItem").change(function () {
+        queryAD();
+    })
 })
 
 var gridName = "gridAdList";
@@ -14,7 +18,7 @@ function initgridAdList() {
         $("#"+gridName).datagrid({
             align:'center',
             //toolbar: '#tb',     //工具栏 id为tb
-            singleSelect:true,  //单选  false多选
+            singleSelect:false,  //单选  false多选
             rownumbers:true,    //序号
             pagination:true,    //分页
             fitColumns:true,    //每列占满
@@ -57,7 +61,7 @@ function initgridAdList() {
                 gridAdListHandle.setDatagridHeader("center");
             }
         })
-
+    queryAD();
 }
 
 function queryAD() {
@@ -75,15 +79,24 @@ function adAdd() {
 
 
 function adDelete() {
-    var rows = $("#keygrid").datagrid("getChecked");
+    var rows = $("#"+gridName).datagrid("getChecked");
     if(rows.length <= 0){
         $_jxc.alert("请选择数据");
         return;
     }
 
     var ids = [];
+    var isCanDel = true;
     for(var i=0; i<rows.length; i++){
+        if(rows[i].auditStatus != 0){
+            isCanDel = false;
+        }
         ids.push(rows[i].deliverFormId);
+    }
+
+    if(!isCanDel){
+        $_jxc.alert("选中的数据有已审核或者已终止的数据，不能删除");
+        return;
     }
 
     $_jxc.confirm('是否要删除选中数据?',function(data){
@@ -95,7 +108,7 @@ function adDelete() {
             },function(result){
                 if(result['code'] == 0){
                     $_jxc.alert("删除成功");
-                    dg.datagrid('reload');
+                    $("#"+gridName).datagrid('reload');
                 }else{
                     $_jxc.alert(result['message']);
                 }
