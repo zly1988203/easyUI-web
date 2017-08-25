@@ -68,8 +68,12 @@ public class PosGroupKeyController extends BaseController<PosGroupKeyController>
 	@RequestMapping(value = "/save/group", method = RequestMethod.POST)
 	public RespJson saveGroup(PosGroupKeyVo posGroupKey) {
     	try {
-			posGroupKeyService.savePosGroupKey(posGroupKey);
-			return RespJson.success();
+            if(posGroupKeyService.verification(posGroupKey)){
+                return RespJson.error("分组名称和排序不能重复!" );
+            }else {
+                posGroupKeyService.savePosGroupKey(posGroupKey);
+                return RespJson.success();
+            }
 		}catch (Exception e){
 			LOG.error("保存分组失败!" ,e);
 			return RespJson.error("保存分组失败!" );
