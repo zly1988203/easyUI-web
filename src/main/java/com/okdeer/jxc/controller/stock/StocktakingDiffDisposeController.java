@@ -310,9 +310,12 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			vo.setValidUserName(user.getUserName());
 			vo.setValidTime(DateUtils.getCurrFullStr());
 			return stocktakingOperateServiceApi.auditDiffDispose(vo);
+		} catch (RpcException e) {
+            LOG.error("审核差异处理信息异常:{}", e);
+            respJson = RespJson.error("审核差异处理信息异常");
         } catch (RuntimeException e) {
 			LOG.error("审核差异处理信息异常:{}", e);
-			respJson = RespJson.error(e.getMessage());
+            respJson = RespJson.error(StringUtils.isBlank(e.getMessage()) ? "审核差异处理信息异常" : e.getMessage());
 		} catch (Exception e) {
             LOG.error("审核差异处理信息异常:{}", e);
             respJson = RespJson.error("审核差异处理信息异常");
