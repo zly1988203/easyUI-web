@@ -89,9 +89,11 @@ function adDelete() {
     $_jxc.confirm('是否要删除选中数据?',function(data){
         if(data){
             $_jxc.ajax({
-                url:contextPath+"/form/deliverForm/deleteDeliverForm",
+                url:contextPath+"/pos/ad/form/del",
                 contentType:"application/json",
-                data:JSON.stringify(ids)
+                data:{
+                    ids:JSON.stringify(ids)
+                }
             },function(result){
                 if(result['code'] == 0){
                     $_jxc.alert("删除成功");

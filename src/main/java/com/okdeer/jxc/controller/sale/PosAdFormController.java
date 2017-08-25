@@ -11,6 +11,7 @@ package com.okdeer.jxc.controller.sale;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
+import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -115,11 +116,23 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
         return PageUtils.emptyPage();
     }
 
-    @RequestMapping(value = "/del/{id}", method = RequestMethod.POST)
-    public RespJson del(@PathVariable(value = "id")String id) {
+    @RequestMapping(value = "/del", method = RequestMethod.POST)
+    public RespJson del(@RequestParam(value = "ids[]")  String[] ids) {
         try {
-            posAdServiceApi.delPosAdFormAndDetail(id);
-            return RespJson.success();
+            boolean bool = Boolean.FALSE;
+            for (String id : ids){
+               PosAdFormVo vo = posAdServiceApi.getPosAdByFormId(id);
+               if(vo.getAuditStatus()==1||vo.getAuditStatus()==2){
+                   bool = Boolean.TRUE;
+                   break;
+               }
+            }
+            if (bool) {
+                return RespJson.error("刪除的数据包含已审核或已终止的单据,请刷新再删除!");
+            }else {
+                posAdServiceApi.delPosAdFormAndDetail(ids);
+                return RespJson.success();
+            }
         }catch (Exception e){
             LOG.error("删除POS客屏广告失败!" ,e);
             return RespJson.error("删除POS客屏广告失败!" );
@@ -129,13 +142,20 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
     @RequestMapping(value = "/over", method = RequestMethod.POST)
     public RespJson over(String formId){
         try {
-            PosAdFormVo vo = new PosAdFormVo();
-            vo.setId(formId);
-            vo.setAuditStatus(2);
-            vo.setAuditTime(new Date());
-            vo.setAuditUserId(getCurrUserId());
-            posAdServiceApi.updatePosAdForm(vo);
-            return RespJson.success();
+            PosAdFormVo vo = posAdServiceApi.getPosAdByFormId(formId);
+            if(vo.getDisabled()== DisabledEnum.YES.getIndex()){
+                return RespJson.error("该POS客屏广告已被删除,无法终止!" );
+            }else if(vo.getAuditStatus()==0){
+                return RespJson.error("该POS客屏广告未审核,无法终止!" );
+            }else {
+                vo = new PosAdFormVo();
+                vo.setId(formId);
+                vo.setAuditStatus(2);
+                vo.setAuditTime(new Date());
+                vo.setAuditUserId(getCurrUserId());
+                posAdServiceApi.updatePosAdForm(vo);
+                return RespJson.success();
+            }
         }catch (Exception e){
             LOG.error("终止POS客屏广告失败!" ,e);
             return RespJson.error("终止POS客屏广告失败!" );
@@ -145,13 +165,20 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
     @RequestMapping(value = "/audit", method = RequestMethod.POST)
     public RespJson audit(String formId){
         try {
-            PosAdFormVo vo = new PosAdFormVo();
-            vo.setId(formId);
-            vo.setAuditStatus(1);
-            vo.setAuditTime(new Date());
-            vo.setAuditUserId(getCurrUserId());
-            posAdServiceApi.updatePosAdForm(vo);
-            return RespJson.success();
+            PosAdFormVo vo = posAdServiceApi.getPosAdByFormId(formId);
+            if(vo.getDisabled()== DisabledEnum.YES.getIndex()){
+                return RespJson.error("该POS客屏广告已被删除,无法审核!" );
+            }else if(vo.getAuditStatus()==2){
+                return RespJson.error("该POS客屏广告已终止,无需审核!" );
+            }else {
+                vo = new PosAdFormVo();
+                vo.setId(formId);
+                vo.setAuditStatus(1);
+                vo.setAuditTime(new Date());
+                vo.setAuditUserId(getCurrUserId());
+                posAdServiceApi.updatePosAdForm(vo);
+                return RespJson.success();
+            }
         }catch (Exception e){
             LOG.error("审核POS客屏广告失败!" ,e);
             return RespJson.error("审核POS客屏广告失败!" );
