@@ -74,10 +74,6 @@
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">审核状态:</div>
-                    <div class="ub ub-ac umar-r10">
-                    <input class="radioItem" type="radio" name="auditStatus"
-                    id="status_all" value="" /><label for="status_all">全部</label>
-                    </div>
 
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="auditStatus" id="status_no"
@@ -95,6 +91,11 @@
                     id="status_over" value="2" /><label for="status_over">已终止
                     </label>
                     </div>
+
+					<div class="ub ub-ac umar-r10">
+					<input class="radioItem" type="radio" name="auditStatus"
+					id="status_all" value="" /><label for="status_all">全部</label>
+					</div>
 
 				</div>
 			</div>

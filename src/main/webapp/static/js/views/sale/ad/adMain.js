@@ -37,8 +37,7 @@ function initBranchGroup(){
     $('#branchTemp').branchSelect({
         param:{
             selectType:1,  //多选
-            view:'group', //分组
-            formType:''
+            branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C+','+ $_jxc.branchTypeEnum.OWN_STORES
         },
         loadFilter:function(data){
             if(data && data.length >0 ){
@@ -47,27 +46,6 @@ function initBranchGroup(){
                 })
             }
             return data;
-        },
-        onAfterRender:function(data){
-            $('#branchName').attr('title',$('#branchName').val());
-            if(data && data.length>0){
-                var ids = [];
-                data.forEach(function(obj,inx){
-                    if(obj.type == -1){
-                        ids.push(obj.branchId);
-                    }
-                })
-                if(ids.length == 0) return;
-                var param = {
-                    "groupIds":ids.join(',')
-                }
-                //拉取分组详细
-                publicGetBranchGroupDetail(param,function(result){
-                    $('#branchIds').val(result&&result.branchId);
-                    $('#branchName').attr('title',result&&result.branchName);
-                    // $('#branchsFullName').val(result&&result.branchName);
-                })
-            }
         }
     });
 }

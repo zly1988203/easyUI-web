@@ -7,6 +7,10 @@ $(function () {
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     $('#branchTemp').branchSelect();
+
+    $(".radioItem").change(function () {
+        queryPosActivity();
+    })
 })
 
 var gridName = "gridPosActivity";
@@ -55,6 +59,7 @@ function initgridPosActivity() {
             gridPosActivityHandle.setDatagridHeader("center");
         }
     })
+    queryPosActivity();
 }
 
 function queryPosActivity() {
