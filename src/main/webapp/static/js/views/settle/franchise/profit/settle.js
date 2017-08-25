@@ -12,6 +12,7 @@ var url = "";
 var gridName = "proFitAdd";
 var oldData = {};
 var pageStatus;
+var clickCaculateFlag = false;//用于逻辑判断
 
 $(function(){
     pageStatus = $('#pageStatus').val();
@@ -172,7 +173,10 @@ function initSupChkAcoAdd(){
         onLoadSuccess:function(data){
             gridHandel.setDatagridHeader("center");
             updateFooter();
-            
+            if(clickCaculateFlag && data.rows.length < 1){
+        		$_jxc.alert('当前时段无购销商品销售数据，请重新选择日期。');
+        		clickCaculateFlag = false;
+        	}
         },
     });
     
@@ -237,6 +241,8 @@ function calAmount(){
 		data: paramsObj
 	},function(result){
 		if(result['code'] == 0){
+			
+			clickCaculateFlag = true;
     		//保存时用于比较
     		$('#oldTime').val(_startTime+''+_endTime);
 			
