@@ -50,11 +50,7 @@ function initgridAdList() {
                 {field:'overDateStr', title:'展示结束日期', width:140, align: 'left'},
                 {field:'createUserName', title: '制单人', width:100, align: 'left'},
                 {field:'auditUserName', title: '审核人', width:120, align: 'left'},
-                {field:'auditTimeStr', title: '审核时间', width:140, align: 'left',
-                    formatter:function(value,row,index){
-                        return formatDate(value);
-                    }
-                },
+                {field:'createTimeStr', title: '制单时间', width:140, align: 'left'},
                 {field:'remark',title:'备注',width:'200px',align:'left'},
             ]],
             onLoadSuccess:function(data){
@@ -91,7 +87,7 @@ function adDelete() {
         if(rows[i].auditStatus != 0){
             isCanDel = false;
         }
-        ids.push(rows[i].deliverFormId);
+        ids.push(rows[i].id);
     }
 
     if(!isCanDel){
@@ -102,9 +98,10 @@ function adDelete() {
     $_jxc.confirm('是否要删除选中数据?',function(data){
         if(data){
             $_jxc.ajax({
-                url:contextPath+"/form/deliverForm/deleteDeliverForm",
-                contentType:"application/json",
-                data:JSON.stringify(ids)
+                url:contextPath+"/pos/ad/form/del",
+                data:{
+                    "ids[]":ids
+                }
             },function(result){
                 if(result['code'] == 0){
                     $_jxc.alert("删除成功");

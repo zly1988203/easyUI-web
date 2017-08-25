@@ -53,7 +53,7 @@ function initgridPosActivity() {
                 }},
             {field:'createUserName',title:'制单人',width:'150px',align:'left'},
             {field:'auditUerName',title:'审核人',width:'150px',align:'left'},
-            {field:'auditTimeStr',title:'审核日期',width:'150px',align:'left'},
+            {field:'createTimeStr',title:'制单时间',width:'150px',align:'left'},
         ]],
         onLoadSuccess:function(data){
             gridPosActivityHandle.setDatagridHeader("center");
