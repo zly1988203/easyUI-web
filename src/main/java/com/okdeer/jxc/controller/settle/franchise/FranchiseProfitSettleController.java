@@ -173,7 +173,7 @@ public class FranchiseProfitSettleController
 	public ModelAndView settleEdit(String id, Model model) {
 		FranchiseProfitSettleVo vo = franchiseProfitSettleService.getSettle(id);
 		ModelAndView modelAndView = new ModelAndView("settle/franchise/profit/settleEdit");
-		if (FormStatus.CHECK_SUCCESS.getValue().equals(vo.getAuditStatus())) {
+		if (vo != null && FormStatus.CHECK_SUCCESS.getValue().equals(vo.getAuditStatus())) {
 			modelAndView.setViewName("settle/franchise/profit/settleView");
 		}
 		modelAndView.addObject("settleVo", vo);
