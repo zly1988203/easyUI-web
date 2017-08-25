@@ -4,9 +4,8 @@
  */
 $(function(){
 	//开始和结束时间
-    toChangeDate(9);
-    $("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
-    $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	//2.7_P01 20682 【需求优化】店铺销售排行界面默认查询当天的数据
+    toChangeDate(0);
 	$("#branchCompleCode").val(sessionBranchCompleCode);
     initDatagridRequireOrders();
     branchId = $("#branchId").val();
