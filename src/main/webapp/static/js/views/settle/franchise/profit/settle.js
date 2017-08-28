@@ -65,8 +65,19 @@ $(function(){
 			        	$('#branchCode').val(data.branchCode);
 			        	$('#contractName').val(data.contacts);
 						$('#beginDate').val(result['settleTimeStart']);
+						// 判断该加盟店是否建立合同
+						$_jxc.ajax({
+					        url:contextPath+"/settle/franchiseContract/checkExistContract",
+					        data:{"franchiseBranchId":data.branchId},
+					    },function(result){
+					    	if(result['code'] != 0){
+					    		$_jxc.alert(result['message']);
+					    	}
+					    });
 			        }else{
 			        	$('#franchiseBranchName').val('');
+			        	$('#contractName').val('');
+						$('#beginDate').val('');
 			            $_jxc.alert(result['message']);
 			        }
 			    });
