@@ -46,12 +46,12 @@
 						type="text" maxlength="50">
 					<div class="uinp-more" onclick="selectSupplier()">...</div>
 				</div>
-				<div class="ub ub-ac umar-r40">
+				<div class="ub ub-ac umar-r40" id="operatorComponent">
 					<div class="umar-r10 uw-60 ut-r">操作员:</div>
 					<input class="uinp" name="operateUserId" id="operateUserId"
 						type="hidden"> <input class="uinp" id="operateUserName"
 						name="operateUserName" type="text" maxlength="50">
-					<div class="uinp-more" onclick="selectOperator()">...</div>
+					<div class="uinp-more">...</div>
 				</div>
 			</div>
 			<div class="ub umar-t8">

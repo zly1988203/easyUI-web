@@ -41,22 +41,20 @@
     	</div>
     	
     	<div class="ub umar-t20">
-    		<div class="ub ub-ac uw-516">
+    		<div class="ub ub-ac uw-516" id="categorySelect">
 					<div class="umar-r10 uw-70 ut-r">商品类别:</div>
 					<input type="hidden" id="categoryCode" name="categoryCode" />
-					<input class="uinp ub ub-f1" type="text" id="categoryCodeName" name="categoryCodeName" maxlength="50"
-						 onblur="categoryAutoComple()" onkeyup="categoryAutoComple()"  />
-					<div class="uinp-more" onclick="searchCategory()" >...</div>
+					<input class="uinp ub ub-f1" type="text" id="categoryCodeName" name="categoryCodeName" maxlength="50"/>
+					<div class="uinp-more">...</div>
 				</div>
     	</div>
     	
     	<div class="ub umar-t20">
-    	    	<div class="ub ub-ac uw-516">
+    	    	<div class="ub ub-ac uw-516" id="supplierComponent">
 					<div class="umar-r10 uw-70 ut-r">供应商:</div>
 					<input type="hidden" id="supplierId" name="supplierId" />
-					<input class="uinp ub ub-f1" type="text" id="supplierCodeName" name="supplierCodeName" maxlength="50" 
-						onblur="supplierAutoComple()" onkeyup="supplierAutoComple()" />
-					<div class="uinp-more" onclick="selectSupplier()" >...</div>
+					<input class="uinp ub ub-f1" type="text" id="supplierCodeName" name="supplierCodeName" maxlength="50"/>
+					<div class="uinp-more" >...</div>
 				</div>
     	</div>
     	
