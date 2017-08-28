@@ -93,7 +93,7 @@ function calulateMoney(newV,oldV){
 	if(newV == ''){
 		$(this).numberbox('setValue',0);
 	}
-	$('#amount').val((parseFloat($('#profitOfCompany').val()||0)+parseFloat(newV||0)).toFixed(2));
+	$('#amount').numberbox('setValue',parseFloat($('#profitOfCompany').numberbox('getValue'))+parseFloat(newV||0));
 }
 
 $(document).on('input','#remark',function(){
@@ -257,10 +257,11 @@ function calAmount(){
     		//保存时用于比较
     		$('#oldTime').val(_startTime+''+_endTime);
 			
-			$("#profit").val(parseFloat(result['profitAmount']).toFixed(2));
-			$("#profitOfCompany").val(parseFloat(result['targetProfitAmount']).toFixed(2));
-			$("#profitSupper").val(parseFloat(result['franchiseProfitAmount']).toFixed(2));
-			$("#amount").val((parseFloat($("#profitOfCompany").val()||0) + parseFloat($("#otherAmount").val()||0)).toFixed(2));
+			$("#profit").numberbox('setValue',parseFloat(result['profitAmount']));
+			//profitOfCompany
+			$("#profitOfCompany").numberbox('setValue',parseFloat(result['targetProfitAmount']));
+			$("#profitSupper").numberbox('setValue',parseFloat(result['franchiseProfitAmount']));
+			$("#amount").numberbox('setValue',parseFloat($("#profitOfCompany").val()||0) + parseFloat($("#otherAmount").val()||0));
 			
     		$("#"+gridName).datagrid("options").method = "post";
     		$("#"+gridName).datagrid("options").queryParams = paramsObj;
