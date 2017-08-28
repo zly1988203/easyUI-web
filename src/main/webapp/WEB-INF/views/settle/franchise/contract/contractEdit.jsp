@@ -56,7 +56,7 @@
 				        	<div class="ub ub-ac uw-524 umar-t12" id="companyA">
 				        		<label class="ub uw-110 ub-pe umar-r8 ">甲方(公司):</label>
 				        		<input type="hidden" name="targetBranchId" id="targetBranchId" value="${contractVo.targetBranchId}">
-				        		<input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" value="${contractVo.targetBranchName}" >
+				        		<input class="uinp ub ub-f1" type="text" id="targetBranchName" readonly="readonly" name="targetBranchName" value="[${contractVo.targetBranchCode}]${contractVo.targetBranchName}" >
 				        		<div class="uinp-more">...</div>
 				        		<i class="ub ub-ac uc-red">*</i>
 				        	</div>
@@ -76,7 +76,7 @@
 				        		<label class="ub uw-110 ub-pe umar-r8 ">乙方(签约机构):</label>
 				        		<input type="hidden" name="franchiseBranchId" id="franchiseBranchId" value="${contractVo.franchiseBranchId}">
 				        		<input type="hidden" name="franchiseBranchCode" id="franchiseBranchCode" value="${contractVo.franchiseBranchCode}">
-				        		<input class="uinp ub ub-f1" type="text" readonly="readonly" name="franchiseBranchName" value="${contractVo.franchiseBranchName}">
+				        		<input class="uinp ub ub-f1" type="text" readonly="readonly" name="franchiseBranchName" value="[${contractVo.franchiseBranchCode}]${contractVo.franchiseBranchName}">
 				        		<div class="uinp-more">...</div>
 				        		<i class="ub ub-ac uc-red">*</i>
 				        	</div>
