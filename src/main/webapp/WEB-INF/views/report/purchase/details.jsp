@@ -8,7 +8,7 @@
 <title>采购明细</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/purchase/details.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/report/purchase/details.js?V=${versionNo}2"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -52,12 +52,12 @@
 					   <div class="uinp-more" id="supplierSelect">...</div>
 				   </div>
 			  </div>
-			  <div class="ub ub-ac uw-300">
+			  <div class="ub ub-ac uw-300" id="categorySelect">
 				<div class="umar-r10 uw-80 ut-r">类别:</div>
 				<input type="hidden" name="categoryId" id="categoryId" class="uinp" />
 				  <div class="ub">
 					  <input type="text" name="categoryName" id="categoryName" class="uinp" maxlength="50" />
-					  <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
+					  <div class="uinp-more" id="categorySelect">...</div>
 				  </div>
 			  </div>
             </div>

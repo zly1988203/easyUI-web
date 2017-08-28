@@ -21,7 +21,19 @@ $(function(){
     $("#startTime").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM-dd"));
     $("#endTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 
-	//获取数据对象 第二部返回到这一步 进行数据回显
+    //类别选择初始化
+    $('#categorySelect').categorySelect();
+
+    //供应商选择初始化
+    $('#supplierComponent').supplierSelect({
+        //数据过滤
+        loadFilter:function(data){
+            data.supplierId = data.id;
+            return data;
+        }
+    });
+
+    //获取数据对象 第二部返回到这一步 进行数据回显
 	formData = $("#formData").val();
 	
 	if('undefined' != typeof(formData) && "" != formData){

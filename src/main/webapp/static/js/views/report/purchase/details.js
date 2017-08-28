@@ -22,6 +22,9 @@ $(function() {
 			return data;
 		}
 	});
+
+    //类别选择初始化
+    $('#categorySelect').categorySelect();
 	
 });
 var gridHandel = new GridClass();
