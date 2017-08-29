@@ -87,6 +87,10 @@ public class OutOfStockController extends ReportController {
 		// 判断是否是汇总查询/明细
 		try {
 			String branchName = getCurrBranchName();
+			Object obj = map.get("targetBranchName");
+			if(obj != null){
+				branchName = obj.toString();
+			}
 			List<DataRecord> reportList = outOfStockServiceApi.getList(map);
 			DataRecord dataRecord = outOfStockServiceApi.getTotal(map);
 			if ("0".equals(map.get("type"))) {

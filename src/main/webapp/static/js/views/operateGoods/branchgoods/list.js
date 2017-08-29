@@ -51,6 +51,11 @@ $(function() {
 
 	// 商品过滤单选框
 	changeStatus();
+	
+	var a = $('input:radio[name="status"]:checked').val();
+	
+	// 如果是机构未引入商品，则隐藏 机构名称、机构编码两列
+	changeGridColumn(a);
 
 });
 
@@ -160,21 +165,30 @@ function changeStatus() {
 		var a = $(this).val();
 		// 导入有用
 		$("#status_3").val(a);
+		
 		// 如果是机构未引入商品，则隐藏 机构名称、机构编码两列
-		var fieldArr = [ "branchCode", "branchName" ];
-		if (a == 1) {
-			datagridCommon.hideDataGridColumn("gridOrders", fieldArr);
-		} else {
-			datagridCommon.showDataGridColumn("gridOrders", fieldArr);
-		}
+		changeGridColumn(a);
 	});
 }
 
+//如果是机构未引入商品，则隐藏 机构名称、机构编码两列
+function changeGridColumn(a){
+	var fieldArr = [ "branchCode", "branchName" ];
+	if (a == 1) {
+		datagridCommon.hideDataGridColumn(gridName, fieldArr);
+	} else {
+		datagridCommon.showDataGridColumn(gridName, fieldArr);
+	}
+}
+
 var gridHandel = new GridClass();
+
+var gridName = "gridOrders"; 
+
 // 初始化表格
 function initDatagridOrders() {
 	gridHandel.setGridName("gridOrders");
-	$("#gridOrders").datagrid({
+	$("#"+gridName).datagrid({
 		// title:'普通表单-用键盘操作',
 		method : 'post',
 		align : 'center',

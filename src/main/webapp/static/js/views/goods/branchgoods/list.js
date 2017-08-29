@@ -63,6 +63,11 @@ $(function() {
 		}
 	});
 	
+	var a = $('input:radio[name="status"]:checked').val();
+	
+	// 如果是机构未引入商品，则隐藏 机构名称、机构编码两列
+	changeGridColumn(a);
+	
 });
 
 
@@ -173,14 +178,20 @@ function changeStatus() {
 		var a = $(this).val();
 		// 导入有用
 		$("#status_3").val(a);
+		
 		// 如果是机构未引入商品，则隐藏 机构名称、机构编码两列
-		var fieldArr = [ "branchCode", "branchName" ];
-		if (a == 1) {
-			datagridCommon.hideDataGridColumn("gridOrders", fieldArr);
-		} else {
-			datagridCommon.showDataGridColumn("gridOrders", fieldArr);
-		}
+		changeGridColumn(a);
 	});
+}
+
+// 如果是机构未引入商品，则隐藏 机构名称、机构编码两列
+function changeGridColumn(a){
+	var fieldArr = [ "branchCode", "branchName" ];
+	if (a == 1) {
+		datagridCommon.hideDataGridColumn(gridName, fieldArr);
+	} else {
+		datagridCommon.showDataGridColumn(gridName, fieldArr);
+	}
 }
 
 var gridHandel = new GridClass();
@@ -228,17 +239,17 @@ function initDatagridOrders() {
 		}, {
 			field : 'branchName',
 			title : '机构名称',
-			width : 220,
+			width : 150,
 			align : 'left'
 		}, {
 			field : 'branchCode',
 			title : '机构编码',
-			width : 100,
+			width : 80,
 			align : 'left'
 		}, {
 			field : 'skuCode',
 			title : '货号',
-			width : 100,
+			width : 80,
 			align : 'left',
             formatter: function(value,row,index){
             	return value;
@@ -253,7 +264,7 @@ function initDatagridOrders() {
 		}, {
 			field : 'skuName',
 			title : '商品名称',
-			width : 100,
+			width : 170,
 			align : 'left'
 		}, {
 			field : 'barCode',
@@ -263,7 +274,7 @@ function initDatagridOrders() {
 		}, {
 			field : 'statusDesc',
 			title : '商品状态',
-			width : 100,
+			width : 70,
 			align : 'left'
 		}, {
 			field : 'purchaseSpec',
@@ -284,7 +295,7 @@ function initDatagridOrders() {
 		},{
 			field : 'fastDeliverStr',
 			title : '是否直送商品',
-			width : 100,
+			width : 80,
 			align : 'center'
 		},{
 			field : 'salePrice',

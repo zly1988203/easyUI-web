@@ -177,9 +177,18 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 	public void exportList(HttpServletResponse response, String formNo, String type, String pattern) {
 		LOG.debug("DeliverFormListController.export:" + formNo);
 		try {
-			List<DeliverFormList> exportList = queryDeliverFormListServiceApi.getDeliverList(formNo);
 			
 			DeliverFormBranchVo branchVo = deliverFormService.getDeliverBranchInfoByFormNo(formNo);
+			
+			QueryDeliverFormVo vo = new QueryDeliverFormVo();
+
+			// 允许要货单审核后按类别排序
+			if(FormType.DA.name().equals(type)){
+				Integer isAllowDaAuditSort = buildIsAllowDaAuditSortParam(branchVo.getFormId());
+				vo.setIsAllowDaAuditSort(isAllowDaAuditSort);
+			}
+			vo.setFormNo(formNo);
+			List<DeliverFormList> exportList = queryDeliverFormListServiceApi.getDeliverList(vo);
 			
 	         // 过滤数据权限字段
             cleanAccessData(exportList);
