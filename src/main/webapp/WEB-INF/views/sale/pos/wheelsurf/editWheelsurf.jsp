@@ -24,6 +24,9 @@
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
+				<shiro:hasPermission name="posWheelsurfForm:append">
+					<div class="ubtns-item" onclick="addPosActivity()">新增</div>
+				</shiro:hasPermission>
 				<c:choose>
 					<c:when test="${form.auditStatus eq '0'}">
 						<div class="ubtns-item" onclick="selectPrize()">奖品选择</div>

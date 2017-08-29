@@ -244,6 +244,10 @@ function onSelectprizeType(data) {
     }
 }
 
+function addPosActivity() {
+    toAddTab("新增Pos客屏活动",contextPath + "/pos/wheelsurf/form/add");
+}
+
 function selectPrize() {
     var branchId = $("#branchIds").val();
     if(!branchId){
