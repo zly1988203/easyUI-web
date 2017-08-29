@@ -168,7 +168,7 @@ img {
 					<div class="umar-r10 uw-60 ut-r">展示时长:</div>
 					<input id="intervalTime" name="intervalTime"
 						class="uinp uw-416 easyui-numberbox easyui-validatebox"
-						data-options="min:1,max:999999,precision:0" type="text" value="<c:out value="${form.intervalTime}"/>">
+						data-options="min:1,max:999999,precision:0,required:true" type="text" value="<c:out value="${form.intervalTime}"/>">
 					秒
 				</div>
 			</div>
@@ -184,7 +184,7 @@ img {
 				<img id="mainImg" name="mainImg" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
 			</c:otherwise>
 		</c:choose>
-			<input type="hidden" id="mainImgVal" />
+			<input type="hidden" id="mainImgVal" value="${detail[0].picUrl}"/>
 		</div>
 		</div>
 
@@ -199,7 +199,7 @@ img {
 				<img id="img1" name="img1" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
 			</c:otherwise>
 		</c:choose>
-			<input type="hidden" id="img1Val" />
+			<input type="hidden" id="img1Val" value="${detail[1].picUrl}"/>
 		</div>
 
 		<div class="ub ub-ac umar-r20">
@@ -211,7 +211,7 @@ img {
 				<img id="img2" name="img2" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
 			</c:otherwise>
 		</c:choose>
-			<input type="hidden" id="img2Val" />
+			<input type="hidden" id="img2Val" value="${detail[2].picUrl}"/>
 		</div>
 
 		<div class="ub ub-ac umar-r20">
@@ -223,7 +223,7 @@ img {
 				<img id="img3" name="img3" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
 			</c:otherwise>
 		</c:choose>
-		<input type="hidden" id="img3Val" />
+		<input type="hidden" id="img3Val" value="${detail[3].picUrl}"/>
 		</div>
 
 		</div>
