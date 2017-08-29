@@ -72,21 +72,21 @@
 						<div class="umar-r10 uw-60 ut-r">活动时间:</div>
 						<input id="beginTime" name="beginTime" class="Wdate easyui-validatebox"
 						data-options="required:true" type="text"
-						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.beginTime}" pattern="yyyy-MM-dd" />"/>
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" value="<fmt:formatDate value="${form.beginTime}" pattern="yyyy-MM-dd" />"/>
 	至
 						<input id="overTime" name="overTime" class="Wdate easyui-validatebox"
 						data-options="required:true" type="text"
-						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.overTime}" pattern="yyyy-MM-dd"/>" />
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'beginTime\')}'})" value="<fmt:formatDate value="${form.overTime}" pattern="yyyy-MM-dd"/>" />
 					</div>
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-80 ut-r">奖品有效期:</div>
 						<input id="validBeginTime" name="validBeginTime" class="Wdate easyui-validatebox"
 							data-options="required:true" type="text"
-							onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.validBeginTime}" pattern="yyyy-MM-dd"/>"/>
+							onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'beginTime\')}'})" value="<fmt:formatDate value="${form.validBeginTime}" pattern="yyyy-MM-dd"/>"/>
 	至
 						<input id="validOverTime" name="validOverTime" class="Wdate easyui-validatebox"
 						data-options="required:true" type="text"
-						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" value="<fmt:formatDate value="${form.validOverTime}" pattern="yyyy-MM-dd"/>" />
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'overTime\')}'})" value="<fmt:formatDate value="${form.validOverTime}" pattern="yyyy-MM-dd"/>" />
 					</div>
 
 				</div>
@@ -118,7 +118,7 @@
 					<div class="umar-r10 uw-60 ut-r">活动机构:</div>
 					<input class="uinp ub ub-f1" type="hidden" id="branchIds"
 					name="branchIds" value="<c:out value="${form.branchIds}"/>"> <input class="uinp ub ub-f1 uw-416" type="text"
-					id="branchName" name="branchName" value="<c:out value="${form.branchName}"/>">
+					id="branchName" name="branchName" value="<c:out value="${form.branchName}"/>" readonly="readonly">
 					<div class="uinp-more">...</div>
 					</div>
 					<div class="ub ub-ac umar-r20">

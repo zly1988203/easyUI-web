@@ -57,10 +57,24 @@ function saveAd() {
         return;
     }
 
-    var isValid = $("#formAdd").form('validate');
-    if (!isValid) {
+    var adName = $("#adName").val();
+    if(!adName){
+        $_jxc.alert("请先填写活动名称");
         return;
     }
+
+    if($_jxc.isStringNull($("#mainImgVal").val())){
+        $_jxc.alert("请上传活动主图");
+        return;
+    }
+
+    if($_jxc.isStringNull($("#img1Val").val())
+        || $_jxc.isStringNull($("#img2Val").val())
+        || $_jxc.isStringNull($("#img3Val").val())){
+        $_jxc.alert("请上传完活动次图");
+        return;
+    }
+
     var formObj = $("#formAdd").serializeObject();
 
     $_jxc.ajax({
@@ -88,10 +102,24 @@ var updateAd = function(){
         return;
     }
 
-    var isValid = $("#formAdd").form('validate');
-    if (!isValid) {
+    var adName = $("#adName").val();
+    if(!adName){
+        $_jxc.alert("请先填写活动名称");
         return;
     }
+
+    if($_jxc.isStringNull($("#mainImgVal").val())){
+        $_jxc.alert("请上传活动主图");
+        return;
+    }
+
+    if($_jxc.isStringNull($("#img1Val").val())
+        || $_jxc.isStringNull($("#img2Val").val())
+        || $_jxc.isStringNull($("#img3Val").val())){
+        $_jxc.alert("请上传完活动次图");
+        return;
+    }
+
     var formObj = $("#formAdd").serializeObject();
 
     $_jxc.ajax({
@@ -113,35 +141,45 @@ var updateAd = function(){
 };
 
 function checkAd() {
-    $_jxc.ajax({
-        url:contextPath+'/pos/ad/form/audit',
-        data:{
-            formId : $("#formId").val()
-        },
-    },function(result){
-        if(result.code == 0){
-            $_jxc.alert("审核成功",function () {
-                gFunRefresh();
-            });
-        }else{
-            $_jxc.alert(result['message']);
+    $_jxc.confirm("确认审核通过？",function (res) {
+        if(res){
+            $_jxc.ajax({
+                url:contextPath+'/pos/ad/form/audit',
+                data:{
+                    formId : $("#formId").val()
+                },
+            },function(result){
+                if(result.code == 0){
+                    $_jxc.alert("审核成功",function () {
+                        gFunRefresh();
+                    });
+                }else{
+                    $_jxc.alert(result['message']);
+                }
+            })
         }
     })
+
+
 }
 
 function overAd() {
-    $_jxc.ajax({
-        url:contextPath+'/pos/ad/form/over',
-        data:{
-            formId : $("#formId").val(),
-        },
-    },function(result){
-        if(result.code == 0){
-            $_jxc.alert("终止成功",function () {
-                gFunRefresh();
-            });
-        }else{
-            $_jxc.alert(result['message']);
+    $_jxc.confirm("确认终止此广告？",function (res) {
+        if(res){
+            $_jxc.ajax({
+                url:contextPath+'/pos/ad/form/over',
+                data:{
+                    formId : $("#formId").val(),
+                },
+            },function(result){
+                if(result.code == 0){
+                    $_jxc.alert("终止成功",function () {
+                        gFunRefresh();
+                    });
+                }else{
+                    $_jxc.alert(result['message']);
+                }
+            })
         }
     })
 }
@@ -156,7 +194,7 @@ function imgUpload(event) {
 
     if(id === "mainImg"){
         var width = 800;
-            var height = 586;
+        var height = 586;
     }else {
         var width = 270;
         var height = 170;
@@ -170,17 +208,6 @@ function imgUpload(event) {
     }
     publicUploadImgService(param,function (data) {
         $("#"+id).attr("src",data.filePath);
+        $("#"+id+"Val").val(data.filePath);
     });
-}
-
-function getObjectURL(file) {
-    var url = null ;
-    if (window.createObjectURL!=undefined) { // basic
-        url = window.createObjectURL(file) ;
-    } else if (window.URL!=undefined) { // mozilla(firefox)
-        url = window.URL.createObjectURL(file) ;
-    } else if (window.webkitURL!=undefined) { // webkit or chrome
-        url = window.webkitURL.createObjectURL(file) ;
-    }
-    return url ;
 }

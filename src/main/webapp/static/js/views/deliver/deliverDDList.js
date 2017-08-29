@@ -38,7 +38,8 @@ $(function(){
 	//操作员组件初始化
 	$('#operateorSelect').operatorSelect({
 		loadFilter:function(data){
-			data.operateUserId = data.id;
+            data.operateUserId = data.id;
+            data.operateUserName = data.name;
 			return data;
 		}
 	});

@@ -60,12 +60,7 @@
 						type="hidden" id="deliverType" name="deliverType" value="DO" /> <input
 						class="uinp ub ub-f1" type="text" id="formNo" name="formNo">
 				</div>
-
-
-
-
 			</div>
-
 
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r10" id="targetBranch">
@@ -79,13 +74,13 @@
 
 				</div>
 
-
-
-				<div class="ub ub-ac uw-300" id="operateDiv">
+				<div class="ub ub-ac uw-300" id="operateorSelect">
 					<div class="umar-r10 uw-70 ut-r">制单人员:</div>
+					<input class="uinp ub ub-f1" type="hidden" id="operateUserId"
+					name="operateUserId"  />
 					<input class="uinp ub ub-f1" type="text" id="operateUserName"
-						name="operateUserName" type="text" />
-					<div class="uinp-more" onclick="selectOperator()">...</div>
+						name="operateUserName"/>
+					<div class="uinp-more">...</div>
 				</div>
 
 				<div class='ub ub-ac umar-l20 uw-300 uhide' id='auditStatus'>

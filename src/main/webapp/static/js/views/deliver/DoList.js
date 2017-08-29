@@ -41,6 +41,16 @@ $(function(){
             //$("#targetBranchName").val("["+data.branchCode+"]"+data.branchName)
         }
 	});
+
+    //操作员组件初始化
+    $('#operateorSelect').operatorSelect({
+        loadFilter:function(data){
+            data.operateUserId = data.id;
+            data.operateUserName = data.name;
+            return data;
+        }
+    });
+
 });
 
 
@@ -262,17 +272,6 @@ function delDeliverForm(){
 	    		dg.datagrid('reload');
 		    });
 		}
-	});
-}
-
-/**
- * 制单人
- */
-function selectOperator(){
-	new publicOperatorService(function(data){
-//		$("#operateUserId").val(data.id);
-		//$("#operateUserName").val(data.userName);
-		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
 

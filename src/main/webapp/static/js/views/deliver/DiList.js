@@ -50,6 +50,15 @@ $(function(){
         }
     });
 
+    //操作员组件初始化
+    $('#operateorSelect').operatorSelect({
+        loadFilter:function(data){
+            data.operateUserId = data.id;
+            data.operateUserName = data.name;
+            return data;
+        }
+    });
+
 });
 
 $(document).on('input','#remark',function(){
@@ -289,18 +298,6 @@ function printDesign(){
      }
      //弹出打印页面
      parent.addTabPrint('PASheet' + row.id,row.formNo+'单据打印',contextPath + '/printdesign/design?page=PASheet&controller=/form/purchase&template=-1&sheetNo=' + row.id + '&gridFlag=PAGrid','');
-}
-
-/**
- * 制单人
- */
-function selectOperator(){
-	new publicOperatorService(function(data){
-//		$("#operateUserId").val(data.id);
-		//$("#operateUserName").val(data.userName);
-		console.log(data)
-		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
-	});
 }
 
 /**

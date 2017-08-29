@@ -36,6 +36,15 @@ $(function() {
             $("#targetBranchId").val(data.branchId);
         }
     });
+
+    //操作员组件初始化
+    $('#operateorSelect').operatorSelect({
+        loadFilter:function(data){
+            data.operateUserId = data.id;
+            data.operateUserName = data.name;
+            return data;
+        }
+    });
 });
 
 var datagridID = "saleReturnList";
@@ -163,16 +172,6 @@ function selectSourceBranch(){
             $("#sourceBranchType").val(data.type);
         }
     },'DD');
-}
-
-/**
- * 制单人
- */
-function selectOperator() {
-	new publicOperatorService(function(data) {
-		$("#operateUserId").val(data.id);
-		$("#operateUserName").val(data.userName);
-	});
 }
 
 /**

@@ -47,11 +47,11 @@
 	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName"  onblur="clearBranchCode(this,'targetBranchId')"/>
 	                    <div class="uinp-more" onclick="selectTargetBranch()" >...</div>
 					</div>
-					<div class="ub ub-ac umar-l64">
+					<div class="ub ub-ac umar-l64" id="operatorComponent">
 						<div class="umar-r10 uw-70 ut-r">制单人员:</div>
 						<input class="uinp" name="operateUserId" id="operateUserId" type="hidden">
 						<input class="uinp ub ub-f1" id="operateUserName" name="operateUserName" type="text" maxlength="50">
-						<div class="uinp-more" onclick="selectOperator()">...</div>
+						<div class="uinp-more">...</div>
 					</div>
 				</div>
 				
