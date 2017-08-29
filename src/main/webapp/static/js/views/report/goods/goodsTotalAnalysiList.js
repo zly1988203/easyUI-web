@@ -91,13 +91,13 @@ function resetCondition(){
 //类别开启
 function categoryOn(){
     $("#categoryName").removeClass("uinp-no-more");
-	$("#categorySelect").prop("onclick","searchCategory()");
+	$("#categorySelect").attr("onclick","searchCategory()");
     $("#categoryName").removeProp("readonly");
 }
 //类别禁用
 function categoryOff(){
     $("#categoryName").addClass("uinp-no-more");
-	$("#categorySelect").removeProp("onclick");
+	$("#categorySelect").removeAttr("onclick");
 	$("#categoryName").prop("readonly","readonly");
 	$("#categoryName").val("");
 }
