@@ -24,7 +24,7 @@ function imgUrlChange(event) {
     var imgName = img.name.toLowerCase();
     // 判断图片格式
     if(!(img.type.indexOf('image')==0 && img.type && /\.(?:jpg|png|gif)$/.test(imgName)) ){
-        $_jxc.alert('图片格式只能是jpg,gif,png');
+        $_jxc.alert('请选择图片，格式只能是jpg,gif,png');
         $("#btnUploadImg").addClass("uhide");
         return;
     }
@@ -46,9 +46,8 @@ function imgUrlChange(event) {
         image.onload=function(){
             var width = image.width;
             var height = image.height;
-            if(width > uploadParam.imgWidth || width < uploadParam.imgWidth
-                || height > uploadParam.imgHeight || height < uploadParam.imgHeight){
-                $_jxc.alert('上传的图片规格要求为：'+uploadParam.imgWidth+"*"+uploadParam.imgHeight);
+            if(width > uploadParam.imgWidth || height > uploadParam.imgHeight){
+                $_jxc.alert('上传的图片规格要求为：'+uploadParam.imgWidth+"*"+uploadParam.imgHeight +"以内");
                 $("#btnUploadImg").addClass("uhide");
                 return;
             }

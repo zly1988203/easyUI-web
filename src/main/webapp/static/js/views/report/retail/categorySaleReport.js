@@ -3,6 +3,12 @@ $(function(){
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     initDatagridRequire();
+    //机构选择初始化
+    $('#branchSelect').branchSelect({
+        param:{
+            formType:'BF'
+        }
+    })
 
     //商品类别选择组件
     $('#categoryNameDiv').categorySelect({

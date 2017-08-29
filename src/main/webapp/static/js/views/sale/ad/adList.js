@@ -10,6 +10,16 @@ $(function () {
     $(".radioItem").change(function () {
         queryAD();
     })
+
+    //选择初始化
+    $('#operatorComponent').operatorSelect({
+        //数据过滤
+        loadFilter:function(data){
+            data.operateUserId = data.id;
+            data.operateUserName = data.name;
+            return data;
+        }
+    });
 })
 
 var gridName = "gridAdList";

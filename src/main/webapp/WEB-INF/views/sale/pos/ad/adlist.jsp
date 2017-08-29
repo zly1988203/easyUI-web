@@ -40,12 +40,12 @@
 					<div class="umar-r10 uw-60 ut-r">编号:</div>
 					<input class="uinp" name="formNo" id="formNo" type="text">
 				</div>
-				<div class="ub ub-ac umar-r40">
+				<div class="ub ub-ac umar-r40" id="operatorComponent">
 					<div class="umar-r10 uw-60 ut-r">制单人员:</div>
 					<input class="uinp" name="createUserId" id="createUserId" type="hidden">
 					<input class="uinp" id="createUserName" name="createUserName"
 						type="text" maxlength="50">
-					<div class="uinp-more" onclick="selectSupplier()">...</div>
+					<div class="uinp-more">...</div>
 				</div>
 
 			</div>

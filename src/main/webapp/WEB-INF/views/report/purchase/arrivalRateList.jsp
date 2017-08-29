@@ -8,7 +8,7 @@
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-	<script src="${ctx}/static/js/views/report/purchase/arrivalRateList.js?V=${versionNo}"></script>
+	<script src="${ctx}/static/js/views/report/purchase/arrivalRateList.js?V=${versionNo}2"></script>
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -30,26 +30,27 @@
 	        </div>
 	
 	        <div class="ub umar-t8">
-	             <div class="ub  ub-ac umar-r40">
+	             <div class="ub  ub-ac umar-r40" id="branchTemp">
                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
                         <input type="hidden" name="startCount" id="startCount" value="">
 						<input type="hidden" name="endCount" id="endCount" value="">
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchCode" name="branchCode">
                         <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50" maxlength="50">
-                   <div class="uinp-more uinp-branchNameOrCode" onclick="searchBranch()">...</div>
+                   <div class="uinp-more uinp-branchNameOrCode">...</div>
                 </div>
-	            <div class="ub ub-ac umar-r40">
+	            <div class="ub ub-ac umar-r40" id="supplierComponent">
 	                <div class="umar-r10 uw-60 ut-r">供应商:</div>
 	                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
-	                <input class="uinp" id="supplierCode" name="supplierCode" type="text" maxlength="50">
-	                <div class="uinp-more uinp-supplierName" onclick="selectSupplier()">...</div>
+	                <input class="uinp" id="supplierCode" name="supplierCode" type="hidden" maxlength="50">
+					<input class="uinp" id="supplierName" name="supplierName" type="text">
+	                <div class="uinp-more uinp-supplierName">...</div>
 	            </div>
-	             <div class="ub ub-ac umar-r40">
+	             <div class="ub ub-ac umar-r40" id="categorySelectTemp">
                     <div class="umar-r10 uw-60 ut-r">类别:</div>
                     <input id="categoryId" name="categoryId" class="uinp" type="hidden">
                     <input id="categoryCode" name="categoryCode" class="uinp" type="hidden">
                     <input id="categoryName" name="categoryName" class="uinp" type="text" maxlength="50">
-                    <div class="uinp-more uinp-categoryName " onclick="getGoodsType()">...</div>
+                    <div class="uinp-more uinp-categoryName ">...</div>
                 </div>
 	        </div>
 	        <div class="ub umar-t8">

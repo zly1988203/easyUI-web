@@ -11,7 +11,7 @@
 		<div class="uacon">
 			<input id="filelink" class="uinp ub" type="text" readonly="readonly">
 			<label class="ualable">选择文件<input id="file" name="file"
-				type="file" class="uafile" accept="image/*" value="" onchange="imgUrlChange(event)"
+				type="file" class="uafile" value="" onchange="imgUrlChange(event)"
 				readonly="readonly" /></label>
 		</div>
 		<div class="uabtns ">

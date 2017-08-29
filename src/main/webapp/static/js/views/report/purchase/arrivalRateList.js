@@ -21,6 +21,27 @@ $(function() {
 		    $(this).val(subval);	
 		}
 	})
+
+    $('#branchTemp').branchSelect({
+        onAfterRender:function(data){
+            $("#branchCode").val(data.branchCode);
+        }
+	});
+
+    //类别选择初始化
+    $('#categorySelectTemp').categorySelect({
+        onAfterRender:function(data){
+            $("#categoryCode").val(data.categoryCode);
+        }
+	});
+
+    //供应商选择初始化
+    $('#supplierComponent').supplierSelect({
+        onAfterRender:function(data){
+            $("#supplierCode").val(data.supplierCode);
+        }
+    });
+
 });
 
 var flushFlg = false;
@@ -54,8 +75,8 @@ function checktype(){
 			categoryOff();
 			$('.uinp-categoryName').removeAttr('onclick');
 			$('#supplierName').removeClass('uinp-no-more');
-			$('#supplierName').attr('onclick','selectSupplier()');
-			$('.uinp-supplierName').attr('onclick','selectSupplier()');
+			// $('#supplierName').attr('onclick','selectSupplier()');
+			// $('.uinp-supplierName').attr('onclick','selectSupplier()');
 			$('#formNo').removeClass('uinp-no-more');
 			$('#formNo').removeAttr("readonly");
 		}
@@ -93,7 +114,7 @@ function supplierOff(){
 }
 
 function supplierOn(){
-	$('.uinp-supplierName').attr('onclick','selectSupplier()');	
+	// $('.uinp-supplierName').attr('onclick','selectSupplier()');
 	$('#supplierCode').removeClass('uinp-no-more');
 	$('#supplierCode').removeAttr("readonly");
 	$('#supplierCode').val("");
@@ -109,7 +130,7 @@ function  categoryOff(){
 }
 
 function categoryOn(){
-	$('.uinp-categoryName').attr('onclick','getGoodsType()');
+	// $('.uinp-categoryName').attr('onclick','getGoodsType()');
 	$('#categoryName').removeClass('uinp-no-more');
 	$('#categoryName').removeAttr("readonly");
 	$('#categoryName').val("");

@@ -13,7 +13,7 @@
 	<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 	<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 	<c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/sale/prize/recordList.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/sale/prize/recordList.js?V=${versionNo}4"></script>
 	<style>
 	.datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -82,8 +82,8 @@
 					</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="radio" name="prizeStatus" value="9" /><span>已过期
-						</span>
+						<input class="radioItem" type="radio" id="status_over" name="prizeStatus" value="9" /><label for="status_over">已过期
+						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="prizeStatus"
