@@ -20,6 +20,9 @@ $(function(){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
 		  $('#createTime').text(new Date().format('yyyy-MM-dd hh:mm'));
 	}else if(pageStatus === 'edit'){
+		
+		initMoneyInput();
+		
 		var formId = $("#formId").val();
 		url = contextPath+"/settle/franchiseProfitSettle/getDetailList?formId="+formId;
 		//时间起
@@ -87,6 +90,15 @@ $(function(){
 	}
 	
 })
+
+//处理页面数据四舍五入
+function initMoneyInput(){
+	$('.editInput').each(function(index,elt){
+		if(elt){
+			$(elt).numberbox('setValue',$_jxc.roundx($(elt).data('value'),2));
+		}
+	})
+}
 
 //计算金额 本次收款金额
 function calulateMoney(newV,oldV){
@@ -188,7 +200,7 @@ function initSupChkAcoAdd(){
         		$_jxc.alert('当前时段无购销商品销售数据，请重新选择日期。');
         		clickCaculateFlag = false;
         	}
-        },
+        }
     });
     
     if(pageStatus==='add'){
@@ -256,12 +268,11 @@ function calAmount(){
 			clickCaculateFlag = true;
     		//保存时用于比较
     		$('#oldTime').val(_startTime+''+_endTime);
-			
-			$("#profit").numberbox('setValue',parseFloat(result['profitAmount']));
+			$("#profit").numberbox('setValue',$_jxc.roundx(parseFloat(result['profitAmount']),2));
 			//profitOfCompany
-			$("#profitOfCompany").numberbox('setValue',parseFloat(result['targetProfitAmount']));
-			$("#profitSupper").numberbox('setValue',parseFloat(result['franchiseProfitAmount']));
-			$("#amount").numberbox('setValue',parseFloat($("#profitOfCompany").val()||0) + parseFloat($("#otherAmount").val()||0));
+			$("#profitOfCompany").numberbox('setValue',$_jxc.roundx(parseFloat(result['targetProfitAmount']),2));
+			$("#profitSupper").numberbox('setValue',$_jxc.roundx(parseFloat(result['franchiseProfitAmount']),2));
+			$("#amount").numberbox('setValue',$_jxc.roundx(parseFloat($("#profitOfCompany").val()||0) + parseFloat($("#otherAmount").val()||0),2));
 			
     		$("#"+gridName).datagrid("options").method = "post";
     		$("#"+gridName).datagrid("options").queryParams = paramsObj;
