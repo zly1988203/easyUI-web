@@ -107,7 +107,7 @@
 						<c:otherwise>
 							<input  name="wheelsurfTime"
 							id="wheelsurfTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
-							data-options="min:1,max:999999,precision:0" type="text"/>">
+							data-options="min:1,max:999999,precision:0" type="text" value="1"/>
 						</c:otherwise>
 					</c:choose>
 
