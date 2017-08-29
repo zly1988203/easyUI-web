@@ -97,9 +97,21 @@
 					</div>
 					<div class="ub ub-ac umar-r20">
 					<div class="umar-r10 uw-60 ut-r">抽奖次数:</div>
-					<input  name="wheelsurfTime"
-						id="wheelsurfTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
-						data-options="min:1,max:999999,precision:0" type="text" value="<c:out value="${form.wheelsurfTime}"/>">
+
+					<c:choose>
+						<c:when test="${form.wheelsurfTime != null}">
+							<input  name="wheelsurfTime"
+							id="wheelsurfTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
+							data-options="min:1,max:999999,precision:0" type="text" value="<c:out value="${form.wheelsurfTime}"/>">
+						</c:when>
+						<c:otherwise>
+							<input  name="wheelsurfTime"
+							id="wheelsurfTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
+							data-options="min:1,max:999999,precision:0" type="text"/>">
+						</c:otherwise>
+					</c:choose>
+
+
 					</div>
 				</div>
 			</div>

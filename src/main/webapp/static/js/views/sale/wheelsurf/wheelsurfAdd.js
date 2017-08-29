@@ -184,7 +184,7 @@ function initgridAddPosAct() {
                     }else{
                         row['winRate'] = value;
                     }
-                    return '<b>'+parseFloat(value).toFixed(2)+'% </b>';
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'% </b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -324,94 +324,9 @@ function uploadPic() {
 
 
 function saveWheelsurf() {
+    if(!validform()) return;
 
-    var branchId = $("#branchIds").val();
-    if(!branchId){
-        $_jxc.alert("请先选择活动机构");
-        return;
-    }
-
-    if(compareDate($("#beginTime").val(),$("#overTime").val())){
-        $_jxc.alert("活动结束时间不能在活动开始时间之前");
-        return;
-    }
-
-    if(compareDate($("#beginTime").val(),$("#validBeginTime").val())){
-        $_jxc.alert("奖品有效期开始时间不能在活动开始时间之前");
-        return;
-    }
-
-    if(compareDate($("#validBeginTime").val(),$("#validOverTime").val())){
-        $_jxc.alert("奖品有效期结束时间不能在奖品有效期开始时间之前");
-        return;
-    }
-
-    if(compareDate($("#overTime").val(),$("#validOverTime").val())){
-        $_jxc.alert("奖品有效期结束时间不能在活动结束时间之前");
-        return;
-    }
-
-    var actName = $("#wheelsurfName").val();
-    if(!actName){
-        $_jxc.alert("请填写活动名称");
-        return;
-    }
-
-
-    $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
-    var isValid = $("#gridAddForm").form('validate');
-    if (!isValid) {
-        return;
-    }
-
-    var rows = gridAddPosActHandle.getRowsWhere({skuId:'1'})
     var formObj = $("#formAdd").serializeObject();
-
-    if(rows.length < 6){
-        $_jxc.alert("检测到数据没有完成，请完成");
-        return;
-    }
-
-    var rowNoArr = [];
-    var hasRepeat = false;
-    var totalRate = 0.00;
-    var flag = false;
-    $.each(rows,function (index,item) {
-        if(item['prizeShortName'] === ""){
-            $_jxc.alert("第"+(index+1)+"行，简称不能为空");
-            flag = true;
-            return false;
-        }
-        if(item['winNum'] === ""){
-            $_jxc.alert("第"+(index+1)+"行，奖品总份数不能为空");
-            flag = true;
-            return false;
-        }
-
-        if($.inArray(item.rowNo, rowNoArr) == -1){
-            rowNoArr.push(item.rowNo);
-        }else{
-            hasRepeat = true;
-        }
-        totalRate = totalRate + parseFloat(item.winRate);
-
-        if(item.picUrl == ""){
-            $_jxc.alert("第"+(index+1)+"行，图片没有上传")
-            flag = true;
-            return false;
-        }
-    })
-
-    if(flag)return;
-
-    if(hasRepeat){
-        $_jxc.alert("顺序不能数字重复")
-        return;
-    }
-    if(totalRate > 100 || totalRate < 100){
-        $_jxc.alert("中奖概率总和应为100%,目前为："+totalRate+"%")
-        return;
-    }
 
     var param = {
         formObj : JSON.stringify(formObj),
@@ -434,38 +349,102 @@ function saveWheelsurf() {
 
 }
 
-function updateWheelsurf() {
-    $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
-
+function validform() {
     var branchId = $("#branchIds").val();
     if(!branchId){
         $_jxc.alert("请先选择活动机构");
-        return;
+        return false;;
+    }
+
+    if(compareDate($("#beginTime").val(),$("#overTime").val())){
+        $_jxc.alert("活动结束时间不能在活动开始时间之前");
+        return false;;
+    }
+
+    if(compareDate($("#beginTime").val(),$("#validBeginTime").val())){
+        $_jxc.alert("奖品有效期开始时间不能在活动开始时间之前");
+        return false;;
+    }
+
+    if(compareDate($("#validBeginTime").val(),$("#validOverTime").val())){
+        $_jxc.alert("奖品有效期结束时间不能在奖品有效期开始时间之前");
+        return false;;
+    }
+
+    if(compareDate($("#overTime").val(),$("#validOverTime").val())){
+        $_jxc.alert("奖品有效期结束时间不能在活动结束时间之前");
+        return false;;
     }
 
     var actName = $("#wheelsurfName").val();
     if(!actName){
         $_jxc.alert("请填写活动名称");
-        return;
-    }
-
-    if(compareDate($("#beginTime").val(),$("#validBeginTime").val())){
-        $_jxc.alert("奖品有效期开始时间要在活动开始时间之后");
-        return;
-    }
-
-    if(compareDate($("#overTime").val(),$("#validOverTime").val())){
-        $_jxc.alert("奖品有效期结束时间要在活动结束时间之后");
-        return;
+        return false;;
     }
 
     $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
 
-    var isValid = $("#gridEditForm").form('validate');
-    if (!isValid) {
-        return;
+    var rows = gridAddPosActHandle.getRowsWhere({skuId:'1'})
+
+    if(rows.length < 6){
+        $_jxc.alert("检测到数据没有完成，请完成");
+        return false;;
     }
 
+    var rowNoArr = [];
+    var hasRepeat = false;
+    var totalRate = 0.00;
+    var flag = false;
+    $.each(rows,function (index,item) {
+        if(item['prizeShortName'] === "" || item['prizeShortName'] == null){
+            $_jxc.alert("第"+(index+1)+"行，简称不能为空");
+            flag = true;
+            return false;
+        }
+
+        if(item['rowNo'] === "" || item['rowNo'] == null){
+            $_jxc.alert("第"+(index+1)+"行，序号不能为空");
+            flag = true;
+            return false;
+        }
+
+        if(item['winNum'] === "" || item['winNum'] == null){
+            $_jxc.alert("第"+(index+1)+"行，奖品总份数不能为空");
+            flag = true;
+            return false;
+        }
+
+        if($.inArray(item.rowNo, rowNoArr) == -1){
+            rowNoArr.push(item.rowNo);
+        }else{
+            hasRepeat = true;
+        }
+        totalRate = totalRate + parseFloat(item.winRate);
+
+        if(item.picUrl == ""){
+            $_jxc.alert("第"+(index+1)+"行，图片没有上传")
+            flag = true;
+            return false;
+        }
+    })
+
+    if(flag) return false;
+
+    if(hasRepeat){
+        $_jxc.alert("顺序不能数字重复")
+        return false;;
+    }
+    if(totalRate > 100 || totalRate < 100){
+        $_jxc.alert("中奖概率总和应为100%,目前为："+totalRate+"%")
+        return false;;
+    }
+
+    return true;
+}
+
+function updateWheelsurf() {
+
+    if(!validform()) return;
 
     var formObj = $("#formAdd").serializeObject();
 
@@ -502,46 +481,50 @@ function checkWheelsurf() {
         return;
     }
 
-    $_jxc.ajax({
-        url:contextPath+'/pos/wheelsurf/form/audit',
-        data:{
-            formId : $("#formId").val(),
-        },
-    },function(result){
-        if(result.code == 0){
-            $_jxc.alert("审核成功",function () {
-                gFunRefresh();
-            });
-        }else{
-            $_jxc.alert(result['message']);
+    $_jxc.confirm("确认审核通过？",function (res) {
+        if(res){
+            $_jxc.ajax({
+                url:contextPath+'/pos/wheelsurf/form/audit',
+                data:{
+                    formId : $("#formId").val(),
+                },
+            },function(result){
+                if(result.code == 0){
+                    $_jxc.alert("审核成功",function () {
+                        gFunRefresh();
+                    });
+                }else{
+                    $_jxc.alert(result['message']);
+                }
+            })
         }
     })
+
+
 
 }
 
 function overWheelsurf() {
 
-    $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
-
-    var isValid = $("#gridEditForm").form('validate');
-    if (!isValid) {
-        return;
-    }
-
-    $_jxc.ajax({
-        url:contextPath+'/pos/wheelsurf/form/over',
-        data:{
-            formId : $("#formId").val(),
-        },
-    },function(result){
-        if(result.code == 0){
-            $_jxc.alert("终止成功",function () {
-                gFunRefresh();
-            });
-        }else{
-            $_jxc.alert(result['message']);
+    $_jxc.confirm("确定终止此活动？",function (res) {
+        if(res){
+            $_jxc.ajax({
+                url:contextPath+'/pos/wheelsurf/form/over',
+                data:{
+                    formId : $("#formId").val(),
+                },
+            },function(result){
+                if(result.code == 0){
+                    $_jxc.alert("终止成功",function () {
+                        gFunRefresh();
+                    });
+                }else{
+                    $_jxc.alert(result['message']);
+                }
+            })
         }
     })
+
 }
 
 function copyPosActivity(id) {
@@ -551,7 +534,7 @@ function copyPosActivity(id) {
 function compareDate(startDate,endDate) {
     var d1 = new Date(startDate.replace(/\-/g, "\/"));
     var d2 = new Date(endDate.replace(/\-/g, "\/"));
-    if(startDate!=""&&endDate!=""&&d1 >=d2)
+    if(startDate!=""&&endDate!=""&&d1 > d2)
     {
         return true;
     }

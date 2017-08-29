@@ -59,14 +59,17 @@ function  initKeygrid() {
             },
         ]],
         onClickCell : function(rowIndex, field, value) {
-            keygridHandle.setBeginRow(rowIndex);
-            keygridHandle.setSelectFieldName(field);
-            var target = keygridHandle.getFieldTarget(field);
-            if(target){
-                keygridHandle.setFieldFocus(target);
-            }else{
-                keygridHandle.setSelectFieldName("sortNo");
+            if(field === "sortNo"){
+                keygridHandle.setBeginRow(rowIndex);
+                keygridHandle.setSelectFieldName(field);
+                var target = keygridHandle.getFieldTarget(field);
+                if(target){
+                    keygridHandle.setFieldFocus(target);
+                }else{
+                    keygridHandle.setSelectFieldName("sortNo");
+                }
             }
+
         },
         onSelect:function (rowIndex,rowData) {
             getGgoodsList();
@@ -180,6 +183,17 @@ function  initGoodsgrid() {
                 }
             },
             {field:'sortNo',title:'排序',width:'200px',align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0)+'</b>';
+                    }
+
+                    if(!value){
+                        row["sortNo"] = parseFloat(value||0);
+                    }
+
+                    return '<b>'+parseFloat(value||0)+'</b>';
+                },
                 editor:{
                     type:'numberbox',
                     options:{
@@ -383,6 +397,7 @@ function savegoods() {
     var hasRepeat = false;
     var sortNoArr = [];
     var goodsArr = [];
+    var flag = false;
     if(goodsgridHandel.getRows().length > 0){
         $.each(goodsgridHandel.getRows(),function (index,item) {
             var temp= {
@@ -399,6 +414,12 @@ function savegoods() {
                 sortNo:item.sortNo
             }
 
+            if(item['shortName'] === "" || item['shortName'] == null){
+                $_jxc.alert("第"+(index+1)+"行，简称不能为空");
+                flag = true;
+                return false;
+            }
+
            goodsArr[index] = temp;
 
             if($.inArray(item.sortNo, sortNoArr) == -1){
@@ -411,6 +432,8 @@ function savegoods() {
         $_jxc.alert("请添加商品");
         return;
     }
+
+    if(flag) return false;
 
     if(hasRepeat){
         $_jxc.alert("商品排序数字有重复，请修改");
@@ -434,7 +457,7 @@ function savegoods() {
 
 function getGgoodsList() {
     $("#goodsgrid").datagrid("endEdit", goodsgridHandel.getSelectRowIndex());
-    $("#keygrid").datagrid("endEdit", keygridHandle.getSelectRowIndex());
+    // $("#keygrid").datagrid("endEdit", keygridHandle.getSelectRowIndex());
     var row = $("#keygrid").datagrid("getSelected");
     var branchId = $("#branchId").val();
     var param = {
@@ -482,6 +505,12 @@ function selectGoods(searchKey) {
     var branchId = $("#branchId").val();
     if(!branchId){
         $_jxc.alert("请先选择机构");
+        return;
+    }
+    $("#keygrid").datagrid("endEdit", keygridHandle.getSelectRowIndex());
+    var row = $("#keygrid").datagrid("getSelected");
+    if(!row){
+        $_jxc.alert("请选择一条分组");
         return;
     }
 
