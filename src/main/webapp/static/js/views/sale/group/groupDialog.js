@@ -54,7 +54,7 @@ function updateGroup() {
     var formObj = $("#groupEdit").serializeObject();
 
     $_jxc.ajax({
-        url:contextPath+'/pos/group/key/update/group',
+        url:contextPath+'/pos/group/key/update/'+$("#branchId").val(),
         data:formObj,
     },function(result){
         if(result.code == 0){

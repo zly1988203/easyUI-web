@@ -108,11 +108,16 @@ public class PosGroupKeyController extends BaseController<PosGroupKeyController>
         }
     }
 
-    @RequestMapping(value = "/update/group", method = RequestMethod.POST)
-    public RespJson updateGroup(PosGroupKeyVo posGroupKey) {
+    @RequestMapping(value = "/update/{branchId}", method = RequestMethod.POST)
+    public RespJson updateGroup(@PathVariable(value = "branchId") String branchId,PosGroupKeyVo posGroupKey) {
         try {
-            posGroupKeyService.updatePosGroupKey(posGroupKey);
-            return RespJson.success();
+            posGroupKey.setBranchId(branchId);
+            if(posGroupKeyService.verification(posGroupKey)){
+                return RespJson.error("分组名称和排序不能重复!" );
+            }else {
+                posGroupKeyService.updatePosGroupKey(posGroupKey);
+                return RespJson.success();
+            }
         }catch (Exception e){
             LOG.error("更新分组失败!" ,e);
             return RespJson.error("更新分组失败!" );
