@@ -21,6 +21,10 @@ $(function () {
 
 })
 
+function adAdd() {
+    toAddTab("新增客屏广告",contextPath + "/pos/ad/form/add");
+}
+
 /**
 * 星期拆分字符串赋值checkbox
 */
