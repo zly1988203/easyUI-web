@@ -268,6 +268,7 @@ hiddenStatus = $("#hiddenStatus").val();
 			return;
 		}
 		
+		gridHandel.setFieldsData({productionDate:date,productionDateStr:date})
 		if(_expiryDate && date)getDistanceDay(date,_expiryDate);
 		
 	}
@@ -286,6 +287,7 @@ hiddenStatus = $("#hiddenStatus").val();
 			$(this).datebox('setValue',oDate);
 			return;
 		}
+		gridHandel.setFieldsData({expiryDate:date,expiryDateStr:date})
 		if(_productionDate && date)getDistanceDay(_productionDate,date);
 	}
 
