@@ -67,7 +67,7 @@
 				<div class="ub umar-t8 umar-l4">
 					<div class="ub ub-ac umar-r30">
 						<div class="umar-r10 uw-60 ut-r">活动名称:</div>
-						<input id="wheelsurfName" name="wheelsurfName" class="uinp uw-416" type="text" value="<c:out value="${form.wheelsurfName}"/>" >
+						<input id="wheelsurfName" name="wheelsurfName" class="uinp uw-416" type="text" maxLength="20" value="<c:out value="${form.wheelsurfName}"/>" >
 					</div>
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-70 ut-r">活动类型:</div>
@@ -102,12 +102,12 @@
 						<c:when test="${form.wheelsurfTime != null}">
 							<input  name="wheelsurfTime"
 							id="wheelsurfTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
-							data-options="min:1,max:999999,precision:0" type="text" value="<c:out value="${form.wheelsurfTime}"/>">
+							data-options="min:1,max:999999,precision:0,required:true" type="text" value="<c:out value="${form.wheelsurfTime}"/>">
 						</c:when>
 						<c:otherwise>
 							<input  name="wheelsurfTime"
 							id="wheelsurfTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
-							data-options="min:1,max:999999,precision:0" type="text" value="1"/>
+							data-options="min:1,max:999999,precision:0,required:true" type="text" value="1"/>
 						</c:otherwise>
 					</c:choose>
 

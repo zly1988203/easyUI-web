@@ -356,30 +356,35 @@ function validform() {
         return false;;
     }
 
+    if(!$("#beginTime").val() || !$("#overTime").val()){
+        $_jxc.alert("活动开始和结束时间不能为空");
+        return false;
+    }
+
     if(compareDate($("#beginTime").val(),$("#overTime").val())){
         $_jxc.alert("活动结束时间不能在活动开始时间之前");
-        return false;;
+        return false;
     }
 
     if(compareDate($("#beginTime").val(),$("#validBeginTime").val())){
         $_jxc.alert("奖品有效期开始时间不能在活动开始时间之前");
-        return false;;
+        return false;
     }
 
     if(compareDate($("#validBeginTime").val(),$("#validOverTime").val())){
         $_jxc.alert("奖品有效期结束时间不能在奖品有效期开始时间之前");
-        return false;;
+        return false;
     }
 
     if(compareDate($("#overTime").val(),$("#validOverTime").val())){
         $_jxc.alert("奖品有效期结束时间不能在活动结束时间之前");
-        return false;;
+        return false;
     }
 
     var actName = $("#wheelsurfName").val();
     if(!actName){
         $_jxc.alert("请填写活动名称");
-        return false;;
+        return false;
     }
 
     $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
@@ -388,7 +393,7 @@ function validform() {
 
     if(rows.length < 6){
         $_jxc.alert("检测到数据没有完成，请完成");
-        return false;;
+        return false;
     }
 
     var rowNoArr = [];

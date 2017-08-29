@@ -146,12 +146,12 @@
 				<c:choose>
 					<c:when test="${form.intervalTime != null}">
 							<input id="intervalTime" name="intervalTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
-								data-options="min:1,max:999999,precision:0" type="text" value="<c:out value="${form.intervalTime}"/>"> 秒
+								data-options="min:1,max:999999,precision:0,required:true" type="text" value="<c:out value="${form.intervalTime}"/>"> 秒
 							</div>
 					</c:when>
 					<c:otherwise>
 						<input id="intervalTime" name="intervalTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
-						data-options="min:1,max:999999,precision:0" type="text" > 秒
+						data-options="min:1,max:999999,precision:0,required:true" type="text" value="1"> 秒
 						</div>
 					</c:otherwise>
 				</c:choose>

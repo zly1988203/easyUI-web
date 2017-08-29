@@ -55,29 +55,8 @@ function initBranchGroup(){
 }
 
 function saveAd() {
-    var branchId = $("#branchIds").val();
-    if(!branchId){
-        $_jxc.alert("请先选择活动机构");
-        return;
-    }
 
-    var adName = $("#adName").val();
-    if(!adName){
-        $_jxc.alert("请先填写活动名称");
-        return;
-    }
-
-    if($_jxc.isStringNull($("#mainImgVal").val())){
-        $_jxc.alert("请上传活动主图");
-        return;
-    }
-
-    if($_jxc.isStringNull($("#img1Val").val())
-        || $_jxc.isStringNull($("#img2Val").val())
-        || $_jxc.isStringNull($("#img3Val").val())){
-        $_jxc.alert("请上传完活动次图");
-        return;
-    }
+    if(!validform())return;
 
     var formObj = $("#formAdd").serializeObject();
 
@@ -100,29 +79,7 @@ function saveAd() {
 }
 
 var updateAd = function(){
-    var branchId = $("#branchIds").val();
-    if(!branchId){
-        $_jxc.alert("请先选择活动机构");
-        return;
-    }
-
-    var adName = $("#adName").val();
-    if(!adName){
-        $_jxc.alert("请先填写活动名称");
-        return;
-    }
-
-    if($_jxc.isStringNull($("#mainImgVal").val())){
-        $_jxc.alert("请上传活动主图");
-        return;
-    }
-
-    if($_jxc.isStringNull($("#img1Val").val())
-        || $_jxc.isStringNull($("#img2Val").val())
-        || $_jxc.isStringNull($("#img3Val").val())){
-        $_jxc.alert("请上传完活动次图");
-        return;
-    }
+    if(!validform())return;
 
     var formObj = $("#formAdd").serializeObject();
 
@@ -143,6 +100,41 @@ var updateAd = function(){
         }
     })
 };
+
+function validform(){
+    var branchId = $("#branchIds").val();
+    if(!branchId){
+        $_jxc.alert("请先选择活动机构");
+        return false;
+    }
+
+    var adName = $("#adName").val();
+    if(!adName){
+        $_jxc.alert("请先填写活动名称");
+        return false;
+    }
+
+    var intervalTime = $("#intervalTime").numberbox("getValue")
+    if(!intervalTime || null == intervalTime){
+        $_jxc.alert("请填写展示时长");
+        return false;
+    }
+
+    if($_jxc.isStringNull($("#mainImgVal").val())){
+        $_jxc.alert("请上传活动主图");
+        return false;
+    }
+
+    if($_jxc.isStringNull($("#img1Val").val())
+        || $_jxc.isStringNull($("#img2Val").val())
+        || $_jxc.isStringNull($("#img3Val").val())){
+        $_jxc.alert("请上传完活动次图");
+        return false;
+    }
+
+
+    return true
+}
 
 function checkAd() {
     $_jxc.confirm("确认审核通过？",function (res) {
