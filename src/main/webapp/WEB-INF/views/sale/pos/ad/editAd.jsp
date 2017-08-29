@@ -77,7 +77,7 @@ img {
 						<div class="umar-r10 uw-60 ut-r">展示时间:</div>
 						<input class="Wdate newWdate" readonly="readonly" name="beginDate"
 							id="beginDate"
-							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'overDate\');}'})" value="<fmt:formatDate value="${form.beginDate}" pattern="yyyy-MM-dd" />" />&nbsp;至&nbsp;
+							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" value="<fmt:formatDate value="${form.beginDate}" pattern="yyyy-MM-dd" />" />&nbsp;至&nbsp;
 						<input class="Wdate newWdate" readonly="readonly" name="overDate"
 							id="overDate"
 							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'beginDate\');}'})" value="<fmt:formatDate value="${form.overDate}" pattern="yyyy-MM-dd" />" />
@@ -86,7 +86,7 @@ img {
 						<div class="umar-r10 uw-60 ut-r">展示时段:</div>
 						<input class="Wdate newWdate" readonly="readonly"
 							name="beginTime" id="beginTime"
-							onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'overTime\');}'})" value="<fmt:formatDate value="${form.beginTime}" pattern="HH:mm:ss" />" />&nbsp;至&nbsp;
+							onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00'})" value="<fmt:formatDate value="${form.beginTime}" pattern="HH:mm:ss" />" />&nbsp;至&nbsp;
 						<input class="Wdate newWdate" readonly="readonly"
 							name="overTime" id="overTime"
 							onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'beginTime\');}'})" value="<fmt:formatDate value="${form.overTime}" pattern="HH:mm:ss" />" />
@@ -136,14 +136,14 @@ img {
 				<div class="ub umar-t8">
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-60 ut-r">广告名称:</div>
-						<input id="adName" name="adName" class="uinp uw-300" type="text" value="<c:out value="${form.adName}"/>">
+						<input id="adName" name="adName" class="uinp uw-300" type="text" maxlength="20" value="<c:out value="${form.adName}"/>">
 					</div>
 
 					<div class="ub ub-ac umar-r40" id="branchTemp">
 						<div class="umar-r10 uw-60 ut-r">机构列表:</div>
 						<input class="uinp ub ub-f1" type="hidden" id="branchIds"
 							name="branchIds" value="<c:out value="${form.branchIds}"/>"> <input class="uinp uw-300" type="text"
-							id="branchName" name="branchName" value="<c:out value="${form.branchName}"/>">
+							id="branchName" name="branchName" value="<c:out value="${form.branchName}"/>" readonly="readonly">
 						<div class="uinp-more">...</div>
 					</div>
 
@@ -181,7 +181,7 @@ img {
 				<img id="mainImg" name="mainImg" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
 			</c:otherwise>
 		</c:choose>
-
+			<input type="hidden" id="mainImgVal" />
 		</div>
 		</div>
 
@@ -196,6 +196,7 @@ img {
 				<img id="img1" name="img1" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
 			</c:otherwise>
 		</c:choose>
+			<input type="hidden" id="img1Val" />
 		</div>
 
 		<div class="ub ub-ac umar-r20">
@@ -207,6 +208,7 @@ img {
 				<img id="img2" name="img2" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
 			</c:otherwise>
 		</c:choose>
+			<input type="hidden" id="img2Val" />
 		</div>
 
 		<div class="ub ub-ac umar-r20">
@@ -218,6 +220,7 @@ img {
 				<img id="img3" name="img3" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
 			</c:otherwise>
 		</c:choose>
+		<input type="hidden" id="img3Val" />
 		</div>
 
 		</div>

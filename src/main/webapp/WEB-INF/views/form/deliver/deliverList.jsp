@@ -7,7 +7,7 @@
     <title>要货申请</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <script  src="${ctx}/static/js/views/deliver/deliverList.js?V=${versionNo}"></script>
+    <script  src="${ctx}/static/js/views/deliver/deliverList.js?V=${versionNo}4"></script>
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -47,11 +47,11 @@
 	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" onblur="clearBranchCode(this,'targetBranchId')"/>
 	                    <div class="uinp-more" onclick="selectTargetBranch()" >...</div>
 	                </div>
-	                <div class="ub ub-ac umar-l64">
+	                <div class="ub ub-ac umar-l64" id="operatorComponent">
 	                    <div class="umar-r10 uw-70 ut-r">制单人员:</div>
 	                    <input type="hidden" id="operateUserId" name="operateUserId" />
 	                    <input class="uinp ub ub-f1" type="text" id="operateUserName" name="operateUserName" type="text" />
-	                    <div class="uinp-more" onclick="selectOperator()">...</div>
+	                    <div class="uinp-more">...</div>
 	                </div>
 	                <div class="ub ub-ac umar-l40">
 	                    <div class="umar-r10 uw-70 ut-r">业务人员:</div>

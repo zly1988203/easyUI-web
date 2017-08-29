@@ -327,15 +327,25 @@ function saveWheelsurf() {
         return;
     }
 
-    // if(dateUtil.compareDate($("#beginTime").val(),$("#validBeginTime").val())){
-    //     $_jxc.alert("奖品有效期开始时间要在活动开始时间之后");
-    //     return;
-    // }
+    if(compareDate($("#beginTime").val(),$("#overTime").val())){
+        $_jxc.alert("活动结束时间不能在活动开始时间之前");
+        return;
+    }
 
-    // if(dateUtil.compareDate($("#overTime").val(),$("#validOverTime").val())){
-    //     $_jxc.alert("奖品有效期结束时间要在活动结束时间之后");
-    //     return;
-    // }
+    if(compareDate($("#beginTime").val(),$("#validBeginTime").val())){
+        $_jxc.alert("奖品有效期开始时间不能在活动开始时间之前");
+        return;
+    }
+
+    if(compareDate($("#validBeginTime").val(),$("#validOverTime").val())){
+        $_jxc.alert("奖品有效期结束时间不能在奖品有效期开始时间之前");
+        return;
+    }
+
+    if(compareDate($("#overTime").val(),$("#validOverTime").val())){
+        $_jxc.alert("奖品有效期结束时间不能在活动结束时间之前");
+        return;
+    }
 
     var actName = $("#wheelsurfName").val();
     if(!actName){
@@ -435,6 +445,16 @@ function updateWheelsurf() {
         return;
     }
 
+    if(compareDate($("#beginTime").val(),$("#validBeginTime").val())){
+        $_jxc.alert("奖品有效期开始时间要在活动开始时间之后");
+        return;
+    }
+
+    if(compareDate($("#overTime").val(),$("#validOverTime").val())){
+        $_jxc.alert("奖品有效期结束时间要在活动结束时间之后");
+        return;
+    }
+
     $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
 
     var isValid = $("#gridEditForm").form('validate');
@@ -522,4 +542,14 @@ function overWheelsurf() {
 
 function copyPosActivity(id) {
     window.parent.addTab('复制POS客屏活动',contextPath+'/pos/wheelsurf/form/copy/'+id);
+}
+
+function compareDate(startDate,endDate) {
+    var d1 = new Date(startDate.replace(/\-/g, "\/"));
+    var d2 = new Date(endDate.replace(/\-/g, "\/"));
+    if(startDate!=""&&endDate!=""&&d1 >=d2)
+    {
+        return true;
+    }
+    return false;
 }

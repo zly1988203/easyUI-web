@@ -10,7 +10,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
-<script src="${ctx}/static/js/views/sale/ad/adMain.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/sale/ad/adMain.js?V=${versionNo}4"></script>
 	<style>
 	.datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -115,14 +115,14 @@
 				<div class="ub umar-t8">
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-60 ut-r">广告名称:</div>
-						<input id="adName" name="adName" class="uinp uw-300" type="text" value="<c:out value="${form.adName}"/>">
+						<input id="adName" name="adName" class="uinp uw-300" type="text" maxLength="20" value="<c:out value="${form.adName}"/>">
 					</div>
 
 					<div class="ub ub-ac umar-r40" id="branchTemp">
 						<div class="umar-r10 uw-60 ut-r">机构列表:</div>
 						<input class="uinp ub ub-f1" type="hidden" id="branchIds"
 							name="branchIds" value="<c:out value="${form.branchIds}"/>"> <input class="uinp uw-300" type="text"
-							id="branchName" name="branchName" value="<c:out value="${form.branchName}"/>">
+							id="branchName" name="branchName" value="<c:out value="${form.branchName}"/>" readonly="readonly">
 						<div class="uinp-more">...</div>
 					</div>
 
@@ -139,13 +139,22 @@
 				</div>
 			</div>
 
-	<div class="ub ub-ver  umar-8 ubor ub-f1">
+			<div class="ub ub-ver  umar-8 ubor ub-f1">
 			<div class="ub umar-10">
 				<div class="ub ub-ac umar-r20">
 				<div class="umar-r10 uw-60 ut-r">展示时长:</div>
-				<input id="intervalTime" name="intervalTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
-					data-options="min:1,max:999999,precision:0" type="text" value="<c:out value="${form.intervalTime}"/>"> 秒
-				</div>
+				<c:choose>
+					<c:when test="${form.intervalTime != null}">
+							<input id="intervalTime" name="intervalTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
+								data-options="min:1,max:999999,precision:0" type="text" value="<c:out value="${form.intervalTime}"/>"> 秒
+							</div>
+					</c:when>
+					<c:otherwise>
+						<input id="intervalTime" name="intervalTime" class="uinp uw-416 easyui-numberbox easyui-validatebox"
+						data-options="min:1,max:999999,precision:0" type="text" > 秒
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</div>
 
 			<div class="ub umar-10 umar-b30">
@@ -159,11 +168,12 @@
 						<img id="mainImg" name="mainImg" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
 					</c:otherwise>
 				</c:choose>
+					<input type="hidden" id="mainImgVal" />
 
 				</div>
 			</div>
 
-				<div class="ub umar-10">
+			<div class="ub umar-10">
 				<div class="ub ub-ac umar-r20">
 				<div class="umar-r10 uw-60 ut-r">次图:</div>
 					<c:choose>
@@ -174,6 +184,7 @@
 							<img id="img1" name="img1" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
 						</c:otherwise>
 					</c:choose>
+					<input type="hidden" id="img1Val" />
 				</div>
 
 				<div class="ub ub-ac umar-r20">
@@ -185,6 +196,7 @@
 							<img id="img2" name="img2" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
 						</c:otherwise>
 					</c:choose>
+					<input type="hidden" id="img2Val" />
 				</div>
 
 				<div class="ub ub-ac umar-r20">
@@ -196,12 +208,11 @@
 							<img id="img3" name="img3" src="${ctx}/static/images/addImg.png" onclick="imgUpload(event)"/>
 						</c:otherwise>
 					</c:choose>
+					<input type="hidden" id="img3Val" />
 				</div>
 
 				</div>
 
-
-	</div>
 		</form>
 	</div>
 

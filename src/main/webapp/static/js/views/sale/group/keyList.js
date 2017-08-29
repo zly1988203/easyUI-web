@@ -38,10 +38,13 @@ function  initKeygrid() {
             {field:'id',title:'id',width:'85px',align:'left',hidden:true},
             {field:'groupNo',title:'分组编号',width:'85px',align:'left',
                 formatter : function(value, row,index) {
-                    var str =  '<a name="edit" onclick="editKeyGroup('+index+')" ' +
-                        ' class="ualine">'+value+'</a>';
-
-                    return str;
+                    if(value === "01"){
+                        return value;
+                    }else{
+                        var str =  '<a name="edit" onclick="editKeyGroup('+index+')" ' +
+                            ' class="ualine">'+value+'</a>';
+                        return str;
+                    }
                 },
             },
             {field:'groupName',title:'分组名称',width:'85px',align:'left'},
@@ -82,6 +85,12 @@ var cardDialog = null;
 function editKeyGroup(index) {
     $('#keygrid').datagrid('selectRow',index);
     var item =  $("#keygrid").datagrid('getSelected');
+
+    if(item.groupNo == "01"){
+        $_jxc.alert("热销分组不能修改");
+        return;
+    }
+
     cardDialog = $('<div/>').dialog({
         href: contextPath+"/pos/group/key/editGroup/",
         width:400,

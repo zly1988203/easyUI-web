@@ -50,11 +50,11 @@
 					<div class="uinp-more">...</div>
 				</div>
 
-				<div class="ub ub-ac umar-l40">
+				<div class="ub ub-ac umar-l40" id="operateorSelect">
 					<div class="umar-r10 uw-70 ut-r">制单人:</div>
 					<input class="uinp" name="operateUserId" id="operateUserId" type="hidden">
 					<input class="uinp ub ub-f1" id="operateUserName" name="operateUserName" type="text" maxlength="50">
-					<div class="uinp-more" onclick="selectOperator()">...</div>
+					<div class="uinp-more">...</div>
 				</div>
 			</div>
 			<div class="ub umar-t8">

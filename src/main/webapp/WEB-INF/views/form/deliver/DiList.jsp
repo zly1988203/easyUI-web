@@ -69,14 +69,14 @@
 
 					</div>
 
-					<div class="ub ub-ac uw-300 umar-l30">
+					<div class="ub ub-ac uw-300 umar-l30" id="operateorSelect">
 					<div class="umar-r10 uw-70 ut-r">制单人员:</div>
-					<input class="uinp ub ub-f1" type="text"  id="operateUserName" name="operateUserName" type="text" />
-					<div class="uinp-more" onclick="selectOperator()">...</div>
+					<input class="uinp ub ub-f1" type="hidden"  id="operateUserId" name="operateUserId" />
+					<input class="uinp ub ub-f1" type="text"  id="operateUserName" name="operateUserName"/>
+					<div class="uinp-more">...</div>
 					</div>
 
 				</div>
-
 
 			<div class="ub umar-t8">
 	        	<div class="ub ub-ac uw-624" id="remarkDiv">

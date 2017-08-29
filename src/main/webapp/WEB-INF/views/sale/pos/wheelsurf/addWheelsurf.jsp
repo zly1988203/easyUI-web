@@ -10,7 +10,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
-	<script src="${ctx}/static/js/views/sale/wheelsurf/wheelsurfAdd.js?V=${versionNo}2"></script>
+	<script src="${ctx}/static/js/views/sale/wheelsurf/wheelsurfAdd.js?V=${versionNo}3"></script>
 	<style>
 	.datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -46,11 +46,11 @@
 						<div class="umar-r10 uw-60 ut-r">活动时间:</div>
 						<input id="beginTime" name="beginTime" class="Wdate easyui-validatebox"
 						data-options="required:true" type="text"
-						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" />
 	至
 						<input id="overTime" name="overTime" class="Wdate easyui-validatebox"
 						data-options="required:true" type="text"
-						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'beginTime\')}'})" />
+						onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'beginTime\')}'})" />
 					</div>
 					<div class="ub ub-ac umar-r20">
 						<div class="umar-r10 uw-80 ut-r">奖品有效期:</div>
@@ -92,7 +92,7 @@
 					<div class="umar-r10 uw-60 ut-r">活动机构:</div>
 					<input class="uinp ub ub-f1" type="hidden" id="branchIds"
 					name="branchIds"> <input class="uinp ub ub-f1 uw-416" type="text"
-					id="branchName" name="branchName">
+					id="branchName" name="branchName" readonly="readonly">
 					<div class="uinp-more">...</div>
 					</div>
 					<div class="ub ub-ac umar-r20">

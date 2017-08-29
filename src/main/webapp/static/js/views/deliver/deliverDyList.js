@@ -7,6 +7,16 @@ $(function(){
 	toChangeDatetime(0);
     initDatagridRequireOrders();
     targetBranchId = $("#targetBranchId").val();
+
+    //选择初始化
+    $('#operatorComponent').operatorSelect({
+        //数据过滤
+        loadFilter:function(data){
+            data.operateUserId = data.id;
+            data.operateUserName = data.name;
+            return data;
+        }
+    });
 });
 
 $(document).on('input','#remark',function(){
@@ -176,17 +186,6 @@ function delDeliverForm(){
 	    		}
 		    });
 		}
-	});
-}
-
-/**
- * 操作员
- */
-function selectOperator(){
-	new publicOperatorService(function(data){
-		$("#operateUserId").val(data.id);
-		console.log(data.userCode)
-		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
 
