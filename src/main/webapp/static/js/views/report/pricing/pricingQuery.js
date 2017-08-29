@@ -69,16 +69,7 @@ function initDatagridRequireOrders(){
 	        		   return formatDate(value,'yyyy-MM-dd');
 	        	   }   
             },
-            {field: 'isEffected', title: '是否生效', width: '55px', align:'center',
-            	formatter : function(isEffected){
-        			if(isEffected=="0"){
-        				return "未生效";
-        			}else{
-        				return "生效"; 
-        			}
-        			return null;
-        		}
-            },
+            {field: 'isEffected', title: '是否生效', width: '55px', align:'center' },
             {field: 'oldPurPrice', title: '原进货价', width: '60px', align: 'right',
             	formatter:function(value,row,index){
             		if(!value){
