@@ -131,7 +131,7 @@ function initGridCostCommon(gridName) {
                 editor:{
                     type:'textbox',
                     options:{
-                        required:true,
+                        required:false,
                         validType:{maxLength:[20]},
                     }
                 }
@@ -146,7 +146,7 @@ function initGridCostCommon(gridName) {
                 editor:{
                     type:'numberbox',
                     options:{
-                        required:true,
+                        required:false,
                         min:0.00,
                         max:999999.99,
                         prompt:"最大金额999999.99",
@@ -166,7 +166,7 @@ function initGridCostCommon(gridName) {
                 editor:{
                     type:'numberbox',
                     options:{
-                        required:true,
+                        required:false,
                         min:0,
                         max:99,
                         precision:0,
@@ -184,8 +184,8 @@ function initGridCostCommon(gridName) {
                 editor:{
                     type:'datebox',
                     options:{
-                        required:true,
-                    	editable:false,
+                        required:false,
+                    	editable:true,
                     	formatter:function(date){
                     		var y = date.getFullYear();
                     		var m = date.getMonth()+1;
@@ -369,24 +369,24 @@ function saveBranchCostCommon(gridName) {
     $.each(costList,function (index,item) {
         if(typeof (item.id) !="undefined"){
             if($_jxc.isStringNull(item.costName)){
-                $_jxc.alert('第'+(index+1)+'行装修费用名称不能为空')
+                $_jxc.alert('第'+(index+1)+'行费用名称不能为空')
                 isCheckResult = false;
                 return false;
             }
 
-            if(item.costAmount === ""){
-                $_jxc.alert('第'+(index+1)+'行装修费用金额不能为空')
+            if($_jxc.isStringNull(item.costAmount)){
+                $_jxc.alert('第'+(index+1)+'行费用金额不能为空')
                 isCheckResult = false;
                 return false;
             }
 
             if(parseFloat(item.costAmount).toFixed(2) <= 0){
-                $_jxc.alert('第'+(index+1)+'行装修费用金额不能为0')
+                $_jxc.alert('第'+(index+1)+'行费用金额不能为0')
                 isCheckResult = false;
                 return false;
             }
             
-            if(item.costAvgYear === ""){
+            if($_jxc.isStringNull(item.costAvgYear)){
                 $_jxc.alert('第'+(index+1)+'行费用均摊年数不能为空')
                 isCheckResult = false;
                 return false;
@@ -398,46 +398,59 @@ function saveBranchCostCommon(gridName) {
                 return false;
             }
             
-            if(item.startTime === ""){
+            if($_jxc.isStringNull(item.startTime)){
                 $_jxc.alert('第'+(index+1)+'行起算时间不能为空')
+                isCheckResult = false;
+                return false;
+            }
+            
+            if(new Date(item.startTime) == 'Invalid Date'){
+            	$_jxc.alert('第'+(index+1)+'行起算时间格式异常')
                 isCheckResult = false;
                 return false;
             }
 
         } else{
         	
-        	if(parseFloat(item.costAmount).toFixed(2) > 0 && $_jxc.isStringNull(item.costName)){
-                $_jxc.alert('第'+(index+1)+'行金额大于0，装修费用名称不能为空')
+        	if($_jxc.isStringNull(item.costName)){
+                $_jxc.alert('第'+(index+1)+'行费用名称不能为空')
+                isCheckResult = false;
+                return false;
+            }
+        	
+
+            if($_jxc.isStringNull(item.costAmount)){
+                $_jxc.alert('第'+(index+1)+'行费用金额不能为空')
                 isCheckResult = false;
                 return false;
             }
 
-            if(item.costAmount === ""){
-                $_jxc.alert('第'+(index+1)+'行装修费用金额不能为空')
-                isCheckResult = false;
-                return false;
-            }
-
-            if(parseFloat(item.costAmount).toFixed(2) <= 0 && !$_jxc.isStringNull(item.costName)){
-                $_jxc.alert('第'+(index+1)+'行装修费用金额不能为0')
+            if(parseFloat(item.costAmount).toFixed(2) <= 0){
+                $_jxc.alert('第'+(index+1)+'行费用金额不能为0')
                 isCheckResult = false;
                 return false;
             }
             
-            if(parseFloat(item.costAmount).toFixed(2) <= 0 && !$_jxc.isStringNull(item.costName)){
-                $_jxc.alert('第'+(index+1)+'行装修费用金额不能为0')
+            if($_jxc.isStringNull(item.costAvgYear)){
+                $_jxc.alert('第'+(index+1)+'行费用均摊年数不能为空')
                 isCheckResult = false;
                 return false;
             }
             
-            if(parseInt(item.costAvgYear) <= 0 && !$_jxc.isStringNull(item.costName)){
+            if(parseInt(item.costAvgYear) <= 0){
                 $_jxc.alert('第'+(index+1)+'行费用均摊年数金额不能小于0')
                 isCheckResult = false;
                 return false;
             }
             
-            if($_jxc.isStringNull(item.startTime) && !$_jxc.isStringNull(item.costName)){
+            if($_jxc.isStringNull(item.startTime)){
                 $_jxc.alert('第'+(index+1)+'行起算时间不能为空')
+                isCheckResult = false;
+                return false;
+            }
+            
+            if(new Date(item.startTime) == 'Invalid Date'){
+            	$_jxc.alert('第'+(index+1)+'行起算时间格式异常')
                 isCheckResult = false;
                 return false;
             }
