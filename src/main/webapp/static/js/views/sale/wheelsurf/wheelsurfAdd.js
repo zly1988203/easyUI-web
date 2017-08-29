@@ -265,6 +265,7 @@ function selectPrize() {
     var queryParams = {
         type:'',
         key:"",
+        formType:"HD",
         isRadio:1,
         'branchId': $('#branchIds').val(),
         sourceBranchId:'',
