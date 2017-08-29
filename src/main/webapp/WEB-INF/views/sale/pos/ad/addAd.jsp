@@ -56,7 +56,7 @@
 						<div class="umar-r10 uw-60 ut-r">展示时间:</div>
 						<input class="Wdate newWdate" readonly="readonly" name="beginDate"
 							id="beginDate"
-							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'overDate\');}'})" value="<fmt:formatDate value="${form.beginDate}" pattern="yyyy-MM-dd" />"/>&nbsp;至&nbsp;
+							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" value="<fmt:formatDate value="${form.beginDate}" pattern="yyyy-MM-dd" />"/>&nbsp;至&nbsp;
 						<input class="Wdate newWdate" readonly="readonly" name="overDate"
 							id="overDate"
 							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'beginDate\');}'})" value="<fmt:formatDate value="${form.overDate}" pattern="yyyy-MM-dd" />"/>

@@ -19,6 +19,21 @@ $(function() {
 		$('input:radio[name=searchType]')[0].checked = true;
 		$('input:radio[name=searchType]')[0].click();
 	}
+    $('#branchTemp').branchSelect();
+
+    //类别选择初始化
+    $('#categorySelectTemp').categorySelect();
+
+    //供应商选择初始化
+    $('#supplierComponent').supplierSelect({
+        //数据过滤
+        loadFilter:function(data){
+            data.supplierId = data.id;
+            return data;
+        }
+    });
+
+
 });
 
 var flushFlg = false;

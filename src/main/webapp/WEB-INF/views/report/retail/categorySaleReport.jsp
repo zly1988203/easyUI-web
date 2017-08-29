@@ -8,7 +8,7 @@
 <title>类别销售汇总</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-<script src="${ctx}/static/js/views/report/retail/categorySaleReport.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/report/retail/categorySaleReport.js?V=${versionNo}4"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
 </style>
@@ -36,11 +36,11 @@
 
 	        <div class="ub uline umar-t8"></div>
 	        <div class="ub umar-t8">
-                <div class="ub ub-ac uw-300 ">
+                <div class="ub ub-ac uw-300" id="branchSelect">
 	                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input type="hidden" id="branchId" name="branchId" />
 	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName"/>
-	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
+	                    <div class="uinp-more">...</div>
 	                </div>
 
 					<div id="categoryNameDiv" class="ub ub-ac umar-l20">

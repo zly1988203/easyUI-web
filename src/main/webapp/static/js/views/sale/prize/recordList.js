@@ -8,6 +8,10 @@ $(function () {
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     //机构选择初始化 发货机构
     $('#branchTemp').branchSelect();
+    
+    $(".radioItem").change(function () {
+        queryRecord();
+    })
 
 })
 
@@ -51,10 +55,10 @@ function initgridRecord() {
             gridRecordHandle.setDatagridHeader("center");
         }
     })
+    queryRecord();
 }
 
 function queryRecord() {
-
     var fromObjStr = $('#queryForm').serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid('options').url = contextPath +'/pos/prize/record/load/list';
