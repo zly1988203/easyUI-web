@@ -13,7 +13,7 @@ $(function () {
         }
     });
 })
-
+var gridName = "keygrid";
 var keygridHandle = new GridClass();
 var keygridDefault = {
     groupNo:"01",
@@ -21,7 +21,7 @@ var keygridDefault = {
     sortNo:01
 }
 function  initKeygrid() {
-    keygridHandle.setGridName("keygrid");
+    keygridHandle.setGridName(gridName);
     $("#keygrid").datagrid({
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
@@ -316,6 +316,7 @@ function getGroupList(branchId) {
             //     keygridHandle.setLoadData([$.extend({},keygridDefault)]);
             // }else {
                 keygridHandle.setLoadData(result.data.list);
+                $('#'+gridName).datagrid('selectRow',0);
             // }
 
         }else{

@@ -26,6 +26,15 @@ $(function(){
         }
     });
 
+    //类别选择初始化
+    $('#categorySelect').categorySelect({
+        onAfterRender:function(data){
+            $("#goodsCategoryId").val(data.goodsCategoryId);
+            $("#categoryCode").val(data.categoryCode);
+            // $("#categoryCode").val(data.categoryCode);
+        }
+	});
+
 });
 
 var gridHandel = new GridClass();
@@ -160,16 +169,6 @@ function selectBranches(){
 var resetForm = function() {
 	location.href=contextPath+"/form/deliverReport/viewDeliverList";
 };
-
-//商品分类
-function getGoodsType(){
-	new publicCategoryService(function(data){
-//		$("#goodsCategoryId").val(data.goodsCategoryId);
-//		$("#categoryCode").val(data.categoryCode);
-		//$("#categoryName").val(data.categoryName);
-        $("#categoryName").val("["+data.categoryCode+"]"+data.categoryName);
-	});
-}
 
 var dg;
 /**

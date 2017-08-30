@@ -60,15 +60,16 @@
 						readonly="readonly" />
 				</div>
 
-				<div class="ub ub-ac umar-r60">
+				<div class="ub ub-ac umar-r60" id="categorySelect">
 					<div class="umar-r10 uw-80 ut-r">商品类别:</div>
 					<input id="goodsCategoryId" name="goodsCategoryId" class="uinp"
 						type="hidden">
-					<!-- <input id="categoryCode" name="categoryCode" class="uinp" type="hidden">  -->
 					<input id="categoryCode" name="categoryCode" class="uinp"
-						type="text" maxlength="50">
-					<div class="uinp-more new-right" id="categoryButon"
-						onclick="getGoodsType()">...</div>
+						type="hidden" maxlength="50">
+						<input
+						id="categoryName" name="categoryName" class="uinp" type="text"
+						maxlength="50">
+					<div class="uinp-more new-right" id="categoryButon">...</div>
 				</div>
 
 			</div>

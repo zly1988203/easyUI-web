@@ -13,7 +13,13 @@ $(function() {
 	$('#branchSelects').branchSelect();
 
 	//商品类别选择组件
-	$('#categoryNameDiv').categorySelect();
+	$('#categoryNameDiv').categorySelect({
+        onAfterRender:function(data){
+            $("#goodsCategoryId").val(data.goodsCategoryId);
+            $("#categoryCode").val(data.categoryCode);
+            // $("#categoryCode").val(data.categoryCode);
+        }
+    });
 	
 });
 

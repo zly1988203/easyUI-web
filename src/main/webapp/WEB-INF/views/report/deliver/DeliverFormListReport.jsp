@@ -10,7 +10,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script
-	src="${ctx}/static/js/views/report/deliver/DeliverFormListReport.js?V=${versionNo}"></script>
+	src="${ctx}/static/js/views/report/deliver/DeliverFormListReport.js?V=${versionNo}3"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 
@@ -57,7 +57,7 @@
 					<input class="uinp" type="text" id="formNo" name="formNo">
 				</div>
 
-				<div class="ub ub-ac uw-300">
+				<div class="ub ub-ac uw-300" id="categorySelect">
 					<div class="umar-r10 uw-70 ut-r">商品类别:</div>
 					<div class="ub ub-ac">
 						<input id="goodsCategoryId" name="goodsCategoryId" class="uinp"
@@ -65,7 +65,7 @@
 							name="categoryCode" class="uinp" type="hidden"> <input
 							id="categoryName" name="categoryName" class="uinp" type="text"
 							maxlength="50">
-						<div class="uinp-more" onclick="getGoodsType()">...</div>
+						<div class="uinp-more">...</div>
 					</div>
 				</div>
 

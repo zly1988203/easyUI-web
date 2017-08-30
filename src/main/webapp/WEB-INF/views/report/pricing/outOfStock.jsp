@@ -48,12 +48,12 @@
 				</div>
 
 				<div class="ub  ub-ac">
-					<div class="ub ub-ac umar-l20">
+					<div class="ub ub-ac umar-l20" id="categorySelect">
 						<div class="umar-r10 uw-70 ut-r">商品类别:</div>
 						<input id="goodsCategoryId" name="goodsCategoryId" class="uinp" type="hidden">
 						<input id="categoryCode" name="categoryCode" class="uinp" type="hidden">
 						<input id="categoryName" name="categoryName" class="uinp" type="text" data-options="required:true">
-						<div class="uinp-more" id="dvCategory" onclick="getGoodsType()">...</div>
+						<div class="uinp-more" id="dvCategory">...</div>
 					</div>
 				</div>
 			</div>

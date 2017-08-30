@@ -109,7 +109,7 @@ function initgridAddPosAct() {
                 editor:{
                     type:'textbox',
                     options:{
-                        validType:{maxLength:[20],minLength:[1]},
+                        validType:{maxLength:[10]},
                     }
                 }
             },
@@ -328,7 +328,7 @@ function saveWheelsurf() {
     if(!validform()) return;
 
     var formObj = $("#formAdd").serializeObject();
-
+    formObj.validBeginTime = formObj.beginTime;
     var param = {
         formObj : JSON.stringify(formObj),
         list : JSON.stringify(gridAddPosActHandle.getRows())
@@ -346,8 +346,6 @@ function saveWheelsurf() {
             $_jxc.alert(result['message']);
         }
     })
-
-
 }
 
 function validform() {
@@ -367,18 +365,8 @@ function validform() {
         return false;
     }
 
-    if(compareDate($("#beginTime").val(),$("#validBeginTime").val())){
-        $_jxc.alert("奖品有效期开始时间不能在活动开始时间之前");
-        return false;
-    }
-
-    if(compareDate($("#validBeginTime").val(),$("#validOverTime").val())){
-        $_jxc.alert("奖品有效期结束时间不能在奖品有效期开始时间之前");
-        return false;
-    }
-
     if(compareDate($("#overTime").val(),$("#validOverTime").val())){
-        $_jxc.alert("奖品有效期结束时间不能在活动结束时间之前");
+        $_jxc.alert("奖品截止日期不能在活动结束时间之前");
         return false;
     }
 
@@ -438,11 +426,11 @@ function validform() {
 
     if(hasRepeat){
         $_jxc.alert("顺序不能数字重复")
-        return false;;
+        return false;
     }
     if(totalRate > 100 || totalRate < 100){
         $_jxc.alert("中奖概率总和应为100%,目前为："+totalRate+"%")
-        return false;;
+        return false;
     }
 
     return true;
@@ -453,6 +441,7 @@ function updateWheelsurf() {
     if(!validform()) return;
 
     var formObj = $("#formAdd").serializeObject();
+    formObj.validBeginTime = formObj.beginTime;
 
     var param = {
         formObj : JSON.stringify(formObj),

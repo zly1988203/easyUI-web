@@ -36,6 +36,15 @@ $(function() {
             $("#branchId").val(data.branchId);
         }
     });
+
+    //商品类别选择组件
+    $('#categoryNameDiv').categorySelect({
+        onAfterRender:function(data){
+            $("#goodsCategoryId").val(data.goodsCategoryId);
+            $("#categoryCode").val(data.categoryCode);
+            // $("#categoryCode").val(data.categoryCode);
+        }
+    });
 });
 
 var flushFlg = false;
