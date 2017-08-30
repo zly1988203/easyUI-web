@@ -294,7 +294,8 @@ function initDatagridEditOrder(){
                 editor:{
                     type:'textbox',
                     options:{
-                        validType:{maxLength:[20]},
+                        //validType:{maxLength:[20]}, 非法长度后在不同行切换不会失去激活编辑状态引起bug20771
+                        onChange:changeRemark
                     }
                 }
             }
@@ -358,6 +359,22 @@ function initDatagridEditOrder(){
     if(hasPurchasePrice==false){
         priceGrantUtil.grantPurchasePrice(gridName,["price","amount","taxAmount"])
     }
+}
+
+
+//备注
+var reFlg = false;
+var maxRemark = 20;
+function changeRemark(newV,oldV){
+	if(reFlg){
+	   reFlg = false;
+	   return;
+	}
+	if(!$_jxc.isStringNull(newV) && (newV.length > maxRemark)){
+		$_jxc.alert('备注不能超过'+maxRemark+'个字符');
+		reFlg = true;
+		$(this).textbox('setValue',oldV);
+	}
 }
 
 //限制转换次数
