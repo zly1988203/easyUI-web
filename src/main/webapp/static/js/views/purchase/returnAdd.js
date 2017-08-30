@@ -21,6 +21,16 @@ $(function(){
     if($("#cascadeGoods").val() == 'true'){
         queryGoodsList();
     }
+    
+    
+    //2.7.1-------------------------start
+    
+    $('input[name="refFormNoType"]').on('change',function(){
+    	$('#refFormNo').val('');
+    	gridHandel.setLoadData([$.extend({},gridDefault)]);
+    })
+    
+    
 });
 
 //初始化默认条件
@@ -583,6 +593,11 @@ function saveItemHandel(){
         return;
     }
     
+    var supplierId = $("#supplierId").val();
+    if(!supplierId){
+    	$_jxc.alert("请选择供应商!");
+    	return;
+    }
     var branchId = $("#branchId").val();
     if(!branchId){
     	$_jxc.alert("请选择退货机构!");
@@ -763,6 +778,12 @@ function selectSupplier(){
 	}
 	new publicSuppliersService(param, function(data){
 		if('NO' == data)return;
+		if($('input[name="refFormNoType"]:checked').val() == 'DI'){
+			$("#supplierId").val(data.id);
+            $("#saleWay").val(data.saleWay);
+            $("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
+			return;
+		}
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         if(data.id != $("#supplierId").val() && nowRows.length > 0){
             $_jxc.confirm('修改供应商后会清空明细，是否要修改？',function(r){
