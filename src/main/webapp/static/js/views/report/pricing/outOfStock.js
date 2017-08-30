@@ -19,6 +19,15 @@ $(function(){
             $("#targetBranchId").val(data.branchId);
         }
     });
+
+    //类别选择初始化
+    $('#categorySelect').categorySelect({
+        onAfterRender:function(data){
+            $("#goodsCategoryId").val(data.goodsCategoryId);
+            $("#categoryCode").val(data.categoryCode);
+            // $("#categoryCode").val(data.categoryCode);
+        }
+    });
     
     initBranchSelect();
 
@@ -56,7 +65,6 @@ function checktype(value){
 
             $('#categoryName').removeProp("readonly","readonly");
             $('#categoryName').removeClass('uinp-no-more');
-            $("#dvCategory").attr('onclick','getGoodsType()');
             $('#skuName').removeProp("readonly","readonly");
             $('#skuName').removeClass('uinp-no-more');
             $('#skuCode').removeProp("readonly","readonly");
@@ -70,7 +78,6 @@ function checktype(value){
 
             $('#categoryName').removeProp("readonly","readonly");
             $('#categoryName').removeClass('uinp-no-more');
-            $("#dvCategory").attr('onclick','getGoodsType()');
             $('#skuName').removeProp("readonly","readonly");
             $('#skuName').removeClass('uinp-no-more');
             $('#skuCode').removeProp("readonly","readonly");
@@ -543,17 +550,6 @@ function queryForm(){
 	$("#marketWater").datagrid('options').url = contextPath + '/report/outOfStock/reportListPage';
 	$("#marketWater").datagrid('load');
 	
-}
-
-//商品分类
-function getGoodsType(){
-	new publicCategoryService(function(data){
-//		$("#goodsCategoryId").val(data.goodsCategoryId);
-//		$("#categoryCode").val(data.categoryCode);
-		//$("#categoryName").val(data.categoryName);
-		$("#categoryName").val("["+data.categoryCode+"]"+data.categoryName);
-
-	});
 }
 
 /**

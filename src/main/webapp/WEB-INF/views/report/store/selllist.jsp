@@ -51,6 +51,7 @@
 			    </div>
 			    <div id="categoryNameDiv" class="ub ub-ac umar-r40">
 			        <div class="umar-r10 uw-70 ut-r">商品类别:</div>
+					<input  name="goodsCategoryId" id="goodsCategoryId" class="uinp " maxlength="50" type='hidden'/>
 			         <input name="categoryCode" id="categoryCode" type='hidden'/>
 			        <input type="text" name="categoryName" id="categoryName" class="uinp " maxlength="50" />
 			        <div class="uinp-more" id="categorySelect">...</div>

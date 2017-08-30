@@ -34,6 +34,15 @@ $(function() {
         }
     });
 
+    //类别选择初始化
+    $('#categorySelect').categorySelect({
+        onAfterRender:function(data){
+            $("#goodsCategoryId").val(data.goodsCategoryId);
+            $("#categoryCode").val(data.categoryCode);
+            // $("#categoryCode").val(data.categoryCode);
+        }
+    });
+
     setReadOnly("goods");
 
 });
