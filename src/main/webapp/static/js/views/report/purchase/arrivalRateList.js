@@ -28,13 +28,6 @@ $(function() {
         }
 	});
 
-    //类别选择初始化
-    $('#categorySelectTemp').categorySelect({
-        onAfterRender:function(data){
-            $("#categoryCode").val(data.categoryCode);
-        }
-	});
-
     //供应商选择初始化
     $('#supplierComponent').supplierSelect({
         onAfterRender:function(data){
@@ -43,6 +36,16 @@ $(function() {
     });
 
 });
+
+function initCategorySelect() {
+    //类别选择初始化
+    $('#categorySelectTemp').categorySelect({
+        onAfterRender:function(data){
+            $("#categoryId").val(data.goodsCategoryId);
+            $("#categoryCode").val(data.categoryCode);
+        }
+    });
+}
 
 var flushFlg = false;
 function changeType(){
@@ -57,8 +60,10 @@ function changeType(){
 		} else if (val==1) {
 			initDatagridBySupplier();
 		} else if (val==2) {
+            initCategorySelect();
 			initDatagridByCategory();
 		}else if(val==3){
+            initCategorySelect();
 			initDatagridBySku();
 		}
 		$("#gridOrders").datagrid('loadData', { total: 0, rows: [] });
