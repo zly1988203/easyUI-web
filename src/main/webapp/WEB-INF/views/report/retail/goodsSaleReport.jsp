@@ -57,6 +57,7 @@
 	        <div class="ub umar-t8">
                 <div class="ub ub-ac" id="categorySelect">
 					<div class="umar-r10 uw-70 ut-r">商品类别:</div>
+					<input type="hidden" name="categoryId" id="categoryId" class="uinp" />
 					<input type="hidden" name="categoryCode" id="categoryCode" class="uinp" />
 					<input type="text" id="categoryName" class="uinp" maxlength="50"/>
 					<div class="uinp-more" id="categorySelect">...</div>

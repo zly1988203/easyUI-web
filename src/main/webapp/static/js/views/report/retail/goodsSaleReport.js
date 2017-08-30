@@ -16,7 +16,13 @@ $(function(){
     })
     
     //类别选择初始化
-    $('#categorySelect').categorySelect()
+    $('#categorySelect').categorySelect({
+        onAfterRender:function(data){
+            $("#categoryId").val(data.categoryId);
+            $("#categoryCode").val(data.categoryCode);
+            // $("#categoryCode").val(data.categoryCode);
+        }
+    })
 
 	//开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
