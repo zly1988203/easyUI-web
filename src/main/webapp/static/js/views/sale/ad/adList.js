@@ -15,8 +15,8 @@ $(function () {
     $('#operatorComponent').operatorSelect({
         //数据过滤
         loadFilter:function(data){
-            data.operateUserId = data.id;
-            data.operateUserName = data.name;
+            data.createUserId = data.id;
+            //data.operateUserName = data.name;
             return data;
         }
     });
