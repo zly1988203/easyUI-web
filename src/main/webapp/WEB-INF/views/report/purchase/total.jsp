@@ -51,7 +51,8 @@
 			  <div id="categorySelectTemp" class="ub ub-ac uw-300">
 				<div class="umar-r10 uw-80 ut-r">类别:</div>
 				<input type="hidden" name="categoryId" id="categoryId" class="uinp "/>
-				<input type="text" name="categoryName" id="categoryName" class="uinp ub ub-f1" maxlength="50"/>
+				<input type="hidden" name="categoryCode" id="categoryCode" class="uinp "/>
+				<input type="text" id="categoryName" class="uinp ub ub-f1" maxlength="50"/>
 				<div class="uinp-more" id="categorySelect">...</div>
 			  </div>
             </div>
