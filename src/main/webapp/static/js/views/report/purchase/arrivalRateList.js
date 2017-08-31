@@ -5,10 +5,11 @@ $(function() {
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	//初始化默认条件
     initDatagridByFormNo();
+    initCategorySelect();
+    categoryOff();
 	//选择报表类型
 	changeType();
-	//切换radio 禁启用
-	checktype();
+
 	$(document).on('keyup','#arrivalRate',function(){
 		var val=parseFloat($(this).val());
 	    var str=$(this).val();
@@ -47,69 +48,50 @@ function initCategorySelect() {
     });
 }
 
-var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
 		$("#gridOrders").datagrid("options").url = "";
-		checktype()
+
 		var val = $(this).val();
 		if (val==0) {
-			flushFlg=true;
+            formNoOn();
+            categoryOff();
 			initDatagridByFormNo();
-			
 		} else if (val==1) {
+            categoryOff();
+            supplierOn();
+            formNoOff();
 			initDatagridBySupplier();
 		} else if (val==2) {
-            initCategorySelect();
+            supplierOff();
+            categoryOn();
+            formNoOff();
+            // initCategorySelect();
 			initDatagridByCategory();
 		}else if(val==3){
-            initCategorySelect();
+            categoryOn();
+            supplierOn();
+            formNoOff();
 			initDatagridBySku();
 		}
 		$("#gridOrders").datagrid('loadData', { total: 0, rows: [] });
     	$('#gridOrders').datagrid({showFooter:false});
 	});
 }
-//切换radio 4个状态的禁用和启用 以及值的清空
-function checktype(){
- var len=$('.radioItem').length;
-	for(var i=0;i<len;i++){
-		var check=$('.radioItem').eq(i).prop('checked');
-		var value=$('.radioItem').eq(i).val();
-		if(check==true&&value=='0'){
-			categoryOff();
-			$('.uinp-categoryName').removeAttr('onclick');
-			$('#supplierName').removeClass('uinp-no-more');
-			// $('#supplierName').attr('onclick','selectSupplier()');
-			// $('.uinp-supplierName').attr('onclick','selectSupplier()');
-			$('#formNo').removeClass('uinp-no-more');
-			$('#formNo').removeAttr("readonly");
-		}
-		else if(check==true&&value=='1'){
-			categoryOff();
-			$('#formNo').addClass('uinp-no-more');
-			$('#formNo').attr("readonly","readonly");
-			$('#formNo').val("");
-			supplierOn();
-		}
-		else if(check==true&&value=='2'){
-			supplierOff();
-			$('#formNo').addClass('uinp-no-more');
-			$('#formNo').attr("readonly","readonly");
-			$('#formNo').val("");
-			categoryOn();
-		}
-		else if(check==true&&value=='3'){
-			categoryOn();
-			supplierOn();
-			$('#formNo').addClass('uinp-no-more');
-			$('#formNo').attr("readonly","readonly");
-			$('#formNo').val("");
-		}
-   }	
+
+
+function formNoOn(){
+    $('#formNo').removeClass('uinp-no-more');
+    $('#formNo').removeAttr("readonly");
+}
+function formNoOff() {
+    $('#formNo').addClass('uinp-no-more');
+    $('#formNo').attr("readonly","readonly");
+    $('#formNo').val("");
 }
 
 function supplierOff(){
+    $('#supplierName').removeClass('uinp-no-more');
 	$('#supplierCode').addClass('uinp-no-more');
 	$('.uinp-supplierName').removeAttr('onclick');
 	$("#supplierCode").attr("readonly","readonly");
@@ -119,7 +101,6 @@ function supplierOff(){
 }
 
 function supplierOn(){
-	// $('.uinp-supplierName').attr('onclick','selectSupplier()');
 	$('#supplierCode').removeClass('uinp-no-more');
 	$('#supplierCode').removeAttr("readonly");
 	$('#supplierCode').val("");
@@ -135,7 +116,6 @@ function  categoryOff(){
 }
 
 function categoryOn(){
-	// $('.uinp-categoryName').attr('onclick','getGoodsType()');
 	$('#categoryName').removeClass('uinp-no-more');
 	$('#categoryName').removeAttr("readonly");
 	$('#categoryName').val("");
