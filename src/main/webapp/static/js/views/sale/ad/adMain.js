@@ -125,12 +125,12 @@ function validform(){
         return false;
     }
 
-    if($_jxc.isStringNull($("#img1Val").val())
+   /* if($_jxc.isStringNull($("#img1Val").val())
         || $_jxc.isStringNull($("#img2Val").val())
         || $_jxc.isStringNull($("#img3Val").val())){
         $_jxc.alert("请上传完活动次图");
         return false;
-    }
+    }*/
 
 
     return true

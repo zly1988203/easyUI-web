@@ -80,7 +80,9 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
         List<PosAdFormDetailVo> posGroupKeys = posAdServiceApi.getPosAdDetailList(id);
         for (int i = 0, length = posGroupKeys.size(); i < length; ++i) {
             PosAdFormDetailVo vo = posGroupKeys.get(i);
-            vo.setPicUrl(filePrefix + "/" + vo.getPicUrl());
+            if(StringUtils.isNotBlank(vo.getPicUrl())) {
+                vo.setPicUrl(filePrefix + "/" + vo.getPicUrl());
+            }
             posGroupKeys.set(i, vo);
         }
         model.put("detail", posGroupKeys);
@@ -184,7 +186,11 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
             if (imgs != null && imgs.length > 0) {
                 String[] datas = new String[imgs.length];
                 for (int i = 0; i < imgs.length; ++i) {
-                    datas[i] = StringUtils.replace(imgs[i], filePrefix + "/", "");
+                    if(StringUtils.contains(imgs[i],"addImg.png")){
+                        datas[i] = "";
+                    }else {
+                        datas[i] = StringUtils.replace(imgs[i], filePrefix + "/", "");
+                    }
                 }
                 vo.setImgs(datas);
             }
@@ -211,7 +217,11 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
             if (imgs != null && imgs.length > 0) {
                 String[] datas = new String[imgs.length];
                 for (int i = 0; i < imgs.length; ++i) {
-                    datas[i] = StringUtils.replace(imgs[i], filePrefix + "/", "");
+                    if(StringUtils.contains(imgs[i],"addImg.png")){
+                        datas[i] = "";
+                    }else {
+                        datas[i] = StringUtils.replace(imgs[i], filePrefix + "/", "");
+                    }
                 }
                 vo.setImgs(datas);
             }
