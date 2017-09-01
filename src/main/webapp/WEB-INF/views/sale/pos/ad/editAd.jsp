@@ -177,7 +177,7 @@ img {
 		<div class="ub ub-ac umar-r20 ">
 		<div class="umar-r10 uw-60 ut-r">主图:</div>
 			<c:choose>
-				<c:when test="${detail[0].picUrl != null}">
+				<c:when test="${!empty detail[0].picUrl}">
 					<img id="mainImg" name="mainImg" src="<c:out value="${detail[0].picUrl}"/>" onclick="imgUpload(event)"/>
 				</c:when>
 				<c:otherwise>
@@ -192,7 +192,7 @@ img {
 		<div class="ub ub-ac umar-r20">
 		<div class="umar-r10 uw-60 ut-r">次图:</div>
 			<c:choose>
-				<c:when test="${detail[1].picUrl != null}">
+				<c:when test="${!empty detail[1].picUrl}">
 					<img id="img1" name="img1" src="<c:out value="${detail[1].picUrl}"/>" onclick="imgUpload(event)"/>
 				</c:when>
 				<c:otherwise>
@@ -204,7 +204,7 @@ img {
 
 		<div class="ub ub-ac umar-r20">
 			<c:choose>
-				<c:when test="${detail[2].picUrl != null}">
+				<c:when test="${!empty detail[2].picUrl}">
 					<img id="img2" name="img2" src="<c:out value="${detail[2].picUrl}"/>" onclick="imgUpload(event)"/>
 				</c:when>
 				<c:otherwise>
@@ -216,7 +216,7 @@ img {
 
 		<div class="ub ub-ac umar-r20">
 			<c:choose>
-				<c:when test="${detail[3].picUrl != null}">
+				<c:when test="${!empty detail[3].picUrl}">
 					<img id="img3" name="img3" src="<c:out value="${detail[3].picUrl}"/>" onclick="imgUpload(event)"/>
 				</c:when>
 				<c:otherwise>

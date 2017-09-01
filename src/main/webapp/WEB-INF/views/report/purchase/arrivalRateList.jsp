@@ -8,7 +8,7 @@
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
-	<script src="${ctx}/static/js/views/report/purchase/arrivalRateList.js?V=${versionNo}2"></script>
+	<script src="${ctx}/static/js/views/report/purchase/arrivalRateList.js?V=${versionNo}4"></script>
     
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -50,7 +50,7 @@
                     <input id="categoryId" name="categoryId" class="uinp" type="hidden">
                     <input id="categoryCode" name="categoryCode" class="uinp" type="hidden">
                     <input id="categoryName" name="categoryName" class="uinp" type="text" maxlength="50">
-                    <div class="uinp-more uinp-categoryName ">...</div>
+                    <div class="uinp-more">...</div>
                 </div>
 	        </div>
 	        <div class="ub umar-t8">

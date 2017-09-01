@@ -31,7 +31,6 @@ $(function(){
         onAfterRender:function(data){
             $("#goodsCategoryId").val(data.goodsCategoryId);
             $("#categoryCode").val(data.categoryCode);
-            // $("#categoryCode").val(data.categoryCode);
         }
 	});
 

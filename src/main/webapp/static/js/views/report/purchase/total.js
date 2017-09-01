@@ -22,7 +22,11 @@ $(function() {
     $('#branchTemp').branchSelect();
 
     //类别选择初始化
-    $('#categorySelectTemp').categorySelect();
+    $('#categorySelectTemp').categorySelect({
+        onAfterRender:function(data){
+            $("#categoryCode").val(data.categoryCode);
+        }
+    });
 
     //供应商选择初始化
     $('#supplierComponent').supplierSelect({
@@ -129,6 +133,7 @@ function categoryOff(){
     $("#categoryName").addClass("uinp-no-more");
 	$("#categorySelect").removeAttr("onclick");
 	$("#categoryName").val("");
+	$("#categoryCode").val("");
 	$("#categoryId").val("");
 	$("#categoryName").attr("readonly","readonly");
     $("#categoryName").addClass("uinp-no-more");
@@ -174,6 +179,7 @@ function onChangeFormType(newV,oldV){
 }
 function onChangeCategoryType(newV,oldV){
     $("#categoryName").val("");
+    $("#categoryCode").val("");
     $("#categoryId").val("");
 }
 var gridHandel = new GridClass();
@@ -688,6 +694,7 @@ function searchCategory(){
 	new publicCategoryService(function(data){
 //		$("#categoryId").val(data.goodsCategoryId);
 		$("#categoryName").val(data.categoryName);
+		$("#categoryCode").val(data.categoryCode);
 	});
 }
 /**
