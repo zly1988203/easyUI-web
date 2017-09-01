@@ -44,12 +44,19 @@
 			</div>
 
 			<div class="ub umar-t8">
-				<div class="ub ub-ac umar-r40" id="branchTemp">
+				<%--<div class="ub ub-ac umar-r40" id="branchTemp">
 					<div class="umar-r10 uw-60 ut-r">活动店铺:</div>
                     <input class="uinp ub ub-f1" type="hidden" id="branchId"
                     name="branchId"> <input class="uinp ub ub-f1" type="text"
                     id="branchName" name="branchName">
                     <div class="uinp-more">...</div>
+				</div>--%>
+				<div class="ub ub-ac umar-r40" id="operatorComponent">
+					<div class="umar-r10 uw-60 ut-r">制单人员:</div>
+					<input class="uinp" name="createUserId" id="createUserId" type="hidden">
+					<input class="uinp" id="createUserName" name="createUserName"
+						   type="text" maxlength="50">
+					<div class="uinp-more">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">活动编号:</div>

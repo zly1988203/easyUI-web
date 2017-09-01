@@ -10,8 +10,17 @@ $(function () {
 
     $(".radioItem").change(function () {
         queryPosActivity();
-    })
-})
+    });
+    //选择初始化
+    $('#operatorComponent').operatorSelect({
+        //数据过滤
+        loadFilter:function(data){
+            data.createUserId = data.id;
+            //data.operateUserName = data.name;
+            return data;
+        }
+    });
+});
 
 var gridName = "gridPosActivity";
 var gridPosActivityHandle = new GridClass();
