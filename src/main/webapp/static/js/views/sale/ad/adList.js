@@ -20,7 +20,7 @@ $(function () {
             return data;
         }
     });
-})
+});
 
 var gridName = "gridAdList";
 var gridAdListHandle = new GridClass();
