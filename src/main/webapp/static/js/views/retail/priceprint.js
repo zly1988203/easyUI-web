@@ -54,19 +54,21 @@ function changeDiscount(newV,oldV){
 		discountRows(vewV)
 	}
 }
-
+var isdisabled = false;
 function initjiaqType(){
 	$(document).on('mousedown','.jiaqType .radioItemLable',function(){
 		var _this = $(this).children('.radioItem');
 		var changeType = function(){
 			_this.prop("checked",true);
 			$('#priceType').val(_this.val());
-            gridHandel.setLoadData([$.extend({},gridDefault)]);
+
 			if(_this.val() === '1'){
 				$('.activity').removeClass('unhide');
 				$('.discount').removeClass('unhide');
                 // gridHandel.setLoadData([]);
 				appendOptions(options_nomal);
+                isdisabled = true;
+
 				$('#pricePrint').datagrid('showColumn','activityTime');
 				$('#pricePrint').datagrid('showColumn','promotionPrice');
 			}else{
@@ -77,7 +79,8 @@ function initjiaqType(){
 				$("#selectGoods").removeClass("uinp-no-more");
 				$("#importsukcode").removeClass("uinp-no-more");
 				$("#importbarcode").removeClass("uinp-no-more");
-				
+                isdisabled = false;
+
 				//隐藏活动 清除数据
 				$('.activity').addClass('unhide');
 				$('#actionId').val('');
@@ -95,6 +98,8 @@ function initjiaqType(){
 			
 		}
 		changeType();
+        initPricePrintGrid();
+        // $("#"+datagridId).datagrid("loadData", [$.extend({},gridDefault)]);
 	})
 }
 
@@ -151,7 +156,7 @@ function initPricePrintGrid() {
 		//title:'普通表单-用键盘操作',
 		method: 'get',
 		align: 'center',
-		singleSelect: false,  //单选  false多选
+		singleSelect: true,  //单选  false多选
 		rownumbers: true,    //序号
 		width:'100%',
 		height:'100%',
@@ -169,7 +174,14 @@ function initPricePrintGrid() {
                 }
             },
 
-		           {field: 'skuCode', title: '货号', width: 200, align: 'center',editor:'textbox'  },
+		           {field: 'skuCode', title: '货号', width: 200, align: 'center',
+						editor:{
+								type:'textbox',
+									options:{
+                                        disabled:isdisabled
+								}
+							},
+				   },
 		           {field: 'skuName', title: '商品名称', width: 200, align: 'center',},
 		           {field: 'barCode', title: '条码', width: 150, align: 'center'},
 		           {field: 'spec', title: '规格', width: 150, align: 'center'},
@@ -247,6 +259,7 @@ function initPricePrintGrid() {
 function addLineHandel(event){
 	if($("#actionId").val()){
 		$_jxc.alert("活动促销价签不能添加商品");
+		return;
 	}
     event.stopPropagation(event);
     var index = $(event.target).attr('data-index')||0;
