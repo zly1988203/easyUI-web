@@ -38,6 +38,7 @@ $(function(){
 		printRows($(this).val());
 
 	});
+
 });
 
 //监听打印数
@@ -53,18 +54,21 @@ function changeDiscount(newV,oldV){
 		discountRows(vewV)
 	}
 }
-
+var isdisabled = false;
 function initjiaqType(){
 	$(document).on('mousedown','.jiaqType .radioItemLable',function(){
 		var _this = $(this).children('.radioItem');
 		var changeType = function(){
 			_this.prop("checked",true);
 			$('#priceType').val(_this.val());
+
 			if(_this.val() === '1'){
 				$('.activity').removeClass('unhide');
 				$('.discount').removeClass('unhide');
-                gridHandel.setLoadData([]);
+                // gridHandel.setLoadData([]);
 				appendOptions(options_nomal);
+                isdisabled = true;
+
 				$('#pricePrint').datagrid('showColumn','activityTime');
 				$('#pricePrint').datagrid('showColumn','promotionPrice');
 			}else{
@@ -75,7 +79,8 @@ function initjiaqType(){
 				$("#selectGoods").removeClass("uinp-no-more");
 				$("#importsukcode").removeClass("uinp-no-more");
 				$("#importbarcode").removeClass("uinp-no-more");
-				
+                isdisabled = false;
+
 				//隐藏活动 清除数据
 				$('.activity').addClass('unhide');
 				$('#actionId').val('');
@@ -85,7 +90,7 @@ function initjiaqType(){
 				 $('#discount').removeAttr('readonly','readonly');
 				 $('#discount').val('');
 				 $('#discount').removeClass('uinp-no-more');
-				gridHandel.setLoadData([]);
+				// gridHandel.setLoadData([]);
 				appendOptions(options_promotion);
 				$('#pricePrint').datagrid('hideColumn','activityTime');
 				$('#pricePrint').datagrid('hideColumn','promotionPrice');
@@ -93,6 +98,8 @@ function initjiaqType(){
 			
 		}
 		changeType();
+        initPricePrintGrid();
+        // $("#"+datagridId).datagrid("loadData", [$.extend({},gridDefault)]);
 	})
 }
 
@@ -124,6 +131,9 @@ function getNowFormatDate() {
 
 
 var gridHandel = new GridClass();
+var gridDefault = {
+
+}
 function initPricePrintGrid() {
     gridHandel.setGridName("pricePrint");
     gridHandel.initKey({
@@ -138,7 +148,7 @@ function initPricePrintGrid() {
                     gridHandel.setFieldFocus(gridHandel.getFieldTarget('skuCode'));
                 },100)
             }else{
-                selectGoods(arg);
+                chooseproduct(arg);
             }
         },
     })
@@ -146,12 +156,32 @@ function initPricePrintGrid() {
 		//title:'普通表单-用键盘操作',
 		method: 'get',
 		align: 'center',
-		singleSelect: false,  //单选  false多选
+		singleSelect: true,  //单选  false多选
 		rownumbers: true,    //序号
 		width:'100%',
 		height:'100%',
 		columns: [[
-		           {field: 'skuCode', title: '货号', width: 200, align: 'center',  },
+            {field:'cz',title:'操作',width:'60px',align:'center',
+                formatter : function(value, row,index) {
+                    var str = "";
+                    if(row.isFooter){
+                        str ='<div class="ub ub-pc">合计</div> '
+                    }else{
+                        str =  '<a name="add" class="add-line" data-index="'+index+'" onclick="addLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>&nbsp;&nbsp;' +
+                            '&nbsp;&nbsp;<a name="del" class="del-line" data-index="'+index+'" onclick="delLineHandel(event)" style="cursor:pointer;display:inline-block;text-decoration:none;"></a>';
+                    }
+                    return str;
+                }
+            },
+
+		           {field: 'skuCode', title: '货号', width: 200, align: 'center',
+						editor:{
+								type:'textbox',
+									options:{
+                                        disabled:isdisabled
+								}
+							},
+				   },
 		           {field: 'skuName', title: '商品名称', width: 200, align: 'center',},
 		           {field: 'barCode', title: '条码', width: 150, align: 'center'},
 		           {field: 'spec', title: '规格', width: 150, align: 'center'},
@@ -222,11 +252,25 @@ function initPricePrintGrid() {
 		        	   gridHandel.setSelectFieldName(field);
 		           },
 	});
-//    gridHandel.setLoadData([$.extend({},gridDefault)]);
+   gridHandel.setLoadData([$.extend({},gridDefault)]);
 }
 
-
-
+//插入一行
+function addLineHandel(event){
+	if($("#actionId").val()){
+		$_jxc.alert("活动促销价签不能添加商品");
+		return;
+	}
+    event.stopPropagation(event);
+    var index = $(event.target).attr('data-index')||0;
+    gridHandel.addRow(index,gridDefault);
+}
+//删除一行
+function delLineHandel(event){
+    event.stopPropagation();
+    var index = $(event.target).attr('data-index');
+    gridHandel.delRow(index);
+}
 
 function onChangeSalePrice(newV,oldV){
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName')){
@@ -300,7 +344,7 @@ function printRows(printNum){
 		//刷新行
 		/*$("#"+datagridId).datagrid('refreshRow',rowIndex);*/
 	}
-	$("#"+datagridId).datagrid({data:newData})
+	$("#"+datagridId).datagrid("loadData", newData);
 	
 }
 //打折 表格列数同步
@@ -316,16 +360,9 @@ function discountRows(discountNum){
 		}else{
 			newData[i].promotionPrice= discountNum*newData[i].salePrice/10;
 		}
-//		rowIndex = $("#"+datagridId).datagrid('getRowIndex',newData[i]);
-//		//更新行数据
-//		$("#"+datagridId).datagrid('updateRow',{
-//			index: rowIndex,
-//			row: newData[i]
-//		});
-//		//刷新行
-//		$("#"+datagridId).datagrid('refreshRow',rowIndex);
 	}
-	$("#"+datagridId).datagrid({data:newData})
+    $("#"+datagridId).datagrid("loadData", newData);
+	// $("#"+datagridId).datagrid({data:newData})
 }
 
 //打印的数据
@@ -359,7 +396,7 @@ function printtable(){
 }
 
 //商品选择  方法
-function chooseproduct(){
+function chooseproduct(searchKey){
     var param = {
         type:'PC',
         key:'',
@@ -372,11 +409,15 @@ function chooseproduct(){
         statuses : '0,1,2'//包括正常、停售、停购的商品
     }
     new publicGoodsServiceTem(param,function(data){
+        if(searchKey){
+            $("#pricePrint").datagrid("deleteRow", gridHandel.getSelectRowIndex());
+            $("#pricePrint").datagrid("acceptChanges");
+        }
 
-		var obj = {
-				
-		}
-		gFunUpdateKey(data, obj);
+		// var obj = {
+		//
+		// }
+		// gFunUpdateKey(data, obj);
 		$("#pricePrint").datagrid("unselectAll");
 		
 		$.each(data,function(i,row){
@@ -384,8 +425,8 @@ function chooseproduct(){
 			row["printCount"] = row["printCount"]||1 ;
 
 		})
-		var rows = gridHandel.getRows("pricePrint");
 
+        var rows = gridHandel.getRowsWhere({skuName:'1'});
 		$.each(rows,function(i,rowItem){
 			$.each(data,function(j,dataItem){
 				if(rowItem.skuCode==dataItem.skuCode){
@@ -399,6 +440,12 @@ function chooseproduct(){
 
 		$("#pricePrint").datagrid("loadData", newRows);
 
+        // gridHandel.setLoadFocus();
+        // setTimeout(function(){
+        //     gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+        //     gridHandel.setSelectFieldName("promotionPrice");
+        //     gridHandel.setFieldFocus(gridHandel.getFieldTarget('promotionPrice'));
+        // },500)
 	});
 
 }

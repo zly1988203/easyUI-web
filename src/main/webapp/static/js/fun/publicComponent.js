@@ -770,7 +770,7 @@ function publicGoodsServiceTem(param,callback){
 			}
 		},
 		error:function(){
-			 messager("数据查询失败");
+			 $_jxc.alert("数据查询失败");
 		}
 		})
     }else{
@@ -864,7 +864,7 @@ function publicGoodsServiceHandel(param,callback){
     function getCheckGoods(){
         publicGoodsGetCheckGoods(function(data){
             if(data.length==0){
-                messager("请选择数据");
+                $_jxc.alert("请选择数据");
                 return;
             }
             callback(data);
