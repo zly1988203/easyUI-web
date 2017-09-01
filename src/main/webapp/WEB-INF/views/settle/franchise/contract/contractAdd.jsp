@@ -29,31 +29,31 @@
 			    	<div class="ub uw uh ub-ver ufs-14">
 				        <form id="contractForm">
 				        	<input type="hidden" name="contractFormId" id="formId">
-				        	<div class="ub ub-ac uw-520 umar-t12 ">
+				        	<div class="ub ub-ac uw-560 umar-t12 ">
 				        		<label class="ub uw-110 ub-pe umar-r8 ">合同编号:</label>
 				        		<input class="uinp uinp-no-more ub ub-f1" readonly="readonly" type="text" name="formNo" >
 				        	</div>
 				        	
-				        	<div class="ub ub-ac uw-524 umar-t12 ">
+				        	<div class="ub ub-ac uw-564 umar-t12 ">
 				        		<label class="ub uw-110 ub-pe umar-r8 ">合同名称:</label>
 				        		<input class="uinp ub ub-f1" type="text" id="formName" name="formName" maxlength="30" >
 				        		<i class="ub ub-ac uc-red">*</i>
 				        	</div>
 				        	
 				        	<div class="ub ub-ac umar-t12">
-				        		<div class="ub ub-ac uw-280">
+				        		<div class="ub ub-ac uw-300">
 					        		<label class="ub uw-110 ub-pe umar-r8">有效期起:</label>
-					        		<input class="Wdate" style="width: 155px;" readonly="readonly" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd ',maxDate:'#F{$dp.$D(\'endTime\');}'})" type="text" id="startTime" name="validityTimeStart" >
+					        		<input class="Wdate" style="width: 175px;" readonly="readonly" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd ',maxDate:'#F{$dp.$D(\'endTime\');}'})" type="text" id="startTime" name="validityTimeStart" >
 					        		<i class="ub ub-ac uc-red">*</i>
 				        		</div>
-				        		<div class="ub ub-ac uw-230  umar-l8">
+				        		<div class="ub ub-ac uw-250  umar-l8">
 					        		<label class="ub ub-pe umar-r8">有效期止:</label>
-					        		<input class="Wdate" style="width: 155px;" readonly="readonly" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd ',minDate:'#F{$dp.$D(\'startTime\');}'})" type="text" id="endTime" name="validityTimeEnd" >
+					        		<input class="Wdate" style="width: 175px;" readonly="readonly" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd ',minDate:'#F{$dp.$D(\'startTime\');}'})" type="text" id="endTime" name="validityTimeEnd" >
 					        		<i class="ub ub-ac uc-red">*</i>
 				        		</div>
 				        	</div>
 				        	
-				        	<div class="ub ub-ac uw-524 umar-t12" id="companyA">
+				        	<div class="ub ub-ac uw-564 umar-t12" id="companyA">
 				        		<label class="ub uw-110 ub-pe umar-r8 ">甲方(公司):</label>
 				        		<input type="hidden" name="targetBranchId" id="targetBranchId">
 				        		<input type="hidden" name="branchCompleCode" id="branchCompleCode">
@@ -63,39 +63,39 @@
 				        	</div>
 				        	
 				        	<div class="ub ub-ac umar-t12">
-				        		<div class="ub ub-ac uw-280">
+				        		<div class="ub ub-ac uw-300">
 					        		<label class="ub uw-110 ub-pe umar-r8">经办人:</label>
 					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text" id="targetAgentName" name="targetAgentName" maxlength="10" >
 				        		</div>
-				        		<div class="ub ub-ac uw-230  umar-l8">
+				        		<div class="ub ub-ac uw-250  umar-l8">
 					        		<label class="ub ub-pe umar-r8">联系电话:</label>
-					        		<input class="uinp ub ub-f1 uinp-no-more" type="text" onblur="checkPhoneMoblie(this)" id="targetAgentPhone"  name="targetAgentPhone" maxlength="15" placeholder="18809098888/0755-88880000" >
+					        		<input class="uinp ub ub-f1 uinp-no-more" type="text"  id="targetAgentPhone"  name="targetAgentPhone" maxlength="15" placeholder="18809098888/0755-88880000" >
 				        		</div>
 				        	</div>
 				        	
-				        	<div class="ub ub-ac uw-524 umar-t12 " id="companyB">
+				        	<div class="ub ub-ac uw-564 umar-t12 " id="companyB">
 				        		<label class="ub uw-110 ub-pe umar-r8 ">乙方(签约机构):</label>
 				        		<input type="hidden" name="franchiseBranchId" id="franchiseBranchId">
 				        		<input type="hidden" name="franchiseBranchCode" id="franchiseBranchCode">
-				        		<input class="uinp ub ub-f1" type="text" name="franchiseBranchName" >
+				        		<input class="uinp ub ub-f1" type="text" readonly="readonly" name="franchiseBranchName" >
 				        		<div class="uinp-more">...</div>
 				        		<i class="ub ub-ac uc-red">*</i>
 				        	</div>
 				        	
 				        	<div class="ub ub-ac umar-t12">
-				        		<div class="ub ub-ac uw-280">
+				        		<div class="ub ub-ac uw-300">
 					        		<label class="ub uw-110 ub-pe umar-r8">经办人:</label>
-					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text"  id="franchiseAgentName" name="franchiseAgentName" >
+					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text"  id="franchiseAgentName" name="franchiseAgentName" maxlength="10" >
 				        		</div>
-				        		<div class="ub ub-ac uw-230  umar-l8">
+				        		<div class="ub ub-ac uw-250  umar-l8">
 					        		<label class="ub ub-pe umar-r8">联系电话:</label>
-					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text" onblur="checkPhoneMoblie(this)"  id="franchiseAgentPhone" name="franchiseAgentPhone"  maxlength="15" placeholder="18809098888/0755-88880000" >
+					        		<input class="uinp ub ub-f1 uinp-no-more"  type="text"   id="franchiseAgentPhone" name="franchiseAgentPhone"  maxlength="15" placeholder="18809098888/0755-88880000" >
 				        		</div>
 				        	</div>
 				        	
-				        	<div class="ub uw-524 umar-t12 " style="width:518px">
+				        	<div class="ub uw-524 umar-t12 " style="width:558px">
 				        		<label class="ub uw-110 ub-pe umar-r8 ">备注:</label>
-				        		<textarea rows="3" cols="3" name="remark" id="remark" class="uinp ub ub-f1 uh-100"></textarea>
+				        		<textarea rows="3" cols="3" name="remark" id="remark" class="uinp ub ub-f1 uh-100" maxlength="200" ></textarea>
 				        	</div>
 				        	
 				        	<div class="ub umar-t20">
@@ -105,7 +105,7 @@
 					            </div>
 					            <div class="ub ub-ac">
 					                <div class="umar-r10 uw-60 ut-r">建档时间:</div>
-					                <div class="utxt" id="createTime">2017-05-08 15:08:30</div>
+					                <div class="utxt" id="createTime"></div>
 					            </div>
 				        	</div>
 				        	
@@ -135,10 +135,16 @@
 			    </div>
 			    <div title="毛利分配规则">
 			    	<div class="ub ub-ver ufs-14 upad-8 ">
-				        <div class="ub uh-200 datagrid-edit">
+			    		<div class="ub ub-ac upad-4">
+							<div class="ubtns">
+								<div class="ubtns-item" onclick="addRows()">新增</div>
+								<div class="ubtns-item" onclick="delRows()">删除</div>
+							</div>
+						</div>
+				        <div class="ub datagrid-edit umar-t8">
 				        	<table id="taxList"></table>
 				        </div>
-				        <p class="umar-t10 uc-red">温馨说明：您好，最后一行的毛利额度止不需要录入，系统会默认为无穷大</p>
+				        <p class="umar-t10 uc-red">温馨说明：最后一行的毛利额度止不需要录入，系统会默认为无穷大</p>
 			    	</div>
 			    </div>
 			</div>

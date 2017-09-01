@@ -250,7 +250,7 @@ public class OrderEdiInController {
 			// 要货申请单
 			DeliverForm daForm = deliverFormServiceApi.queryDeliverFormByFormNo(daFormNo);
 			// 要货申请单明细
-			List<DeliverFormList> daDetailList = queryDeliverFormListServiceApi.getDeliverList(daFormNo);
+			List<DeliverFormList> daDetailList = queryDeliverFormListServiceApi.getDeliverListByFormNo(daFormNo);
 
 			// 要货申请单明细按“货号_是否赠品”转换为map，方便查询
 			Map<String, DeliverFormList> daDetailMap = new HashMap<String, DeliverFormList>();

@@ -8,7 +8,7 @@
     <title>要货单-新增</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/deliver/DDAdd.js?V=${versionNo}"></script>
+	<script src="${ctx}/static/js/views/deliver/DDAdd.js?V=${versionNo}3"></script>
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
 <input type='hidden' id="deliverStatus" value="add">

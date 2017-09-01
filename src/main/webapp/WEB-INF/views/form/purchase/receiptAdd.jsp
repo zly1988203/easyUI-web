@@ -62,7 +62,7 @@
 				</div>
 				<div class="ub ub-ac umar-l88">
 					<div class="umar-r10 uw-60 ut-r">采购员:</div>
-					<input class="uinp" name="salesmanId" id="salesmanId" type="hidden">
+					<input class="uinp" name="salesmanId" id="salesmanId" type="hidden" value="${form.salesmanId }" />
 					<input class="uinp easyui-validatebox" id="operateUserName"
 						type="text" value="${form.salesmanName }" readonly="readonly">
 					<!--onclick="selectOperator()"-->

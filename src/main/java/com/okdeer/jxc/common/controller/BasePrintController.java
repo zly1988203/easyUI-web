@@ -131,7 +131,9 @@ public abstract class BasePrintController<T, P> extends BaseController<T> {
 				}
 				is = IOStreamUtils.getExcelExportPathInputStream(page + ".xlsx");
 			}
-			ReportExcelUtil.reportExcelToMapAndList(response, is, replaceMap.get("_订单编号").toString(),
+			
+			String fileName = replaceMap.get("_订单编号").toString();
+			ReportExcelUtil.reportExcelToMapAndList(response, is, fileName,
 					ReportExcelUtil.REPORT_XLSX, replaceMap, detailList);
 		} catch (Exception e) {
 			LOG.error("导出失败：{}", e);

@@ -186,6 +186,8 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			if (StringUtils.isNotBlank(qo.getTargetBranchId())) {
 				Branches branch = branchesServiceApi.getBranchInfoById(qo.getTargetBranchId());
 				branchName = branch.getBranchName();
+			} else {
+				branchName = getCurrBranchName();
 			}
 
 			String fileName = branchName + "要货单状态跟踪";
@@ -281,6 +283,8 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			if (StringUtils.isNotBlank(qo.getTargetBranchId())) {
 				Branches branch = branchesServiceApi.getBranchInfoById(qo.getTargetBranchId());
 				branchName = branch.getBranchName();
+			} else {
+				branchName = getCurrBranchName();
 			}
 
 			String fileName = branchName + "配送明细查询";
@@ -373,6 +377,7 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	public void exportBDList(HttpServletResponse response, DeliverFormReportQo qo) {
 		LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 		try {
+			
 			if (StringUtils.isNullOrEmpty(qo.getBranchId())) {
 				qo.setBranchId(UserUtil.getCurrBranchId());
 			}
@@ -382,16 +387,18 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 			exportList.add(vo);
 			// 过滤数据权限字段
 			cleanAccessData(exportList);
-
+			
 			String branchName = "";
-			if (StringUtils.isNotBlank(qo.getBranchId())) {
+			if (StringUtils.isBlank(qo.getBranchName())) {
 				Branches branch = branchesServiceApi.getBranchInfoById(qo.getBranchId());
 				branchName = branch.getBranchName();
+			} else {
+				branchName = qo.getBranchName();
 			}
 
 			String fileName = branchName + "BD业绩报表";
 			String templateName = ExportExcelConstant.DILIVER_REPORT;
-			
+
 			// 导出Excel
 			Map<String, Object> param = new HashMap<>();
 			param.put("branchName", branchName);

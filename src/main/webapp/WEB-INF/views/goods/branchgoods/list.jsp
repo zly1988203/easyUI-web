@@ -9,7 +9,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
     <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
  
-	<script src="${ctx}/static/js/views/goods/branchgoods/list.js?V=${versionNo}11"></script>
+	<script src="${ctx}/static/js/views/goods/branchgoods/list.js?V=${versionNo}13"></script>
     <style>
     .ubtns .hide{display:none!important;}
     .show{display:block!important;}

@@ -18,7 +18,7 @@
                 <div class="ubtns-item" onclick="editsaveOrder()">保存</div>
               </shiro:hasPermission>
               	<shiro:hasPermission name="JxcCostAdjust:audit">
-                <div class="ubtns-item" onclick="costcheck()">审核</div>
+                <div class="ubtns-item" onclick="costcheck()" id="checkBtn">审核</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <shiro:hasPermission name="JxcCostAdjust:delete">

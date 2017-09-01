@@ -28,12 +28,11 @@
 		</div>
 		<form id="formAdd">
 			<div class="ub umar-t8">
-				<div class="ub ub-ac">
+				<div class="ub ub-ac" id="supplierSelect">
 					<div class="umar-r10 uw-60 ut-r">供应商:</div>
 					<input class="uinp" name="supplierId" id="supplierId" type="hidden">
 					<input type="hidden" name="saleWay" id="saleWay" /> 
-					<input id="supplierName" class="uinp  easyui-validatebox"  type="text"
-						onclick="selectSupplier()">
+					<input id="supplierName" class="uinp" readonly="readonly"  type="text" onclick="selectSupplier()">
 					<div class="uinp-more" onclick="selectSupplier()">...</div>
 				</div>
 				<i class="ub ub-ac uc-red">*</i>
@@ -57,7 +56,7 @@
 					<div class="umar-r10 uw-60 ut-r">退货机构:</div>
 					<input class="uinp" name="branchId" id="branchId" type="hidden">
 					<input name="branchType" id="branchType" type="hidden">
-					<input id="branchName" class="uinp  easyui-validatebox" type="text" onclick="selectBranch()">
+					<input id="branchName" class="uinp" readonly="readonly" type="text" onclick="selectBranch()">
 					<div class="uinp-more" onclick="selectBranch()">...</div>
 				</div>
 				<i class="ub ub-ac uc-red">*</i>

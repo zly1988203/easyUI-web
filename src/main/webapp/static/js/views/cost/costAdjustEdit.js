@@ -445,6 +445,14 @@ function saveDataHandel(rows){
 
 //审核
 function costcheck(type){
+	var checkBtn = $("#checkBtn");
+	
+	//没有审核权限，则不能进行审核操作
+	if(checkBtn.length < 1 ){
+		return;
+	}
+	
+	
 	var dataId= $("#adjusId").val();
 	if(!type){
 		//验证数据是否修改

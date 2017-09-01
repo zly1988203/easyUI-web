@@ -35,7 +35,6 @@ import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.retail.common.price.PriceConstant;
 import com.okdeer.retail.common.report.DataRecord;
 
-
 @Controller
 @RequestMapping("report/deliverTotalReport")
 public class DeliverTotalReportController extends ReportController {
@@ -48,7 +47,7 @@ public class DeliverTotalReportController extends ReportController {
 
 	@Reference(version = "1.0.0", check = false)
 	BranchesServiceApi branchesServiceApi;
-	
+
 	/**
 	 * @Description: 配送报表明细
 	 * @return
@@ -60,7 +59,7 @@ public class DeliverTotalReportController extends ReportController {
 		SysUser user = getCurrentUser();
 		Branches branchesGrow = branchesServiceApi.getBranchInfoById(user.getBranchId());
 		model.addAttribute("branchesGrow", branchesGrow);
-		
+
 		return "report/deliver/deliverTotalReport";
 	}
 
@@ -81,13 +80,13 @@ public class DeliverTotalReportController extends ReportController {
 
 	@Override
 	public Map<String, Object> getParam(HttpServletRequest request) {
-		Map<String, Object> map= this.builderParams(request, null);
-		
-		if(!map.containsKey("categoryType")||"".equals(map.get("categoryType"))){
+		Map<String, Object> map = this.builderParams(request, null);
+
+		if (!map.containsKey("categoryType") || "".equals(map.get("categoryType"))) {
 			map.put("categoryType", "smallCategory");
 		}
-		//如果查询往来账。默认给查询当前机构的往来
-		if("branch".equals(map.get("queryType"))&&!map.containsKey("branchId")){
+		// 如果查询往来账。默认给查询当前机构的往来
+		if ("branch".equals(map.get("queryType")) && !map.containsKey("branchId")) {
 			map.put("branchId", UserUtil.getCurrBranchId());
 		}
 		map.put("branchCompleCode", UserUtil.getCurrBranchCompleCode());
@@ -97,54 +96,64 @@ public class DeliverTotalReportController extends ReportController {
 
 	@RequestMapping("reportListPage")
 	@ResponseBody
-	public PageUtils<DataRecord> reportListPage(HttpServletRequest request,@RequestParam(value = "page", defaultValue = PAGE_NO)  Integer page,
+	public PageUtils<DataRecord> reportListPage(HttpServletRequest request,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) Integer page,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) Integer rows) {
-		PageUtils<DataRecord> list = getReportService().getListPage(getParam(request),page, rows);
+		PageUtils<DataRecord> list = getReportService().getListPage(getParam(request), page, rows);
 		for (DataRecord dataRecord : list.getList()) {
 			formatter(dataRecord);
 		}
-		
+
 		cleanDataMaps(getPriceAccess(), list.getList());
 		cleanDataMaps(getPriceAccess(), list.getFooter());
 		return list;
 	}
 
 	@RequestMapping(value = "exportDeliverExcel")
-	public void exportExcel(HttpServletRequest request, HttpServletResponse response){
+	public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
 
 		Map<String, Object> map = getParam(request);
-		String reportFileName="";
-		String templateName="";
-		if(map.get("queryType")==null||StringUtils.isEmpty(map.get("queryType").toString())){
-			return ;
+		String reportFileName = "";
+		String templateName = "";
+		if (map.get("queryType") == null || StringUtils.isEmpty(map.get("queryType").toString())) {
+			return;
 		}
-		
+
 		// 机构名称默认为当前登录机构
 		String branchName = getCurrBranchName();
-		
+
+		// 机构名称取页面排版左上角第一个机构的机构名称, 目前都是取的入库机构Id
+		if (map.containsKey("targetBranchId")) {
+			String branchId = map.get("targetBranchId").toString();
+			branchName = branchesServiceApi.getBranchInfoById(branchId).getBranchName();
+		}
+
 		if ("goods".equals(map.get("queryType"))) {
-			reportFileName = branchName + "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "商品查询";
+			reportFileName = "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "商品查询";
 			templateName = "deliverTotalByGoods.xlsx";
 		} else if ("form".equals(map.get("queryType"))) {
-			reportFileName = branchName + "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "订单查询";
+			reportFileName = "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "订单查询";
 			templateName = "deliverTotalByForm.xlsx";
 		} else if ("category".equals(map.get("queryType"))) {
-			reportFileName = branchName + "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "类别汇总查询";
+			reportFileName = "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "类别汇总查询";
 			templateName = "deliverTotalByCategory.xlsx";
 		} else if ("branch".equals(map.get("queryType"))) {
-			reportFileName = branchName + "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "往来汇总查询";
+			reportFileName = "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "往来汇总查询";
 			templateName = "deliverTotalBybranch.xlsx";
 		}
+
+		reportFileName = branchName + reportFileName;
+
 		// 模板名称，包括后缀名
-		List<DataRecord> dataList=deliverTotalReportServiceApi.getList(map);
+		List<DataRecord> dataList = deliverTotalReportServiceApi.getList(map);
 		DataRecord data = deliverTotalReportServiceApi.getTotal(map);
 		dataList.add(data);
 		for (DataRecord dataRecord : dataList) {
 			formatter(dataRecord);
 		}
-		
+
 		cleanDataMaps(getPriceAccess(), dataList);
-		
+
 		// 导出Excel
 		Map<String, Object> param = new HashMap<>();
 		param.put("branchName", branchName);
@@ -168,17 +177,18 @@ public class DeliverTotalReportController extends ReportController {
 
 	@Override
 	public void formatter(DataRecord dataRecord) {
-		if(dataRecord.containsKey("status")){
-			String statusName= DeliverAuditStatusEnum.getName(dataRecord.getString("status"));
+		if (dataRecord.containsKey("status")) {
+			String statusName = DeliverAuditStatusEnum.getName(dataRecord.getString("status"));
 			dataRecord.put("statusName", statusName);
 		}
-		if(dataRecord.containsKey("validTime")){
-			String dateStr=DateUtils.formatDate(dataRecord.getDate("validTime"), DateUtils.DATE_SMALL_STR_R);
+		if (dataRecord.containsKey("validTime")) {
+			String dateStr = DateUtils.formatDate(dataRecord.getDate("validTime"), DateUtils.DATE_SMALL_STR_R);
 			dataRecord.put("validTimeDesc", dateStr);
 		}
 	}
+
 	@RequestMapping("reportTotal")
-	public DataRecord getTotal(){
+	public DataRecord getTotal() {
 		return null;
 	}
 
@@ -189,7 +199,7 @@ public class DeliverTotalReportController extends ReportController {
 	@Override
 	public Map<String, String> getPriceAccess() {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put(PriceConstant.DISTRIBUTION_PRICE, "inputTax,dealAmount,receiveAmount,sumAmount,amount"); 
+		map.put(PriceConstant.DISTRIBUTION_PRICE, "inputTax,dealAmount,receiveAmount,sumAmount,amount");
 		return map;
 	}
 }

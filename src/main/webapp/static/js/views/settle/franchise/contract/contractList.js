@@ -74,7 +74,7 @@ function initDatagridRequire() {
     			{field: 'validityTimeStart', title: '有效期起', width: '120px', align: 'center',
     				formatter: function (value, row, index) {
     					if (value) {
-    						return new Date(value).format('yyyy-MM-dd hh:mm');
+    						return new Date(value).format('yyyy-MM-dd');
     					}
     					return "";
     				}
@@ -82,7 +82,7 @@ function initDatagridRequire() {
     			{field: 'validityTimeEnd', title: '有效期止', width: '120px', align: 'center',
     				formatter: function (value, row, index) {
     					if (value) {
-    						return new Date(value).format('yyyy-MM-dd hh:mm');
+    						return new Date(value).format('yyyy-MM-dd');
     					}
     					return "";
     				}
