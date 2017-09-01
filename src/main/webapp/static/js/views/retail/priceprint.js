@@ -25,7 +25,8 @@ var options_promotion = [
      					{value:'3',text:'正常（85*40mm无底 1*7）'},
                          {value:'17',text:'二维码价签无底(60*32mm 3*9)'},
                          {value:'19',text:'二维码价签无底(60*30mm 3*9)'},
-                         {value:'21',text:'二维码价签无底(合肥60*30mm 3*9)'}
+                         {value:'21',text:'二维码价签无底(合肥60*30mm 3*9)'},
+                         {value:'23',text:'二维码价签无底(55*30mm 3*9)'}
      					];
 
 $(function(){
