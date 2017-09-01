@@ -50,8 +50,8 @@
 					<div title="门店销售设置" id="branchSpec" style="padding: 20px;">
 						<div class="ub ub-ver ub-f1 uw uh ufs-14 uc-black">
 							<div class="ub upad-4">
-								<div class="ub ub-ac uw-320 umar-l20">
-									<div class="umar-r10 uw-80 ut-r">机构名称:</div>
+								<div class="ub ub-ac uw-320">
+									<div class="umar-r10 uw-136 ut-r">机构名称:</div>
 									<div class="ub ub-ac umar-r10">
 										<input class="uinp" type="hidden" id="specBranchId"
 											name="specBranchId" /> <input class="ub" type="hidden"
@@ -64,11 +64,21 @@
 
 							<div class="ub upad-4">
 								<div class="ub ub-ac uw-320">
-									<div class="umar-r10 uw-100 ut-r">小票电话设置:</div>
+									<div class="umar-r10 uw-136 ut-r">小票电话设置:</div>
 									<div class="ub ub-ac umar-r10">
 										<input class="uinp" type="text" id="receiptMobile"
 											name="receiptMobile" />
 									</div>
+								</div>
+							</div>
+							
+							<div class="ub ub-ac">
+								<div class="umar-r10 uw-140 ut-r">使用手机号登录会员:</div>
+								<div class="ub uw-110 ub-ac umar-r10">
+									<label><input type="radio" id="isAllowMobileLogin0" name="isAllowMobileLogin" value="0" /><span>启用</span></label>
+								</div>
+								<div class="ub uw-110 ub-ac umar-r10">
+									<label> <input type="radio" id="isAllowMobileLogin1" name="isAllowMobileLogin" value="1" /><span>不启用</span></label>
 								</div>
 							</div>
 						</div>
@@ -147,6 +157,7 @@
 				$_jxc.alert("请输入电话号码");
 				return;
 			}
+			obj.isAllowMobileLogin = $('input[name="isAllowMobileLogin"]:checked').val();
 			obj.branchId = specBranchId;
 			obj.receiptMobile = receiptMobile;
 			url = contextPath
@@ -193,8 +204,17 @@
 						'branchId' : specBranchId
 					},
 					success : function(result) {
-						if (result != null) {
-							$("#receiptMobile").val(result.receiptMobile);
+						var isAllowMobileLogin = 0;
+						var receiptMobile = '';
+						if (!$_jxc.isStringNull(result)) {
+							receiptMobile = result.receiptMobile;
+							isAllowMobileLogin = result.isAllowMobileLogin;
+						}
+						$("#receiptMobile").val(receiptMobile);
+						if (isAllowMobileLogin == 0) {
+							$("#isAllowMobileLogin0").prop("checked", "true");
+						} else {
+							$("#isAllowMobileLogin1").prop("checked", "true");
 						}
 					},
 					error : function(result) {
