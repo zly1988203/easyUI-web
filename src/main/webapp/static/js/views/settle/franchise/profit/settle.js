@@ -20,6 +20,9 @@ $(function(){
 		  $("#payMoneyTime").val(new Date().format('yyyy-MM-dd')); 
 		  $('#createTime').text(new Date().format('yyyy-MM-dd hh:mm'));
 	}else if(pageStatus === 'edit'){
+		
+		initMoneyInput();
+		
 		var formId = $("#formId").val();
 		url = contextPath+"/settle/franchiseProfitSettle/getDetailList?formId="+formId;
 		//时间起
@@ -65,8 +68,19 @@ $(function(){
 			        	$('#branchCode').val(data.branchCode);
 			        	$('#contractName').val(data.contacts);
 						$('#beginDate').val(result['settleTimeStart']);
+						// 判断该加盟店是否建立合同
+						$_jxc.ajax({
+					        url:contextPath+"/settle/franchiseContract/checkExistContract",
+					        data:{"franchiseBranchId":data.branchId},
+					    },function(result){
+					    	if(result['code'] != 0){
+					    		$_jxc.alert(result['message']);
+					    	}
+					    });
 			        }else{
 			        	$('#franchiseBranchName').val('');
+			        	$('#contractName').val('');
+						$('#beginDate').val('');
 			            $_jxc.alert(result['message']);
 			        }
 			    });
@@ -77,12 +91,21 @@ $(function(){
 	
 })
 
+//处理页面数据四舍五入
+function initMoneyInput(){
+	$('.editInput').each(function(index,elt){
+		if(elt){
+			$(elt).numberbox('setValue',$_jxc.roundx($(elt).data('value'),2));
+		}
+	})
+}
+
 //计算金额 本次收款金额
 function calulateMoney(newV,oldV){
 	if(newV == ''){
 		$(this).numberbox('setValue',0);
 	}
-	$('#amount').val((parseFloat($('#profitOfCompany').val()||0)+parseFloat(newV||0)).toFixed(2));
+	$('#amount').numberbox('setValue',parseFloat($('#profitOfCompany').numberbox('getValue'))+parseFloat(newV||0));
 }
 
 $(document).on('input','#remark',function(){
@@ -177,7 +200,7 @@ function initSupChkAcoAdd(){
         		$_jxc.alert('当前时段无购销商品销售数据，请重新选择日期。');
         		clickCaculateFlag = false;
         	}
-        },
+        }
     });
     
     if(pageStatus==='add'){
@@ -245,11 +268,11 @@ function calAmount(){
 			clickCaculateFlag = true;
     		//保存时用于比较
     		$('#oldTime').val(_startTime+''+_endTime);
-			
-			$("#profit").val(parseFloat(result['profitAmount']).toFixed(2));
-			$("#profitOfCompany").val(parseFloat(result['targetProfitAmount']).toFixed(2));
-			$("#profitSupper").val(parseFloat(result['franchiseProfitAmount']).toFixed(2));
-			$("#amount").val((parseFloat($("#profitOfCompany").val()||0) + parseFloat($("#otherAmount").val()||0)).toFixed(2));
+			$("#profit").numberbox('setValue',$_jxc.roundx(parseFloat(result['profitAmount']),2));
+			//profitOfCompany
+			$("#profitOfCompany").numberbox('setValue',$_jxc.roundx(parseFloat(result['targetProfitAmount']),2));
+			$("#profitSupper").numberbox('setValue',$_jxc.roundx(parseFloat(result['franchiseProfitAmount']),2));
+			$("#amount").numberbox('setValue',$_jxc.roundx(parseFloat($("#profitOfCompany").val()||0) + parseFloat($("#otherAmount").val()||0),2));
 			
     		$("#"+gridName).datagrid("options").method = "post";
     		$("#"+gridName).datagrid("options").queryParams = paramsObj;

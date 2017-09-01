@@ -959,7 +959,11 @@ function saveDeliverForm(rows){
 				isGift : data.isGift,
 				remark : data.remark,
 				originPlace : data.originPlace,
-				distributionSpec : data.distributionSpec
+				distributionSpec : data.distributionSpec,
+				purchaseSpec : data.purchaseSpec,
+				carryNum : data.carryNum,
+				salePrice : data.salePrice,
+				saleAmount : (parseFloat(data.applyNum) * parseFloat(data.salePrice)).toFixed(4)
 		}
 		reqObj.deliverFormListVo[i] = temp;
 	});
@@ -1091,6 +1095,10 @@ function updateDeliverForm(rows){
 				remark : data.remark,
 				originPlace : data.originPlace,
 				distributionSpec : data.distributionSpec,
+				purchaseSpec : data.purchaseSpec,
+				carryNum : data.carryNum,
+				salePrice : data.salePrice,
+				saleAmount : (parseFloat(data.applyNum) * parseFloat(data.salePrice)).toFixed(4),
 				formId : data.formId
 		}
 		reqObj.deliverFormListVo[i] = temp;

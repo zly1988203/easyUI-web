@@ -184,7 +184,14 @@ function initDatagridEditOrder(){
             			return '';
             		}
             		return '<b>'+parseInt(value||0)+'</b>';
-            	}
+            	},
+            	editor:{
+                    type:'numberbox',
+                    options:{
+                    	disabled:true,
+                    	min:0
+                    }
+                }
             },
             {field:'applyDesc',title:'申请说明',width:'200px',align:'left',editor:'textbox'},
             {field:'auditDesc',title:'处理意见',width:'200px',align:'left'}
@@ -221,6 +228,7 @@ function initDatagridEditOrder(){
                             $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),
                             $.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault),$.extend({},gridDefault)]);
 }
+
 
 //生成日期
 var proFlag = false;
@@ -263,7 +271,9 @@ function getDistanceDay(arg1,arg2){
 	
 	var _d = new Date(arg2).getTime() - new Date(arg1).getTime();
 	_d = _d/(60*60*1000*24)+1;//距离天数
-	gridHandel.setFieldsData({distanceDay:_d})
+//	gridHandel.setFieldsData({distanceDay:_d});
+	gridHandel.setFieldValue('distanceDay',_d);
+	
 }
 
 

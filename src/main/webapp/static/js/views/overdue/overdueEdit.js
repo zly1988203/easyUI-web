@@ -204,7 +204,14 @@ hiddenStatus = $("#hiddenStatus").val();
 	            			return '';
 	            		}
 	            		return '<b>'+parseInt(value||0)+'</b>';
-	            	}
+	            	},
+	            	editor:{
+	                    type:'numberbox',
+	                    options:{
+	                    	disabled:true,
+	                    	min:0
+	                    }
+	                }
 	            },
 	            {field:'applyDesc',title:'申请说明',width:'200px',align:'left',
 	            	editor:{
@@ -268,6 +275,7 @@ hiddenStatus = $("#hiddenStatus").val();
 			return;
 		}
 		
+		gridHandel.setFieldsData({productionDate:date,productionDateStr:date})
 		if(_expiryDate && date)getDistanceDay(date,_expiryDate);
 		
 	}
@@ -286,6 +294,7 @@ hiddenStatus = $("#hiddenStatus").val();
 			$(this).datebox('setValue',oDate);
 			return;
 		}
+		gridHandel.setFieldsData({expiryDate:date,expiryDateStr:date})
 		if(_productionDate && date)getDistanceDay(_productionDate,date);
 	}
 
@@ -294,7 +303,8 @@ hiddenStatus = $("#hiddenStatus").val();
 		
 		var _d = new Date(arg2).getTime() - new Date(arg1).getTime();
 		_d = _d/(60*60*1000*24)+1;//距离天数
-		gridHandel.setFieldsData({distanceDay:_d})
+//		gridHandel.setFieldsData({distanceDay:_d})
+		gridHandel.setFieldValue('distanceDay',_d);
 	}
 
 	//限制转换次数

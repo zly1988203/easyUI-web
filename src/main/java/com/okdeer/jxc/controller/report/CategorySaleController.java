@@ -77,7 +77,6 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 				footer.add(categorySaleReportVo);
 			}
 			goodsSaleReportList.setFooter(footer);
-			LOG.debug(LogConstant.PAGE, goodsSaleReportList.toString());
 			// 过滤数据权限字段
 			cleanAccessData(goodsSaleReportList);
 			return goodsSaleReportList;

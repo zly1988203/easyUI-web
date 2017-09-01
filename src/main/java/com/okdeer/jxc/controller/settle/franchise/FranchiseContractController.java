@@ -129,7 +129,7 @@ public class FranchiseContractController extends BaseController<FranchiseContrac
 	public ModelAndView contractEdit(String id, Model model) {
 		FranchiseContractVo vo = franchiseContractService.getContract(id);
 		ModelAndView modelAndView = new ModelAndView("settle/franchise/contract/contractEdit");
-		if (!ContractStatusEnum.NOT_AUDITED.getKey().equals(vo.getStatus())) {
+		if (vo != null && !ContractStatusEnum.NOT_AUDITED.getKey().equals(vo.getStatus())) {
 			modelAndView.setViewName("settle/franchise/contract/contractView");
 		}
 		modelAndView.addObject("contractVo", vo);

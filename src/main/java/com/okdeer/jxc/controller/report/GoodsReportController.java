@@ -64,8 +64,7 @@ import com.okdeer.jxc.utils.UserUtil;
  */
 @Controller
 @RequestMapping("goods/report")
-public class GoodsReportController extends
-BaseController<GoodsReportController> {
+public class GoodsReportController extends BaseController<GoodsReportController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private GoodsReportService goodsReportService;
@@ -95,14 +94,14 @@ BaseController<GoodsReportController> {
 		 * added by zhangqin on 2017-02-16 begin
 		 * 需求V2.2,新增计价方式、商品状态、商品类型筛选条件
 		 */
-		//计价方式
-		model.addAttribute("pricingType", PricingTypeEnum.values()); 
-		//商品状态
-		model.addAttribute("goodsStatus", GoodsStatusEnum.values()); 
-		//商品类型
-		model.addAttribute("goodsType", GoodsTypeEnum.values()); 
-		
-		model.addAttribute("saleWayList", SaleWayEnum.values()); 
+		// 计价方式
+		model.addAttribute("pricingType", PricingTypeEnum.values());
+		// 商品状态
+		model.addAttribute("goodsStatus", GoodsStatusEnum.values());
+		// 商品类型
+		model.addAttribute("goodsType", GoodsTypeEnum.values());
+
+		model.addAttribute("saleWayList", SaleWayEnum.values());
 		/**
 		 * added by zhangqin on 2017-02-16 end
 		 */
@@ -118,14 +117,14 @@ BaseController<GoodsReportController> {
 	 * @date 2017年2月16日
 	 */
 	@RequestMapping(value = "toEdit")
-	public String toEdit(GoodsReportQo qo,Model model){
-		//计价方式
-		model.addAttribute("pricingType", PricingTypeEnum.values()); 
-		//商品状态
-		model.addAttribute("goodsStatus", GoodsStatusEnum.values()); 
-		model.addAttribute("branchType", UserUtil.getCurrBranchType()); 
-		//商品类型
-		model.addAttribute("goodsType", GoodsTypeEnum.values()); 
+	public String toEdit(GoodsReportQo qo, Model model) {
+		// 计价方式
+		model.addAttribute("pricingType", PricingTypeEnum.values());
+		// 商品状态
+		model.addAttribute("goodsStatus", GoodsStatusEnum.values());
+		model.addAttribute("branchType", UserUtil.getCurrBranchType());
+		// 商品类型
+		model.addAttribute("goodsType", GoodsTypeEnum.values());
 		return "report/goods/goodsEdit";
 	}
 
@@ -140,14 +139,14 @@ BaseController<GoodsReportController> {
 	 */
 	@RequestMapping(value = "getGoodsInfo", method = RequestMethod.GET)
 	@ResponseBody
-	public RespJson getGoodsInfo(GoodsReportQo qo,Model model){
+	public RespJson getGoodsInfo(GoodsReportQo qo, Model model) {
 		GoodsReportVo sku = goodsReportService.queryGoodsInfo(qo);
-		//如果编辑的机构为门店，则只可以修改供应商相关信息
-		Branches branch = branchesService.getBranchInfoById(sku.getBranchId());//机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
+		// 如果编辑的机构为门店，则只可以修改供应商相关信息
+		Branches branch = branchesService.getBranchInfoById(sku.getBranchId());// 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
 		RespJson jesp = RespJson.success();
-		if(branch.getType()==3 || branch.getType()==4 || branch.getType()==5){
+		if (branch.getType() == 3 || branch.getType() == 4 || branch.getType() == 5) {
 			jesp.put("isStore", true);
-		}else{
+		} else {
 			jesp.put("isStore", false);
 		}
 		cleanAccessData(sku);
@@ -167,8 +166,7 @@ BaseController<GoodsReportController> {
 	 */
 	@RequestMapping(value = "getList", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<GoodsReportVo> getList(
-			GoodsReportQo qo,
+	public PageUtils<GoodsReportVo> getList(GoodsReportQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		try {
@@ -213,7 +211,7 @@ BaseController<GoodsReportController> {
 			}
 
 			List<GoodsReportVo> exportList = goodsReportService.queryList(qo);
-			if(CollectionUtils.isNotEmpty(exportList)){
+			if (CollectionUtils.isNotEmpty(exportList)) {
 				Branches branches = branchesService.getBranchInfoById(qo.getBranchId());
 				String branchName = branches != null ? branches.getBranchName() : getCurrentUser().getBranchName();
 				String fileName = branchName + "商品查询列表" + "_" + DateUtils.getCurrSmallStr();
@@ -247,8 +245,7 @@ BaseController<GoodsReportController> {
 	 */
 	@RequestMapping(value = "printReport", method = RequestMethod.GET)
 	@ResponseBody
-	public String printReport(GoodsReportQo qo, HttpServletResponse response,
-			HttpServletRequest request,
+	public String printReport(GoodsReportQo qo, HttpServletResponse response, HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber) {
 		try {
 			// 如果没有选择店铺，则查询登录人所在机构的商品
@@ -259,39 +256,40 @@ BaseController<GoodsReportController> {
 			qo.setBranchCode(branchCode);
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
-			if(goodsReportService.queryListCount(qo)>PrintConstant.PRINT_MAX_ROW){
+			if (goodsReportService.queryListCount(qo) > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
 			List<GoodsReportVo> list = goodsReportService.queryList(qo);
-			if(!CollectionUtils.isEmpty(list)&&list.size()>PrintConstant.PRINT_MAX_ROW){
+			if (!CollectionUtils.isEmpty(list) && list.size() > PrintConstant.PRINT_MAX_ROW) {
 				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
 			}
 			String path = PrintConstant.GOODS_REPORT;
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
 			cleanAccessData(list);
-			JasperHelper.exportmain(request, response, map,
-					JasperHelper.PDF_TYPE, path, list, "");
+			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
 		} catch (Exception e) {
 			LOG.error(PrintConstant.SALE_FLOW_PRINT_ERROR, e);
 		}
 		return null;
 	}
+
 	@RequestMapping(value = "querySkuBranchBySkuId", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<GoodsBranchPriceVo> querySkuBranchBySkuIdCodes(GoodsBranchPriceQo qo){
-		try{
+	public PageUtils<GoodsBranchPriceVo> querySkuBranchBySkuIdCodes(GoodsBranchPriceQo qo) {
+		try {
 			qo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
 			List<GoodsBranchPriceVo> branchList = goodsBranchPriceService.querySkuBranchBySkuId(qo);
-			
+
 			PageUtils<GoodsBranchPriceVo> goodsReport = new PageUtils<GoodsBranchPriceVo>(branchList);
 			cleanAccessData(goodsReport);
 			return goodsReport;
-		}catch(Exception e){
+		} catch (Exception e) {
 			LOG.error("查询商品各机构信息失败", e);
 			return null;
 		}
 	}
+
 	/**
 	 * @Description: 保存分公司安全库存
 	 * @param qo
@@ -303,17 +301,17 @@ BaseController<GoodsReportController> {
 	 */
 	@RequestMapping(value = "saveBranchsafetyCoefficient", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson saveBranchsafetyCoefficient(@RequestBody String json){
-		try{
-			List<GoodsBranchPrice> list=JSON.parseArray(json, GoodsBranchPrice.class);
-			for(GoodsBranchPrice goodsBranchPrice:list){
+	public RespJson saveBranchsafetyCoefficient(@RequestBody String json) {
+		try {
+			List<GoodsBranchPrice> list = JSON.parseArray(json, GoodsBranchPrice.class);
+			for (GoodsBranchPrice goodsBranchPrice : list) {
 				goodsBranchPrice.setUpdateUserId(UserUtil.getCurrUserId());
 			}
 			return goodsBranchPriceService.saveBranchsafetyCoefficient(list);
-		}catch(Exception e){
+		} catch (Exception e) {
 			LOG.error("查询商品各机构信息失败", e);
 			return RespJson.error("保存机构安全系数失败");
 		}
 	}
-	
+
 }

@@ -9,7 +9,7 @@
     <title>要货单-编辑</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<script src="${ctx}/static/js/views/deliver/deliver.js?V=${versionNo}"></script>
+	<script src="${ctx}/static/js/views/deliver/deliver.js?V=${versionNo}2"></script>
 	<script src="${ctx}/static/js/views/deliver/deliverExport.js?V=${versionNo}"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>

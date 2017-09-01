@@ -1442,6 +1442,18 @@ var $_jxc = {
 			}
 		}
 		return data; 
+	},
+	
+	/**
+	 * 四舍五入
+	 * @param number 
+	 * @param arg  位数 例如 2：四舍五入保存2位小数
+	 */
+	roundx:function(number,arg){
+		number = new Number(number);
+		with(Math){   
+	        return round(number*pow(10,arg))/pow(10,arg);   
+	    }  
 	}
 	
 }
