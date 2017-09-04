@@ -581,7 +581,6 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			if(CollectionUtils.isEmpty(goodsStockVos.getGoodsSkuVo())){
 				return RespJson.argumentError("参数异常");
 			}
-			
 			goodsSelect = goodsSelectServiceApi.queryAlreadyNum(goodsStockVos);
 			JSONArray jsonObject = JSONArray.fromObject(goodsSelect);
 			respJson.put("data", jsonObject);

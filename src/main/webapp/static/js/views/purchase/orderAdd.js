@@ -32,6 +32,7 @@ function initConditionParams(){
 	
 	 //初始化机构ID，机构名称
     $("#branchId").val(sessionBranchId);
+    $("#branchType").val(sessionBranchType);
 	$("#branchName").val(sessionBranchCodeName);
 	
 	//设置默认供应商信息  孔言言 让改的  06/29
@@ -632,7 +633,8 @@ function selectGoods(searchKey){
 function selectStockAndPrice(data){
 
     var GoodsStockVo = {
-        branchId : "",
+        branchId :  $("#branchId").val(),
+        branchType :  $("#branchType").val(),
         fieldName : 'id',
         stockBranchId : $("#branchId").val(),
         goodsSkuVo : []
@@ -905,6 +907,7 @@ function selectBranch(){
             $_jxc.confirm('修改机构后会清空明细，是否要修改？',function(r){
                 if(r){
                     $("#branchId").val(data.branchesId);
+                    $("#branchType").val(data.type);
                     $("#branchName").val("["+data.branchCode+"]"+data.branchName);
                     gridHandel.setLoadData([$.extend({},gridDefault)]);
                     // 是否自动加载商品
@@ -916,6 +919,7 @@ function selectBranch(){
 
         }else  if( $("#branchId").val() != "" && data.branchesId != $("#branchId").val() && nowRows.length == 0){
             $("#branchId").val(data.branchesId);
+            $("#branchType").val(data.type);
             $("#branchName").val("["+data.branchCode+"]"+data.branchName);
             gridHandel.setLoadData([$.extend({},gridDefault)]);
             // 是否自动加载商品
