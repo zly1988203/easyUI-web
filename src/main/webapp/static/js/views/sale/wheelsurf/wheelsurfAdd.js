@@ -118,11 +118,7 @@ function initgridAddPosAct() {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0)+'</b>';
                     }
-
-                    if(!value){
-                        row["rowNo"] = parseFloat(value||0);
-                    }
-
+                    value = index;
                     return '<b>'+parseFloat(value||0)+'</b>';
                 },
                 editor:{

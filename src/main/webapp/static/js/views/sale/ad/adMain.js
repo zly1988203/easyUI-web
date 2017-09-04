@@ -114,6 +114,17 @@ function validform(){
         return false;
     }
 
+    if(compareDate($("#beginDate").val(),$("#overDate").val())){
+        $_jxc.alert("展示结束时间不能在展示开始时间之前");
+        return false;
+    }
+
+    var arrChk=$("input[name='weekcheckbox']:checked");
+    if(arrChk.length <= 0){
+        $_jxc.alert("请最少选中一个活动日");
+        return; false;
+    }
+
     var intervalTime = $("#intervalTime").numberbox("getValue")
     if(!intervalTime || null == intervalTime){
         $_jxc.alert("请填写展示时长");
@@ -206,4 +217,14 @@ function imgUpload(event) {
         $("#"+id).attr("src",data.filePath);
         $("#"+id+"Val").val(data.filePath);
     });
+}
+
+function compareDate(startDate,endDate) {
+    var d1 = new Date(startDate.replace(/\-/g, "\/"));
+    var d2 = new Date(endDate.replace(/\-/g, "\/"));
+    if(startDate!=""&&endDate!=""&&d1 > d2)
+    {
+        return true;
+    }
+    return false;
 }
