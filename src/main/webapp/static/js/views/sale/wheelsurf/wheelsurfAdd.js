@@ -392,6 +392,12 @@ function validform() {
             return false;
         }
 
+        if(item['prizeShortName'].length > 10){
+            $_jxc.alert("第"+(index+1)+"行，简称长度大于了10个字符");
+            flag = true;
+            return false;
+        }
+
         if(item['rowNo'] === "" || item['rowNo'] == null){
             $_jxc.alert("第"+(index+1)+"行，序号不能为空");
             flag = true;
@@ -433,7 +439,6 @@ function validform() {
 }
 
 function updateWheelsurf() {
-
     if(!validform()) return;
 
     var formObj = $("#formAdd").serializeObject();
@@ -496,7 +501,6 @@ function checkWheelsurf() {
 }
 
 function overWheelsurf() {
-
     $_jxc.confirm("确定终止此活动？",function (res) {
         if(res){
             $_jxc.ajax({
