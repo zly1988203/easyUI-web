@@ -29,5 +29,10 @@ public class DialogController {
 	public String toErrorDialog(){
 		return "component/publicErrorDialog";
 	}
+
+    @RequestMapping(value = "columnSetting")
+    public String columnSetting(){
+        return "component/publicColumnSetting";
+    }
 	
 }

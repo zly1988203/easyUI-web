@@ -437,7 +437,7 @@ function savegoods() {
             }
 
             if(item['shortName'].length > 10 ){
-                $_jxc.alert("第"+(index+1)+"行，简称长度大于10个字符");
+                $_jxc.alert("第"+(index+1)+"行，简称长度大于了10个字符");
                 flag = true;
                 return false;
             }
