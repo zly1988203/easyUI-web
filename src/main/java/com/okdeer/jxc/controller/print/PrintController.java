@@ -234,14 +234,18 @@ public class PrintController extends BaseController<PrintController> {
 						pintList.add(list.get(i));
 					}
 				}
-				cleanAccessData(pintList);
-				if ("1".equals(printNo)) {
-					exportPdf1(response, pintList);
-				} else if ("2".equals(printNo)) {
-					exportPdf2(response, pintList);
-				}  else {
-					JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE, PrintConstant.PRINT_LABEL
-							+ printNo + ".jrxml", pintList, "test");
+				try{
+					cleanAccessData(pintList);
+					if ("1".equals(printNo)) {
+						exportPdf1(response, pintList);
+					} else if ("2".equals(printNo)) {
+						exportPdf2(response, pintList);
+					}  else {
+						JasperHelper.exportmain(request, response, null, JasperHelper.PDF_TYPE, PrintConstant.PRINT_LABEL
+								+ printNo + ".jrxml", pintList, "test");
+					}
+				}catch(Exception e){
+					LOG.error("价签打印出现异常：{}",e);
 				}
 			}
 		}
@@ -498,10 +502,10 @@ public class PrintController extends BaseController<PrintController> {
 			// 零售价占两行
 			addCell(innerTable,
 					new Element[] {
-							new Paragraph(" 零售价: ", font),
-							new Phrase("￥ " + (p.getSalePrice() == null ? "" : clean(p.getSalePrice().toString())),
-									bootFont) }, Constant.ONE, Constant.TWO, new BaseColor(255, 245, Constant.ZERO),
-					hight, true);
+					new Paragraph(" 零售价: ", font),
+					new Phrase("￥ " + (p.getSalePrice() == null ? "" : clean(p.getSalePrice().toString())),
+							bootFont) }, Constant.ONE, Constant.TWO, new BaseColor(255, 245, Constant.ZERO),
+							hight, true);
 
 			// 第四行：条码
 			Image barcodeImg = null;
@@ -570,30 +574,30 @@ public class PrintController extends BaseController<PrintController> {
 					field, new GoodsSelectByCostPrice(), branchId, user.getId(), type,
 					"/cost/costAdjust/downloadErrorFile", new GoodsSelectImportBusinessValid() {
 
-						@Override
-						public void formatter(List<? extends GoodsSelect> list,
-								List<net.sf.json.JSONObject> excelListSuccessData,
-								List<net.sf.json.JSONObject> excelListErrorData) {
-							for (GoodsSelect objGoods : list) {
-								GoodsSelectByCostPrice obj = (GoodsSelectByCostPrice) objGoods;
-								BigDecimal newCostprice = obj.getNewCostPrice();
-								if (newCostprice == null) {
-									obj.setNewCostPrice(obj.getCostPrice());
-								}
-							}
+				@Override
+				public void formatter(List<? extends GoodsSelect> list,
+						List<net.sf.json.JSONObject> excelListSuccessData,
+						List<net.sf.json.JSONObject> excelListErrorData) {
+					for (GoodsSelect objGoods : list) {
+						GoodsSelectByCostPrice obj = (GoodsSelectByCostPrice) objGoods;
+						BigDecimal newCostprice = obj.getNewCostPrice();
+						if (newCostprice == null) {
+							obj.setNewCostPrice(obj.getCostPrice());
 						}
+					}
+				}
 
-						@Override
-						public void errorDataFormatter(List<net.sf.json.JSONObject> list) {
+				@Override
+				public void errorDataFormatter(List<net.sf.json.JSONObject> list) {
 
-						}
+				}
 
-						@Override
-						public void businessValid(List<net.sf.json.JSONObject> excelListSuccessData, String[] excelField) {
+				@Override
+				public void businessValid(List<net.sf.json.JSONObject> excelListSuccessData, String[] excelField) {
 
-						}
+				}
 
-					}, null);
+			}, null);
 			respJson.put("importInfo", vo);
 
 		} catch (IOException e) {
