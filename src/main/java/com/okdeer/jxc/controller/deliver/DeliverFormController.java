@@ -107,13 +107,13 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 
 	@Reference(version = "1.0.0", check = false)
 	private DeliverConfigServiceApi deliverConfigServiceApi;
-	
-    /**
-     * BranchSpecService
-     */
-    @Reference(version = "1.0.0", check = false)
-    private BranchSpecServiceApi branchSpecService;
-    
+
+	/**
+	 * BranchSpecService
+	 */
+	@Reference(version = "1.0.0", check = false)
+	private BranchSpecServiceApi branchSpecService;
+
 	@Autowired
 	private OrderNoUtils orderNoUtils;
 
@@ -128,7 +128,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@Reference(version = "1.0.0", check = false)
 	private BranchSpecServiceApi branchSpecServiceApi;
-	
+
 	/**
 	 * @Description: 跳转要货单页面
 	 * @return   
@@ -243,7 +243,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		String deliverType = vo.getDeliverType();
 		model.addAttribute("user", user);
 		BranchesGrow branchesGrow = branchesServiceApi.queryBranchesById(user.getBranchId());
-		//branchesGrow.setMinAmount(branchesGrow.getTargetBranchMinAmount());
+		// branchesGrow.setMinAmount(branchesGrow.getTargetBranchMinAmount());
 		Integer type = branchesGrow.getTargetBranchType();
 		if (FormType.DA.toString().equals(deliverType)) {
 			if (BranchTypeEnum.HEAD_QUARTERS.getCode().intValue() == type.intValue()) {
@@ -446,7 +446,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			}
 			PageUtils<DeliverForm> deliverForms = queryDeliverFormServiceApi.queryLists(vo);
 			// 过滤数据权限字段
-            cleanAccessData(deliverForms);
+			cleanAccessData(deliverForms);
 			LOG.debug(LogConstant.PAGE, deliverForms.toString());
 			return deliverForms;
 		} catch (Exception e) {
@@ -472,20 +472,20 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		LOG.debug(LogConstant.OUT_PARAM, formVo);
 		try {
 			DeliverFormVo vo = JsonMapper.nonDefaultMapper().fromJson(formVo, DeliverFormVo.class);
-			//配送出库，入库，如果引用订单，需要验证商品条目
-            if ((FormType.DI.toString().equals(vo.getFormType()) || FormType.DO.toString().equals(vo.getFormType()))
-                    && StringUtils.isNotBlank(vo.getReferenceNo())) {
-			    List<String> skuIds = new ArrayList<String>();
-			    List<DeliverFormListVo> deliverFormListVo = vo.getDeliverFormListVo();
-			    if(CollectionUtils.isNotEmpty(deliverFormListVo)){
-			        for (DeliverFormListVo detailVo : deliverFormListVo) {
-			            skuIds.add(detailVo.getSkuId());
-			        }
-			    }
-			    RespJson resp = validReceiptItem(skuIds, vo.getReferenceId());
-			    if(!resp.isSuccess()){
-			        return resp;
-			    }
+			// 配送出库，入库，如果引用订单，需要验证商品条目
+			if ((FormType.DI.toString().equals(vo.getFormType()) || FormType.DO.toString().equals(vo.getFormType()))
+					&& StringUtils.isNotBlank(vo.getReferenceNo())) {
+				List<String> skuIds = new ArrayList<String>();
+				List<DeliverFormListVo> deliverFormListVo = vo.getDeliverFormListVo();
+				if (CollectionUtils.isNotEmpty(deliverFormListVo)) {
+					for (DeliverFormListVo detailVo : deliverFormListVo) {
+						skuIds.add(detailVo.getSkuId());
+					}
+				}
+				RespJson resp = validReceiptItem(skuIds, vo.getReferenceId());
+				if (!resp.isSuccess()) {
+					return resp;
+				}
 			}
 			String getId = UuidUtils.getUuid();
 			String formNo = "";
@@ -516,9 +516,9 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				if (FormType.DD.toString().equals(vo.getFormType())) {
 					deliverFormListVo.setDealNum(deliverFormListVo.getApplyNum());
 				}
-				
+
 				// 单价备份默认用单价
-				if(deliverFormListVo.getPriceBack()==null){
+				if (deliverFormListVo.getPriceBack() == null) {
 					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
 				}
 			}
@@ -536,32 +536,34 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		return respJson;
 	}
 
-    /***
-    * 
-    * @Description: 验证采购退货商品项
-    * @param skuIds
-    * @param formId
-    * @return
-    * @author xuyq
-    * @date 2017年5月12日
-    */
-    public RespJson validReceiptItem(List<String> skuIds, String formId) {
-        List<DeliverFormList> list = queryDeliverFormListServiceApi.getDeliverListById(formId);
-        if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() > list.size()) || CollectionUtils.isEmpty(list)) {
-            return RespJson.error("已选配送单号，不允许添加其他商品");
-        }
-        Map<String, DeliverFormList> tempMap = new HashMap<String, DeliverFormList>();
-        for (DeliverFormList delForm : list) {
-            tempMap.put(delForm.getSkuId(), delForm);
-        }
-        for (String skuId : skuIds) {
-            DeliverFormList pdPo = tempMap.get(skuId);
-            if (pdPo == null) {
-                return RespJson.error("已选配送单号，不允许添加其他商品");
-            }
-        }
-        return RespJson.success();
-    }
+	/***
+	* 
+	* @Description: 验证采购退货商品项
+	* @param skuIds
+	* @param formId
+	* @return
+	* @author xuyq
+	* @date 2017年5月12日
+	*/
+	public RespJson validReceiptItem(List<String> skuIds, String formId) {
+		List<DeliverFormList> list = queryDeliverFormListServiceApi.getDeliverListById(formId);
+		if ((CollectionUtils.isNotEmpty(skuIds) && CollectionUtils.isNotEmpty(list) && skuIds.size() > list.size())
+				|| CollectionUtils.isEmpty(list)) {
+			return RespJson.error("已选配送单号，不允许添加其他商品");
+		}
+		Map<String, DeliverFormList> tempMap = new HashMap<String, DeliverFormList>();
+		for (DeliverFormList delForm : list) {
+			tempMap.put(delForm.getSkuId(), delForm);
+		}
+		for (String skuId : skuIds) {
+			DeliverFormList pdPo = tempMap.get(skuId);
+			if (pdPo == null) {
+				return RespJson.error("已选配送单号，不允许添加其他商品");
+			}
+		}
+		return RespJson.success();
+	}
+
 	/**
 	 * @Description: 修改配送单
 	 * @param vo
@@ -578,21 +580,21 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		LOG.debug(LogConstant.OUT_PARAM, formVo);
 		try {
 			DeliverFormVo vo = JsonMapper.nonDefaultMapper().fromJson(formVo, DeliverFormVo.class);
-	         //不是引用订单，需要验证
-            if((FormType.DI.toString().equals(vo.getFormType()) || FormType.DO.toString().equals(vo.getFormType()))
-                    && StringUtils.isNotBlank(vo.getReferenceNo())){
-                List<String> skuIds = new ArrayList<String>();
-                List<DeliverFormListVo> deliverFormListVo = vo.getDeliverFormListVo();
-                if(CollectionUtils.isNotEmpty(deliverFormListVo)){
-                    for (DeliverFormListVo detailVo : deliverFormListVo) {
-                        skuIds.add(detailVo.getSkuId());
-                    }
-                }
-                RespJson resp = validReceiptItem(skuIds, vo.getReferenceId());
-                if(!resp.isSuccess()){
-                    return resp;
-                }
-            }
+			// 不是引用订单，需要验证
+			if ((FormType.DI.toString().equals(vo.getFormType()) || FormType.DO.toString().equals(vo.getFormType()))
+					&& StringUtils.isNotBlank(vo.getReferenceNo())) {
+				List<String> skuIds = new ArrayList<String>();
+				List<DeliverFormListVo> deliverFormListVo = vo.getDeliverFormListVo();
+				if (CollectionUtils.isNotEmpty(deliverFormListVo)) {
+					for (DeliverFormListVo detailVo : deliverFormListVo) {
+						skuIds.add(detailVo.getSkuId());
+					}
+				}
+				RespJson resp = validReceiptItem(skuIds, vo.getReferenceId());
+				if (!resp.isSuccess()) {
+					return resp;
+				}
+			}
 			// 获取登录人
 			SysUser user = UserUtil.getCurrentUser();
 			// 设置值
@@ -681,14 +683,14 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			vo.setUpdateUserId(user.getId());
 			return deliverFormServiceApi.check(vo);
 		} catch (RuntimeException e) {
-            LOG.warn(e.getMessage());
-            return RespJson.error("审核操作失败:" + e.getMessage());
+			LOG.warn(e.getMessage());
+			return RespJson.error("审核操作失败:" + e.getMessage());
 		} catch (Exception e) {
 			LOG.error("配送单审核操作失败", e);
 			return RespJson.error("审核操作失败！");
 		}
 	}
-	
+
 	/**
 	 * @Description: 配送出库审核前判断是否允许负库存出库，允许并存在负库存需要提示
 	 * @author zhengwj
@@ -758,27 +760,29 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		respJson.put("minAmount", branchesGrow.getMinAmount());
 		return respJson;
 	}
-    /***
-     * 
-     * @Description: 查询机构配置
-     * @param branchId branchId
-     * @return RespJson
-     * @author xuyq
-     * @date 2017年6月2日
-     */
-    @RequestMapping(value = "queryBranchSpecById", method = RequestMethod.POST)
-    @ResponseBody
-    public RespJson queryBranchSpecById(String branchId) {
-        RespJson resp = RespJson.success();
-        try {
-            BranchSpecVo spceVo = branchSpecService.queryByBranchId(branchId);
-            resp.put("spceVo", spceVo);
-        } catch (Exception e) {
-            LOG.error("查询机构配置异常:{}", e);
-            resp = RespJson.error("查询机构配置异常");
-        }
-        return resp;
-    }
+
+	/***
+	 * 
+	 * @Description: 查询机构配置
+	 * @param branchId branchId
+	 * @return RespJson
+	 * @author xuyq
+	 * @date 2017年6月2日
+	 */
+	@RequestMapping(value = "queryBranchSpecById", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson queryBranchSpecById(String branchId) {
+		RespJson resp = RespJson.success();
+		try {
+			BranchSpecVo spceVo = branchSpecService.queryByBranchId(branchId);
+			resp.put("spceVo", spceVo);
+		} catch (Exception e) {
+			LOG.error("查询机构配置异常:{}", e);
+			resp = RespJson.error("查询机构配置异常");
+		}
+		return resp;
+	}
+
 	/**
 	 * @Description: 终止
 	 * @param vo  
@@ -815,8 +819,10 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("targetBranchCode",
 				deliverForm.getTargetBranchCode() != null ? deliverForm.getTargetBranchCode() : "");
 		// 收货地址
-		replaceMap.put("_收货地址", deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
-		replaceMap.put("targetBranchAddress", deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
+		replaceMap.put("_收货地址", deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress()
+				: "");
+		replaceMap.put("targetBranchAddress",
+				deliverForm.getTargetBranchAddress() != null ? deliverForm.getTargetBranchAddress() : "");
 		// 发货机构
 		replaceMap.put("_发货机构", deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		replaceMap.put("sourceBranchName",
@@ -829,8 +835,14 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap.put("sourceBranchName",
 				deliverForm.getSourceBranchName() != null ? deliverForm.getSourceBranchName() : "");
 		// 有效期限
-		replaceMap.put("_有效期限", deliverForm.getValidityTime() != null ? DateUtils.formatDate(deliverForm.getValidityTime(), "yyyy-MM-dd HH:mm:ss") : "");
-		replaceMap.put("validityTime", deliverForm.getValidityTime() != null ? DateUtils.formatDate(deliverForm.getValidityTime(), "yyyy-MM-dd HH:mm:ss") : "");
+		replaceMap.put(
+				"_有效期限",
+				deliverForm.getValidityTime() != null ? DateUtils.formatDate(deliverForm.getValidityTime(),
+						"yyyy-MM-dd HH:mm:ss") : "");
+		replaceMap.put(
+				"validityTime",
+				deliverForm.getValidityTime() != null ? DateUtils.formatDate(deliverForm.getValidityTime(),
+						"yyyy-MM-dd HH:mm:ss") : "");
 		// 备注
 		replaceMap.put("_备注", deliverForm.getRemark() != null ? deliverForm.getRemark() : "");
 		replaceMap.put("targetBranchRemark",
@@ -840,11 +852,23 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		replaceMap
 				.put("createUserName", deliverForm.getCreateUserName() != null ? deliverForm.getCreateUserName() : "");
 		// 制单日期
-		replaceMap.put("_制单日期", deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(), "yyyy-MM-dd HH:mm:ss") : "");
-		replaceMap.put("createTime", deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(), "yyyy-MM-dd HH:mm:ss") : "");
+		replaceMap.put(
+				"_制单日期",
+				deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(),
+						"yyyy-MM-dd HH:mm:ss") : "");
+		replaceMap.put(
+				"createTime",
+				deliverForm.getCreateTime() != null ? DateUtils.formatDate(deliverForm.getCreateTime(),
+						"yyyy-MM-dd HH:mm:ss") : "");
 		// 审核日期
-		replaceMap.put("_审核日期", deliverForm.getValidTime() != null ? DateUtils.formatDate(deliverForm.getValidTime(), "yyyy-MM-dd HH:mm:ss") : "");
-		replaceMap.put("validTime",deliverForm.getValidTime() != null ? DateUtils.formatDate(deliverForm.getValidTime(), "yyyy-MM-dd HH:mm:ss") : "");
+		replaceMap.put(
+				"_审核日期",
+				deliverForm.getValidTime() != null ? DateUtils.formatDate(deliverForm.getValidTime(),
+						"yyyy-MM-dd HH:mm:ss") : "");
+		replaceMap.put(
+				"validTime",
+				deliverForm.getValidTime() != null ? DateUtils.formatDate(deliverForm.getValidTime(),
+						"yyyy-MM-dd HH:mm:ss") : "");
 		// 审核人员
 		replaceMap.put("_审核人员", deliverForm.getValidUserName() != null ? deliverForm.getValidUserName() : "");
 		replaceMap.put("validUserName", deliverForm.getValidUserName() != null ? deliverForm.getValidUserName() : "");
@@ -904,7 +928,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		cleanDataMap(getPriceAccess(), replaceMap);
 		return replaceMap;
 	}
-	
+
 	private Map<String, String> getPriceAccess() {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put(PriceConstant.DISTRIBUTION_PRICE, "_人民币总金额大写,amountCN,_总金额,amount,_合计金额"); // 配送价
@@ -917,9 +941,9 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 */
 	@Override
 	protected List<DeliverFormList> getPrintDetail(String formNo) {
-	    List<DeliverFormList> dfList = queryDeliverFormListServiceApi.getDeliverListById(formNo);
-	    // 过滤数据权限字段
-        cleanAccessData(dfList);
+		List<DeliverFormList> dfList = queryDeliverFormListServiceApi.getDeliverListById(formNo);
+		// 过滤数据权限字段
+		cleanAccessData(dfList);
 		return dfList;
 	}
 
@@ -1196,7 +1220,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			LOG.error("导出要货申请单导入模板异常:{}", e);
 		}
 	}
-	
+
 	@RequestMapping(value = "exportTempDr")
 	public void exportTempDr(HttpServletResponse response, Integer type) {
 		LOG.debug("导出配送要货导入模板请求参数,type:{}", type);
@@ -1218,6 +1242,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			LOG.error("导出要货申请单导入模板异常", e);
 		}
 	}
+
 	/**
 	 * @Description: 直送要货导入模板
 	 * @param response
@@ -1430,27 +1455,48 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	protected BranchSpecServiceApi getBranchSpecService() {
 		return branchSpecServiceApi;
 	}
-	
-    /**
-     * @Description: 查询当天已审核的要货单数量
+
+	/**
+	 * @Description: 查询当天已审核的要货单数量
 	 * @param sourceBranchId 发货机构id
 	 * @param targetBranchId 要货机构id
-     * @return
-     * @author zhengwj
-     * @date 2017年8月2日
-     */
-    @RequestMapping(value = "getTodayCheckDaCount", method = RequestMethod.POST)
-    @ResponseBody
-    public RespJson getTodayCheckDaCount(String sourceBranchId, String targetBranchId) {
-        RespJson resp = RespJson.success();
-        try {
-            Integer count = deliverFormServiceApi.getTodayCheckDaCount(sourceBranchId, targetBranchId);
-            resp.put("count", count);
-        } catch (Exception e) {
-            LOG.error("查询当天已审核的要货单数量异常:{}", e);
-            resp = RespJson.error("查询当天已审核的要货单数量异常");
-        }
-        return resp;
-    }
-	
+	 * @return
+	 * @author zhengwj
+	 * @date 2017年8月2日
+	 */
+	@RequestMapping(value = "getTodayCheckDaCount", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson getTodayCheckDaCount(String sourceBranchId, String targetBranchId) {
+		RespJson resp = RespJson.success();
+		try {
+			Integer count = deliverFormServiceApi.getTodayCheckDaCount(sourceBranchId, targetBranchId);
+			resp.put("count", count);
+		} catch (Exception e) {
+			LOG.error("查询当天已审核的要货单数量异常:{}", e);
+			resp = RespJson.error("查询当天已审核的要货单数量异常");
+		}
+		return resp;
+	}
+
+	/**
+	 * @Description: 订单拒收
+	 * @param doIds 批量拒收订单ID
+	 * @return   
+	 * @return RespJson  
+	 * @throws
+	 * @author yangyq02
+	 * @date 2017年9月4日
+	 */
+	@RequestMapping(value = "refuseDeliverForm", method = RequestMethod.GET)
+	@ResponseBody
+	public RespJson refuseDeliverForm(String[] ids) {
+		RespJson resp = RespJson.success();
+		try {
+			resp = deliverFormServiceApi.refuseDeliverForm(ids,getCurrUserId());
+		} catch (Exception e) {
+			LOG.error("拒收操作失败", e);
+			resp = RespJson.error("拒收操作失败");
+		}
+		return resp;
+	}
 }
