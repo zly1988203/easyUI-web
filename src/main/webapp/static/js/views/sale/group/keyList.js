@@ -142,7 +142,7 @@ function  initGoodsgrid() {
     $("#goodsgrid").datagrid({
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect:false,  //单选  false多选
+        singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         fitColumns:true,    //每列占满
@@ -173,7 +173,22 @@ function  initGoodsgrid() {
             {field:'categoryName',title:'类别名称',width:'150px',align:'left'},
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
-            {field:'salePrice',title:'零售价',width:'80px',align:'right'},
+            {field:'salePrice',title:'零售价',width:'80px',align:'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                        disabled:true,
+                    }
+                },
+            },
             {field:'shortName',title:'简称',width:'200px',align:'left',
                 editor:{
                     type:'textbox',
@@ -182,7 +197,7 @@ function  initGoodsgrid() {
                     }
                 }
             },
-            {field:'sortNo',title:'排序',width:'200px',align:'right',
+            {field:'sortNo',title:'排序',width:'100px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0)+'</b>';
@@ -421,6 +436,12 @@ function savegoods() {
                 return false;
             }
 
+            if(item['shortName'].length > 10 ){
+                $_jxc.alert("第"+(index+1)+"行，简称长度大于10个字符");
+                flag = true;
+                return false;
+            }
+
            goodsArr[index] = temp;
 
             if($.inArray(item.sortNo, sortNoArr) == -1){
@@ -463,13 +484,22 @@ function getGgoodsList() {
     var branchId = $("#branchId").val();
     var param = {
         branchId : branchId,
-        groupId : row.id
+        groupId : row.id,
+        page:1,
+        rows:50,
     }
     $_jxc.ajax({
         url:contextPath+'/pos/group/key/goods//list',
         data:param,
     },function(result){
         if(result.code == 0){
+            if(result.data.list.length > 0){
+                $.each(result.data.list,function (index,item) {
+                    item.shortName = item.skuName;
+                    item.sortNo = (index+1);
+                })
+            }
+
             $("#goodsgrid").datagrid("loadData",result.data.list);
         }else{
             $_jxc.alert(result['message']);
@@ -494,6 +524,12 @@ function hotgoods() {
         data:param,
     },function(result){
         if(result.code == 0){
+            if(result.data.list.length > 0){
+                $.each(result.data.list,function (index,item) {
+                    item.shortName = item.skuName;
+                    item.sortNo = (index+1);
+                })
+            }
             $("#goodsgrid").datagrid("loadData",result.data.list);
         }else{
             $_jxc.alert(result['message']);
@@ -540,6 +576,10 @@ function selectGoods(searchKey) {
         var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
         var newRows = goodsgridHandel.checkDatagrid(nowRows,addDefaultData,argWhere,isCheck);
+        $.each(newRows,function (index,item) {
+            item.shortName = item.skuName;
+                item.sortNo = (index+1);
+        })
 
         $("#goodsgrid").datagrid("loadData",newRows);
 
