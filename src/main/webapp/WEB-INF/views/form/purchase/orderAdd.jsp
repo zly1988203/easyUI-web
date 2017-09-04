@@ -54,6 +54,7 @@
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">收货机构:</div>
 						<input class="uinp" name="branchId" id="branchId" type="hidden">
+						<input class="uinp" name="branchType" id="branchType" type="hidden">
 						<input id="branchName" class="uinp" readonly="readonly" type="text" onclick="selectBranch()">
 						<div class="uinp-more" onclick="selectBranch()">...</div>
 					</div>

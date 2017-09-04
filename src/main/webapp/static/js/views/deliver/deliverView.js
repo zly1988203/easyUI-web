@@ -92,6 +92,15 @@ function initDatagridViewRequireOrder(){
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
 			},
+			{field:'isGift',title:'赠送',width:'65px',align:'left',
+                formatter:function(value,row){
+                    if(row.isFooter){
+                        return;
+                    }
+                    row.isGift = row.isGift?row.isGift:0;
+                    return value=='1'?'是':(value=='0'?'否':'请选择');
+                }
+            },
 			{field:'salePrice',title:'零售价',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
