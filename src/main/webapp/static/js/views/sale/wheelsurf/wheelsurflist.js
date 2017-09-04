@@ -46,8 +46,8 @@ function initgridPosActivity() {
             }},
             {field:'wheelsurfName',title:'活动名称',width:'200px',align:'left'},
             {field:'formTypeStr',title:'活动类型',width:'100px',align:'right'},
-            {field:'beginTimeStr',title:'开始时间',width:'150px',align:'left'},
-            {field:'overTimeStr',title:'结束时间',width:'100px',align:'right'},
+            {field:'beginTime',title:'开始时间',width:'150px',align:'left'},
+            {field:'overTime',title:'结束时间',width:'100px',align:'right'},
             {field:'validTimeStr',title:'奖品有效期',width:'150px',align:'left'},
             {field:'auditStatus',title:'活动状态',width:'200px',align:'left',formatter:function(value,row,index){
                     if(value == '0'){
