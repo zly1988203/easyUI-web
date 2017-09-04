@@ -118,7 +118,10 @@ function initgridAddPosAct() {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0)+'</b>';
                     }
-                    value = index;
+                    if(!value){
+                        value = index;
+                    }
+
                     return '<b>'+parseFloat(value||0)+'</b>';
                 },
                 editor:{
@@ -126,6 +129,7 @@ function initgridAddPosAct() {
                     options:{
                         min:0,
                         precision:0,
+                        max:999999,
                     }
                 },
             },
@@ -146,7 +150,7 @@ function initgridAddPosAct() {
                     options:{
                         min:1,
                         precision:0,
-                        placeholder:"中奖数量最小为1"
+                        max:999999,
                     }
                 },
             },
@@ -167,6 +171,7 @@ function initgridAddPosAct() {
                     options:{
                         min:0,
                         precision:0,
+                        max:999999,
                     }
                 },
             },
