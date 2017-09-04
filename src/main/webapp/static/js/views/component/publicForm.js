@@ -70,8 +70,8 @@ function initDatagridDeliverForm(){
         height:'100%',
         width:'100%',
         columns:[[
-            {field:'formNo',title:'单号',width:135,align:'center'},
-            {field:'status',title:'审核状态',width:100,align:'center',
+            {field:'formNo',title:'单号',width:65,align:'left'},
+            {field:'status',title:'审核状态',width:50,align:'center',
             	 formatter: function(value,row,index){
             		 if(value == '0'){
                   		return '待审核';
@@ -84,14 +84,18 @@ function initDatagridDeliverForm(){
                   	}
                  }
             },
-            {field:'sourceBranchName',title:'调出仓库',width:100,align:'center'},
-            {field:'targetBranchName',title:'调入仓库',width:100,align:'center'},
-            {field:'validTime',title:'审核日期',width:100,align:'left',
+            {field:'sourceBranchName',title:'调出仓库',width:50,align:'left'},
+            {field:'targetBranchName',title:'调入仓库',width:50,align:'left'},
+            {field:'validTime',title:'审核日期',width:50,align:'left',
             	formatter : function(value, rowData, rowIndex) {
             		return formatDate(value,'yyyy-MM-dd hh:mm');
             	}
-            }
+            },
+            {field:'remark',title:'备注',width:150,align:'left'}
         ]],
         onClickRow:deliverFormClickRow,
+        onLoadSuccess:function(data){
+            gridHandel.setDatagridHeader("center");
+        }
     });
 }
