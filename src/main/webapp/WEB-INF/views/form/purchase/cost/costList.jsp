@@ -29,10 +29,10 @@
                     <div class="ubtns-item" onclick="add()">新增</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="purchaseCostForm:delete">
-                    <div class="ubtns-item" onclick="delete()">删除</div>
+                    <div class="ubtns-item" onclick="orderDelete()">删除</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="purchaseCostForm:print">
-                    <div class="ubtns-item" onclick="print()">打印</div>
+                    <div class="ubtns-item" onclick="printPreview()">打印</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
@@ -94,7 +94,7 @@
 
     </form>
     <div class="ub uw umar-t8 ub-f1">
-        <table id="gridList"></table>
+        <table id="gridCostList"></table>
     </div>
 
 </div>
