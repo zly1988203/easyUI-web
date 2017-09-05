@@ -119,8 +119,10 @@ function initgridAddPosAct() {
                         return '<b>'+parseFloat(value||0)+'</b>';
                     }
                     if(!value){
-                        value = index;
+                        value = (index+1);
                     }
+
+                    row['rowNo'] = value;
 
                     return '<b>'+parseFloat(value||0)+'</b>';
                 },
