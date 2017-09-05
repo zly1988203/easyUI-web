@@ -21,6 +21,9 @@
 	            	<shiro:hasPermission name="JxcDeliverDI:add">
 						<div class="ubtns-item" id="btnAdd" onclick="addDeliverForm()">新增</div>
 				   	</shiro:hasPermission>
+				   	<shiro:hasPermission name="JxcDeliverDI:delete">
+						<div class="ubtns-item" id="refuse" onclick="refuseDeliverForm()">拒收</div>
+				   	</shiro:hasPermission>
 	            	<shiro:hasPermission name="JxcDeliverDI:delete">
 						<div class="ubtns-item" id="btnDel" onclick="delDeliverForm()">删单</div>
 				   	</shiro:hasPermission>

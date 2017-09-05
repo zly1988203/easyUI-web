@@ -29,7 +29,10 @@ import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.branch.vo.BranchCostVo;
 import com.okdeer.jxc.branch.vo.BranchOpVo;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.enums.DeliverPriceSpecEnum;
+import com.okdeer.jxc.common.enums.DyPriceSpecEnum;
 import com.okdeer.jxc.common.enums.OfflineStatusEnum;
+import com.okdeer.jxc.common.enums.StoreSelectGoodsSpecEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -71,7 +74,11 @@ public class BranchController extends BaseController<BranchController> {
 	public ModelAndView toEdit(String branchId) {
 		ModelAndView mv = new ModelAndView("archive/branch/branchEdit");
 		mv.addObject("branchId", branchId);
-		mv.addObject("OfflineStatusList", OfflineStatusEnum.values());
+		mv.addObject("offlineStatusList", OfflineStatusEnum.values());
+		mv.addObject("deliverPriceSpecList", DeliverPriceSpecEnum.values());
+		mv.addObject("dyPriceSpecList", DyPriceSpecEnum.values());
+		mv.addObject("selectGoodsSpecList", StoreSelectGoodsSpecEnum.values());
+		mv.addObject("dcBranchList", branchesService.getBranchListForSecondLevel(branchId));
 		return mv;
 	}
 
