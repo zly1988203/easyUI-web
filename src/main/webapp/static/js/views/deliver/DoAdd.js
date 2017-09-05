@@ -1155,5 +1155,5 @@ function printDetail(){
 		return;
 	}
 	
-	printChoose('refFormType','/form/deliverForm/');
+	printChoose(refFormType,'/form/deliverForm/');
 }
