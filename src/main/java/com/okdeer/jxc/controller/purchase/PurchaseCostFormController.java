@@ -38,4 +38,22 @@ public class PurchaseCostFormController extends BaseController<PurchaseCostFormC
         return new ModelAndView("form/purchase/cost/costList", model);
     }
 
+        @RequestMapping(value = "/add")
+        public ModelAndView add() {
+            Map<String, String> model = Maps.newHashMap();
+            return new ModelAndView("form/purchase/cost/addCost", model);
+        }
+
+        @RequestMapping(value = "/edit")
+        public ModelAndView edit() {
+            Map<String, String> model = Maps.newHashMap();
+            return new ModelAndView("form/purchase/cost/editCost", model);
+        }
+
+        @RequestMapping(value = "/view")
+        public ModelAndView view() {
+            Map<String, String> model = Maps.newHashMap();
+            return new ModelAndView("form/purchase/cost/editCost", model);
+        }
+
 }
