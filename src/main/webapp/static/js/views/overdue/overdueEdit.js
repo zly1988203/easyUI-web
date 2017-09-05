@@ -170,7 +170,7 @@ hiddenStatus = $("#hiddenStatus").val();
 	                    		var d = date.getDate();
 	                    		return y+'-'+ (m<10?'0'+m:m) + '-'+ (d<10?'0'+d:d);
 	                    	},
-	                    	onChange:changeProDate
+
 	                    }
 	                },
 	            },
@@ -193,15 +193,15 @@ hiddenStatus = $("#hiddenStatus").val();
 	                    		var d = date.getDate();
 	                    		return y+'-'+ (m<10?'0'+m:m) + '-'+ (d<10?'0'+d:d);
 	                    	},
-	                    	onChange:changeEndDate
+                            onChange:changeEndDate
 	                    },
-	                   
+
 	                },
 	            },
 	            {field: 'distanceDay', title: '距到期天数', width: 70, align: 'right',
 	            	formatter:function(value,row,index){
 	            		if($_jxc.isStringNull(value)){
-	            			return '';
+	            			return 0;
 	            		}
 	            		return '<b>'+parseInt(value||0)+'</b>';
 	            	},
@@ -260,52 +260,32 @@ hiddenStatus = $("#hiddenStatus").val();
 	    });
 	}
 
-	//生成日期
-	var proFlag = false;
-	function changeProDate(date,oDate){
-		if(proFlag){
-			proFlag = false;
-			return;
-		}
-		var _expiryDate = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'expiryDate')
-		if(_expiryDate && date && new Date(date) >  new Date(_expiryDate)){
-			$_jxc.alert('生成日期不能大于到期日期')
-			proFlag = true;
-			$(this).datebox('setValue',oDate);
-			return;
-		}
-		
-		gridHandel.setFieldsData({productionDate:date,productionDateStr:date})
-		if(_expiryDate && date)getDistanceDay(date,_expiryDate);
-		
-	}
+//到期日期
+var endFlag = false;
+function changeEndDate(date,oDate){
+    if(endFlag){
+        endFlag = false;
+        return;
+    }
+    var _productionDate = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'productionDate')
+    if(_productionDate && date && new Date(date) <  new Date(_productionDate)){
+        $_jxc.alert('到期日期不能小于生产日期')
+        endFlag = true;
+        $(this).datebox('setValue',oDate);
+        return;
+    }
+    getDistanceDay(date);
+}
 
-	//到期日期
-	var endFlag = false;
-	function changeEndDate(date,oDate){
-		if(endFlag){
-			endFlag = false;
-			return;
-		}
-		var _productionDate = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'productionDate')
-		if(_productionDate && date && new Date(date) <  new Date(_productionDate)){
-			$_jxc.alert('到期日期不能小于生成日期')
-			endFlag = true;
-			$(this).datebox('setValue',oDate);
-			return;
-		}
-		gridHandel.setFieldsData({expiryDate:date,expiryDateStr:date})
-		if(_productionDate && date)getDistanceDay(_productionDate,date);
-	}
+//计算天数
+function getDistanceDay(arg2){
 
-	//计算天数
-	function getDistanceDay(arg1,arg2){
-		
-		var _d = new Date(arg2).getTime() - new Date(arg1).getTime();
-		_d = _d/(60*60*1000*24)+1;//距离天数
-//		gridHandel.setFieldsData({distanceDay:_d})
-		gridHandel.setFieldValue('distanceDay',_d);
-	}
+    var _d = new Date(arg2).getTime() - new Date().getTime();
+    _d = _d/(60*60*1000*24)+1;//距离天数
+//	gridHandel.setFieldsData({distanceDay:_d});
+    gridHandel.setFieldValue('distanceDay',_d);
+
+}
 
 	//限制转换次数
 	var n = 0;
