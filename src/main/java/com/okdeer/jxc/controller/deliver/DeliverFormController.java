@@ -1487,11 +1487,14 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 * @author yangyq02
 	 * @date 2017年9月4日
 	 */
-	@RequestMapping(value = "refuseDeliverForm", method = RequestMethod.GET)
+	@RequestMapping(value = "refuseDeliverForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson refuseDeliverForm(String[] ids) {
+	public RespJson refuseDeliverForm(@RequestBody String[] ids) {
 		RespJson resp = RespJson.success();
 		try {
+			if(ids==null||ids.length==0){
+				return RespJson.error("请选择单据再操作！");
+			}
 			resp = deliverFormServiceApi.refuseDeliverForm(ids,getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("拒收操作失败", e);
