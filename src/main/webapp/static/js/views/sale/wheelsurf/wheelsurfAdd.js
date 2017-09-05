@@ -27,6 +27,16 @@ $(function () {
 
 })
 
+function disabledElement(){
+    $("#beginTime").prop("disabled",true);
+    $("#overTime").prop("disabled",true);
+    $("#validOverTime").prop("disabled",true);
+    $("#wheelsurfName").prop("disabled",true);
+    $("#branchName").prop("disabled",true);
+    $("#formType").combobox({disabled:true});
+    $("#wheelsurfTime").numberbox({disabled:true});
+}
+
 
 function initBranchGroup(){
     $('#branchTemp').branchSelect({
@@ -105,13 +115,7 @@ function initgridAddPosAct() {
                     }
                 }
             },
-            {field:'prizeShortName',title:'奖品简称',width:'200px',align:'left',
-                editor:{
-                    type:'textbox',
-                    options:{
-                        validType:{maxLength:[10]},
-                    }
-                }
+            {field:'prizeShortName',title:'奖品简称',width:'200px',align:'left',editor:'textbox',
             },
             {field:'rowNo',title:'顺序',width:'100px',align:'right',
                 formatter : function(value, row, index) {
@@ -381,7 +385,7 @@ function validform() {
 
     $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
 
-    var rows = gridAddPosActHandle.getRowsWhere({skuId:'1'})
+    var rows = gridAddPosActHandle.getRowsWhere({prizeFullName:'1'})
 
     if(rows.length < 6){
         $_jxc.alert("检测到数据没有完成，请完成");

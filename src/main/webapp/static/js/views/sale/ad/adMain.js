@@ -17,9 +17,23 @@ $(function () {
         StrweekCheckDay($("#displayDay").val());
     }else{
         StrweekCheckDay($("#displayDay").val());
+        disabledElement();
     }
 
 })
+
+function disabledElement(){
+    $("#beginDate").prop("disabled",true);
+    $("#overDate").prop("disabled",true);
+    $("#beginTime").prop("disabled",true);
+    $("#overTime").prop("disabled",true);
+    $("input[name='weekcheckbox']").prop("disabled",true);
+    $("#adName").prop("disabled",true);
+    $("#branchName").prop("disabled",true);
+    $("#remark").prop("disabled",true);
+    $("#intervalTime").numberbox({disabled:true});
+    $("img").removeAttr("onclick");
+}
 
 function adAdd() {
     toAddTab("新增客屏广告",contextPath + "/pos/ad/form/add");
