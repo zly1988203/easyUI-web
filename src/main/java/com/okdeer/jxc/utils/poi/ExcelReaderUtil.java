@@ -300,6 +300,33 @@ public class ExcelReaderUtil {
 		}
 		return Collections.emptyList();
 	}
+	
+	/**
+	 * @Description: 读取xlsx 2007  格式的Excel，并返回List数据
+	 * @param is	InputStream 文件流
+	 * @param fields 标题字段名称
+	 * @param entity 实体类对象	
+	 * @return 实体类列表
+	 * @author liwb
+	 * @date 2016年8月31日
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> List<T> readXlsx(InputStream is, int beginSkip, int endSkip, int[] columns, String[] fields, T entity) {
+		LOG.debug("读取Excel文件, 表头为={}, 实体为={}", Arrays.toString(fields), entity);
+		XSSFWorkbook workbook = null;
+		try {
+			workbook = new XSSFWorkbook(is);
+			JSONArray jArray = readSheet(workbook,beginSkip,endSkip,columns, fields);
+
+			return JSONArray.toList(jArray, entity, new JsonConfig());
+		} catch (IOException e) {
+			LOG.error("读取Excel文件出错:", e);
+		} finally {
+			closeIO(is, workbook);
+		}
+		return Collections.emptyList();
+	}
+	
 
 	/**
 	 * @Description: 读取xlsx 2007  格式的Excel，并返回List JSONObject数据

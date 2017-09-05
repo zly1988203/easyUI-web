@@ -13,9 +13,7 @@
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 	        <div class="ubtns umar-l20 umar-t10">
-	        	<shiro:hasPermission name="JxcPurchaseGuide:nextStep">
-	                <div id="btnNext" class="ubtns-item" onclick="impExcel()">导入</div>
-	            </shiro:hasPermission>
+	            <div id="btnNext" class="ubtns-item" onclick="impExcel()">导入</div>
 	            <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 				<div class="ubtns-item" onclick="toClose()">关闭</div>
 	        </div>
@@ -69,6 +67,11 @@
 	    			</div>
 	    		</div>
 	    	</div>
+	    	<div class="ub ub-ver umar-l20">
+	    		<div class="ub umar-t20">
+	    			<div id="message"></div>
+	    		</div>
+	    	</div>
 	    </form>
 	</div>
 	
@@ -83,12 +86,11 @@
 			var options = {
 			   beforeSubmit: gFunStartLoading,  //提交前的回调函数
 			   success:function(responseText, statusText){
-				   $_jxc.alert(responseText.data);
+				   $("#message").html(responseText.data);
 				   gFunEndLoading();
-			   },     
+			   },
 			   url: contextPath + '/logistic/ediIn/importList',                 //默认是form的action， 如果申明，则会覆盖
-			   type: 'POST',               //默认是form的method（get or post），如果申明，则会覆盖
-			   timeout: 10000               //限制请求的时间，当请求大于10秒后，跳出请求
+			   type: 'POST' //默认是form的method（get or post），如果申明，则会覆盖
 			}
 			$("#impForm").ajaxSubmit(options);
 		}
