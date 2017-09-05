@@ -150,11 +150,7 @@ public class StockReportController extends BaseController<StockReportController>
 		try {
 			// 构建默认参数
 			qo = buildDefaultParams(qo);
-			// 1、列表查询
-//			List<StockReportVo> exportList = stockReportService.queryList(qo);
-			List<StockReportVo> exportList = queryListPartition(qo);
-			
-			// 2、汇总查询
+			// 2、汇总查询(导出的请求分成多次，先求总计，再查明细)
 			StockReportVo footer = stockReportService.queryStockReportSum(qo);
 			if (StringUtils.isBlank(footer.getActual())) {
 				footer.setActual("0.00");
@@ -165,6 +161,10 @@ public class StockReportController extends BaseController<StockReportController>
 			if (StringUtils.isBlank(footer.getSaleAmount())) {
 				footer.setSaleAmount("0.00");
 			}
+			// 1、列表查询
+//			List<StockReportVo> exportList = stockReportService.queryList(qo);
+			List<StockReportVo> exportList = queryListPartition(qo);
+			
 			if (CollectionUtils.isEmpty(exportList)) {
 				exportList = new ArrayList<StockReportVo>();
 			}
