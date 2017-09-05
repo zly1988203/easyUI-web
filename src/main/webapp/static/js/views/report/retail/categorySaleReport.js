@@ -77,6 +77,24 @@ function initDatagridRequire(){
                     return '<b>'+parseInt(value||0)+'</b>';
                 }
             },
+            {field:'skuTotalNum', title: '总销量', width: '80px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return '<b>'+parseInt(value||0)+'</b>';
+            		}
+            		
+            		return '<b>'+parseInt(value||0)+'</b>';
+            	}
+            },
+            {field:'skuAvgNum', title: '日均销量', width: '80px', align: 'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return '<b>'+parseInt(value||0)+'</b>';
+            		}
+            		
+            		return '<b>'+parseInt(value||0)+'</b>';
+            	}
+            },
             {field:'saleRate', title: '销售占比', width: '80px', align: 'right'}
       ]],
       onLoadSuccess:function(data){
