@@ -246,6 +246,11 @@ public class PrintController extends BaseController<PrintController> {
 					}
 				}catch(Exception e){
 					LOG.error("价签打印出现异常：{}",e);
+					try {
+						e.printStackTrace(response.getWriter());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		}
