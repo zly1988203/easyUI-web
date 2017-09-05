@@ -100,8 +100,8 @@
 						<div class="ub ub-ac uw-300">
 							<div class="umar-r10 uw-80 ut-r">配送价格:</div>
 							<select class="uselect easyui-combobox" style="width: 204px;"
-							data-options="editable:false" name="distriPriceType" id="distriPriceType">
-							<c:forEach var="i" items="${distriPriceTypeList }">
+							data-options="editable:false" name="deliverPriceSpec" id="deliverPriceSpec">
+							<c:forEach var="i" items="${deliverPriceSpecList }">
 								<option value="${i.code }" >${i.label }</option>
 							</c:forEach>
 							</select>
@@ -118,8 +118,8 @@
 						<div class="ub ub-ac">
 						<div class="umar-r10 uw-100 ut-r">直送要货价格:</div>
 						<select class="uselect easyui-combobox" style="width: 204px;"
-						data-options="editable:false" name="distriPriceType" id="distriPriceType">
-						<c:forEach var="i" items="${distriPriceTypeList }">
+						data-options="editable:false" name="dyPriceSpec" id="dyPriceSpec">
+						<c:forEach var="i" items="${dyPriceSpecList }">
 							<option value="${i.code }" >${i.label }</option>
 						</c:forEach>
 						</select>
@@ -133,9 +133,9 @@
 						<div class="ub ub-ac uw-300">
 						<div class="umar-r10 uw-80 ut-r">配送中心:</div>
 						<select class="uselect easyui-combobox" style="width: 204px;"
-						data-options="editable:false" name="distriPriceType" id="distriPriceType">
-						<c:forEach var="i" items="${distriPriceTypeList }">
-							<option value="${i.code }" >${i.label }</option>
+						data-options="editable:false" name="dcBranchId" id="dcBranchId">
+						<c:forEach var="i" items="${dcBranchList }">
+							<option value="${i.branchId }" >${i.branchName }</option>
 						</c:forEach>
 						</select>
 
@@ -145,9 +145,9 @@
 						<div class="ub ub-ac uw-340">
 						<div class="umar-r10 uw-100 ut-r">要货商品范围:</div>
 						<select class="uselect easyui-combobox" style="width: 204px;"
-						data-options="editable:false" name="distriPriceType" id="distriPriceType">
-						<c:forEach var="i" items="${distriPriceTypeList }">
-							<option value="${i.code }" >${i.label }</option>
+						data-options="editable:false" name="selectGoodsSpec" id="selectGoodsSpec">
+						<c:forEach var="i" items="${selectGoodsSpecList }">
+							<option value="${i.key }" >${i.value }</option>
 						</c:forEach>
 						</select>
 
@@ -196,7 +196,7 @@
 							<div class="umar-r10 uw-100 ut-r">线下运营状态:</div>
 							<select class="uselect easyui-combobox" style="width: 204px;"
 								data-options="editable:false" name="offlineStatus" id="offlineStatus">
-								<c:forEach var="i" items="${OfflineStatusList }">
+								<c:forEach var="i" items="${offlineStatusList }">
 									<option value="${i.code }" >${i.label }</option>
 				               	</c:forEach>
 							</select>
