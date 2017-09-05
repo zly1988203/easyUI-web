@@ -96,6 +96,9 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
         try {
             vo.setPageNumber(pageNumber);
             vo.setPageSize(pageSize);
+            if(StringUtils.isBlank(vo.getCreateUserId())){
+                vo.setCreateUserId(getCurrUserId());
+            }
             PageUtils<PosAdFormVo> posWheelsurfFormVoPageUtils = this.posAdServiceApi.getPosAdList(vo);
             //return RespJson.success(posWheelsurfFormVoPageUtils);
             return posWheelsurfFormVoPageUtils;
