@@ -143,6 +143,9 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
         try {
             vo.setPageNumber(pageNumber);
             vo.setPageSize(pageSize);
+            if(StringUtils.isBlank(vo.getCreateUserId())){
+                vo.setCreateUserId(getCurrUserId());
+            }
             PageUtils<PosWheelsurfFormVo> posWheelsurfFormVoPageUtils = this.posWheelsurfServiceApi.getPosWheelsurfList(vo);
             //return RespJson.success(posWheelsurfFormVoPageUtils);
             return posWheelsurfFormVoPageUtils;
