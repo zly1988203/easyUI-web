@@ -1,6 +1,27 @@
 $(function () {
     initGridList();
     initConditionParams();
+
+    //机构选择初始化 收货机构
+    $('#targetBranch').branchSelect();
+
+    //操作员组件初始化
+    $('#operateorSelect').operatorSelect({
+        onAfterRender:function(data){
+            branchName = data.branchName;
+            $("#createUserId").val(data.id);
+            $("#createUserName").val(data.name);
+        }
+    });
+
+
+    //供应商组件初始化
+    $('#supplierSelect').supplierSelect({
+        loadFilter:function(data){
+            data.supplierId = data.id;
+            return data;
+        }
+    })
 })
 //初始化默认条件
 function initConditionParams(){

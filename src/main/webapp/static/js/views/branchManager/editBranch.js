@@ -49,13 +49,36 @@ function getBranchInfo(){
             }
             else if($("#formEdit #"+key).prop("tagName") == "SELECT"){
                 if(value != undefined && typeof (value) != "undefined"){
-
-
-
                     if(key=="offlineStatus"){
                         var data = $('#formEdit #offlineStatus').combobox('getData');
                         if (data.length > 0) {
                             $('#formEdit #offlineStatus').combobox('select', value.toString());
+                        }
+                    }
+
+                    if(key=="deliverPriceSpec"){
+                        var data = $('#formEdit #deliverPriceSpec').combobox('getData');
+                        if (data.length > 0) {
+                            $('#formEdit #deliverPriceSpec').combobox('select', value.toString());
+                        }
+                    }
+                    if(key=="dyPriceSpec"){
+                        var data = $('#formEdit #dyPriceSpec').combobox('getData');
+                        if (data.length > 0) {
+                            $('#formEdit #dyPriceSpec').combobox('select', value.toString());
+                        }
+                    }
+                    if(key=="dcBranchId"){
+                        var data = $('#formEdit #dcBranchId').combobox('getData');
+                        if (data.length > 0) {
+                            $('#formEdit #dcBranchId').combobox('select', value.toString());
+                        }
+                    }
+
+                    if(key=="selectGoodsSpec"){
+                        var data = $('#formEdit #selectGoodsSpec').combobox('getData');
+                        if (data.length > 0) {
+                            $('#formEdit #selectGoodsSpec').combobox('select', value.toString());
                         }
                     }
 
