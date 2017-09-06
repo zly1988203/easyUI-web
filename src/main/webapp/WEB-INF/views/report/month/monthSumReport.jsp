@@ -48,7 +48,7 @@
 				</div>
 				<div class="ub ub-ac uw-300 umar-l20">
 					<div class="umar-r10 uw-70 ut-r">条码/货号:</div>
-					<input class="uinp" type="text" name="skuCode" id="skuCode"/>
+					<input class="uinp" type="text" name="skuCodeOrBarCode" id="skuCodeOrBarCode"/>
 				</div>
 			</div>
 	    </form>
@@ -104,13 +104,13 @@
 	
 		//查询
 		function queryForm(){
-			if($("#branchName").val()=="" && $("#skuCode").val()=="" ){
+			if($("#branchName").val()=="" && $("#skuCodeOrBarCode").val()=="" ){
 		        $_jxc.alert("请选择机构或输入条码");
 		        return;
 		    } 
 			var fromObjStr = $('#queryForm').serializeObject();
 			$("#"+datagridId).datagrid("options").method = "post";
-			$("#"+datagridId).datagrid('options').url = contextPath + '/report/month/list';
+			$("#"+datagridId).datagrid('options').url = contextPath + '/report/month/getData';
 			$("#"+datagridId).datagrid('load', fromObjStr);
 		}
 	
@@ -182,7 +182,7 @@
 					}
 				}
 			});
-			$("#queryForm").attr("action",contextPath+"/report/month/export/list");
+			$("#queryForm").attr("action",contextPath+"/report/month/export");
 			
 			$("#queryForm").submit();
 		}
