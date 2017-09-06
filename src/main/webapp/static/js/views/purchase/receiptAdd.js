@@ -648,6 +648,14 @@ function saveItemHandel(){
             isChcekNum = true;
             return false;
         }
+
+        var _realNum = parseFloat(v["largeNum"] * v["purchaseSpec"]).toFixed(4);
+        if(_realNum != v["realNum"]){
+            $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
+            isCheckResult = false;
+            isChcekNum = true;
+            return false;
+        }
         
         // if(dateUtil.compareDate(v['goodsCreateDate'],v['goodsExpiryDate'])){
         //     $_jxc.alert("第"+(i+1)+"行，生产日期不能大于有效日期");
