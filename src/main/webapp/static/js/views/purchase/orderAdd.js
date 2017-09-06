@@ -129,7 +129,7 @@ function initDatagridEditOrder(){
                     }
                     
                     if(!value){
-                        row["largeNum"] = parseFloat(value||0).toFixed(2);
+                        row["largeNum"] = parseFloat(value||0).toFixed(4);
                     }
                     
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -172,9 +172,9 @@ function initDatagridEditOrder(){
                         return;
                     }
                     if(!row.price){
-                    	row.price = parseFloat(value||0).toFixed(4);
+                    	row.price = parseFloat(value||0).toFixed(2);
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
                 editor:{
                     type:'numberbox',
@@ -309,8 +309,12 @@ function initDatagridEditOrder(){
             }else{
                 gridHandel.setSelectFieldName("skuCode");
             }
+
+
         },
+
         onBeforeEdit:function (rowIndex, rowData) {
+
             editRowData = $.extend(true,{},rowData);
         },
         onAfterEdit:function(rowIndex, rowData, changes){
@@ -421,12 +425,6 @@ function onChangeLargeNum(newV,oldV){
     gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4));
     
     gridHandel.setFieldValue('realNum',newRealNum);//数量=商品规格*箱数
-    
-//    var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
-//    var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
-//    if(Math.abs(realNumVal2-realNumVal)>0.0001){
-//        gridHandel.setFieldValue('realNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数
-//    }
 
     updateFooter();
 }
@@ -463,16 +461,7 @@ function onChangeRealNum(newV,oldV) {
     var tempNum = parseFloat(newV)/parseFloat(purchaseSpecValue);
     gridHandel.setFieldValue('largeNum',tempNum.toFixed(4));   //箱数=数量/商品规格
     gridHandel.setFieldsData({tmpLargeNum:tempNum}); // 保留除法值   防止toFixed(4) 四舍五入做乘法时比原值大的问题
-    
-//    var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
-//    var largeNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
-//    if(Math.abs(largeNumVal2-largeNumVal)>0.0001){
-//        var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
-//        gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
-//    }
-    /*var largeNumVal = parseFloat(newV/purchaseSpecValue);
-    gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格*/
-    
+
     updateFooter();
 }
 //监听商品单价
@@ -724,6 +713,14 @@ function saveItemHandel(){
         //数量判断 bug 19886
         if(parseFloat(v["realNum"])<=0){
         	$_jxc.alert("第"+(i+1)+"行，数量要大于0");
+            isCheckResult = false;
+            isChcekNum = true;
+            return false;
+        }
+
+        var _realNum = parseFloat(v["largeNum"] * v["purchaseSpec"]).toFixed(4);
+        if(_realNum != v["realNum"]){
+            $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
             isCheckResult = false;
             isChcekNum = true;
             return false;
