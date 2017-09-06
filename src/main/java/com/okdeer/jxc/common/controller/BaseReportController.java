@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.PriceGrantUtil;
-import com.okdeer.retail.common.entity.colsetting.GridColumn;
 import com.okdeer.retail.common.page.EasyUIPageInfo;
 import com.okdeer.retail.common.price.DataAccessParser;
 import com.okdeer.retail.common.util.GridExportPrintUtils;
-import com.okdeer.retail.common.util.JacksonUtil;
 import com.okdeer.retail.facade.report.facade.BaseReportFacade;
 import com.okdeer.retail.facade.report.qo.BaseReportQo;
 import com.okdeer.retail.facade.report.vo.DaySumReportVo;
@@ -104,7 +102,7 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 
 		// 所有列
 		String columns = GridExportPrintUtils.getAccessGridColumnsJson(getViewObjectClass(),
-				forbiddenSets);
+				forbiddenSets, (Integer) model.asMap().get("reportType"));
 		model.addAttribute("columns", columns);
 
 		return getViewName();
@@ -164,7 +162,7 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 			forbiddenSets = parser.getAllForbiddenSets();
 
 			// 导出
-			GridExportPrintUtils.exportAccessExcel(DaySumReportVo.class, exportList, forbiddenSets, response);
+			GridExportPrintUtils.exportAccessExcel(DaySumReportVo.class, exportList, forbiddenSets, response, qo.getReportType());
 		} catch (Exception e) {
 			LOG.error("导出日销售列表信息异常:{}", e);
 			resp = RespJson.error("导出日进销存报表异常");
