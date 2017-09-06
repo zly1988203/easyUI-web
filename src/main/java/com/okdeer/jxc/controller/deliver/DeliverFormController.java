@@ -275,6 +275,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			// 需求修改，点击要货单生成出库单，将要货单id传入
 			if (!StringUtils.isEmpty(vo.getDeliverFormId())) {
 				model.addAttribute("referenceId", vo.getDeliverFormId());
+				model.addAttribute("refFormType", vo.getRefDeliverType());
 			}
 			return "form/deliver/DoAdd";
 		} else if (FormType.DR.toString().equals(deliverType)) { // 退货申请
