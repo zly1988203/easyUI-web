@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -81,13 +80,11 @@ public class DeliverAndStockReportController extends BaseController<PurchaseRepo
             }
 
             PageUtils<DeliverAndStockReportVo> list = purchaseReportService.getDelAndStoReportPageList(qo);
-            if(list !=null && CollectionUtils.isNotEmpty(list.getList())){
-                // 2、查询合计
-                DeliverAndStockReportVo vo = purchaseReportService.getDelAndStoReportListSum(qo);
-                List<DeliverAndStockReportVo> footer = new ArrayList<>();
-                footer.add(vo);
-                list.setFooter(footer);
-            }
+            // 2、查询合计
+            DeliverAndStockReportVo vo = purchaseReportService.getDelAndStoReportListSum(qo);
+            List<DeliverAndStockReportVo> footer = new ArrayList<>();
+            footer.add(vo);
+            list.setFooter(footer);
             // 过滤数据权限字段
             cleanAccessData(list);
             return list;
