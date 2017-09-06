@@ -73,6 +73,15 @@ function initDatagridSaleReturnList() {
 						{field: 'dealStatus', title: '单据状态', width: '100px', align: 'center'},
 						{field: 'sourceBranchName', title: '退货机构', width: '200px', align: 'left'},
 						{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
+						{field: 'referenceNo', title: '出货单号', width: '140px', align: 'left',
+							formatter:function(value,row,index){
+								if(value){
+									var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'出库单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&deliverType=DO\')">' + value + '</a>';
+									return strHtml;
+								}else{
+									return value;
+								}
+							}},
 						{field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},
 						{field: 'createTime', title: '制单时间', width: '120px', align: 'center',
 							formatter: function (value, row, index) {

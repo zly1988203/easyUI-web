@@ -122,6 +122,7 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 	public String deliverEdit(QueryDeliverFormVo vo, String report, Model model) {
 		model.addAttribute("type", vo.getFormSources());
 		vo.setFormSources("");
+		vo.setDeliverType(null);
 		DeliverForm form = queryDeliverFormServiceApi.queryEntity(vo);
 		model.addAttribute("form", form);
 		// 返回状态
@@ -165,9 +166,6 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if (StringUtils.isEmpty(vo.getTargetBranchId())) {
-				vo.setTargetBranchCompleteCode(UserUtil.getCurrBranchCompleCode());
-			}
 			if (StringUtils.isEmpty(vo.getCheckboxTime())) {
 				vo.setTempEndTime(null);
 			} else {
@@ -182,6 +180,10 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 				} else {
 					vo.setSourceBranchId(null);
 				}
+			}else {
+				if ("DA".equals(vo.getDeliverType()) || "DY".equals(vo.getDeliverType())){
+					vo.setSourceBranchId(UserUtil.getCurrBranchId());
+				}
 			}
 
 			if (StringUtils.isNotEmpty(targetBranchName)) {
@@ -189,6 +191,10 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 					vo.setTargetBranchName(null);
 				} else {
 					vo.setTargetBranchId(null);
+				}
+			}else {
+				if ("DR".equals(vo.getDeliverType())){
+					vo.setTargetBranchId(UserUtil.getCurrBranchId());
 				}
 			}
 			PageUtils<DeliverForm> deliverForms = queryDeliverFormServiceApi.queryFormLists(vo);
@@ -219,9 +225,6 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if (StringUtils.isEmpty(vo.getTargetBranchId())) {
-				vo.setTargetBranchCompleteCode(UserUtil.getCurrBranchCompleCode());
-			}
 			if (StringUtils.isEmpty(vo.getCheckboxTime())) {
 				vo.setTempEndTime(null);
 			} else {
@@ -243,6 +246,10 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 					vo.setTargetBranchName(null);
 				} else {
 					vo.setTargetBranchId(null);
+				}
+			} else {
+				if ("DB".equals(vo.getDeliverType())){
+					vo.setTargetBranchId(UserUtil.getCurrBranchId());
 				}
 			}
 			PageUtils<Map<String, Object>> deliverForms = queryDeliverFormServiceApi.queryFormListsDB(vo);
