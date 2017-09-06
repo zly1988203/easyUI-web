@@ -22,6 +22,8 @@ function  initGridList() {
         fitColumns:true,    //每列占满
         //fit:true,            //占满
         showFooter:true,
+        pageSize : 50,
+        pageList : [20,50,100],//可以设置每页记录条数的列表
         height:'100%',
         width:'100%',
         columns:[[
@@ -38,7 +40,7 @@ function  initGridList() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'amount',title:'采购金额',width:'80px',align:'right',
+            {field:'oldPurAmount',title:'采购金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -46,7 +48,7 @@ function  initGridList() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'amount',title:'调整后金额',width:'80px',align:'right',
+            {field:'newPurAmount',title:'调整后金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -54,7 +56,7 @@ function  initGridList() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'amount',title:'调整金额',width:'80px',align:'right',
+            {field:'diffMoney',title:'调整金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -62,7 +64,7 @@ function  initGridList() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'price',title:'原成本价',width:'80px',align:'right',
+            {field:'costPrice',title:'原成本价',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return ;
@@ -70,7 +72,7 @@ function  initGridList() {
                     return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
                 },
             },
-            {field:'price',title:'新成本价',width:'80px',align:'right',
+            {field:'newCostPrice',title:'新成本价',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return ;
@@ -79,7 +81,7 @@ function  initGridList() {
                 },
             },
 
-            {field:'realNum',title:'调价时库存',width:'80px',align:'right',
+            {field:'actual',title:'调价时库存',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -92,7 +94,7 @@ function  initGridList() {
                 var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购详细\',\''+contextPath+'/form/purchase/orderEdit?formId='+row.id+'\')">' + value + '</a>';
                 return strHtml;
             }},
-            {field:'formNo',title:'引用单编号',width:'140px',align:'left',formatter:function(value,row,index){
+            {field:'refFormNo',title:'引用单编号',width:'140px',align:'left',formatter:function(value,row,index){
                 var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购详细\',\''+contextPath+'/form/purchase/orderEdit?formId='+row.id+'\')">' + value + '</a>';
                 return strHtml;
             }},
@@ -100,13 +102,7 @@ function  initGridList() {
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'60px',align:'left'},
             {field:'validUserName',title:'审核人',width:'130px',align:'left'},
-            {field:'createTime',title:'审核时间',width:'150px',align:'center',
-                formatter: function (value, row, index) {
-                if (value) {
-                    return new Date(value).format('yyyy-MM-dd hh:mm');
-                }
-                return "";
-            }},
+            {field:'validTimeStr',title:'审核时间',width:'150px',align:'center'},
             {field:'remark',title:'备注',width:'200px',align:'left'}
         ]],
         onLoadSuccess : function() {
@@ -119,7 +115,7 @@ function  initGridList() {
 function query(){
     $("#"+gridListId).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridListId).datagrid("options").method = "post";
-    $("#"+gridListId).datagrid("options").url = contextPath+'/form/purchase/listData';
+    $("#"+gridListId).datagrid("options").url = contextPath+'/report/purchase/cost/form/list';
     $("#"+gridListId).datagrid("load");
 }
 
@@ -149,6 +145,6 @@ function exportExcel(){
 
         }
     });
-    $("#formList").attr("action",contextPath+"/logisticsSupplier/exportHandel");
+    $("#formList").attr("action",contextPath+"/report/purchase/cost/form/export/list");
     $("#formList").submit();
 }
