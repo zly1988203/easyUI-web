@@ -9,7 +9,7 @@
 <title>采购成本调价单-新增</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="/static/js/views/purchase/orderAdd.js?V="></script>
+<script src="${ctx}/static/js/views/purchase/cost/costMain.js?V=${versionNo}"></script>
 
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
@@ -41,7 +41,7 @@
 					<div class="ub ub-ac umar-r80">
 					<div class="umar-r10 uw-60 ut-r">收货机构:</div>
 					<input class="uinp" name="branchId" id="branchId" type="hidden">
-					<input id="branchName" class="uinp" readonly="readonly" type="text">
+					<input id="branchName" class="uinp" readonly="readonly" type="text" disabled>
 
 					</div>
 
@@ -59,13 +59,13 @@
 				<div class="ub ub-ac umar-r80">
 				<div class="umar-r10 uw-60 ut-r">供应商:</div>
 				<input class="uinp" name="supplierId" id="supplierId"type="hidden">
-				<input class="uinp" readonly="readonly" id="supplierName" type="text">
+				<input class="uinp" readonly="readonly" id="supplierName" type="text" disabled>
 				</div>
 
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">经营方式:</div>
 						 <input class="uinp" id="operateUserName"
-							type="text" readonly="readonly">
+							type="text" readonly="readonly" disabled>
 					</div>
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">修改人员:</div>
@@ -77,7 +77,7 @@
 					</div>
 				</div>
 				<div class="ub umar-t8">
-					<div class="ub ub-ac uw-610" style="width: 624px;">
+					<div class="ub ub-ac uw-624 umar-r80">
 						<div class="umar-r10 uw-60 ut-r">备注:</div>
 						<input class="uinp ub ub-f1" name="remark" id="remark" type="text"
 							onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
@@ -99,7 +99,7 @@
 			</div>
 		</form>
 		<div class="ub uw umar-t8 ub-f1">
-			<table id="gridEditOrder"></table>
+			<table id="gridCost"></table>
 		</div>
 	</div>
 

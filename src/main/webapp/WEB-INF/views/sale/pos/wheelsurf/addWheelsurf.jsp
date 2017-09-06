@@ -10,7 +10,7 @@
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
-	<script src="${ctx}/static/js/views/sale/wheelsurf/wheelsurfAdd.js?V=${versionNo}3"></script>
+	<script src="${ctx}/static/js/views/sale/wheelsurf/wheelsurfAdd.js?V=${versionNo}2"></script>
 	<style>
 	.datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -118,9 +118,9 @@
 			</div>
 		</form>
 
-		<form id="gridAddForm" class="ub uw umar-t8 ub-f1">
+		<div id="gridAddForm" class="ub uw umar-t8 ub-f1">
 			<table id="gridAddPosAct"></table>
-		</form>
+		</div>
 	</div>
 
 </body>
