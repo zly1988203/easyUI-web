@@ -84,9 +84,9 @@
                    <div class="umar-r10 uw-70 ut-r">引用单号:</div>
                    <div class="ub">
                        <input type="hidden" id="referenceId" name="referenceId" value="${referenceId}" />
-                       <input type="hidden" id="refFormType" />
-                       <input type="hidden" id="formId" />
-                       <input type="hidden" id="formNo" />
+                       <input type="hidden" id="refFormType"  value="${refFormType}" />
+                       <input type="hidden" id="formId" value="${referenceId}"/>
+                       <input type="hidden" id="formNo" value="${refFormNo}"/>
                        <input class="uinp ub ub-f1" type="text" id="referenceNo" name="referenceNo" onclick="selectDeliver()" readonly="readonly"/>
                        <div class="uinp-more" onclick="selectDeliver()">...</div>
                    </div>
