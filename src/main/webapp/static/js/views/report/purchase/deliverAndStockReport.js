@@ -9,7 +9,11 @@ $(function() {
 	initPurReportDetailGrid();
 	
 	//机构选择初始化
-	$('#branchComponent').branchSelect();
+	$('#branchComponent').branchSelect({
+		param:{
+			branchTypesStr:$_jxc.branchTypeEnum.LOGISTICS + ',' + $_jxc.branchTypeEnum.BRANCH_COMPANY
+		}
+	});
 	
 	//供应商选择初始化
 	$('#supplierComponent').supplierSelect({
@@ -61,7 +65,7 @@ function initPurReportDetailGrid(queryType) {
             {field: 'branchCode', title: '机构编号', width: 85, align: 'left',
             	formatter : function(value, row,index) {
                     var str = value;
-                    if(row.isFooter){
+                    if($_jxc.isStringNull(str)){
                         str ='<div class="ub ub-pc ufw-b">合计</div> '
                     }
                     return str;

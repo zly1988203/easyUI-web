@@ -87,13 +87,11 @@ public class DgStockAnalysisController extends BaseController<PurchaseReportCont
             }
 
             PageUtils<DgStockAnalysisVo> list = purchaseReportService.getDgStockAnalysisPageList(qo);
-            if(list !=null && CollectionUtils.isNotEmpty(list.getList())){
-                // 2、查询合计
-                DgStockAnalysisVo vo = purchaseReportService.getDgStockAnalysisListSum(qo);
-                List<DgStockAnalysisVo> footer = new ArrayList<>();
-                footer.add(vo);
-                list.setFooter(footer);
-            }
+            // 2、查询合计
+            DgStockAnalysisVo vo = purchaseReportService.getDgStockAnalysisListSum(qo);
+            List<DgStockAnalysisVo> footer = new ArrayList<>();
+            footer.add(vo);
+            list.setFooter(footer);
             // 过滤数据权限字段
             cleanAccessData(list);
             return list;
