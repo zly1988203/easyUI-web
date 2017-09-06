@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+    <%@ page language="java" contentType="text/html; charset=UTF-8"
+             pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
@@ -8,13 +9,12 @@
     <title>采购成本调价单列表</title>
 
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
     <script src="${ctx}/static/js/views/purchase/cost/costList.js?V=${versionNo}"></script>
     <style>
-        .datagrid-header-row .datagrid-cell {
-            text-align: center !important;
-        }
+    .datagrid-header-row .datagrid-cell {
+    text-align: center !important;
+        font-weight: bold;
+    }
     </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -42,7 +42,7 @@
         </div>
 
         <div class="ub umar-t8">
-            <div class="ub ub-ac umar-r40">
+            <div class="ub ub-ac umar-r40" id="targetBranch">
                 <div class="umar-r10 uw-60 ut-r">收货机构:</div>
                 <input class="uinp ub ub-f1" type="hidden" id="branchId"
                        name="branchId">
@@ -54,7 +54,7 @@
                 <div class="umar-r10 uw-60 ut-r">单据编号:</div>
                 <input class="uinp" name="formNo" id="formNo" type="text">
             </div>
-            <div class="ub ub-ac umar-r40">
+            <div class="ub ub-ac umar-r40" id="operateorSelect">
                 <div class="umar-r10 uw-60 ut-r">制单人:</div>
                 <input class="uinp" name="createUserId" id="createUserId" type="hidden">
                 <input class="uinp" id="createUserName" name="createUserName"
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="ub umar-t8">
-            <div class="ub ub-ac umar-r40">
+            <div class="ub ub-ac umar-r40" id="supplierSelect">
                 <div class="umar-r10 uw-60 ut-r">供应商:</div>
                 <input class="uinp" name="supplierId" id="supplierId"type="hidden">
                 <input class="uinp ub ub-f1" id="supplierName" type="text">
