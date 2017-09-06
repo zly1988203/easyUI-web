@@ -23,6 +23,7 @@ $(function () {
         $_jxc.ajax({url:contextPath+"/pos/wheelsurf/form/edit/detail/"+$("#formId").val()},function (data) {
             $("#gridAddPosAct").datagrid("loadData",data.detail);
         });
+        disabledElement();
     }
 
 })
@@ -380,6 +381,12 @@ function validform() {
     var actName = $("#wheelsurfName").val();
     if(!actName){
         $_jxc.alert("请填写活动名称");
+        return false;
+    }
+
+    var wheelsurfTime = $("#wheelsurfTime").val();
+    if(!wheelsurfTime){
+        $_jxc.alert("请填写抽奖次数");
         return false;
     }
 
