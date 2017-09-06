@@ -141,7 +141,6 @@ public class BranchCommonController extends BaseController<BranchCommonControlle
 			} else {
 				suppliers = branchesService.queryLists(vo);
 			}
-			LOG.debug("机构列表：{}", suppliers);
 			return suppliers;
 		} catch (Exception e) {
 			LOG.error("查询机构异常:", e);

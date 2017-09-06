@@ -655,20 +655,24 @@ public interface ExportExcelConstant {
 	 */
 	String MONTHLY_REPORT = "MonthlyReport.xlsx";
 
-	/**
-	 * @Fields ACTIVITY_DETAIL_QUERY_FOR_GOODS : 商品促销方案详情
-	 */
+	/** 商品促销方案详情   */
 	String ACTIVITY_DETAIL_QUERY_FOR_GOODS = "activityDetailQueryForGoods.xlsx";
 
-	/**
-	 * @Fields ACTIVITY_DETAIL_QUERY_FOR_CATEGORY : 类别促销方案详情
-	 */
+	/*** 类别促销方案详情 */
 	String ACTIVITY_DETAIL_QUERY_FOR_CATEGORY = "activityDetailQueryForCategory.xlsx";
 
-	/**
-	 * @Fields ACTIVITY_DETAIL_QUERY_FOR_FULLREDUCTION : 满减促销方案详情
-	 */
+	/*** 满减促销方案详情 */
 	String ACTIVITY_DETAIL_QUERY_FOR_FULLREDUCTION = "activityDetailQueryForFullReduction.xlsx";
+	
+	/*** 商品买满送促销方案详情 */
+	String ACTIVITY_DETAIL_QUERY_FOR_FULLGIVE_GOODS = "activityDetailQueryForFullGiveGoods.xlsx";
+	
+	/*** 类别买满送促销方案详情 */
+	String ACTIVITY_DETAIL_QUERY_FOR_FULLGIVE_CATEGORY = "activityDetailQueryForFullGiveCategory.xlsx";
+	
+	/*** 类别买满送促销方案详情 */
+	String ACTIVITY_DETAIL_QUERY_FOR_FULLGIVE_ALL = "activityDetailQueryForFullGiveAll.xlsx";
+	
 	
 	/**
 	 * @Fields STOCK_TAKING_MISS_GOODS : 盘点明细

@@ -82,6 +82,9 @@
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="queryType" id="cx_status_3" value="fullReduction"><label for="cx_status_3">满减促销</label>
 					</div>
+					<div class="ub ub-ac umar-r10">
+						<input class="radioItem" type="radio" name="queryType" id="cx_status_4" value="fullGive"><label for="cx_status_4">买满送</label>
+					</div>
 				</div>
 			</div>
        	</form>

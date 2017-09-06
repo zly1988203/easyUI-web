@@ -86,7 +86,27 @@ public class ActivityDetailQueryController extends ReportController {
 			} else if ("fullReduction".equals(queryType)) {// 满减促销
 				reportFileName = "满减促销明细查询" + timeStr;
 				templateName = ExportExcelConstant.ACTIVITY_DETAIL_QUERY_FOR_FULLREDUCTION;
-
+			} else if ("fullGive".equals(queryType)) {// 买满送
+				
+				String fullGiveScope = map.containsKey("fullGiveScope") ? map.get("fullGiveScope").toString() : null;
+				if (StringUtils.isBlank(fullGiveScope)) {
+					throw new BusinessException("系统错误，买满送类型为空");
+				}
+				
+				switch(fullGiveScope){
+					case "0":
+						reportFileName = "商品买满送促销明细查询" + timeStr;
+						templateName = ExportExcelConstant.ACTIVITY_DETAIL_QUERY_FOR_FULLGIVE_GOODS; 
+						break;
+					case "1":
+						reportFileName = "类别买满送促销明细查询" + timeStr;
+						templateName = ExportExcelConstant.ACTIVITY_DETAIL_QUERY_FOR_FULLGIVE_CATEGORY; 
+						break;
+					case "2":
+						reportFileName = "全场买满送促销明细查询" + timeStr;
+						templateName = ExportExcelConstant.ACTIVITY_DETAIL_QUERY_FOR_FULLGIVE_ALL; 
+						break;
+				}
 			}
 
 			// 模板名称，包括后缀名

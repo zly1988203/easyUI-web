@@ -42,7 +42,7 @@
 						<label for="isAllowDaAuditSort1">启用</label>
 					</div>
 				</div>
-				<div class="ub ub-ac upad-16 ">
+				<!-- <div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r">加盟店要货配送取价值:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="storesPriceSpec0" name="storesPriceSpec" value="0" />
@@ -108,7 +108,7 @@
 						<input class="ub" type="radio" id="dyPriceSpec1" name="dyPriceSpec" value="1" />
 						<label for="dyPriceSpec1">发货机构配送价</label>
 					</div>
-				</div>
+				</div> -->
 				<div class="ub ub-ac upad-16 ">
 					<div class="ub uw-220 ut-r ">允许直送收货单不引用单据收货:</div>
 					<div class="ub ub-ac umar-r10">
@@ -247,15 +247,15 @@
 	//初始页面
 	function init(data){
 		var branchId = data.branchId;
-		var priceSpec = data.priceSpec;
+		/* var priceSpec = data.priceSpec;
 		var dyPriceSpec = data.dyPriceSpec;
 		var selectGoodsSpec = data.selectGoodsSpec;
+		var storesPriceSpec= data.storesPriceSpec;
+		var storeSelectGoodsSpec= data.storeSelectGoodsSpec; */
 		var isMinAmount = data.isMinAmount;
 		var minAmount = data.minAmount || 0;
 		var validityDay= data.validityDay;
 		var dosheetTemplate= data.dosheetTemplate;
-		var storesPriceSpec= data.storesPriceSpec;
-		var storeSelectGoodsSpec= data.storeSelectGoodsSpec;
 		var isAllowPmRefPa= data.isAllowPmRefPa;
 		var isAllowPmGenerPa= data.isAllowPmGenerPa;
 		var isAllowDoGenerDa= data.isAllowDoGenerDa;
@@ -264,7 +264,8 @@
 		//页面赋值
 		$("#branchId").val(branchId);
 		$("#validityDay").numberbox("setValue",validityDay);
-		if (priceSpec === null || priceSpec === '0' || priceSpec === '') {
+		
+		/* if (priceSpec === null || priceSpec === '0' || priceSpec === '') {
 			$("#priceSpec0").attr("checked", "true");
 		} else if (priceSpec === '1') {
 			$("#priceSpec1").attr("checked", "true");
@@ -298,7 +299,7 @@
 			$("#storeSelectGoodsSpec0").attr("checked", "true");
 		} else {
 			$("#storeSelectGoodsSpec1").attr("checked", "true");
-		}
+		} */
 		
 		if (isAllowPmRefPa === null || isAllowPmRefPa === 0 || isAllowPmRefPa === '') {
 			$("#isAllowPmRefPa0").attr("checked", "true");

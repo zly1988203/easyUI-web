@@ -372,6 +372,7 @@ function initDatagridRequireOrder(){
                         textField: 'text',
                         editable:false,
                         required:true,
+                        readonly:deliverPriceSpecFlg,
                         data: [{
                             "id":'1',
                             "text":"是",
@@ -1295,6 +1296,7 @@ function getSourceMinAmount(sourceMinAmount){
 /**
  * 发货机构
  */
+var deliverPriceSpecFlg = false; 
 function selectSourceBranch(){
 	var targetBranchType = $("#targetBranchType").val();
 	if(targetBranchType != '0'){
@@ -1303,10 +1305,16 @@ function selectSourceBranch(){
                 $("#sourceBranchId").val(data.branchesId);
                 //$("#sourceBranchName").val(data.branchName);
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
-                gridHandel.setLoadData([$.extend({},gridDefault)]);
+                
                 //alert(data.stockMinAmount);
                 // 刷新起订金额
                 getSourceMinAmount(data.stockMinAmount);
+                
+                deliverPriceSpecFlg = data.deliverPriceSpec == 3 ? true : false;
+                
+                initDatagridRequireOrder();
+                
+                gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
         },'DZ',$("#targetBranchId").val(),'',1);
 	} else {
@@ -1315,14 +1323,21 @@ function selectSourceBranch(){
                 $("#sourceBranchId").val(data.branchesId);
                 //$("#sourceBranchName").val(data.branchName);
                 $("#sourceBranchName").val("["+data.branchCode+"]"+data.branchName);
-                gridHandel.setLoadData([$.extend({},gridDefault)]);
+                
                 //alert(data.stockMinAmount);
                 // 刷新起订金额
                 getSourceMinAmount(data.stockMinAmount);
+                
+                deliverPriceSpecFlg = data.deliverPriceSpec == 3 ? true : false;
+                
+                initDatagridRequireOrder();
+                
+                gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
         },'DA',$("#targetBranchId").val(),'',1);
     }
 }
+
 
 //新的导入功能 货号(0)、条码(1)导入
 function toImportproduct(type){
