@@ -320,7 +320,7 @@ public class BaseController<T> {
 	 * @param datas 要过滤的vo对象
 	 */
 	protected void cleanAccessData(List<? extends Object> datas) {
-	    if(CollectionUtils.isEmpty(datas)){
+	    if(CollectionUtils.isEmpty(datas)||datas.get(0)==null){
 	        return;
 	    }
 	    Object obj = datas.get(0);
