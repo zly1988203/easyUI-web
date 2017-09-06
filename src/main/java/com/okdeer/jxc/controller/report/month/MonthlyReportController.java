@@ -54,7 +54,7 @@ import com.okdeer.jxc.report.vo.MonthlyReportVo;
  *              	2017年3月30日		  songwj		 
  */
 @RestController
-@RequestMapping("report/month")
+@RequestMapping("report/month_old")
 public class MonthlyReportController extends BaseController<MonthlyReportController> {
 
 	/**

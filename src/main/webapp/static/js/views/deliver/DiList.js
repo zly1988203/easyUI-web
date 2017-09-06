@@ -103,7 +103,7 @@ function initDatagridRequireOrdersDO(){
 		queryParams:fromObjStr,
 		url:contextPath + tempURL,
         //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect:false,  //单选  false多选
+        singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         fitColumns:true,    //每列占满
@@ -414,7 +414,7 @@ function refuseDeliverForm(){
 		    	data:JSON.stringify(ids)
 		    },function(result){
 	    		if(result['code'] == 0){
-	    			$_jxc.alert("删除成功");
+	    			$_jxc.alert("拒收操作成功");
 	    			dg.datagrid('reload');
 	    		}else{
 	    			$_jxc.alert(result['message']);
