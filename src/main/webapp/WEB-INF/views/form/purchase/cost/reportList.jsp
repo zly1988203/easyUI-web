@@ -26,7 +26,7 @@
                     <div class="ubtns-item" onclick="query()">查询</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="purchaseCostFormQuery:export">
-                    <div class="ubtns-item" onclick="exportExel()">导出</div>
+                    <div class="ubtns-item" onclick="exportData()">导出</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>

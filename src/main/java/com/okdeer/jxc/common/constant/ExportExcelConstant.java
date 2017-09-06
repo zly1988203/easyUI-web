@@ -820,4 +820,9 @@ public interface ExportExcelConstant {
 	 * 会员活动领取记录详情
 	 */
 	String POS_PRIZE_RECORD_DETAIL = "posPrizeRecordDetail.xlsx";
+
+	/**
+	 * 采购成本调整查询
+	 */
+	String PURCHASE_COST_FORM = "purchaseCostForm.xlsx";
 }
