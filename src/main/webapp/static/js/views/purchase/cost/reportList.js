@@ -27,7 +27,8 @@ function  initGridList() {
         height:'100%',
         width:'100%',
         columns:[[
-
+            {field:'id',title:'id',width:'85px',align:'left',hidden:true},
+            {field:'refId',title:'refId',width:'85px',align:'left',hidden:true},
             {field:'branchName',title:'机构名称',width:'140px',align:'left'},
             {field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
@@ -91,11 +92,11 @@ function  initGridList() {
             },
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
             {field:'formNo',title:'调价单编号',width:'140px',align:'left',formatter:function(value,row,index){
-                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购详细\',\''+contextPath+'/form/purchase/orderEdit?formId='+row.id+'\')">' + value + '</a>';
+                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购成本调整详细\',\''+contextPath+'/form/purchase/cost/form/edit/'+row.id+'\')">' + value + '</a>';
                 return strHtml;
             }},
             {field:'refFormNo',title:'引用单编号',width:'140px',align:'left',formatter:function(value,row,index){
-                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购详细\',\''+contextPath+'/form/purchase/orderEdit?formId='+row.id+'\')">' + value + '</a>';
+                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购收货单详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.refId+'\')">' + value + '</a>';
                 return strHtml;
             }},
 

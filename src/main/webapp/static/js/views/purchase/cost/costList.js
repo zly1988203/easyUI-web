@@ -25,6 +25,8 @@ function  initGridList() {
         height:'100%',
         width:'100%',
         columns:[[
+            {field:'id',title:'id',width:'85px',align:'left',hidden:true},
+            {field:'refId',title:'refId',width:'85px',align:'left',hidden:true},
             {field:'formNo',title:'单号',width:'140px',align:'left',formatter:function(value,row,index){
                 var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购成本调价\',\''+contextPath+'/purchase/cost/form/edit?formId='+row.id+'\')">' + value + '</a>';
                 return strHtml;
@@ -42,7 +44,7 @@ function  initGridList() {
             }},
             {field:'branchName',title:'收货机构',width:'140px',align:'left'},
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
-            {field:'amount',title:'调价金额',width:'80px',align:'right',
+            {field:'totalMoney',title:'调价金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -51,11 +53,11 @@ function  initGridList() {
                 },
             },
 
-            {field:'formNo',title:'引用单编号',width:'140px',align:'left',formatter:function(value,row,index){
-                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购详细\',\''+contextPath+'/form/purchase/orderEdit?formId='+row.id+'\')">' + value + '</a>';
+            {field:'refFormNo',title:'引用单编号',width:'140px',align:'left',formatter:function(value,row,index){
+                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购收货单详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.refId+'\')">' + value + '</a>';
                 return strHtml;
             }},
-            {field:'validUserName',title:'制单人',width:'130px',align:'left'},
+            {field:'createUserName',title:'制单人',width:'130px',align:'left'},
             {field:'createTime',title:'制单时间',width:'150px',align:'center',
                 formatter: function (value, row, index) {
                     if (value) {
@@ -65,7 +67,7 @@ function  initGridList() {
                 }},
 
             {field:'validUserName',title:'审核人',width:'130px',align:'left'},
-            {field:'createTime',title:'审核时间',width:'150px',align:'center',
+            {field:'validTime',title:'审核时间',width:'150px',align:'center',
                 formatter: function (value, row, index) {
                     if (value) {
                         return new Date(value).format('yyyy-MM-dd hh:mm');
@@ -84,7 +86,7 @@ function  initGridList() {
 function query(){
     $("#"+gridListId).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridListId).datagrid("options").method = "post";
-    $("#"+gridListId).datagrid("options").url = contextPath+'/form/purchase/listData';
+    $("#"+gridListId).datagrid("options").url = contextPath+'/purchase/cost/form/list';
     $("#"+gridListId).datagrid("load");
 }
 

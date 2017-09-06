@@ -32,8 +32,7 @@
 				<div class="ub umar-t8">
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">收货单号:</div>
-						<input class="uinp" name="supplierId" id="supplierId"type="hidden">
-						<input class="uinp" readonly="readonly" id="supplierName" type="text" onclick="selectSupplier()">
+						<input class="uinp" readonly="readonly" id="refFormNo" type="text" onclick="selectSupplier()">
 						<div class="uinp-more" onclick="selectSupplier()">...</div>
 					</div>
 
@@ -64,7 +63,8 @@
 
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">经营方式:</div>
-						 <input class="uinp" id="operateUserName"
+						<input class="uinp" name="saleWay" id="saleWay" type="hidden">
+						<input class="uinp" id="saleWayName" name="saleWayName"
 							type="text" readonly="readonly" disabled>
 					</div>
 					<div class="ub ub-ac umar-r80">
