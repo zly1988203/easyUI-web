@@ -625,6 +625,7 @@ function selectStockAndPrice(sourceBranchId,data){
 	var GoodsStockVo = {
 			branchId : sourceBranchId,
 			stockBranchId : targetBranchId,
+			type:'DO',
 			fieldName : 'id',
 			goodsSkuVo : [],
 		}; 
@@ -990,6 +991,7 @@ function selectStockAndPriceImport(sourceBranchId,data){
 	var GoodsStockVo = {
 			branchId : sourceBranchId,
 			stockBranchId : targetBranchId,
+			type:'DO',
 			fieldName : 'id',
 			goodsSkuVo : [],
 		};
