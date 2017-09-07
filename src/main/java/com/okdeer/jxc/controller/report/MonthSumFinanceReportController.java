@@ -50,7 +50,7 @@ public class MonthSumFinanceReportController
 	protected Model getModel(Model model) {
 		model.addAttribute("startTime",
 				LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
-		model.addAttribute("reportType", 1);
+		model.addAttribute("maxReportType", 4);
 		return model;
 	}
 
