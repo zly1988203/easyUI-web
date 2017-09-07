@@ -500,8 +500,6 @@ function initDatagridRequireOrder(){
 var n = 0;
 var m = 0;
 
-var i = 0;
-var j = 0;
 //监听商品箱数
 var errroPurL = false;
 function onChangeLargeNum(newV,oldV){
@@ -518,11 +516,10 @@ function onChangeLargeNum(newV,oldV){
 	     return;
 	}
 
-    if(m > 0 || i > 0){
-        m = 0;
-        i = 0;
-        return;
-    }
+	if(m > 0){
+		m = 0;
+		return;
+	}
 	
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
         return;
@@ -566,11 +563,10 @@ function onChangeRealNum(newV,oldV) {
 	     return;
 	}
 
-    if(n > 0 || j > 0){
-        n = 0;
-        j = 0;
-        return;
-    }
+    if(n > 0){
+		n = 0;
+		return;
+	}
 	
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
         return;
@@ -585,7 +581,6 @@ function onChangeRealNum(newV,oldV) {
     
     var tempNum = parseFloat(newV).toFixed(4)/parseFloat(purchaseSpecValue).toFixed(4);
     if(parseInt(tempNum) != tempNum){
-        j = 1;
         $_jxc.alert("输入的数量必须是商品规格("+purchaseSpecValue+")的整数倍");
         //bug 20079 要货申请选择商品规格大于1的商品，先输入数量为1，然后再输入箱数为1后，不会自动计算数量  
         errroPur = true;
