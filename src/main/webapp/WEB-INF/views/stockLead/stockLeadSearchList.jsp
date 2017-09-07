@@ -37,29 +37,29 @@
 			</div>
 			<div class="ub uline umar-t8"></div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-300 umar-r40" id="branchSelect">
+				<div class="ub ub-ac umar-r40" id="branchSelect">
 					<div class="umar-r10 uw-70 ut-r">机构:</div>
 					<input type="hidden" id="branchId" name="branchId" />
 					<input class="uinp ub ub-f1" type="text" id="branchName" maxlength="50" />
 					<div class="uinp-more">...</div>
 				</div>
-				<div class="ub ub-ac uw-300 umar-r40">
+				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-70 ut-r">单号:</div>
 					<input class="uinp" type="text" id="formNo" name="formNo">
 				</div>
-				<div class="ub ub-ac uw-300 umar-r40" id="categorySelect">
+				<div class="ub ub-ac umar-r40" id="categorySelect">
 					<div class="umar-r10 uw-70 ut-r">商品类别:</div>
-					<input type="hidden" id="categoryId" name="categoryId" />
+					<input type="hidden" id="categoryCode" name="categoryCode" />
 					<input class="uinp ub ub-f1" type="text" id="categoryCodeName" name="categoryCodeName" maxlength="50"/>
 					<div class="uinp-more">...</div>
 				</div>
 			</div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-300 umar-r40">
+				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-70 ut-r">商品名称:</div>
 					<input class="uinp" type="text" id="skuName" name="skuName">
 				</div>
-				<div class="ub ub-ac uw-300 umar-r40">
+				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-70 ut-r">货号/条码:</div>
 					<input class="uinp" type="text" id="skuCode" name="skuCode">
 				</div>
