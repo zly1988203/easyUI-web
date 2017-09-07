@@ -73,7 +73,7 @@ function getColumns(){
 		defaultColumns =defaultColumns.concat([
 		            {field: 'branchName', title: '机构名称', width: '120px', align: 'left'},
 					{field: 'formNo',title:'单号',width:'150px',align:'left'},
-					{field: 'validTime', title: '领用时间', width: '120px', align: 'left',
+					{field: 'validTime', title: '领用时间', width: '150px', align: 'left',
 						formatter: function (value, row, index) {
 							if(!value){
 								return '';
@@ -176,3 +176,10 @@ function exportExcel(){
 	$("#queryForm").attr("action",contextPath+"/stock/leadSearch/exportList");
 	$("#queryForm").submit(); 
 }
+
+/**
+ * 重置
+ */
+var resetForm = function() {
+	$("#queryForm").form('clear');
+};
