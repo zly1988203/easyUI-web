@@ -97,7 +97,10 @@ function initActivityCX() {
             {field: 'activityPlan', title: '促销方案', width:80, align: 'right',hidden:cxType == 'goods'?false:true,
             	formatter:function(value,row,index){
             		var str = "";
-            		if(isNaN(value)){
+            		if (!value){
+            			return str;
+            		}
+                    if(isNaN(value)){
             			str = '<b>'+value+'</b>';
             		}else{
             			str = '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
