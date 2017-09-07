@@ -29,13 +29,13 @@
                     <div class="ubtns-item" onclick="add()">新增</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="purchaseActivity:copy">
-                    <div class="ubtns-item" onclick="copy()">复制</div>
+                    <div class="ubtns-item" onclick="actCopy()">复制</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="purchaseActivity:delete">
-                    <div class="ubtns-item" onclick="delete()">删除</div>
+                    <div class="ubtns-item" onclick="actDelete()">删除</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="purchaseActivity:export">
-                    <div class="ubtns-item" onclick="exportExcel()">导出</div>
+                    <div class="ubtns-item" onclick="exportData()">导出</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
@@ -98,7 +98,7 @@
 
     </form>
     <div class="ub uw umar-t8 ub-f1">
-        <table id="gridList"></table>
+        <table id="gridActivityList"></table>
     </div>
 
 </div>

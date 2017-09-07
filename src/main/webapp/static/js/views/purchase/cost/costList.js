@@ -33,6 +33,7 @@ function initConditionParams(){
 var gridListId = "gridCostList";
 var gridHandel = new GridClass();
 function  initGridList() {
+    gridHandel.setGridName(gridListId);
     $("#"+gridListId).datagrid({
         method:'post',
         align:'center',

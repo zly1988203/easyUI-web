@@ -38,4 +38,10 @@ public class PurchaseActivityController extends BaseController<PurchaseActivityC
         return new ModelAndView("form/purchase/activity/activityList", model);
     }
 
+        @RequestMapping(value = "/add")
+        public ModelAndView add() {
+            Map<String, String> model = Maps.newHashMap();
+            return new ModelAndView("form/purchase/activity/addActivity", model);
+        }
+
 }
