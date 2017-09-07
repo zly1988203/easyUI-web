@@ -1,0 +1,140 @@
+/** 
+ *@Project: okdeer-jxc-web 
+ *@Author: zhengwj
+ *@Date: 2017年9月5日 
+ *@Copyright: ©2014-2020 www.okdeer.com Inc. All rights reserved. 
+ */
+
+package com.okdeer.jxc.controller.stock;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.LogConstant;
+import com.okdeer.jxc.common.enums.StockAdjustEnum;
+import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
+import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
+import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.stock.service.StockAdjustSearchService;
+import com.okdeer.jxc.stock.vo.StockAdjustSearchVo;
+
+/**
+ * ClassName: StockReimburseSearchController 
+ * @Description: 报损查询
+ * @author zhengwj
+ * @date 2017年9月5日
+ *
+ * =================================================================================================
+ *     Task ID			  Date			     Author		      Description
+ * ----------------+----------------+-------------------+-------------------------------------------
+ *
+ */
+
+@Controller
+@RequestMapping("/stock/reimburseSearch")
+public class StockReimburseSearchController extends BaseController<StockReimburseSearchController> {
+
+	/**
+	 * @Fields stockAdjustSearchService : 库存调整查询service
+	 */
+	@Reference(version = "1.0.0", check = false)
+	private StockAdjustSearchService stockAdjustSearchService;
+
+	/**
+	 * @Description: 报损查询页面
+	 * @author zhengwj
+	 * @date 2017年9月5日
+	 */
+	@RequestMapping(value = "list")
+	public String list() {
+		return "/stockReimburse/stockReimburseSearchList";
+	}
+
+	/**
+	 * @Description: 构建参数
+	 * @author zhengwj
+	 * @date 2017年9月6日
+	 */
+	private void buildParam(StockAdjustSearchVo vo) {
+		vo.setFormType(StockAdjustEnum.REIMBURSE.getKey());
+		if (StringUtils.isBlank(vo.getBranchId())) {
+			vo.setBranchCompleCode(getCurrBranchCompleCode());
+		}
+
+		// 类别汇总查询时将二级类别查询设置为第四种查询
+		if (vo.getType() == 3 && vo.getCategoryType() == 2) {
+			vo.setType(4);
+		}
+	}
+
+	/**
+	 * @Description: 获取报损列表数据
+	 * @author zhengwj
+	 * @date 2017年9月5日
+	 */
+	@RequestMapping(value = "getList", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<StockAdjustSearchVo> getList(StockAdjustSearchVo vo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		LOG.debug(LogConstant.OUT_PARAM, vo);
+		try {
+			vo.setPageNumber(pageNumber);
+			vo.setPageSize(pageSize);
+			buildParam(vo);
+			PageUtils<StockAdjustSearchVo> reportList = stockAdjustSearchService.getSearchList(vo);
+			StockAdjustSearchVo sum = stockAdjustSearchService.getSearchListSum(vo);
+			List<StockAdjustSearchVo> footer = new ArrayList<>();
+			if (sum != null) {
+				footer.add(sum);
+			}
+			reportList.setFooter(footer);
+			LOG.debug(LogConstant.PAGE, reportList.toString());
+			// 过滤数据权限字段
+			cleanAccessData(reportList);
+			return reportList;
+		} catch (Exception e) {
+			LOG.error("获取报损列表数据异常:", e);
+		}
+		return PageUtils.emptyPage();
+	}
+
+	/**
+	 * @Description: 导出报损查询
+	 * @author zhengwj
+	 * @date 2017年9月5日
+	 */
+	@RequiresPermissions("JxcReimburseSearch:export")
+	@RequestMapping(value = "exportList", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportList(HttpServletResponse response, StockAdjustSearchVo vo) {
+		RespJson resp = RespJson.success();
+		try {
+			buildParam(vo);
+			List<StockAdjustSearchVo> exportList = stockAdjustSearchService.getExportList(vo);
+			// 过滤数据权限字段
+			cleanAccessData(exportList);
+			String fileName = "报损查询" + "_" + DateUtils.getCurrSmallStr();
+			String templateName = ExportExcelConstant.STOCKLEAD;
+			exportListForXLSX(response, exportList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("导出报损查询异常：{}", e);
+			resp = RespJson.error("导出报损查询异常");
+		}
+		return resp;
+	}
+
+}
