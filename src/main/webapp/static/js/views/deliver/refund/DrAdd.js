@@ -146,6 +146,7 @@ function initDatagridStoreYHOrder(){
             },
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'90px',align:'left'},
+            {field:'distributionSpec',title:'配送规格',width:'90px',align:'left'},
             {field:'largeNum',title:'箱数',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -400,8 +401,7 @@ function onChangeLargeNum(newV,oldV){
     
     var _tempNewRealNum = parseFloat(purchaseSpecValue*newV);
     var newRealNum = parseFloat(_tempNewRealNum).toFixed(4);
-    
-    n = 1;
+
     //赠品时 页面显示价格是0 但是getFieldData是非0的因此改成getFieldValue 2.7
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var _tempAmount = parseFloat(priceValue*_tempNewRealNum).toFixed(4);
@@ -411,8 +411,12 @@ function onChangeLargeNum(newV,oldV){
     var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);
     gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
     
-    gridHandel.setFieldValue('applyNum',parseFloat(newRealNum).toFixed(4)); //数量=箱数*商品规格
-    
+
+    var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyNum');
+    if(realNumVal&& oldV){
+        n=1;
+        gridHandel.setFieldValue('applyNum',parseFloat(newRealNum).toFixed(4)); //数量=箱数*商品规格
+    }
     
     updateFooter();
     
@@ -439,8 +443,7 @@ function onChangeRealNum(newV,oldV) {
         $_jxc.alert("没有配送规格,请审查");
         return;
     }
-    
-    m=1;
+
     //赠品时 页面显示价格是0 但是getFieldData是非0的因此改成getFieldValue 2.7
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     var _tempAmount = priceValue*newV;
@@ -448,11 +451,16 @@ function onChangeRealNum(newV,oldV) {
     var _tempInputTax = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'inputTax');
     var _taxAmountVal = (_tempInputTax*(_tempAmount/(1+parseFloat(_tempInputTax)))||0.0000).toFixed(2);
     gridHandel.setFieldValue('taxAmount',_taxAmountVal);//税额 = 金额/(1+税率)*税率
-    
-    var tempNum = parseFloat(newV)/parseFloat(purchaseSpecValue);
-    gridHandel.setFieldValue('largeNum',tempNum.toFixed(4));   //箱数=数量/商品规格
-    gridHandel.setFieldsData({tmpLargeNum:tempNum}); // 保留除法值   防止toFixed(4) 四舍五入做乘法时比原值大的问题
-    
+
+    var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
+    if(largeNumVal&& oldV){
+        m=1;
+        var tempNum = parseFloat(newV)/parseFloat(purchaseSpecValue);
+        gridHandel.setFieldValue('largeNum',tempNum.toFixed(4));   //箱数=数量/商品规格
+        gridHandel.setFieldsData({tmpLargeNum:tempNum}); // 保留除法值   防止toFixed(4) 四舍五入做乘法时比原值大的问题
+    }
+
+
     updateFooter();
 }
 
@@ -692,6 +700,16 @@ function saveOrder(){
             isCheckResult = false;
             return false;
         }
+
+        var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(4);
+        var _largeNum = parseFloat(v["applyNum"]/v["distributionSpec"]).toFixed(4);
+        if(parseFloat(_realNum ).toFixed(4) != parseFloat(v["applyNum"]).toFixed(4)
+            && parseFloat(_largeNum ).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)){
+            $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
+            isCheckResult = false;
+            return false;
+        }
+
         v["rowNo"] = i+1;
     });
     if(!isCheckResult){
@@ -818,6 +836,16 @@ function updateOrder(){
             isCheckResult = false;
             return false;
         }
+
+        var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(4);
+        var _largeNum = parseFloat(v["applyNum"]/v["distributionSpec"]).toFixed(4);
+        if(parseFloat(_realNum ).toFixed(4) != parseFloat(v["applyNum"]).toFixed(4)
+            && parseFloat(_largeNum ).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)){
+            $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
+            isCheckResult = false;
+            return false;
+        }
+
         v["rowNo"] = i+1;
     });
     if(!isCheckResult){
