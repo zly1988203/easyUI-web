@@ -3,10 +3,11 @@
  */
 
 $(function () {
-    initGridBranchCostList();
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    
+
+    initGridBranchCostList();
+
     $(".radioItem").change(function () {
         queryStoreCharge();
     })
