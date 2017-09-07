@@ -762,6 +762,16 @@ function saveOrder(){
             isCheckResult = false;
             return false;
         }
+
+        var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(4);
+        var _largeNum = parseFloat(v["applyNum"]/v["distributionSpec"]).toFixed(4);
+        if(parseFloat(_realNum).toFixed(4) != parseFloat(v["applyNum"]).toFixed(4)
+            && parseFloat(_largeNum ).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)){
+            $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
+            isCheckResult = false;
+            return false;
+        }
+
         v["rowNo"] = i+1;
     });
     if(!isCheckResult){
@@ -885,6 +895,14 @@ function updateOrder(){
         }
         if(v["applyNum"]<=0){
             $_jxc.alert("第"+(i+1)+"行，数量必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+        var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(4);
+        var _largeNum = parseFloat(v["applyNum"]/v["distributionSpec"]).toFixed(4);
+        if(parseFloat(_realNum).toFixed(4) != parseFloat(v["applyNum"]).toFixed(4)
+            && parseFloat(_largeNum ).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)){
+            $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
             isCheckResult = false;
             return false;
         }

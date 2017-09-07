@@ -580,7 +580,9 @@ function saveOrder(){
         }
 
         var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(4);
-        if(_realNum != v["applyNum"]){
+        var _largeNum = parseFloat(v["applyNum"]/v["distributionSpec"]).toFixed(4);
+        if(parseFloat(_realNum ).toFixed(4) != parseFloat(v["applyNum"]).toFixed(4)
+            && parseFloat(_largeNum ).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)){
             $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
             isCheckResult = false;
             return false;
