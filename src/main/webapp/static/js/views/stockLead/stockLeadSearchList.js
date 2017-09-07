@@ -20,6 +20,10 @@ $(function() {
 	$('#categorySelect').categorySelect({
 		loadFilter:function(data){
 			return data;
+		},
+		//选择完成之后
+		onAfterRender:function(data){
+            $("#categoryCode").val(data.categoryCode);
 		}
 	});
 });
@@ -74,7 +78,7 @@ function getColumns(){
 							if(!value){
 								return '';
 							}
-							return new Date(value).format('yyyy-MM-dd hh:mm');
+							return new Date(value).format('yyyy-MM-dd hh:mm:ss');
 						}	
 					}
 					])
