@@ -12,7 +12,8 @@ var options_nomal = [
 					 {value:'4',text:'促销（85*40mm无底 1*7）'},
 					{value:'18',text:'二维码促销价签无底(60*32mm 3*9)'},
 					{value:'20',text:'二维码促销价签无底(60*30mm 3*9)'},
-					 {value:'22',text:'二维码促销价签无底(合肥60*30mm 3*9)'}
+					 {value:'22',text:'二维码促销价签无底(合肥60*30mm 3*9)'},
+					 {value:'24',text:'二维码促销价签无底(50*28mm 4*9)'}
 					];
 var options_promotion = [
                          
