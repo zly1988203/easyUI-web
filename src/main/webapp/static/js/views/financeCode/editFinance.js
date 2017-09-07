@@ -5,6 +5,8 @@ $(function () {
     
 })
 var type = "add";
+
+var nodeCode = "" ;
 function initFinanceDialog(param) {
     type = param.type;
 	if(param.type === "edit"){
@@ -14,9 +16,20 @@ function initFinanceDialog(param) {
         $("#value").prop("readOnly","readOnly");
         $("#label").val(param.label);
         $("#remark").val(param.remark);
-        $("#cbDiv").css("display","none");
+        $("#ckbSaveLabel").css("display","none");
 	}
     $("#dictTypeId").val(param.dictTypeId);
+    
+    // 机构运营费用打开是否固定的选项
+    nodeCode = param.nodeCode;
+    if(nodeCode.startWith("101005")){
+    	$("#isFixedLabel").removeClass("none");
+    	debugger;
+    	if(param.type === "edit" && param.isFixed === '1'){
+    		$('#isFixed').prop('checked', true);
+    	}
+    	
+    }
 }
 
 function saveFinanceCode() {
@@ -39,11 +52,19 @@ function saveFinanceCode() {
 
 	var addUrl = contextPath+'/archive/financeCode/addFinanceCode'; 
 	var updateUrl = contextPath+'/archive/financeCode/updateFinanceCode';
+	
+	var isFixed = null;
+	
+	if(nodeCode.startWith("101005")){
+		isFixed = $('#isFixed').is(':checked') ? 1 : 0;
+	}
+	
 	var data = {
         dictTypeId:$("#dictTypeId").val(),
         value:$("#value").val(),
         label:$("#label").val().trim(),
-        remark:$("#remark").val()
+        remark:$("#remark").val(),
+        isFixed:isFixed
     }
     if(type === "edit"){
         data.id = $("#id").val();

@@ -86,7 +86,7 @@ function initGridFinanceList() {
             {field:'value',title:'编号',width:100,align:'left',
                 formatter: function(value,row,index){
                     if (updatePermission) {
-                    	return "<a href='#' onclick=\"updateFinanceCode('"+row.id+"','"+row.value+"','"+row.label+"','"+row.remark+"')\" class='ualine'>"+value+"</a>";
+                    	return "<a href='#' onclick=\"updateFinanceCode('"+row.id+"','"+row.value+"','"+row.label+"','"+row.remark+"','"+row.isFixed+"')\" class='ualine'>"+value+"</a>";
                 	}else{
                 		return value;
                 	}
@@ -112,6 +112,7 @@ function addFinanceCode() {
 		var param = {
 				type:"add",
 				dictTypeId: selectNode.id,
+				nodeCode:selectNode.code
 		}
 		openFinanceDialog(param);
 	}
@@ -219,13 +220,15 @@ function delCostItem(){
 /**---------------------------------2.7机构运营费用   end------------------------**/
 
 
-function updateFinanceCode(id,value,label,remark) {
+function updateFinanceCode(id,value,label,remark,isFixed) {
     var param = {
         type:"edit",
         id:id,
         value:value,
         label:label,
-        remark:remark
+        remark:remark,
+        isFixed:isFixed,
+        nodeCode:selectNode.code
     }
     openFinanceDialog(param);
 }

@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script src="${ctx}/static/js/views/financeCode/editFinance.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/financeCode/editFinance.js?V=${versionNo}3"></script>
 
 <div class="ub ub-ver  ub-f1  uw uh ufs-14 uc-black">
 	<div class="ub ub-ac upad-4">
@@ -54,9 +54,12 @@
 			<div class="ub upad-4 umar-t10">
 
 			<div class="ub ub-ac" >
-			<div class="umar-r10 uw-70 ut-r"></div>
+			<div class="umar-r10 uw-30 ut-r"></div>
 			<div id="cbDiv">
-			<input id="ckbSave" type="checkbox" checked="checked"><label for="ckbSave">保存后自动更新</label>
+				<span class="uw-150"><label for="isFixed" class="none" id="isFixedLabel"><input id="isFixed" type="checkbox" name="isFixed">是否固定支出</label>
+				</span>
+				
+				<label for="ckbSave" id="ckbSaveLabel"><input id="ckbSave" type="checkbox" checked="checked">保存后自动更新</label>
 			</div>
 
 			</div>
