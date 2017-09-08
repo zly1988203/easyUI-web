@@ -141,8 +141,8 @@
                     </div>
 					<div class='ub ub-ac umar-r10'>
 						<input class='ub' type='radio' id='deliverOrderStatus3'
-							name='deliverStatus' value='3' onclick='queryForm()' /><label
-							for='deliverOrderStatus3'>终止</label>
+							name='deliverStatus' value='4' onclick='queryForm()' /><label
+							for='deliverOrderStatus3'>已拒收</label>
 					</div>
 				</div>
 
