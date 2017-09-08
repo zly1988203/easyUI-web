@@ -11,12 +11,14 @@ package com.okdeer.jxc.controller.purchase;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.enums.AuditStatusEnum;
 import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.form.purchase.qo.PurchaseFormDetailPO;
 import com.okdeer.jxc.form.purchase.service.PurchaseCostFormService;
 import com.okdeer.jxc.form.purchase.vo.PurchaseCostFormVo;
@@ -221,6 +223,31 @@ public class PurchaseCostFormController extends BaseController<PurchaseCostFormC
     public ModelAndView view() {
         Map<String, String> model = Maps.newHashMap();
         return new ModelAndView("form/purchase/cost/editCost", model);
+    }
+
+    @RequestMapping(value = "/list/print", method = RequestMethod.GET)
+    public String listPrint(PurchaseCostFormVo vo, HttpServletResponse response, HttpServletRequest request) {
+        //Optional<StoreSellQo> optional = Optional.ofNullable(vo);
+        //vo = optional.orElse(new StoreSellQo());
+        vo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
+        vo.setPageNumber(Integer.valueOf(PAGE_NO));
+        if(StringUtils.isBlank(vo.getBranchId())){
+            vo.setBranchId(getCurrBranchId());
+        }
+        PageUtils<PurchaseCostFormVo> pageUtils = this.purchaseCostFormService.getPurchaseCostFormList(vo);
+
+        List<PurchaseCostFormVo> exportList = pageUtils.getList();
+        if (exportList.size() > PrintConstant.PRINT_MAX_ROW) {
+            return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+        }
+        String path = PrintConstant.PURCHASE_COST_PRINT;
+        Map<String, Object> map = new HashMap<>();
+        map.put("startDate", DateUtils.formatDate(vo.getStartTime(),DateUtils.DATE_SMALL_STR_R));
+        map.put("endDate", DateUtils.formatDate(vo.getStartTime(),DateUtils.DATE_SMALL_STR_R));
+        map.put("printName", getCurrentUser().getUserName());
+        JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, exportList, "");
+
+        return null;
     }
 
 }

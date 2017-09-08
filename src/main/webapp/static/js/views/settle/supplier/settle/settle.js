@@ -177,7 +177,9 @@ function getColumns(){
                 			str = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
                 		}else if(targetFormType == 'PR'){
                 			str = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购退货详细\',\''+contextPath+'/form/purchase/returnEdit?formId='+row.targetFormId+'\')">' + (value||"") + '</a>';
-                		}
+                		}else if(targetFormType == 'FP'){
+                            str = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购成本调整详细\',\''+contextPath+'/purchase/cost/form/edit/'+row.targetFormId+'\')">' + (value||"") + '</a>';
+                        }
                 	}
 			 		return str;
 			 	}

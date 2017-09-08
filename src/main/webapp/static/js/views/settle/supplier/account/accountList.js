@@ -69,7 +69,9 @@ function getAccountColumns(){
             			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'直送收货单详细\',\''+contextPath+'/directReceipt/edit?formId='+row.targetformId+'\')">' + (value||"") + '</a>';
             		}else if(value.indexOf('PR') == 0){
             			strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购退货详细\',\''+contextPath+'/form/purchase/returnEdit?formId='+row.targetformId+'\')">' + (value||"") + '</a>';
-            		}
+            		}else if(targetFormType == 'FP'){
+                        strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购成本调整详细\',\''+contextPath+'/purchase/cost/form/edit/'+row.targetformId+'\')">' + (value||"") + '</a>';
+                    }
             	}
         		return strHtml;
             }},
