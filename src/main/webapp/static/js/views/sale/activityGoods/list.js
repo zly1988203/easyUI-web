@@ -53,10 +53,10 @@ function onChangeSelect() {
 }
 
 function columnList(){
-    if(priceVal == "1"){
+    if(priceVal == "0"){
         return [[
             {field: 'branchName', title: '活动店铺', width:120, align: 'left'},
-            {field: 'activityTypeStr', title: '活动类型', width:120, align: 'center',},
+            {field: 'activityScopeStr', title: '活动类型', width:100, align: 'center',},
             {field: 'skuCode', title: '货号', width:100, align: 'left',},
             {field: 'skuName', title: '商品名称', width:150, align: 'left'},
             {field: 'barCode', title: '条码', width:120, align: 'left'},
@@ -68,33 +68,70 @@ function columnList(){
                     return strHtml;
                 }
             },
-            {field: 'activityCode', title: '赠品信息', width:160, align: 'left',
+            {field: 'giftInfo', title: '赠品信息', width:80, align: 'left',
                 formatter:function(value,row,index){
-                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看促销管理详细\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + 赠品信息 + '</a>';
+                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'赠品信息\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + value + '</a>';
                     return strHtml;
                 }
             },
             {field: 'startTime', title: '开始日期', width:140, align: 'left'},
-            {field: 'endTime', title: '结束日期', width:140, align: 'left',
-                formatter:function(value,row,index){
-                    return formatDate(value);
-                }
-            },
-            {field: 'startTime', title: '活动时段', width:140, align: 'left'},
+            {field: 'endTime', title: '结束日期', width:140, align: 'left'},
+            {field: 'timeSlot', title: '活动时段', width:140, align: 'left'},
             {field: 'limitAmount', title: '买满金额', width:80, align: 'right',
                 formatter:function(value,row,index){
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
                 }
             },
-            {field: 'fullMoney', title: '买满数量', width:80, align: 'right',
+            {field: 'limitCount', title: '买满数量', width:80, align: 'right',
                 formatter:function(value,row,index){
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
                 }
             },
-            {field: 'createUserName', title: '促销商品是否参与', width:100, align: 'left'},
-            {field: 'createUserName', title: '是否倍数送', width:100, align: 'left'},
-            {field: 'createUserName', title: '是否会员独享', width:100, align: 'left'},
-
+            {field: 'allowActivity', title: '促销商品是否参与', width:80, align: 'left'},
+            {field: 'allowMultiple', title: '是否倍数送', width:80, align: 'left'},
+            {field: 'memberExclusive', title: '是否会员独享', width:80, align: 'left'},
+            {field: 'createUserName', title: '制单人', width:100, align: 'left'},
+            {field: 'validUserName', title: '审核人', width:120, align: 'left'},
+            {field: 'validTime', title: '审核时间', width:140, align: 'left',
+                formatter:function(value,row,index){
+                    return formatDate(value);
+                }
+            }
+        ]];
+    }else if(priceVal == "1"){
+        return [[
+            {field: 'branchName', title: '活动店铺', width:120, align: 'left'},
+            {field: 'activityScopeStr', title: '活动类型', width:100, align: 'center'},
+            {field: 'goodCategoryCode', title: '类别编码', width:100, align: 'left'},
+            {field: 'goodCategoryCode', title: '类别名称', width:100, align: 'left'},
+            {field: 'activityCode', title: '活动编号', width:160, align: 'left',
+                formatter:function(value,row,index){
+                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看促销管理详细\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + value + '</a>';
+                    return strHtml;
+                }
+            },
+            {field: 'giftInfo', title: '赠品信息', width:80, align: 'left',
+                formatter:function(value,row,index){
+                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'赠品信息\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + value + '</a>';
+                    return strHtml;
+                }
+            },
+            {field: 'startTime', title: '开始日期', width:140, align: 'left'},
+            {field: 'endTime', title: '结束日期', width:140, align: 'left'},
+            {field: 'timeSlot', title: '活动时段', width:140, align: 'left'},
+            {field: 'limitAmount', title: '买满金额', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                }
+            },
+            {field: 'limitCount', title: '买满数量', width:80, align: 'right',
+                formatter:function(value,row,index){
+                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                }
+            },
+            {field: 'allowActivity', title: '促销商品是否参与', width:80, align: 'left'},
+            {field: 'allowMultiple', title: '是否倍数送', width:80, align: 'left'},
+            {field: 'memberExclusive', title: '是否会员独享', width:80, align: 'left'},
             {field: 'createUserName', title: '制单人', width:100, align: 'left'},
             {field: 'validUserName', title: '审核人', width:120, align: 'left'},
             {field: 'validTime', title: '审核时间', width:140, align: 'left',
@@ -106,87 +143,35 @@ function columnList(){
     }else if(priceVal == "2"){
         return [[
             {field: 'branchName', title: '活动店铺', width:120, align: 'left'},
-            {field: 'activityTypeStr', title: '活动类型', width:120, align: 'center'},
-            {field: 'goodCategoryCode', title: '类别编码', width:100, align: 'left'},
-            {field: 'goodCategoryCode', title: '类别名称', width:100, align: 'left'},
+            {field: 'activityScopeStr', title: '活动类型', width:100, align: 'center'},
             {field: 'activityCode', title: '活动编号', width:160, align: 'left',
                 formatter:function(value,row,index){
                     var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看促销管理详细\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + value + '</a>';
                     return strHtml;
                 }
             },
-            {field: 'activityCode', title: '赠品信息', width:160, align: 'left',
+            {field: 'giftInfo', title: '赠品信息', width:80, align: 'left',
                 formatter:function(value,row,index){
-                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看促销管理详细\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + 赠品信息 + '</a>';
+                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'赠品信息\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + value + '</a>';
                     return strHtml;
                 }
             },
             {field: 'startTime', title: '开始日期', width:140, align: 'left'},
-            {field: 'endTime', title: '结束日期', width:140, align: 'left',
-                formatter:function(value,row,index){
-                    return formatDate(value);
-                }
-            },
-            {field: 'startTime', title: '活动时段', width:140, align: 'left'},
+            {field: 'endTime', title: '结束日期', width:140, align: 'left'},
+            {field: 'timeSlot', title: '活动时段', width:140, align: 'left'},
             {field: 'limitAmount', title: '买满金额', width:80, align: 'right',
                 formatter:function(value,row,index){
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
                 }
             },
-            {field: 'fullMoney', title: '买满数量', width:80, align: 'right',
+            {field: 'limitCount', title: '买满数量', width:80, align: 'right',
                 formatter:function(value,row,index){
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
                 }
             },
-            {field: 'createUserName', title: '促销商品是否参与', width:100, align: 'left'},
-            {field: 'createUserName', title: '是否倍数送', width:100, align: 'left'},
-            {field: 'createUserName', title: '是否会员独享', width:100, align: 'left'},
-
-            {field: 'createUserName', title: '制单人', width:100, align: 'left'},
-            {field: 'validUserName', title: '审核人', width:120, align: 'left'},
-            {field: 'validTime', title: '审核时间', width:140, align: 'left',
-                formatter:function(value,row,index){
-                    return formatDate(value);
-                }
-            }
-        ]];
-    }else if(priceVal == "3"){
-        return [[
-            {field: 'branchName', title: '活动店铺', width:120, align: 'left'},
-            {field: 'activityTypeStr', title: '活动类型', width:120, align: 'center'},
-            {field: 'activityCode', title: '活动编号', width:160, align: 'left',
-                formatter:function(value,row,index){
-                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看促销管理详细\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + value + '</a>';
-                    return strHtml;
-                }
-            },
-            {field: 'activityCode', title: '赠品信息', width:160, align: 'left',
-                formatter:function(value,row,index){
-                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看促销管理详细\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + 赠品信息 + '</a>';
-                    return strHtml;
-                }
-            },
-            {field: 'startTime', title: '开始日期', width:140, align: 'left'},
-            {field: 'endTime', title: '结束日期', width:140, align: 'left',
-                formatter:function(value,row,index){
-                    return formatDate(value);
-                }
-            },
-            {field: 'startTime', title: '活动时段', width:140, align: 'left'},
-            {field: 'limitAmount', title: '买满金额', width:80, align: 'right',
-                formatter:function(value,row,index){
-                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-                }
-            },
-            {field: 'fullMoney', title: '买满数量', width:80, align: 'right',
-                formatter:function(value,row,index){
-                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
-                }
-            },
-            {field: 'createUserName', title: '促销商品是否参与', width:100, align: 'left'},
-            {field: 'createUserName', title: '是否倍数送', width:100, align: 'left'},
-            {field: 'createUserName', title: '是否会员独享', width:100, align: 'left'},
-
+            {field: 'allowActivity', title: '促销商品是否参与', width:80, align: 'left'},
+            {field: 'allowMultiple', title: '是否倍数送', width:80, align: 'left'},
+            {field: 'memberExclusive', title: '是否会员独享', width:80, align: 'left'},
             {field: 'createUserName', title: '制单人', width:100, align: 'left'},
             {field: 'validUserName', title: '审核人', width:120, align: 'left'},
             {field: 'validTime', title: '审核时间', width:140, align: 'left',

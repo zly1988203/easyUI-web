@@ -121,7 +121,6 @@ function  editstart(selectType){
 	  },function(data){
 	    	  if(data['code'] == 0){
 	    		var listinfo=data['obj'];
-	    		 //console.log(data);
 	    		 
 	    		if(undefined == listinfo){
 	    			 $_jxc.alert("服务器返回数据异常.");
@@ -138,7 +137,6 @@ function  editstart(selectType){
 	    		    }
 	    		    
 		    		//活动名称
-	    		    //console.log(data.obj.activityName);
 		    		$('#activityName').val(data.obj.activityName);
 		    		$("#memberExclusive").prop('checked',data.obj.memberExclusive == 1?true:false);
 		    		//日期转换格式
@@ -210,7 +208,6 @@ function  editstart(selectType){
 					if(activtype==5){		
 						activityScopemj=listinfo.activityScope;	
 						radioSetmj(activityScopemj);
-						console.log(selectType)
 						if(activityScopemj == 0){
 							initmjOneDatagrid(activityId);
 							initmjTowDatagrid(activityId);
