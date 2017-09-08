@@ -133,9 +133,9 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	 * @author liwb
 	 * @date 2017年3月8日
 	 */
-	@RequestMapping(value = "getGoodsList")
+	@RequestMapping(value = "getGoodsList", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<PurchaseGuideGoodsPo> getGoodsList(PurchaseGuideQo qo) {
+	public PageUtils<PurchaseGuideGoodsPo> getGoodsList( PurchaseGuideQo qo) {
 		LOG.debug("获取采购向导商品清单条件信息：{}", qo);
 		try {
 			// 必填参数
