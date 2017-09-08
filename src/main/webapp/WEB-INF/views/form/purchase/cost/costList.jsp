@@ -29,7 +29,7 @@
                     <div class="ubtns-item" onclick="add()">新增</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="purchaseCostForm:delete">
-                    <div class="ubtns-item" onclick="orderDelete()">删除</div>
+                    <div class="ubtns-item" onclick="del()">删除</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="purchaseCostForm:print">
                     <div class="ubtns-item" onclick="printPreview()">打印</div>

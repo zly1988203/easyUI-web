@@ -43,6 +43,8 @@ function  initGridList() {
         pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
+        pageSize : 50,
+        pageList : [20,50,100],//可以设置每页记录条数的列表
         showFooter:true,
         height:'100%',
         width:'100%',
@@ -50,10 +52,18 @@ function  initGridList() {
             {field:'id',title:'id',width:'85px',align:'left',hidden:true},
             {field:'refId',title:'refId',width:'85px',align:'left',hidden:true},
             {field:'formNo',title:'单号',width:'140px',align:'left',formatter:function(value,row,index){
-                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购成本调价\',\''+contextPath+'/purchase/cost/form/edit?formId='+row.id+'\')">' + value + '</a>';
-                return strHtml;
+                var str = value;
+                if(value ==="SUM"){
+                    str ='<div class="ub ub-pc">合计</div> '
+                }else {
+                    str = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购成本调整单\',\'' + contextPath + '/purchase/cost/form/edit/' + row.id + '\')">' + value + '</a>';
+                }
+                return str;
             }},
             {field:'status',title:'审核状态',width:'100px',align:'center',formatter:function(value,row,index){
+                if(row.formNo==="SUM"){
+                    return;
+                }
                 if(value == '0'){
                     return '待审核';
                 }else if(value == '1'){
@@ -76,6 +86,9 @@ function  initGridList() {
             },
 
             {field:'refFormNo',title:'引用单编号',width:'140px',align:'left',formatter:function(value,row,index){
+                if(row.formNo==="SUM"){
+                    return;
+                }
                 var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购收货单详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.refId+'\')">' + value + '</a>';
                 return strHtml;
             }},

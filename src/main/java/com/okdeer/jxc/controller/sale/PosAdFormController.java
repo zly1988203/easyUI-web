@@ -115,7 +115,7 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
             boolean bool = Boolean.FALSE;
             for (String id : ids) {
                 PosAdFormVo vo = posAdServiceApi.getPosAdByFormId(id);
-                if (vo.getAuditStatus() == 1 || vo.getAuditStatus() == 2) {
+                if (AuditStatusEnum.AUDIT.getCode().equals(vo.getAuditStatus()) || AuditStatusEnum.OVER.getCode().equals(vo.getAuditStatus())) {
                     bool = Boolean.TRUE;
                     break;
                 }
