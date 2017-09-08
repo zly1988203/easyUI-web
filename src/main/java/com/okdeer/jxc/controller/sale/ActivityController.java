@@ -50,6 +50,7 @@ import com.okdeer.jxc.common.utils.UUIDHexGenerator;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
+import com.okdeer.jxc.sale.activity.po.ActivityGoodsGiftPo;
 import com.okdeer.jxc.sale.activity.service.ActivityServiceApi;
 import com.okdeer.jxc.sale.activity.vo.ActivityDetailVo;
 import com.okdeer.jxc.sale.activity.vo.ActivityGoodsImportVo;
@@ -561,6 +562,21 @@ public class ActivityController extends BaseController<ActivityController> {
 			LOG.error("查询活动详情(买满送)的优惠梯度出现异常：", e);
 			return PageUtils.emptyPage();
 		}
+	}
+	
+	@RequestMapping(value = "getGiftListForGroupNum", method = RequestMethod.POST)
+	@ResponseBody
+	public PageUtils<ActivityGoodsGiftPo> getGiftListForGroupNum(String activityId, Integer groupNum) {
+		try {
+			LOG.debug("查询买满送的赠品信息，活动Id:{}，组号：{}", activityId, groupNum);
+			List<ActivityGoodsGiftPo> activityDetail = mainServiceApi.getGiftListByActivityId(activityId, groupNum);
+			
+			PageUtils<ActivityGoodsGiftPo> page = new PageUtils<ActivityGoodsGiftPo>(activityDetail);
+			return page;
+		} catch (Exception e) {
+			LOG.error("查询买满送的赠品信息异常：", e);
+		}
+		return PageUtils.emptyPage();
 	}
 
 	/**

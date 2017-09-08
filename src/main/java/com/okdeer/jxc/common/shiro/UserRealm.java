@@ -7,10 +7,17 @@
 
 package com.okdeer.jxc.common.shiro;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
 
-import com.okdeer.jxc.system.entity.SysRole;
-import com.okdeer.jxc.system.service.SysRoleService;
+import javax.annotation.Resource;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -38,12 +45,12 @@ import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.supplier.entity.Supplier;
 import com.okdeer.jxc.supplier.service.SupplierServiceApi;
+import com.okdeer.jxc.system.entity.SysRole;
 import com.okdeer.jxc.system.entity.SysUser;
+import com.okdeer.jxc.system.service.SysRoleService;
 import com.okdeer.jxc.system.service.SysUserCategoryGrantServiceApi;
 import com.okdeer.jxc.system.service.SysUserServiceApi;
 import com.okdeer.jxc.utils.UserUtil;
-
-import javax.annotation.Resource;
 
 /**
  * ClassName: UserRealm 
@@ -241,11 +248,9 @@ public class UserRealm extends CasRealm {
 				}
 			}
 			SysRole role = sysRoleService.getRoleByUserId(sysUser.getId());
-			info.setRoles(new HashSet<String>(){
-				{
-					add(role.getRoleCode());
-				}
-			});
+			Set<String> roles = new HashSet<String>();
+			roles.add(role.getRoleCode());
+			info.setRoles(roles);
 			LOG.debug("授权查询回调函数信息：{}", info);
 			return info;
 		} catch (Exception e) {

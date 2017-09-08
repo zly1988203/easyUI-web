@@ -2852,7 +2852,7 @@ function publicCategorysServiceHandel(param,callback,cbDom){
 function publicGiftGoodsService(param,callback) {
     var giftGoodsTemp = $('<div id="giftGoods"/>').dialog({
         href: contextPath + "/common/giftGoods",
-        width:580,
+        width:730,
         height:500,
         title:"赠品信息",
         closable:true,

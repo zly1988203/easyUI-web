@@ -26,29 +26,28 @@ import com.okdeer.jxc.controller.common.ReportController;
 import com.okdeer.jxc.settle.store.service.StoreChargeSearchService;
 import com.okdeer.retail.common.report.DataRecord;
 
-
 /**
- * ClassName: StoreChargeSearchController 
- * @Description: 门店费用查询Controller
+ * ClassName: NonExpendSearchController 
+ * @Description: 营业外支出查询报表Controller
  * @author liwb
- * @date 2017年5月22日
+ * @date 2017年9月8日
  *
  * =================================================================================================
  *     Task ID			  Date			     Author		      Description
  * ----------------+----------------+-------------------+-------------------------------------------
  *
  */
-
+ 
 @Controller
-@RequestMapping("finance/storeChargeSearch")
-public class StoreChargeSearchController extends ReportController {
+@RequestMapping("finance/nonExpendSearch")
+public class NonExpendSearchController extends ReportController {
 	
 	@Reference(version = "1.0.0", check = false)
 	private StoreChargeSearchService storeChargeSearchService;
 	
 	@RequestMapping(value = "toManager")
 	public String toManager() {
-		return "finance/storeCharge/storeChargeSearch";
+		return "finance/nonExpend/expendSearch";
 	}
 
 	/**
@@ -64,7 +63,7 @@ public class StoreChargeSearchController extends ReportController {
 	@ResponseBody
 	public void exportExcelList(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			LOG.debug("门店费用查询导出功能");
+			LOG.debug("营业外支出查询导出功能");
 			Map<String, Object> map = getParam(request);
 			String reportFileName = "";
 			String templateName = "";
@@ -76,11 +75,11 @@ public class StoreChargeSearchController extends ReportController {
 			String timeStr = StringUtils.replace(map.get("month").toString(), "-", "");
 
 			if ("total".equals(queryType)) { // 汇总
-				reportFileName = "门店费用汇总查询" + timeStr;
+				reportFileName = "营业外支出汇总查询" + timeStr;
 				templateName = ExportExcelConstant.STORE_CHARGE_TOTAL_EXPORT_TEMPLATE;
 
 			} else if ("detail".equals(queryType)) {// 明细
-				reportFileName = "门店费用明细查询" + timeStr;
+				reportFileName = "营业外支出明细查询" + timeStr;
 				templateName = ExportExcelConstant.STORE_CHARGE_DETAIL_EXPORT_TEMPLATE;
 
 			}
@@ -90,10 +89,10 @@ public class StoreChargeSearchController extends ReportController {
 			
 			// 导出Excel			
 			Map<String, Object> param = new HashMap<>();
-			param.put("titleName", "门店运营费用");
+			param.put("titleName", "营业外支出");
 			exportParamListForXLSX(response, dataList, param, reportFileName, templateName);
 		} catch (Exception e) {
-			LOG.error("门店费用查询导出失败", e);
+			LOG.error("营业外支出查询导出失败", e);
 		}
 	}
 
@@ -114,7 +113,7 @@ public class StoreChargeSearchController extends ReportController {
 				map.put("month", Integer.valueOf(monthStr));
 			}
 		}
-		map.put("chargeType", 0);
+		map.put("chargeType", 3);
 		return map;
 	}
 
