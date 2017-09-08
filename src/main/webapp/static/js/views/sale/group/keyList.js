@@ -552,7 +552,7 @@ function selectGoods(searchKey) {
     }
 
     var queryParams = {
-        type:'PA',
+        type:'HD',
         key:searchKey,
         isRadio:0,
         'branchId': $('#branchId').val(),
