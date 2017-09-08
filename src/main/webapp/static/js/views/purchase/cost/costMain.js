@@ -115,8 +115,10 @@ function initGridCost() {
                     var str = "";
                     if(row.isFooter) {
                         str = '<div class="ub ub-pc">合计</div> ';
+                        return str;
+                    }else{
+                        return value;
                     }
-                    return str;
             }},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
             {field:'barCode',title:'国际条码',width:'130px',align:'left'},
