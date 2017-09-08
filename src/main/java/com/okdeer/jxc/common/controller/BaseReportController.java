@@ -1,3 +1,4 @@
+
 package com.okdeer.jxc.common.controller;
 
 import java.util.List;
@@ -14,11 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.PriceGrantUtil;
-import com.okdeer.retail.common.entity.colsetting.GridColumn;
 import com.okdeer.retail.common.page.EasyUIPageInfo;
 import com.okdeer.retail.common.price.DataAccessParser;
 import com.okdeer.retail.common.util.GridExportPrintUtils;
-import com.okdeer.retail.common.util.JacksonUtil;
 import com.okdeer.retail.facade.report.facade.BaseReportFacade;
 import com.okdeer.retail.facade.report.qo.BaseReportQo;
 import com.okdeer.retail.facade.report.vo.DaySumReportVo;
@@ -103,9 +102,16 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 		forbiddenSets = parser.getAllForbiddenSets();
 
 		// 所有列
-		String columns = GridExportPrintUtils.getAccessGridColumnsJson(getViewObjectClass(),
-				forbiddenSets);
-		model.addAttribute("columns", columns);
+		if (model.containsAttribute("maxReportType")) {
+			Integer maxReportType = (Integer) model.asMap().get("maxReportType");
+			for (int i = 1; i < maxReportType + 1; i++) {
+				String columns = GridExportPrintUtils.getAccessGridColumnsJson(getViewObjectClass(), forbiddenSets, i);
+				model.addAttribute("columns" + i, columns);
+			}
+		} else {
+			String columns = GridExportPrintUtils.getAccessGridColumnsJson(getViewObjectClass(), forbiddenSets, null);
+			model.addAttribute("columns", columns);
+		}
 
 		return getViewName();
 	}
@@ -131,7 +137,7 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 
 			// 查询数据
 			EasyUIPageInfo<V> page = getReportFade().queryListPage(qo);
-			
+
 			cleanAccessData(page.getList());
 			cleanAccessData(page.getFooter());
 			return page;
@@ -164,12 +170,40 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 			forbiddenSets = parser.getAllForbiddenSets();
 
 			// 导出
-			GridExportPrintUtils.exportAccessExcel(DaySumReportVo.class, exportList, forbiddenSets, response);
+			GridExportPrintUtils.exportAccessExcel(DaySumReportVo.class, exportList, forbiddenSets, response,
+					qo.getReportType());
 		} catch (Exception e) {
 			LOG.error("导出日销售列表信息异常:{}", e);
 			resp = RespJson.error("导出日进销存报表异常");
 		}
 		return resp;
+	}
+
+	/**
+	 * @Description: 获取列表字段
+	 * @param reportType 报表类型
+	 * @author zhengwj
+	 * @date 2017年9月7日
+	 */
+	@RequestMapping(value = "getColumns", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson getColumns(Integer reportType) {
+		RespJson respJson = RespJson.success();
+		try {
+			// 无权限访问的字段
+			Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
+			DataAccessParser parser = new DataAccessParser(getViewObjectClass(), forbiddenSets);
+			forbiddenSets = parser.getAllForbiddenSets();
+
+			// 所有列
+			String columns = GridExportPrintUtils.getAccessGridColumnsJson(getViewObjectClass(), forbiddenSets,
+					reportType);
+			respJson.put("columns", columns);
+		} catch (Exception e) {
+			LOG.error("获取列表字段异常:", e);
+			respJson = RespJson.error("获取列表字段异常！");
+		}
+		return respJson;
 	}
 
 }

@@ -99,6 +99,26 @@ public interface ExportExcelConstant {
 	 * @Fields STOCKLEAD : 领用单导出模板
 	 */
 	String STOCKLEAD = "StockLead.xlsx";
+	
+	/**
+	 * @Fields STOCK_LEAD_DETAIL : 领用查询导出模板-领用明细
+	 */
+	String STOCK_LEAD_DETAIL = "StockLeadDetail.xlsx";
+	
+	/**
+	 * @Fields STOCK_LEAD_GOODS : 领用查询导出模板-商品汇总
+	 */
+	String STOCK_LEAD_GOODS = "StockLeadFoods.xlsx";
+	
+	/**
+	 * @Fields STOCK_LEAD_FIRST_CATEGORY : 领用查询导出模板-一级类别
+	 */
+	String STOCK_LEAD_FIRST_CATEGORY = "StockLeadFirstCategory.xlsx";
+	
+	/**
+	 * @Fields STOCK_LEAD_SECOND_CATEGORY : 领用查询导出模板-二级类别
+	 */
+	String STOCK_LEAD_SECOND_CATEGORY = "StockLeadSecondCategory.xlsx";
 
 	/**
 	 * @Fields STOCK_REIMBURSE_SKU_TEMPLE : 报损单货号导入模板
