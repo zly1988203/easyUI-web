@@ -6,6 +6,7 @@ $(function() {
     // 开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    $("#fullGiveType").combobox({disabled:true});
 	//选择报表类型
 	initActivityCX();
 
@@ -22,10 +23,13 @@ $(function() {
 		$("#"+datagridID).datagrid("options").url =  '';
 
 		if(cxType == "fullGive"){
+            $("#fullGiveType").combobox({disabled:false});
             onChangeSelect();
 		}else{
+            $("#fullGiveType").combobox({disabled:true});
             priceVal = "4";
             initActivityCX();
+
 		}
 
         $("#"+datagridID).datagrid("loadData",[]);
@@ -37,6 +41,13 @@ $(function() {
 var priceVal = "4";
 function onChangeSelect() {
     priceVal=$("#fullGiveType").combobox('getValue');
+    //类别 启用类别选择
+    $("#categoryName").prop('disabled',priceVal == '0'?true:false);
+    //类别 禁用货号
+    $("#codeKeyWord").prop('disabled',priceVal == '1'?true:false);
+    //类别 禁用商品名称
+    $("#skuName").prop('disabled',priceVal == '1'?true:false);
+    $("#"+datagridID).datagrid("options").url =  '';
     initActivityCX();
     $("#"+datagridID).datagrid("loadData",[]);
 }

@@ -67,7 +67,8 @@
 					<div class="umar-r10 uw-70 ut-r">报表类型:</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-						<input class="radioItem" type="radio" name="type" value="1" onclick="initDatagridRequire()" checked="checked" /><span>领用明细</span>
+						<input class="radioItem" type="radio" name="type" value="1" onclick="initDatagridRequire()" checked="checked" />
+						<span>领用明细</span>
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
@@ -80,7 +81,8 @@
 						<input class="radioItem" type="radio" name="type" onclick="initDatagridRequire()" value="3" /><span>类别汇总</span>
 						</label>
 						<div id="categoryTypeDiv">
-							<select class="easyui-combobox uselect" name="categoryType" onchange="initDatagridRequire()" id="categoryType" data-options="editable:false">
+							<select class="easyui-combobox uselect" name="categoryType" data-options="editable:false,onChange:onChangeSelect"
+									id="categoryType">
 								<option value="1">一级类别</option>
 								<option value="2">二级类别</option>
 							</select>
