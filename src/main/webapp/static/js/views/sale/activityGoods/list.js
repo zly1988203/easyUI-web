@@ -47,6 +47,7 @@ function onChangeSelect() {
     $("#codeKeyWord").prop('disabled',priceVal == '1'?true:false);
     //类别 禁用商品名称
     $("#skuName").prop('disabled',priceVal == '1'?true:false);
+    $("#"+datagridID).datagrid("options").url =  '';
     initActivityCX();
     $("#"+datagridID).datagrid("loadData",[]);
 }

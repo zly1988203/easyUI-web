@@ -84,8 +84,7 @@
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="queryType" id="cx_status_4" value="fullGive"><label for="cx_status_4">买满送</label>
-						<select class="uselect easyui-combobox" style="width:120px;" name="fullGiveScope
-							"id="fullGiveType" data-options="editable:false,onChange:onChangeSelect">
+						<select class="uselect easyui-combobox" style="width:120px;" name="fullGiveScope" id="fullGiveType" data-options="editable:false,onChange:onChangeSelect">
 							<option value="0">商品买满送</option>
 							<option value="1">类别买满送</option>
 							<option value="2">全场买满送</option>
