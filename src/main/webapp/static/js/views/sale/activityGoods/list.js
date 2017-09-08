@@ -70,7 +70,7 @@ function columnList(){
             },
             {field: 'giftInfo', title: '赠品信息', width:80, align: 'left',
                 formatter:function(value,row,index){
-                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'赠品信息\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + value + '</a>';
+                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="openGiftGoodsDialog('+index+')">赠品信息</a>';
                     return strHtml;
                 }
             },
@@ -112,7 +112,7 @@ function columnList(){
             },
             {field: 'giftInfo', title: '赠品信息', width:80, align: 'left',
                 formatter:function(value,row,index){
-                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'赠品信息\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + value + '</a>';
+                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="openGiftGoodsDialog('+index+')"> 赠品信息 </a>';
                     return strHtml;
                 }
             },
@@ -152,7 +152,7 @@ function columnList(){
             },
             {field: 'giftInfo', title: '赠品信息', width:80, align: 'left',
                 formatter:function(value,row,index){
-                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'赠品信息\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + value + '</a>';
+                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="openGiftGoodsDialog('+index+')" > 赠品信息</a>';
                     return strHtml;
                 }
             },
@@ -300,6 +300,17 @@ function purchaseTotalCx(){
 	$("#"+datagridID).datagrid("options").method = "post";
 	$("#"+datagridID).datagrid("options").url =  contextPath+"/sale/activityDetailReport/reportListPage";
 	$("#"+datagridID).datagrid("load");
+}
+
+
+function openGiftGoodsDialog(index) {
+    $('#'+datagridID).datagrid('selectRow',index);
+    var item =  $("#"+datagridID).datagrid('getSelected');
+    var param = {
+        activityId:item.activityId,
+        groupNum:item.groupNum
+    }
+    publicGiftGoodsService(param);
 }
 
 /**
