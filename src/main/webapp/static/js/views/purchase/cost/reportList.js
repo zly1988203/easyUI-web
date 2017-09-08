@@ -24,7 +24,7 @@ function initConditionParams(){
 var gridListId = "gridReportList";
 var gridHandel = new GridClass();
 function  initGridList() {
-    $("#"+gridListId).datagrid({
+    dg=$("#"+gridListId).datagrid({
         method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
@@ -104,7 +104,7 @@ function  initGridList() {
             },
             {field:'supplierName',title:'供应商名称',width:'140px',align:'left'},
             {field:'formNo',title:'调价单编号',width:'140px',align:'left',formatter:function(value,row,index){
-                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购成本调整详细\',\''+contextPath+'/form/purchase/cost/form/edit/'+row.id+'\')">' + value + '</a>';
+                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购成本调整详细\',\''+contextPath+'/purchase/cost/form/edit/'+row.id+'\')">' + value + '</a>';
                 return strHtml;
             }},
             {field:'refFormNo',title:'引用单编号',width:'140px',align:'left',formatter:function(value,row,index){
@@ -131,7 +131,7 @@ function query(){
     $("#"+gridListId).datagrid("options").url = contextPath+'/report/purchase/cost/form/list';
     $("#"+gridListId).datagrid("load");
 }
-
+var dg;
 /**
  * 导出
  */
@@ -151,13 +151,17 @@ function exportData(){
 }
 // 调用导出方法
 function exportExcel(){
-    $("#exportWin").hide();
-    $("#exportWin").window("close");
-    $("#formList").form({
-        success : function(result){
-
-        }
-    });
-    $("#formList").attr("action",contextPath+"/report/purchase/cost/form/export/list");
-    $("#formList").submit();
+    var startDate = $("#txtStartDate").val();
+    var endDate = $("#txtEndDate").val();
+    if(!(startDate && endDate)){
+        $_jxc.alert('日期不能为空');
+        return ;
+    }
+    var length = $("#"+gridListId).datagrid('getData').total;
+    if(length == 0){
+        $_jxc.alert("没有数据");
+        return;
+    }
+    $("#queryForm").attr("action",contextPath+'/report/purchase/cost/form/export/list');
+    $("#queryForm").submit();
 }

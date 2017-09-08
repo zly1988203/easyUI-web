@@ -40,10 +40,10 @@
                     </c:choose>
 			   	</shiro:hasPermission>
                 <shiro:hasPermission name="purchaseCostForm:print">
-                    <div class="ubtns-item" onclick="printChoose('DI','/form/deliverForm/')">打印</div>
+                    <div class="ubtns-item" onclick="printData()">打印</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="purchaseCostForm:export">
-                    <div class="ubtns-item"  onclick="exportData('DI','gridEditRequireOrder')">导出</div>
+                    <div class="ubtns-item"  onclick="exportData()">导出明细</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
@@ -57,10 +57,10 @@
                     <div class="already-examine" id="already-examine"><span>已审核</span></div>
                 </c:when>
             </c:choose>
-        <form id="formAdd">
+        <form id="formAdd"  action="" method="post">
         <div class="ub umar-t8 uc-black">【单号】:<span>${form.formNo}</span></div>
-            <input type="hidden" id="formNo" value="${form.formNo}">
-            <input type="hidden" id="id" value="${form.id}">
+            <input type="hidden" id="formNo" name="formNo" value="${form.formNo}">
+            <input type="hidden" id="id" name="id" value="${form.id}">
             <div class="ub ub-ver ">
                 <div class="ub umar-t8">
                     <div class="ub ub-ac umar-r80">
