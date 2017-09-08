@@ -6,6 +6,7 @@ $(function() {
     // 开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    $("#fullGiveType").combobox({disabled:true});
 	//选择报表类型
 	initActivityCX();
 
@@ -22,10 +23,13 @@ $(function() {
 		$("#"+datagridID).datagrid("options").url =  '';
 
 		if(cxType == "fullGive"){
+            $("#fullGiveType").combobox({disabled:false});
             onChangeSelect();
 		}else{
+            $("#fullGiveType").combobox({disabled:true});
             priceVal = "4";
             initActivityCX();
+
 		}
 
         $("#"+datagridID).datagrid("loadData",[]);

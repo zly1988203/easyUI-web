@@ -2,9 +2,7 @@
  * 领用查询
  */
 $(function() {
-	// 开始和结束时间
-	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev", 30));
-	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    initdefaultElement();
 	initDatagridRequire();
 	// 单据状态切换
 	changeStatus();
@@ -28,23 +26,55 @@ $(function() {
 	});
 });
 
+function initdefaultElement() {
+    // 开始和结束时间
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev", 30));
+    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    $("#skuName").prop("disabled",true);
+    $("#skuCode").prop("disabled",true);
+    $("#categoryType").combobox({disabled:true});
+}
+
 // 单据状态切换
 function changeStatus() {
 	$(".radioItem").change(function() {
 		var accountType = $('input[type="radio"][name="type"]:checked').val();
-		if(accountType == '3'){
-			$('#categoryType').attr("disabled", false);
-		}else{
-			$('#categoryType').attr("disabled", true);
-		}
+		if(accountType == "1"){
+            $("#formNo").prop("disabled",false);
+            $("#skuName").prop("disabled",true);
+            $("#skuCode").prop("disabled",true);
+            $("#categoryType").combobox({disabled:true});
+
+		}else if(accountType == "2"){
+			$("#formNo").prop("disabled",true);
+            $("#skuName").prop("disabled",false);
+            $("#skuCode").prop("disabled",false);
+            $("#categoryType").combobox({disabled:true});
+
+        }
+		else if(accountType == '3'){
+            $("#formNo").prop("disabled",true);
+            $("#skuname").prop("disabled",false);
+            $("#skuCode").prop("disabled",false);
+            $("#categoryType").combobox({disabled:false});
+
+
+        }
+        initDatagridRequire();
 	});
 }
 
-var dg;
+function onChangeSelect() {
+    initDatagridRequire();
+    $("#"+datagridID).datagrid("loadData",[]);
+}
+
 var gridHandel = new GridClass();
+var datagridID = "leadSearchList";
 // 初始化表格
 function initDatagridRequire() {
-	dg=$("#leadSearchList").datagrid({
+    gridHandel.setGridName(datagridID);
+	$("#"+datagridID).datagrid({
         align:'center',
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
@@ -145,16 +175,16 @@ function queryForm() {
 	fromObjStr.branchName = "";
 	fromObjStr.createUserName = "";
 	
-	$("#leadSearchList").datagrid("options").method = "post";
-	$("#leadSearchList").datagrid('options').url = contextPath + '/stock/leadSearch/getList';
-	$("#leadSearchList").datagrid('load', fromObjStr);
+	$("#"+datagridID).datagrid("options").method = "post";
+	$("#"+datagridID).datagrid('options').url = contextPath + '/stock/leadSearch/getList';
+	$("#"+datagridID).datagrid('load', fromObjStr);
 }
 
 /**
  * 导出表单
  */
 function exportLeadSearchList(){
-	var length = $('#leadSearchList').datagrid('getData').rows.length;
+	var length = $('#'+datagridID).datagrid('getData').rows.length;
 	if(length == 0){
 		$_jxc.alert("无数据可导");
 		return;
@@ -164,7 +194,7 @@ function exportLeadSearchList(){
 	    left:($(window).width()-500) * 0.5
 	});
 	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#totalRows").html($('#'+datagridID).datagrid('getData').total);
 	$("#exportWin").window("open");
 }
 
