@@ -20,7 +20,8 @@ import com.okdeer.retail.common.price.DataAccessParser;
 import com.okdeer.retail.common.util.GridExportPrintUtils;
 import com.okdeer.retail.facade.report.facade.BaseReportFacade;
 import com.okdeer.retail.facade.report.qo.BaseReportQo;
-import com.okdeer.retail.facade.report.vo.DaySumReportVo;
+
+import net.sf.json.JSONObject;
 
 /**
  * 
@@ -104,10 +105,12 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 		// 所有列
 		if (model.containsAttribute("maxReportType")) {
 			Integer maxReportType = (Integer) model.asMap().get("maxReportType");
+			JSONObject jsonObject = new JSONObject();
 			for (int i = 1; i < maxReportType + 1; i++) {
 				String columns = GridExportPrintUtils.getAccessGridColumnsJson(getViewObjectClass(), forbiddenSets, i);
-				model.addAttribute("columns" + i, columns);
+				jsonObject.put("columns" + i, columns);
 			}
+			model.addAttribute("columnsArr", jsonObject);
 		} else {
 			String columns = GridExportPrintUtils.getAccessGridColumnsJson(getViewObjectClass(), forbiddenSets, null);
 			model.addAttribute("columns", columns);
@@ -166,11 +169,11 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 
 			// 无权限访问的字段
 			Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
-			DataAccessParser parser = new DataAccessParser(DaySumReportVo.class, forbiddenSets);
+			DataAccessParser parser = new DataAccessParser(getViewObjectClass(), forbiddenSets);
 			forbiddenSets = parser.getAllForbiddenSets();
 
 			// 导出
-			GridExportPrintUtils.exportAccessExcel(DaySumReportVo.class, exportList, forbiddenSets, response,
+			GridExportPrintUtils.exportAccessExcel(getViewObjectClass(), exportList, forbiddenSets, response,
 					qo.getReportType());
 		} catch (Exception e) {
 			LOG.error("导出日销售列表信息异常:{}", e);
