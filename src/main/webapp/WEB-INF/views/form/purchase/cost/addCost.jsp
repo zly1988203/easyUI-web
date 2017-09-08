@@ -17,10 +17,8 @@
 	<div class="ub ub-ver ub-f1 umar-4  ubor">
 		<div class="ub ub-ac upad-4">
 			<div class="ubtns">
-				<shiro:hasPermission name="JxcPurchaseOrder:add">
-					<div class="ubtns-item" onclick="saveCost()">保存</div>
-				</shiro:hasPermission>
-				<div class="ubtns-item-disabled">删单</div>
+				<div class="ubtns-item" onclick="saveCost()">保存</div>
+				<div class="ubtns-item-disabled">删除</div>
 				<div class="ubtns-item-disabled">审核</div>
 				<div class="ubtns-item-disabled">打印</div>
 				<div class="ubtns-item-disabled">导出明细</div>

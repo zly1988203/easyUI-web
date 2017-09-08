@@ -6,7 +6,93 @@ var gridCostHandel = new GridClass();
 
 $(function () {
     initGridCost();
+    var id = $("#id").val();
+    if(id){
+        initQueryData(id);
+    }
 })
+
+function initQueryData(id) {
+    $_jxc.ajax({
+        url: contextPath + "/purchase/cost/form/detail/list/" + id
+    },function(result) {
+        if(result['code'] == 0) {
+            $("#" + gridCostId).datagrid("loadData", result.data);
+        }else {
+            $_jxc.alert(result.message)
+        }
+    });
+}
+
+function add() {
+    toAddTab("新增采购成本调价",contextPath + "/purchase/cost/form/add");
+}
+
+function del() {
+    $_jxc.confirm('是否要删除该单据?',function(data){
+        if(data){
+            $_jxc.ajax({
+                url:contextPath+"/purchase/cost/form/del",
+                data:{
+                    "ids[]":$("#id").val()
+                }
+            },function(result){
+                if(result['code'] == 0){
+                    $_jxc.alert("删除成功",function(){
+                        toClose();
+                    });
+                }else{
+                    $_jxc.alert(result['message']);
+                }
+            });
+        }
+    })
+}
+
+
+function check() {
+    $_jxc.confirm("确认审核通过？",function (res) {
+        if(res){
+            $_jxc.ajax({
+                url:contextPath+'/purchase/cost/form/audit',
+                data:{
+                    formId : $("#id").val()
+                },
+            },function(result){
+                if(result.code == 0){
+                    $_jxc.alert("审核成功",function () {
+                        gFunRefresh();
+                    });
+                }else{
+                    $_jxc.alert(result['message']);
+                }
+            })
+        }
+    })
+
+
+}
+
+function over() {
+    $_jxc.confirm("确认终止此调整单？",function (res) {
+        if(res){
+            $_jxc.ajax({
+                url:contextPath+'/purchase/cost/form/over',
+                data:{
+                    formId : $("#id").val(),
+                },
+            },function(result){
+                if(result.code == 0){
+                    $_jxc.alert("终止成功",function () {
+                        gFunRefresh();
+                    });
+                }else{
+                    $_jxc.alert(result['message']);
+                }
+            })
+        }
+    })
+}
 
 function initGridCost() {
     gridCostHandel.setGridName(gridCostId);
@@ -78,7 +164,7 @@ function initGridCost() {
                     if(row.isFooter){
                         return ;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field:'price',title:'原进货价',width:'80px',align:'right',
@@ -87,7 +173,7 @@ function initGridCost() {
                     if(row.isFooter){
                         return ;
                     }
-                    return '<b>'+parseFloat(value||0).toFixed(4)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
             {field:'amount',title:'原采购金额',width:'80px',align:'right',
@@ -108,8 +194,10 @@ function initGridCost() {
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:0,
+                        min:0.0001,
+                        max:999999,
                         precision:2,
+                        onChange: onChangeNewAmount
                     }
                 }
             },
@@ -120,6 +208,13 @@ function initGridCost() {
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
+                editor:{
+                    type:'numberbox',
+                        options:{
+                            precision:4,
+                            disabled:true
+                    }
+                }
             },
             {field:'tax',title:'税率',width:'80px',align:'right',
                 formatter : function(value, row, index) {
@@ -178,6 +273,12 @@ function updateFooter(){
     var argWhere = {name:'isGift',value:""}
     gridCostHandel.updateFooter(fields,argWhere);
 }
+//监听实际采购金额
+function onChangeNewAmount(newV,oldV) {
+    var amount = gridCostHandel.getFieldData(gridCostHandel.getSelectRowIndex(),'amount');
+    gridCostHandel.setFieldValue('totalMoney',parseFloat(newV-amount).toFixed(4));                          //调价差额=实际采购金额-原采购金额
+    updateFooter();
+}
 
 function selectSupplier(){
     var param = {
@@ -213,5 +314,127 @@ function selectSupplier(){
         $("#salesmanId").val(data.form.salesmanId);
         $("#operateUserName").val(data.form.salesmanName);
         $("#refFormId").val(data.form.id);
+    });
+}
+
+
+//保存
+function saveCost(){
+
+    $("#gridCost").datagrid("endEdit", gridCostHandel.getSelectRowIndex());
+    var rows = gridCostHandel.getRowsWhere({skuName:'1'});
+    $(gridCostHandel.getGridName()).datagrid("loadData",rows);
+    if(rows.length==0){
+        $_jxc.alert("表格不能为空");
+        return;
+    }
+
+    // $.each(rows,function(i,v){
+    //     v["rowNo"] = i+1;
+    //     if(!v["skuName"]){
+    //         $_jxc.alert("第"+(i+1)+"行，货号不正确");
+    //         isCheckResult = false;
+    //         return false;
+    //     };
+    //
+    //     //箱数判断  bug 19886
+    //     if(parseFloat(v["largeNum"])<=0){
+    //         $_jxc.alert("第"+(i+1)+"行，箱数要大于0");
+    //         isCheckResult = false;
+    //         isChcekNum = true;
+    //         return false;
+    //     }
+    //     //数量判断 bug 19886
+    //     if(parseFloat(v["realNum"])<=0){
+    //         $_jxc.alert("第"+(i+1)+"行，数量要大于0");
+    //         isCheckResult = false;
+    //         isChcekNum = true;
+    //         return false;
+    //     }
+    //
+    //     if(hasPurchasePrice==true) {
+    //         if(parseFloat(v["price"])<=0&&v["isGift"]==0){
+    //             isChcekPrice = true;
+    //         }
+    //     }
+    //
+    //     //数量判断
+    //     if(parseFloat(v["realNum"])<=0){
+    //         isChcekNum = true;
+    //     }
+    // });
+    //
+    // //验证备注的长度 20个字符
+    // var isValid = $("#gridFrom").form('validate');
+    // if (!isValid) {
+    //     return;
+    // }
+
+    // if(isCheckResult){
+    //     if(isChcekPrice && hasPurchasePrice){
+    //         $_jxc.confirm("单价存在为0，重新修改",function(r){
+    //             if (r){
+    //                 return ;
+    //             }else{
+    //                 saveDataHandel(rows);
+    //             }
+    //         });
+    //     }else{
+    //         if(isChcekNum){
+    //             $_jxc.confirm('存在数量为0的商品,是否继续保存?',function(data){
+    //                 if(data){
+    //                     saveDataHandel(rows);
+    //                 }
+    //             });
+    //         }else{
+    //             saveDataHandel(rows);
+    //         }
+    //     }
+    // }
+
+    saveDataHandel(rows);
+}
+function saveDataHandel(rows){
+    //供应商
+    var supplierId = $("#supplierId").val();
+    //收货机构
+    var branchId = $("#branchId").val();
+
+    var refFormNo = $("#refFormNo").val();
+    //备注
+    var remark = $("#remark").val();
+
+    var saleWay = $("#saleWay").val();
+
+    var id = $("#id").val()||'';
+
+    var reqObj = {
+        id:id,
+        supplierId:supplierId,
+        branchId:branchId,
+        refFormNo:refFormNo,
+        saleWay:saleWay,
+        remark:remark,
+        purchaseFormDetailPOList:rows
+    };
+
+    var req = JSON.stringify(reqObj);
+
+    $_jxc.ajax({
+        url:contextPath+"/purchase/cost/form/save",
+        contentType:'application/json',
+        data:req
+    },function(result){
+//            gFunEndLoading();
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功！",function(){
+                location.href = contextPath +"/purchase/cost/form/edit/" + result.data.id;
+            });
+        }else{
+            new publicErrorDialog({
+                "title":"保存失败",
+                "error":result['message']
+            });
+        }
     });
 }
