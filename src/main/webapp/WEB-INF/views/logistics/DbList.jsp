@@ -62,12 +62,12 @@
 					<div class="umar-r10 uw-70 ut-r">单据状态:</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-							<input type="radio" name="deliverStatus" value="" checked="checked" onclick="queryForm()"/><span>全部</span>
+							<input type="radio" name="deliverStatus" value=""  onclick="queryForm()"/><span>全部</span>
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-							<input  type="radio" name="deliverStatus" value="0" onclick="queryForm()"/><span>待处理</span>
+							<input  type="radio" name="deliverStatus" value="0" checked="checked" onclick="queryForm()"/><span>待处理</span>
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
