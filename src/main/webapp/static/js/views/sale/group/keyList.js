@@ -70,14 +70,15 @@ function  initKeygrid() {
                 }
             }
 
+
         },
-        onSelect:function (rowIndex,rowData) {
-            getGgoodsList();
+        onClickRow:function (rowIndex,rowData) {
             if(rowData.groupNo == "01"){
                 $('#btnHot').addClass('ubtns-item').removeClass('ubtns-item-disabled event-none');
             }else{
                 $('#btnHot').removeClass('ubtns-item').addClass('ubtns-item-disabled event-none');
             }
+            getGgoodsList();
         },
         onLoadSuccess:function(data){
             keygridHandle.setDatagridHeader("center");
@@ -190,10 +191,21 @@ function  initGoodsgrid() {
                 },
             },
             {field:'shortName',title:'简称',width:'200px',align:'left',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    }
+
+                    if(!value){
+                        value = row['skuName'];
+                    }
+
+                    return value;
+                },
                 editor:{
                     type:'textbox',
                     options:{
-                        validType:{maxLength:[10]},
+                        // validType:{maxLength:[10]},
                     }
                 }
             },
@@ -202,9 +214,8 @@ function  initGoodsgrid() {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0)+'</b>';
                     }
-
                     if(!value){
-                        row["sortNo"] = parseFloat(value||0);
+                        value = (index+1);
                     }
 
                     return '<b>'+parseFloat(value||0)+'</b>';
@@ -332,6 +343,7 @@ function getGroupList(branchId) {
             // }else {
                 keygridHandle.setLoadData(result.data.list);
                 $('#'+gridName).datagrid('selectRow',0);
+                getGgoodsList();
             // }
 
         }else{
@@ -477,7 +489,7 @@ function savegoods() {
     })
 }
 
-function getGgoodsList() {
+function getGgoodsList(rowIndex) {
     $("#goodsgrid").datagrid("endEdit", goodsgridHandel.getSelectRowIndex());
     // $("#keygrid").datagrid("endEdit", keygridHandle.getSelectRowIndex());
     var row = $("#keygrid").datagrid("getSelected");
@@ -493,12 +505,12 @@ function getGgoodsList() {
         data:param,
     },function(result){
         if(result.code == 0){
-            if(result.data.list.length > 0){
-                $.each(result.data.list,function (index,item) {
-                    item.shortName = item.skuName;
-                    item.sortNo = (index+1);
-                })
-            }
+            // if(result.data.list.length > 0){
+            //     $.each(result.data.list,function (index,item) {
+            //         item.shortName = item.skuName;
+            //         item.sortNo = (index+1);
+            //     })
+            // }
 
             $("#goodsgrid").datagrid("loadData",result.data.list);
         }else{
