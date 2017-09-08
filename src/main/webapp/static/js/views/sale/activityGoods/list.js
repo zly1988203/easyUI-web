@@ -41,6 +41,12 @@ $(function() {
 var priceVal = "4";
 function onChangeSelect() {
     priceVal=$("#fullGiveType").combobox('getValue');
+    //类别 启用类别选择
+    $("#categoryName").prop('disabled',priceVal == '0'?true:false);
+    //类别 禁用货号
+    $("#codeKeyWord").prop('disabled',priceVal == '1'?true:false);
+    //类别 禁用商品名称
+    $("#skuName").prop('disabled',priceVal == '1'?true:false);
     initActivityCX();
     $("#"+datagridID).datagrid("loadData",[]);
 }
