@@ -427,11 +427,20 @@ function validform() {
             return false;
         }
 
+
+
         if($.inArray(parseFloat(item.rowNo), rowNoArr) == -1){
             rowNoArr.push(parseFloat(item.rowNo));
         }else{
             hasRepeat = true;
         }
+
+        if(item['winRate'] === "0.00" || parseFloat(item.winRate).toFixed(2) == 0.00){
+            $_jxc.alert("第"+(index+1)+"行，中奖概率不能为0");
+            flag = true;
+            return false;
+        }
+
         totalRate = totalRate + parseFloat(item.winRate);
 
         if(item.picUrl == ""){

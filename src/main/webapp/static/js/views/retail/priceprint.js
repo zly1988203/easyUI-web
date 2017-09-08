@@ -46,6 +46,11 @@ $(function(){
 
 });
 
+function changeNum() {
+	var val = $("#printnum").numberbox("getValue");
+    printRows(val);
+}
+
 //监听打印数
 function changePrintNum(vewV,oldV){
 	if(vewV && vewV > 0){
