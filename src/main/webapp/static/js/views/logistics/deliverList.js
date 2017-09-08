@@ -46,6 +46,7 @@ var targetBranchId;
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequireOrders(){
+	var deliverType = $('#deliverType').val();
     $("#deliverFormList").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
@@ -136,7 +137,6 @@ function queryForm(){
 	// 去除编码
     //fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
     fromObjStr.operateUserName = fromObjStr.operateUserName.substring(fromObjStr.operateUserName.lastIndexOf(']')+1)
-
 	$("#deliverFormList").datagrid("options").method = "post";
 	$("#deliverFormList").datagrid('options').url = contextPath + '/LogisticsDeliverForm/getDeliverForms';
 	$("#deliverFormList").datagrid('load', fromObjStr);

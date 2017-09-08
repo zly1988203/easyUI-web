@@ -84,12 +84,12 @@ function initActivityCX() {
             		return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field: 'fullMoney', title: '买满金额', width:80, align: 'right',hidden:cxType == 'fullReduction'?false:true,
+            {field: 'limitAmount', title: '买满金额', width:80, align: 'right',hidden:cxType == 'fullReduction'?false:true,
             	formatter:function(value,row,index){
             		return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
             },
-            {field: 'yhMoney', title: '优化金额', width:80, align: 'right',hidden:cxType == 'fullReduction'?false:true,
+            {field: 'discountPrice', title: '优惠金额', width:80, align: 'right',hidden:cxType == 'fullReduction'?false:true,
             	formatter:function(value,row,index){
             		return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
             	}
@@ -97,7 +97,10 @@ function initActivityCX() {
             {field: 'activityPlan', title: '促销方案', width:80, align: 'right',hidden:cxType == 'goods'?false:true,
             	formatter:function(value,row,index){
             		var str = "";
-            		if(isNaN(value)){
+            		if (!value){
+            			return str;
+            		}
+                    if(isNaN(value)){
             			str = '<b>'+value+'</b>';
             		}else{
             			str = '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
