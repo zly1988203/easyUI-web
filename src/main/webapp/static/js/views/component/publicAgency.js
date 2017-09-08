@@ -13,6 +13,7 @@ var isOpenStock=null;
 var scope=null;
 var type=null;     //NOTREE 左边没有树
 var selectType=null;//0 单选  1多选
+var offlineStatus = "1";
 function initAgencyView(param){
 
 	nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
@@ -21,7 +22,7 @@ function initAgencyView(param){
 	branchType=$("#formAgency :hidden[name=branchType]").val();
 	isOpenStock=$("#formAgency :hidden[name=isOpenStock]").val();
 	scope=$("#formAgency :hidden[name=scope]").val();
-	
+    offlineStatus = $('input[type="radio"][name="offlineStatus"]:checked').val();
 	//新组件方法会传此参数 
 	if(param){
 		if(param.nameOrCode){
@@ -57,6 +58,12 @@ function initAgencyView(param){
     }
     
     initDatagridAgency(); //初始化表格
+
+	$("input[name='offlineStatus']").change(function () {
+        $('#gridAgency').datagrid('clearSelections');
+        $('#gridAgency').datagrid('clearChecked');
+        agencySearch();
+    })
 }
 var agencyCallBack ;
 //初始化回调函数
@@ -111,7 +118,8 @@ function zTreeOnClick(event, treeId, treeNode) {
     		branchTypesStr:branchTypesStr,
     		isOpenStock:isOpenStock,
     		branchCompleCode:branchCompleCode,
-    		scope:scope
+    		scope:scope,
+        	offlineStatus :$('input[type="radio"][name="offlineStatus"]:checked').val()
     };
     $("#gridAgency").datagrid("options").method = "post";
     $("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',
@@ -133,7 +141,8 @@ function initDatagridAgency(){
     		scope:scope,
     		branchType:branchType,
     		branchTypesStr:branchTypesStr,
-    		branchCompleCode:branchCompleCode
+    		branchCompleCode:branchCompleCode,
+            offlineStatus:offlineStatus
         },
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
@@ -177,6 +186,7 @@ function publicBranchGetChecks(cb){
 //搜索
 function agencySearch(){
 	nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
+    offlineStatus = $('input[type="radio"][name="offlineStatus"]:checked').val();
 	//去空格处理
 	nameOrCode=$.trim(nameOrCode)||'';
 	//去除左侧选中样式
@@ -190,7 +200,9 @@ function agencySearch(){
 		branchTypesStr:branchTypesStr,
 		branchCompleCode:branchCompleCode,
 		isOpenStock:isOpenStock,
-		scope:scope};
+		scope:scope,
+        offlineStatus:offlineStatus
+	};
 //	$("#gridAgency").datagrid("options").queryParams = {branchAreaCode:branchAreaCode,nameOrCode:nameOrCode,formType:$("#formType").val(),branchId:$("#branchId").val()};
 	$("#gridAgency").datagrid("options").method = "post";
 	$("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',

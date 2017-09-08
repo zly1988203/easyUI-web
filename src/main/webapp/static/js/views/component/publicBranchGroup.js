@@ -29,6 +29,12 @@ function initAgencyView(param){
 		$('#gridBranchGroupList').datagrid('clearChecked');
 		agencySearch();
 	})
+
+    $('input[name="offlineStatus"]').on('change',function(){
+        $('#gridBranchGroupList').datagrid('clearSelections');
+        $('#gridBranchGroupList').datagrid('clearChecked');
+        agencySearch();
+    })
 	
     gFunSetEnterKey(agencySearch);
     initDatagridBranchGroupList(); //初始化表格
