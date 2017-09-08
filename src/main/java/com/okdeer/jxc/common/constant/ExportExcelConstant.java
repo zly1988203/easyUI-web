@@ -49,6 +49,16 @@ public interface ExportExcelConstant {
 	 * @Fields GOODS_PRICE_ADJUST_FORM : 采购明细表
 	 */
 	String PURCHASE_DETAIL_REPORT = "PurchaseDetail.xlsx";
+	
+	/**
+	 * @Fields GOODS_PRICE_ADJUST_FORM : 要货与库存报表
+	 */
+	String DELIVER_AND_STOCK_REPORT = "DeliverAndStockReport.xlsx";
+	
+	/**
+	 * @Fields GOODS_PRICE_ADJUST_FORM : 东莞大仓补货分析
+	 */
+	String DG_STOCK_ANALYSIS = "DgStockAnalysis.xlsx";
 
 	/**
 	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE : 调价单货号导入模板
@@ -849,4 +859,9 @@ public interface ExportExcelConstant {
 	 * 采购成本调整查询
 	 */
 	String PURCHASE_COST_FORM = "purchaseCostForm.xlsx";
+
+	/**
+	 * 采购成本调整明细
+	 */
+	String PURCHASE_COST_FORM_DETAIL = "purchaseCostFormDetail.xlsx";
 }

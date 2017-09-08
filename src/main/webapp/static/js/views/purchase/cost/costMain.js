@@ -438,3 +438,11 @@ function saveDataHandel(rows){
         }
     });
 }
+
+/**
+ * 导出明细
+ */
+function exportData(){
+    $("#formAdd").attr("action",contextPath+'/purchase/cost/form/export/list');
+    $("#formAdd").submit();
+}
