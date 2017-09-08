@@ -20,6 +20,9 @@
             	<shiro:hasPermission name="JxcPurchaseReceipt:add">
             	<div class="ubtns-item"  id="addButton" onclick="receiptAdd()">新增</div>
             	</shiro:hasPermission>
+            	<shiro:hasPermission name="JxcPurchaseReceipt:costAdjust">
+            	<div class="ubtns-item" onclick="toCostAdjust()">成本调价</div>
+            	</shiro:hasPermission>
             	<shiro:hasPermission name="JxcPurchaseReceipt:print">
                 <div class="ubtns-item" onclick="printChoose('PI','/form/purchase/')">打印</div>
                 </shiro:hasPermission>

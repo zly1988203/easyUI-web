@@ -103,7 +103,7 @@ function columnList(){
             {field: 'branchName', title: '活动店铺', width:120, align: 'left'},
             {field: 'activityScopeStr', title: '活动类型', width:100, align: 'center'},
             {field: 'goodCategoryCode', title: '类别编码', width:100, align: 'left'},
-            {field: 'goodCategoryCode', title: '类别名称', width:100, align: 'left'},
+            {field: 'goodCategoryName', title: '类别名称', width:100, align: 'left'},
             {field: 'activityCode', title: '活动编号', width:160, align: 'left',
                 formatter:function(value,row,index){
                     var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看促销管理详细\',\''+contextPath+'/sale/activity/edit?activityId='+row.activityId+'\')">' + value + '</a>';
