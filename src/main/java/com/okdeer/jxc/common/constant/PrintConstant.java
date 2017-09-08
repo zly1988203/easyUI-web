@@ -221,4 +221,15 @@ public interface PrintConstant {
 	 * 门店销售报表
 	 */
 	String STORE_SELL_REPORT = "StoreSellReport.jrxml";
+
+	/**
+	 * 采购成本调整列表
+	 */
+	String PURCHASE_COST_PRINT = "purchaseCost.jrxml";
+
+	/**
+	 * 采购成本调整详细列表
+	 */
+	String PURCHASE_COST_PRINT_DETAIL = "purchaseCostDetail.jrxml";
+
 }

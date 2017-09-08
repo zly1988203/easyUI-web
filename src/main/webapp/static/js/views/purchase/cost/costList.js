@@ -10,7 +10,7 @@ $(function () {
         onAfterRender:function(data){
             branchName = data.branchName;
             $("#createUserId").val(data.id);
-            $("#createUserName").val(data.name);
+            $("#createUserName").val(data.userName);
         }
     });
 
@@ -67,9 +67,9 @@ function  initGridList() {
                 if(value == '0'){
                     return '待审核';
                 }else if(value == '1'){
-                    return '审核通过';
+                    return '已审核';
                 }else if(value == '2'){
-                    return '审核失败';
+                    return '已终止';
                 }else{
                     return '未知类型：'+ value;
                 }
@@ -163,10 +163,26 @@ function orderDelete(){
 }
 
 function printPreview() {
-    var rows = $("#"+gridListId).datagrid('getSelections');
-    if(rows.length == 1){
-        toPrintPreview('PA','/form/purchase/','gridOrders');
+    var rows = $("#"+gridListId).datagrid('getData');
+    if(rows.total >0){
+        var queryParams =  urlEncode($("#queryForm").serializeObject());
+        parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/purchase/cost/form/list/print?params="+queryParams);
     }else{
         $_jxc.alert('请选择一行数据.')
     }
 }
+
+var urlEncode = function (param, key, encode) {
+    if(param==null) return '';
+    var paramStr = '';
+    var t = typeof (param);
+    if (t == 'string' || t == 'number' || t == 'boolean') {
+        paramStr += '&' + key + '=' + ((encode==null||encode) ? encodeURIComponent(param) : param);
+    } else {
+        for (var i in param) {
+            var k = key == null ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i);
+            paramStr += urlEncode(param[i], k, encode);
+        }
+    }
+    return paramStr;
+};
