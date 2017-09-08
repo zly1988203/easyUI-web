@@ -10,9 +10,11 @@ package com.okdeer.jxc.controller.purchase;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.AuditStatusEnum;
 import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.form.purchase.qo.PurchaseFormDetailPO;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
@@ -185,6 +188,21 @@ public class PurchaseCostFormController extends BaseController<PurchaseCostFormC
             LOG.error("审核采购成本调整单失败!", e);
             return RespJson.error("审核采购成本调整单失败!");
         }
+    }
+
+    @RequestMapping(value = "/export/list", method = RequestMethod.POST)
+    public RespJson exportList(HttpServletResponse response, PurchaseCostFormVo vo) {
+        RespJson resp = RespJson.success();
+        try {
+            List<PurchaseFormDetailPO> purchaseFormDetailPOS = purchaseCostFormService.getPurchaseCostFormDetail(vo.getId());
+            String fileName = "采购成本调明细_" + DateUtils.getCurrSmallStr();
+            String templateName = ExportExcelConstant.PURCHASE_COST_FORM_DETAIL;
+            exportListForXLSX(response, purchaseFormDetailPOS, fileName, templateName);
+        }catch (Exception e){
+            LOG.error("采购成本调整明细导出异常!",e);
+            resp = RespJson.error("采购成本调整明细导出异常!");
+        }
+        return resp;
     }
 
     @RequestMapping(value = "/add")

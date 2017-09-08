@@ -849,4 +849,9 @@ public interface ExportExcelConstant {
 	 * 采购成本调整查询
 	 */
 	String PURCHASE_COST_FORM = "purchaseCostForm.xlsx";
+
+	/**
+	 * 采购成本调整明细
+	 */
+	String PURCHASE_COST_FORM_DETAIL = "purchaseCostFormDetail.xlsx";
 }

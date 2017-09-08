@@ -16,10 +16,11 @@
             text-align: center !important;
         }
     </style>
+    <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 <div class="ub ub-ver ub-f1 umar-4 upad-4">
-    <form id="queryForm">
+    <form id="queryForm" action="" method="post">
         <div class="ub ub-ac">
             <div class="ubtns">
                 <shiro:hasPermission name="purchaseCostFormQuery:search">
@@ -31,7 +32,8 @@
                 <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
-
+            <input type="hidden" id="startCount" name="startCount" />
+            <input type="hidden" id="endCount" name="endCount" />
             <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
         </div>
 
