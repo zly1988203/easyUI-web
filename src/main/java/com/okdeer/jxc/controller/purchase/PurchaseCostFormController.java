@@ -176,12 +176,12 @@ public class PurchaseCostFormController extends BaseController<PurchaseCostFormC
             } else if (AuditStatusEnum.OVER.getCode().equals(vo.getStatus())) {
                 return RespJson.error("该采购成本调整单已终止,无需审核!");
             } else {
-                vo = new PurchaseCostFormVo();
-                vo.setId(formId);
+                //vo = new PurchaseCostFormVo();
+                //vo.setId(formId);
                 vo.setStatus(AuditStatusEnum.AUDIT.getCode());
                 vo.setValidTime(new Date());
                 vo.setValidUserId(getCurrUserId());
-                purchaseCostFormService.updatePurchaseCostForm(vo);
+                purchaseCostFormService.check(vo);
                 return RespJson.success();
             }
         } catch (Exception e) {
