@@ -692,6 +692,14 @@ function saveOrder(){
             isCheckResult = false;
             return false;
         }
+        var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(4);
+        var _largeNum = parseFloat(v["dealNum"]/v["distributionSpec"]).toFixed(4);
+        if(parseFloat(_realNum).toFixed(4) != parseFloat(v["dealNum"]).toFixed(4)
+            && parseFloat(_largeNum ).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)){
+            $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
+            isCheckResult = false;
+            return false;
+        }
         if(v["sourceStock"]==0){
         	
         	num++;
@@ -916,6 +924,9 @@ function selectDeliver(){
 		refDeliverType=data.formType;
 		$("#referenceId").val(referenceId);
 		$("#referenceNo").val(data.formNo);
+		$("#refFormType").val(data.formType);
+		$("#formId").val(referenceId);
+		$("#formNo").val(data.formNo);
 		$("#targetBranchId").val(data.targetBranchId);
 		$("#targetBranchName").val(data.targetBranchName);
 		$("#sourceBranchId").val(data.sourceBranchId);
@@ -1130,4 +1141,27 @@ function setData(){
 
 function addDeliverForm(){
 	toAddTab("新增出库单",contextPath + "/form/deliverForm/addDeliverForm?deliverType=DO");
+}
+// 导出明细
+function exportDetail(){
+	var refFormType = $("#refFormType").val();
+	var refFormNo = $("#referenceNo").val();
+	var length = $("#gridEditOrder").datagrid('getData').total;
+	if(!refFormType || length == 0){
+		$_jxc.alert("无数据可导");
+		return;
+	}
+    window.location.href=contextPath+'/form/deliverFormList/exportList?formNo='+refFormNo+'&type='+refFormType;
+}
+
+// 打印
+function printDetail(){
+	var refFormType = $("#refFormType").val();
+	var length = $("#gridEditOrder").datagrid('getData').total;
+	if(!refFormType || length == 0){
+		$_jxc.alert("暂无打印数据");
+		return;
+	}
+	
+	printChoose(refFormType,'/form/deliverForm/');
 }

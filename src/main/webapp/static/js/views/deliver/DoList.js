@@ -104,7 +104,7 @@ function initDatagridRequireOrdersDA(){
 			{field:'check',checkbox:true},
 			{field:'formNo',title:'要货单号',width:'140px',align:'left',formatter:function(value,row,index){
 				if(updatePermission){
-					var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'新增出库单\',\''+ contextPath +'/form/deliverForm/addDeliverForm?deliverFormId='+ row.id +'&deliverType=DO\')">' + value + '</a>';
+					var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'新增出库单\',\''+ contextPath +'/form/deliverForm/addDeliverForm?deliverFormId='+ row.id +'&refDeliverType='+ row.formType +'&deliverType=DO\')">' + value + '</a>';
 					return strHtml;
 				}else{
 					return value;

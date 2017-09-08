@@ -70,7 +70,7 @@ function columnList(){
                 }
             },
             {field: 'startTime', title: '活动时段', width:140, align: 'left'},
-            {field: 'fullMoney', title: '买满金额', width:80, align: 'right',
+            {field: 'limitAmount', title: '买满金额', width:80, align: 'right',
                 formatter:function(value,row,index){
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
                 }
@@ -117,7 +117,7 @@ function columnList(){
                 }
             },
             {field: 'startTime', title: '活动时段', width:140, align: 'left'},
-            {field: 'fullMoney', title: '买满金额', width:80, align: 'right',
+            {field: 'limitAmount', title: '买满金额', width:80, align: 'right',
                 formatter:function(value,row,index){
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
                 }
@@ -162,7 +162,7 @@ function columnList(){
                 }
             },
             {field: 'startTime', title: '活动时段', width:140, align: 'left'},
-            {field: 'fullMoney', title: '买满金额', width:80, align: 'right',
+            {field: 'limitAmount', title: '买满金额', width:80, align: 'right',
                 formatter:function(value,row,index){
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
                 }
@@ -212,12 +212,12 @@ function columnList(){
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
                 }
             },
-            {field: 'fullMoney', title: '买满金额', width:80, align: 'right',hidden:cxType == 'fullReduction'?false:true,
+            {field: 'limitAmount', title: '买满金额', width:80, align: 'right',hidden:cxType == 'fullReduction'?false:true,
                 formatter:function(value,row,index){
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
                 }
             },
-            {field: 'yhMoney', title: '优化金额', width:80, align: 'right',hidden:cxType == 'fullReduction'?false:true,
+            {field: 'discountPrice', title: '优惠金额', width:80, align: 'right',hidden:cxType == 'fullReduction'?false:true,
                 formatter:function(value,row,index){
                     return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
                 }

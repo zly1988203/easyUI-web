@@ -500,6 +500,7 @@ function initDatagridRequireOrder(){
 //限制转换次数
 var n = 0;
 var m = 0;
+
 //监听商品箱数
 var errroPurL = false;
 function onChangeLargeNum(newV,oldV){
@@ -857,6 +858,12 @@ function saveOrder(){
             isCheckResult = false;
             return false;
         }
+        // var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(0);
+        // if(parseFloat(_realNum )!= parseFloat(v["applyNum"])){
+        //     $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
+        //     isCheckResult = false;
+        //     return false;
+        // }
         v["rowNo"] = i+1;
     });
     if(!isCheckResult){
