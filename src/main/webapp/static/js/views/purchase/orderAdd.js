@@ -365,7 +365,7 @@ function initDatagridEditOrder(){
 
 //备注
 var reFlg = false;
-var maxRemark = 20;
+var maxRemark = 120;
 function changeRemark(newV,oldV){
 	if(reFlg){
 	   reFlg = false;
