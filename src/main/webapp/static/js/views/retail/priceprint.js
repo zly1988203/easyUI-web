@@ -67,7 +67,6 @@ function initjiaqType(){
 				$('.discount').removeClass('unhide');
                 // gridHandel.setLoadData([]);
 				appendOptions(options_nomal);
-                isdisabled = true;
 
 				$('#pricePrint').datagrid('showColumn','activityTime');
 				$('#pricePrint').datagrid('showColumn','promotionPrice');
@@ -484,6 +483,8 @@ function getActivityGoods(data){
 	    	type:"GET"
 	    },function(result){
     		if(result['code'] == 0){
+    			isdisabled = true;
+    			initPricePrintGrid();
     			var tempData = result.data;
     			var startDate = tempData.startTime + " " +tempData.dailyStartTime;
     			var endDate = tempData.endTime + " " +tempData.dailyEndTime;
@@ -493,6 +494,7 @@ function getActivityGoods(data){
     			$_jxc.alert(result['message']);
     		}
 	    });
+       
 	}
 }
 

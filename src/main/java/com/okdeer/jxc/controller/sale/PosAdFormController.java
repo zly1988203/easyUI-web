@@ -96,6 +96,9 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
         try {
             vo.setPageNumber(pageNumber);
             vo.setPageSize(pageSize);
+            if(StringUtils.isBlank(vo.getCreateUserId())){
+                vo.setCreateUserId(getCurrUserId());
+            }
             PageUtils<PosAdFormVo> posWheelsurfFormVoPageUtils = this.posAdServiceApi.getPosAdList(vo);
             //return RespJson.success(posWheelsurfFormVoPageUtils);
             return posWheelsurfFormVoPageUtils;
@@ -112,7 +115,7 @@ public class PosAdFormController extends BaseController<PosAdFormController> {
             boolean bool = Boolean.FALSE;
             for (String id : ids) {
                 PosAdFormVo vo = posAdServiceApi.getPosAdByFormId(id);
-                if (vo.getAuditStatus() == 1 || vo.getAuditStatus() == 2) {
+                if (AuditStatusEnum.AUDIT.getCode().equals(vo.getAuditStatus()) || AuditStatusEnum.OVER.getCode().equals(vo.getAuditStatus())) {
                     bool = Boolean.TRUE;
                     break;
                 }

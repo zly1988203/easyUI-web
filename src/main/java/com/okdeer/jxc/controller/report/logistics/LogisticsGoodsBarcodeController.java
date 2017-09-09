@@ -26,7 +26,6 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.goods.qo.GoodsBarcodeQo;
 import com.okdeer.jxc.goods.service.GoodsBarcodeService;
-import com.okdeer.jxc.utils.UserUtil;
 
 /**
  * 
@@ -111,12 +110,17 @@ public class LogisticsGoodsBarcodeController extends BaseController<LogisticsGoo
 	@ResponseBody
 	public String exportList(GoodsBarcodeQo qo, HttpServletResponse response) {
 		try {
-			// 1、列表查询
+			String branchName = qo.getBranchName();
+			if(StringUtils.isNotBlank(branchName)){
+				branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+				qo.setBranchName(branchName);
+			}
 			if(StringUtils.isNotBlank(qo.getSkuCode())){
 				qo.setSkuCode(qo.getSkuCode().trim());
 			}else{
 				qo.setSkuCode("");
 			}
+			qo.setBranchCompleCode(getCurrBranchCompleCode());
 			List<Map<String,Object>> exportList = goodsBarcodeService.queryReportLists(qo);
 			String fileName = "SPTM" + "_" + DateUtils.formatDate(DateUtils.getCurrDate(), DateUtils.DATE_KEY_STR);
 			String templateName = ExportExcelConstant.GOODS_BARCODE_REPORT;

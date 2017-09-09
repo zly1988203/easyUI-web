@@ -11,9 +11,19 @@ public class ImportEntity implements Serializable {
 	private static final long serialVersionUID = -421241876104597128L;
 
 	/**
-	 * 单号
+	 * 业务系统单号
 	 */
 	private String formNo;
+
+	/**
+	 * 物流系统单号
+	 */
+	private String logisticFormNo;
+
+	/**
+	 * 行号
+	 */
+	private Integer rowNo;
 
 	/**
 	 * 货号
@@ -35,12 +45,33 @@ public class ImportEntity implements Serializable {
 	 */
 	private BigDecimal giftNum;
 
+	/**
+	 * 备注
+	 */
+	private String remark;
+
 	public String getFormNo() {
 		return formNo;
 	}
 
 	public void setFormNo(String formNo) {
 		this.formNo = formNo;
+	}
+
+	public String getLogisticFormNo() {
+		return logisticFormNo;
+	}
+
+	public void setLogisticFormNo(String logisticFormNo) {
+		this.logisticFormNo = logisticFormNo;
+	}
+
+	public Integer getRowNo() {
+		return rowNo;
+	}
+
+	public void setRowNo(Integer rowNo) {
+		this.rowNo = rowNo;
 	}
 
 	public String getSkuCode() {
@@ -75,9 +106,19 @@ public class ImportEntity implements Serializable {
 		this.giftNum = giftNum;
 	}
 
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	@Override
 	public String toString() {
-		return "ImportEntity [formNo=" + formNo + ", skuCode=" + skuCode + ", barCode=" + barCode + ", num=" + num
-				+ ", giftNum=" + giftNum + "]";
+		return "ImportEntity [formNo=" + formNo + ", logisticFormNo=" + logisticFormNo + ", rowNo=" + rowNo
+				+ ", skuCode=" + skuCode + ", barCode=" + barCode + ", num=" + num + ", giftNum=" + giftNum
+				+ ", remark=" + remark + "]";
 	}
+
 }

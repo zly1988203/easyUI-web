@@ -103,7 +103,7 @@ function initDatagridRequireOrdersDO(){
 		queryParams:fromObjStr,
 		url:contextPath + tempURL,
         //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect:false,  //单选  false多选
+        singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         fitColumns:true,    //每列占满
@@ -316,11 +316,13 @@ function loadTabs(){
 			indexTab = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
 			if (indexTab === 0) {
 				toBtnDisable('btnAdd','btnDel');
+				$("#refuse").removeClass('ubtns-item-disabled').addClass('ubtns-item').attr('onclick','refuseDeliverForm()');
 				setQueryDataDO();
 				delDivAuditStatus();
 				initDatagridRequireOrdersDO();
 			} else {
 				toBtnEnable('btnAdd','btnDel');
+				$("#refuse").removeClass('ubtns-item').addClass('ubtns-item-disabled').removeAttr('onclick');
 				setQueryDataDI();
 				addDivAuditStatus();
 				initDatagridRequireOrdersDI();
@@ -389,4 +391,35 @@ function setAuditStatusVal(){
 	} else {
 		$("#deliverAuditStatus2").attr('checked','checked');
 	}
+}
+
+//拒收
+function refuseDeliverForm(){
+	var tab = $('#tabs').tabs('getSelected');
+	var index = $('#tabs').tabs('getTabIndex',tab);
+	var dg = $("#deliverFormList");
+	var row = dg.datagrid("getChecked");
+	var ids = [];
+	for(var i=0; i<row.length; i++){
+		ids.push(row[i].id);
+	}
+	if(rowIsNull(row)){
+		return null;
+	}
+	$_jxc.confirm('是否要拒收此单据?',function(data){
+		if(data){
+			$_jxc.ajax({
+		    	url:contextPath+"/form/deliverForm/refuseDeliverForm",
+		    	contentType:"application/json",
+		    	data:JSON.stringify(ids)
+		    },function(result){
+	    		if(result['code'] == 0){
+	    			$_jxc.alert("拒收操作成功");
+	    			dg.datagrid('reload');
+	    		}else{
+	    			$_jxc.alert(result['message']);
+	    		}
+		    });
+		}
+	});
 }

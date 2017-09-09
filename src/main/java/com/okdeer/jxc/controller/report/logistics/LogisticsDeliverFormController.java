@@ -122,6 +122,7 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 	public String deliverEdit(QueryDeliverFormVo vo, String report, Model model) {
 		model.addAttribute("type", vo.getFormSources());
 		vo.setFormSources("");
+		vo.setDeliverType(null);
 		DeliverForm form = queryDeliverFormServiceApi.queryEntity(vo);
 		model.addAttribute("form", form);
 		// 返回状态
@@ -165,30 +166,21 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if (StringUtils.isEmpty(vo.getTargetBranchId())) {
-				vo.setTargetBranchCompleteCode(UserUtil.getCurrBranchCompleCode());
-			}
 			if (StringUtils.isEmpty(vo.getCheckboxTime())) {
 				vo.setTempEndTime(null);
 			} else {
 				vo.setStartTime(null);
 				vo.setEndTime(null);
 			}
-			String sourceBranchName = vo.getSourceBranchName();
-			String targetBranchName = vo.getTargetBranchName();
-			if (StringUtils.isNotEmpty(sourceBranchName)) {
-				if (sourceBranchName.contains("[") && sourceBranchName.contains("]")) {
-					vo.setSourceBranchName(null);
-				} else {
-					vo.setSourceBranchId(null);
+			if ("DA".equals(vo.getDeliverType()) || "DY".equals(vo.getDeliverType())){
+				if (StringUtils.isEmpty(vo.getSourceBranchId())) {
+					vo.setSourceBranchId(UserUtil.getCurrBranchId());
 				}
 			}
 
-			if (StringUtils.isNotEmpty(targetBranchName)) {
-				if (targetBranchName.contains("[") && targetBranchName.contains("]")) {
-					vo.setTargetBranchName(null);
-				} else {
-					vo.setTargetBranchId(null);
+			if ("DR".equals(vo.getDeliverType())){
+				if (StringUtils.isEmpty(vo.getTargetBranchId())) {
+					vo.setTargetBranchId(UserUtil.getCurrBranchId());
 				}
 			}
 			PageUtils<DeliverForm> deliverForms = queryDeliverFormServiceApi.queryFormLists(vo);
@@ -219,32 +211,18 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 		try {
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
-			if (StringUtils.isEmpty(vo.getTargetBranchId())) {
-				vo.setTargetBranchCompleteCode(UserUtil.getCurrBranchCompleCode());
-			}
 			if (StringUtils.isEmpty(vo.getCheckboxTime())) {
 				vo.setTempEndTime(null);
 			} else {
 				vo.setStartTime(null);
 				vo.setEndTime(null);
 			}
-			String sourceBranchName = vo.getSourceBranchName();
-			String targetBranchName = vo.getTargetBranchName();
-			if (StringUtils.isNotEmpty(sourceBranchName)) {
-				if (sourceBranchName.contains("[") && sourceBranchName.contains("]")) {
-					vo.setSourceBranchName(null);
-				} else {
-					vo.setSourceBranchId(null);
-				}
-			}
 
-			if (StringUtils.isNotEmpty(targetBranchName)) {
-				if (targetBranchName.contains("[") && targetBranchName.contains("]")) {
-					vo.setTargetBranchName(null);
-				} else {
-					vo.setTargetBranchId(null);
+			if (StringUtils.isEmpty(vo.getTargetBranchId())) {
+				if ("DB".equals(vo.getDeliverType())){
+					vo.setTargetBranchId(UserUtil.getCurrBranchId());
 				}
-			}
+			} 
 			PageUtils<Map<String, Object>> deliverForms = queryDeliverFormServiceApi.queryFormListsDB(vo);
 			return deliverForms;
 		} catch (Exception e) {

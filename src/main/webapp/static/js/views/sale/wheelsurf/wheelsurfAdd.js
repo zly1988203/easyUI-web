@@ -23,9 +23,20 @@ $(function () {
         $_jxc.ajax({url:contextPath+"/pos/wheelsurf/form/edit/detail/"+$("#formId").val()},function (data) {
             $("#gridAddPosAct").datagrid("loadData",data.detail);
         });
+        disabledElement();
     }
 
 })
+
+function disabledElement(){
+    $("#beginTime").prop("disabled",true);
+    $("#overTime").prop("disabled",true);
+    $("#validOverTime").prop("disabled",true);
+    $("#wheelsurfName").prop("disabled",true);
+    $("#branchName").prop("disabled",true);
+    $("#formType").combobox({disabled:true});
+    $("#wheelsurfTime").numberbox({disabled:true});
+}
 
 
 function initBranchGroup(){
@@ -105,20 +116,19 @@ function initgridAddPosAct() {
                     }
                 }
             },
-            {field:'prizeShortName',title:'奖品简称',width:'200px',align:'left',
-                editor:{
-                    type:'textbox',
-                    options:{
-                        validType:{maxLength:[10]},
-                    }
-                }
+            {field:'prizeShortName',title:'奖品简称',width:'200px',align:'left',editor:'textbox',
             },
             {field:'rowNo',title:'顺序',width:'100px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return '<b>'+parseFloat(value||0)+'</b>';
                     }
-                    value = index;
+                    if(!value){
+                        value = (index+1);
+                    }
+
+                    row['rowNo'] = value;
+
                     return '<b>'+parseFloat(value||0)+'</b>';
                 },
                 editor:{
@@ -126,6 +136,7 @@ function initgridAddPosAct() {
                     options:{
                         min:0,
                         precision:0,
+                        max:999999,
                     }
                 },
             },
@@ -146,7 +157,7 @@ function initgridAddPosAct() {
                     options:{
                         min:1,
                         precision:0,
-                        placeholder:"中奖数量最小为1"
+                        max:999999,
                     }
                 },
             },
@@ -167,6 +178,7 @@ function initgridAddPosAct() {
                     options:{
                         min:0,
                         precision:0,
+                        max:999999,
                     }
                 },
             },
@@ -372,9 +384,15 @@ function validform() {
         return false;
     }
 
+    var wheelsurfTime = $("#wheelsurfTime").val();
+    if(!wheelsurfTime){
+        $_jxc.alert("请填写抽奖次数");
+        return false;
+    }
+
     $("#"+gridName).datagrid("endEdit",gridAddPosActHandle.getSelectRowIndex());
 
-    var rows = gridAddPosActHandle.getRowsWhere({skuId:'1'})
+    var rows = gridAddPosActHandle.getRowsWhere({prizeFullName:'1'})
 
     if(rows.length < 6){
         $_jxc.alert("检测到数据没有完成，请完成");

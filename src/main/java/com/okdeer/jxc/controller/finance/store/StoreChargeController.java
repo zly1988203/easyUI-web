@@ -9,11 +9,14 @@ package com.okdeer.jxc.controller.finance.store;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import com.okdeer.jxc.common.constant.SysConstant;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -239,9 +242,11 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 
 			// 模板名称，包括后缀名
 			String templateName = ExportExcelConstant.STORE_CHARGE_MAIN_EXPORT_TEMPLATE;
-
-			// 导出Excel
-			exportListForXLSX(response, list, fileName, templateName);
+			
+			// 导出Excel			
+			Map<String, Object> param = new HashMap<>();
+			param.put("titleName", "门店运营费用");
+			exportParamListForXLSX(response, list, param, fileName, templateName);
 
 			return RespJson.success();
 

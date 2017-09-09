@@ -184,3 +184,8 @@ function exportDetail(param){
 	var formId = $("#formId").val();
 	window.location.href = contextPath + '/form/purchase/exportSheet?page=PAForm&sheetNo='+formId;
 }
+
+// 成本调价
+function toCostAdjust() {
+    toAddTab("新增采购成本调价",contextPath + "/purchase/cost/form/add");
+}

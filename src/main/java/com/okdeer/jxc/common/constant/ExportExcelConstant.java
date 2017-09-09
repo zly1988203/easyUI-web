@@ -49,6 +49,16 @@ public interface ExportExcelConstant {
 	 * @Fields GOODS_PRICE_ADJUST_FORM : 采购明细表
 	 */
 	String PURCHASE_DETAIL_REPORT = "PurchaseDetail.xlsx";
+	
+	/**
+	 * @Fields GOODS_PRICE_ADJUST_FORM : 要货与库存报表
+	 */
+	String DELIVER_AND_STOCK_REPORT = "DeliverAndStockReport.xlsx";
+	
+	/**
+	 * @Fields GOODS_PRICE_ADJUST_FORM : 东莞大仓补货分析
+	 */
+	String DG_STOCK_ANALYSIS = "DgStockAnalysis.xlsx";
 
 	/**
 	 * @Fields GOODS_PRICE_ADJUST_FORM_TEMPLE_SKUCODE : 调价单货号导入模板
@@ -99,6 +109,26 @@ public interface ExportExcelConstant {
 	 * @Fields STOCKLEAD : 领用单导出模板
 	 */
 	String STOCKLEAD = "StockLead.xlsx";
+	
+	/**
+	 * @Fields STOCK_LEAD_DETAIL : 领用查询导出模板-领用明细
+	 */
+	String STOCK_LEAD_DETAIL = "StockLeadDetail.xlsx";
+	
+	/**
+	 * @Fields STOCK_LEAD_GOODS : 领用查询导出模板-商品汇总
+	 */
+	String STOCK_LEAD_GOODS = "StockLeadFoods.xlsx";
+	
+	/**
+	 * @Fields STOCK_LEAD_FIRST_CATEGORY : 领用查询导出模板-一级类别
+	 */
+	String STOCK_LEAD_FIRST_CATEGORY = "StockLeadFirstCategory.xlsx";
+	
+	/**
+	 * @Fields STOCK_LEAD_SECOND_CATEGORY : 领用查询导出模板-二级类别
+	 */
+	String STOCK_LEAD_SECOND_CATEGORY = "StockLeadSecondCategory.xlsx";
 
 	/**
 	 * @Fields STOCK_REIMBURSE_SKU_TEMPLE : 报损单货号导入模板
@@ -655,20 +685,24 @@ public interface ExportExcelConstant {
 	 */
 	String MONTHLY_REPORT = "MonthlyReport.xlsx";
 
-	/**
-	 * @Fields ACTIVITY_DETAIL_QUERY_FOR_GOODS : 商品促销方案详情
-	 */
+	/** 商品促销方案详情   */
 	String ACTIVITY_DETAIL_QUERY_FOR_GOODS = "activityDetailQueryForGoods.xlsx";
 
-	/**
-	 * @Fields ACTIVITY_DETAIL_QUERY_FOR_CATEGORY : 类别促销方案详情
-	 */
+	/*** 类别促销方案详情 */
 	String ACTIVITY_DETAIL_QUERY_FOR_CATEGORY = "activityDetailQueryForCategory.xlsx";
 
-	/**
-	 * @Fields ACTIVITY_DETAIL_QUERY_FOR_FULLREDUCTION : 满减促销方案详情
-	 */
+	/*** 满减促销方案详情 */
 	String ACTIVITY_DETAIL_QUERY_FOR_FULLREDUCTION = "activityDetailQueryForFullReduction.xlsx";
+	
+	/*** 商品买满送促销方案详情 */
+	String ACTIVITY_DETAIL_QUERY_FOR_FULLGIVE_GOODS = "activityDetailQueryForFullGiveGoods.xlsx";
+	
+	/*** 类别买满送促销方案详情 */
+	String ACTIVITY_DETAIL_QUERY_FOR_FULLGIVE_CATEGORY = "activityDetailQueryForFullGiveCategory.xlsx";
+	
+	/*** 类别买满送促销方案详情 */
+	String ACTIVITY_DETAIL_QUERY_FOR_FULLGIVE_ALL = "activityDetailQueryForFullGiveAll.xlsx";
+	
 	
 	/**
 	 * @Fields STOCK_TAKING_MISS_GOODS : 盘点明细
@@ -820,4 +854,14 @@ public interface ExportExcelConstant {
 	 * 会员活动领取记录详情
 	 */
 	String POS_PRIZE_RECORD_DETAIL = "posPrizeRecordDetail.xlsx";
+
+	/**
+	 * 采购成本调整查询
+	 */
+	String PURCHASE_COST_FORM = "purchaseCostForm.xlsx";
+
+	/**
+	 * 采购成本调整明细
+	 */
+	String PURCHASE_COST_FORM_DETAIL = "purchaseCostFormDetail.xlsx";
 }

@@ -6,6 +6,7 @@
  */    
 package com.okdeer.jxc.controller.finance.store;  
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -86,8 +87,11 @@ public class StoreChargeSearchController extends ReportController {
 
 			// 模板名称，包括后缀名
 			List<DataRecord> dataList = storeChargeSearchService.getList(map);
-
-			exportListForXLSX(response, dataList, reportFileName, templateName);
+			
+			// 导出Excel			
+			Map<String, Object> param = new HashMap<>();
+			param.put("titleName", "门店运营费用");
+			exportParamListForXLSX(response, dataList, param, reportFileName, templateName);
 		} catch (Exception e) {
 			LOG.error("门店费用查询导出失败", e);
 		}
@@ -110,6 +114,7 @@ public class StoreChargeSearchController extends ReportController {
 				map.put("month", Integer.valueOf(monthStr));
 			}
 		}
+		map.put("chargeType", 0);
 		return map;
 	}
 

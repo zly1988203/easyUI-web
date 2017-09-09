@@ -214,6 +214,7 @@ function  initGoodsgrid() {
                     options:{
                         min:0,
                         precision:0,
+                        max:999999,
                     }
                 },
             },
@@ -228,7 +229,6 @@ function  initGoodsgrid() {
                 goodsgridHandel.setSelectFieldName("sortNo");
             }
         },
-
         onLoadSuccess:function(data){
             goodsgridHandel.setDatagridHeader("center");
         }

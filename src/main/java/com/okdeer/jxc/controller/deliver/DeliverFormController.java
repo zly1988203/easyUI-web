@@ -275,6 +275,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 			// 需求修改，点击要货单生成出库单，将要货单id传入
 			if (!StringUtils.isEmpty(vo.getDeliverFormId())) {
 				model.addAttribute("referenceId", vo.getDeliverFormId());
+				model.addAttribute("refFormType", vo.getRefDeliverType());
 			}
 			return "form/deliver/DoAdd";
 		} else if (FormType.DR.toString().equals(deliverType)) { // 退货申请
@@ -1487,11 +1488,14 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 	 * @author yangyq02
 	 * @date 2017年9月4日
 	 */
-	@RequestMapping(value = "refuseDeliverForm", method = RequestMethod.GET)
+	@RequestMapping(value = "refuseDeliverForm", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson refuseDeliverForm(String[] ids) {
+	public RespJson refuseDeliverForm(@RequestBody String[] ids) {
 		RespJson resp = RespJson.success();
 		try {
+			if(ids==null||ids.length==0){
+				return RespJson.error("请选择单据再操作！");
+			}
 			resp = deliverFormServiceApi.refuseDeliverForm(ids,getCurrUserId());
 		} catch (Exception e) {
 			LOG.error("拒收操作失败", e);

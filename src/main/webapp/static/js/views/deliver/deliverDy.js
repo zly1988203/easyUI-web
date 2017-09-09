@@ -512,7 +512,21 @@ function onChangeRealNum(newV,oldV) {
         $_jxc.alert("没有配送规格,请审查");
         return;
     }
-    
+    var tempNum = parseFloat(newV).toFixed(4)/parseFloat(purchaseSpecValue).toFixed(4);
+    if(parseInt(tempNum) != tempNum){
+        $_jxc.alert("输入的数量必须是商品规格("+purchaseSpecValue+")的整数倍");
+        //bug 20079 要货申请选择商品规格大于1的商品，先输入数量为1，然后再输入箱数为1后，不会自动计算数量  
+        errroPur = true;
+        
+        var _largeNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
+        if(_largeNum != '0'){
+        	errroPurL = true;
+        	gridHandel.setFieldValue('largeNum',0.0000);
+        }
+        gridHandel.setFieldValue('applyNum',0.0000);
+        gridHandel.setSelectFieldName("applyNum");
+        gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));        return;
+    }
     m=1;
     
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
@@ -748,6 +762,16 @@ function saveOrder(){
             isCheckResult = false;
             return false;
         }
+
+        var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(4);
+        var _largeNum = parseFloat(v["applyNum"]/v["distributionSpec"]).toFixed(4);
+        if(parseFloat(_realNum).toFixed(4) != parseFloat(v["applyNum"]).toFixed(4)
+            && parseFloat(_largeNum ).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)){
+            $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
+            isCheckResult = false;
+            return false;
+        }
+
         v["rowNo"] = i+1;
     });
     if(!isCheckResult){
@@ -871,6 +895,14 @@ function updateOrder(){
         }
         if(v["applyNum"]<=0){
             $_jxc.alert("第"+(i+1)+"行，数量必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+        var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(4);
+        var _largeNum = parseFloat(v["applyNum"]/v["distributionSpec"]).toFixed(4);
+        if(parseFloat(_realNum).toFixed(4) != parseFloat(v["applyNum"]).toFixed(4)
+            && parseFloat(_largeNum ).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)){
+            $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
             isCheckResult = false;
             return false;
         }

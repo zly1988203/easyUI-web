@@ -14,6 +14,7 @@
     var oldBname='${branchesGrow.targetBranchName}';
     </script>
 	<script src="${ctx}/static/js/views/deliver/DoAdd.js?V=V2.6.3"></script>
+	<%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
@@ -26,6 +27,10 @@
                 <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                 <div class="ubtns-item" onclick="toImportproduct(0)">导入货号</div>
             	<div class="ubtns-item" onclick="toImportproduct(1)">导入条码</div>
+                <shiro:hasPermission name="JxcDeliverDO:print">
+                    <div class="ubtns-item" onclick="printDetail()">打印</div>
+                </shiro:hasPermission>
+                <div class="ubtns-item"  onclick="exportDetail()">导出明细</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
         </div>
@@ -79,6 +84,9 @@
                    <div class="umar-r10 uw-70 ut-r">引用单号:</div>
                    <div class="ub">
                        <input type="hidden" id="referenceId" name="referenceId" value="${referenceId}" />
+                       <input type="hidden" id="refFormType"  value="${refFormType}" />
+                       <input type="hidden" id="formId" value="${referenceId}"/>
+                       <input type="hidden" id="formNo" value="${refFormNo}"/>
                        <input class="uinp ub ub-f1" type="text" id="referenceNo" name="referenceNo" onclick="selectDeliver()" readonly="readonly"/>
                        <div class="uinp-more" onclick="selectDeliver()">...</div>
                    </div>

@@ -320,7 +320,11 @@ public class BaseController<T> {
 	 * @param datas 要过滤的vo对象
 	 */
 	protected void cleanAccessData(List<? extends Object> datas) {
-	    if(CollectionUtils.isEmpty(datas)){
+	    if(CollectionUtils.isEmpty(datas)||datas.get(0)==null){
+	        return;
+	    }
+	    Object obj = datas.get(0);
+	    if(obj == null){
 	        return;
 	    }
 		Class<?> cls = datas.get(0).getClass();
@@ -335,9 +339,6 @@ public class BaseController<T> {
 	protected void cleanAccessData(PageUtils<? extends Object> page) {
 	    if(CollectionUtils.isNotEmpty(page.getFooter())){
 	        cleanAccessData(page.getFooter());
-	    }
-	    if(CollectionUtils.isNotEmpty(page.getList())){
-	        cleanAccessData(page.getList());
 	    }
 	    if(CollectionUtils.isNotEmpty(page.getList())){
 	        cleanAccessData(page.getList());

@@ -2847,3 +2847,25 @@ function publicCategorysServiceHandel(param,callback,cbDom){
  }
 /*----------------------------------------------------------------------*/
 /*----------------jxc component js end  ---------------------------*/
+
+/*------------------------------赠品--------------------------------------*/
+function publicGiftGoodsService(param,callback) {
+    var giftGoodsTemp = $('<div id="giftGoods"/>').dialog({
+        href: contextPath + "/common/giftGoods",
+        width:730,
+        height:500,
+        title:"赠品信息",
+        closable:true,
+        resizable:true,
+        onClose: function(){
+            $(this).dialog('destroy');
+            giftGoodsTemp = null;
+        },
+        modal: true,
+        onLoad: function () {
+            initGiftGoods(param);
+        },
+    });
+}
+
+/*--------------------------------------------------------------------*/

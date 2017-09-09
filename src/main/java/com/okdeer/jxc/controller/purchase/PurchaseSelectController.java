@@ -7,15 +7,6 @@
 
 package com.okdeer.jxc.controller.purchase;
 
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
@@ -32,6 +23,14 @@ import com.okdeer.jxc.form.purchase.qo.PurchaseFormPO;
 import com.okdeer.jxc.form.purchase.service.PurchaseFormServiceApi;
 import com.okdeer.jxc.form.purchase.service.PurchaseSelectServiceApi;
 import com.okdeer.jxc.form.purchase.vo.PurchaseSelectVo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * ClassName: PurchaseSelectController 
@@ -164,6 +163,8 @@ public class PurchaseSelectController extends BaseController<PurchaseSelectContr
 			} else {
 				list = purchaseFormServiceApi.selectDetailById(formId);
 			}
+		}else if(FormType.PI.equals(form.getFormType())){
+			list = purchaseFormServiceApi.selectPIDetailById(formId);
 		} else {
 			list = purchaseFormServiceApi.selectDetailById(formId);
 		}
