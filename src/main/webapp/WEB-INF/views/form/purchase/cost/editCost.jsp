@@ -40,7 +40,7 @@
                     </c:choose>
 			   	</shiro:hasPermission>
                 <shiro:hasPermission name="purchaseCostForm:print">
-                    <div class="ubtns-item" onclick="printData()">打印</div>
+                    <div class="ubtns-item" onclick="printPreview()">打印</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="purchaseCostForm:export">
                     <div class="ubtns-item"  onclick="exportData()">导出明细</div>
