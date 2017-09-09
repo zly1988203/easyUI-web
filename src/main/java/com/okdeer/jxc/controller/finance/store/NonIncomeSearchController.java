@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.archive.store.enums.StoreChainTypeEnum;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.StoreChargeEnum;
 import com.okdeer.jxc.common.exception.BusinessException;
@@ -28,8 +29,8 @@ import com.okdeer.jxc.settle.store.service.StoreChargeSearchService;
 import com.okdeer.retail.common.report.DataRecord;
 
 /**
- * ClassName: NonExpendSearchController 
- * @Description: 营业外支出查询报表Controller
+ * ClassName: NonIncomeSearchController 
+ * @Description: 营业外收入查询报表Controller
  * @author liwb
  * @date 2017年9月8日
  *
@@ -40,15 +41,15 @@ import com.okdeer.retail.common.report.DataRecord;
  */
  
 @Controller
-@RequestMapping("finance/nonExpendSearch")
-public class NonExpendSearchController extends ReportController {
+@RequestMapping("finance/nonIncomeSearch")
+public class NonIncomeSearchController extends ReportController {
 	
 	@Reference(version = "1.0.0", check = false)
 	private StoreChargeSearchService storeChargeSearchService;
 	
 	@RequestMapping(value = "toManager")
 	public String toManager() {
-		return "finance/nonExpend/expendSearch";
+		return "finance/nonIncome/incomeSearch";
 	}
 
 	/**
@@ -64,7 +65,7 @@ public class NonExpendSearchController extends ReportController {
 	@ResponseBody
 	public void exportExcelList(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			LOG.debug("营业外支出查询导出功能");
+			LOG.debug("营业外收入查询导出功能");
 			Map<String, Object> map = getParam(request);
 			String reportFileName = "";
 			String templateName = "";
@@ -76,11 +77,11 @@ public class NonExpendSearchController extends ReportController {
 			String timeStr = StringUtils.replace(map.get("month").toString(), "-", "");
 
 			if ("total".equals(queryType)) { // 汇总
-				reportFileName = "营业外支出汇总查询" + timeStr;
+				reportFileName = "营业外收入汇总查询" + timeStr;
 				templateName = ExportExcelConstant.STORE_CHARGE_TOTAL_EXPORT_TEMPLATE;
 
 			} else if ("detail".equals(queryType)) {// 明细
-				reportFileName = "营业外支出明细查询" + timeStr;
+				reportFileName = "营业外收入明细查询" + timeStr;
 				templateName = ExportExcelConstant.STORE_CHARGE_DETAIL_EXPORT_TEMPLATE;
 
 			}
@@ -90,10 +91,10 @@ public class NonExpendSearchController extends ReportController {
 			
 			// 导出Excel			
 			Map<String, Object> param = new HashMap<>();
-			param.put("titleName", "营业外支出");
+			param.put("titleName", "营业外收入");
 			exportParamListForXLSX(response, dataList, param, reportFileName, templateName);
 		} catch (Exception e) {
-			LOG.error("营业外支出查询导出失败", e);
+			LOG.error("营业外收入查询导出失败", e);
 		}
 	}
 
@@ -114,7 +115,7 @@ public class NonExpendSearchController extends ReportController {
 				map.put("month", Integer.valueOf(monthStr));
 			}
 		}
-		map.put("chargeType", StoreChargeEnum.NON_EXPEND.getCode());
+		map.put("chargeType", StoreChargeEnum.NON_INCOME.getCode());
 		return map;
 	}
 

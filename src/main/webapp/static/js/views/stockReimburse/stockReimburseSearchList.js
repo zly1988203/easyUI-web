@@ -1,5 +1,5 @@
 /**
- * 领用查询
+ * 报损查询
  */
 $(function() {
     initdefaultElement();
@@ -74,7 +74,7 @@ function onChangeSelect() {
 }
 
 var gridHandel = new GridClass();
-var datagridID = "leadSearchList";
+var datagridID = "reimburseSearchList";
 
 var dg;
 // 初始化表格
@@ -108,7 +108,7 @@ function getColumns(){
 		defaultColumns =defaultColumns.concat([
 		            {field: 'branchName', title: '机构名称', width: '120px', align: 'left'},
 					{field: 'formNo',title:'单号',width:'150px',align:'left'},
-					{field: 'validTime', title: '领用时间', width: '150px', align: 'left',
+					{field: 'validTime', title: '报损时间', width: '150px', align: 'left',
 						formatter: function (value, row, index) {
 							if(!value){
 								return '';
@@ -135,7 +135,7 @@ function getColumns(){
 		defaultColumns =defaultColumns.concat([{field: 'secondCategory',title:'二级类别',width:'150px',align:'left'}]);
 	}
 	
-	defaultColumns =defaultColumns.concat([{field: 'realNum', title: '领用数量', width: '80px', align: 'right',
+	defaultColumns =defaultColumns.concat([{field: 'realNum', title: '报损数量', width: '80px', align: 'right',
 		formatter: function (value, row, index) {
 			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 		}
@@ -149,7 +149,7 @@ function getColumns(){
 		}]);
 	}
 	
-	defaultColumns =defaultColumns.concat([{field: 'amount', title: '领用金额', width: '80px', align: 'right',
+	defaultColumns =defaultColumns.concat([{field: 'amount', title: '报损金额', width: '80px', align: 'right',
 		formatter: function (value, row, index) {
 			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 		}
@@ -181,14 +181,14 @@ function queryForm() {
 	fromObjStr.createUserName = "";
 	
 	$("#"+datagridID).datagrid("options").method = "post";
-	$("#"+datagridID).datagrid('options').url = contextPath + '/stock/leadSearch/getList';
+	$("#"+datagridID).datagrid('options').url = contextPath + '/stock/reimburseSearch/getList';
 	$("#"+datagridID).datagrid('load', fromObjStr);
 }
 
 /**
  * 导出表单
  */
-function exportLeadSearchList(){
+function exportReimburseSearchList(){
 	var length = $('#'+datagridID).datagrid('getData').rows.length;
 	if(length == 0){
 		$_jxc.alert("无数据可导");
@@ -208,7 +208,7 @@ function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
 
-	$("#queryForm").attr("action",contextPath+"/stock/leadSearch/exportList");
+	$("#queryForm").attr("action",contextPath+"/stock/reimburseSearch/exportList");
 	$("#queryForm").submit(); 
 }
 

@@ -48,10 +48,10 @@ import com.okdeer.jxc.settle.store.service.StoreChargeService;
 import com.okdeer.jxc.settle.store.vo.StoreChargeVo;
 
 /**
- * ClassName: StoreChargeController 
- * @Description: 门店费用登记Controller
- * @author liwb
- * @date 2017年5月22日
+ * ClassName: NonIncomeController 
+ * @Description: 营业外收入Controller
+ * @author zhengwj
+ * @date 2017年9月9日
  *
  * =================================================================================================
  *     Task ID			  Date			     Author		      Description
@@ -60,8 +60,8 @@ import com.okdeer.jxc.settle.store.vo.StoreChargeVo;
  */
 
 @RestController
-@RequestMapping("finance/storeCharge")
-public class StoreChargeController extends BaseController<StoreChargeController> {
+@RequestMapping("finance/nonIncome")
+public class NonIncomeController extends BaseController<NonIncomeController> {
 
 	@Reference(version = "1.0.0", check = false)
 	private StoreChargeService storeChargeService;
@@ -71,12 +71,12 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 
 	@RequestMapping(value = "toManager")
 	public ModelAndView toManager() {
-		return new ModelAndView("finance/storeCharge/storeChargeList");
+		return new ModelAndView("finance/nonIncome/incomeList");
 	}
 
 	@RequestMapping(value = "toAdd")
 	public ModelAndView toAdd() {
-		return new ModelAndView("finance/storeCharge/storeChargeAdd");
+		return new ModelAndView("finance/nonIncome/incomeAdd");
 	}
 
 	@RequestMapping(value = "toEdit")
@@ -88,7 +88,7 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 
 		StoreChargePo po = storeChargeService.getStoreChargeById(formId);
 
-		ModelAndView mv = new ModelAndView("finance/storeCharge/storeChargeEdit");
+		ModelAndView mv = new ModelAndView("finance/nonIncome/incomeEdit");
 		mv.addObject("form", po);
 
 		// 待审核
@@ -103,8 +103,8 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 		return mv;
 	}
 
-	@RequestMapping(value = "getStoreChargeList", method = RequestMethod.POST)
-	public PageUtils<StoreChargePo> getStoreChargeList(StoreChargeQo qo,
+	@RequestMapping(value = "getIncomeList", method = RequestMethod.POST)
+	public PageUtils<StoreChargePo> getIncomeList(StoreChargeQo qo,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 
@@ -113,14 +113,14 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 
 		// 构建查询参数
 		buildSearchParams(qo);
-		qo.setChargeType(StoreChargeEnum.STORE_CHARGE.getCode());
-		LOG.debug("查询门店费用条件：{}", qo);
+		qo.setChargeType(StoreChargeEnum.NON_INCOME.getCode());
+		LOG.debug("查询营业外收入条件：{}", qo);
 
 		try {
 
 			return storeChargeService.getStoreChargeForPage(qo);
 		} catch (Exception e) {
-			LOG.error("分页查询门店费用异常:", e);
+			LOG.error("分页查询营业外收入异常:", e);
 		}
 		return PageUtils.emptyPage();
 	}
@@ -143,7 +143,7 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 	@RequestMapping(value = "getDetailList", method = RequestMethod.POST)
 	public PageUtils<StoreChargeDetailPo> getDetailList(String formId) {
 
-		LOG.debug("获取门店费用详情信息列表 ，门店费用单ID：{}", formId);
+		LOG.debug("获取营业外收入详情信息列表 ，营业外收入单ID：{}", formId);
 
 		try {
 
@@ -152,31 +152,31 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			return new PageUtils<StoreChargeDetailPo>(list);
 
 		} catch (Exception e) {
-			LOG.error("获取门店费用详情信息列表异常：", e);
+			LOG.error("获取营业外收入详情信息列表异常：", e);
 		}
 		return PageUtils.emptyPage();
 	}
 
-	@RequestMapping(value = "addStoreCharge", method = RequestMethod.POST)
-	public RespJson addStoreCharge(@RequestBody String jsonText) {
-		LOG.debug("新增门店费用参数：{}", jsonText);
+	@RequestMapping(value = "addIncome", method = RequestMethod.POST)
+	public RespJson addIncome(@RequestBody String jsonText) {
+		LOG.debug("新增营业外收入参数：{}", jsonText);
 		try {
 
 			StoreChargeVo vo = GsonUtils.fromJson(jsonText, StoreChargeVo.class);
 			vo.setCreateUserId(super.getCurrUserId());
 
-			vo.setChargeType(StoreChargeEnum.STORE_CHARGE.getCode());
+			vo.setChargeType(StoreChargeEnum.NON_INCOME.getCode());
 			return storeChargeService.addStoreCharge(vo);
 
 		} catch (Exception e) {
-			LOG.error("新增门店费用失败：", e);
+			LOG.error("新增营业外收入失败：", e);
 		}
 		return RespJson.error();
 	}
 
-	@RequestMapping(value = "updateStoreCharge", method = RequestMethod.POST)
-	public RespJson updateStoreCharge(@RequestBody String jsonText) {
-		LOG.debug("修改门店费用参数：{}", jsonText);
+	@RequestMapping(value = "updateIncome", method = RequestMethod.POST)
+	public RespJson updateIncome(@RequestBody String jsonText) {
+		LOG.debug("修改营业外收入参数：{}", jsonText);
 		try {
 
 			StoreChargeVo vo = GsonUtils.fromJson(jsonText, StoreChargeVo.class);
@@ -185,14 +185,14 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			return storeChargeService.updateStoreCharge(vo);
 
 		} catch (Exception e) {
-			LOG.error("修改门店费用失败：", e);
+			LOG.error("修改营业外收入失败：", e);
 		}
 		return RespJson.error();
 	}
 
-	@RequestMapping(value = "checkStoreCharge", method = RequestMethod.POST)
-	public RespJson checkStoreCharge(String formId) {
-		LOG.debug("审核门店费用ID：{}", formId);
+	@RequestMapping(value = "checkIncome", method = RequestMethod.POST)
+	public RespJson checkIncome(String formId) {
+		LOG.debug("审核营业外收入ID：{}", formId);
 		try {
 
 			UpdateStatusVo vo = new UpdateStatusVo();
@@ -202,14 +202,14 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			return storeChargeService.checkStoreCharge(vo);
 
 		} catch (Exception e) {
-			LOG.error("审核门店费用失败：", e);
+			LOG.error("审核营业外收入失败：", e);
 		}
 		return RespJson.error();
 	}
 
-	@RequestMapping(value = "deleteStoreCharge", method = RequestMethod.POST)
-	public RespJson deleteStoreCharge(String formId) {
-		LOG.debug("删除门店费用ID：{}", formId);
+	@RequestMapping(value = "deleteIncome", method = RequestMethod.POST)
+	public RespJson deleteIncome(String formId) {
+		LOG.debug("删除营业外收入ID：{}", formId);
 		try {
 
 			UpdateStatusVo vo = new UpdateStatusVo();
@@ -219,7 +219,7 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			return storeChargeService.deleteStoreCharge(vo);
 
 		} catch (Exception e) {
-			LOG.error("删除门店费用失败：", e);
+			LOG.error("删除营业外收入失败：", e);
 		}
 		return RespJson.error();
 	}
@@ -228,7 +228,7 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 	public RespJson exportList(String formId, HttpServletResponse response) {
 		try {
 
-			LOG.debug("导出门店费用单据Id：{}", formId);
+			LOG.debug("导出营业外收入单据Id：{}", formId);
 
 			List<StoreChargeDetailPo> list = storeChargeService.getDetailListByFormId(formId);
 
@@ -239,14 +239,14 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			}
 
 			// 导出文件名称，不包括后缀名
-			String fileName = "门店运营费用详情列表" + "_" + DateUtils.getCurrSmallStr();
+			String fileName = "营业外收入详情列表" + "_" + DateUtils.getCurrSmallStr();
 
 			// 模板名称，包括后缀名
 			String templateName = ExportExcelConstant.STORE_CHARGE_MAIN_EXPORT_TEMPLATE;
-			
-			// 导出Excel			
+
+			// 导出Excel
 			Map<String, Object> param = new HashMap<>();
-			param.put("titleName", "门店运营费用");
+			param.put("titleName", "营业外收入");
 			exportParamListForXLSX(response, list, param, fileName, templateName);
 
 			return RespJson.success();
@@ -281,7 +281,8 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			ChargeImportBusinessValid businessValid = new ChargeImportBusinessValid();
 
 			ChargeImportVo importVo = chargeImportComponent.importSelectCharge(fileName, is, fields,
-					super.getCurrUserId(), "/finance/storeCharge/downloadErrorFile", businessValid, SysConstant.DICT_TYPE_STORE_CHARGE_CODE);
+					super.getCurrUserId(), "/finance/nonIncome/downloadErrorFile", businessValid,
+					SysConstant.DICT_TYPE_NON_BUSINESS_INCOME_CODE);
 
 			respJson.put("importInfo", importVo);
 		} catch (IOException e) {
@@ -321,15 +322,15 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response) {
-		LOG.debug("导出门店费用导入模板请求参数");
+		LOG.debug("导出营业外收入导入模板请求参数");
 		try {
-			String fileName = "门店费用详情导入模板";
+			String fileName = "营业外收入详情导入模板";
 			String templateName = ExportExcelConstant.STORE_CHARGE_MAIN_IMPORT_TEMPLATE;
 			if (!StringUtils.isEmpty(fileName) && !StringUtils.isEmpty(templateName)) {
 				exportListForXLSX(response, null, fileName, templateName);
 			}
 		} catch (Exception e) {
-			LOG.error("导出门店费用导入模板异常:{}", e);
+			LOG.error("导出营业外收入导入模板异常:{}", e);
 		}
 	}
 

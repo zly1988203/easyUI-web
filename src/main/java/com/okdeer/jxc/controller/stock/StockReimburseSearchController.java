@@ -128,7 +128,25 @@ public class StockReimburseSearchController extends BaseController<StockReimburs
 			// 过滤数据权限字段
 			cleanAccessData(exportList);
 			String fileName = "报损查询" + "_" + DateUtils.getCurrSmallStr();
-			String templateName = ExportExcelConstant.STOCKLEAD;
+			String templateName = "";
+
+			switch (vo.getType()) {
+				case 1:
+					templateName = ExportExcelConstant.STOCK_REIMBURSE_DETAIL;
+					break;
+				case 2:
+					templateName = ExportExcelConstant.STOCK_REIMBURSE_GOODS;
+					break;
+				case 3:
+					templateName = ExportExcelConstant.STOCK_REIMBURSE_FIRST_CATEGORY;
+					break;
+				case 4:
+					templateName = ExportExcelConstant.STOCK_REIMBURSE_SECOND_CATEGORY;
+					break;
+				default:
+					return RespJson.error("导出报损查询异常");
+			}
+
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("导出报损查询异常：{}", e);

@@ -5,11 +5,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>领用查询</title>
+<title>报损查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <%-- <script  src="${ctx}/static/js/fun/publicComponent.js"></script> --%>
-<script src="${ctx}/static/js/views/stockLead/stockLeadSearchList.js?V=${versionNo}"></script>
+<script src="${ctx}/static/js/views/stockReimburse/stockReimburseSearchList.js?V=${versionNo}"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -23,10 +23,10 @@
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryForm()">查询</div>
-					<shiro:hasPermission name="JxcLeadSearch:export">
+					<shiro:hasPermission name="JxcReimburseSearch:export">
 				        <input type="hidden" id="startCount" name="startCount"/>
 				        <input type="hidden" id="endCount" name="endCount"/>
-						<div class="ubtns-item" onclick="exportLeadSearchList()">导出</div>
+						<div class="ubtns-item" onclick="exportReimburseSearchList()">导出</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
@@ -68,7 +68,7 @@
 					<div class="ub ub-ac umar-r10">
 						<label>
 						<input class="radioItem" type="radio" name="type" value="1" checked="checked" />
-						<span>领用明细</span>
+						<span>报损明细</span>
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
@@ -93,7 +93,7 @@
 
 		</form>
 		<div class="ub ub-f1  umar-t8 umar-b8">
-			<table id="leadSearchList"></table>
+			<table id="reimburseSearchList"></table>
 		</div>
 	</div>
 
