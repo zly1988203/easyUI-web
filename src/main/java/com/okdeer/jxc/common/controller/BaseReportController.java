@@ -137,7 +137,7 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 			// 分页参数
 			qo.setPageNum(pageNumber);
 			qo.setPageSize(pageSize);
-
+			getQueryObject(qo);
 			// 查询数据
 			EasyUIPageInfo<V> page = getReportFade().queryListPage(qo);
 
@@ -164,6 +164,7 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 	public RespJson exportList(HttpServletResponse response, Q qo) {
 		RespJson resp = RespJson.success();
 		try {
+			getQueryObject(qo);
 			// 查询结果
 			List<V> exportList = getReportFade().queryList(qo);
 

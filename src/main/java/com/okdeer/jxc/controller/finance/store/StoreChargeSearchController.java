@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.enums.StoreChargeEnum;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.report.ReportService;
 import com.okdeer.jxc.common.utils.StringUtils;
@@ -114,7 +115,7 @@ public class StoreChargeSearchController extends ReportController {
 				map.put("month", Integer.valueOf(monthStr));
 			}
 		}
-		map.put("chargeType", 0);
+		map.put("chargeType", StoreChargeEnum.STORE_CHARGE.getCode());
 		return map;
 	}
 

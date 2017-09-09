@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import com.okdeer.jxc.common.constant.SysConstant;
+import com.okdeer.jxc.common.enums.StoreChargeEnum;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -112,7 +113,7 @@ public class NonExpendController extends BaseController<NonExpendController> {
 
 		// 构建查询参数
 		buildSearchParams(qo);
-		qo.setChargeType(Integer.valueOf(3));
+		qo.setChargeType(StoreChargeEnum.NON_EXPEND.getCode());
 		LOG.debug("查询营业外支出条件：{}", qo);
 
 		try {
@@ -164,7 +165,7 @@ public class NonExpendController extends BaseController<NonExpendController> {
 			StoreChargeVo vo = GsonUtils.fromJson(jsonText, StoreChargeVo.class);
 			vo.setCreateUserId(super.getCurrUserId());
 
-			vo.setChargeType(Integer.valueOf(3));
+			vo.setChargeType(StoreChargeEnum.NON_EXPEND.getCode());
 			return storeChargeService.addStoreCharge(vo);
 
 		} catch (Exception e) {
@@ -280,7 +281,7 @@ public class NonExpendController extends BaseController<NonExpendController> {
 			ChargeImportBusinessValid businessValid = new ChargeImportBusinessValid();
 
 			ChargeImportVo importVo = chargeImportComponent.importSelectCharge(fileName, is, fields,
-					super.getCurrUserId(), "/finance/nonExpend/downloadErrorFile", businessValid, SysConstant.DICT_TYPE_STORE_CHARGE_CODE);
+					super.getCurrUserId(), "/finance/nonExpend/downloadErrorFile", businessValid, SysConstant.DICT_TYPE_NON_BUSINESS_EXPEND_CODE);
 
 			respJson.put("importInfo", importVo);
 		} catch (IOException e) {

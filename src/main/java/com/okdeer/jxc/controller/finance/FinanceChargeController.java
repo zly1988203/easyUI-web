@@ -12,6 +12,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.chargeImport.ChargeImportBusinessValid;
 import com.okdeer.jxc.common.chargeImport.ChargeImportVo;
 import com.okdeer.jxc.common.constant.SysConstant;
+import com.okdeer.jxc.common.enums.StoreChargeEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -106,7 +107,7 @@ public class FinanceChargeController extends BaseController<FinanceChargeControl
         // 构建查询参数
         buildSearchParams(qo);
 
-        qo.setChargeType(Integer.valueOf(1));
+        qo.setChargeType(StoreChargeEnum.FINANCE_CHARGE.getCode());
         LOG.debug("查询门店财务费用条件：{}", qo);
 
         try {
@@ -157,7 +158,7 @@ public class FinanceChargeController extends BaseController<FinanceChargeControl
 
             StoreChargeVo vo = GsonUtils.fromJson(jsonText, StoreChargeVo.class);
             vo.setCreateUserId(super.getCurrUserId());
-            vo.setChargeType(Integer.valueOf(1));
+            vo.setChargeType(StoreChargeEnum.FINANCE_CHARGE.getCode());
             return storeChargeService.addStoreCharge(vo);
 
         } catch (Exception e) {

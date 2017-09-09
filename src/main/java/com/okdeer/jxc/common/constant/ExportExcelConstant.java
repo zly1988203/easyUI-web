@@ -146,6 +146,26 @@ public interface ExportExcelConstant {
 	String STOCKREIMBURSE = "StockReimburse.xlsx";
 
 	/**
+	 * @Fields STOCK_REIMBURSE_DETAIL : 报损查询导出模板-领用明细
+	 */
+	String STOCK_REIMBURSE_DETAIL = "StockReimburseDetail.xlsx";
+	
+	/**
+	 * @Fields STOCK_REIMBURSE_GOODS : 报损查询导出模板-商品汇总
+	 */
+	String STOCK_REIMBURSE_GOODS = "StockReimburseFoods.xlsx";
+	
+	/**
+	 * @Fields STOCK_REIMBURSE_FIRST_CATEGORY : 报损查询导出模板-一级类别
+	 */
+	String STOCK_REIMBURSE_FIRST_CATEGORY = "StockReimburseFirstCategory.xlsx";
+	
+	/**
+	 * @Fields STOCK_REIMBURSE_SECOND_CATEGORY : 报损查询导出模板-二级类别
+	 */
+	String STOCK_REIMBURSE_SECOND_CATEGORY = "StockReimburseSecondCategory.xlsx";
+	
+	/**
 	 * 商品销售汇总
 	 */
 	String GOODS_SALE_REPORT = "goodsSaleReport.xlsx";

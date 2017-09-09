@@ -64,7 +64,7 @@ public class MonthSumFinanceReportController
 		if (StringUtils.isEmpty(qo.getSumDate())) {
 			qo.setSumDate(LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.DATE_JFP_STR_R)));
 		}
-		return null;
+		return qo;
 	}
 
 	@Override
@@ -76,5 +76,4 @@ public class MonthSumFinanceReportController
 	protected BaseReportFacade<MonthSumFinanceReportQo, MonthSumFinanceReportVo> getReportFade() {
 		return monthSumFinanceReportFacade;
 	}
-
 }
