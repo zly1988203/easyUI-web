@@ -44,13 +44,16 @@ function initGridActivityList() {
         pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
+        pageSize: 50,
+        pageList: [20, 50, 100],//可以设置每页记录条数的列表
         showFooter:true,
         height:'100%',
         width:'100%',
         columns:[[
+            {field: 'id', title: 'id', width: '85px', align: 'left', hidden: true},
             {field:'formNo',title:'单号',width:'140px',align:'left',
                 formatter:function(value,row,index){
-                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购成本调价\',\''+contextPath+'/purchase/cost/form/edit?formId='+row.id+'\')">' + value + '</a>';
+                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购促销单\',\'' + contextPath + '/purchase/activity/edit/' + row.id + '\')">' + value + '</a>';
                 return strHtml;
                 }
             },
@@ -60,25 +63,18 @@ function initGridActivityList() {
                     if(value == '0'){
                         return '待审核';
                     }else if(value == '1'){
-                        return '审核通过';
+                        return '已审核';
                     }else if(value == '2'){
-                        return '审核失败';
+                        return '已终止';
                     }else{
                         return '未知类型：'+ value;
                     }
                 }
             },
             {field:'supplierName',title:'供应商',width:'140px',align:'left'},
-
-            {field:'createTime',title:'开始时间',width:'150px',align:'center',
-                formatter: function (value, row, index) {
-                    if (value) {
-                        return new Date(value).format('yyyy-MM-dd hh:mm');
-                    }
-                    return "";
-                }
-            },
-            {field:'createTime',title:'结束时间',width:'150px',align:'center',
+            {field: 'startTime', title: '开始时间', width: '150px', align: 'center'},
+            {
+                field: 'endTime', title: '结束时间', width: '150px', align: 'center',
                 formatter: function (value, row, index) {
                     if (value) {
                         return new Date(value).format('yyyy-MM-dd hh:mm');
@@ -116,7 +112,7 @@ function initGridActivityList() {
 function query(){
     $("#"+gridListId).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridListId).datagrid("options").method = "post";
-    $("#"+gridListId).datagrid("options").url = contextPath+'/purchase/cost/form/list';
+    $("#" + gridListId).datagrid("options").url = contextPath + '/purchase/activity/list';
     $("#"+gridListId).datagrid("load");
 }
 
