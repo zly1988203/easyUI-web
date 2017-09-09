@@ -58,7 +58,7 @@ function initPurReportDetailGrid(queryType) {
 			{field: 'skuCode', title: '货号', width:85, align: 'left',
             	formatter : function(value, row,index) {
                     var str = value;
-                    if(row.isFooter){
+                    if($_jxc.isStringNull(str)){
                         str ='<div class="ub ub-pc ufw-b">合计</div> '
                     }
                     return str;
@@ -70,8 +70,8 @@ function initPurReportDetailGrid(queryType) {
             {field: 'unit', title: '单位', width:45, align: 'left'},
 			{field: 'costPrice', title: '成本价', width:80, align: 'right',
 				formatter:function(value,row,index){
-					if(row.isFooter){
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+					if($_jxc.isStringNull(value)){
+						return '';
 					}
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}

@@ -403,20 +403,25 @@ function selectStockAndPrice(data){
 //限制转换次数
 var n = 0;
 var m = 0;
+
+var i = 0;
+var j = 0;
 //监听商品箱数
 function onChangeLargeNum(newV,oldV){
     var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
     if(!_skuName)return;
 	if("" == newV){
+        m = 2;
 		 $_jxc.alert("商品箱数输入有误");
 		  gridHandel.setFieldValue('largeNum',oldV); 
 	     return;
 	}
-	
-	if(m > 0){
-		m = 0;
-		return;
-	}
+
+    if(m > 0 || i > 0){
+        m = 0;
+        i = 0;
+        return;
+    }
 	
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
         return;
@@ -427,8 +432,7 @@ function onChangeLargeNum(newV,oldV){
         $_jxc.alert("没有商品规格,请审查");
         return;
     }
-    
-    n++;
+
     var _temNewNum = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'tmpLargeNum');
     var temp_new = _temNewNum;
     if(Math.abs(temp_new) > 0 && !oldV){
@@ -441,15 +445,12 @@ function onChangeLargeNum(newV,oldV){
     //金额 = 规格 * 单价 * 箱数
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
     gridHandel.setFieldValue('amount',parseFloat(purchaseSpecValue*priceValue*newV).toFixed(4));
-    
-    gridHandel.setFieldValue('realNum',newRealNum);//数量=商品规格*箱数
-    
-//    var realNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'realNum');
-//    var realNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
-//    if(Math.abs(realNumVal2-realNumVal)>0.0001){
-//        gridHandel.setFieldValue('realNum',(purchaseSpecValue*newV).toFixed(4));//数量=商品规格*箱数
-//    }
 
+    var largeNumVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'largeNum');
+    if(largeNumVal&&oldV){
+        n=1;
+        gridHandel.setFieldValue('realNum',newRealNum);//数量=商品规格*箱数
+    }
     updateFooter();
 }
 //监听商品数量
@@ -457,15 +458,17 @@ function onChangeRealNum(newV,oldV) {
     var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
     if(!_skuName)return;
 	if("" == newV){
+        n= 2;
 		 $_jxc.alert("商品数量输入有误");
 		 gridHandel.setFieldValue('realNum',oldV);
 	     return;
 	}
-	
-	if(n > 0){
-		n = 0;
-		return;
-	}
+
+    if(n > 0 || j > 0){
+        n = 0;
+        j = 0;
+        return;
+    }
 	
     if(!gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuCode')){
         return;
@@ -475,26 +478,19 @@ function onChangeRealNum(newV,oldV) {
         $_jxc.alert("没有商品规格,请审查");
         return;
     }
-    
-	m++;
-    
+
     var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
 
     gridHandel.setFieldValue('amount',priceValue*newV);                         //金额=数量*单价
 
-    var tempNum = parseFloat(newV)/parseFloat(purchaseSpecValue);
-    gridHandel.setFieldValue('largeNum',tempNum.toFixed(4));   //箱数=数量/商品规格
-    gridHandel.setFieldsData({tmpLargeNum:tempNum}); // 保留除法值   防止toFixed(4) 四舍五入做乘法时比原值大的问题
-    
-//    var largeNumVal = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'largeNum');
-//    var largeNumVal2 = parseFloat(purchaseSpecValue*newV).toFixed(4);
-//    if(Math.abs(largeNumVal2-largeNumVal)>0.0001){
-//        var largeNumVal = parseFloat(newV/purchaseSpecValue).toFixed(4);
-//        gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格
-//    }
-    /*var largeNumVal = parseFloat(newV/purchaseSpecValue);
-    gridHandel.setFieldValue('largeNum',largeNumVal);   //箱数=数量/商品规格*/
-    
+    var largeNumVal = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'largeNum');
+    if(largeNumVal&&oldV){
+        m=1;
+        var tempNum = parseFloat(newV)/parseFloat(purchaseSpecValue);
+        gridHandel.setFieldValue('largeNum',tempNum.toFixed(4));   //箱数=数量/商品规格
+        gridHandel.setFieldsData({tmpLargeNum:tempNum}); // 保留除法值   防止toFixed(4) 四舍五入做乘法时比原值大的问题
+    }
+
     updateFooter();
 }
 //监听商品单价
@@ -676,6 +672,16 @@ function saveItemHandel(){
         //数量判断 bug 19886
         if(parseFloat(v["realNum"])<=0){
         	$_jxc.alert("第"+(i+1)+"行，数量要大于0");
+            isCheckResult = false;
+            isChcekNum = true;
+            return false;
+        }
+
+        var _realNum = parseFloat(v["largeNum"] * v["purchaseSpec"]).toFixed(4);
+        var _largeNum = parseFloat(v["realNum"]/v["purchaseSpec"]).toFixed(4);
+        if(parseFloat(_realNum ).toFixed(4) != parseFloat(v["realNum"]).toFixed(4)
+            && parseFloat(_largeNum ).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)){
+            $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
             isCheckResult = false;
             isChcekNum = true;
             return false;

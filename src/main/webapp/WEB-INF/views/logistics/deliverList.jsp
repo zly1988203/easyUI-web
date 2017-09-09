@@ -41,6 +41,13 @@
 	                    <input class="uinp ub ub-f1" type="text" id="operateUserName" name="operateUserName" type="text" />
 	                    <div class="uinp-more" onclick="selectOperator()">...</div>
 	                </div>
+					<div class="ub ub-ac">
+						<div class="umar-r10 uw-80 ut-r">单据类别:</div>
+						<select style="width: 204px;" class="easyui-combobox uselect" name="deliverType" id="deliverType" data-options="editable:false">
+							<option selected = "selected" value="DA">要货单</option>
+							<option value="DY">直送要货单</option>
+						</select>
+					</div>
 	            </div>
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
@@ -51,7 +58,6 @@
 	                </div>
 	                <div class="ub ub-ac umar-l64">
 	                    <div class="umar-r10 uw-70 ut-r">单据编号:</div>
-	                    <input type="hidden" id="deliverType" name="deliverType" value="DA" />
 	                    <input class="uinp" type="text" id="formNo" name="formNo">
 	                </div>
 	                <div class="ub ub-ac umar-l40">

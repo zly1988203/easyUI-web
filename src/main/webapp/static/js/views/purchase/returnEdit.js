@@ -635,6 +635,15 @@ function saveItemHandel(){
             return false;
         };
 
+        var _realNum = parseFloat(v["largeNum"] * v["purchaseSpec"]).toFixed(4);
+        var _largeNum = parseFloat(v["realNum"]/v["purchaseSpec"]).toFixed(4);
+        if(parseFloat(_realNum).toFixed(4) != parseFloat(v["realNum"]).toFixed(4)
+            && parseFloat(_largeNum ).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)){
+            $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
+            isCheckResult = false;
+            return false;
+        }
+
         if(hasPurchasePrice==true){
             if((!v["price"] || parseFloat(v["price"])<=0)&&v["isGift"]==0){
                 isChcekPrice = true;
