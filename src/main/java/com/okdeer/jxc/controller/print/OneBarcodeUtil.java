@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * ClassName: OneBarcodeUtil 
  * @Description: 支持EAN13, EAN8, UPCA, UPCE, Code 3 of 9, Codabar, Code 11, Code 93, Code 128, MSI/Plessey, Interleaved 2 of PostNet等 
  * 					利用jbarcode生成各种条形码！测试成功！分享给大家！
- * @author liwb
+ * @author yangyq02
  * @date 2016年9月17日
  *
  * =================================================================================================
