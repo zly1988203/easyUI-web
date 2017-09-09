@@ -448,3 +448,12 @@ function exportData(){
     $("#formAdd").attr("action",contextPath+'/purchase/cost/form/export/list');
     $("#formAdd").submit();
 }
+
+function printPreview() {
+    var rows = $("#"+gridCostId).datagrid('getData');
+    if(rows.total >0){
+        parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/purchase/cost/form/detail/print?id="+$("#id").val());
+    }else{
+        $_jxc.alert('请选择一行数据.')
+    }
+}

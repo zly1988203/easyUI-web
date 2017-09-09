@@ -250,4 +250,21 @@ public class PurchaseCostFormController extends BaseController<PurchaseCostFormC
         return null;
     }
 
+    @RequestMapping(value = "/detail/print", method = RequestMethod.GET)
+    public String detailPrint(String id, HttpServletResponse response, HttpServletRequest request) {
+
+        List<PurchaseFormDetailPO> exportList = purchaseCostFormService.getPurchaseCostFormDetail(id);
+        if (exportList.size() > PrintConstant.PRINT_MAX_ROW) {
+            return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+        }
+        String path = PrintConstant.PURCHASE_COST_PRINT_DETAIL;
+        Map<String, Object> map = new HashMap<>();
+        //map.put("startDate", DateUtils.formatDate(vo.getStartTime(),DateUtils.DATE_SMALL_STR_R));
+        //map.put("endDate", DateUtils.formatDate(vo.getStartTime(),DateUtils.DATE_SMALL_STR_R));
+        map.put("printName", getCurrentUser().getUserName());
+        JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, exportList, "");
+
+        return null;
+    }
+
 }
