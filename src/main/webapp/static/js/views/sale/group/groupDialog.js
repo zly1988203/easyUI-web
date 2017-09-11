@@ -18,7 +18,7 @@ function saveGroup() {
         return;
     }
 
-    if(!$("#groupName").val()){
+    if($_jxc.isStringNull($("#groupName").val())){
         $_jxc.alert("请输入分组名称");
         return;
     }
