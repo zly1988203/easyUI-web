@@ -34,11 +34,12 @@
 			</div>
 			<div class="ub uline umar-t8"></div>
 			<div class="ub umar-t8">
-				<div class="ub ub-ac">
+				<div class="ub ub-ac" id="branchComponent">
 					<div class="umar-r10 uw-70 ut-r">机构名称:</div>
-					<input type="hidden" id="createBranchId" name="branchId" value='<c:out value="${branchId}"></c:out>'/>
-					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" readonly="readonly" maxlength="50" value='<c:out value="${branchName}"></c:out>'/>
-					<div class="uinp-more" onclick="selectBranches()" >...</div>
+					<input type="hidden" id="createBranchId" name="branchId"/>
+	                <input type="hidden" id="isContainChildren" name="isContainChildren"/>
+					<input class="uinp ub ub-f1" type="text" id="branchName" name="branchName" maxlength="50"/>
+					<div class="uinp-more" >...</div>
 				</div>
 				<div class="ub ub-ac umar-l40">
 					<div class="umar-r10 uw-70 ut-r">商品类别:</div>

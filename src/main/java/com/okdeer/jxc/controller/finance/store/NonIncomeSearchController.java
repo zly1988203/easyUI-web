@@ -92,6 +92,7 @@ public class NonIncomeSearchController extends ReportController {
 			// 导出Excel			
 			Map<String, Object> param = new HashMap<>();
 			param.put("titleName", "营业外收入");
+			param.put("header", "收入");
 			exportParamListForXLSX(response, dataList, param, reportFileName, templateName);
 		} catch (Exception e) {
 			LOG.error("营业外收入查询导出失败", e);
