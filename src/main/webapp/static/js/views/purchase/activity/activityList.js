@@ -9,7 +9,7 @@ $(function () {
         onAfterRender:function(data){
             branchName = data.branchName;
             $("#createUserId").val(data.id);
-            $("#createUserName").val(data.name);
+            $("#createUserName").val(data.userName);
         }
     });
 
@@ -20,7 +20,7 @@ $(function () {
             data.supplierId = data.id;
             return data;
         }
-    })
+    });
     initGridActivityList();
 
 })
@@ -74,33 +74,14 @@ function initGridActivityList() {
             {field:'supplierName',title:'供应商',width:'140px',align:'left'},
             {field: 'startTime', title: '开始时间', width: '150px', align: 'center'},
             {
-                field: 'endTime', title: '结束时间', width: '150px', align: 'center',
-                formatter: function (value, row, index) {
-                    if (value) {
-                        return new Date(value).format('yyyy-MM-dd hh:mm');
-                    }
-                    return "";
-                }
+                field: 'endTime', title: '结束时间', width: '150px', align: 'center'
+
             },
             {field:'createUserName',title:'制单人',width:'130px',align:'left'},
-            {field:'createTime',title:'制单时间',width:'150px',align:'center',
-                formatter: function (value, row, index) {
-                    if (value) {
-                        return new Date(value).format('yyyy-MM-dd hh:mm');
-                    }
-                    return "";
-                }
-            },
+            {field: 'createTime', title: '制单时间', width: '150px', align: 'center'},
 
             {field:'validUserName',title:'审核人',width:'130px',align:'left'},
-            {field:'validTime',title:'审核时间',width:'150px',align:'center',
-                formatter: function (value, row, index) {
-                    if (value) {
-                        return new Date(value).format('yyyy-MM-dd hh:mm');
-                    }
-                    return "";
-                }
-            },
+            {field: 'validTime', title: '审核时间', width: '150px', align: 'center'},
             {field:'remark',title:'备注',width:'200px',align:'left'}
         ]],
         onLoadSuccess : function() {
