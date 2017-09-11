@@ -164,7 +164,7 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 			forbiddenSets = parser.getAllForbiddenSets();
 
 			// 导出
-			GridExportPrintUtils.exportAccessExcel(DaySumReportVo.class, exportList, forbiddenSets, response);
+			GridExportPrintUtils.exportAccessExcel(this.getViewObjectClass(), exportList, forbiddenSets, response);
 		} catch (Exception e) {
 			LOG.error("导出日销售列表信息异常:{}", e);
 			resp = RespJson.error("导出日进销存报表异常");
