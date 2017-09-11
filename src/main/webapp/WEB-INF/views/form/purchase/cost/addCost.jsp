@@ -38,7 +38,7 @@
 					<div class="ub ub-ac umar-r80">
 					<div class="umar-r10 uw-60 ut-r">收货机构:</div>
 					<input class="uinp" name="branchId" id="branchId" type="hidden">
-					<input id="branchName" class="uinp" readonly="readonly" type="text" disabled>
+					<input id="branchName" class="uinp uinp-no-more" readonly="readonly" type="text" disabled>
 
 					</div>
 
@@ -56,13 +56,13 @@
 				<div class="ub ub-ac umar-r80">
 				<div class="umar-r10 uw-60 ut-r">供应商:</div>
 				<input class="uinp" name="supplierId" id="supplierId"type="hidden">
-				<input class="uinp" readonly="readonly" id="supplierName" type="text" disabled>
+				<input class="uinp uinp-no-more" readonly="readonly" id="supplierName" type="text" disabled>
 				</div>
 
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">经营方式:</div>
 						<input class="uinp" name="saleWay" id="saleWay" type="hidden">
-						<input class="uinp" id="saleWayName" name="saleWayName"
+						<input class="uinp uinp-no-more" id="saleWayName" name="saleWayName"
 							type="text" readonly="readonly" disabled>
 					</div>
 					<div class="ub ub-ac umar-r80">

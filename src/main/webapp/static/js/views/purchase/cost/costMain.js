@@ -100,7 +100,7 @@ function initGridCost() {
         method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect:false,  //单选  false多选
+        singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination:false,    //分页
         fitColumns:true,    //每列占满
@@ -198,7 +198,7 @@ function initGridCost() {
                     options:{
                         min:0.0001,
                         max:999999,
-                        precision:2,
+                        precision:4,
                         onChange: onChangeNewAmount
                     }
                 }
@@ -275,9 +275,29 @@ function updateFooter(){
     var argWhere = {name:'isGift',value:""}
     gridCostHandel.updateFooter(fields,argWhere);
 }
+var n = 2;
 //监听实际采购金额
 function onChangeNewAmount(newV,oldV) {
+    if(n < 2 || oldV == ""){
+        return;
+    }
+    var actual = gridCostHandel.getFieldData(gridCostHandel.getSelectRowIndex(),'actual');
+    if(parseFloat(actual) <= 0 ){
+        n = 0;
+        $_jxc.alert("当前库存等于小于0，不能调价");
+        gridCostHandel.setFieldValue('newAmount',oldV);
+        return;
+    }
+
+    if((parseFloat(newV)/parseFloat(actual)) < 0.0001 ){
+        n = 1;
+        $_jxc.alert("分摊后金额过小无法调价，可将成本转移到其他商品");
+        gridCostHandel.setFieldValue('newAmount',oldV);
+        return;
+    }
+
     var amount = gridCostHandel.getFieldData(gridCostHandel.getSelectRowIndex(),'amount');
+    n = 2;
     gridCostHandel.setFieldValue('totalMoney',parseFloat(newV-amount).toFixed(4));                          //调价差额=实际采购金额-原采购金额
     updateFooter();
 }
