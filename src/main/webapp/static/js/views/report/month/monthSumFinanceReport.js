@@ -1,5 +1,18 @@
 $(function(){
 	initDatagridYueJXC();
+    //机构选择初始化
+	$('#branchComponent').branchSelect({
+		//ajax参数
+		param:{
+			scope:1
+		},
+		//数据过滤
+		loadFilter:function(data){
+			data.isContainChildren = data.allBranch;
+			return data;
+		}
+	});
+	
 });
 
 function updateWdatePicker(){
@@ -77,16 +90,6 @@ function queryForm(){
 	$("#"+datagridId).datagrid('load', fromObjStr);
 }
 
-
-/**
- * 机构名称
- */
-function selectBranches(){
-	new publicAgencyService(function(data){
-		$("#createBranchId").val(data.branchesId);
-		$("#branchName").val(data.branchName);
-	},'',sessionBranchId);
-}
 
 /**
  * 类别选择

@@ -45,7 +45,7 @@
         </div>
 
         <div class="ub umar-t8">
-            <div class="ub ub-ac umar-r40">
+            <div class="ub ub-ac umar-r40" id="targetBranch">
                 <div class="umar-r10 uw-60 ut-r">机构:</div>
                 <input class="uinp ub ub-f1" type="hidden" id="branchId"
                        name="branchId">
@@ -53,7 +53,7 @@
                        id="branchName" name="branchName">
                 <div class="uinp-more">...</div>
             </div>
-            <div class="ub ub-ac umar-r40">
+            <div class="ub ub-ac umar-r40" id="supplierSelect">
                 <div class="umar-r10 uw-60 ut-r">供应商:</div>
                 <input class="uinp" name="supplierId" id="supplierId"type="hidden">
                 <input class="uinp ub ub-f1" id="supplierName" type="text">
@@ -66,7 +66,7 @@
 
         </div>
         <div class="ub umar-t8">
-            <div class="ub ub-ac umar-r40">
+            <div class="ub ub-ac umar-r40" id="operateorSelect">
                 <div class="umar-r10 uw-60 ut-r">制单人:</div>
                 <input class="uinp" name="createUserId" id="createUserId" type="hidden">
                 <input class="uinp" id="createUserName" name="createUserName"

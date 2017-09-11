@@ -10,17 +10,21 @@ package com.okdeer.jxc.controller.purchase;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
+import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.JsonMapper;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.form.purchase.service.PurchaseActivityService;
+import com.okdeer.jxc.form.purchase.vo.PurchaseActivityDetailVo;
 import com.okdeer.jxc.form.purchase.vo.PurchaseActivityVo;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -71,4 +75,33 @@ public class PurchaseActivityController extends BaseController<PurchaseActivityC
         return PageUtils.emptyPage();
     }
 
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public RespJson save(HttpServletRequest request) {
+        try {
+
+            List<PurchaseActivityDetailVo> purchaseActivityDetailVos = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("list"), JsonMapper.nonDefaultMapper().contructCollectionType(ArrayList.class, PurchaseActivityDetailVo.class));
+
+            PurchaseActivityVo vo = JsonMapper.nonDefaultMapper().fromJson(request.getParameter("formObj"), PurchaseActivityVo.class);
+            vo.setBranchCode(getCurrBranchCode());
+            vo.setCreateUserId(getCurrUserId());
+            vo.setCreateUserName(getCurrentUser().getUserName());
+            String id = purchaseActivityService.savePurchaseActivityAndDetail(vo, purchaseActivityDetailVos);
+            return RespJson.success(new HashMap<String, String>() {
+                {
+                    put("id", id);
+                }
+            });
+        } catch (Exception e) {
+            LOG.error("保存采购促销活动失败!", e);
+            return RespJson.error("保存采购促销活动失败!");
+        }
+    }
+
+    @RequestMapping(value = "edit/{id}")
+    public ModelAndView edit(@PathVariable(value = "id") String id) {
+        Map<String, Object> model = Maps.newHashMap();
+        model.put("form", purchaseActivityService.getPurchaseActivityById(id));
+        //model.put("detail", purchaseActivityService.);
+        return new ModelAndView("form/purchase/activity/editActivity", model);
+    }
 }

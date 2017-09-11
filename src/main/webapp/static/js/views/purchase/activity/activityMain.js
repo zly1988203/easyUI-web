@@ -3,7 +3,7 @@
  */
 var gridCostId = "gridActivity";
 var gridActHandel = new GridClass();
-var gridDefault = {oldprice:0,newprice:0,};
+var gridDefault = {newPurPrice: 0};
 $(function () {
     initConditionParams();
     initGridActivity();
@@ -102,12 +102,12 @@ function initGridActivity() {
             {field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
             {field:'barCode',title:'条码',width:'130px',align:'left'},
+            {field: 'categoryName', title: '商品类别', width: '60px', align: 'left'},
             {field:'unit',title:'单位',width:'60px',align:'left'},
             {field:'spec',title:'规格',width:'60px',align:'left'},
-            {field:'bigCategoryName',title:'类别',width:'60px',align:'left'},
 
-
-            {field:'price',title:'原进货价',width:'80px',align:'right',
+            {
+                field: 'oldPurPrice', title: '原进货价', width: '80px', align: 'right',
                 formatter : function(value, row, index) {
 
                     if(row.isFooter){
@@ -116,7 +116,8 @@ function initGridActivity() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'price',title:'活动进货价',width:'80px',align:'right',
+            {
+                field: 'newPurPrice', title: '活动进货价', width: '80px', align: 'right',
                 formatter : function(value, row, index) {
 
                     if(row.isFooter){
@@ -151,6 +152,10 @@ function initGridActivity() {
         }
     })
 
+    gridActHandel.setLoadData([$.extend({}, gridDefault), $.extend({}, gridDefault),
+        $.extend({}, gridDefault), $.extend({}, gridDefault), $.extend({}, gridDefault), $.extend({}, gridDefault),
+        $.extend({}, gridDefault), $.extend({}, gridDefault), $.extend({}, gridDefault), $.extend({}, gridDefault)]);
+
 }
 
 //插入一行
@@ -181,12 +186,6 @@ function selectGoods(searchKey) {
         $_jxc.alert("请先选择机构");
         return;
     }
-    $("#"+gridCostId).datagrid("endEdit", gridActHandel.getSelectRowIndex());
-    var row = $("#"+gridCostId).datagrid("getSelected");
-    if(!row){
-        $_jxc.alert("请选择一条分组");
-        return;
-    }
 
     var queryParams = {
         type:'',
@@ -212,8 +211,7 @@ function selectGoods(searchKey) {
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
         var newRows = gridActHandel.checkDatagrid(nowRows,addDefaultData,argWhere,isCheck);
         $.each(newRows,function (index,item) {
-            item.shortName = item.skuName;
-            item.sortNo = (index+1);
+            item.oldPurPrice = item.purchasePrice;
         })
 
         $("#"+gridCostId).datagrid("loadData",newRows);
@@ -225,4 +223,44 @@ function selectGoods(searchKey) {
         },100)
     });
 
+}
+
+
+function saveForm() {
+    if (!validform()) return;
+
+    var formObj = $("#formAdd").serializeObject();
+    var param = {
+        formObj: JSON.stringify(formObj),
+        list: JSON.stringify(gridActHandel.getRows())
+    };
+
+    $_jxc.ajax({
+        url: contextPath + '/purchase/activity/save',
+        data: param
+    }, function (result) {
+        if (result.code == 0) {
+            $_jxc.alert("保存成功", function (data) {
+                window.location.href = contextPath + '/purchase/activity/edit/' + result.data.id;
+            })
+        } else {
+            $_jxc.alert(result['message']);
+        }
+    })
+}
+
+function validform() {
+    var branchId = $("#branchId").val();
+    if (!branchId) {
+        $_jxc.alert("活动机构不能为空!");
+        return false;
+    }
+
+    var supplierId = $("#supplierId").val();
+    if (!supplierId) {
+        $_jxc.alert("供应商不能为空");
+        return false;
+    }
+
+    return true;
 }

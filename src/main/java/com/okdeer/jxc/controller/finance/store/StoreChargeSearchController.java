@@ -92,6 +92,7 @@ public class StoreChargeSearchController extends ReportController {
 			// 导出Excel			
 			Map<String, Object> param = new HashMap<>();
 			param.put("titleName", "门店运营费用");
+			param.put("header", "费用");
 			exportParamListForXLSX(response, dataList, param, reportFileName, templateName);
 		} catch (Exception e) {
 			LOG.error("门店费用查询导出失败", e);
