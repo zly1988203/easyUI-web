@@ -247,7 +247,6 @@ function  initGoodsgrid() {
     goodsgridHandel.setLoadData([$.extend({},gridDefault)])
 }
 
-
 //插入一行
 function addLineHandel(event){
     event.stopPropagation(event);
@@ -584,12 +583,13 @@ function selectGoods(searchKey) {
 
         var nowRows = goodsgridHandel.getRowsWhere({skuCode:'1'});
         var addDefaultData  = goodsgridHandel.addDefault(data,gridDefault);
-
+        $.each(addDefaultData,function (index,item) {
+            item.shortName = item.skuName;
+        })
         var argWhere ={skuCode:1};  //验证重复性
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
         var newRows = goodsgridHandel.checkDatagrid(nowRows,addDefaultData,argWhere,isCheck);
         $.each(newRows,function (index,item) {
-            item.shortName = item.skuName;
                 item.sortNo = (index+1);
         })
 

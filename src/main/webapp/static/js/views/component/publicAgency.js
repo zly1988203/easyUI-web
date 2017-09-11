@@ -108,6 +108,10 @@ function initTreeAgency(){
 var branchAreaCode=null;
 function zTreeOnClick(event, treeId, treeNode) {
 	branchAreaCode=treeNode.code;
+    nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
+    offlineStatus = $('input[type="radio"][name="offlineStatus"]:checked').val();
+    //去空格处理
+    nameOrCode=$.trim(nameOrCode)||'';
 //	var nameOrCode=$("#nameOrCode").val();
     $("#gridAgency").datagrid("options").queryParams = {
     		branchAreaCode:branchAreaCode,
@@ -119,7 +123,7 @@ function zTreeOnClick(event, treeId, treeNode) {
     		isOpenStock:isOpenStock,
     		branchCompleCode:branchCompleCode,
     		scope:scope,
-        	offlineStatus :$('input[type="radio"][name="offlineStatus"]:checked').val()
+        	offlineStatus :offlineStatus
     };
     $("#gridAgency").datagrid("options").method = "post";
     $("#gridAgency").datagrid("options").url =contextPath+'/common/branches/getComponentList',
