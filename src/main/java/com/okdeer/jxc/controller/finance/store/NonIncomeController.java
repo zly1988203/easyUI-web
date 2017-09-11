@@ -247,6 +247,7 @@ public class NonIncomeController extends BaseController<NonIncomeController> {
 			// 导出Excel
 			Map<String, Object> param = new HashMap<>();
 			param.put("titleName", "营业外收入");
+			param.put("header", "收入");
 			exportParamListForXLSX(response, list, param, fileName, templateName);
 
 			return RespJson.success();
