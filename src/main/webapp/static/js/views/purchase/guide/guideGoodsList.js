@@ -10,8 +10,8 @@ $(function(){
 	
 	formData = $("#formData").val();
 	formData = $.parseJSON(formData);
-	formData.deliverStartDate=formData.deliverStartDate.substr(0,10); 
-	formData.deliverEndDate=formData.deliverEndDate.substr(0,10); 
+    formData.deliverStartDate = formData.deliverStartDate.substr(0, 10);
+    formData.deliverEndDate = formData.deliverEndDate.substr(0, 10);
 	
 	
 	var guideType = formData.guideType;

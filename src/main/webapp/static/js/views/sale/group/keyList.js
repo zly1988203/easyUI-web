@@ -72,7 +72,7 @@ function  initKeygrid() {
 
 
         },
-        onClickRow:function (rowIndex,rowData) {
+        onClickRow: function (rowIndex, rowData) {
             if(rowData.groupNo == "01"){
                 $('#btnHot').addClass('ubtns-item').removeClass('ubtns-item-disabled event-none');
             }else{
@@ -191,12 +191,12 @@ function  initGoodsgrid() {
                 },
             },
             {field:'shortName',title:'简称',width:'200px',align:'left',
-                formatter : function(value, row, index) {
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                formatter: function (value, row, index) {
+                    if (row.isFooter) {
+                        return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
                     }
 
-                    if(!value){
+                    if (!value) {
                         value = row['skuName'];
                     }
 
@@ -215,7 +215,7 @@ function  initGoodsgrid() {
                         return '<b>'+parseFloat(value||0)+'</b>';
                     }
                     if(!value){
-                        value = (index+1);
+                        value = (index + 1);
                     }
 
                     return '<b>'+parseFloat(value||0)+'</b>';
@@ -343,7 +343,7 @@ function getGroupList(branchId) {
             // }else {
                 keygridHandle.setLoadData(result.data.list);
                 $('#'+gridName).datagrid('selectRow',0);
-                getGgoodsList();
+            getGgoodsList();
             // }
 
         }else{
@@ -564,7 +564,7 @@ function selectGoods(searchKey) {
     }
 
     var queryParams = {
-        type:'KEYS',
+        type: 'KEYS',
         key:searchKey,
         isRadio:0,
         'branchId': $('#branchId').val(),

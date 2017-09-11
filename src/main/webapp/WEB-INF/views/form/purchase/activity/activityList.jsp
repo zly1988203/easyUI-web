@@ -28,9 +28,9 @@
                 <shiro:hasPermission name="purchaseActivity:append">
                     <div class="ubtns-item" onclick="add()">新增</div>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="purchaseActivity:copy">
-                    <div class="ubtns-item" onclick="actCopy()">复制</div>
-                </shiro:hasPermission>
+                <%-- <shiro:hasPermission name="purchaseActivity:copy">
+                     <div class="ubtns-item" onclick="actCopy()">复制</div>
+                 </shiro:hasPermission>--%>
                 <shiro:hasPermission name="purchaseActivity:delete">
                     <div class="ubtns-item" onclick="actDelete()">删除</div>
                 </shiro:hasPermission>
@@ -76,21 +76,22 @@
             <div class="ub ub-ac umar-r40">
                 <div class="umar-r10 uw-60 ut-r">审核状态:</div>
                 <div class="ub ub-ac umar-r10">
-                    <input class="radioItem" type="radio" name="auditStatus" id="status_no"
+                    <input class="radioItem" type="radio" name="status" id="status_no"
                            value="0" checked="checked" /><label for="status_no">未审核
                 </label>
                 </div>
                 <div class="ub ub-ac umar-r10">
-                    <input class="radioItem" type="radio" name="auditStatus"
+                    <input class="radioItem" type="radio" name="status"
                            id="status_yes" value="1" /><label for="status_yes">已审核
                 </label>
                 </div>
                 <div class="ub ub-ac umar-r10">
-                    <input class="radioItem" type="radio" id="status_over" name="auditStatus" value="2" /><label for="status_over">已终止
+                    <input class="radioItem" type="radio" id="status_over" name="status" value="2"/><label
+                        for="status_over">已终止
                 </label>
                 </div>
                 <div class="ub ub-ac umar-r10">
-                    <input class="radioItem" type="radio" name="auditStatus"
+                    <input class="radioItem" type="radio" name="status"
                            id="status_all" value="" /><label for="status_all">全部</label>
                 </div>
             </div>

@@ -7,44 +7,8 @@
 
 package com.okdeer.jxc.controller.print;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.alibaba.fastjson.JSONObject;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -62,6 +26,31 @@ import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByCostPrice;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ClassName: PrintController 
@@ -79,11 +68,11 @@ import com.okdeer.jxc.utils.UserUtil;
 public class PrintController extends BaseController<PrintController> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PrintController.class);
-	//二维码路径
-	@Value("qrCodeUrl")
-	private static String qrCodeUrl="http://update.okdeer.com/ymlstore.html";
-	// 价签logo的路径
-	private static String LOGO_PATH = "/template/excel/print/priceTag.png";
+    //二维码路径
+    @Value("qrCodeUrl")
+    private static String qrCodeUrl = "http://update.okdeer.com/ymlstore.html";
+    // 价签logo的路径
+    private static String LOGO_PATH = "/template/excel/print/priceTag.png";
 
 	@Autowired
 	private GoodsSelectImportComponent goodsSelectImportComponent;
@@ -650,18 +639,19 @@ public class PrintController extends BaseController<PrintController> {
 			LOG.error("成本调价单导入模版下载失败:", e);
 		}
 	}
-	@RequestMapping(value = "downBranchQrCodeImage")
-	public void downBranchQrCodeImage(HttpServletResponse response) {
-		try {
-			String info=  MessageFormat.format( qrCodeUrl+"?type=1&branchId={0}",this.getCurrBranchId());
-			BufferedImage bufferedImage = com.okdeer.jxc.controller.print.QRCodeUtil.encoderQRCoder(info,1000,1000);
-			response.setContentType("image/jpeg");  
-			 response.setHeader("content-disposition", "attachment;filename="  
-		                + URLEncoder.encode("店铺二维码.png", "UTF-8"));  
-		  
-			ImageIO.write(bufferedImage, "png", response.getOutputStream()); 
-		} catch (Exception e) {
-			LOG.error("店铺二维码信息生成失败:", e);
-		}
-	}
+
+    @RequestMapping(value = "downBranchQrCodeImage")
+    public void downBranchQrCodeImage(HttpServletResponse response) {
+        try {
+            String info = MessageFormat.format(qrCodeUrl + "?type=1&branchId={0}", this.getCurrBranchId());
+            BufferedImage bufferedImage = com.okdeer.jxc.controller.print.QRCodeUtil.encoderQRCoder(info, 1000, 1000);
+            response.setContentType("image/jpeg");
+            response.setHeader("content-disposition", "attachment;filename="
+                    + URLEncoder.encode("店铺二维码.png", "UTF-8"));
+
+            ImageIO.write(bufferedImage, "png", response.getOutputStream());
+        } catch (Exception e) {
+            LOG.error("店铺二维码信息生成失败:", e);
+        }
+    }
 }

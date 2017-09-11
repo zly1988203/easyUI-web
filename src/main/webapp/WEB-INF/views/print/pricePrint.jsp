@@ -65,7 +65,7 @@
 						<option value="17">二维码价签无底(60*32mm 3*9)</option>
 						<option value="19">二维码价签无底(60*30mm 3*9)</option>
 						<option value="21">二维码价签无底(合肥60*30mm 3*9)</option>
-						<option value="23">二维码价签无底(50*28mm 4*9)</option>
+                        <option value="23">二维码价签无底(50*28mm 4*9)</option>
 					</select>
 				</div>
 
@@ -91,9 +91,9 @@
 			
 				<div class="ub ub-ac uw-288 umar-l20">
 					<div class="umar-r10  ut-r">设置打印数:</div>
-					<input  class="uinp uw-206 easyui-numberbox easyui-validatebox"
-						data-options="min:1,max:999999,precision:0,required:true,onChange:changeNum"
-						id="printnum" value="1"/>
+                    <input class="uinp uw-206 easyui-numberbox easyui-validatebox"
+                           data-options="min:1,max:999999,precision:0,required:true,onChange:changeNum"
+                           id="printnum" value="1"/>
 				</div>
 				
 				<div class="ub ub-ac uw-300 umar-l58 activity unhide">

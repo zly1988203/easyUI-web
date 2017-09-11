@@ -1,11 +1,6 @@
 
 package com.okdeer.jxc.controller.print;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import org.jbarcode.JBarcode;
 import org.jbarcode.encode.Code128Encoder;
 import org.jbarcode.paint.BaseLineTextPainter;
@@ -13,6 +8,11 @@ import org.jbarcode.paint.WidthCodedPainter;
 import org.jbarcode.util.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * ClassName: OneBarcodeUtil 

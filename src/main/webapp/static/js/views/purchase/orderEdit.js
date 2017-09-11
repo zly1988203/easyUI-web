@@ -367,7 +367,7 @@ function initQueryData(){
 function selectStockAndPrice(data){
 
     var GoodsStockVo = {
-        branchId : $("#branchId").val(),
+        branchId: $("#branchId").val(),
         fieldName : 'id',
         branchType :  $("#branchType").val(),
         stockBranchId : $("#branchId").val(),

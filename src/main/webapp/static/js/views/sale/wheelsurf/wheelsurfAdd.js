@@ -384,7 +384,7 @@ function validform() {
     }
 
     var wheelsurfTime = $("#wheelsurfTime").numberbox("getValue")
-    if(!wheelsurfTime || null == wheelsurfTime){
+    if (!wheelsurfTime || null == wheelsurfTime) {
         $_jxc.alert("请填写抽奖次数");
         return false;
     }
@@ -428,15 +428,14 @@ function validform() {
         }
 
 
-
-        if($.inArray(parseFloat(item.rowNo), rowNoArr) == -1){
+        if ($.inArray(parseFloat(item.rowNo), rowNoArr) == -1) {
             rowNoArr.push(parseFloat(item.rowNo));
         }else{
             hasRepeat = true;
         }
 
-        if(item['winRate'] === "0.00" || parseFloat(item.winRate).toFixed(2) == 0.00){
-            $_jxc.alert("第"+(index+1)+"行，中奖概率不能为0");
+        if (item['winRate'] === "0.00" || parseFloat(item.winRate).toFixed(2) == 0.00) {
+            $_jxc.alert("第" + (index + 1) + "行，中奖概率不能为0");
             flag = true;
             return false;
         }

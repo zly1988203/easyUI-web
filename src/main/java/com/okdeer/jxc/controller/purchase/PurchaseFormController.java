@@ -7,34 +7,6 @@
 
 package com.okdeer.jxc.controller.purchase;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.StopWatch;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.branch.entity.Branches;
@@ -53,13 +25,7 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
-import com.okdeer.jxc.common.utils.BigDecimalUtils;
-import com.okdeer.jxc.common.utils.DateUtils;
-import com.okdeer.jxc.common.utils.Disabled;
-import com.okdeer.jxc.common.utils.NumberToCN;
-import com.okdeer.jxc.common.utils.OrderNoUtils;
-import com.okdeer.jxc.common.utils.PageUtils;
-import com.okdeer.jxc.common.utils.UUIDHexGenerator;
+import com.okdeer.jxc.common.utils.*;
 import com.okdeer.jxc.form.entity.PurchaseForm;
 import com.okdeer.jxc.form.entity.PurchaseFormDetail;
 import com.okdeer.jxc.form.enums.FormDealStatus;
@@ -81,8 +47,23 @@ import com.okdeer.jxc.goods.service.GoodsBranchPriceServiceApi;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.retail.common.price.PriceConstant;
-
 import net.sf.json.JSONObject;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StopWatch;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * ClassName: PurchaseFormController 
@@ -938,9 +919,9 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				BeanUtils.copyProperties(purchaseFormDetailVo, formDetail);
 
 				// 处理价格备份：如果价格不为0且价格和备份价格不想等，表示页面有作价格修改，需把价格备份替换成价格值
-				if(formDetail.getPriceBack()==null){
+				if (formDetail.getPriceBack() == null) {
 					formDetail.setPriceBack(formDetail.getPrice());
-				}else if (BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0
+				} else if (BigDecimal.ZERO.compareTo(formDetail.getPrice()) != 0
 						&& formDetail.getPrice().compareTo(formDetail.getPriceBack()) != 0) {
 					formDetail.setPriceBack(formDetail.getPrice());
 				}
