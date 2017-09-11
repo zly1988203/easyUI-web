@@ -279,6 +279,7 @@ var n = 2;
 //监听实际采购金额
 function onChangeNewAmount(newV,oldV) {
     if(n < 2 || oldV == ""){
+        n = 2;
         return;
     }
     var actual = gridCostHandel.getFieldData(gridCostHandel.getSelectRowIndex(),'actual');
@@ -288,15 +289,15 @@ function onChangeNewAmount(newV,oldV) {
         gridCostHandel.setFieldValue('newAmount',oldV);
         return;
     }
-
-    if((parseFloat(newV)/parseFloat(actual)) < 0.0001 ){
+    var amount = gridCostHandel.getFieldData(gridCostHandel.getSelectRowIndex(),'amount');
+    var totalMoney = Math.abs(parseFloat(newV-amount)).toFixed(4)
+    if((parseFloat(totalMoney)/parseFloat(actual)) < 0.0001 ){
         n = 1;
         $_jxc.alert("分摊后金额过小无法调价，可将成本转移到其他商品");
         gridCostHandel.setFieldValue('newAmount',oldV);
         return;
     }
 
-    var amount = gridCostHandel.getFieldData(gridCostHandel.getSelectRowIndex(),'amount');
     n = 2;
     gridCostHandel.setFieldValue('totalMoney',parseFloat(newV-amount).toFixed(4));                          //调价差额=实际采购金额-原采购金额
     updateFooter();
