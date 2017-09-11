@@ -7,15 +7,6 @@
 
 package com.okdeer.jxc.controller.purchase;
 
-import java.util.List;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
@@ -28,6 +19,14 @@ import com.okdeer.jxc.form.purchase.po.PurchaseGuideOrderPo;
 import com.okdeer.jxc.form.purchase.qo.PurchaseGuideQo;
 import com.okdeer.jxc.form.purchase.service.PurchaseGuideService;
 import com.okdeer.jxc.form.purchase.vo.PurchaseGuideGoodsVo;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * ClassName: PurchaseGuideController 
@@ -133,11 +132,11 @@ public class PurchaseGuideController extends BaseController<PurchaseGuideControl
 	 * @author liwb
 	 * @date 2017年3月8日
 	 */
-	@RequestMapping(value = "getGoodsList")
-	@ResponseBody
-	public PageUtils<PurchaseGuideGoodsPo> getGoodsList(PurchaseGuideQo qo) {
-		LOG.debug("获取采购向导商品清单条件信息：{}", qo);
-		try {
+    @RequestMapping(value = "getGoodsList", method = RequestMethod.POST)
+    @ResponseBody
+    public PageUtils<PurchaseGuideGoodsPo> getGoodsList(PurchaseGuideQo qo) {
+        LOG.debug("获取采购向导商品清单条件信息：{}", qo);
+        try {
 			// 必填参数
 			if (StringUtils.isBlank(qo.getBranchId()) || qo.getBranchType() == null) {
 				LOG.error("机构信息为空，系统异常！");

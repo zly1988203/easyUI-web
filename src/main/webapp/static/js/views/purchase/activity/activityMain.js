@@ -9,7 +9,18 @@ $(function () {
     initGridActivity();
 
     //机构选择初始化 收货机构
-    $('#targetBranch').branchSelect();
+    $('#targetBranch').branchSelect({
+        //ajax请求参数
+        param: {
+            scope: 1,
+            selectType: 1,  //多选
+        },
+        //数据过滤
+        loadFilter: function (data) {
+            data.isContainChildren = data.allBranch;
+            return data;
+        }
+    });
 
     //供应商组件初始化
     $('#supplierSelect').supplierSelect({

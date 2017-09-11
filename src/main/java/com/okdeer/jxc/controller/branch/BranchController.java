@@ -7,19 +7,6 @@
 
 package com.okdeer.jxc.controller.branch;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.BranchCost;
 import com.okdeer.jxc.branch.po.BranchPo;
@@ -29,16 +16,20 @@ import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.branch.vo.BranchCostVo;
 import com.okdeer.jxc.branch.vo.BranchOpVo;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
-import com.okdeer.jxc.common.enums.DeliverPriceSpecEnum;
-import com.okdeer.jxc.common.enums.DyPriceSpecEnum;
 import com.okdeer.jxc.common.enums.OfflineStatusEnum;
-import com.okdeer.jxc.common.enums.StoreSelectGoodsSpecEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.common.utils.gson.GsonUtils;
 import com.okdeer.jxc.controller.BaseController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ClassName: BranchController 
@@ -75,12 +66,12 @@ public class BranchController extends BaseController<BranchController> {
 		ModelAndView mv = new ModelAndView("archive/branch/branchEdit");
 		mv.addObject("branchId", branchId);
 		mv.addObject("offlineStatusList", OfflineStatusEnum.values());
-		mv.addObject("deliverPriceSpecList", DeliverPriceSpecEnum.values());
-		mv.addObject("dyPriceSpecList", DyPriceSpecEnum.values());
-		mv.addObject("selectGoodsSpecList", StoreSelectGoodsSpecEnum.values());
-		mv.addObject("dcBranchList", branchesService.getBranchListForSecondLevel(branchId));
-		return mv;
-	}
+//		mv.addObject("deliverPriceSpecList", DeliverPriceSpecEnum.values());
+//		mv.addObject("dyPriceSpecList", DyPriceSpecEnum.values());
+//		mv.addObject("selectGoodsSpecList", StoreSelectGoodsSpecEnum.values());
+//		mv.addObject("dcBranchList", branchesService.getBranchListForSecondLevel(branchId));
+        return mv;
+    }
 
 	@RequestMapping(value = "getBranchInfoById")
 	public RespJson getBranchInfoById(String branchId) {

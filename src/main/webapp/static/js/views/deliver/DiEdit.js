@@ -665,6 +665,7 @@ function check(){
 	    			$_jxc.alert("操作成功！",function(){
 	    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
 	    			});
+                    location.href = contextPath + "/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
 	    		}else{
 	    			$_jxc.alert(result['message']);
 	    		}
