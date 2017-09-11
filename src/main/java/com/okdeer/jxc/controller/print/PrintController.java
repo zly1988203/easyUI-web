@@ -7,12 +7,16 @@
 
 package com.okdeer.jxc.controller.print;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,7 +79,9 @@ import com.okdeer.jxc.utils.UserUtil;
 public class PrintController extends BaseController<PrintController> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PrintController.class);
-
+	//二维码路径
+	@Value("qrCodeUrl")
+	private static String qrCodeUrl="http://update.okdeer.com/ymlstore.html";
 	// 价签logo的路径
 	private static String LOGO_PATH = "/template/excel/print/priceTag.png";
 
@@ -641,6 +648,20 @@ public class PrintController extends BaseController<PrintController> {
 			exportListForXLSX(response, null, fileName, templateName);
 		} catch (Exception e) {
 			LOG.error("成本调价单导入模版下载失败:", e);
+		}
+	}
+	@RequestMapping(value = "downBranchQrCodeImage")
+	public void downBranchQrCodeImage(HttpServletResponse response) {
+		try {
+			String info=  MessageFormat.format( qrCodeUrl+"?type=1&branchId={0}",this.getCurrBranchId());
+			BufferedImage bufferedImage = com.okdeer.jxc.controller.print.QRCodeUtil.encoderQRCoder(info,1000,1000);
+			response.setContentType("image/jpeg");  
+			 response.setHeader("content-disposition", "attachment;filename="  
+		                + URLEncoder.encode("店铺二维码.png", "UTF-8"));  
+		  
+			ImageIO.write(bufferedImage, "png", response.getOutputStream()); 
+		} catch (Exception e) {
+			LOG.error("店铺二维码信息生成失败:", e);
 		}
 	}
 }

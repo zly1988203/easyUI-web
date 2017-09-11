@@ -79,11 +79,9 @@
 						</div>
 
 						<div class="ub ub-ac">
-						<div class="umar-r10 uw-80 ut-r">参考分店:</div>
-						<input id="refBranchName" name="refBranchName" type="text"
-						class="uinp uinp-no-more" maxlength="50"
-						readonly="readonly">
-
+						<div class="umar-r10 uw-80 ut-r">邮政编码:</div>
+						<input id="zipCode" name="zipCode" type="number"
+						class="uinp uinp-no-more" readonly="readonly">
 						</div>
 
 					</div>
@@ -97,62 +95,41 @@
 
 						</div>
 
-						<div class="ub ub-ac uw-300">
+						<div class="ub ub-ac uw-320">
 							<div class="umar-r10 uw-80 ut-r">配送价格:</div>
-							<select class="uselect easyui-combobox" style="width: 204px;"
-							data-options="editable:false" name="deliverPriceSpec" id="deliverPriceSpec">
-							<c:forEach var="i" items="${deliverPriceSpecList }">
-								<option value="${i.code }" >${i.label }</option>
-							</c:forEach>
-							</select>
-
-
-							<%--<input id="distriPriceTypeStr" name="distriPriceTypeStr" type="text"--%>
-							<%--class="uinp uinp-no-more" maxlength="50"--%>
-							<%--readonly="readonly">--%>
-							<%--<input id="distriPriceType" name="distriPriceType" type="hidden">--%>
+							<input id="distriPriceTypeStr" name="distriPriceTypeStr" type="text"
+							class="uinp uinp-no-more" maxlength="50"
+							readonly="readonly">
+							<input id="distriPriceType" name="distriPriceType" type="hidden">
 
 						</div>
 
-
 						<div class="ub ub-ac">
-						<div class="umar-r10 uw-100 ut-r">直送要货价格:</div>
-						<select class="uselect easyui-combobox" style="width: 204px;"
-						data-options="editable:false" name="dyPriceSpec" id="dyPriceSpec">
-						<c:forEach var="i" items="${dyPriceSpecList }">
-							<option value="${i.code }" >${i.label }</option>
-						</c:forEach>
-						</select>
+						<div class="umar-r10 uw-80 ut-r">参考分店:</div>
+						<input id="refBranchName" name="refBranchName" type="text"
+						class="uinp uinp-no-more" maxlength="50"
+						readonly="readonly">
 
 						</div>
 
 					</div>
 
 					<div class="ub upad-4 umar-l20">
-
 						<div class="ub ub-ac uw-300">
-						<div class="umar-r10 uw-80 ut-r">配送中心:</div>
-						<select class="uselect easyui-combobox" style="width: 204px;"
-						data-options="editable:false" name="dcBranchId" id="dcBranchId">
-						<c:forEach var="i" items="${dcBranchList }">
-							<option value="${i.branchId }" >${i.branchName }</option>
-						</c:forEach>
-						</select>
+							<div class="umar-r10 uw-80 ut-r">要货机构:</div>
+							<input id="deliverBranchName" name="deliverBranchName" type="text"
+								class="uinp uinp-no-more" maxlength="50"
+								readonly="readonly">
 
 						</div>
-
 
 						<div class="ub ub-ac uw-340">
-						<div class="umar-r10 uw-100 ut-r">要货商品范围:</div>
-						<select class="uselect easyui-combobox" style="width: 204px;"
-						data-options="editable:false" name="selectGoodsSpec" id="selectGoodsSpec">
-						<c:forEach var="i" items="${selectGoodsSpecList }">
-							<option value="${i.key }" >${i.value }</option>
-						</c:forEach>
-						</select>
+							<div class="umar-r10 uw-100 ut-r">最低进货金额:</div>
+							<input id="minAmount" name="minAmount" type="text"
+								class="uinp uinp-no-more" maxlength="50"
+								readonly="readonly">
 
 						</div>
-
 
 						<div class="ub ub-ac">
 						<div class="umar-r10 uw-80 ut-r">加价率(%):</div>
@@ -172,22 +149,26 @@
 							<input id="status" name="status" type="hidden">
 						</div>
 
-						<div class="ub ub-ac uw-320">
-						<div class="umar-r10 uw-100 ut-r">最低进货金额:</div>
-						<input id="minAmount" name="minAmount" type="text"
-						class="uinp uinp-no-more" maxlength="50"
-						readonly="readonly">
+						<!-- <div class="ub ub-ac uw-320">
+							<div class="umar-r10 uw-100 ut-r">费用均摊年数:</div>
+							<input id="costAvgYear" name="costAvgYear" type="text" value=""
+								class="uinp easyui-numberbox easyui-validatebox" data-options="validType:'intNum',precision:0">
 
-						</div>
+						</div> -->
 
-
-						<div class="ub ub-ac">
+						<div class="ub ub-ac uw-340">
 							<div class="umar-r10 uw-100 ut-r">店铺面积(m<sup>2</sup>):</div>
 							<input id="areaSize" name="areaSize" type="text" value=""
 								class="uinp easyui-numberbox" data-options="min:0,precision:2">
 						</div>
 
+						<div class="ub ub-ac">
+						<div class="umar-r10 uw-80 ut-r">业务专员:</div>
+						<input id="salesman" name="salesman" type="text"
+						class="uinp uinp-no-more" maxlength="50"
+						readonly="readonly">
 
+						</div>
 					</div>
 
 					<div class="ub upad-4">
@@ -196,7 +177,7 @@
 							<div class="umar-r10 uw-100 ut-r">线下运营状态:</div>
 							<select class="uselect easyui-combobox" style="width: 204px;"
 								data-options="editable:false" name="offlineStatus" id="offlineStatus">
-								<c:forEach var="i" items="${offlineStatusList }">
+								<c:forEach var="i" items="${OfflineStatusList }">
 									<option value="${i.code }" >${i.label }</option>
 				               	</c:forEach>
 							</select>

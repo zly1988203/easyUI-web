@@ -339,7 +339,7 @@ function initDatagridEditOrder(){
 
 //备注
 var reFlg = false;
-var maxRemark = 20;
+var maxRemark = 100;
 function changeRemark(newV,oldV){
 	if(reFlg){
 	   reFlg = false;
@@ -367,7 +367,7 @@ function initQueryData(){
 function selectStockAndPrice(data){
 
     var GoodsStockVo = {
-        branchId : "",
+        branchId : $("#branchId").val(),
         fieldName : 'id',
         branchType :  $("#branchType").val(),
         stockBranchId : $("#branchId").val(),

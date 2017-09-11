@@ -12,7 +12,8 @@ var options_nomal = [
 					 {value:'4',text:'促销（85*40mm无底 1*7）'},
 					{value:'18',text:'二维码促销价签无底(60*32mm 3*9)'},
 					{value:'20',text:'二维码促销价签无底(60*30mm 3*9)'},
-					 {value:'22',text:'二维码促销价签无底(合肥60*30mm 3*9)'}
+					 {value:'22',text:'二维码促销价签无底(合肥60*30mm 3*9)'},
+					 {value:'24',text:'二维码促销价签无底(50*28mm 4*9)'}
 					];
 var options_promotion = [
                          
@@ -26,7 +27,7 @@ var options_promotion = [
                          {value:'17',text:'二维码价签无底(60*32mm 3*9)'},
                          {value:'19',text:'二维码价签无底(60*30mm 3*9)'},
                          {value:'21',text:'二维码价签无底(合肥60*30mm 3*9)'},
-                         {value:'23',text:'二维码价签无底(55*30mm 4*9)'}
+                         {value:'23',text:'二维码价签无底(55*30mm 3*9)'}
      					];
 
 $(function(){
@@ -38,8 +39,17 @@ $(function(){
 		printRows($(this).val());
 
 	});
+	$('#discount').on('input',function(){
+		discountRows($(this).val());
+
+	});
 
 });
+
+function changeNum() {
+	var val = $("#printnum").numberbox("getValue");
+    printRows(val);
+}
 
 //监听打印数
 function changePrintNum(vewV,oldV){
@@ -61,7 +71,6 @@ function initjiaqType(){
 		var changeType = function(){
 			_this.prop("checked",true);
 			$('#priceType').val(_this.val());
-
 			if(_this.val() === '1'){
 				$('.activity').removeClass('unhide');
 				$('.discount').removeClass('unhide');
@@ -97,7 +106,7 @@ function initjiaqType(){
 			
 		}
 		changeType();
-        initPricePrintGrid();
+        /*initPricePrintGrid();*/
         // $("#"+datagridId).datagrid("loadData", [$.extend({},gridDefault)]);
 	})
 }
@@ -398,7 +407,7 @@ function printtable(){
 function chooseproduct(searchKey){
     var param = {
         type:'PC',
-        key:'',
+        key:searchKey,
         isRadio:0,
         sourceBranchId:"",
         targetBranchId:"",
@@ -460,6 +469,7 @@ function searchBranch(){
 		$("#actionId").val("");
 		$("#actionName").val("");
 		gridHandel.setLoadData([]);
+		 gridHandel.setLoadData([$.extend({},gridDefault)]);
 	},'BF','');
 }
 
