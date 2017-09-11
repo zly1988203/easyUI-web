@@ -247,6 +247,7 @@ public class NonExpendController extends BaseController<NonExpendController> {
 			// 导出Excel			
 			Map<String, Object> param = new HashMap<>();
 			param.put("titleName", "营业外支出");
+			param.put("header", "支出");
 			exportParamListForXLSX(response, list, param, fileName, templateName);
 
 			return RespJson.success();
