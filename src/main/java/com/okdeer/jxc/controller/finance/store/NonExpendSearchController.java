@@ -91,6 +91,7 @@ public class NonExpendSearchController extends ReportController {
 			// 导出Excel			
 			Map<String, Object> param = new HashMap<>();
 			param.put("titleName", "营业外支出");
+			param.put("header", "支出");
 			exportParamListForXLSX(response, dataList, param, reportFileName, templateName);
 		} catch (Exception e) {
 			LOG.error("营业外支出查询导出失败", e);

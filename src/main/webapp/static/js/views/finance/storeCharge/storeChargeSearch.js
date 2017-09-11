@@ -7,11 +7,23 @@ $(function () {
     initGridChargeSearchList();
     $("#month").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
     changeStoreStatus();
+
+    $("#costTypeId").combobox({disabled:true});
+	$("#formNo").prop("disabled",true);
 })
 
 function changeStoreStatus() {
     $(".radioItem").change(function () {
         storeStatus = $(this).val();
+        if(storeStatus == 'total'){
+            $("#costTypeId").combobox({disabled:true});
+            $("#costTypeId").combobox('clear');
+        	$("#formNo").prop("disabled",true);
+        	$("#formNo").val('');
+        }else if(storeStatus == 'detail'){
+            $("#costTypeId").combobox({disabled:false});
+        	$("#formNo").removeProp("disabled");
+        }
         $("#"+gridName).datagrid("loadData",[]);
         $('#'+gridName).datagrid('reloadFooter',[]);
         $("#"+gridName).datagrid("options").url = "";
@@ -76,7 +88,8 @@ function getGridcolumns(){
                     if(typeof(value) === "undefined" ){
                         return '<b>合计</b>';
                     }
-                    return value;
+                	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'门店费用详情\',\'' + contextPath + '/finance/storeCharge/toEdit?formId=' + row.id + '\');">' + value + '</a>';
+                	return strHtml;
                 },
             },
             {field:'branchCode',title:'机构编码',width:80,align:'left'},
