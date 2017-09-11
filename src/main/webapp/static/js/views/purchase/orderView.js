@@ -26,12 +26,14 @@ function initQueryData(){
 
 //查询周销售量 和 月销量
 function selectStockAndPrice(data){
-
+	debugger;
     var GoodsStockVo = {
-        branchId : "",
+		
+		branchId : $("#branchId").val(),
         fieldName : 'id',
+        branchType :  $("#branchType").val(),
         stockBranchId : $("#branchId").val(),
-        goodsSkuVo : []
+        goodsSkuVo : []	
     };
     $.each(data,function(i,val){
         var temp = {

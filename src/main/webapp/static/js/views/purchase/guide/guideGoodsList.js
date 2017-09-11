@@ -311,7 +311,7 @@ function initPurchaseGuideGoodsListDg(){
                 editor:{
                     type:'textbox',
                     options:{
-                        validType:{maxLength:[20]},
+                        validType:{maxLength:[100]},
                     }
                 }
             }
