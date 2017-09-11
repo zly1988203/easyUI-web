@@ -12,7 +12,7 @@ import com.okdeer.retail.facade.report.sales.qo.WeekSaleReportQo;
 import com.okdeer.retail.facade.report.sales.vo.WeekSaleReportVo;
 
 @Controller
-@RequestMapping("/report/sales/weekSaleReport")
+@RequestMapping("report/sales/weekSaleReport")
 public class WeekSaleReportController extends BaseReportController<WeekSaleReportQo,WeekSaleReportVo>{
 	@Reference(version = "1.0.0", check = false)
 	WeekSaleReportFacade weekSaleReportFacade;
