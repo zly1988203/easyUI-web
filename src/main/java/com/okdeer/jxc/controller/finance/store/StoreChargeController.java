@@ -247,6 +247,7 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 			// 导出Excel			
 			Map<String, Object> param = new HashMap<>();
 			param.put("titleName", "门店运营费用");
+			param.put("header", "费用");
 			exportParamListForXLSX(response, list, param, fileName, templateName);
 
 			return RespJson.success();
