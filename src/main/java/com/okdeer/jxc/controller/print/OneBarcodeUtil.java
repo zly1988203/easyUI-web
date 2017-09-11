@@ -1,11 +1,6 @@
 
 package com.okdeer.jxc.controller.print;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import org.jbarcode.JBarcode;
 import org.jbarcode.encode.Code128Encoder;
 import org.jbarcode.paint.BaseLineTextPainter;
@@ -14,11 +9,16 @@ import org.jbarcode.util.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 /**
  * ClassName: OneBarcodeUtil 
  * @Description: 支持EAN13, EAN8, UPCA, UPCE, Code 3 of 9, Codabar, Code 11, Code 93, Code 128, MSI/Plessey, Interleaved 2 of PostNet等 
  * 					利用jbarcode生成各种条形码！测试成功！分享给大家！
- * @author liwb
+ * @author yangyq02
  * @date 2016年9月17日
  *
  * =================================================================================================

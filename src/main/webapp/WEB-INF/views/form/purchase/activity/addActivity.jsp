@@ -24,10 +24,14 @@
 				<shiro:hasPermission name="JxcPurchaseOrder:add">
 					<div class="ubtns-item" onclick="saveItemHandel()">保存</div>
 				</shiro:hasPermission>
-				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+				<shiro:hasPermission name="purchaseActivity:copy">
+					<div class="ubtns-item" onclick="actCopy()">复制</div>
+				</shiro:hasPermission>
 				<div class="ubtns-item-disabled">审核</div>
-				<div class="ubtns-item-disabled">打印</div>
-				<div class="ubtns-item-disabled">导出明细</div>
+				<div class="ubtns-item" onclick="selectGoods()">商品选择</div>
+				<div class="ubtns-item importGood" onclick="toImportproduct(0)">导入货号</div>
+				<div class="ubtns-item importGood" onclick="toImportproduct(1)">导入条码</div>
+				<div class="ubtns-item-disabled">导出</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
 			</div>
 		</div>

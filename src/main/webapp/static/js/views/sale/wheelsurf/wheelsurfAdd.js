@@ -23,7 +23,6 @@ $(function () {
         $_jxc.ajax({url:contextPath+"/pos/wheelsurf/form/edit/detail/"+$("#formId").val()},function (data) {
             $("#gridAddPosAct").datagrid("loadData",data.detail);
         });
-        disabledElement();
     }
 
 })
@@ -360,7 +359,7 @@ function validform() {
     var branchId = $("#branchIds").val();
     if(!branchId){
         $_jxc.alert("请先选择活动机构");
-        return false;;
+        return false;
     }
 
     if(!$("#beginTime").val() || !$("#overTime").val()){
@@ -384,8 +383,8 @@ function validform() {
         return false;
     }
 
-    var wheelsurfTime = $("#wheelsurfTime").val();
-    if(!wheelsurfTime){
+    var wheelsurfTime = $("#wheelsurfTime").numberbox("getValue")
+    if (!wheelsurfTime || null == wheelsurfTime) {
         $_jxc.alert("请填写抽奖次数");
         return false;
     }
@@ -428,11 +427,19 @@ function validform() {
             return false;
         }
 
-        if($.inArray(item.rowNo, rowNoArr) == -1){
-            rowNoArr.push(item.rowNo);
+
+        if ($.inArray(parseFloat(item.rowNo), rowNoArr) == -1) {
+            rowNoArr.push(parseFloat(item.rowNo));
         }else{
             hasRepeat = true;
         }
+
+        if (item['winRate'] === "0.00" || parseFloat(item.winRate).toFixed(2) == 0.00) {
+            $_jxc.alert("第" + (index + 1) + "行，中奖概率不能为0");
+            flag = true;
+            return false;
+        }
+
         totalRate = totalRate + parseFloat(item.winRate);
 
         if(item.picUrl == ""){
