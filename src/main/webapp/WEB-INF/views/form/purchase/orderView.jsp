@@ -55,6 +55,8 @@
         </div>
         <div class="ub umar-t8">
             <div class="ub ub-ac umar-r80">
+            <input class="uinp" name="branchType" id="branchType" value="${form.branchType}" type="hidden">	
+				<input class="uinp" name="branchId" id="branchId" type="hidden" value="${form.branchId}"> 
                 <div class="umar-r10 uw-60 ut-r">收货机构:</div>
                 <div class="utxt">${form.branchName}</div>
             </div>
