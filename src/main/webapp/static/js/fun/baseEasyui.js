@@ -1030,7 +1030,7 @@ var $_jxc = {
 	 */
 	alert:function(msg,cb,title,icon){
 		if (msg == 'success') msg = '操作成功';
-		$.messager.alert(title||'提示',msg,icon||"info",function(){
+		$.messager.alert('',msg,icon||"info",function(){
 			if (typeof cb == 'function') {
 		    	cb();
             }

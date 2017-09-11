@@ -442,7 +442,7 @@ function savegoods() {
                 sortNo:item.sortNo
             }
 
-            if(item['shortName'] === "" || item['shortName'] == null){
+            if($_jxc.isStringNull(item['shortName'])){
                 $_jxc.alert("第"+(index+1)+"行，简称不能为空");
                 flag = true;
                 return false;
@@ -589,7 +589,7 @@ function selectGoods(searchKey) {
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
         var newRows = goodsgridHandel.checkDatagrid(nowRows,addDefaultData,argWhere,isCheck);
         $.each(newRows,function (index,item) {
-            item.shortName = item.skuName;
+            // item.shortName = item.skuName;
                 item.sortNo = (index+1);
         })
 

@@ -378,7 +378,7 @@ function validform() {
     }
 
     var actName = $("#wheelsurfName").val();
-    if(!actName){
+    if(!actName || $_jxc.isStringNull(actName)){
         $_jxc.alert("请填写活动名称");
         return false;
     }
@@ -403,7 +403,7 @@ function validform() {
     var totalRate = 0.00;
     var flag = false;
     $.each(rows,function (index,item) {
-        if(item['prizeShortName'] === "" || item['prizeShortName'] == null){
+        if($_jxc.isStringNull(item['prizeShortName'])){
             $_jxc.alert("第"+(index+1)+"行，简称不能为空");
             flag = true;
             return false;

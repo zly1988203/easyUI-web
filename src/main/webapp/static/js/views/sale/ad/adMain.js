@@ -123,7 +123,7 @@ function validform(){
     }
 
     var adName = $("#adName").val();
-    if(!adName){
+    if($_jxc.isStringNull(adName)){
         $_jxc.alert("请先填写活动名称");
         return false;
     }
