@@ -32,6 +32,7 @@ function initDatagridEditRequireOrder(){
         height:'100%',
         columns:[[
 			{field:'ck',checkbox:true},
+
 			{field:'cz',title:'操作',width:'50px',align:'center',
 			    formatter : function(value, row,index) {
 			        var str = "";
@@ -44,6 +45,7 @@ function initDatagridEditRequireOrder(){
 			        return str;
 			    },
 			},
+            {field:'rowNo',title:'序号',width:'80px',align:'center'},
             {field:'skuCode',title:'货号',width:'70px',align:'left'},
             {field:'skuName',title:'商品名称',width:'190px',align:'left'},
             {field:'barCode',title:'条码',width:'105px',align:'left'},

@@ -180,7 +180,7 @@ public class LogisticsSupplierController extends BaseController<LogisticsSupplie
 					return json;
 				}
 				// 导出文件名称，不包括后缀名
-				String fileName = "GYS" + "_" + DateUtils.formatDate(DateUtils.getCurrDate(), DateUtils.DATE_KEY_STR);
+				String fileName = "供应商_" + DateUtils.formatDate(DateUtils.getCurrDate(), DateUtils.DATE_KEY_STR);
 				// 模板名称，包括后缀名
 				String templateName = ExportExcelConstant.SUPPLIER_LOGISTICS_EXPORT_EXCEL;
 

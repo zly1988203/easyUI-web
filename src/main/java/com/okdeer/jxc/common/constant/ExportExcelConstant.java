@@ -212,6 +212,21 @@ public interface ExportExcelConstant {
 	/*** 物流导出销售单模板  */
 	String DELIVER_FORM_LISTLOGISTICS = "DeliverFormListLogistics.xlsx";
 	
+	/*** 物流导出销售单列表  */
+	String DELIVER_FORMS = "DeliverForms.xlsx";
+	
+	/*** 物流导出门店退货单列表  */
+	String DELIVER_DR_FORMS = "DeliverDrForms.xlsx";
+	
+	/*** 物流导出门店回单列表  */
+	String DELIVER_DB_FORMS = "DeliverDbForms.xlsx";
+	
+	/*** 物流导出采购单列表  */
+	String PURCHASE_FORMS = "PurchaseForms.xlsx";
+	
+	/*** 物流导出供应商退货单列表  */
+	String PURCHASE_PR_FORMS = "PurchasePrForms.xlsx";
+	
 	/*** 物流导出销售单模板  */
 	String DELIVER_FORM_DBSHEET = "DBSheet.xlsx";
 	
