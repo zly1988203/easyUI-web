@@ -45,9 +45,10 @@ $(document).on('input','#remark',function(){
 var targetBranchId;
 var gridHandel = new GridClass();
 //初始化表格
+var dg;
 function initDatagridRequireOrders(){
 	var deliverType = $('#deliverType').val();
-    $("#deliverFormList").datagrid({
+	dg = $("#deliverFormList").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
@@ -71,6 +72,7 @@ function initDatagridRequireOrders(){
 			},
             {field:'status',title: '审核状态', width: '100px', align: 'center'},
 			{field: 'dealStatus', title: '单据状态', width: '60px', align: 'center'},
+			{field: 'downloadNum', title: '导出次数', width: '60px', align: 'center'},
 			{field: 'targetBranchName', title: '要货机构', width: '200px', align: 'left'},
 			{field: 'salesman', title: '业务人员', width: '130px', align: 'left'},
 			{field: 'amount', title: '单据金额', width: '80px', align: 'right',
@@ -133,6 +135,8 @@ function clearBranchCode(obj,branchId){
 }
 //查询要货单
 function queryForm(){
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     //fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
@@ -141,7 +145,6 @@ function queryForm(){
 	$("#deliverFormList").datagrid('options').url = contextPath + '/LogisticsDeliverForm/getDeliverForms';
 	$("#deliverFormList").datagrid('load', fromObjStr);
 }
-
 
 /**
  * 操作员
@@ -225,26 +228,6 @@ function selectSourceBranch(){
     }
 }
 
-function exportDataList(){
-	var rows = $("#deliverFormList").datagrid("getSelections");
-	if (rows.length == 0) {
-		$_jxc.alert("未选择导出的行！");
-		return;
-	}
-	if (rows.length > 51) {
-		$_jxc.alert("当次导出单据不可超过50条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	//for(var i=0; i<rows.length; i++){
-		exportData(rows[0].deliverFormId);
-	//}
-}
-
-function exportData(deliverFormId){
-	window.location.href=contextPath+'/LogisticsDeliverForm/exportList?deliverFormId='+deliverFormId;
-}
-
-
 /**
  * 重置
  */
@@ -262,4 +245,49 @@ function setDivTime(){
 		$("#checkboxTime").attr('checked',false);
 	}
 	$("#popupSearchDateTime").val(popupSearchDateTime);
+}
+
+/**
+ * 导出单据
+ */
+function exportForms(){
+	var length = $('#deliverFormList').datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,
+		left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
+	var formData = $("#queryForm").serializeObject();
+	formData.startTime = formData.startTime + " 00:00";
+	formData.endTime = formData.endTime + " 00:00";
+
+	$("#queryForm").attr("action",contextPath+'/LogisticsDeliverForm/getDeliverFormsExport')
+	$("#queryForm").submit();
+}
+/**
+ * 导出明细
+ */
+function exportDataList(){
+	var rows = $("#deliverFormList").datagrid('getSelections');
+	if (rows.length == 0) {
+		$_jxc.alert("请选择要导出的数据!");
+		return;
+	}
+	var idsTemp = [];
+	for(var i=0; i<rows.length; i++){
+		idsTemp.push(rows[i].deliverFormId);
+	}
+	var ids = idsTemp.join(',');
+	window.location.href=contextPath+'/LogisticsDeliverForm/exportList?deliverFormId='+ids + '&deliverType=DA';
 }

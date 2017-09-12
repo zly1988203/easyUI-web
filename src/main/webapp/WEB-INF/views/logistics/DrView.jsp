@@ -17,7 +17,7 @@
 		<form action="" id="queryForm" method="post">
 			<div class="ub ub-ac upad-4">
 				<div class="ubtns">
-					<shiro:hasPermission name="JxcDeliverDrLogistic:export">
+					<shiro:hasPermission name="JxcDeliverDrLogistic:exportDetail">
 						<div class="ubtns-item" onclick="exportListData()">导出明细</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>

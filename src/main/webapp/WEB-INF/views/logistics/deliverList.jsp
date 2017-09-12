@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>物流销售单导出</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
+	<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
     <script  src="${ctx}/static/js/views/logistics/deliverList.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -16,9 +17,12 @@
 	            	<shiro:hasPermission name="JxcDeliverDaLogistic:search">
 						<div class="ubtns-item" onclick="queryForm()">查询</div>
 				   	</shiro:hasPermission>
-	<!-- <shiro:hasPermission name="JxcDeliverDaLogistic:export">
-						<div class="ubtns-item" onclick="exportDataList()">导出</div>
-					</shiro:hasPermission> -->
+					<shiro:hasPermission name="JxcDeliverDaLogistic:export">
+						<div class="ubtns-item" style="width: 100px;" onclick="exportForms()">批量导出单据</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcDeliverDaLogistic:exportDetail">
+						<div class="ubtns-item" style="width: 100px;" onclick="exportDataList()">批量导出明细</div>
+					</shiro:hasPermission>
 	                <div class="ubtns-item" id="set" onclick="gFunRefresh()" >重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
@@ -30,6 +34,8 @@
 	            <div class="ub umar-t8">
 	                <div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r">要货机构:</div>
+						<input type="hidden" name="startCount" id="startCount" class="uinp" />
+						<input type="hidden" name="endCount" id="endCount" class="uinp" />
 	                    <input type="hidden" id="targetBranchId" name="targetBranchId"/>
 	                    <input type="hidden" id="targetBranchType" name="targetBranchType" />
 	                    <input class="uinp ub ub-f1" type="text" id="targetBranchName" name="targetBranchName" onblur="clearBranchCode(this,'targetBranchId')"/>
@@ -42,7 +48,7 @@
 	                    <div class="uinp-more" onclick="selectOperator()">...</div>
 	                </div>
 					<div class="ub ub-ac">
-						<div class="umar-r10 uw-80 ut-r">单据类别:</div>
+						<div class="umar-r10 uw-120 ut-r">单据类别:</div>
 						<select style="width: 204px;" class="easyui-combobox uselect" name="deliverType" id="deliverType" data-options="editable:false">
 							<option selected = "selected" value="DA">要货单</option>
 							<option value="DY">直送要货单</option>

@@ -34,9 +34,10 @@ $(function() {
 var gridSaleId = "saleReturnList";
 var gridHandel = new GridClass();
 // 初始化表格
+var dg;
 function initDatagridSaleReturnList() {
 	gridHandel.getGridName(gridSaleId);
-	$("#"+gridSaleId).datagrid(
+	dg = $("#"+gridSaleId).datagrid(
 			{
 				method : 'post',
 				align : 'center',
@@ -83,6 +84,7 @@ function initDatagridSaleReturnList() {
 							}
 						}
 					},
+					{field: 'downloadNum', title: '导出次数', width: '60px', align: 'center'},
 					{field: 'targetBranchName', title: '收货机构', width: '150px', align: 'left'},
 					{field: 'sourceBranchName', title: '退货机构', width: '150px', align: 'left'},
 					{field: 'status', title: '审核状态', width: '130px', align: 'center'},
@@ -105,6 +107,8 @@ function initDatagridSaleReturnList() {
 
 // 查询
 function queryForm() {
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var fromObjStr = $('#queryForm').serializeObject();
     fromObjStr.targetBranchName = "";
     fromObjStr.sourceBranchName = "";
@@ -133,3 +137,31 @@ function selectSourceBranch(){
 var resetForm = function() {
 	$("#queryForm").form('clear');
 };
+
+/**
+ * 导出
+ */
+function exportForms(){
+	var length = $('#saleReturnList').datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,
+		left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
+	var formData = $("#queryForm").serializeObject();
+	formData.startTime = formData.startTime + " 00:00";
+	formData.endTime = formData.endTime + " 00:00";
+	$("#queryForm").attr("action",contextPath+'/LogisticsDeliverForm/getDeliverFormsDBExport')
+	$("#queryForm").submit();
+}

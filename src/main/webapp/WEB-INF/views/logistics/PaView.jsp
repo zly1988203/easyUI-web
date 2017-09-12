@@ -16,7 +16,7 @@
     	<input type="hidden" id="close" value="${close}"/>
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
-                <shiro:hasPermission name="JxcPurchasePaLogis:export">
+                <shiro:hasPermission name="JxcPurchasePaLogis:exportDetail">
                     <div class="ubtns-item" onclick="exportListData()">导出明细</div>
                 </shiro:hasPermission>
                 <div class="ubtns-item" id="toBackByJSButton" onclick="toClose()">关闭</div>
