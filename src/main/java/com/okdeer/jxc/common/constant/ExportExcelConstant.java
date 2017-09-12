@@ -884,4 +884,24 @@ public interface ExportExcelConstant {
 	 * 采购成本调整明细
 	 */
 	String PURCHASE_COST_FORM_DETAIL = "purchaseCostFormDetail.xlsx";
+
+	/**
+	 * 采购促销单
+	 */
+	String PURCHASE_ACTIVITYL_FORM = "purchaseActivityForm.xlsx";
+
+	/**
+	 * 采购促销单明细
+	 */
+	String PURCHASE_ACTIVITYL_FORM_DETAIL = "purchaseActivityFormDetail.xlsx";
+
+	/**
+	 * 采购促销活动货号导入模板
+	 */
+	String PURCHASE_ACTIVITYL_GOODS_SKUCODE_TEMPLATE = "purchaseActivitylGoodsSkuCodeTemplate.xlsx";
+
+	/**
+	 * 采购促销活动条码导入模板
+	 */
+	String PURCHASE_ACTIVITYL_GOODS_BARCODE_TEMPLATE = "purchaseActivitylGoodsBarCodeTemplate.xlsx";
 }

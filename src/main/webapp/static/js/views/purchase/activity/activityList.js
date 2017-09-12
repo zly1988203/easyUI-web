@@ -31,11 +31,12 @@ function initConditionParams(){
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 }
 
+var dg;
 var gridListId = "gridActivityList";
 var gridHandel = new GridClass();
 function initGridActivityList() {
     gridHandel.setGridName(gridListId);
-    $("#"+gridListId).datagrid({
+    dg = $("#" + gridListId).datagrid({
         method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
@@ -101,38 +102,6 @@ function add() {
     toAddTab("新增采购促销活动",contextPath + "/purchase/activity/add");
 }
 
-//删除
-function actDelete(){
-    var rows =$("#"+gridListId).datagrid("getChecked");
-    if($("#"+gridListId).datagrid("getChecked").length <= 0){
-        $_jxc.alert('请选中一行进行删除！');
-        return null;
-    }
-    var formIds='';
-    $.each(rows,function(i,v){
-        formIds+=v.id+",";
-    });
-
-    $_jxc.confirm('是否要删除选中数据?',function(data){
-        if(data){
-            $_jxc.ajax({
-                url:contextPath+"/form/purchase/delete",
-                type:"POST",
-                data:{
-                    formIds:formIds
-                }
-            },function(result){
-
-                if(result['code'] == 0){
-                    $_jxc.alert("删除成功");
-                }else{
-                    $_jxc.alert(result['message']);
-                }
-                $("#"+gridListId).datagrid('reload');
-            });
-        }
-    });
-}
 
 function actCopy() {
     
@@ -159,11 +128,46 @@ function exportData(){
 function exportExcel(){
     $("#exportWin").hide();
     $("#exportWin").window("close");
-    $("#formList").form({
+    $("#queryForm").form({
         success : function(result){
 
         }
     });
-    $("#formList").attr("action",contextPath+"/report/purchase/cost/form/export/list");
-    $("#formList").submit();
+    $("#queryForm").attr("action", contextPath + "/purchase/activity/export/list");
+    $("#queryForm").submit();
+}
+
+
+//删除
+function del() {
+    var rows = $("#gridActivityList").datagrid("getChecked");
+    if ($("#gridActivityList").datagrid("getChecked").length <= 0) {
+        $_jxc.alert('请选中一行进行删除！');
+        return null;
+    }
+    var formIds = [];
+    $.each(rows, function (i, v) {
+        //formIds+=v.id+",";
+        formIds.push(v.id);
+    });
+
+    $_jxc.confirm('是否要删除选中数据?', function (data) {
+        if (data) {
+            $_jxc.ajax({
+                url: contextPath + "/purchase/activity/del",
+                type: "POST",
+                data: {
+                    ids: formIds
+                }
+            }, function (result) {
+
+                if (result['code'] == 0) {
+                    $_jxc.alert("删除成功");
+                } else {
+                    $_jxc.alert(result['message']);
+                }
+                $("#gridOrders").datagrid('reload');
+            });
+        }
+    });
 }

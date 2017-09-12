@@ -17,7 +17,15 @@
     </style>
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
-<input type='hidden' id="pageStatus" value="add">
+<c:choose>
+    <c:when test="${form.id != null}">
+        <input type='hidden' id="copyId" name="copyId" value="${form.id}">
+        <input type='hidden' id="pageStatus" name="pageStatus" value="copy">
+    </c:when>
+    <c:otherwise>
+        <input type='hidden' id="pageStatus" name="pageStatus" value="add">
+    </c:otherwise>
+</c:choose>
 <div class="ub ub-ver ub-f1 umar-4  ubor">
     <div class="ub ub-ac upad-4">
         <div class="ubtns">
@@ -40,8 +48,9 @@
             <div class="ub umar-t8">
                 <div class="ub ub-ac umar-r80" id="targetBranch">
                     <div class="umar-r10 uw-60 ut-r">机构:</div>
-                    <input class="uinp" name="branchId" id="branchId" type="hidden">
-                    <input id="branchName" name="branchName" class="uinp uw-600" readonly="readonly" type="text">
+                    <input class="uinp" name="branchId" id="branchId" type="hidden" value="${form.branchId}">
+                    <input id="branchName" name="branchName" class="uinp uw-600" readonly="readonly" type="text"
+                           value="${form.branchName}">
                     <div class="uinp-more">...</div>
                 </div>
 
@@ -59,8 +68,8 @@
 
                 <div class="ub ub-ac umar-r36" id="supplierSelect">
                     <div class="umar-r10 uw-60 ut-r">供应商:</div>
-                    <input class="uinp" name="supplierId" id="supplierId" type="hidden">
-                    <input class="uinp" readonly="readonly" id="supplierName" type="text">
+                    <input class="uinp" name="supplierId" id="supplierId" type="hidden" value="${form.supplierId}">
+                    <input class="uinp" readonly="readonly" id="supplierName" type="text" value="${form.supplierName}">
                     <div class="uinp-more">...</div>
                 </div>
 
@@ -68,10 +77,12 @@
                     <div class="umar-r10 uw-60 ut-r">活动日期:</div>
                     <input id="txtStartDate" name="startTime" class="Wdate newWdate"
                            type="text"
-                           onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/>至
+                           onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+                           value="<fmt:formatDate value="${form.startTime}" pattern="yyyy-MM-dd" />"/>至
                     <input id="txtEndDate" name="endTime" class="Wdate newWdate"
                            type="text"
-                           onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/>
+                           onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+                           value="<fmt:formatDate value="${form.endTime}" pattern="yyyy-MM-dd" />"/>
                 </div>
 
 
@@ -91,7 +102,7 @@
                            onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
                            onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
                            oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-                           maxlength="100">
+                           maxlength="100" value="<c:out value="${form.remark}"/>">
                 </div>
 
                 <div class="ub ub-ac umar-r80">

@@ -34,18 +34,18 @@
                 </c:choose>
             </shiro:hasPermission>
             <shiro:hasPermission name="purchaseActivity:copy">
-                <div class="ubtns-item" onclick="copy()">复制</div>
+                <div class="ubtns-item" onclick="copy('${form.id}')">复制</div>
             </shiro:hasPermission>
             <shiro:hasPermission name="purchaseActivity:audit">
                 <c:choose>
                     <c:when test="${form.status eq '0'}">
-                        <div class="ubtns-item" onclick="checkWheelsurf()">审核</div>
+                        <div class="ubtns-item" onclick="check()">审核</div>
                     </c:when>
                 </c:choose>
             </shiro:hasPermission>
             <c:choose>
                 <c:when test="${form.status eq '1'}">
-                    <div class="ubtns-item" onclick="overWheelsurf()">终止</div>
+                    <div class="ubtns-item" onclick="over()">终止</div>
                 </c:when>
             </c:choose>
             <c:choose>
@@ -53,9 +53,10 @@
                     <div class="ubtns-item" onclick="selectGoods()">商品选择</div>
                     <div class="ubtns-item importGood" onclick="toImportproduct(0)">导入货号</div>
                     <div class="ubtns-item importGood" onclick="toImportproduct(1)">导入条码</div>
+                    <div class="ubtns-item" onclick="del()">删除</div>
                 </c:when>
             </c:choose>
-            <div class="ubtns-item-disabled">导出</div>
+            <div class="ubtns-item" onclick="exportData()">导出</div>
             <div class="ubtns-item" onclick="toClose()">关闭</div>
         </div>
     </div>
@@ -67,7 +68,7 @@
             <div class="already-examine" id="already-examine"><span>已审核</span></div>
         </c:when>
     </c:choose>
-    <form id="formAdd">
+    <form id="formAdd" method="post" action="">
         <input type='hidden' id="id" name="id" value="${form.id}">
         <input type='hidden' id="pageStatus" name="pageStatus" value="${form.status}">
         <div class="ub ub-ver ">
