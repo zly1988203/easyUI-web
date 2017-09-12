@@ -8,6 +8,7 @@
     <title>采购促销活动列表</title>
 
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
+    <%@ include file="/WEB-INF/views/system/exportChose.jsp" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
     <script src="${ctx}/static/js/views/purchase/activity/activityList.js?V=${versionNo}"></script>
@@ -19,7 +20,7 @@
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 <div class="ub ub-ver ub-f1 umar-4 upad-4">
-    <form id="queryForm">
+    <form id="queryForm" action="" method="post">
         <div class="ub ub-ac">
             <div class="ubtns">
                 <shiro:hasPermission name="purchaseActivity:search">
@@ -32,7 +33,7 @@
                      <div class="ubtns-item" onclick="actCopy()">复制</div>
                  </shiro:hasPermission>--%>
                 <shiro:hasPermission name="purchaseActivity:delete">
-                    <div class="ubtns-item" onclick="actDelete()">删除</div>
+                    <div class="ubtns-item" onclick="del()">删除</div>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="purchaseActivity:export">
                     <div class="ubtns-item" onclick="exportData()">导出</div>
@@ -40,7 +41,8 @@
                 <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
-
+            <input type="hidden" name="startCount" id="startCount" value="">
+            <input type="hidden" name="endCount" id="endCount" value="">
             <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
         </div>
 

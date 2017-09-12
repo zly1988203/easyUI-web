@@ -130,24 +130,25 @@ function add() {
 }
 
 //删除
-function orderDelete(){
-    var rows =$("#gridOrders").datagrid("getChecked");
-    if($("#gridOrders").datagrid("getChecked").length <= 0){
+function del() {
+    var rows = $("#gridCostList").datagrid("getChecked");
+    if ($("#gridCostList").datagrid("getChecked").length <= 0) {
         $_jxc.alert('请选中一行进行删除！');
         return null;
     }
-    var formIds='';
+    var formIds = [];
     $.each(rows,function(i,v){
-        formIds+=v.id+",";
+        //formIds+=v.id+",";
+        formIds.push(v.id);
     });
 
     $_jxc.confirm('是否要删除选中数据?',function(data){
         if(data){
             $_jxc.ajax({
-                url:contextPath+"/form/purchase/delete",
+                url: contextPath + "/purchase/cost/form/del",
                 type:"POST",
                 data:{
-                    formIds:formIds
+                    ids: formIds
                 }
             },function(result){
 

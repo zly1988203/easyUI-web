@@ -34,16 +34,31 @@ $(function () {
         $("#beginTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
         $("#overTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
     }else if ($("#pageStatus").val() == "copy"){
-        $_jxc.ajax({url:contextPath+"/pos/wheelsurf/form/edit/detail/"+$("#copyId").val()},function (data) {
-            $("#gridAddPosAct").datagrid("loadData",data.detail);
+        $_jxc.ajax({url: contextPath + "/purchase/activity/detail/list/" + $("#copyId").val()}, function (data) {
+            //$("#gridAddPosAct").datagrid("loadData",data.detail);
+            if (data['code'] == 0) {
+                $("#" + gridCostId).datagrid("loadData", data.data);
+            } else {
+                $_jxc.alert(result.message)
+            }
         });
     }else if($("#pageStatus").val() == "0"){
-        $_jxc.ajax({url:contextPath+"/pos/wheelsurf/form/edit/detail/"+$("#formId").val()},function (data) {
-            $("#gridAddPosAct").datagrid("loadData",data.detail);
+        $_jxc.ajax({url: contextPath + "/purchase/activity/detail/list/" + $("#id").val()}, function (data) {
+            //$("#gridAddPosAct").datagrid("loadData",data.detail);
+            if (data['code'] == 0) {
+                $("#" + gridCostId).datagrid("loadData", data.data);
+            } else {
+                $_jxc.alert(result.message)
+            }
         });
-    }else{
-        $_jxc.ajax({url:contextPath+"/pos/wheelsurf/form/edit/detail/"+$("#formId").val()},function (data) {
-            $("#gridAddPosAct").datagrid("loadData",data.detail);
+    } else {
+        $_jxc.ajax({url: contextPath + "/purchase/activity/detail/list/" + $("#id").val()}, function (data) {
+            //$("#gridAddPosAct").datagrid("loadData",data.detail);
+            if (data['code'] == 0) {
+                $("#" + gridCostId).datagrid("loadData", data.data);
+            } else {
+                $_jxc.alert(result.message)
+            }
         });
         // disabledElement();
     }
@@ -78,9 +93,11 @@ function initGridActivity() {
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
-        pagination:false,    //分页
+        pagination: true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
+        pageSize: 50,
+        pageList: [20, 50, 100],//可以设置每页记录条数的列表
         showFooter:true,
         height:'100%',
         width:'100%',
@@ -263,4 +280,104 @@ function validform() {
     }
 
     return true;
+}
+
+//导入
+function toImportproduct(type) {
+    var branchId = $("#branchId").val();
+    if (!branchId) {
+        $_jxc.alert("请先选择机构名称");
+        return;
+    }
+    var param = {
+        url: contextPath + "/purchase/activity/importList",
+        tempUrl: contextPath + "/purchase/activity/exportTemp",
+        type: type,
+        branchIds: branchId,
+        branchName: $("#branchName").val()
+    }
+    new publicUploadFileService(function (data) {
+        //updateListData(data);
+        for (var i = 0, length = data.length; i < length; i++) {
+            data[i]['oldPurPrice'] = data[i]['purchasePrice'];
+        }
+        $("#" + gridCostId).datagrid("loadData", data);
+    }, param)
+}
+
+function check() {
+    $_jxc.confirm("确认审核通过？", function (res) {
+        if (res) {
+            $_jxc.ajax({
+                url: contextPath + '/purchase/activity/audit',
+                data: {
+                    formId: $("#id").val()
+                },
+            }, function (result) {
+                if (result.code == 0) {
+                    $_jxc.alert("审核成功", function () {
+                        gFunRefresh();
+                    });
+                } else {
+                    $_jxc.alert(result['message']);
+                }
+            })
+        }
+    })
+
+
+}
+
+function over() {
+    $_jxc.confirm("确认终止此采购促销单？", function (res) {
+        if (res) {
+            $_jxc.ajax({
+                url: contextPath + '/purchase/activity/over',
+                data: {
+                    formId: $("#id").val(),
+                },
+            }, function (result) {
+                if (result.code == 0) {
+                    $_jxc.alert("终止成功", function () {
+                        gFunRefresh();
+                    });
+                } else {
+                    $_jxc.alert(result['message']);
+                }
+            })
+        }
+    })
+}
+
+function del() {
+    $_jxc.confirm('是否要删除该单据?', function (data) {
+        if (data) {
+            $_jxc.ajax({
+                url: contextPath + "/purchase/activity/del",
+                data: {
+                    "ids[]": $("#id").val()
+                }
+            }, function (result) {
+                if (result['code'] == 0) {
+                    $_jxc.alert("删除成功", function () {
+                        toClose();
+                    });
+                } else {
+                    $_jxc.alert(result['message']);
+                }
+            });
+        }
+    })
+}
+
+/**
+ * 导出明细
+ */
+function exportData() {
+    $("#formAdd").attr("action", contextPath + '/purchase/activity/export/detail/' + $("#id").val());
+    $("#formAdd").submit();
+}
+
+function copy(id) {
+    window.parent.addTab('复制采购促销活动', contextPath + '/purchase/activity/copy/' + id);
 }
