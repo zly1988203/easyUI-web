@@ -32,8 +32,8 @@
             } else {
                 jq.find(".work").empty();
             }
-            var height = $(window).height()*(5/6);
-            jq.css({ top: "0px", left: "0px",height:height });
+            // var height = $(window).height()*(5/6);
+            jq.css({ top: "0px", left: "0px"});
             currentPage = jq;
             currentPageNo += 1;            
             return jq;
@@ -353,7 +353,7 @@
                 id: "A4",
                 name: "A4",
                 isSYS: true,
-                size: { width: 210, height: 297 }                
+                size: { width: 210, height: 297 }
             },
             margin: { left: 10, top: 10, right: 10, bottom: 10 },
             unit: "mm"
