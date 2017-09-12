@@ -49,8 +49,9 @@ function changeStatus() {
 
 var gridHandel = new GridClass();
 // 初始化表格
+var dg;
 function initDatagridSaleReturnList() {
-	$("#"+datagridID).datagrid(
+	dg = $("#"+datagridID).datagrid(
 			{
 				method : 'post',
 				align : 'center',
@@ -71,6 +72,7 @@ function initDatagridSaleReturnList() {
 			            }},
 						{field: 'status',title: '审核状态', width: '100px', align: 'center'},
 						{field: 'dealStatus', title: '单据状态', width: '100px', align: 'center'},
+						{field: 'downloadNum', title: '导出次数', width: '60px', align: 'center'},
 						{field: 'sourceBranchName', title: '退货机构', width: '200px', align: 'left'},
 						{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
 						{field: 'referenceNo', title: '出货单号', width: '140px', align: 'left',
@@ -112,6 +114,8 @@ function initDatagridSaleReturnList() {
 
 // 查询退货单
 function queryForm() {
+	$("#startCount").val('');
+	$("#endCount").val('');
 	var fromObjStr = $('#queryForm').serializeObject();
     fromObjStr.targetBranchName = "";
     fromObjStr.sourceBranchName = "";
@@ -150,3 +154,48 @@ function selectOperator() {
 var resetForm = function() {
 	$("#queryForm").form('clear');
 };
+
+/**
+ * 导出单据
+ */
+function exportForms(){
+	var length = $('#saleReturnList').datagrid('getData').rows.length;
+	if(length == 0){
+		successTip("无数据可导");
+		return;
+	}
+	$('#exportWin').window({
+		top:($(window).height()-300) * 0.5,
+		left:($(window).width()-500) * 0.5
+	});
+	$("#exportWin").show();
+	$("#totalRows").html(dg.datagrid('getData').total);
+	$("#exportWin").window("open");
+}
+
+function exportExcel(){
+	$("#exportWin").hide();
+	$("#exportWin").window("close");
+	var formData = $("#queryForm").serializeObject();
+	formData.startTime = formData.startTime + " 00:00";
+	formData.endTime = formData.endTime + " 00:00";
+	$("#queryForm").attr("action",contextPath+'/LogisticsDeliverForm/getDeliverFormsExport')
+	$("#queryForm").submit();
+}
+
+/**
+ * 导出明细
+ */
+function exportDataList(){
+	var rows = $("#saleReturnList").datagrid('getSelections');
+	if (rows.length == 0) {
+		$_jxc.alert("请选择要导出的数据!");
+		return;
+	}
+	var idsTemp = [];
+	for(var i=0; i<rows.length; i++){
+		idsTemp.push(rows[i].deliverFormId);
+	}
+	var ids = idsTemp.join(',');
+	window.location.href=contextPath+'/LogisticsDeliverForm/exportList?deliverFormId='+ids + '&deliverType=DR';
+}

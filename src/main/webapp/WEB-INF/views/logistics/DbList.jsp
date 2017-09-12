@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>物流销售回单导出</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/logistics/DbList.js?V=${versionNo}"></script>
 <style>
 .datagrid-header .datagrid-cell {
@@ -23,6 +24,9 @@
 					<shiro:hasPermission name="JxcDeliverDbLogistic:search">
 						<div class="ubtns-item" onclick="queryForm()">查询</div>
 					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcDeliverDbLogistic:export">
+						<div class="ubtns-item" style="width: 100px;" onclick="exportForms()">批量导出单据</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
@@ -34,6 +38,8 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r10" id="sourceBranch">
 					<div class="umar-r10 uw-72 ut-r">发货机构:</div>
+					<input type="hidden" name="startCount" id="startCount" class="uinp" />
+					<input type="hidden" name="endCount" id="endCount" class="uinp" />
 					<input type="hidden" id="sourceBranchId" name="sourceBranchId"/>
 					<input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" />
 					<div class="uinp-more">...</div>

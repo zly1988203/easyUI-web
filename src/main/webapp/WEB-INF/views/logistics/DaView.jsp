@@ -17,7 +17,7 @@
         <div class="ub ub-ac upad-4">
             <div class="ubtns">
             	<input type="hidden" id="close" value="${close}"/>
-				<shiro:hasPermission name="JxcDeliverDaLogistic:export">
+				<shiro:hasPermission name="JxcDeliverDaLogistic:exportDetail">
 					<div class="ubtns-item" onclick="exportListData()">导出明细</div>
 				</shiro:hasPermission>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
