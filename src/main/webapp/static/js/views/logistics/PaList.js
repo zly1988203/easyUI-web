@@ -153,7 +153,6 @@ function exportExcel(){
 }
 
 function exportDataList(){
-	debugger;
 	var rows = $("#gridOrders").datagrid('getSelections');
 	if (rows.length == 0) {
 		$_jxc.alert("请选择要导出的数据!");
