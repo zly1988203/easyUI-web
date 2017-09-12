@@ -32,8 +32,8 @@
             } else {
                 jq.find(".work").empty();
             }
-            var height = $(window).height()*(5/6);
-            jq.css({ top: "0px", left: "0px",height:height });
+            // var height = $(window).height()*(5/6);
+            jq.css({ top: "0px", left: "0px"});
             currentPage = jq;
             currentPageNo += 1;            
             return jq;
