@@ -34,8 +34,12 @@
 				</div>
 
 				<div class="ub ub-ac umar-l20">
-					<input class="Wdate"  readonly="readonly" name="txtStartDate" id="txtStartDate" onfocus="updateWdatePicker(0)"/>&nbsp;至&nbsp;
-					<input class="Wdate"  readonly="readonly" name="txtEndDate" id="txtEndDate" onfocus="updateWdatePicker(1)"/>
+	               <div class="ub ub-ac umar-l20 umar-r20 ">
+	                    <input class="Wdate"  readonly="readonly" name="txtStartDate" id="txtStartDate" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'txtEndDate\');}',dateFmt:'yyyy-MM',readOnly:true})"  />
+	               </div>至
+	               <div class="ub ub-ac umar-l20">
+	                    <input class="Wdate"  readonly="readonly" name="txtEndDate" id="txtEndDate" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'txtStartDate\');}',dateFmt:'yyyy-MM',readOnly:true})"  />
+	               </div>
 				<!--     <div class="ub ub-ac umar-l10">
 				        <input class="ub" type="radio" name="dateradio" id="this_month" onclick="toChangeDate(4,'yyyy-MM');"/><label for="this_month">本月</label>
 				    </div> -->
