@@ -144,7 +144,7 @@ public class GoodsReportController extends BaseController<GoodsReportController>
 		// 如果编辑的机构为门店，则只可以修改供应商相关信息
 		Branches branch = branchesService.getBranchInfoById(sku.getBranchId());// 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
 		RespJson jesp = RespJson.success();
-		if (branch.getType() == 3 || branch.getType() == 4 || branch.getType() == 5) {
+		if (branch.getType() == 2 || branch.getType() == 3 || branch.getType() == 4 || branch.getType() == 5) {
 			jesp.put("isStore", true);
 		} else {
 			jesp.put("isStore", false);
