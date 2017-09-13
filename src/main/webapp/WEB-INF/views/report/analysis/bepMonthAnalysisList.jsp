@@ -90,7 +90,7 @@
 						
 						<div class="ub ub-ac  uh-36">
 							<label class="umar-r10"> <input class=" radioItem"
-								id="OWN_STORE" type="radio" checked="checked" name="branchesType" value="3" />直营店
+								id="OWN_STORE" type="radio" checked="checked" name="branchType" value="3" />直营店
 							</label>
 						</div>
 						<div class="ub ub-ac umar-r10">

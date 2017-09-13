@@ -100,7 +100,7 @@ public class StorePlanDayTrackReportController extends BaseController<StorePlanD
 			String timeStr = DateUtils.getSmallStr(qo.getRptDate());
 
 			// 导出文件名称，不包括后缀名
-			String reportFileName = "门店计划日跟踪表" + timeStr;
+			String reportFileName = "门店计划日跟踪表_" + timeStr;
 
 			// 导出数据
 			List<StorePlanDayTrackPo> dataList = storePlanReportService.getStorePlanDayTrackForExport(qo);
