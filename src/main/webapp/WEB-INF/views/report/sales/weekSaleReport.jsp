@@ -36,7 +36,12 @@
 				</div>
 				<!-- 引入时间选择控件 -->
 
-				<%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
+				<div class="ub ub-ac umar-l40">
+					<div class="ubtns ubtns-item" onclick="preWeek()">上一周</div>
+					<input id="startDate" class="Wdate uw-120"  readonly="readonly" />
+					<input id="endDate" class="Wdate  uw-120"  readonly="readonly"/>
+					<div class="ubtns ubtns-item" onclick="nextWeek()">下一周</div>
+				</div>
 			</div>
 			<div class="ub uline umar-t8"></div>
 			<div class="ub umar-t8">

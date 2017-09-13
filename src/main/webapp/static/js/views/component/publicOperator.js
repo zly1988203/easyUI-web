@@ -34,6 +34,10 @@ function initOperatorCallBack(cb){
 var _ope_selectType = null;
 function initOperatorView(param){
 
+    if(param.nameOrCode){
+        $("#formOperator :text[name=nameOrCode]").val(param.nameOrCode);
+    }
+
 	_ope_selectType = param.selectType;
 	initDatagridOperator();
 }
@@ -90,6 +94,9 @@ function initDatagridOperator(){
         align:'center',
         url:contextPath+'/system/user/getOperator',
         //toolbar: '#tb',     //工具栏 id为tb
+        queryParams:{
+            nameOrCode:$("#formOperator :text[name=nameOrCode]").val()
+        },
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页

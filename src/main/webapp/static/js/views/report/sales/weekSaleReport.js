@@ -4,9 +4,10 @@
 /**
  * 周销售分析报表
  */
+var week = 1;
 $(function() {
     initdefaultElement();
-    initDatagridWeekSale();
+    // initDatagridWeekSale();
     // 单据状态切换
     changeStatus();
 
@@ -27,14 +28,34 @@ $(function() {
             $("#categoryCode").val(data.categoryCode);
         }
     });
+
+    var d = new Date;
+    var w = d.getDay();
+   var  n = (w == 0 ? 7 : w) - 1;
+    d.setDate(d.getDate() - n);
+    for(i=0; i<7; i++) {
+        see();
+        d.setDate(d.getDate() + 1);
+    }
+
+    function see() {
+        document.write(d.getYear() + '-' + (d.getMonth()+1) + '-' + d.getDate() + ' ' + d.getDay() + '<br>');
+    }
+
+    // initWeek();
+
 });
 
+function initWeek() {
+    //获取当前时间
+    var currentDate = dateUtil.getCurrentDate();
+    week = getWeekNumber(currentDate.getFullYear(),currentDate.getMonth()+1,currentDate.getDay());
+    var arr = yugi(currentDate.getFullYear(), week);
+    $("#startDate").val(arr[0]);
+    $("#endDate").val(arr[1]);
+}
+
 function initdefaultElement() {
-    // 开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev", 30));
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    $("#skuName").prop("disabled",true);
-    $("#skuCode").prop("disabled",true);
     $("#categoryType").combobox({disabled:true});
 }
 
@@ -44,21 +65,15 @@ function changeStatus() {
     $(".radioItem").change(function() {
         reportType = $('input[type="radio"][name="reportType"]:checked').val();
         if(reportType == "1"){
-            $("#formNo").prop("disabled",false);
 
             $("#categoryType").combobox({disabled:true});
 
         }else if(reportType == "2"){
-            $("#formNo").prop("disabled",true);
-            $("#formNo").val("");
             $("#skuName").prop("disabled",false);
             $("#skuCode").prop("disabled",false);
             $("#categoryType").combobox({disabled:true});
-
         }
         else if(reportType == '3'){
-            $("#formNo").prop("disabled",true);
-            $("#formNo").val("");
             $("#skuName").prop("disabled",true);
             $("#skuName").val("");
             $("#skuCode").prop("disabled",true);
@@ -167,3 +182,93 @@ function exportExcel(){
 var resetForm = function() {
     $("#queryForm").form('clear');
 };
+
+function preWeek() {
+    //获取当前时间
+    if(week == 1){
+        $_jxc.alert("当前为第一周");
+        return;
+    }
+    week--;
+    var currentDate = dateUtil.getCurrentDate();
+    var arr = yugi(currentDate.getFullYear(), week);
+    $("#startDate").val(arr[0]);
+    $("#endDate").val(arr[1]);
+
+}
+
+function nextWeek() {
+    week++;
+    var currentDate = dateUtil.getCurrentDate();
+    var arr = yugi(currentDate.getFullYear(), week);
+    $("#startDate").val(arr[0]);
+    $("#endDate").val(arr[1]);
+}
+
+var yugi = function(year, index) {
+    var d = new Date(year, 0, 1);
+    while (d.getDay() != 1) {
+        d.setDate(d.getDate() + 1);
+    }
+    var to = new Date(year + 1, 0, 1);
+    var i = 1;
+    var arr = [];
+    for (var from = d; from < to;) {
+        if (i == index) {
+            arr.push(from.getFullYear() + "年" + (from.getMonth() + 1) + "月" + from.getDate() + "日");
+            // arr.push(from.getFullYear() + "年" + (from.getMonth() + 1) + "月" + (from.getDate()+6) + "日");
+        }
+        var j = 6;
+        while (j > 0) {
+            from.setDate(from.getDate() + 1);
+            if (i == index) {
+                arr.push(from.getFullYear() + "年" + (from.getMonth() + 1) + "月" + from.getDate() + "日");
+            }
+            j--;
+        }
+        if (i == index) {
+            return arr;
+        }
+        from.setDate(from.getDate() + 1);
+        i++;
+    }
+}
+
+
+function isLeapYear(year) {
+    return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);
+}
+ /**
+ 10  * 获取某一年份的某一月份的天数
+ 11  *
+ 12  * @param {Number} year
+ 13  * @param {Number} month
+ 14
+  */
+function getMonthDays(year, month) {
+         return [31, null, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month] || (isLeapYear(year) ? 29 : 28);
+}
+
+function getWeekNumber(y, m, d) {
+    var now = new Date(y, m - 1, d),
+                 year = now.getFullYear(),
+                 month = now.getMonth(),
+                 days = now.getDate();
+         //那一天是那一年中的第多少天
+         for (var i = 0; i < month; i++) {
+                 days += getMonthDays(year, i);
+             }
+
+         //那一年第一天是星期几
+         var yearFirstDay = new Date(year, 0, 1).getDay() || 7;
+
+         var week = null;
+        if (yearFirstDay == 1) {
+                 week = Math.ceil(days / yearFirstDay);
+             } else {
+                 days -= (7 - yearFirstDay + 1);
+                 week = Math.ceil(days / 7) + 1;
+             }
+
+         return week;
+     }
