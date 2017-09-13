@@ -12,12 +12,27 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
 	src="${ctx}/static/js/views/report/analysis/bepMonthDetailList.js?V=${versionNo}"></script>
-<style>
-.datagrid-header .datagrid-cell {
-	text-align: center !important;
-	font-weight: bold;
-}
-</style>
+
+
+	<style>
+	table {
+		border: 1px solid #ccc;
+	}
+	table td {
+	border: 1px solid #ccc;
+	/*height: 32px;*/
+	padding: 8px;
+	}
+
+	.header-tr{
+	font-size: 16px;
+	font-weight: 600;
+	text-align: left;
+	}
+	.tr-bg{
+	background: #cccccc;
+	}
+	</style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -47,7 +62,9 @@
 			</div>
 		</form>
 		<div class="ub uw umar-t8 ub-f1">
-			<table id="gridMonthDetail"></table>
+			<table id="tb" class="tb-class">
+
+			</table>
 		</div>
 
 	</div>

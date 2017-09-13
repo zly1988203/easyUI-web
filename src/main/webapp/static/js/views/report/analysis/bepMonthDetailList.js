@@ -16,7 +16,6 @@ $(function() {
 			return data;
 		}
 	});
-	queryMonthDetail();
 })
 
 var gridName = "gridMonthDetail";
@@ -33,12 +32,66 @@ function queryMonthDetail() {
 			}
 		},function(result){
 			if(result['code'] == 0){
-				console.log(result['data']);
+                loadData(result['data']);
 			}else{
 				$_jxc.alert(result['message']);
 			}
 		});
 	}
+}
+
+function loadData(data) {
+	$("#tb").empty();
+	var header_tr = $('<tr id="tr_header" class="header-tr tr-bg"></tr>')
+    header_tr.appendTo($("#tb"));
+    var td = $("<td>项目</td>");
+    td.appendTo(header_tr);
+    var td = $("<td>序号</td>");
+    td.appendTo(header_tr);
+    var td = $("<td>项目内容</td>");
+    td.appendTo(header_tr);
+    var td = $("<td>金额</td>");
+    td.appendTo(header_tr);
+    var td = $("<td>备注</td>");
+    td.appendTo(header_tr);
+
+    $.each(data,function (i,item) {
+        if(typeof(item.childs) != 'undefined' && item.childs.length > 0){
+            var tr = $("<tr></tr>");
+            tr.appendTo($("#tb"));
+            var tdConut = item.childs.length+1;
+            var td = $("<td class='header-tr' rowspan='"+tdConut+"'>"+item.dictType+"</td>");
+            td.appendTo(tr);
+            $.each(item.childs,function (j,child) {
+                var tr_child = $("<tr></tr>");
+                tr_child.appendTo($("#tb"));
+                var td = $("<td>"+(j+1)+"</td>");
+                td.appendTo(tr_child);
+                var td = $("<td>"+child.costType+"</td>");
+                td.appendTo(tr_child);
+                var td = $("<td>"+child.amont+"</td>");
+                td.appendTo(tr_child);
+                var td = $("<td>"+child.remark+"</td>");
+                td.appendTo(tr_child);
+            })
+            var tr = $("<tr class='header-tr tr-bg'></tr>");
+            tr.appendTo($("#tb"));
+            var td = $("<td colspan='3'>合计:</td>");
+            td.appendTo(tr);
+            var td = $("<td>"+item.total+"</td>");
+            td.appendTo(tr);
+
+        }else {
+            var tr = $("<tr class='header-tr tr-bg'></tr>");
+            tr.appendTo($("#tb"));
+            var td = $("<td colspan='3'>"+item.dictType+"</td>");
+            td.appendTo(tr);
+            var td = $("<td>"+item.total+"</td>");
+            td.appendTo(tr);
+            var td = $("<td></td>");
+            td.appendTo(tr);
+        }
+    })
 }
 
 // 调用导出方法
