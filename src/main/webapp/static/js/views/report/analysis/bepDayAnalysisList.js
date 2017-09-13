@@ -5,9 +5,7 @@
 var  costTitle = '开店成本(每月均摊)';
 $(function () {
     initGridDayAnalysis();
-    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",1));
-    $("#txtEndDate").val(dateUtil.getCurrDayPreOrNextDay("prev",1));
-    
+    toChangeDate(1);
     changeStatus();
 })
 
