@@ -6,7 +6,7 @@
  */
 $(function() {
     initdefaultElement();
-    initDatagridRequire();
+    initDatagridStock();
     // 单据状态切换
     changeStatus();
 
@@ -39,15 +39,16 @@ function initdefaultElement() {
 }
 
 // 单据状态切换
+var reportType = "1";
 function changeStatus() {
     $(".radioItem").change(function() {
-        var accountType = $('input[type="radio"][name="type"]:checked').val();
-        if(accountType == "1"){
+        reportType = $('input[type="radio"][name="reportType"]:checked').val();
+        if(reportType == "1"){
             $("#formNo").prop("disabled",false);
 
             $("#categoryType").combobox({disabled:true});
 
-        }else if(accountType == "2"){
+        }else if(reportType == "2"){
             $("#formNo").prop("disabled",true);
             $("#formNo").val("");
             $("#skuName").prop("disabled",false);
@@ -55,7 +56,7 @@ function changeStatus() {
             $("#categoryType").combobox({disabled:true});
 
         }
-        else if(accountType == '3'){
+        else if(reportType == '3'){
             $("#formNo").prop("disabled",true);
             $("#formNo").val("");
             $("#skuName").prop("disabled",true);
@@ -63,16 +64,16 @@ function changeStatus() {
             $("#skuCode").prop("disabled",true);
             $("#skuCode").val("");
             $("#categoryType").combobox({disabled:false});
-
-
         }
-        initDatagridRequire();
+        initDatagridStock();
     });
 }
 
+var gridHandel = new GridClass();
+var datagridID = "stockAdjustReport";
+var gridStockAdjust = null;
 //初始化表格
-function initDatagridYueJXC(){
-	var reportType = $('input[type="radio"][name="reportType"]:checked').val();
+function initDatagridStock(){
 	var defaultColumns;
 
 	switch (reportType) {
@@ -92,10 +93,11 @@ function initDatagridYueJXC(){
 			return;
 	}
 
-	if(gridYueJXCList){
+	if(gridStockAdjust){
 		$("#"+datagridId).datagrid('options').url = '';
 	}
-	gridYueJXCList = $("#"+datagridId).datagrid({
+    gridHandel.setGridName(datagridID);
+    gridStockAdjust = $("#"+datagridId).datagrid({
 		method:'post',
 		align:'center',
 		singleSelect:false,  //单选  false多选
@@ -108,8 +110,7 @@ function initDatagridYueJXC(){
 		pageSize:50,
 		columns:[defaultColumns], 
 		onLoadSuccess:function(data){
-			/* if($("#createBranchId").val()&&data.total<=0)
-				$_jxc.alert("该机构可能未月结,请先月结!"); */
+            gridHandel.setDatagridHeader("center");
 		}
 	});
     $("#"+datagridId).datagrid('loadData',[]);
@@ -117,34 +118,8 @@ function initDatagridYueJXC(){
 }
 
 function onChangeSelect() {
-    initDatagridRequire();
-    $("#"+datagridID).datagrid("loadData",[]);
-}
-
-var gridHandel = new GridClass();
-var datagridID = "stockAdjustReport";
-
-var dg;
-// 初始化表格
-function initDatagridRequire() {
-    gridHandel.setGridName(datagridID);
-    dg = $("#"+datagridID).datagrid({
-        align:'center',
-        singleSelect:false,  //单选  false多选
-        rownumbers:true,    //序号
-        pagination:true,    //分页
-        fitColumns:true,    //每列占满
-        //fit:true,         //占满
-        showFooter:true,
-        height:'100%',
-        width:'100%',
-        pageSize:50,
-//		pageList:[[10,20,30,40,50]]
-        columns:getColumns(),
-        onLoadSuccess:function(data){
-            gridHandel.setDatagridHeader("center");
-        }
-    });
+    reportType =  $("#categoryType").combobox("getValue");
+    initDatagridStock();
 }
 
 function getColumns(){
