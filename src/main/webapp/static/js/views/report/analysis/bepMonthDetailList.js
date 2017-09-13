@@ -16,7 +16,6 @@ $(function() {
 			return data;
 		}
 	});
-	queryMonthDetail();
 })
 
 var gridName = "gridMonthDetail";
@@ -34,7 +33,6 @@ function queryMonthDetail() {
 		},function(result){
 			if(result['code'] == 0){
                 loadData(result['data']);
-				console.log(result['data']);
 			}else{
 				$_jxc.alert(result['message']);
 			}
@@ -43,6 +41,20 @@ function queryMonthDetail() {
 }
 
 function loadData(data) {
+	$("#tb").empty();
+	var header_tr = $('<tr id="tr_header" class="header-tr tr-bg"></tr>')
+    header_tr.appendTo($("#tb"));
+    var td = $("<td>项目</td>");
+    td.appendTo(header_tr);
+    var td = $("<td>序号</td>");
+    td.appendTo(header_tr);
+    var td = $("<td>项目内容</td>");
+    td.appendTo(header_tr);
+    var td = $("<td>金额</td>");
+    td.appendTo(header_tr);
+    var td = $("<td>备注</td>");
+    td.appendTo(header_tr);
+
     $.each(data,function (i,item) {
         if(typeof(item.childs) != 'undefined' && item.childs.length > 0){
             var tr = $("<tr></tr>");

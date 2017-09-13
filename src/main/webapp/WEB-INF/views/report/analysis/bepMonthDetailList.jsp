@@ -63,13 +63,7 @@
 		</form>
 		<div class="ub uw umar-t8 ub-f1">
 			<table id="tb" class="tb-class">
-			<tr id="tr_header" class="header-tr tr-bg">
-			<td>项目</td>
-			<td>序号</td>
-			<td>项目内容</td>
-			<td>金额</td>
-			<td>备注</td>
-			</tr>
+
 			</table>
 		</div>
 
