@@ -19,6 +19,7 @@
 </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
+	<input type="hidden" id="columnsArr" value="<c:out value="${columnsArr}"/>">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
@@ -93,25 +94,25 @@
 				<div class="ub ub-ac uw-300">
 					<div class="umar-r10 uw-70 ut-r">报表类型:</div>
 					<div class="ub ub-ac umar-r10">
-						<label> <input class="radioItem" type="radio" name="type"
+						<label> <input class="radioItem" type="radio" name="reportType"
 							value="1" checked="checked" /> <span>库存调整明细</span>
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<label> <input class="radioItem" type="radio" name="type"
+						<label> <input class="radioItem" type="radio" name="reportType"
 							value="2" /><span>商品汇总</span>
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<label> <input class="radioItem" type="radio" name="type"
+						<label> <input class="radioItem" type="radio" name="reportType"
 							value="3" /><span>类别汇总</span>
 						</label>
 						<div id="categoryTypeDiv">
 							<select class="easyui-combobox uselect" name="categoryType"
 								data-options="editable:false,onChange:onChangeSelect"
 								id="categoryType">
-								<option value="1">一级类别</option>
-								<option value="2">二级类别</option>
+								<option value="3">一级类别</option>
+								<option value="4">二级类别</option>
 							</select>
 						</div>
 					</div>
