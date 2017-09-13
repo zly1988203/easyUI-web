@@ -36,6 +36,7 @@ public class StockAdjustReportController extends BaseReportController<StockAdjus
 
 	@Override
 	protected Model getModel(Model model) {
+		model.addAttribute("maxReportType", 4);
 		return model;
 	}
 
