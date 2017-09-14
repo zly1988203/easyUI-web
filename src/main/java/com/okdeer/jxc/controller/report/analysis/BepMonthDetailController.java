@@ -7,12 +7,19 @@
 
 package com.okdeer.jxc.controller.report.analysis;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
@@ -74,6 +81,36 @@ public class BepMonthDetailController extends BaseController<BepMonthDetailContr
 		} catch (Exception e) {
 			LOG.error("查询门店月盈亏平衡明细分析异常:", e);
 			return RespJson.businessError("查询门店月盈亏平衡明细分析失败");
+		}
+	}
+
+	/**
+	 * @Description: 导出
+	 * @author zhengwj
+	 * @date 2017年9月13日
+	 */
+	@RequestMapping(value = "exportExcelList")
+	public void exportExcelList(String branchId, String month, HttpServletResponse response) {
+		try {
+			BepMonthDetailQo qo = new BepMonthDetailQo();
+			qo.setBranchId(branchId);
+			qo.setMonth(month);
+			// 构建查询参数
+			buildParams(qo);
+			LOG.debug("导出门店月盈亏平衡明细分析条件：{}", qo);
+			// 导出文件名称，不包括后缀名
+			String reportFileName = "门店月盈亏平衡明细分析" + qo.getMonth();
+			// 模板名称，包括后缀名
+			String templateName = ExportExcelConstant.BEY_MONTH_DETAIL_EXPORT_TEMPLATE;
+
+			RespJson respJson = bepMonthDetailService.getDetailList(qo);
+			if (respJson.isSuccess()) {
+				JSONArray data = (JSONArray) respJson.getData();
+				List<JSONObject> dataList = data.toJavaList(JSONObject.class);
+				exportListForXLSX(response, dataList, reportFileName, templateName);
+			}
+		} catch (Exception e) {
+			LOG.error("门店月盈亏平衡明细分析导出失败", e);
 		}
 	}
 
