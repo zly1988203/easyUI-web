@@ -204,7 +204,7 @@ function queryForm() {
     fromObjStr.createUserName = "";
 
     $("#"+datagridID).datagrid("options").method = "post";
-    $("#"+datagridID).datagrid('options').url = contextPath + '/report/stock/stockAdjustReport/getList';
+    $("#"+datagridID).datagrid('options').url = contextPath + '/report/stock/stockAdjustReport/list';
     $("#"+datagridID).datagrid('load', fromObjStr);
 }
 
