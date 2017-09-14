@@ -206,6 +206,7 @@ function printReport(){
 	var orderNo=$("#orderNo").val();
 	var skuName=$("#skuName").val();
 	var skuCode=$("#skuCode").val();
+	var status=$("#status").val();
 	var businessType=$("#businessType").combobox("getValue");//业务类型
 	var orderType=$("#orderType").combobox("getValue");
 	//var cashierId=$("#cashierId").val();//收银员
@@ -213,7 +214,7 @@ function printReport(){
 	//var orderType=$("#orderType").combobox("getValue");
 	parent.addTabPrint("reportPrint"+branchNameOrCode,"打印",contextPath+"/saleFlow/report/printReport?" +"&startTime="+startTime
 			+"&endTime="+endTime+"&branchNameOrCode="+branchNameOrCode+"&orderNo="+orderNo+"&skuName="+skuName
-			+"&skuCode="+skuCode+"&businessType="+businessType+"&orderType="+orderType);
+			+"&skuCode="+skuCode+"&businessType="+businessType+"&orderType="+orderType+"&status="+status);
 }
 /**
  * 重置

@@ -4,8 +4,13 @@
 var isEdit = true;
 //过滤price priceBack 标示 
 var loadFilterFlag = false;
-
+//是否赠品是否可选择
+var isGiftFlag = false;
 $(function(){
+    var referenceId = $("#refFormNo").val();
+    if (referenceId) {	
+    	isGiftFlag = true;
+    }
     //是否允许改价
     var allowUpdatePrice = $('#allowUpdatePrice').val();
     if('undefined' != typeof(allowUpdatePrice)){
@@ -183,6 +188,7 @@ function initDatagridEditOrder(){
                         valueField: 'id',
                         textField: 'text',
                         editable:false,
+                        disabled:isGiftFlag,
                         required:true,
                         data: [{
                             "id":'1',
@@ -473,7 +479,12 @@ var _tempGift;
 
 //监听是否赠品
 function onSelectIsGift(data){
-	
+	// 如果引用单据时，是否赠品不可修改
+	if(isGiftFlag){
+		$(gridHandel.getFieldTarget('isGift')).combobox('readonly', isGiftFlag);
+		return;
+	}
+
 	_tempGift = data;
 	
     var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
@@ -862,6 +873,7 @@ function selectForm(){
             isAllowRefOverdueForm:0
         }
 		new publicPurchaseFormService(param,function(data){
+			isGiftFlag = true;
 			$("#refFormNo").val(data.formNo);
             //根据选择的收货单，带出收货单的信息
             var keyNames = {
@@ -885,6 +897,7 @@ function selectForm(){
             targetBranchId:$('#branchId').val()
         }
 		new publicDeliverFormService(param,function(data){
+			isGiftFlag = true;
 			var referenceId = "";
 			referenceId = data.id;
 			$("#refFormNo").val(data.formNo);

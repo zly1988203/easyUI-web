@@ -120,15 +120,13 @@
 						<option value="4">会员自助</option>
 					</select>
 				</div>
-				<!--  <div class="ub ub-ac uselectw  umar-l20">
-                    <div class="umar-r10 uw-70 ut-r">统计方式:</div>
-                       select
-				        <select class="easyui-combobox uselect" name="statisType" id="statisType" data-options="editable:false">
-				            <option value="" selected="selected">全部</option>
-				            <option value="2">已完成</option>
-				            <option value="2">未完成</option>
-				        </select>
-                </div> -->
+                <div class="ub ub-ac uselectw umar-l20">
+                    <div class="umar-r10 uw-70 ut-r">订单状态:</div>
+                        <select class="easyui-combobox uselect" name="status" id="status" data-options="editable:false">
+                            <option value="1" selected="selected">已完成</option>
+                            <option value="2">支付中/待支付</option>
+                        </select>
+                </div>
 			</div>
 		</form>
 
