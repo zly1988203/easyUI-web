@@ -1,4 +1,4 @@
-/*----------门店费用开支明细报表-------------------*/
+/*----------门店利润报表-------------------*/
 $(function(){
 	//开始和结束时间
     $("#rptDate").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
@@ -8,7 +8,7 @@ $(function(){
     initDataStoreExpendDetailReport();
 });
 
-var datagridKey = 'gridStoreExpendDetail';
+var datagridKey = 'gridStoreProfitReport';
 var gridHandel = new GridClass();
 var inited = false;
 var queryColumns = [];
@@ -20,9 +20,9 @@ function initDataStoreExpendDetailReport(){
 	dg = $("#"+datagridKey).datagrid({
         align:'right',
         singleSelect:true,  //单选  false多选
-        rownumbers:true,    //序号
+        rownumbers:false,    //序号
         pagination:false,    //分页
-        showFooter:true,
+        showFooter:false,
 		height:'100%',
 		width:'100%',
 		url:"",
@@ -49,7 +49,7 @@ function queryForm(){
 	var fromObjStr = $('#queryForm').serializeObject();
 	
 	var param = {
-        url :contextPath+"/report/storeExpendDetail/getColumns",
+        url :contextPath+"/report/storeProfit/getColumns",
         data:fromObjStr
     }
 
@@ -63,7 +63,7 @@ function queryForm(){
         	initDataStoreExpendDetailReport();
         	
         	$("#"+datagridKey).datagrid("options").method = "post";
-        	$("#"+datagridKey).datagrid('options').url = contextPath + '/report/storeExpendDetail/getList';
+        	$("#"+datagridKey).datagrid('options').url = contextPath + '/report/storeProfit/getList';
         	$("#"+datagridKey).datagrid('load', fromObjStr);
         }else{
         	queryColumns = [];
@@ -91,6 +91,6 @@ function exportData(){
 			
 		}
 	});
-	$("#queryForm").attr("action",contextPath+"/report/storeExpendDetail/exportList");
+	$("#queryForm").attr("action",contextPath+"/report/storeProfit/exportList");
 	$("#queryForm").submit();
 }
