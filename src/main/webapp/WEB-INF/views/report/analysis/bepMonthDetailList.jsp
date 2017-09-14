@@ -15,10 +15,12 @@
 
 
 	<style>
-	table {
-		border: 1px solid #ccc;
+	.tb-class {
+		width:60%;
+		min-width:60%;
+		<%--border: 1px solid #ccc;--%>
 	}
-	table td {
+	.tb-class td {
 	<%--border: 1px solid #ccc;--%>
 	/*height: 32px;*/
 	padding: 8px;
@@ -27,7 +29,7 @@
 	.header-tr{
 		font-size: 16px;
 		font-weight: 600;
-		text-align: left;
+		text-align: center;
 	}
 
 	.head-tr-bg{
@@ -36,6 +38,16 @@
 
 	.tr-bg{
 		background: #f3f3f3;
+	}
+
+	.td-amont{
+		text-align:right;
+	}
+
+	tb-class .tr{
+	border: 1px solid #ccc;
+	font-size: 16px;
+	font-weight: 600;
 	}
 	</style>
 </head>

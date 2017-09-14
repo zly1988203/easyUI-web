@@ -73,7 +73,7 @@ function loadData(data) {
                 td.appendTo(tr_child);
                 var td = $("<td>"+child.costType+"</td>");
                 td.appendTo(tr_child);
-                var td = $("<td>"+child.amont+"</td>");
+                var td = $("<td class='td-amont'>"+child.amont+"</td>");
                 td.appendTo(tr_child);
                 var td = $("<td>"+child.remark+"</td>");
                 td.appendTo(tr_child);
@@ -82,7 +82,7 @@ function loadData(data) {
             tr.appendTo($("#tb"));
             var td = $("<td colspan='3'>合计:</td>");
             td.appendTo(tr);
-            var td = $("<td>"+item.total+"</td>");
+            var td = $("<td class='td-amont'>"+item.total+"</td>");
             td.appendTo(tr);
             var td = $("<td></td>");
             td.appendTo(tr);
@@ -92,7 +92,7 @@ function loadData(data) {
             tr.appendTo($("#tb"));
             var td = $("<td colspan='3'>"+item.dictType+"</td>");
             td.appendTo(tr);
-            var td = $("<td>"+item.total+"</td>");
+            var td = $("<td class='td-amont'>"+item.total+"</td>");
             td.appendTo(tr);
             var td = $("<td></td>");
             td.appendTo(tr);
