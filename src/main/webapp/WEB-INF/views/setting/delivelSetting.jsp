@@ -46,11 +46,11 @@
 					<div class="ub uw-220 ut-r">加盟店要货配送取价值:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="storesPriceSpec0" name="storesPriceSpec" value="0" />
-						<label for="storesPriceSpec0">分机构配送价</label>
+						<label for="storesPriceSpec0">发货机构配送价</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="storesPriceSpec1" name="storesPriceSpec" value="1" checked="checked" />
-						<label for="storesPriceSpec1">门店配送价</label>
+						<label for="storesPriceSpec1">要货机构配送价</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="ub" type="radio" id="storesPriceSpec2" name="storesPriceSpec" value="2" />
