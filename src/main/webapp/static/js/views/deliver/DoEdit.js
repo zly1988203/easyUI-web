@@ -5,7 +5,13 @@
 //过滤price priceBack 标示 
 var loadFilterFlag = false;
 
+//是否赠品是否可选择
+var isGiftFlag = false;
 $(function(){
+    var referenceId = $("#referenceId").val();
+    if (referenceId) {	
+    	isGiftFlag = true;
+    }
     initDatagridEditRequireOrder();
     $("div").delegate("button","click",function(){
     	$("p").slideToggle();
@@ -216,6 +222,7 @@ function initDatagridEditRequireOrder(){
                         textField: 'text',
                         editable:false,
                         required:true,
+                        disabled:isGiftFlag,
                         data: [{
                             "id":'1',
                             "text":"是",
@@ -492,6 +499,11 @@ function onChangeAmount(newV,oldV) {
 }
 //监听是否赠品
 function onSelectIsGift(data){
+	// 如果引用单据时，是否赠品不可修改
+	if(isGiftFlag){
+		$(gridHandel.getFieldTarget('isGift')).combobox('readonly', isGiftFlag);
+		return;
+	}
     var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
     if(!_skuName)return;
 
@@ -899,6 +911,7 @@ function selectDeliver(){
     	formType:'DA'
     }
 	new publicDeliverFormService (param,function(data){
+		isGiftFlag = true;
 		referenceId = data.id;
 		refDeliverType=data.formType;
 		$("#referenceId").val(referenceId);
