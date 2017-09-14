@@ -94,10 +94,10 @@ function initDatagridStock(){
 	}
 
 	if(gridStockAdjust){
-		$("#"+datagridId).datagrid('options').url = '';
+		$("#"+datagridID).datagrid('options').url = '';
 	}
     gridHandel.setGridName(datagridID);
-    gridStockAdjust = $("#"+datagridId).datagrid({
+    gridStockAdjust = $("#"+datagridID).datagrid({
 		method:'post',
 		align:'center',
 		singleSelect:false,  //单选  false多选
@@ -113,8 +113,8 @@ function initDatagridStock(){
             gridHandel.setDatagridHeader("center");
 		}
 	});
-    $("#"+datagridId).datagrid('loadData',[]);
-    $("#"+datagridId).datagrid('reloadFooter',[]);
+    $("#"+datagridID).datagrid('loadData',[]);
+    $("#"+datagridID).datagrid('reloadFooter',[]);
 }
 
 function onChangeSelect() {
@@ -204,7 +204,7 @@ function queryForm() {
     fromObjStr.createUserName = "";
 
     $("#"+datagridID).datagrid("options").method = "post";
-    $("#"+datagridID).datagrid('options').url = contextPath + '/stock/leadSearch/getList';
+    $("#"+datagridID).datagrid('options').url = contextPath + '/report/stock/stockAdjustReport/list';
     $("#"+datagridID).datagrid('load', fromObjStr);
 }
 
@@ -231,7 +231,7 @@ function exportExcel(){
     $("#exportWin").hide();
     $("#exportWin").window("close");
 
-    $("#queryForm").attr("action",contextPath+"/stock/leadSearch/exportList");
+    $("#queryForm").attr("action",contextPath+"/report/stock/stockAdjustReport/exportList");
     $("#queryForm").submit();
 }
 
