@@ -497,6 +497,16 @@ function saveStockReimburse(){
         	isCheckResult = false;
           	return false;
         }*/
+        if(v["largeNum"]<=0){
+            $_jxc.alert("第"+(i+1)+"行，箱数必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+        if(v["realNum"]<=0){
+            $_jxc.alert("第"+(i+1)+"行，数量必须大于0");
+            isCheckResult = false;
+            return false;
+        }
    });
     
     
