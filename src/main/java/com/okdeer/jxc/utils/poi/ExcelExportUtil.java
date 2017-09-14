@@ -184,24 +184,25 @@ public class ExcelExportUtil {
 	 */
 	private static void generateData(String[] columns, List<JSONObject> dataList, String pattern,
 			XSSFWorkbook workbook, XSSFSheet sheet, int rowIndex) {
-		XSSFRow row;
-		if (CollectionUtils.isNotEmpty(dataList)) {
+		
+		if(CollectionUtils.isEmpty(dataList)){
+			return;
+		}
 			
-			XSSFCellStyle cellStyle = getXSSFBodyCellStyle(workbook);
-			
-			for (JSONObject data : dataList) {
-				// Field[] fields = t.getClass().getDeclaredFields();
-				rowIndex++;
-				row = sheet.createRow(rowIndex);
-				row.setHeightInPoints(20);
-				for (int columnIndex = 0; columnIndex < columns.length; columnIndex++) {
-					XSSFCell cell = row.createCell(columnIndex);
-					String fieldName = columns[columnIndex];
-					Object value = data.get(fieldName);
+		XSSFCellStyle cellStyle = getXSSFBodyCellStyle(workbook);
+		
+		for (JSONObject data : dataList) {
+			// Field[] fields = t.getClass().getDeclaredFields();
+			rowIndex++;
+			XSSFRow row = sheet.createRow(rowIndex);
+			row.setHeightInPoints(20);
+			for (int columnIndex = 0; columnIndex < columns.length; columnIndex++) {
+				XSSFCell cell = row.createCell(columnIndex);
+				String fieldName = columns[columnIndex];
+				Object value = data.get(fieldName);
 
-					// 生成单元格
-					generateCell(workbook, cell, value, cellStyle, pattern);
-				}
+				// 生成单元格
+				generateCell(workbook, cell, value, cellStyle, pattern);
 			}
 		}
 	}
@@ -267,8 +268,14 @@ public class ExcelExportUtil {
 		try {
 			// 生成一个表格
 			XSSFSheet sheet = workbook.createSheet(sheetName);
+			
 			// 设置表格默认列宽度为20个字节
 			sheet.setDefaultColumnWidth(20);
+			
+			// 自动列宽
+			for(int i = 0; i<firstColIndex;i++){
+				sheet.autoSizeColumn(i);
+			}
 			
 			XSSFCellStyle titlestyle = getXSSFTitleCellStyle(workbook);
 
@@ -301,6 +308,10 @@ public class ExcelExportUtil {
 				cell.setCellStyle(headerStyle);
 
 				text = new XSSFRichTextString(headers[i]);
+				
+				if(i < firstColIndex){
+					sheet.autoSizeColumn(i);
+				}
 
 				// 从起始位置开始和并列
 				if (i >= firstColIndex && (i - firstColIndex) % mergeHeaderSize == 0) {
@@ -352,8 +363,10 @@ public class ExcelExportUtil {
 
 			// 遍历集合数据，产生数据行
 			if (CollectionUtils.isEmpty(mergeColumns)) {
+				
 				generateData(columns, dataList, pattern, workbook, sheet, 2);
 			} else {
+				
 				writeMergeData(columns, mergeColumns, dataList, pattern, workbook, sheet, 2);
 			}
 
@@ -658,9 +671,7 @@ public class ExcelExportUtil {
 		}
 		
 		if (textValue != null) {
-			cellStyle.setAlignment(XSSFCellStyle.ALIGN_LEFT);
-			XSSFDataFormat df = workbook.createDataFormat();
-            cellStyle.setDataFormat(df.getFormat("@"));
+            cellStyle = getXSSFBodyCellStyle(workbook);
             
 			cell.setCellValue(textValue);
 			cell.setCellStyle(cellStyle);
@@ -746,7 +757,7 @@ public class ExcelExportUtil {
 		style.setBorderLeft(XSSFCellStyle.BORDER_THIN);
 		style.setBorderRight(XSSFCellStyle.BORDER_THIN);
 		style.setBorderTop(XSSFCellStyle.BORDER_THIN);
-		style.setAlignment(XSSFCellStyle.ALIGN_RIGHT);
+//		style.setAlignment(XSSFCellStyle.ALIGN_LEFT);
 		style.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
 		// // 生成一个字体
 		// XSSFFont font = workbook.createFont();
