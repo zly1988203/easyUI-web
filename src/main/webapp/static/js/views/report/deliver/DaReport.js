@@ -91,8 +91,8 @@ function initDatagridRequireOrders(){
 
 //查询要货单
 function queryForm(){
-	$("#startCount").attr("value",null);
-	$("#endCount").attr("value",null);
+    $("#startCount").val("");
+    $("#endCount").val("");
 	$("#deliverType").val('DA');
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码

@@ -1,0 +1,95 @@
+/**
+ * Created by zhaoly on 2017/9/14.
+ */
+$(function(){
+
+});
+
+var exprotGridId = "";
+function initExportChoseParam(param) {
+    exprotGridId = param.datagridId;
+    $("#totalRows").html($("#"+exprotGridId).datagrid('getData').total);
+}
+
+var exportChoseCallBack = null;
+function initExportChoseCallBack(cb) {
+    exportChoseCallBack = cb;
+}
+
+function sureExportExcel(){
+    var choose = $('input[name="chose"]:checked').val();
+    if(choose == null){
+        $_jxc.alert("请选择导出项");
+        return;
+    }
+
+    var stratRow = 1;
+    var endRow = $("#"+exprotGridId).datagrid('getData').endRow;
+    //当前页
+    if(choose=="0"){
+        stratRow = $("#"+exprotGridId).datagrid('getData').startRow ;
+        endRow = $("#"+exprotGridId).datagrid('getData').endRow;
+        if(typeof(stratRow)=="undefined"){
+            stratRow = 1;
+        }
+        if(typeof(endRow)=="undefined"){
+            endRow = 20000;
+        }
+    }
+    //全部页面
+    if(choose=="1"){
+        stratRow = 1;
+        endRow = $("#"+exprotGridId).datagrid('getData').total;
+        if(typeof(endRow)=="undefined"){
+            endRow = 20000;
+        }
+        if (endRow > 20000) {
+            $_jxc.alert("最大导出20000条");
+            return;
+        }
+    }
+    //手动填写范围
+    if(choose=="2"){
+        stratRow = $("#startRow").val();
+        endRow = $("#endRow").val();
+        if ((endRow - stratRow + 1) > 20000) {
+            $_jxc.alert("最大导出20000条");
+            return;
+        }
+        if(!stratRow || !endRow ){
+            $_jxc.alert("请填写页面范围");
+            return;
+        }else if(parseInt(endRow) < parseInt(stratRow)){
+            $_jxc.alert("请输入正确的页面范围");
+            return;
+        }
+    }
+    if (stratRow === null || stratRow === 0) {
+        stratRow = 1;
+    }
+
+    // 调用导出
+    var data = {
+        startCount :stratRow - 1,
+        endCount:endRow - (stratRow - 1)
+    }
+    exportChoseCallBack(data);
+    $('#exportChose').panel('destroy');
+
+
+}
+function checkNumber(obj){
+    if(obj.value.length == 1){
+        obj.value=obj.value.replace(/[^1-9]/g,'');
+    }else{
+        obj.value=obj.value.replace(/\D/g,'');
+    }
+    return obj.value;
+}
+
+/**
+ * 取消
+ */
+function toCancel(){
+    $('#exportChose').panel('destroy');
+}
