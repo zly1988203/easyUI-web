@@ -47,7 +47,7 @@
 			</div>
 
 		</div>
-
+		<form id="groupform">
 		<div class="ub umar-t8 umar-b8">
 			<div class="ub ub-ac" id="branchTemp">
 				<div class="umar-r10 uw-70 ut-r">机 构:</div>
@@ -57,7 +57,7 @@
 				<div class="uinp-more">...</div>
 			</div>
 		</div>
-
+		</form>
 		<div class="ub umar-t8">
 			<table id="keygrid"></table>
 		</div>
@@ -74,9 +74,9 @@
 			</div>
 		</div>
 
-		<form id="goodsgridForm" class="ub">
+		<div id="goodsgridForm" class="ub">
 			<table id="goodsgrid"></table>
-		</form>
+		</div>
 
 	</div>
 

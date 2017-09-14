@@ -70,6 +70,12 @@ function queryRecord() {
  * 导出
  */
 function exportData(){
+    var length = $('#'+gridName).datagrid('getData').rows.length;
+    if(length == 0){
+        $_jxc.alert("无数据可导");
+        return;
+    }
+
     var param = {
         datagridId:gridName
     }
@@ -79,11 +85,6 @@ function exportData(){
 }
 
 function exportExcel(){
-    var length = $("#storeSale").datagrid('getData').total;
-    if(length == 0){
-        $_jxc.alert("没有数据");
-        return;
-    }
     $("#startCount").val(data.startCount);
     $("#endCount").val(data.endCount);
     $("#queryForm").attr("action",contextPath+"/goodsSale/report/exportList");

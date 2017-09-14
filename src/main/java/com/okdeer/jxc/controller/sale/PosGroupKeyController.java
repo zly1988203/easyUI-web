@@ -124,15 +124,15 @@ public class PosGroupKeyController extends BaseController<PosGroupKeyController>
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public RespJson list(String branchId,
+    public PageUtils<PosGroupKeyVo> list(String branchId,
                          @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
                          @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
         try {
             PageUtils<PosGroupKeyVo> posGroupKeyList = this.posGroupKeyService.getPosGroupKeyList(branchId, pageSize, pageNumber);
-            return RespJson.success(posGroupKeyList);
+            return posGroupKeyList;
         } catch (Exception e) {
             LOG.error("获取分组列表失败!", e);
-            return RespJson.error("获取分组列表失败!");
+            return PageUtils.emptyPage();
         }
     }
 
@@ -148,28 +148,28 @@ public class PosGroupKeyController extends BaseController<PosGroupKeyController>
     }
 
     @RequestMapping(value = "/goods/top/list", method = RequestMethod.POST)
-    public RespJson goodsTopList(String branchId, String groupId,
+    public PageUtils<PosGroupKeyDetailVo> goodsTopList(String branchId, String groupId,
                                  @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
                                  @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
         try {
             PageUtils<PosGroupKeyDetailVo> posGroupKeyList = this.posGroupKeyService.selectPosGroupKeyDetailList(branchId, groupId, true, pageSize, pageNumber);
-            return RespJson.success(posGroupKeyList);
+            return posGroupKeyList;
         } catch (Exception e) {
             LOG.error("获取分组列表失败!", e);
-            return RespJson.error("获取分组列表失败!");
+            return PageUtils.emptyPage();
         }
     }
 
     @RequestMapping(value = "/goods/list", method = RequestMethod.POST)
-    public RespJson goodsList(String branchId, String groupId,
+    public PageUtils<PosGroupKeyDetailVo> goodsList(String branchId, String groupId,
                               @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
                               @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
         try {
             PageUtils<PosGroupKeyDetailVo> posGroupKeyList = this.posGroupKeyService.selectPosGroupKeyDetailList(branchId, groupId, false, pageSize, pageNumber);
-            return RespJson.success(posGroupKeyList);
+            return posGroupKeyList;
         } catch (Exception e) {
             LOG.error("获取分组列表失败!", e);
-            return RespJson.error("获取分组列表失败!");
+            return PageUtils.emptyPage();
         }
     }
 
