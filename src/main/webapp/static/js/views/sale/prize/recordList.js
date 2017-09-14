@@ -89,5 +89,4 @@ function exportExcel(){
     $("#queryForm").attr("action",contextPath+"/goodsSale/report/exportList");
     $("#queryForm").submit();
 
-
 }

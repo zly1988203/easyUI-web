@@ -11,7 +11,6 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
-	<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 	<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script src="${ctx}/static/js/views/sale/prize/recordList.js?V=${versionNo}4"></script>
 	<style>
