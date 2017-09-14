@@ -5,6 +5,7 @@
  * 周销售分析报表
  */
 var week = 1;
+var nowWeek = 1;
 $(function() {
     initdefaultElement();
     // initDatagridWeekSale();
@@ -29,30 +30,20 @@ $(function() {
         }
     });
 
-    var d = new Date;
-    var w = d.getDay();
-   var  n = (w == 0 ? 7 : w) - 1;
-    d.setDate(d.getDate() - n);
-    for(i=0; i<7; i++) {
-        see();
-        d.setDate(d.getDate() + 1);
-    }
 
-    function see() {
-        document.write(d.getYear() + '-' + (d.getMonth()+1) + '-' + d.getDate() + ' ' + d.getDay() + '<br>');
-    }
 
-    // initWeek();
+    initWeek();
 
 });
 
 function initWeek() {
     //获取当前时间
     var currentDate = dateUtil.getCurrentDate();
-    week = getWeekNumber(currentDate.getFullYear(),currentDate.getMonth()+1,currentDate.getDay());
-    var arr = yugi(currentDate.getFullYear(), week);
+    week = getWeekNumber(currentDate.getFullYear(),currentDate.getMonth()+1,currentDate.getDate());
+    nowWeek = week;
+    var arr = yugi(currentDate.getFullYear(), nowWeek);
     $("#startDate").val(arr[0]);
-    $("#endDate").val(arr[1]);
+    $("#endDate").val(arr[6]);
 }
 
 function initdefaultElement() {
@@ -193,16 +184,21 @@ function preWeek() {
     var currentDate = dateUtil.getCurrentDate();
     var arr = yugi(currentDate.getFullYear(), week);
     $("#startDate").val(arr[0]);
-    $("#endDate").val(arr[1]);
+    $("#endDate").val(arr[6]);
 
 }
 
 function nextWeek() {
+    if(week == nowWeek){
+        $_jxc.alert("当前为最近一周");
+        return;
+    }
+
     week++;
     var currentDate = dateUtil.getCurrentDate();
     var arr = yugi(currentDate.getFullYear(), week);
     $("#startDate").val(arr[0]);
-    $("#endDate").val(arr[1]);
+    $("#endDate").val(arr[6]);
 }
 
 var yugi = function(year, index) {

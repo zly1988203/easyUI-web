@@ -10,7 +10,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script
-	src="${ctx}/static/js/views/report/sales/weekSaleReport.js?V=${versionNo}"></script>
+	src="${ctx}/static/js/views/report/sales/weekSaleReport.js?V=${versionNo}4"></script>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -37,10 +37,17 @@
 				<!-- 引入时间选择控件 -->
 
 				<div class="ub ub-ac umar-l40">
-					<div class="ubtns ubtns-item" onclick="preWeek()">上一周</div>
-					<input id="startDate" class="Wdate uw-120"  readonly="readonly" />
-					<input id="endDate" class="Wdate  uw-120"  readonly="readonly"/>
-					<div class="ubtns ubtns-item" onclick="nextWeek()">下一周</div>
+					<div class="umar-r10 uw-60 ut-r">
+						<a class="ubtns ubtns-item" onclick="preWeek()">＜上一周</a>
+					</div>
+
+					<input id="startDate" class="Wdate newWdate"  readonly="readonly" />
+					<input id="endDate" class="Wdate newWdate"  readonly="readonly"/>
+
+					<div class="umar-l10 uw-60 ut-r">
+						<a class="ubtns ubtns-item" onclick="nextWeek()">下一周＞</a>
+					</div>
+
 				</div>
 			</div>
 			<div class="ub uline umar-t8"></div>
