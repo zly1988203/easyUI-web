@@ -128,7 +128,7 @@ public class StoreExpendDetailController extends BaseController<StoreExpendDetai
 				column1.setFormatter(formatSb.toString());
 
 				column2.setField(StoreExpendDetailService.COLUMN_TOTAL_AMOUNT + i);
-				column2.setTitle("累计金额");
+				column2.setTitle("年累计金额");
 				column2.setAlign("right"); // 金额右对齐
 				column2.setWidth("120px");
 				column2.setFormatter(formatSb.toString());
