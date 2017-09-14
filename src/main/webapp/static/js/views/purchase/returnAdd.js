@@ -31,7 +31,9 @@ $(function(){
     //2.7.1-------------------------start
     
     $('input[name="refFormNoType"]').on('change',function(){
+    	isGiftFlag = false;
     	$('#refFormNo').val('');
+    	$('#refFormId').val('');
     	gridHandel.setLoadData([$.extend({},gridDefault)]);
     })
     
@@ -964,6 +966,7 @@ function selectForm(){
             targetBranchId:$('#branchId').val()
         }
 		new publicDeliverFormService(param,function(data){
+			isGiftFlag = true;
 			var referenceId = "";
 			referenceId = data.id;
 			$("#refFormId").val(referenceId);
