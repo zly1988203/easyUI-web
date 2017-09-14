@@ -180,12 +180,13 @@ function printReport(){
 	var branchNameOrCode= $("#branchNameOrCode").val();
 	var businessType=$("#businessType").combobox("getValue");
 	var orderNo=$("#orderNo").val();
+	var status=$("#status").val();
 	var payType=$("#payType").combobox("getValue");
 	var orderType=$("#orderType").combobox("getValue");
 	var cashierId=$("#cashierId").val();
 	parent.addTabPrint("reportPrint"+branchNameOrCode,"打印",contextPath+"/cashFlow/report/printReport?" +"&startTime="+startTime
 			+"&endTime="+endTime+"&branchNameOrCode="+branchNameOrCode+"&cashierId="+cashierId+"&businessType="+businessType+"&orderNo="
-			+orderNo+"&payType="+payType+"&orderType="+orderType);
+			+orderNo+"&payType="+payType+"&orderType="+orderType+"&status="+status);
 }
 /**
  * 重置
