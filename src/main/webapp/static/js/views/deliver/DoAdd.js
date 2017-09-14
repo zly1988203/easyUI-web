@@ -21,7 +21,7 @@ $(function(){
     $(".radioItem").on("change",function(){
     	$("#referenceId").val("");
     	$("#referenceNo").val("");
-    	
+    	isGiftFlag = false;
     	$("#sourceBranchId").val(oldBid);
 		$("#sourceBranchType").val(oldBtype);
 		$("#sourceBranchName").val(oldBname);
