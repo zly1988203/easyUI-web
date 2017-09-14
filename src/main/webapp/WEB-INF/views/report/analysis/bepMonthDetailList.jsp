@@ -40,7 +40,7 @@
 		background: #f3f3f3;
 	}
 
-	.td-amont{
+	.td-amount{
 		text-align:right;
 	}
 

@@ -7,11 +7,16 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.jxls.area.Area;
 import org.jxls.area.XlsArea;
 import org.jxls.builder.AreaBuilder;
@@ -19,6 +24,7 @@ import org.jxls.builder.xls.XlsCommentAreaBuilder;
 import org.jxls.command.Command;
 import org.jxls.command.EachCommand;
 import org.jxls.common.Context;
+import org.jxls.expression.JexlExpressionEvaluator;
 import org.jxls.transform.Transformer;
 import org.jxls.util.JxlsHelper;
 import org.jxls.util.TransformerFactory;
@@ -66,6 +72,11 @@ public class ReportExcelUtil {
 	 * 导出为xls格式
 	 */
 	public final static String REPORT_XLS = ".xls";
+	
+	static {
+		// 添加自定义指令（可覆盖jxls原指令）
+		XlsCommentAreaBuilder.addCommandMapping("merge", MergeCommand.class);
+	}
 	
 	/**
 	 * 私有构造函数
@@ -174,12 +185,45 @@ public class ReportExcelUtil {
 	@SuppressWarnings("rawtypes")
 	public static void reportExcelToList(HttpServletResponse response, InputStream is, String reportFileName,
 			String reportSuffix, List reportList, Map<String, Object> param) throws IOException {
-		Context context = new Context();
+/*		Context context = new Context();
 		if (null != param) {
 			context = new Context(param);
 		}
 		context.putVar("reportList", reportList);
-		reportToContext(response, is, reportFileName, reportSuffix, context);
+		reportToContext(response, is, reportFileName, reportSuffix, context);*/		
+		
+		// 设置响应
+		response.setHeader(REPORT_HEADER, REPORT_HEADER_TWO + URLEncoder.encode(reportFileName + reportSuffix, "UTF-8"));
+		// 设置输出流，这里使用response对象的输出流，提供web下载
+		OutputStream os = response.getOutputStream();
+
+		Transformer transformer = TransformerFactory.createTransformer(is, os);
+		Context context = transformer.createInitialContext();
+		context.putVar("reportList", reportList);
+		if (param != null && param.size() > 0) {
+			for (Iterator<Entry<String, Object>> iterator = param.entrySet().iterator(); iterator.hasNext();) {
+				Entry<String, Object> entry = iterator.next();
+				context.putVar(entry.getKey(), entry.getValue());
+			}
+		}
+		JexlExpressionEvaluator evaluator = (JexlExpressionEvaluator) transformer.getTransformationConfig()
+				.getExpressionEvaluator();
+		Map<String, Object> funcs = new HashMap<>();
+		// 添加自定义功能
+		funcs.put("jx", new ReportExcelUtil());
+		evaluator.getJexlEngine().setFunctions(funcs);
+
+		AreaBuilder areaBuilder = new XlsCommentAreaBuilder(transformer);
+		areaBuilder.setTransformer(transformer);
+		List<Area> xlsAreaList = areaBuilder.build();
+		Area xlsArea = xlsAreaList.get(0);
+		xlsArea.applyAt(xlsArea.getStartCellRef(), context);
+		xlsArea.processFormulas();
+		
+		transformer.write();
+
+        is.close();
+        os.close();
 	}
 
 	/**

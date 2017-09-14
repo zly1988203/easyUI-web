@@ -27,21 +27,23 @@ function queryMonthDetail() {
 	    return;
     }
 	var month = $("#month").val();
-	if(branchId && month){		
-		$_jxc.ajax({
-			url : contextPath + "/report/bepMonthDetail/getDetail",
-			data:{
-				"branchId":branchId,
-				"month":month
-			}
-		},function(result){
-			if(result['code'] == 0){
-                loadData(result['data']);
-			}else{
-				$_jxc.alert(result['message']);
-			}
-		});
+	if($_jxc.isStringNull(month)){
+		$_jxc.alert("请选择月份");
+		return;
 	}
+	$_jxc.ajax({
+		url : contextPath + "/report/bepMonthDetail/getDetail",
+		data:{
+			"branchId":branchId,
+			"month":month
+		}
+	},function(result){
+		if(result['code'] == 0){
+            loadData(result['data']);
+		}else{
+			$_jxc.alert(result['message']);
+		}
+	});
 }
 
 function loadData(data) {
@@ -73,7 +75,7 @@ function loadData(data) {
                 td.appendTo(tr_child);
                 var td = $("<td>"+child.costType+"</td>");
                 td.appendTo(tr_child);
-                var td = $("<td class='td-amont'>"+child.amont+"</td>");
+                var td = $("<td class='td-amount'>"+child.amount+"</td>");
                 td.appendTo(tr_child);
                 var td = $("<td>"+child.remark+"</td>");
                 td.appendTo(tr_child);
@@ -82,7 +84,7 @@ function loadData(data) {
             tr.appendTo($("#tb"));
             var td = $("<td colspan='3'>合计:</td>");
             td.appendTo(tr);
-            var td = $("<td class='td-amont'>"+item.total+"</td>");
+            var td = $("<td class='td-amount'>"+item.total+"</td>");
             td.appendTo(tr);
             var td = $("<td></td>");
             td.appendTo(tr);
@@ -92,7 +94,7 @@ function loadData(data) {
             tr.appendTo($("#tb"));
             var td = $("<td colspan='3'>"+item.dictType+"</td>");
             td.appendTo(tr);
-            var td = $("<td class='td-amont'>"+item.total+"</td>");
+            var td = $("<td class='td-amount'>"+item.total+"</td>");
             td.appendTo(tr);
             var td = $("<td></td>");
             td.appendTo(tr);
@@ -100,14 +102,11 @@ function loadData(data) {
     })
 }
 
-// 调用导出方法
+//调用导出方法
 function exportExcel(){
-	var length = $("#"+gridName).datagrid('getData').rows.length;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
+	var branchId = $('#branchId').val();
+	var month = $("#month").val();
+	if(branchId && month){		
+		location.href = contextPath + "/report/bepMonthDetail/exportExcelList?branchId=" + branchId + "&month=" + month;
 	}
-
-	$("#queryForm").attr("action",contextPath+"/report/bepMonthDetail/exportExcelList");
-	$("#queryForm").submit();
 }
