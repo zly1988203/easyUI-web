@@ -116,9 +116,9 @@ function queryForm(){
 	if($("#branchName").val()==""){
        $_jxc.alert("请选择机构名称");
         return;
-    } 
-	$("#startCount").attr("value",null);
-	$("#endCount").attr("value",null);
+    }
+    $("#startCount").val("");
+    $("#endCount").val("");
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1)

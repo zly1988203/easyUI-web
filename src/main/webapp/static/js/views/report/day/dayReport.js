@@ -311,8 +311,8 @@ function initDatagridDay(){
 
 
 function queryForm(){
-	$("#startCount").attr("value",null);
-	$("#endCount").attr("value",null);
+    $("#startCount").val("");
+    $("#endCount").val("");
 	$("#dayReport").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#dayReport").datagrid("options").method = "post";
 	$("#dayReport").datagrid("options").url = contextPath+'/report/day/getDayReportList';

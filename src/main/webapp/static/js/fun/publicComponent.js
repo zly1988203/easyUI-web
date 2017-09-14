@@ -2846,4 +2846,40 @@ function publicCategorysServiceHandel(param,callback,cbDom){
      }
  }
 /*----------------------------------------------------------------------*/
+
+/*--------------------------导出--------------------------------*/
+/*
+ * param  {
+ *   datagridId:""
+ *
+ * }
+ *
+ * */
+function publicExprotService(param,callback) {
+    var exportChoseTemp = $('<div id="exportChose"/>').dialog({
+        href: contextPath + "/common/exportChose",
+        width:400,
+        height:350,
+        title:"导出选项",
+        closable:true,
+        resizable:true,
+        onClose: function(){
+            $(this).dialog('destroy');
+            exportChoseTemp = null;
+        },
+        modal: true,
+        onLoad: function () {
+            initExportChoseParam(param);
+            initExportChoseCallBack(callBackHandel)
+        },
+    });
+
+    function callBackHandel(data){
+        callback(data);
+        $(exportChoseTemp).panel('destroy');
+        exportChoseTemp = null;
+    }
+}
+/*----------------------------------------------------------------------*/
+
 /*----------------jxc component js end  ---------------------------*/
