@@ -103,10 +103,6 @@ function add() {
 }
 
 
-function actCopy() {
-    
-}
-
 /**
  * 导出
  */

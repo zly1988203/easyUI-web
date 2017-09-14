@@ -7,31 +7,11 @@
 
 package com.okdeer.jxc.controller.goods;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import net.sf.json.JSONArray;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.okdeer.base.common.exception.ServiceException;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
@@ -42,6 +22,8 @@ import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.controller.scale.Message;
 import com.okdeer.jxc.form.enums.FormType;
+import com.okdeer.jxc.form.purchase.service.PurchaseActivityService;
+import com.okdeer.jxc.form.purchase.vo.PurchaseActivityDetailVo;
 import com.okdeer.jxc.goods.entity.GoodsCategory;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectDeliver;
@@ -53,6 +35,20 @@ import com.okdeer.jxc.goods.vo.GoodsSelectVo;
 import com.okdeer.jxc.goods.vo.GoodsSkuVo;
 import com.okdeer.jxc.goods.vo.GoodsStockVo;
 import com.okdeer.jxc.utils.UserUtil;
+import net.sf.json.JSONArray;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * ClassName: GoodsSelectController 
@@ -81,6 +77,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 
 	@Reference(version = "1.0.0", check = false)
 	GoodsSupplierBranchServiceApi goodsSupplierBranchServiceApi;
+
+    @Reference(version = "1.0.0", check = false)
+    private PurchaseActivityService purchaseActivityService;
 
 	/**
 	 * @Description: 商品选择view
@@ -189,8 +188,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			}
 			PageUtils<GoodsSelect> suppliers = null;
 			if (FormType.PA.name().equals(vo.getFormType()) || FormType.PR.name().equals(vo.getFormType())
-					|| FormType.PM.name().equals(vo.getFormType())) {
-				// 直送收货需要过滤非淘汰、非停购的直送商品
+                    || FormType.PM.name().equals(vo.getFormType()) || FormType.PL.name().equals(vo.getFormType())) {
+                // 直送收货需要过滤非淘汰、非停购的直送商品
 				if (FormType.PM.name().equals(vo.getFormType())) {
 					vo.setIsFastDeliver(1);
 				}
@@ -214,25 +213,70 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 
 	// 根据机构id判断查询采购商品
 	private PageUtils<GoodsSelect> queryPurchaseGoods(GoodsSelectVo vo) throws ServiceException {
-		// 1、查询选择机构
-		String branchId = vo.getBranchId();
-		String supplierId = vo.getSupplierId();
-		Branches branches = branchesService.getBranchInfoById(branchId);
-		PageUtils<GoodsSelect> suppliers = null;
-		Integer type = branches.getType();
-		// 2、判断选择机构类型为店铺还是分公司,type : 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
-		if (type == Constant.THREE || type == Constant.FOUR || type == Constant.FIVE) {
-			Integer count = goodsSupplierBranchServiceApi.queryCountByBranchIdAndSupplierId(branchId, supplierId);
-			if (count == 0) {
-				// 2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
-				vo.setParentId(branches.getParentId());
-			} else {
-				vo.setParentId(branchId);
-			}
-		} else {
-			vo.setParentId(branchId);
-		}
-		suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+        PageUtils<GoodsSelect> suppliers;
+        if (FormType.PL.name().equals(vo.getFormType())) {//采购促销单
+            List<String> branchIds = vo.getBranchIds();
+            String[] branchNames = StringUtils.splitByWholeSeparatorPreserveAllTokens(vo.getBranchName(), ",");
+
+            List<String> branchIdList = Lists.newArrayList();
+            List<String> branchList = Lists.newArrayList();
+
+            for (int i = 0, length = branchNames.length; i < length; ++i) {
+                if (StringUtils.endsWith(branchNames[i], "所有")) {
+                    branchIdList.add(branchIds.get(i));
+                } else {
+                    branchList.add(branchIds.get(i));
+                }
+            }
+            vo.setBranchIdStrs(Joiner.on(",").join(branchList));
+            vo.setBranchIds(branchIdList);
+            suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+
+        } else {
+            // 1、查询选择机构
+            String branchId = vo.getBranchId();
+            String supplierId = vo.getSupplierId();
+            Branches branches = branchesService.getBranchInfoById(branchId);
+            Integer type = branches.getType();
+            // 2、判断选择机构类型为店铺还是分公司,type : 机构类型(0.总部、1.分公司、2.物流中心、3.自营店、4.加盟店B、5.加盟店C)
+            if (type == Constant.THREE || type == Constant.FOUR || type == Constant.FIVE) {
+                Integer count = goodsSupplierBranchServiceApi.queryCountByBranchIdAndSupplierId(branchId, supplierId);
+                if (count == 0) {
+                    // 2.2 如果供应商机构商品关系不存在,需要查询该机构上级分公司
+                    vo.setParentId(branches.getParentId());
+                } else {
+                    vo.setParentId(branchId);
+                }
+            } else {
+                vo.setParentId(branchId);
+            }
+            suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+            List<GoodsSelect> goodsSelects = suppliers.getList();
+            List<String> skus = Lists.newArrayList();
+
+            for (GoodsSelect goodsSelect : goodsSelects) {
+                skus.add(goodsSelect.getId());
+            }
+
+            //查询促销商品价格
+            List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skus, new Date());
+
+            if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
+                for (PurchaseActivityDetailVo purchaseActivityDetailVo : purchaseActivityDetailVos) {
+                    for (int i = 0, length = goodsSelects.size(); i < length; ++i) {
+                        GoodsSelect goodsSelect = goodsSelects.get(i);
+                        if (StringUtils.equals(purchaseActivityDetailVo.getSkuId(), goodsSelect.getSkuId())
+                                && StringUtils.isNotBlank(purchaseActivityDetailVo.getBranchId())
+                                && purchaseActivityDetailVo.getBranchId().indexOf(branchId) != -1) {
+                            goodsSelect.setPurchasePrice(purchaseActivityDetailVo.getNewPurPrice());
+                            goodsSelects.set(i, goodsSelect);
+                        }
+                    }
+                }
+            }
+            suppliers.setList(goodsSelects);
+        }
+
 		// 用查询条件的国际码替换主条码
 		replaceBarCode(suppliers, vo);
 		return suppliers;

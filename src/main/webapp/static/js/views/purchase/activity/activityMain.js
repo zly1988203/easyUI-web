@@ -205,11 +205,13 @@ function selectGoods(searchKey) {
     }
 
     var queryParams = {
-        type:'',
+        type: 'PL',
         key:searchKey,
         isRadio:0,
         branchId: $('#branchId').val(),
+        branchName: $('#branchName').val(),
         flag:'0',
+        supplierId: $("#supplierId").val()
     };
 
     new publicGoodsServiceTem(queryParams,function(data){
