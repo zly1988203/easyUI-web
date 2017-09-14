@@ -19,18 +19,23 @@
 		border: 1px solid #ccc;
 	}
 	table td {
-	border: 1px solid #ccc;
+	<%--border: 1px solid #ccc;--%>
 	/*height: 32px;*/
 	padding: 8px;
 	}
 
 	.header-tr{
-	font-size: 16px;
-	font-weight: 600;
-	text-align: left;
+		font-size: 16px;
+		font-weight: 600;
+		text-align: left;
 	}
+
+	.head-tr-bg{
+		background: #cccccc;
+	}
+
 	.tr-bg{
-	background: #cccccc;
+		background: #f3f3f3;
 	}
 	</style>
 </head>

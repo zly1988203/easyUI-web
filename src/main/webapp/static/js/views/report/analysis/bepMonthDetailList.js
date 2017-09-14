@@ -22,6 +22,10 @@ var gridName = "gridMonthDetail";
 
 function queryMonthDetail() {
 	var branchId = $('#branchId').val();
+	if($_jxc.isStringNull(branchId)){
+	    $_jxc.alert("请选择机构");
+	    return;
+    }
 	var month = $("#month").val();
 	if(branchId && month){		
 		$_jxc.ajax({
@@ -42,7 +46,7 @@ function queryMonthDetail() {
 
 function loadData(data) {
 	$("#tb").empty();
-	var header_tr = $('<tr id="tr_header" class="header-tr tr-bg"></tr>')
+	var header_tr = $('<tr id="tr_header" class="header-tr head-tr-bg"></tr>')
     header_tr.appendTo($("#tb"));
     var td = $("<td>项目</td>");
     td.appendTo(header_tr);
@@ -79,6 +83,8 @@ function loadData(data) {
             var td = $("<td colspan='3'>合计:</td>");
             td.appendTo(tr);
             var td = $("<td>"+item.total+"</td>");
+            td.appendTo(tr);
+            var td = $("<td></td>");
             td.appendTo(tr);
 
         }else {
