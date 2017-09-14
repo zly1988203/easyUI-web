@@ -79,6 +79,7 @@ function initDatagridRequire(){
 //                    }
 //                }
 //            },
+            
             {field: 'originalAmount', title: '原价金额', width: '80px', align: 'right',
             	formatter:function(value,row,index){
             		 if(row.isFooter){
@@ -89,6 +90,8 @@ function initDatagridRequire(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
+            	formatter:function(value,row,index){if(value || value ==0){return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';}}.separator.
+            ,
                 editor:{
                     type:'numberbox',
                     options:{

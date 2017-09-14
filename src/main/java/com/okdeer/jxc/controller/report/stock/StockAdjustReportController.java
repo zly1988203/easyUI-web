@@ -25,7 +25,7 @@ import com.okdeer.retail.facade.report.stock.vo.StockAdjustReportVo;
  *		重构2.0			2017年9月9日			yangyq02			  库存调整查询报表
  */
 @Controller
-@RequestMapping("/report/stock/stockAdjustReport")
+@RequestMapping("report/stock/stockAdjustReport")
 public class StockAdjustReportController extends BaseReportController<StockAdjustReportQo,StockAdjustReportVo>{
 	@Reference(version = "1.0.0", check = false)
 	StockAdjustReportFacade stockAdjustReportFacade;
@@ -36,6 +36,7 @@ public class StockAdjustReportController extends BaseReportController<StockAdjus
 
 	@Override
 	protected Model getModel(Model model) {
+		model.addAttribute("maxReportType", 4);
 		return model;
 	}
 
