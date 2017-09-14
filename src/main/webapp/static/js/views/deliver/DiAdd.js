@@ -2,8 +2,14 @@
  * Created by zhanghuan on 2016/8/30.
  * 入库单-新增
  */
+// 是否赠品是否可选择
+var isGiftFlag = false;
 $(function(){
 	 $("#createTime").html(new Date().format('yyyy-MM-dd hh:mm'));
+    var referenceId = $("#referenceId").val();
+    if (referenceId) {	
+    	isGiftFlag = true;
+    }
     initDatagridAddRequireOrder();
     loadFormByFormNoDO();
 });
@@ -198,6 +204,7 @@ function initDatagridAddRequireOrder(){
                         textField: 'text',
                         editable:false,
                         required:true,
+                        disabled:isGiftFlag,
                         data: [{
                             "id":'1',
                             "text":"是",
@@ -396,6 +403,10 @@ function onChangeAmount(newV,oldV) {
 }
 //监听是否赠品
 function onSelectIsGift(data){
+	// 如果引用单据时，是否赠品不可修改
+	if(isGiftFlag){
+		$(gridHandel.getFieldTarget('isGift')).combobox('readonly', isGiftFlag);
+	}
     var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
     if(!_skuName)return;
 
@@ -680,6 +691,7 @@ function selectDeliver(){
         formType:'DO',
     }
 	new publicDeliverFormService (param,function(data){
+		isGiftFlag = true;
 		referenceId = data.id;
 		$("#referenceId").val(referenceId);
 		$("#referenceNo").val(data.formNo);
