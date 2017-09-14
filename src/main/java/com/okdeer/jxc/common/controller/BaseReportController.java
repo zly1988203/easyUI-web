@@ -1,5 +1,6 @@
 package com.okdeer.jxc.common.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -14,14 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.PriceGrantUtil;
-import com.okdeer.retail.common.entity.colsetting.GridColumn;
 import com.okdeer.retail.common.page.EasyUIPageInfo;
 import com.okdeer.retail.common.price.DataAccessParser;
 import com.okdeer.retail.common.util.GridExportPrintUtils;
-import com.okdeer.retail.common.util.JacksonUtil;
 import com.okdeer.retail.facade.report.facade.BaseReportFacade;
 import com.okdeer.retail.facade.report.qo.BaseReportQo;
-import com.okdeer.retail.facade.report.vo.DaySumReportVo;
 
 /**
  * 
@@ -143,7 +141,12 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 
 	/**
 	 * 
-	 * @Description: 导出
+	 * @Description: 导出Excel</br>
+	 * 内部封装功能有：导出条数限制、大数据容量分批查询、数据级权限过滤</br>
+	 * PS:</br>
+	 * dubbo默认传输数据大小为8MB，service层向web层传输大数据容量的对象时，会受到Dubbo的限制并报错。</br>
+	 * 当报表导出字段值较多时，例如日进销存报表，2W条数据的大小超过了8MB。</br>
+	 * 故当数据超过2K条时，进行分批查询，每次最多查2K条，然后在web层组装。</br>
 	 * @param response
 	 * @param qo
 	 * @return RespJson  
@@ -155,19 +158,48 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 	public RespJson exportList(HttpServletResponse response, Q qo) {
 		RespJson resp = RespJson.success();
 		try {
-			// 查询结果
-			List<V> exportList = getReportFade().queryList(qo);
-
+			// 导出的数据列表
+			List<V> exportList = new ArrayList<V>();
+			
+			// 限制导出数据的起始数量
+			int startCount = limitStartCount(qo.getStartCount());
+			// 限制导出数据的总数量
+			int endCount = limitEndCount(qo.getEndCount());
+			
+			// 商，按2K条数据一次查询拆分，可以拆分为多少次查询
+			int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
+			// 余数，按2K拆分后，剩余的数据
+			int modIndex = endCount % LIMIT_REQ_COUNT;
+			
+			// 每2K条数据一次查询
+			for(int i = 0; i < resIndex; i++){
+				int newStart = (i * LIMIT_REQ_COUNT) + startCount;
+				qo.setStartCount(newStart);
+				qo.setEndCount(LIMIT_REQ_COUNT);
+				List<V> tempList = getReportFade().queryList(qo);
+				exportList.addAll(tempList);
+			}
+			
+			// 存在余数时，查询剩余的数据
+			if(modIndex > 0){
+				int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
+				int newEnd = modIndex;
+				qo.setStartCount(newStart);
+				qo.setEndCount(newEnd);
+				List<V> tempList = getReportFade().queryList(qo);
+				exportList.addAll(tempList);
+			}
+			
 			// 无权限访问的字段
 			Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
-			DataAccessParser parser = new DataAccessParser(DaySumReportVo.class, forbiddenSets);
+			DataAccessParser parser = new DataAccessParser(getViewObjectClass(), forbiddenSets);
 			forbiddenSets = parser.getAllForbiddenSets();
 
 			// 导出
 			GridExportPrintUtils.exportAccessExcel(this.getViewObjectClass(), exportList, forbiddenSets, response);
 		} catch (Exception e) {
-			LOG.error("导出日销售列表信息异常:{}", e);
-			resp = RespJson.error("导出日进销存报表异常");
+			LOG.error("导出列表信息异常:{}", e);
+			resp = RespJson.error("导出列表信息异常");
 		}
 		return resp;
 	}
