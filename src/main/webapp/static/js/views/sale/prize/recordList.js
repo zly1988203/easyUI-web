@@ -80,14 +80,9 @@ function exportData(){
         datagridId:gridName
     }
     publicExprotService(param,function (data) {
-        exportExcel(data);
+        $("#startCount").val(data.startCount);
+        $("#endCount").val(data.endCount);
+        $("#queryForm").attr("action",contextPath+"/goodsSale/report/exportList");
+        $("#queryForm").submit();
     });
-}
-
-function exportExcel(){
-    $("#startCount").val(data.startCount);
-    $("#endCount").val(data.endCount);
-    $("#queryForm").attr("action",contextPath+"/goodsSale/report/exportList");
-    $("#queryForm").submit();
-
 }
