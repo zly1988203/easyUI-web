@@ -34,11 +34,9 @@ import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.form.purchase.qo.FormQueryQo;
 import com.okdeer.jxc.form.purchase.qo.PurchaseFormDetailPO;
 import com.okdeer.jxc.form.purchase.qo.PurchaseFormPO;
+import com.okdeer.jxc.form.purchase.service.PurchaseActivityService;
 import com.okdeer.jxc.form.purchase.service.PurchaseFormServiceApi;
-import com.okdeer.jxc.form.purchase.vo.PurchaseFormDetailVo;
-import com.okdeer.jxc.form.purchase.vo.PurchaseFormVo;
-import com.okdeer.jxc.form.purchase.vo.ReceiptFormVo;
-import com.okdeer.jxc.form.purchase.vo.ReturnFormVo;
+import com.okdeer.jxc.form.purchase.vo.*;
 import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByPurchase;
@@ -94,6 +92,9 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 
 	@Reference(version = "1.0.0", check = false)
 	BranchesServiceApi branchesServiceApi;
+
+	@Reference(version = "1.0.0", check = false)
+	private PurchaseActivityService purchaseActivityService;
 
 	/**
 	 * 机构设置Dubbo接口
@@ -611,6 +612,48 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		return PageUtils.emptyPage();
 	}
 
+	@RequestMapping(value = "valid/activity/price", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson validActivityPrice(@RequestBody String jsonText) {
+		PurchaseFormVo formVo = JSON.parseObject(jsonText, PurchaseFormVo.class);
+
+		// 验证
+		List<String> skuIds = new ArrayList<String>();
+		List<PurchaseFormDetailVo> detailList = formVo.getDetailList();
+		for (PurchaseFormDetailVo detailVo : detailList) {
+			skuIds.add(detailVo.getSkuId());
+		}
+
+		//查询促销商品价格
+		List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skuIds, new Date());
+		boolean bool = false;
+		StringBuilder message = new StringBuilder();
+		int count = 1;
+		if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
+			for (PurchaseActivityDetailVo purchaseActivityDetailVo : purchaseActivityDetailVos) {
+				for (int i = 0, length = detailList.size(); i < length; ++i) {
+					if (StringUtils.equals(purchaseActivityDetailVo.getSkuId(), detailList.get(i).getSkuId())
+							&& !purchaseActivityDetailVo.getNewPurPrice().equals(detailList.get(i).getPrice())) {
+						++count;
+						if (count <= 3) {
+							bool = true;
+							message.append("'").append(detailList.get(i).getSkuName()).append("'、");
+						}
+					}
+				}
+			}
+		}
+		if (bool) {
+			message.deleteCharAt(message.length() - 1);
+			if (count > 3) {
+				message.append("等").append(count).append("种");
+			}
+			message.append("商品价格已产生变动，是否按当前单据价格继续保存？");
+			return RespJson.error(message.toString());
+		}
+		return RespJson.success();
+	}
+
 	/**
 	 * 保存单据和单据商品详情
 	 * @param validate
@@ -1110,6 +1153,51 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		return RespJson.error();
 	}
 
+	@RequestMapping(value = "/valid/check", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson check(String formId) {
+		PurchaseFormPO po = purchaseFormServiceApi.selectPOById(formId);
+		if (po.getFormType().equals(FormType.PA)) {
+			// 所有商品ID
+			List<String> skuIds = new ArrayList<String>();
+			List<PurchaseFormDetailPO> detailList = purchaseFormServiceApi.selectDetailById(formId);
+			for (PurchaseFormDetailPO detailVo : detailList) {
+				skuIds.add(detailVo.getSkuId());
+			}
+
+			//查询促销商品价格
+			List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skuIds, new Date());
+			boolean bool = false;
+			StringBuilder message = new StringBuilder();
+			int count = 1;
+			if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
+				for (PurchaseActivityDetailVo purchaseActivityDetailVo : purchaseActivityDetailVos) {
+					for (int i = 0, length = detailList.size(); i < length; ++i) {
+						if (StringUtils.equals(purchaseActivityDetailVo.getSkuId(), detailList.get(i).getSkuId())
+								&& !purchaseActivityDetailVo.getNewPurPrice().equals(detailList.get(i).getPrice())) {
+							++count;
+							if (count <= 3) {
+								bool = true;
+								message.append("'").append(detailList.get(i).getSkuName()).append("'、");
+							}
+						}
+					}
+				}
+			}
+			if (bool) {
+				message.deleteCharAt(message.length() - 1);
+				if (count > 3) {
+					message.append("等").append(count).append("种");
+				}
+				message.append("商品价格已产生变动，是否按当前单据价格继续审核？");
+				return RespJson.error(message.toString());
+			}
+
+		}
+		return RespJson.success();
+
+	}
+
 	/**
 	 * 审核
 	 * @param formId
@@ -1137,6 +1225,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				if (!resp.isSuccess()) {
 					return resp;
 				}
+
 			}
 			sw.stop();
 

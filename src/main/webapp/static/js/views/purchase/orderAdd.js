@@ -816,20 +816,49 @@ function saveDataHandel(rows){
     var req = JSON.stringify(reqObj);
 
     $_jxc.ajax({
-        url:contextPath+"/form/purchase/saveOrder",
-        contentType:'application/json',
-        data:req
-    },function(result){
-         if(result['code'] == 0){
-             $_jxc.alert("操作成功！",function(){
-                 location.href = contextPath +"/form/purchase/orderEdit?formId=" + result["formId"];
-             });
-         }else{
-         	new publicErrorDialog({
-         		"title":"保存失败",
-         		"error":result['message']
-         	});
-         }
+        url: contextPath + "/form/purchase/valid/activity/price",
+        contentType: 'application/json',
+        data: req
+    }, function (data) {
+        if (data.code == 0) {
+            $_jxc.ajax({
+                url: contextPath + "/form/purchase/saveOrder",
+                contentType: 'application/json',
+                data: req
+            }, function (result) {
+                if (result['code'] == 0) {
+                    $_jxc.alert("操作成功！", function () {
+                        location.href = contextPath + "/form/purchase/orderEdit?formId=" + result["formId"];
+                    });
+                } else {
+                    new publicErrorDialog({
+                        "title": "保存失败",
+                        "error": result['message']
+                    });
+                }
+            });
+        } else {
+            $_jxc.confirm(data.message, function (data) {
+                if (data) {
+                    $_jxc.ajax({
+                        url: contextPath + "/form/purchase/saveOrder",
+                        contentType: 'application/json',
+                        data: req
+                    }, function (result) {
+                        if (result['code'] == 0) {
+                            $_jxc.alert("操作成功！", function () {
+                                location.href = contextPath + "/form/purchase/orderEdit?formId=" + result["formId"];
+                            });
+                        } else {
+                            new publicErrorDialog({
+                                "title": "保存失败",
+                                "error": result['message']
+                            });
+                        }
+                    });
+                }
+            });
+        }
     });
 
 }
