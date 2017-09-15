@@ -47,7 +47,8 @@ function queryMonthDetail() {
 }
 
 function loadData(data) {
-	$("#tb").empty();
+	$("#tb").addClass("tb-class")
+    $("#tb").empty();
 	var header_tr = $('<tr id="tr_header" class="header-tr head-tr-bg"></tr>')
     header_tr.appendTo($("#tb"));
     var td = $("<td>项目</td>");
@@ -75,7 +76,7 @@ function loadData(data) {
                 td.appendTo(tr_child);
                 var td = $("<td>"+child.costType+"</td>");
                 td.appendTo(tr_child);
-                var td = $("<td class='td-amount'>"+child.amount+"</td>");
+                var td = $("<td class='td-amount'>"+parseFloat(child.amount).toFixed(2)+"</td>");
                 td.appendTo(tr_child);
                 var td = $("<td>"+child.remark+"</td>");
                 td.appendTo(tr_child);
@@ -84,7 +85,7 @@ function loadData(data) {
             tr.appendTo($("#tb"));
             var td = $("<td colspan='3'>合计:</td>");
             td.appendTo(tr);
-            var td = $("<td class='td-amount'>"+item.total+"</td>");
+            var td = $("<td class='td-amount'>"+parseFloat(child.total).toFixed(2)+"</td>");
             td.appendTo(tr);
             var td = $("<td></td>");
             td.appendTo(tr);
@@ -94,7 +95,7 @@ function loadData(data) {
             tr.appendTo($("#tb"));
             var td = $("<td colspan='3'>"+item.dictType+"</td>");
             td.appendTo(tr);
-            var td = $("<td class='td-amount'>"+item.total+"</td>");
+            var td = $("<td class='td-amount'>"+parseFloat(child.total).toFixed(2)+"</td>");
             td.appendTo(tr);
             var td = $("<td></td>");
             td.appendTo(tr);

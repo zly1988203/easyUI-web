@@ -18,7 +18,7 @@
 	.tb-class {
 		width:60%;
 		min-width:60%;
-		<%--border: 1px solid #ccc;--%>
+		border: 1px solid;
 	}
 	.tb-class td {
 	<%--border: 1px solid #ccc;--%>
@@ -79,7 +79,7 @@
 			</div>
 		</form>
 		<div class="ub uw umar-t8 ub-f1">
-			<table id="tb" class="tb-class">
+			<table id="tb">
 
 			</table>
 		</div>
