@@ -565,22 +565,26 @@ function hotgoods() {
     var param = {
         branchId : branchId
     }
-    $_jxc.ajax({
-        url:contextPath+'/pos/group/key/goods/top/list',
-        data:param,
-    },function(result){
-        if(result.code == 0){
-            if(result.data.list.length > 0){
-                $.each(result.data.list,function (index,item) {
-                    item.shortName = item.skuName;
-                    item.sortNo = (index+1);
-                })
-            }
-            $("#goodsgrid").datagrid("loadData",result.list);
-        }else{
-            $_jxc.alert(result['message']);
-        }
-    })
+    $("#goodsgrid").datagrid("options").method = "post";
+    $("#goodsgrid").datagrid('options').url = contextPath +'/pos/group/key/goods//list';
+    $("#goodsgrid").datagrid('load', param);
+
+    // $_jxc.ajax({
+    //     url:contextPath+'/pos/group/key/goods/top/list',
+    //     data:param,
+    // },function(result){
+    //     if(result.code == 0){
+    //         if(result.data.list.length > 0){
+    //             $.each(result.data.list,function (index,item) {
+    //                 item.shortName = item.skuName;
+    //                 item.sortNo = (index+1);
+    //             })
+    //         }
+    //         $("#goodsgrid").datagrid("loadData",result.list);
+    //     }else{
+    //         $_jxc.alert(result['message']);
+    //     }
+    // })
 }
 
 
