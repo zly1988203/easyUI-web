@@ -82,7 +82,7 @@ function exportData(){
     publicExprotService(param,function (data) {
         $("#startCount").val(data.startCount);
         $("#endCount").val(data.endCount);
-        $("#queryForm").attr("action",contextPath+"/goodsSale/report/exportList");
+        $("#queryForm").attr("action",contextPath+"/pos/prize/record/exports");
         $("#queryForm").submit();
     });
 }

@@ -22,19 +22,25 @@
 
 		<div class="ub umar-20">
 		<div class="umar-r10  ut-r">
+			<label>
 			<input type="radio" name="chose" value="0" />导出当前页
+			</label>
 		</div>
 		</div>
 
 		<div class="ub umar-20">
 			<div class="umar-r10  ut-r">
-			<input type="radio" name="chose" value="1" />全部页面（本次最大可导出条数为20000条）
+			<label>
+					<input type="radio" name="chose" value="1" />全部页面（本次最大可导出条数为20000条）
+			</label>
 			</div>
 		</div>
 
 		<div class="ub umar-20">
 			<div class="ub ub-ac">
-				<input type="radio" name="chose" value="2" />自定义页面（手动填写条数，最大20000条）
+			<label>
+						<input type="radio" name="chose" value="2" />自定义页面（手动填写条数，最大20000条）
+			</label>
 				<span class="umar-t4">当前搜索结果共<span
 							id="totalRows"></span>条</span>
 			</div>
