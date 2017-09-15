@@ -69,7 +69,8 @@
                 <div class="ub ub-ac umar-r36" id="supplierSelect">
                     <div class="umar-r10 uw-60 ut-r">供应商:</div>
                     <input class="uinp" name="supplierId" id="supplierId" type="hidden" value="${form.supplierId}">
-                    <input class="uinp" readonly="readonly" id="supplierName" type="text" value="${form.supplierName}">
+                    <input class="uinp" readonly="readonly" id="supplierName" type="text" value="${form.supplierName}"
+                           <c:if test="${form.id != null}">disabled</c:if>>
                     <div class="uinp-more">...</div>
                 </div>
 
