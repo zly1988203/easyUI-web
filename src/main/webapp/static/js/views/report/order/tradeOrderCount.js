@@ -152,8 +152,8 @@ function initDatagridRequireOrders(){
 
 //查询要货单
 function queryForm(){
-	$("#startCount").attr("value",null);
-	$("#endCount").attr("value",null);
+    $("#startCount").val('');
+    $("#endCount").val('');
 	var fromObjStr = $('#queryForm').serializeObject();
     if( fromObjStr.startTime==="" || fromObjStr.endTime ===""){
         $_jxc.alert("请选择查询时间段");

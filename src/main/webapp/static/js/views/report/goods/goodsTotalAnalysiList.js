@@ -518,8 +518,8 @@ function purchaseTotalCx(){
 			return ;
 		}
 	}*/
-	$("#startCount").prop("value",null);
-	$("#endCount").prop("value",null);
+    $("#startCount").val('');
+    $("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	$("#goodsTotalAnalysi").datagrid("options").url = "";
 	$('#goodsTotalAnalysi').datagrid({showFooter:true});

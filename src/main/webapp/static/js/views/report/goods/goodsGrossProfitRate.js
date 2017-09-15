@@ -109,8 +109,8 @@ function query(){
 		$_jxc.alert('日期不能为空');
 		return ;
 	}
-	$("#startCount").attr("value",null);
-	$("#endCount").attr("value",null);
+    $("#startCount").val('');
+    $("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	$("#"+gridName).datagrid("options").queryParams = formData;
 	$("#"+gridName).datagrid("options").method = "post";

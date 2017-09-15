@@ -32,7 +32,8 @@
 	           	<!-- 引入时间选择控件 -->
 	           <div class="ub ub-ac umar-l20">
 	           		<div class="umar-r10 uw-70 ut-r">时间:</div>
-	              	<input class="Wdate"  readonly="readonly" name="rptDate" id="rptDate" onclick="selectMonth()"  />
+	              	<input class="Wdate"  readonly="readonly" name="rptDate" id="rptDate"
+					onclick="WdatePicker({ dateFmt:'yyyy-MM', maxDate:'%y-%M',isShowToday: false,});"  />
 	            </div>
             </div>
 	        <div class="ub uline umar-t8"></div>

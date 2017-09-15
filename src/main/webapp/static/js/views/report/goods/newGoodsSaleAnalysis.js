@@ -140,8 +140,8 @@ function purchaseTotalCx(){
 		$_jxc.alert('日期不能为空');
 		return ;
 	}
-	$("#startCount").attr("value",null);
-	$("#endCount").attr("value",null);
+    $("#startCount").val('');
+    $("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	$("#"+datagridName).datagrid("options").url = "";
 	$("#"+datagridName).datagrid({showFooter:true});

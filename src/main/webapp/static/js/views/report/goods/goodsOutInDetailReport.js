@@ -251,8 +251,8 @@ function initDatagridRequire(){
 }
 //查询入库单
 function queryForm(){
-	$("#startCount").attr("value",null);
-	$("#endCount").attr("value",null);
+    $("#startCount").val('');
+    $("#endCount").val('');
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#goodsOutInDetail").datagrid("options").method = "post";
 	$("#goodsOutInDetail").datagrid('options').url = contextPath + '/goods/goodsDetail/getGoodsOutInDetailList';
