@@ -1,5 +1,6 @@
 package com.okdeer.jxc.controller.report.stock;  
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,9 @@ public class StockAdjustReportController extends BaseReportController<StockAdjus
 
 	@Override
 	protected StockAdjustReportQo getQueryObject(StockAdjustReportQo qo) {
+		if(StringUtils.isEmpty(qo.getBranchCompleCode())){
+			qo.setBranchCompleCode(getCurrBranchCompleCode());
+		}
 		return qo;
 	}
 
