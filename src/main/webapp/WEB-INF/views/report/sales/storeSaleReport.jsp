@@ -30,9 +30,7 @@
 	             <!-- 引入时间选择控件 -->
 	           <div class="ub ub-ac umar-l40">
 				<div class="umar-r10 uw-60 ut-r">时间:</div>
-				<input id="beginTime" name="beginTime" class="Wdate easyui-validatebox"
-				data-options="required:true" type="text"
-				onFocus="WdatePicker({dateFmt:'yyyy',maxDate:'%y'})" />
+				<input id="beginTime" name="beginTime" class="Wdate" onfocus="updateWdatePicker()" type="text"/>
 	           </div>
             </div>
 	        <div class="ub uline umar-t8"></div>

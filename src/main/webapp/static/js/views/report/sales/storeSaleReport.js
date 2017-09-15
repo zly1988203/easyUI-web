@@ -5,6 +5,7 @@
  * 门店销售汇总分析报表
  */
 $(function() {
+    $("#beginTime").val(dateUtil.getCurrentDate().format("yyyy"));
     initDatagridStoreSale();
     // 单据状态切换
     changeStatus();
@@ -21,8 +22,29 @@ $(function() {
 var reportType = "1";
 function changeStatus() {
     $(".radioItem").change(function() {
+        if($(this).val() == "1"){
+            $("#beginTime").val(dateUtil.getCurrentDate().format("yyyy"));
+        }else{
+            $("#beginTime").val(dateUtil.getCurrentDate().format("yyyy-MM"));
+        }
         initDatagridStoreSale();
     });
+}
+
+function updateWdatePicker(){
+    var type = $("input[type='radio'][name='reportType']:checked").val();
+    if(type=="1"){
+        WdatePicker({
+            dateFmt:'yyyy',
+            maxDate:'%y',
+        })
+    }else{
+        WdatePicker({
+            dateFmt:'yyyy-MM',
+            maxDate:'%y-%M',
+        })
+    }
+
 }
 
 var gridHandel = new GridClass();
