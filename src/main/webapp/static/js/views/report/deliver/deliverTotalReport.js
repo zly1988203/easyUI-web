@@ -582,8 +582,8 @@ function exportExcel(){
 
 //查询
 function query(){
-	$("#startCount").attr("value",null);
-	$("#endCount").attr("value",null);
+    $("#startCount").val('');
+    $("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	
 	var queryType = $("input[name='queryType']:checked").val();

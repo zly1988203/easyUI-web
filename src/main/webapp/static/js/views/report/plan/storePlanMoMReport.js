@@ -238,9 +238,9 @@ function queryForm(){
 	 if($("#branchName").val()==""){
 	    $_jxc.alert("请选择店铺名称");
 	    return;
-	 } 
-    $("#startCount").attr("value",null);
-	$("#endCount").attr("value",null);
+	 }
+    $("#startCount").val('');
+    $("#endCount").val('');
 	var fromObjStr = $('#queryForm').serializeObject();
 	
 	$("#"+datagridId).datagrid("options").method = "post";

@@ -137,8 +137,8 @@ function initDatagridGoodsUnsale(){
 
 
 function queryForm(){
-	$("#startCount").attr("value",null);
-	$("#endCount").attr("value",null);
+    $("#startCount").val('');
+    $("#endCount").val('');
 	$("#goodsUnsale").datagrid("options").queryParams = $("#queryForm").serializeObject();
 	$("#goodsUnsale").datagrid("options").method = "post";
 	$("#goodsUnsale").datagrid("options").url = contextPath+'/report/goodsUnsale/getGoodsUnsaleReportList';
