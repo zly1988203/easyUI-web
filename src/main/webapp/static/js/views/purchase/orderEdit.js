@@ -767,7 +767,7 @@ function saveDataHandel(rows){
     
     var req = JSON.stringify(reqObj);
 
-    $_jxc.ajax({
+    /*$_jxc.ajax({
         url:contextPath+"/form/purchase/updateOrder",
         contentType:'application/json',
         data:req
@@ -782,6 +782,54 @@ function saveDataHandel(rows){
         		"title":"保存失败",
         		"error":result['message']
         	});
+        }
+    });*/
+
+    $_jxc.ajax({
+        url: contextPath + "/form/purchase/valid/activity/price",
+        contentType: 'application/json',
+        data: req
+    }, function (data) {
+        if (data.code == 0) {
+            $_jxc.ajax({
+                url: contextPath + "/form/purchase/updateOrder",
+                contentType: 'application/json',
+                data: req
+            }, function (result) {
+                gFunEndLoading();
+                if (result['code'] == 0) {
+                    $_jxc.alert("操作成功！", function () {
+                        location.href = contextPath + "/form/purchase/orderEdit?formId=" + id;
+                    });
+                } else {
+                    new publicErrorDialog({
+                        "title": "保存失败",
+                        "error": result['message']
+                    });
+                }
+            });
+        } else {
+            $_jxc.confirm(data.message, function (data) {
+                if (data) {
+                    $_jxc.ajax({
+                        url: contextPath + "/form/purchase/saveOrder",
+                        contentType: 'application/json',
+                        data: req
+                    }, function (result) {
+                        gFunEndLoading();
+                        if (result['code'] == 0) {
+                            $_jxc.alert("操作成功！", function () {
+                                location.href = contextPath + "/form/purchase/orderEdit?formId=" + id;
+                            });
+                        } else {
+                            new publicErrorDialog({
+                                "title": "保存失败",
+                                "error": result['message']
+                            });
+                        }
+                    });
+                }
+            });
         }
     });
 }
@@ -829,27 +877,61 @@ function check(){
 }
 
 //审核采购单
-function checkOrder(){
-	 var id = $("#formId").val();
-	 $_jxc.ajax({
-         url:contextPath+"/form/purchase/check",
-         data:{
-             formId:id,
-             status:1
-         }
-     },function(result){
-         
-         if(result['code'] == 0){
-             $_jxc.alert("操作成功！",function(){
-                 location.href = contextPath +"/form/purchase/orderEdit?formId=" + id;
-             });
-         }else{
-         	new publicErrorDialog({
-        		"title":"审核失败",
-        		"error":result['message']
-        	});
-         }
-     });
+function checkOrder() {
+    var id = $("#formId").val();
+    $_jxc.ajax({
+        url: contextPath + "/form/purchase/valid/check",
+        data: {
+            formId: id
+        }
+    }, function (data) {
+        if (data.code == 0) {
+            $_jxc.ajax({
+                url: contextPath + "/form/purchase/check",
+                data: {
+                    formId: id,
+                    status: 1
+                }
+            }, function (result) {
+
+                if (result['code'] == 0) {
+                    $_jxc.alert("操作成功！", function () {
+                        location.href = contextPath + "/form/purchase/orderEdit?formId=" + id;
+                    });
+                } else {
+                    new publicErrorDialog({
+                        "title": "审核失败",
+                        "error": result['message']
+                    });
+                }
+            });
+        } else {
+            $_jxc.confirm(data.message, function (data) {
+                if (data) {
+                    $_jxc.ajax({
+                        url: contextPath + "/form/purchase/check",
+                        data: {
+                            formId: id,
+                            status: 1
+                        }
+                    }, function (result) {
+
+                        if (result['code'] == 0) {
+                            $_jxc.alert("操作成功！", function () {
+                                location.href = contextPath + "/form/purchase/orderEdit?formId=" + id;
+                            });
+                        } else {
+                            new publicErrorDialog({
+                                "title": "审核失败",
+                                "error": result['message']
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+    });
 }
 
 function orderDelete(){
