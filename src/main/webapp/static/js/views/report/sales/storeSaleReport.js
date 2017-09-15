@@ -32,7 +32,6 @@ var gridStoreSale = null;
 function initDatagridStoreSale(){
     reportType = $('input[type="radio"][name="reportType"]:checked').val();
     var defaultColumns;
-
     switch (reportType) {
         case '1':
             defaultColumns = eval("(" + JSON.parse($("#columnsArr").val()).columns1 + ")");
@@ -45,10 +44,10 @@ function initDatagridStoreSale(){
     }
 
     if(gridStoreSale){
-        $("#"+datagridId).datagrid('options').url = '';
+        $("#"+datagridID).datagrid('options').url = '';
     }
     gridHandel.setGridName(datagridID);
-    gridStoreSale = $("#"+datagridId).datagrid({
+    gridStoreSale = $("#"+datagridID).datagrid({
         method:'post',
         align:'center',
         singleSelect:false,  //单选  false多选
@@ -64,8 +63,8 @@ function initDatagridStoreSale(){
             gridHandel.setDatagridHeader("center");
         }
     });
-    $("#"+datagridId).datagrid('loadData',[]);
-    $("#"+datagridId).datagrid('reloadFooter',[]);
+    $("#"+datagridID).datagrid('loadData',[]);
+    $("#"+datagridID).datagrid('reloadFooter',[]);
 }
 
 // 查询
@@ -76,7 +75,7 @@ function queryForm() {
     fromObjStr.createUserName = "";
 
     $("#"+datagridID).datagrid("options").method = "post";
-    $("#"+datagridID).datagrid('options').url = contextPath + '/stock/leadSearch/getList';
+    $("#"+datagridID).datagrid('options').url = contextPath + '/report/sales/storeSaleReport/list';
     $("#"+datagridID).datagrid('load', fromObjStr);
 }
 
@@ -103,7 +102,7 @@ function exportExcel(){
     $("#exportWin").hide();
     $("#exportWin").window("close");
 
-    $("#queryForm").attr("action",contextPath+"/stock/leadSearch/exportList");
+    $("#queryForm").attr("action",contextPath+"/report/sales/storeSaleReport/exportList");
     $("#queryForm").submit();
 }
 

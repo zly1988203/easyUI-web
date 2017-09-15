@@ -23,6 +23,7 @@ public class StoreSaleSumController extends BaseReportController<StoreSaleReport
 
 	@Override
 	protected Model getModel(Model model) {
+		model.addAttribute("maxReportType", 2);
 		return model;
 	}
 
