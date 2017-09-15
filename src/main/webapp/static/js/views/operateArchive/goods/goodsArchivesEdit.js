@@ -642,9 +642,7 @@ function saveBarCode(){
 	var map = {}; // Map map = new HashMap();
 
 	 var data = $("#dgPrice").datagrid("getRows");
-	 var newData ={
-         barCodelist:[]
-	 } ;
+	 var newData =[] ;
 	 var skuId= $("#id").val();
 	 var skuCode= $("#skuCode").val();
 	 for(var i = 0;i < data.length;i++){
@@ -658,7 +656,7 @@ function saveBarCode(){
 		    		barCode : data[i].barCode,
 		    		skuCode : skuCode
 		    	}
-			newData.barCodelist[i] = temp;
+		 		newData[i] = temp;
 	 }
 	 var reqObj = {
 			 skuId : skuId,
