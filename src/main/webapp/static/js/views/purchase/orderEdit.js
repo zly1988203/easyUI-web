@@ -358,16 +358,18 @@ function initQueryData(){
         url:contextPath+"/form/purchase/detailList?formId="+formId
     },function(result){
         if(result && result.list.length > 0){
-            selectStockAndPrice(result.list);
+            selectStockAndPrice(result.list,function (data) {
+                $("#"+gridName).datagrid("loadData",data);
+            });
         }
     });
 }
 
 //查询周销售量 和 月销量
-function selectStockAndPrice(data){
+function selectStockAndPrice(data,cb){
 
     var GoodsStockVo = {
-        branchId : $("#branchId").val(),
+        branchId: $("#branchId").val(),
         fieldName : 'id',
         branchType :  $("#branchType").val(),
         stockBranchId : $("#branchId").val(),
@@ -385,16 +387,20 @@ function selectStockAndPrice(data){
             goodsStockVo : JSON.stringify(GoodsStockVo)
         }
     },function(result){
-        $.each(data,function(i,val){
-            $.each(result.data,function(j,obj){
-                if(val.skuId==obj.skuId){
-                    data[i].alreadyNum = obj.alreadyNum;
-                    data[i].daySaleNum = obj.daySaleNum;
-                    data[i].monthSaleNum = obj.monthSaleNum;
-                }
+        if(result.code == 0){
+            $.each(data,function(i,val){
+                $.each(result.data,function(j,obj){
+                    if(val.skuId==obj.skuId){
+                        data[i].alreadyNum = obj.alreadyNum;
+                        data[i].daySaleNum = obj.daySaleNum;
+                        data[i].monthSaleNum = obj.monthSaleNum;
+                    }
+                })
             })
-        })
-        $("#"+gridName).datagrid("loadData",data);
+        }else{
+            $_jxc.alert(result.message);
+        }
+        cb(data);
     });
 }
 
@@ -617,28 +623,34 @@ function selectGoods(searchKey){
         	var rec = data[i];
         	rec.remark = "";
         }
-        var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
-        var addDefaultData  = gridHandel.addDefault(data,gridDefault);
-        var keyNames = {
-            id:'skuId',
-            disabled:'',
-            pricingType:'',
-            largeNum:'tmpLargeNum',
-            inputTax:'tax'
-        };
-        var rows = gFunUpdateKey(addDefaultData,keyNames);
-        var argWhere ={skuCode:1};  //验证重复性
-        var isCheck ={isGift:1 };   //只要是赠品就可以重复
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
-        $("#gridEditOrder").datagrid("loadData",newRows);
-        //gridHandel.setLoadFocus();
-        setTimeout(function(){
-            gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
-            gridHandel.setSelectFieldName("largeNum");
-            gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
-        },100)
+
+        selectStockAndPrice(data,cbStockAndPrice);
         
     });
+}
+
+function cbStockAndPrice(data) {
+    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+    var addDefaultData  = gridHandel.addDefault(data,gridDefault);
+    var keyNames = {
+        id:'skuId',
+        disabled:'',
+        pricingType:'',
+        largeNum:'tmpLargeNum',
+        inputTax:'tax'
+    };
+    var rows = gFunUpdateKey(addDefaultData,keyNames);
+    var argWhere ={skuCode:1};  //验证重复性
+    var isCheck ={isGift:1 };   //只要是赠品就可以重复
+    var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
+
+    $("#gridEditOrder").datagrid("loadData",newRows);
+
+    setTimeout(function(){
+        gridHandel.setBeginRow(gridHandel.getSelectRowIndex()||0);
+        gridHandel.setSelectFieldName("largeNum");
+        gridHandel.setFieldFocus(gridHandel.getFieldTarget('largeNum'));
+    },100)
 }
 
 //保存
@@ -1013,8 +1025,10 @@ function toImportproduct(type){
     new publicUploadFileService(function(data){
         
         if(data instanceof Array && data.length > 0){
-        	data = selectStockAndPrice(data);
-            updateListData(data);
+        	selectStockAndPrice(data,function (data) {
+                updateListData(data);
+            });
+
     	}
         
     },param)
