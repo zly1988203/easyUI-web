@@ -37,7 +37,7 @@
 				<%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
 			</div>
 			<div class="ub uline umar-t8"></div>
-			<input type="hidden" id="deliverType" name="deliverType" value="DR"/>
+			<input type="hidden" id="deliverType" name="deliverType" value="DO"/>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac" id="sourceBranch">
 					<div class="umar-r10 uw-70 ut-r">退货机构:</div>
@@ -83,12 +83,17 @@
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-							<input  type="radio" name="deliverStatus" value="1" onclick="queryForm()"/><span>部分发货</span>
+							<input  type="radio" name="deliverStatus" value="1" onclick="queryForm()"/><span>部分收货</span>
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-							<input type="radio" name="deliverStatus" value="2" onclick="queryForm()"/><span>全部发货</span>
+							<input type="radio" name="deliverStatus" value="2" onclick="queryForm()"/><span>全部收货</span>
+						</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<label>
+							<input type="radio" name="deliverStatus" value="3" onclick="queryForm()"/><span>已拒收</span>
 						</label>
 					</div>
 				</div>

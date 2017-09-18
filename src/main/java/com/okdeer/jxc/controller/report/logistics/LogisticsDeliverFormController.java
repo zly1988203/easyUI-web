@@ -139,7 +139,7 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 			model.addAttribute("salesman", branches.getSalesman() == null ? "" : branches.getSalesman());
 			model.addAttribute("close", report);
 			return "logistics/DaView";
-		} else if (FormType.DR.toString().equals(form.getFormType())) {
+		} else if (FormType.DO.toString().equals(form.getFormType())) {
 			model.addAttribute("close", report);
 			return "logistics/DrView";
 		} else {
@@ -182,7 +182,7 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 				vo.setSourceBranchId(null);
 			}
 
-			if ("DR".equals(vo.getDeliverType())){
+			if ("DO".equals(vo.getDeliverType())){
 				if (StringUtils.isEmpty(vo.getTargetBranchId())) {
 					vo.setTargetBranchCompleteCode(UserUtil.getCurrBranchCompleCode());
 				} else {
@@ -234,7 +234,7 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 				templateName = ExportExcelConstant.DELIVER_FORMS;
 			}
 
-			if ("DR".equals(vo.getDeliverType())){
+			if ("DO".equals(vo.getDeliverType())){
 				if (StringUtils.isEmpty(vo.getTargetBranchId())) {
 					vo.setTargetBranchCompleteCode(UserUtil.getCurrBranchCompleCode());
 				} else {
