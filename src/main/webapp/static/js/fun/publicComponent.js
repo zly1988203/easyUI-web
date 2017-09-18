@@ -2869,3 +2869,27 @@ function publicGiftGoodsService(param,callback) {
 }
 
 /*--------------------------------------------------------------------*/
+
+/*------------------------------设置--------------------------------------*/
+function publicColumnSettingService(param,callback) {
+    var columnSetting = $('<div id="columnSetting"/>').dialog({
+        href: contextPath + "/component/dialog/columnSetting",
+        width:550,
+        height:600,
+        title:"列设置",
+        closable:true,
+        resizable:true,
+        onClose: function(){
+            $(this).dialog('destroy');
+            columnSetting = null;
+        },
+        modal: true,
+        onLoad: function () {
+            initColumnSetting(param);
+            initColumnCallback(callback)
+
+        },
+    });
+}
+
+/*--------------------------------------------------------------------*/

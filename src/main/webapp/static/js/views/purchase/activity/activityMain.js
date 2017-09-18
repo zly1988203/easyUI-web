@@ -199,8 +199,14 @@ function updateFooter(){
 
 function selectGoods(searchKey) {
     var branchId = $("#branchId").val();
-    if(!branchId){
+    if($_jxc.isStringNull(branchId)){
         $_jxc.alert("请先选择机构");
+        return;
+    }
+
+    var supplierId = $("#supplierId").val();
+    if($_jxc.isStringNull(supplierId)){
+        $_jxc.alert("请先选择供应商");
         return;
     }
 
@@ -230,7 +236,9 @@ function selectGoods(searchKey) {
         var isCheck ={isGift:1 };   //只要是赠品就可以重复
         var newRows = gridActHandel.checkDatagrid(nowRows,addDefaultData,argWhere,isCheck);
         $.each(newRows,function (index,item) {
-            item.oldPurPrice = item.purchasePrice;
+            if(typeof(item.purchasePrice) != 'undefined'){
+                item.oldPurPrice = item.purchasePrice;
+            }
         })
 
         $("#"+gridCostId).datagrid("loadData",newRows);
