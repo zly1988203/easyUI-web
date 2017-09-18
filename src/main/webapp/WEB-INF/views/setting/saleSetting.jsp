@@ -220,10 +220,10 @@
 					success : function(result) {
 						if (result != null) {
 							$("#receiptMobile").val(result.receiptMobile);
-							if(result.isSelfpayAllowMinusStock == 0){
-								$("#isSelfpayAllowMinusStock0").prop("checked","checked");
+							if(result.isSelfpayAllowMinusStock == 1){
+								$("#isSelfpayAllowMinusStock1").prop("checked","checked");								
 							}else{
-								$("#isSelfpayAllowMinusStock1").prop("checked","checked");
+								$("#isSelfpayAllowMinusStock0").prop("checked","checked");
 							}
 						}
 					},
