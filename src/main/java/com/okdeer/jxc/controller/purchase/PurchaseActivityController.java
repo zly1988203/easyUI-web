@@ -9,7 +9,9 @@
 package com.okdeer.jxc.controller.purchase;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.AuditStatusEnum;
@@ -260,7 +262,7 @@ public class PurchaseActivityController extends BaseController<PurchaseActivityC
 
     @RequestMapping(value = "importList")
     @ResponseBody
-    public RespJson importList(@RequestParam("file") MultipartFile file, String type, String branchIds, String branchName) {
+    public RespJson importList(@RequestParam("file") MultipartFile file, String type, String branchIds, String branchName, String supplierId) {
         RespJson respJson = RespJson.success();
         try {
             if (file.isEmpty()) {
@@ -289,29 +291,34 @@ public class PurchaseActivityController extends BaseController<PurchaseActivityC
                 return RespJson.argumentError("导入类型错误！");
             }
 
-            String branchId;
+            List<String> branchIdList = Lists.newArrayList();
 
             if (branchIds.contains(",") && branchIds.contains("所有")) {
                 String[] branches = StringUtils.splitByWholeSeparatorPreserveAllTokens(branchIds, ",");
                 String[] branchNames = StringUtils.splitByWholeSeparatorPreserveAllTokens(branchName, ",");
-                int index = 0;
                 for (int i = 0, length = branchNames.length; i < length; ++i) {
                     if (StringUtils.endsWith(branchNames[i], "所有")) {
-                        index = i;
-                        break;
+                        List<Branches> queryBranchIds = branchesService.queryChildById(branches[i]);
+                        for (Branches branches1 : queryBranchIds) {
+                            branchIdList.add(branches1.getBranchesId());
+                        }
+                    } else {
+                        branchIdList.add(branches[i]);
                     }
                 }
-                branchId = branches[index];
+                //branchId = branches[index];
             } else if (branchIds.contains(",")) {
-                String storeId = branchIds.substring(0, branchIds.indexOf(","));
-                branchId = branchesService.getBranchInfoById(storeId).getParentId();
+                String[] branches = StringUtils.splitByWholeSeparatorPreserveAllTokens(branchIds, ",");
+                for (String id : branches) {
+                    branchIdList.add(id);
+                }
             } else {
-                branchId = branchIds;
+                branchIdList.add(branchIds);
             }
 
 
-            GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importSelectGoods(fileName, is, field,
-                    new ActivityGoodsImportVo(), branchId, user.getId(), type, "/purchase/activity/downloadErrorFile",
+            GoodsSelectImportVo<GoodsSelect> vo = goodsSelectImportComponent.importGoods(fileName, is, field,
+                    new ActivityGoodsImportVo(), branchIdList, user.getId(), type, "/purchase/activity/downloadErrorFile",
                     new GoodsSelectImportBusinessValid() {
 
                         @Override
@@ -347,7 +354,7 @@ public class PurchaseActivityController extends BaseController<PurchaseActivityC
                         public void errorDataFormatter(List<JSONObject> list) {
 
                         }
-                    }, null);
+                    }, supplierId);
             vo.setErrorFileUrl(vo.getErrorFileUrl());
             respJson.put("importInfo", vo);
 
