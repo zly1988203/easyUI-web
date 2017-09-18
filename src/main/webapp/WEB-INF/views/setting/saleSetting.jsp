@@ -117,6 +117,7 @@
 		//获取值
 		var centComputeType = data.centComputeType;
 		var receivingSetting = data.receivingSetting;
+		var isSelfpayAllowMinusStock = data.isSelfpayAllowMinusStock;
 		$("#branchId").val(data.branchId);
 		//页面赋值
 		if (centComputeType == 0) {
@@ -129,6 +130,12 @@
 			$("#receivingSetting0").attr("checked","true");
 		}else{
 			$("#receivingSetting1").attr("checked","true");
+		}
+		
+		if(isSelfpayAllowMinusStock == 1){
+			$("#isSelfpayAllowMinusStock1").attr("checked","true");
+		}else{
+			$("#isSelfpayAllowMinusStock0").attr("checked","true");
 		}
 		indexTab = 0;
 	}
