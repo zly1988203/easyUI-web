@@ -300,11 +300,10 @@ function toImportproduct(type) {
         return;
     }
     var param = {
-        url: contextPath + "/purchase/activity/importList",
+        url: contextPath + "/purchase/activity/importList?branchName='" + $("#branchName").val() + "'&supplierId='" + $("#supplierId").val() + "'",
         tempUrl: contextPath + "/purchase/activity/exportTemp",
         type: type,
-        branchIds: branchId,
-        branchName: $("#branchName").val()
+        branchIds: branchId
     }
     new publicUploadFileService(function (data) {
         //updateListData(data);

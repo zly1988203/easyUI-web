@@ -17,7 +17,7 @@
 	<style>
 	.tb-class {
 		width:60%;
-		min-width:60%;
+		min-width:600px;
 		border: 1px solid;
 	}
 	.tb-class td {
@@ -49,6 +49,8 @@
 	font-size: 16px;
 	font-weight: 600;
 	}
+	
+	.td-sort{text-align: center; }
 	</style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">

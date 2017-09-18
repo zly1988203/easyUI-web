@@ -223,12 +223,17 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 
             for (int i = 0, length = branchNames.length; i < length; ++i) {
                 if (StringUtils.endsWith(branchNames[i], "所有")) {
-                    branchIdList.add(branchIds.get(i));
-                } else {
-                    branchList.add(branchIds.get(i));
+					List<Branches> queryBranchIds = branchesService.queryChildById(branchIds.get(i));
+					for (Branches branches : queryBranchIds) {
+						branchIdList.add(branches.getBranchesId());
+					}
+				} else {
+					branchList.add(branchIds.get(i));
                 }
             }
-            vo.setBranchIdStrs(Joiner.on(",").join(branchList));
+
+
+			vo.setBranchIdStrs(Joiner.on(",").join(branchList));
             vo.setBranchIds(branchIdList);
             suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
 
