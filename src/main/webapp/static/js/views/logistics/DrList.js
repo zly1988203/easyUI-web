@@ -67,7 +67,7 @@ function initDatagridSaleReturnList() {
 				columns : [ [
 						{field:'check',checkbox:true},
 			            {field:'formNo',title:'单据编号',width:'140px',align:'left',formatter:function(value,row,index){
-			            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'物流配送点退货单明细\',\''+ contextPath +'/LogisticsDeliverForm/deliverList?deliverFormId='+ row.deliverFormId +'&deliverType=DR\')">' + value + '</a>';
+			            		var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'物流配送点退货单明细\',\''+ contextPath +'/LogisticsDeliverForm/deliverList?deliverFormId='+ row.deliverFormId +'&deliverType=DO\')">' + value + '</a>';
 			            		return strHtml;
 			            }},
 						{field: 'status',title: '审核状态', width: '100px', align: 'center'},
@@ -75,10 +75,10 @@ function initDatagridSaleReturnList() {
 						{field: 'downloadNum', title: '导出次数', width: '60px', align: 'center'},
 						{field: 'sourceBranchName', title: '退货机构', width: '200px', align: 'left'},
 						{field: 'targetBranchName', title: '收货机构', width: '200px', align: 'left'},
-						{field: 'referenceNo', title: '出货单号', width: '140px', align: 'left',
+						{field: 'referenceNo', title: '退货申请单号', width: '140px', align: 'left',
 							formatter:function(value,row,index){
 								if(value){
-									var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'出库单明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&deliverType=DO\')">' + value + '</a>';
+									var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'退货申请明细\',\''+ contextPath +'/form/deliverForm/deliverEdit?deliverFormId='+ row.referenceId +'&deliverType=DR\')">' + value + '</a>';
 									return strHtml;
 								}else{
 									return value;
@@ -197,5 +197,5 @@ function exportDataList(){
 		idsTemp.push(rows[i].deliverFormId);
 	}
 	var ids = idsTemp.join(',');
-	window.location.href=contextPath+'/LogisticsDeliverForm/exportList?deliverFormId='+ids + '&deliverType=DR';
+	window.location.href=contextPath+'/LogisticsDeliverForm/exportList?deliverFormId='+ids + '&deliverType=DO';
 }
