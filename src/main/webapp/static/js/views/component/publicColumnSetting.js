@@ -7,28 +7,8 @@ $(function(){
 //    initColumnSetting();
 });
 
-function initColumnSetting(){
-    var  dalogTemp = $('#coldialog').dialog({
-//    	href:"publicColumnSetting.jsp",
-        width:500,
-        height:580,
-        title:"设置列",
-        closable:true,
-        resizable:true,
-        closed: true,
-        onClose:function(){
-        	$(dalogTemp).panel('destroy');
-        },
-        modal:true,
-        onLoad:function(){
-        	initDatagridColumnSetting();
-        	initColumnCallback(callBackHandel)
-        },
-    });
-    function callBackHandel(data){
-        callback(data);
-        $(dalogTemp).panel('destroy');
-    }
+function initColumnSetting(param) {
+    
 }
 
 var columnCallback;
@@ -44,15 +24,15 @@ function colClickRow(rowIndex, rowData){
 }
 
 //初始化表格
+var gridColSetting = new GridClass();
 function initDatagridColumnSetting(){
+    gridColSetting.setGridName("gridColumn");
     $("#gridColumn").datagrid({
         //title:'普通表单-用键盘操作',
 //        method:'get',
         align:'center',
-//        url:'component.json',
-        //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect:false,  //单选  false多选
-//        rownumbers:true,    //序号
+        singleSelect:true,  //单选  false多选
+        rownumbers:true,    //序号
 //        pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
@@ -71,12 +51,19 @@ function initDatagridColumnSetting(){
              {field:'zdywb',title:'自定义文本',width:100,align:'center'},
              {field:'kd',title:'宽度',width:100,align:'center'},
         ]],
-//        onClickRow:colClickRow,
-    });
-    
-    var jsonArr = '{"total":28,"rows":[{ "hh":"2016727154924","mrwb":"略","zdywb":"略","kd":"略"},{"hh":"2016727154924","mrwb":"略","zdywb":"略","kd":"略"}]}'
+        onLoadSuccess : function() {
+            gridActHandel.setDatagridHeader("center");
+        }
 
-    var data = $.parseJSON(jsonArr);  
-    
-    $('#gridColumn').datagrid('loadData', data); //将数据绑定到datagrid   
+    });
+
+}
+
+function saveSetting() {
+    $("#gridColumn").datagrid("endEdit",gridColSetting.getSelectRowIndex());
+    var rows = gridColSetting.getRows();
+}
+
+function toCancel() {
+    $('#columnSetting').panel('destroy');
 }
