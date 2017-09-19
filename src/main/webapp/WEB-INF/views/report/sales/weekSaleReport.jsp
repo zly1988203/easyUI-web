@@ -101,7 +101,7 @@
 								<option value="3">一级类别</option>
 								<option value="4">二级类别</option>
 								<option value="5">三级类别</option>
-								<option value="5">四级类别</option>
+								<option value="6">四级类别</option>
 							</select>
 						</div>
 					</div>
