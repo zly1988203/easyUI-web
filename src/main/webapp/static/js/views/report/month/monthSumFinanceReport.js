@@ -73,7 +73,7 @@ function initDatagridYueJXC(){
 			/* if($("#createBranchId").val()&&data.total<=0)
 				$_jxc.alert("该机构可能未月结,请先月结!"); */
 		}
-	});
+	}).datagrid("columnMoving");
     $("#"+datagridId).datagrid('loadData',[]);
     $("#"+datagridId).datagrid('reloadFooter',[]);
 }

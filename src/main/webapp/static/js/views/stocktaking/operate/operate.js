@@ -663,13 +663,7 @@ function exportData(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	var fromObjStr = $('#operateForm').serializeObject();
-	
-	$("#operateForm").form({
-		success : function(data){
-			$_jxc.alert(data.message);
-		}
-	});
-	$("#operateForm").attr("action",contextPath+"/stocktaking/operate/exportPPDetailList?"+fromObjStr);
+
+	$("#operateForm").attr("action",contextPath+"/stocktaking/operate/exportPPDetailList");
 	$("#operateForm").submit();
 }

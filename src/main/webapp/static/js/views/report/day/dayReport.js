@@ -355,9 +355,7 @@ function exportExcel(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-
 	$("#queryForm").attr("action",contextPath+"/report/day/exportList");
-	
 	$("#queryForm").submit();
 }
 /**

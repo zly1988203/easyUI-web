@@ -135,19 +135,8 @@
 				$_jxc.alert("没有数据");
 				return;
 			}
-			var fromObjStr = $('#queryForm').serializeObject();
-			console.log(fromObjStr);
-			$("#queryForm").form({
-				success : function(data) {
-					if (data == null) {
-						$_jxc.alert("导出数据成功！");
-					} else {
-						$_jxc.alert(JSON.parse(data).message);
-					}
-				}
-			});
 			$("#queryForm").attr("action",
-					contextPath + "/report/day/export?" + fromObjStr);
+					contextPath + "/report/day/export");
 
 			$("#queryForm").submit();
 		}
