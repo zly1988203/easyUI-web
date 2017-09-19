@@ -347,7 +347,7 @@ function initDatagridRequireOrder(){
             {field:'salePrice',title:'零售价',width:'80px',align:'right',
             	formatter : function(value, row, index) {
             		if(row.isFooter){
-            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            			return ;
             		}
             		
             		if(!row.salePrice){
@@ -493,7 +493,6 @@ function initDatagridRequireOrder(){
         distributionPrice:["price","amount","taxAmount"],
     }
     priceGrantUtil.grantPrice(gridName,param);
-
 }
 
 
@@ -868,6 +867,12 @@ function saveOrder(){
             return false;
         }
 
+        if(v['isGift']=="0" &&  v["price"]<=0){
+            $_jxc.alert("第"+(i+1)+"行，商品单价必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+
         v["rowNo"] = i+1;
     });
     if(!isCheckResult){
@@ -1031,6 +1036,22 @@ function updateOrder(){
             isCheckResult = false;
             return false;
         }
+
+        var _realNum = parseFloat(v["largeNum"] * v["distributionSpec"]).toFixed(2);
+        var _largeNum = parseFloat(v["applyNum"] / v["distributionSpec"]).toFixed(2);
+        if (parseFloat(_realNum).toFixed(2) != parseFloat(v["applyNum"]).toFixed(2)
+            && parseFloat(_largeNum).toFixed(2) != parseFloat(v["largeNum"]).toFixed(2)) {
+            $_jxc.alert("第" + (i + 1) + "行，箱数和数量的数据异常，请调整");
+            isCheckResult = false;
+            return false;
+        }
+
+        if(v['isGift']=="0" &&  v["price"]<=0){
+            $_jxc.alert("第"+(i+1)+"行，商品单价必须大于0");
+            isCheckResult = false;
+            return false;
+        }
+
         v["rowNo"] = i+1;
     });
     if(!isCheckResult){
