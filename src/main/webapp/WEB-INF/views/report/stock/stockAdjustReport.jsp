@@ -67,7 +67,7 @@
 			<div class="ub umar-t8">
 
 				<div class="ub ub-ac umar-r40" id="categorySelect">
-					<div class="umar-r10 uw-70 ut-r">商品类别:</div>
+					<div class="umar-r10 uw-70 ut-r">商品分类:</div>
 					<input type="hidden" id="categoryCode" name="categoryCode" /> <input
 						class="uinp ub ub-f1" type="text" id="categoryCodeName"
 						name="categoryCodeName" maxlength="50" />
@@ -100,14 +100,14 @@
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label> <input class="radioItem" type="radio" name="reportType"
-							value="3" /><span>类别汇总</span>
+							value="3" /><span>分类汇总</span>
 						</label>
 						<div id="categoryTypeDiv">
 							<select class="easyui-combobox uselect" name="categoryType"
 								data-options="editable:false,onChange:onChangeSelect"
 								id="categoryType">
-								<option value="3">一级类别</option>
-								<option value="4">二级类别</option>
+								<option value="3">一级分类</option>
+								<option value="4">二级分类</option>
 							</select>
 						</div>
 					</div>

@@ -153,10 +153,10 @@ function getColumns(){
         ])
     }
 
-    defaultColumns =defaultColumns.concat([{field: 'firstCategory',title:'一级类别',width:'150px',align:'left'}]);
+    defaultColumns =defaultColumns.concat([{field: 'firstCategory',title:'一级分类',width:'150px',align:'left'}]);
 
     if(accountType == '1' || accountType == '2' || (accountType == '3' && categoryType == '2')){
-        defaultColumns =defaultColumns.concat([{field: 'secondCategory',title:'二级类别',width:'150px',align:'left'}]);
+        defaultColumns =defaultColumns.concat([{field: 'secondCategory',title:'二级分类',width:'150px',align:'left'}]);
     }
 
     defaultColumns =defaultColumns.concat([{field: 'realNum', title: '领用数量', width: '80px', align: 'right',
