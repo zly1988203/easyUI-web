@@ -86,11 +86,7 @@ function exportData(){
 		$_jxc.alert("无数据可导");
 		return;
 	}
-	$("#queryForm").form({
-		success : function(result){
-			
-		}
-	});
+
 	$("#queryForm").attr("action",contextPath+"/report/storeExpendDetail/exportList");
 	$("#queryForm").submit();
 }
