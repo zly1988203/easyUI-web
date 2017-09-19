@@ -24,7 +24,6 @@ function initFinanceDialog(param) {
     nodeCode = param.nodeCode;
     if(nodeCode.startWith("101005")){
     	$("#isFixedLabel").removeClass("none");
-    	debugger;
     	if(param.type === "edit" && param.isFixed === '1'){
     		$('#isFixed').prop('checked', true);
     	}
