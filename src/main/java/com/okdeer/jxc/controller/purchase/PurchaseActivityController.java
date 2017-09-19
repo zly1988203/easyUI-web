@@ -115,6 +115,7 @@ public class PurchaseActivityController extends BaseController<PurchaseActivityC
                 vo.setUpdateUserId(getCurrUserId());
                 vo.setUpdateUserName(getCurrentUser().getUserName());
             }
+            vo.setBranchIds(getCurrBranchId());
             String id = purchaseActivityService.savePurchaseActivityAndDetail(vo, purchaseActivityDetailVos);
             return RespJson.success(new HashMap<String, String>() {
                 {
