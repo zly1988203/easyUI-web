@@ -135,7 +135,6 @@ function queryForm() {
     fromObjStr.branchName = "";
     fromObjStr.createUserName = "";
 
-    debugger;
     $("#"+datagridID).datagrid("options").method = "post";
     $("#"+datagridID).datagrid('options').url = contextPath + '/report/sales/weekSaleReport/list';
     $("#"+datagridID).datagrid('load', fromObjStr);
