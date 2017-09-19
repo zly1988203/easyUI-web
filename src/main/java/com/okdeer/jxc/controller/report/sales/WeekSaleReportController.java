@@ -1,5 +1,6 @@
 package com.okdeer.jxc.controller.report.sales;  
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +24,15 @@ public class WeekSaleReportController extends BaseReportController<WeekSaleRepor
 
 	@Override
 	protected Model getModel(Model model) {
+		model.addAttribute("maxReportType", 4);
 		return model;
 	}
 
 	@Override
 	protected WeekSaleReportQo getQueryObject(WeekSaleReportQo qo) {
+		if(StringUtils.isEmpty(qo.getBranchCompleCode())){
+			qo.setBranchCompleCode(getCurrBranchCompleCode());
+		}
 		return qo;
 	}
 

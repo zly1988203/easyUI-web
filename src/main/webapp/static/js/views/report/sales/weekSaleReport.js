@@ -30,7 +30,7 @@ $(function() {
         }
     });
 
-
+    initDatagridWeekSale();
 
     initWeek();
 
@@ -100,10 +100,10 @@ function initDatagridWeekSale(){
     }
 
     if(gridWeekSale){
-        $("#"+datagridId).datagrid('options').url = '';
+        $("#"+datagridID).datagrid('options').url = '';
     }
     gridHandel.setGridName(datagridID);
-    gridWeekSale = $("#"+datagridId).datagrid({
+    gridWeekSale = $("#"+datagridID).datagrid({
         method:'post',
         align:'center',
         singleSelect:false,  //单选  false多选
@@ -119,8 +119,8 @@ function initDatagridWeekSale(){
             gridHandel.setDatagridHeader("center");
         }
     });
-    $("#"+datagridId).datagrid('loadData',[]);
-    $("#"+datagridId).datagrid('reloadFooter',[]);
+    $("#"+datagridID).datagrid('loadData',[]);
+    $("#"+datagridID).datagrid('reloadFooter',[]);
 }
 
 function onChangeSelect() {
@@ -135,8 +135,9 @@ function queryForm() {
     fromObjStr.branchName = "";
     fromObjStr.createUserName = "";
 
+    debugger;
     $("#"+datagridID).datagrid("options").method = "post";
-    $("#"+datagridID).datagrid('options').url = contextPath + '/stock/leadSearch/getList';
+    $("#"+datagridID).datagrid('options').url = contextPath + '/report/sales/weekSaleReport/list';
     $("#"+datagridID).datagrid('load', fromObjStr);
 }
 
@@ -163,7 +164,7 @@ function exportExcel(){
     $("#exportWin").hide();
     $("#exportWin").window("close");
 
-    $("#queryForm").attr("action",contextPath+"/stock/leadSearch/exportList");
+    $("#queryForm").attr("action",contextPath+"/report/sales/weekSaleReport/exportList");
     $("#queryForm").submit();
 }
 
@@ -211,14 +212,14 @@ var yugi = function(year, index) {
     var arr = [];
     for (var from = d; from < to;) {
         if (i == index) {
-            arr.push(from.getFullYear() + "年" + (from.getMonth() + 1) + "月" + from.getDate() + "日");
+            arr.push(from.getFullYear() + "-" + (from.getMonth() + 1) + "-" + from.getDate() );
             // arr.push(from.getFullYear() + "年" + (from.getMonth() + 1) + "月" + (from.getDate()+6) + "日");
         }
         var j = 6;
         while (j > 0) {
             from.setDate(from.getDate() + 1);
             if (i == index) {
-                arr.push(from.getFullYear() + "年" + (from.getMonth() + 1) + "月" + from.getDate() + "日");
+                arr.push(from.getFullYear() + "-" + (from.getMonth() + 1) + "-" + from.getDate());
             }
             j--;
         }
