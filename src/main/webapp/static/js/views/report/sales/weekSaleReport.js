@@ -95,6 +95,12 @@ function initDatagridWeekSale(){
         case '4':
             defaultColumns = eval("(" + JSON.parse($("#columnsArr").val()).columns4 + ")");
             break;
+        case '5':
+            defaultColumns = eval("(" + JSON.parse($("#columnsArr").val()).columns5 + ")");
+            break;
+        case '6':
+            defaultColumns = eval("(" + JSON.parse($("#columnsArr").val()).columns6 + ")");
+            break;
         default:
             return;
     }
