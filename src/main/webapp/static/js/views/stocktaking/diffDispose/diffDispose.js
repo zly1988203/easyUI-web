@@ -530,13 +530,6 @@ function exportData(){
 		$_jxc.alert("没有数据");
 		return;
 	}
-	var fromObjStr = $('#diffForm').serializeObject();
-	
-	$("#diffForm").form({
-		success : function(data){
-			$_jxc.alert(data.message);
-		}
-	});
-	$("#diffForm").attr("action",contextPath+"/stocktaking/diffDispose/exportDiffDetailList?"+fromObjStr);
+	$("#diffForm").attr("action",contextPath+"/stocktaking/diffDispose/exportDiffDetailList");
 	$("#diffForm").submit();
 }
