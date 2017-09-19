@@ -32,19 +32,8 @@ $(function() {
 
     initDatagridWeekSale();
 
-    initWeek();
-
+    setDate(new Date());
 });
-
-function initWeek() {
-    //获取当前时间
-    var currentDate = dateUtil.getCurrentDate();
-    week = getWeekNumber(currentDate.getFullYear(),currentDate.getMonth()+1,currentDate.getDate());
-    nowWeek = week;
-    var arr = yugi(currentDate.getFullYear(), nowWeek);
-    $("#startDate").val(arr[0]);
-    $("#endDate").val(arr[6]);
-}
 
 function initdefaultElement() {
     $("#categoryType").combobox({disabled:true});
@@ -180,97 +169,42 @@ var resetForm = function() {
     $("#queryForm").form('clear');
 };
 
+var currentFirstDate;
 function preWeek() {
     //获取当前时间
-    if(week == 1){
-        $_jxc.alert("当前为第一周");
-        return;
-    }
-    week--;
-    var currentDate = dateUtil.getCurrentDate();
-    var arr = yugi(currentDate.getFullYear(), week);
-    $("#startDate").val(arr[0]);
-    $("#endDate").val(arr[6]);
-
+    setDate(addDate(currentFirstDate,-7));
 }
 
 function nextWeek() {
-    if(week == nowWeek){
-        $_jxc.alert("当前为最近一周");
-        return;
-    }
-
-    week++;
-    var currentDate = dateUtil.getCurrentDate();
-    var arr = yugi(currentDate.getFullYear(), week);
-    $("#startDate").val(arr[0]);
-    $("#endDate").val(arr[6]);
+    setDate(addDate(currentFirstDate,7));
 }
 
-var yugi = function(year, index) {
-    var d = new Date(year, 0, 1);
-    while (d.getDay() != 1) {
-        d.setDate(d.getDate() + 1);
-    }
-    var to = new Date(year + 1, 0, 1);
-    var i = 1;
-    var arr = [];
-    for (var from = d; from < to;) {
-        if (i == index) {
-            arr.push(from.getFullYear() + "-" + (from.getMonth() + 1) + "-" + from.getDate() );
-            // arr.push(from.getFullYear() + "年" + (from.getMonth() + 1) + "月" + (from.getDate()+6) + "日");
+var formatDate = function(date){
+    var year = date.getFullYear()+'-';
+    var month = (date.getMonth()+1)+'-';
+    var day = date.getDate()+'';
+    return new Date(year+month+day).format('yyyy-MM-dd')
+};
+var addDate= function(date,n){
+    date.setDate(date.getDate()+n);
+    return date;
+};
+var setDate = function(date){
+    var week = date.getDay()-1;
+    date = addDate(date,week*-1);
+    currentFirstDate = new Date(date);
+
+    for(var i = 0;i<7;i++){
+        if(i==0){
+            $("#startDate").val(formatDate(i==0 ? date : addDate(date,1))) ;
         }
-        var j = 6;
-        while (j > 0) {
-            from.setDate(from.getDate() + 1);
-            if (i == index) {
-                arr.push(from.getFullYear() + "-" + (from.getMonth() + 1) + "-" + from.getDate());
-            }
-            j--;
+        if(i == 6){
+            $("#endDate").val(formatDate(i==0 ? date : addDate(date,1)));
         }
-        if (i == index) {
-            return arr;
-        }
-        from.setDate(from.getDate() + 1);
-        i++;
+        formatDate(i==0 ? date : addDate(date,1));
     }
-}
+};
 
 
-function isLeapYear(year) {
-    return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);
-}
- /**
- 10  * 获取某一年份的某一月份的天数
- 11  *
- 12  * @param {Number} year
- 13  * @param {Number} month
- 14
-  */
-function getMonthDays(year, month) {
-         return [31, null, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month] || (isLeapYear(year) ? 29 : 28);
-}
 
-function getWeekNumber(y, m, d) {
-    var now = new Date(y, m - 1, d),
-                 year = now.getFullYear(),
-                 month = now.getMonth(),
-                 days = now.getDate();
-         //那一天是那一年中的第多少天
-         for (var i = 0; i < month; i++) {
-                 days += getMonthDays(year, i);
-             }
 
-         //那一年第一天是星期几
-         var yearFirstDay = new Date(year, 0, 1).getDay() || 7;
-
-         var week = null;
-        if (yearFirstDay == 1) {
-                 week = Math.ceil(days / yearFirstDay);
-             } else {
-                 days -= (7 - yearFirstDay + 1);
-                 week = Math.ceil(days / 7) + 1;
-             }
-
-         return week;
-     }
