@@ -124,7 +124,7 @@ function exportExcel(){
     $("#exportWin").hide();
     $("#exportWin").window("close");
 
-    $("#queryForm").attr("action",contextPath+"/report/sales/storeSaleReport/exportList");
+    $("#queryForm").attr("action",contextPath+"/report/sales/storeSaleReport/export");
     $("#queryForm").submit();
 }
 

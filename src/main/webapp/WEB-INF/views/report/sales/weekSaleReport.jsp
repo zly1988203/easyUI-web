@@ -32,6 +32,8 @@
 					</shiro:hasPermission>
 					<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
+					 <input type="hidden" id="startCount" name="startCount" />
+					<input type="hidden" id="endCount" name="endCount" />
 				</div>
 				<!-- 引入时间选择控件 -->
 

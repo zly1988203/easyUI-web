@@ -46,12 +46,22 @@ function changeStatus() {
         reportType = $('input[type="radio"][name="reportType"]:checked').val();
         if(reportType == "1"){
 
-            $("#categoryType").combobox({disabled:true});
-
-        }else if(reportType == "2"){
+            $("#categoryType").combobox({disabled:false});
             $("#skuName").prop("disabled",false);
             $("#skuCode").prop("disabled",false);
-            $("#categoryType").combobox({disabled:true});
+          /*  $("#categoryButon").attr("onclick","getGoodsType()");*/
+            $("#categoryCodeName").removeClass("uinp-no-more");
+            $("#categoryCodeName").removeAttr("readonly");
+        }else if(reportType == "2"){
+        	 $("#skuName").prop("disabled",true);
+             $("#skuCode").prop("disabled",true);
+             $("#skuName").val("");
+             $("#skuCode").val("");
+             $("#categoryCodeName").val("");
+             $("#categoryCode").val("");
+            $("#categoryCodeName").prop("readonly","readonly");
+            $("#categoryCodeName").addClass("uinp-no-more");
+            $("#categoryButon").removeAttr("onclick");
         }
         else if(reportType == '3'){
             $("#skuName").prop("disabled",true);
@@ -59,6 +69,9 @@ function changeStatus() {
             $("#skuCode").prop("disabled",true);
             $("#skuCode").val("");
             $("#categoryType").combobox({disabled:false});
+           /* $("#categoryButon").attr("onclick","getGoodsType()");*/
+            $("#categoryCodeName").removeClass("uinp-no-more");
+            $("#categoryCodeName").removeAttr("readonly");
         }
         initDatagridWeekSale();
     });
@@ -158,7 +171,7 @@ function exportExcel(){
     $("#exportWin").hide();
     $("#exportWin").window("close");
 
-    $("#queryForm").attr("action",contextPath+"/report/sales/weekSaleReport/exportList");
+    $("#queryForm").attr("action",contextPath+"/report/sales/weekSaleReport/export");
     $("#queryForm").submit();
 }
 
