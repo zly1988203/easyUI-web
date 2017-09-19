@@ -33,6 +33,9 @@ public class StoreSaleSumController extends BaseReportController<StoreSaleReport
 		if(StringUtils.isEmpty(qo.getBranchCompleCode())){
 			qo.setBranchCompleCode(getCurrBranchCompleCode());
 		}
+		if(qo.getCategoryType()!=null&&qo.getCategoryType()>3){
+			qo.setReportType(qo.getCategoryType());
+		}
 		return qo;
 	}
 

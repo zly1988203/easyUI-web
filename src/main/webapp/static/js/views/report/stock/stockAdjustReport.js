@@ -33,9 +33,9 @@ function initdefaultElement() {
     // 开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev", 30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    $("#skuName").prop("disabled",true);
+   /* $("#skuName").prop("disabled",true);
     $("#skuCode").prop("disabled",true);
-    $("#categoryType").combobox({disabled:true});
+    $("#categoryType").combobox({disabled:true});*/
 }
 
 // 单据状态切换
@@ -45,7 +45,8 @@ function changeStatus() {
         reportType = $('input[type="radio"][name="reportType"]:checked').val();
         if(reportType == "1"){
             $("#formNo").prop("disabled",false);
-
+            $("#skuName").prop("disabled",false);
+            $("#skuCode").prop("disabled",false);
             $("#categoryType").combobox({disabled:true});
 
         }else if(reportType == "2"){
