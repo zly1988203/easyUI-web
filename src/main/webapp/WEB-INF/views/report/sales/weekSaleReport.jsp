@@ -60,7 +60,7 @@
 				</div>
 
 				<div class="ub ub-ac umar-r40" id="categorySelect">
-					<div class="umar-r10 uw-70 ut-r">商品类别:</div>
+					<div class="umar-r10 uw-70 ut-r">商品分类:</div>
 					<input type="hidden" id="categoryCode" name="categoryCode" /> <input
 						class="uinp ub ub-f1" type="text" id="categoryCodeName"
 						name="categoryCodeName" maxlength="50" />
@@ -98,10 +98,10 @@
 							<select class="easyui-combobox uselect" name="categoryType"
 								data-options="editable:false,onChange:onChangeSelect"
 								id="categoryType">
-								<option value="3">一级类别</option>
-								<option value="4">二级类别</option>
-								<option value="5">三级类别</option>
-								<option value="5">四级类别</option>
+								<option value="3">一级分类</option>
+								<option value="4">二级分类</option>
+								<option value="5">三级分类</option>
+								<option value="6">四级分类</option>
 							</select>
 						</div>
 					</div>

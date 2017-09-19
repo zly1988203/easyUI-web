@@ -67,7 +67,7 @@
 			<div class="ub umar-t8">
 
 				<div class="ub ub-ac umar-r40" id="categorySelect">
-					<div class="umar-r10 uw-70 ut-r">商品类别:</div>
+					<div class="umar-r10 uw-70 ut-r">商品分类:</div>
 					<input type="hidden" id="categoryCode" name="categoryCode" /> <input
 						class="uinp ub ub-f1" type="text" id="categoryCodeName"
 						name="categoryCodeName" maxlength="50" />
@@ -77,17 +77,11 @@
 				<div class="ub ub-ac umar-r10">
 					<div class="umar-r10 uw-70 ut-r">调整原因:</div>
 					<div>
-						<select class="easyui-combobox uselect" name="categoryType"
-							data-options="editable:false,onChange:onChangeSelect"
-							id="reasonType">
-							<option value="1">[01]其他</option>
-							<option value="2">[02]领用</option>
-							<option value="3">[03]报损</option>
-							<option value="4">[04]丢失</option>
-							<option value="5">[05]赠送</option>
-							<option value="6">[06]借用</option>
-							<option value="7">[07]退增品</option>
-							<option value="">全部</option>
+						<select id="reason" class="easyui-combobox uselect" name="reason" >
+						<option value="">全部</option>
+							<c:forEach items="${ADJUST_REASON}" var="reason">
+                            	<option value="${reason.value}">${reason.label}</option>
+                        	</c:forEach>
 						</select>
 					</div>
 				</div>
@@ -106,14 +100,14 @@
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label> <input class="radioItem" type="radio" name="reportType"
-							value="3" /><span>类别汇总</span>
+							value="3" /><span>分类汇总</span>
 						</label>
 						<div id="categoryTypeDiv">
 							<select class="easyui-combobox uselect" name="categoryType"
 								data-options="editable:false,onChange:onChangeSelect"
 								id="categoryType">
-								<option value="3">一级类别</option>
-								<option value="4">二级类别</option>
+								<option value="3">一级分类</option>
+								<option value="4">二级分类</option>
 							</select>
 						</div>
 					</div>
@@ -125,6 +119,5 @@
 			<table id="stockAdjustReport"></table>
 		</div>
 	</div>
-
 </body>
 </html>

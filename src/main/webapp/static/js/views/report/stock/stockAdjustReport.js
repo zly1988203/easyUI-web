@@ -33,9 +33,9 @@ function initdefaultElement() {
     // 开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev", 30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    $("#skuName").prop("disabled",true);
+   /* $("#skuName").prop("disabled",true);
     $("#skuCode").prop("disabled",true);
-    $("#categoryType").combobox({disabled:true});
+    $("#categoryType").combobox({disabled:true});*/
 }
 
 // 单据状态切换
@@ -45,7 +45,8 @@ function changeStatus() {
         reportType = $('input[type="radio"][name="reportType"]:checked').val();
         if(reportType == "1"){
             $("#formNo").prop("disabled",false);
-
+            $("#skuName").prop("disabled",false);
+            $("#skuCode").prop("disabled",false);
             $("#categoryType").combobox({disabled:true});
 
         }else if(reportType == "2"){
@@ -152,10 +153,10 @@ function getColumns(){
         ])
     }
 
-    defaultColumns =defaultColumns.concat([{field: 'firstCategory',title:'一级类别',width:'150px',align:'left'}]);
+    defaultColumns =defaultColumns.concat([{field: 'firstCategory',title:'一级分类',width:'150px',align:'left'}]);
 
     if(accountType == '1' || accountType == '2' || (accountType == '3' && categoryType == '2')){
-        defaultColumns =defaultColumns.concat([{field: 'secondCategory',title:'二级类别',width:'150px',align:'left'}]);
+        defaultColumns =defaultColumns.concat([{field: 'secondCategory',title:'二级分类',width:'150px',align:'left'}]);
     }
 
     defaultColumns =defaultColumns.concat([{field: 'realNum', title: '领用数量', width: '80px', align: 'right',
