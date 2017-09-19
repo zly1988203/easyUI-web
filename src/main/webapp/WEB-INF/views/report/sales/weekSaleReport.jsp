@@ -19,8 +19,7 @@
 </style>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
-	<input type="hidden" id="columnsArr"
-		value="<c:out value="${columnsArr}"/>">
+	<input type="hidden" id="columnsArr" value="<c:out value="${columnsArr}"/>">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
 		<form id="queryForm" action="" method="post">
 			<div class="ub ub-ac">
@@ -41,8 +40,8 @@
 						<a class="ubtns ubtns-item" onclick="preWeek()">＜上一周</a>
 					</div>
 
-					<input id="startDate" class="Wdate newWdate"  readonly="readonly" />
-					<input id="endDate" class="Wdate newWdate"  readonly="readonly"/>
+					<input id="startDate" name="startDate" class="Wdate newWdate"  readonly="readonly" />
+					<input id="endDate" name="endDate" class="Wdate newWdate"  readonly="readonly"/>
 
 					<div class="umar-l10 uw-60 ut-r">
 						<a class="ubtns ubtns-item" onclick="nextWeek()">下一周＞</a>
@@ -54,6 +53,7 @@
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40" id="branchSelect">
 					<div class="umar-r10 uw-70 ut-r">机构:</div>
+					 <input class="uinp" type="hidden" id="branchCompleCode" name="branchCompleCode">
 					<input type="hidden" id="branchId" name="branchId" /> <input
 						class="uinp ub ub-f1" type="text" id="branchName" maxlength="50" />
 					<div class="uinp-more">...</div>
@@ -100,6 +100,8 @@
 								id="categoryType">
 								<option value="3">一级类别</option>
 								<option value="4">二级类别</option>
+								<option value="5">三级类别</option>
+								<option value="5">四级类别</option>
 							</select>
 						</div>
 					</div>
