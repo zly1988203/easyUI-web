@@ -44,13 +44,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{spec}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement style="zh_CN" x="47" y="4" width="97" height="16" uuid="9d73442d-ec15-414b-9a38-19b2c5ed2bf9"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="方正大标宋_GBK" size="8" pdfFontName="STSong-Light" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{skuName}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="88" y="52" width="21" height="9" uuid="a0105d75-4951-4a98-9dd1-3eb10cc844a8"/>
 				<textElement verticalAlignment="Middle">
@@ -93,7 +86,7 @@
 				<textFieldExpression><![CDATA[$F{barCode}]]></textFieldExpression>
 			</textField>
 			<image scaleImage="FillFrame" hAlign="Center">
-				<reportElement x="1" y="30" width="48" height="50" uuid="14f0da7e-c55b-4707-a6af-2a428dd39ed4"/>
+				<reportElement x="1" y="16" width="48" height="48" uuid="14f0da7e-c55b-4707-a6af-2a428dd39ed4"/>
 				<imageExpression><![CDATA[com.okdeer.jxc.controller.print.QRCodeUtil.encoderQRCoder($F{qrCodeInfo},300,300)]]></imageExpression>
 			</image>
 			<staticText>
@@ -126,6 +119,13 @@
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{salePrice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="2" width="140" height="16" uuid="e813dfd7-fda3-4b2c-add9-0edc810b5211"/>
+				<textElement textAlignment="Center">
+					<font fontName="方正大标宋_GBK" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{skuName}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
