@@ -133,10 +133,6 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	var fromObjStr = $('#queryForm').serializeObject();
-	// 去除编码
-    fromObjStr.targetBranchName = "";
-    fromObjStr.sourceBranchName = "";
 
 	$("#queryForm").attr("action",contextPath+'/form/deliverReport/exportList')
 	$("#queryForm").submit();

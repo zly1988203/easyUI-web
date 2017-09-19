@@ -271,11 +271,7 @@ function exportData(){
 function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
-	$("#queryForm").form({
-		success : function(result){
-			
-		}
-	});
+
 	$("#queryForm").attr("action",contextPath+"/target/storePlan/report/mom/exportExcelList");
 	$("#queryForm").submit();
 }
