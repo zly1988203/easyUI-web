@@ -104,7 +104,7 @@ function initDatagridViewRequireOrder(){
 			{field:'salePrice',title:'零售价',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){
-						return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+						return ;
 					}
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				},
