@@ -79,7 +79,7 @@ function changeStatus() {
 
 var gridHandel = new GridClass();
 var datagridID = "weekSaleReport";
-var gridWeekSale = null;
+var dg = null;
 //初始化表格
 function initDatagridWeekSale(){
     var defaultColumns;
@@ -107,11 +107,11 @@ function initDatagridWeekSale(){
             return;
     }
 
-    if(gridWeekSale){
+    if(dg){
         $("#"+datagridID).datagrid('options').url = '';
     }
     gridHandel.setGridName(datagridID);
-    gridWeekSale = $("#"+datagridID).datagrid({
+    dg = $("#"+datagridID).datagrid({
         method:'post',
         align:'center',
         singleSelect:false,  //单选  false多选

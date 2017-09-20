@@ -49,7 +49,7 @@ function updateWdatePicker(){
 
 var gridHandel = new GridClass();
 var datagridID = "gridStoreSale";
-var gridStoreSale = null;
+var dg = null;
 //初始化表格
 function initDatagridStoreSale(){
     reportType = $('input[type="radio"][name="reportType"]:checked').val();
@@ -65,11 +65,11 @@ function initDatagridStoreSale(){
             return;
     }
 
-    if(gridStoreSale){
+    if(dg){
         $("#"+datagridID).datagrid('options').url = '';
     }
     gridHandel.setGridName(datagridID);
-    gridStoreSale = $("#"+datagridID).datagrid({
+    dg = $("#"+datagridID).datagrid({
         method:'post',
         align:'center',
         singleSelect:false,  //单选  false多选
@@ -121,6 +121,22 @@ function exportLeadSearchList(){
 
 //调用导出方法
 function exportExcel(){
+	var length = $('#'+datagridID).datagrid('getData').rows.length;
+	if(length == 0){
+		$_jxc.alert("没有数据");
+		return;
+	}
+	var fromObjStr = $('#queryForm').serializeObject();
+	
+	$("#queryForm").form({
+		success : function(data){
+			if(data==null){
+				$_jxc.alert("导出数据成功！");
+			}else{
+				$_jxc.alert(JSON.parse(data).message);
+			}
+		}
+	});
     $("#exportWin").hide();
     $("#exportWin").window("close");
 
