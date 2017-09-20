@@ -90,8 +90,6 @@ function initDatagridRequire(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-            	formatter:function(value,row,index){if(value || value ==0){return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';}}
-            ,
                 editor:{
                     type:'numberbox',
                     options:{
