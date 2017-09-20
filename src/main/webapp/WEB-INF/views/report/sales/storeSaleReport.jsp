@@ -20,7 +20,7 @@
 			<div class="ub ub-ac">
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
-					<div class="ubtns-item" onclick="exportData()">导出</div>
+					<div class="ubtns-item" onclick="exportExcel()">导出</div>
 				    <div class="ubtns-item-disabled" >打印</div>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">关闭</div>

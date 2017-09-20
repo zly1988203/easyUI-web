@@ -32,6 +32,7 @@
 					</shiro:hasPermission>
 					<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
+					
 				</div>
 				<!-- 引入时间选择控件 -->
 
@@ -77,7 +78,8 @@
 				<div class="ub ub-ac umar-r10">
 					<div class="umar-r10 uw-70 ut-r">调整原因:</div>
 					<div>
-						<select id="reason" class="easyui-combobox uselect" name="reason" >
+						<select id="reason" class="easyui-combobox uselect" data-options="editable:false"
+						 name="reason" >
 						<option value="">全部</option>
 							<c:forEach items="${ADJUST_REASON}" var="reason">
                             	<option value="${reason.value}">${reason.label}</option>

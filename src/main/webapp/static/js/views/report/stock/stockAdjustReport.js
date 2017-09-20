@@ -72,7 +72,7 @@ function changeStatus() {
 
 var gridHandel = new GridClass();
 var datagridID = "stockAdjustReport";
-var gridStockAdjust = null;
+var dg = null;
 //初始化表格
 function initDatagridStock(){
 	var defaultColumns;
@@ -94,11 +94,11 @@ function initDatagridStock(){
 			return;
 	}
 
-	if(gridStockAdjust){
+	if(dg){
 		$("#"+datagridID).datagrid('options').url = '';
 	}
     gridHandel.setGridName(datagridID);
-    gridStockAdjust = $("#"+datagridID).datagrid({
+    dg = $("#"+datagridID).datagrid({
 		method:'post',
 		align:'center',
 		singleSelect:false,  //单选  false多选
@@ -199,6 +199,8 @@ function getColumns(){
 
 // 查询
 function queryForm() {
+	 $("#startCount").val("");
+	 $("#endCount").val("");
     var fromObjStr = $('#queryForm').serializeObject();
     //2.7精确查询
     fromObjStr.branchName = "";
@@ -228,13 +230,35 @@ function exportLeadSearchList(){
 }
 
 //调用导出方法
-function exportExcel(){
+/*function exportExcel(){
     $("#exportWin").hide();
     $("#exportWin").window("close");
 
     $("#queryForm").attr("action",contextPath+"/report/stock/stockAdjustReport/exportList");
     $("#queryForm").submit();
+}*/
+function exportExcel(){
+	var length = dg.datagrid('getData').total;
+	if(length == 0){
+		$_jxc.alert("没有数据");
+		return;
+	}
+	var fromObjStr = $('#queryForm').serializeObject();
+	
+	$("#queryForm").form({
+		success : function(data){
+			if(data==null){
+				$_jxc.alert("导出数据成功！");
+			}else{
+				$_jxc.alert(JSON.parse(data).message);
+			}
+		}
+	});
+	$("#queryForm").attr("action",contextPath+"/report/stock/stockAdjustReport/export");
+	
+	$("#queryForm").submit();
 }
+
 
 /**
  * 重置
