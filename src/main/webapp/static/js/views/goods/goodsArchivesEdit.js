@@ -517,6 +517,7 @@ function initDatagridEditRequireOrder(){
 	        //pagination:true,
 	        columns:[[
                 {field:'check',checkbox:true},
+                {field:'id',title:'id',hidden:true},
 	            {field:'skuId',title:'skuId',hidden:true},
 	            {field:'barCode',title:'商品条码',width: '120px',align:'left',
 					formatter:function(value,row,index){
@@ -672,6 +673,7 @@ function saveBarCode(){
 		 }
 		 map[data[i].barCode] = data[i].barCode;
 		 var temp = {
+				 	id:data[i].id,
 		    		skuId : skuId,
 		    		barCode : data[i].barCode,
 		    		skuCode : skuCode

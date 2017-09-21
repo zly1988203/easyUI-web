@@ -5,11 +5,29 @@ hiddenStatus = $("#hiddenStatus").val();
 
 	if($("#hiddenEdit").val()==="0") hiddenEdit=false;
     initDatagridEditOrder();
+    loadData();
     $("div").delegate("button","click",function(){
     	$("p").slideToggle();
     });
     
 });
+
+function loadData() {
+    var formId = $("#formId").val();
+    var param = {
+        url:contextPath+"/form/overdue/detail/list/"+formId+"?str=all",
+	}
+    $_jxc.ajax(param,function (result) {
+    	if(result.list && result.list.length > 0){
+    		$.each(result.list,function (index,item) {
+                item.productionDate = item.productionDateStr;
+                item.expiryDate = item.expiryDateStr;
+            })
+            $("#gridEditOrder").datagrid("loadData",result.list)
+		}
+
+    })
+}
 	var printReport = function(){
 		parent.addTabPrint("reportPrint"+new Date().getTime(),"打印",contextPath+"/form/overdue/edit/report/print?formNo="+$("#formNo").val());
 	}
@@ -56,11 +74,11 @@ hiddenStatus = $("#hiddenStatus").val();
 	            }
 	        },
 	    })
-		var formId = $("#formId").val();
+
 	    $("#gridEditOrder").datagrid({
 	        //title:'普通表单-用键盘操作',
 	        method:'post',
-	    	url:contextPath+"/form/overdue/detail/list/"+formId+"?str=all",
+	    	// url:contextPath+"/form/overdue/detail/list/"+formId+"?str=all",
 	        align:'center',
 	        singleSelect:true,  //单选  false多选
 	        rownumbers:true,    //序号
@@ -156,8 +174,10 @@ hiddenStatus = $("#hiddenStatus").val();
 	                    if(row.isFooter || $_jxc.isStringNull(value)){
 	                        return '';
 	                    }
-	                    value = row.productionDateStr;
-	                    row.productionDate = row.productionDateStr;
+                        // if(!$_jxc.isStringNull(row.productionDateStr)){
+                         //    value = row.productionDateStr;
+                         //    row.productionDate = row.productionDateStr;
+						// }
 	                    return value;
 	                },
 	                editor:{
@@ -179,8 +199,10 @@ hiddenStatus = $("#hiddenStatus").val();
 	                    if(row.isFooter || $_jxc.isStringNull(value)){
 	                        return '';
 	                    }
-	                    value = row.expiryDateStr;
-	                    row.expiryDate = row.expiryDateStr;
+                        // if(!$_jxc.isStringNull(row.expiryDateStr)){
+                        //     value = row.expiryDateStr;
+                        //     row.expiryDate = row.expiryDateStr;
+                        // }
 	                    return value;
 	                },
 	                editor:{
@@ -214,6 +236,9 @@ hiddenStatus = $("#hiddenStatus").val();
 	                }
 	            },
 	            {field:'applyDesc',title:'申请说明',width:'200px',align:'left',
+                    formatter:function(value,row,index){
+                        return value;
+                    },
 	            	editor:{
 	            		type:'textbox',
 	            		options:{

@@ -11,7 +11,6 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
-	<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 	<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script src="${ctx}/static/js/views/sale/prize/recordList.js?V=${versionNo}4"></script>
 	<style>
@@ -47,7 +46,7 @@
 					<input class="uinp" name="prizeName" id="prizeName" type="text">
 				</div>
 				<div class="ub ub-ac umar-r40">
-					<div class="umar-r10 uw-70 ut-r">会员号:</div>
+					<div class="umar-r10 uw-60 ut-r">会员号:</div>
                     <input class="uinp" name="mobile" id="mobile" type="text">
 				</div>
 				<div class="ub ub-ac umar-r40">

@@ -130,8 +130,8 @@ function queryForm(){
        $_jxc.alert("请选择机构名称");
         return;
     }
-    $("#startCount").val('');
-    $("#endCount").val('');
+    $("#startCount").val("");
+    $("#endCount").val("");
 	var fromObjStr = $('#queryForm').serializeObject();
 	
 	// 去除编码

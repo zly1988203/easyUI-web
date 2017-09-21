@@ -7,17 +7,24 @@
     <title>物流供应商退货单导出</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
+	<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 	<script src="${ctx}/static/js/views/logistics/PrList.js?V=${versionNo}"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4 upad-4">
-    	<form id="queryForm">
+    	<form id="queryForm" action="" method="post">
 	        <div class="ub ub-ac">
 	            <div class="ubtns">
 				<shiro:hasPermission name="JxcPurchasPrLogis:search">
 					<div class="ubtns-item" onclick="query()">查询</div>
 	            </shiro:hasPermission>
+				<shiro:hasPermission name="JxcPurchasPrLogis:export">
+					<div class="ubtns-item" style="width: 100px;" onclick="exportForms()">批量导出单据</div>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="JxcPurchasPrLogis:exportDetail">
+					<div class="ubtns-item" style="width: 100px;" onclick="exportDataList()">批量导出明细</div>
+				</shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">退出</div>
 	            </div>
@@ -32,6 +39,8 @@
 	            </div>
 	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">供应商:</div>
+					<input type="hidden" name="startCount" id="startCount" class="uinp" />
+					<input type="hidden" name="endCount" id="endCount" class="uinp" />
 					<input class="uinp" name="formType" id="formType" type="hidden" value = "PR">
 	                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
 	                <input class="uinp" id="supplierName" name="supplierName" type="text" maxlength="50">

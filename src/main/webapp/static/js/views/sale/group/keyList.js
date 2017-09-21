@@ -13,6 +13,8 @@ $(function () {
         }
     });
 })
+
+
 var gridName = "keygrid";
 var keygridHandle = new GridClass();
 var keygridDefault = {
@@ -30,10 +32,11 @@ function  initKeygrid() {
         pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
+        pageSize:50,
+        pageList: [10, 20, 30,40,50],
         showFooter:true,
         height:'300px',
         width:'100%',
-        pageSize:50,
         columns:[[
             {field:'id',title:'id',width:'85px',align:'left',hidden:true},
             {field:'groupNo',title:'分组编号',width:'85px',align:'left',
@@ -69,10 +72,8 @@ function  initKeygrid() {
                     keygridHandle.setSelectFieldName("sortNo");
                 }
             }
-
-
         },
-        onClickRow: function (rowIndex, rowData) {
+        onSelect:function (rowIndex,rowData) {
             if(rowData.groupNo == "01"){
                 $('#btnHot').addClass('ubtns-item').removeClass('ubtns-item-disabled event-none');
             }else{
@@ -82,6 +83,7 @@ function  initKeygrid() {
         },
         onLoadSuccess:function(data){
             keygridHandle.setDatagridHeader("center");
+            $('#'+gridName).datagrid('selectRow',0);
         }
     }).datagrid("columnMoving")
 }
@@ -228,6 +230,8 @@ function  initGoodsgrid() {
         pagination:true,    //分页
         fitColumns:true,    //每列占满
         //fit:true,            //占满
+        pageSize:50,
+        pageList: [10, 20, 30,40,50],
         showFooter:true,
         height:'380px',
         width:'100%',
@@ -246,9 +250,8 @@ function  initGoodsgrid() {
         onLoadSuccess:function(data){
 
             goodsgridHandel.setDatagridHeader("center");
-        }
+        },
     })
-    goodsgridHandel.setLoadData([$.extend({},gridDefault)])
 }
 
 
@@ -337,24 +340,40 @@ function getGroupList(branchId) {
         param.branchId = branchId;
     }
 
-    $_jxc.ajax({
-        url:contextPath+'/pos/group/key/list',
-        data:param,
-    },function(result){
-        if(result.code == 0){
-            var rows = result.data.list;
-            // if(!rows || rows.length <=0){
-            //     keygridHandle.setLoadData([$.extend({},keygridDefault)]);
-            // }else {
-                keygridHandle.setLoadData(result.data.list);
-                $('#'+gridName).datagrid('selectRow',0);
-            getGgoodsList();
-            // }
+    var fromObjStr = $('#groupform').serializeObject();
+    $("#"+gridName).datagrid("options").method = "post";
+    $("#"+gridName).datagrid('options').url = contextPath +'/pos/group/key/list';
+    $("#"+gridName).datagrid('load', fromObjStr);
 
-        }else{
-            $_jxc.alert(result['message']);
-        }
-    })
+        // getGgoodsList();
+
+    // $_jxc.ajax({
+    //     url:contextPath+'/pos/group/key/list',
+    //     data:param,
+    // },function(result){
+    //     var rows = result.list;
+    //     // if(!rows || rows.length <=0){
+    //     //     keygridHandle.setLoadData([$.extend({},keygridDefault)]);
+    //     // }else {
+    //     keygridHandle.setLoadData(result.list);
+    //     $('#'+gridName).datagrid('selectRow',0);
+    //     getGgoodsList();
+    //
+    //     // if(result.code == 0){
+    //     //     var rows = result.list;
+    //     //     // if(!rows || rows.length <=0){
+    //     //     //     keygridHandle.setLoadData([$.extend({},keygridDefault)]);
+    //     //     // }else {
+    //     //     keygridHandle.setLoadData(result.list);
+    //     //     $('#'+gridName).datagrid('selectRow',0);
+    //     //     getGgoodsList();
+    //     //     // }
+    //     //
+    //     // }else{
+    //     //     $_jxc.alert(result['message']);
+    //     // }
+    // })
+
 }
 
 function addgroup() {
@@ -447,7 +466,7 @@ function savegoods() {
                 sortNo:item.sortNo
             }
 
-            if(item['shortName'] === "" || item['shortName'] == null){
+            if($_jxc.isStringNull(item['shortName'])){
                 $_jxc.alert("第"+(index+1)+"行，简称不能为空");
                 flag = true;
                 return false;
@@ -494,10 +513,10 @@ function savegoods() {
     })
 }
 
-function getGgoodsList(rowIndex) {
+function getGgoodsList() {
     $("#goodsgrid").datagrid("endEdit", goodsgridHandel.getSelectRowIndex());
     // $("#keygrid").datagrid("endEdit", keygridHandle.getSelectRowIndex());
-    var row = $("#keygrid").datagrid("getSelected");
+    var row = $("#"+gridName).datagrid("getSelected");
     var branchId = $("#branchId").val();
     var param = {
         branchId : branchId,
@@ -505,23 +524,29 @@ function getGgoodsList(rowIndex) {
         page:1,
         rows:50,
     }
-    $_jxc.ajax({
-        url:contextPath+'/pos/group/key/goods//list',
-        data:param,
-    },function(result){
-        if(result.code == 0){
-            // if(result.data.list.length > 0){
-            //     $.each(result.data.list,function (index,item) {
-            //         item.shortName = item.skuName;
-            //         item.sortNo = (index+1);
-            //     })
-            // }
+    $("#goodsgrid").datagrid("options").method = "post";
+    $("#goodsgrid").datagrid('options').url = contextPath +'/pos/group/key/goods//list';
+    $("#goodsgrid").datagrid('load', param);
 
-            $("#goodsgrid").datagrid("loadData",result.data.list);
-        }else{
-            $_jxc.alert(result['message']);
-        }
-    })
+    // $_jxc.ajax({
+    //     url:contextPath+'/pos/group/key/goods//list',
+    //     data:param,
+    // },function(result){
+    //     if(result.list.length > 0){
+    //         goodsgridHandel.setLoadData(result.list);
+    //         // $("#goodsgrid").datagrid("loadData",result.data.list);
+    //     }else{
+    //         goodsgridHandel.setLoadData([gridDefault])
+    //     }
+    //
+    //     if(result.code == 0){
+    //
+    //
+    //
+    //     }else{
+    //         $_jxc.alert(result['message']);
+    //     }
+    // })
 }
 
 function hotgoods() {
@@ -536,22 +561,26 @@ function hotgoods() {
     var param = {
         branchId : branchId
     }
-    $_jxc.ajax({
-        url:contextPath+'/pos/group/key/goods/top/list',
-        data:param,
-    },function(result){
-        if(result.code == 0){
-            if(result.data.list.length > 0){
-                $.each(result.data.list,function (index,item) {
-                    item.shortName = item.skuName;
-                    item.sortNo = (index+1);
-                })
-            }
-            $("#goodsgrid").datagrid("loadData",result.data.list);
-        }else{
-            $_jxc.alert(result['message']);
-        }
-    })
+    $("#goodsgrid").datagrid("options").method = "post";
+    $("#goodsgrid").datagrid('options').url = contextPath +'/pos/group/key/goods//list';
+    $("#goodsgrid").datagrid('load', param);
+
+    // $_jxc.ajax({
+    //     url:contextPath+'/pos/group/key/goods/top/list',
+    //     data:param,
+    // },function(result){
+    //     if(result.code == 0){
+    //         if(result.data.list.length > 0){
+    //             $.each(result.data.list,function (index,item) {
+    //                 item.shortName = item.skuName;
+    //                 item.sortNo = (index+1);
+    //             })
+    //         }
+    //         $("#goodsgrid").datagrid("loadData",result.list);
+    //     }else{
+    //         $_jxc.alert(result['message']);
+    //     }
+    // })
 }
 
 
@@ -583,7 +612,7 @@ function selectGoods(searchKey) {
             return;
         }
         if(searchKey){
-            $("#goodsgrid").datagrid("deleteRow", gridHandel.getSelectRowIndex());
+            $("#goodsgrid").datagrid("deleteRow", goodsgridHandel.getSelectRowIndex());
             $("#goodsgrid").datagrid("acceptChanges");
         }
 

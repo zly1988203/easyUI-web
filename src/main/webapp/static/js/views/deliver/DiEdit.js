@@ -2,7 +2,13 @@
  * Created by zhanghuan on 2016/8/30.
  * 要货单-编辑
  */
+// 是否赠品是否可选择
+var isGiftFlag = false;
 $(function(){
+    var referenceId = $("#referenceId").val();
+    if (referenceId) {	
+    	isGiftFlag = true;
+    }
     initDatagridEditRequireOrder();
     $("div").delegate("button","click",function(){
     	$("p").slideToggle();
@@ -194,6 +200,7 @@ function initDatagridEditRequireOrder(){
                         textField: 'text',
                         editable:false,
                         required:true,
+                        disabled:isGiftFlag,
                         data: [{
                             "id":'1',
                             "text":"是",
@@ -391,6 +398,10 @@ function onChangeAmount(newV,oldV) {
 }
 //监听是否赠品
 function onSelectIsGift(data){
+	// 如果引用单据时，是否赠品不可修改
+	if(isGiftFlag){
+		$(gridHandel.getFieldTarget('isGift')).combobox('readonly', isGiftFlag);
+	}
     var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
     if(!_skuName)return;
 
@@ -665,7 +676,6 @@ function check(){
 	    			$_jxc.alert("操作成功！",function(){
 	    				location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
 	    			});
-                    location.href = contextPath + "/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
 	    		}else{
 	    			$_jxc.alert(result['message']);
 	    		}
@@ -728,6 +738,7 @@ function selectDeliver(){
     	formType:'DA'
     }
 	new publicDeliverFormService (param,function(data){
+		isGiftFlag = true;
 		referenceId = data.id;
 		$("#referenceId").val(referenceId);
 		$("#referenceNo").val(data.formNo);

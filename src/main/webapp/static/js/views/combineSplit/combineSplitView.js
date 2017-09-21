@@ -71,9 +71,8 @@ function getFiledsList(){
                          if(row.isFooter){
                              return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                          }
-                         if(!value||value==""||parseFloat(value)==0.0){
-                         	row["realNum"] = row["dealNum"];
-                       	  value = row["realNum"];
+                         if(!value||value==""){
+                       	   value = "0.00";
                          }
                          return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                      },
@@ -248,12 +247,7 @@ function saveCombineSplit(){
     }
     var isCheckResult = true;
     var isChcekPrice = false;
-    
-    $.each(rows,function(i,v){
-        /*if(parseFloat(v["costPrice"])<=0){
-            isChcekPrice = true;
-        }*/
-    });
+
     if(isCheckResult){
         if(isChcekPrice){
             $_jxc.confirm("新单价存在为0，是否确定保存?",function(r){

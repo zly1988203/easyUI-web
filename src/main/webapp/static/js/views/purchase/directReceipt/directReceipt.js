@@ -16,8 +16,13 @@ var isdisabled = false;
 var url;
 var isEdit = true;
 var isAllowPmRefPa = '-1'; //是否可以不引用单据
+//是否赠品是否可选择
+var isGiftFlag = false;
 $(function(){
-	
+    var referenceId = $("#refFormNo").val();
+    if (referenceId) {	
+    	isGiftFlag = true;
+    }
     //是否允许改价
     var allowUpdatePrice = $('#allowUpdatePrice').val();
     if('undefined' != typeof(allowUpdatePrice)){
@@ -91,6 +96,7 @@ $(function(){
 	}else if(directStatus === '1'){
 		url = contextPath +"/directReceipt/getDetailList?formId=" + formId;
 		isdisabled = true;
+		isGiftFlag = true;
 		//已审核 不给编辑
 		isEdit = true;
 		$('#already-examine').css('display','black');
@@ -294,7 +300,7 @@ function initDirectDataGrid(){
                editor:{
                    type:'combobox',
                    options:{
-                       disabled:isdisabled,
+                       disabled:isGiftFlag,
                        valueField: 'id',
                        textField: 'text',
                        editable:false,
@@ -604,7 +610,11 @@ var _tempGift;
 
 //监听是否赠品
 function onSelectIsGift(data){
-	
+	// 如果引用单据时，是否赠品不可修改
+	if(isGiftFlag){
+		$(gridHandel.getFieldTarget('isGift')).combobox('readonly', isGiftFlag);
+		return;
+	}
 	_tempGift = data;
 	
     var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
@@ -1249,6 +1259,7 @@ function selectPurchaseForm(){
         isDirectSupplier:1
     }
 	new publicPurchaseFormService(param,function(data){
+		isGiftFlag = true;
 		loadFilterFlag = true;
 		$("#refFormNo").val(data.form.formNo);
 		$("#refFormId").val(data.form.id);

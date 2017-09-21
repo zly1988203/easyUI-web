@@ -248,8 +248,8 @@ function initDatagridRequire(){
 
 //查询入库单
 function queryForm(){
-	$("#startCount").attr("value",null);
-	$("#endCount").attr("value",null);
+    $("#startCount").val("");
+    $("#endCount").val("");
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#storeSale").datagrid("options").method = "post";
 	$("#storeSale").datagrid('options').url = contextPath + '/goodsSale/report/getGoodsSaleList';
@@ -295,29 +295,24 @@ var dg;
  * 导出
  */
 function exportData(){
-	var length = $('#storeSale').datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
+    var param = {
+        datagridId:"storeSale"
+    }
+    publicExprotService(param,function (data) {
+        exportExcel(data);
+    });
 }
 /**
  * 导出
  */
-function exportExcel(){
+function exportExcel(data){
 	var length = $("#storeSale").datagrid('getData').total;
 	if(length == 0){
 		$_jxc.alert("没有数据");
 		return;
 	}
-
+    $("#startCount").val(data.startCount);
+    $("#endCount").val(data.endCount);
 	$("#queryForm").attr("action",contextPath+"/goodsSale/report/exportList");
 	$("#queryForm").submit();
 }

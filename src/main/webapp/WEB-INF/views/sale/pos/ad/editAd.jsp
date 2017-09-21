@@ -185,6 +185,8 @@ img {
 				</c:otherwise>
 			</c:choose>
 			<input type="hidden" id="mainImgVal" value="${detail[0].picUrl}"/>
+	<br/>
+	<label>(图片规格为：800*586以内，只能是jpg,png,gif格式)</label>
 		</div>
 		</div>
 
@@ -200,6 +202,8 @@ img {
 				</c:otherwise>
 			</c:choose>
 			<input type="hidden" id="img1Val" value="${detail[1].picUrl}"/>
+	<br/>
+	<label>(图片规格为：270*170以内，只能是jpg,png,gif格式)</label>
 		</div>
 
 		<div class="ub ub-ac umar-r20">
@@ -212,6 +216,8 @@ img {
 				</c:otherwise>
 			</c:choose>
 			<input type="hidden" id="img2Val" value="${detail[2].picUrl}"/>
+	<br/>
+	<label>(图片规格为：270*170以内，只能是jpg,png,gif格式)</label>
 		</div>
 
 		<div class="ub ub-ac umar-r20">
@@ -224,6 +230,8 @@ img {
 				</c:otherwise>
 			</c:choose>
 			<input type="hidden" id="img3Val" value="${detail[3].picUrl}"/>
+	<br/>
+	<label>(图片规格为：270*170以内，只能是jpg,png,gif格式)</label>
 		</div>
 
 		</div>

@@ -37,7 +37,6 @@ function initOperatorView(param){
     if(param.nameOrCode){
         $("#formOperator :text[name=nameOrCode]").val(param.nameOrCode);
     }
-
 	_ope_selectType = param.selectType;
 	initDatagridOperator();
 }
@@ -93,6 +92,9 @@ function initDatagridOperator(){
         method:'post',
         align:'center',
         url:contextPath+'/system/user/getOperator',
+        queryParams:{
+            nameOrCode:$("#formOperator :text[name=nameOrCode]").val()
+        },
         //toolbar: '#tb',     //工具栏 id为tb
         queryParams:{
             nameOrCode:$("#formOperator :text[name=nameOrCode]").val()

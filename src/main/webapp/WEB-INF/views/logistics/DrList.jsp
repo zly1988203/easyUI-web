@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>物流配送点退货导出</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/logistics/DrList.js?V=${versionNo}"></script>
 <style>
 .datagrid-header .datagrid-cell {
@@ -23,6 +24,12 @@
 					<shiro:hasPermission name="JxcDeliverDrLogistic:search">
 						<div class="ubtns-item" onclick="queryForm()">查询</div>
 					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcDeliverDrLogistic:export">
+						<div class="ubtns-item" style="width: 100px;" onclick="exportForms()">批量导出单据</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="JxcDeliverDrLogistic:exportDetail">
+						<div class="ubtns-item" style="width: 100px;" onclick="exportDataList()">批量导出明细</div>
+					</shiro:hasPermission>
 					<div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>
@@ -30,10 +37,12 @@
 				<%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%>
 			</div>
 			<div class="ub uline umar-t8"></div>
-			<input type="hidden" id="deliverType" name="deliverType" value="DR"/>
+			<input type="hidden" id="deliverType" name="deliverType" value="DO"/>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac" id="sourceBranch">
 					<div class="umar-r10 uw-70 ut-r">退货机构:</div>
+					<input type="hidden" name="startCount" id="startCount" class="uinp" />
+					<input type="hidden" name="endCount" id="endCount" class="uinp" />
 					<input type="hidden" id="sourceBranchId" name="sourceBranchId" />
 					<input type="hidden" id="sourceBranchType" name="sourceBranchType" />
 					<input class="uinp ub ub-f1" type="text" id="sourceBranchName" name="sourceBranchName" maxlength="50"/>
@@ -74,12 +83,17 @@
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-							<input  type="radio" name="deliverStatus" value="1" onclick="queryForm()"/><span>部分发货</span>
+							<input  type="radio" name="deliverStatus" value="1" onclick="queryForm()"/><span>部分收货</span>
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label>
-							<input type="radio" name="deliverStatus" value="2" onclick="queryForm()"/><span>全部发货</span>
+							<input type="radio" name="deliverStatus" value="2" onclick="queryForm()"/><span>全部收货</span>
+						</label>
+					</div>
+					<div class="ub ub-ac umar-r10">
+						<label>
+							<input type="radio" name="deliverStatus" value="3" onclick="queryForm()"/><span>已拒收</span>
 						</label>
 					</div>
 				</div>

@@ -7,6 +7,7 @@
 package com.okdeer.jxc.controller.report.logistics;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +24,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.result.RespJson;
+import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.Disabled;
 import com.okdeer.jxc.common.utils.PageUtils;
 import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.form.enums.FormDealStatus;
 import com.okdeer.jxc.form.enums.FormStatus;
 import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.form.purchase.qo.FormQueryQo;
@@ -89,7 +91,7 @@ public class LogisticsPurchaseFormController extends BaseController<LogisticsPur
 	 */
 	@RequestMapping(value = "listData", method = RequestMethod.POST)
 	@ResponseBody
-	public PageUtils<PurchaseFormPO> listData(FormQueryQo qo) {
+	public PageUtils<Map<String,Object>> listData(FormQueryQo qo) {
 		if (qo.getEndTime() != null) {
 			// 结束日期加一天
 			Calendar cal = Calendar.getInstance();
@@ -109,8 +111,60 @@ public class LogisticsPurchaseFormController extends BaseController<LogisticsPur
 			qo.setSupplierName(supplierName);
 		}
 		qo.setBranchCompleCode(getCurrBranchCompleCode());
-		PageUtils<PurchaseFormPO> page = purchaseFormServiceApi.queryPurchaseFormList(qo);
+		PageUtils<Map<String,Object>> page = purchaseFormServiceApi.queryPurchaseFormList(qo);
 		return page;
+	}
+	
+	/**
+	 * @Description: 导出采购单据
+	 * @param qo
+	 * @return   
+	 * @return PageUtils<PurchaseFormPO>  
+	 * @throws
+	 * @author zhangchm
+	 * @date 2017年8月10日
+	 */
+	@RequestMapping(value = "listDataExport", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson listDataExport(FormQueryQo qo, HttpServletResponse response) {
+		try {
+			if (qo.getEndTime() != null) {
+				// 结束日期加一天
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(qo.getEndTime());
+				cal.add(Calendar.DATE, 1);
+				qo.setEndTime(cal.getTime());
+			}
+			String branchName = qo.getBranchName();
+			if(StringUtils.isNotBlank(branchName)){
+				branchName = branchName.substring(branchName.lastIndexOf("]")+1,branchName.length());
+				qo.setBranchName(branchName);
+			}
+			
+			String supplierName = qo.getSupplierName();
+			if (StringUtils.isNotBlank(supplierName)) {
+				supplierName = supplierName.substring(supplierName.lastIndexOf("]") + 1, supplierName.length());
+				qo.setSupplierName(supplierName);
+			}
+			qo.setBranchCompleCode(getCurrBranchCompleCode());
+			List<Map<String, Object>> list = purchaseFormServiceApi.queryPurchaseForms(qo);
+			String fileName = null;
+			String templateName = null;
+			if ("PA".equals(qo.getFormType())) {
+				fileName = "采购单列表";
+				templateName = ExportExcelConstant.PURCHASE_FORMS;
+			} else {
+				fileName = "供应商退货单列表";
+				templateName = ExportExcelConstant.PURCHASE_PR_FORMS;
+			}
+			fileName += "_" + DateUtils.formatDate(DateUtils.getCurrDate(),DateUtils.DATE_KEY_STR);
+			// 导出Excel
+			exportListForXLSX(response, list, fileName, templateName);
+			return null;
+		} catch (Exception e) {
+			LOG.error("导出采购单列表失败", e);
+		}
+		return RespJson.error();
 	}
 	
 	/**
@@ -167,33 +221,47 @@ public class LogisticsPurchaseFormController extends BaseController<LogisticsPur
 	 * @date 2017年8月10日
 	 */
 	@RequestMapping(value = "exportList")
-	public void exportList(HttpServletResponse response, String formId, String type) {
+	public RespJson exportList(HttpServletResponse response, String formId, String type) {
 		try {
-			List<Map<String,Object>> exportList = purchaseFormServiceApi.queryFormsList(formId);
+			if (StringUtils.isEmpty(formId)) {
+				LOG.warn("未选择导出的行数据!");
+				return RespJson.error("未选择导出的行数据!");
+			}
+			String[] formIds = formId.split(",");
+			List<String> listFormIds = Arrays.asList(formIds);
+			List<Map<String,Object>> exportList = purchaseFormServiceApi.queryFormsList(listFormIds);
 			String formNo = "";
 			if (CollectionUtils.isNotEmpty(exportList)) {
-				formNo = String.valueOf(exportList.get(0).get("formNo"));
+				if (formIds.length == 1) {
+					formNo = String.valueOf(exportList.get(0).get("formNo"));
+				} else {
+					formNo = DateUtils.formatDate(DateUtils.getCurrDate(),DateUtils.DATE_KEY_STR);
+				}
 			}
 			String fileName = "";
 			String templateName = "";
 			if (FormType.PA.toString().equals(type)) {
-				fileName = "CG" + "_" + formNo;
+				fileName = "采购_" + formNo;
 				templateName = ExportExcelConstant.PURCHASE_FORM_LOGISTICS;
 			} else {
-				fileName = "GYSTH" + "_" + formNo;
+				fileName = "供应商退货_" + formNo;
 				templateName = ExportExcelConstant.RETURN_FORM_LOGISTICS;
 			}
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
+			// 修改导出次数
+			purchaseFormServiceApi.updateFormDownloadNum(listFormIds);
+			return null;
 		} catch (Exception e) {
 			LOG.error("GoodsPriceAdjustController:exportList:", e);
 		}
+		return RespJson.error();
 	}
 	
 	/**
 	 * @Description: 采购单查询明细
 	 * @param deliverFormId
-	 * @return   
+	 * @return
 	 * @return List<Map<String,Object>>  
 	 * @throws
 	 * @author zhangchm
@@ -203,7 +271,9 @@ public class LogisticsPurchaseFormController extends BaseController<LogisticsPur
 	@ResponseBody
 	public List<Map<String,Object>> getPurchaseFormListsById(String formId) {
 		try {
-			List<Map<String,Object>> list = purchaseFormServiceApi.queryFormsList(formId);
+			String[] formIds = formId.split(",");
+			List<String> listFormIds = Arrays.asList(formIds);  
+			List<Map<String,Object>> list = purchaseFormServiceApi.queryFormsList(listFormIds);
 			return list;
 		} catch (Exception e) {
 			LOG.error("要货单查询明细数据出现异常", e);
