@@ -415,9 +415,9 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 			// 导出时将箱数、数量、金额的负数转为正数，并将所有数据格式化为两位小数
 			if (null != exportList && !exportList.isEmpty()) {
 				for (StockFormDetailVo stockFormDetailVo : exportList) {
-					stockFormDetailVo.setLargeNum(new BigDecimal(stockFormDetailVo.getLargeNum()).abs().toString());
-					stockFormDetailVo.setRealNum(new BigDecimal(stockFormDetailVo.getRealNum()).abs().toString());
-					stockFormDetailVo.setAmount(new BigDecimal(stockFormDetailVo.getAmount()).abs().toString());
+					stockFormDetailVo.setLargeNum(stockFormDetailVo.getLargeNum().abs());
+					stockFormDetailVo.setRealNum(stockFormDetailVo.getRealNum().abs());
+					stockFormDetailVo.setAmount(stockFormDetailVo.getAmount().abs());
 				}
 			}
 			// 过滤数据权限字段
@@ -541,18 +541,18 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 		if (null != list && !list.isEmpty()) {
 			for (StockFormDetailVo stockFormDetailVo : list) {
 				// 打印时将负数转为正数
-				stockFormDetailVo.setLargeNum(stockFormDetailVo.getLargeNum().substring(1));
-				stockFormDetailVo.setRealNum(stockFormDetailVo.getRealNum().substring(1));
-				stockFormDetailVo.setAmount(stockFormDetailVo.getAmount().substring(1));
-				totalLargeNum = totalLargeNum.add(new BigDecimal(stockFormDetailVo.getLargeNum()));
-				totalRealNum = totalRealNum.add(new BigDecimal(stockFormDetailVo.getRealNum()));
-				totalAmount = totalAmount.add(new BigDecimal(stockFormDetailVo.getAmount()));
+				stockFormDetailVo.setLargeNum(stockFormDetailVo.getLargeNum().abs());
+				stockFormDetailVo.setRealNum(stockFormDetailVo.getRealNum().abs());
+				stockFormDetailVo.setAmount(stockFormDetailVo.getAmount().abs());
+				totalLargeNum = totalLargeNum.add(stockFormDetailVo.getLargeNum());
+				totalRealNum = totalRealNum.add(stockFormDetailVo.getRealNum());
+				totalAmount = totalAmount.add(stockFormDetailVo.getAmount());
 			}
 			StockFormDetailVo total = new StockFormDetailVo();
 			total.setSkuCode("合计");
-			total.setLargeNum(totalLargeNum.toString());
-			total.setRealNum(totalRealNum.toString());
-			total.setAmount(totalAmount.toString());
+			total.setLargeNum(totalLargeNum);
+			total.setRealNum(totalRealNum);
+			total.setAmount(totalAmount);
 			list.add(total);
 		}
 		// 过滤数据权限字段
