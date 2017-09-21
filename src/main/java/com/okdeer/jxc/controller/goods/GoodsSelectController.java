@@ -143,10 +143,13 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			}
 			// 多机构查询
 			if (branchId != null) {
-				if (branchId.indexOf(",") != -1) {
-					vo.setBranchId("");
-					vo.setBranchIds(Arrays.asList(branchId.split(",")));
-				}
+                if (branchId.indexOf(",") != -1) {
+                    vo.setBranchId("");
+                    vo.setBranchIds(Arrays.asList(branchId.split(",")));
+                } else if (FormType.PL.name().equals(vo.getFormType())) {
+                    vo.setBranchId("");
+                    vo.setBranchIds(Arrays.asList(new String[]{branchId}));
+                }
 			}
 
 			// 多商品状态查询
