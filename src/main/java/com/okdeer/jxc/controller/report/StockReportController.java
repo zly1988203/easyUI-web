@@ -7,6 +7,7 @@
 
 package com.okdeer.jxc.controller.report;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,14 +118,14 @@ public class StockReportController extends BaseController<StockReportController>
 
 		String branchCode = "<b>" + footer.getBranchCode() + "</b>";
 		footer.setBranchCode(branchCode);
-		if (StringUtils.isBlank(footer.getActual())) {
-			footer.setActual("0.00");
+		if (null == footer.getActual()) {
+			footer.setActual(BigDecimal.ZERO);
 		}
-		if (StringUtils.isBlank(footer.getCostAmount())) {
-			footer.setCostAmount("0.00");
+		if (null == footer.getCostAmount()) {
+			footer.setCostAmount(BigDecimal.ZERO);
 		}
-		if (StringUtils.isBlank(footer.getSaleAmount())) {
-			footer.setSaleAmount("0.00");
+		if (null == footer.getSaleAmount()) {
+			footer.setSaleAmount(BigDecimal.ZERO);
 		}
 		footer.setCostPrice(null);
 		footer.setSalePrice(null);
@@ -152,14 +153,14 @@ public class StockReportController extends BaseController<StockReportController>
 			qo = buildDefaultParams(qo);
 			// 2、汇总查询(导出的请求分成多次，先求总计，再查明细)
 			StockReportVo footer = stockReportService.queryStockReportSum(qo);
-			if (StringUtils.isBlank(footer.getActual())) {
-				footer.setActual("0.00");
+			if (null == footer.getActual()) {
+				footer.setActual(BigDecimal.ZERO);
 			}
-			if (StringUtils.isBlank(footer.getCostAmount())) {
-				footer.setCostAmount("0.00");
+			if (null == footer.getCostAmount()) {
+				footer.setCostAmount(BigDecimal.ZERO);
 			}
-			if (StringUtils.isBlank(footer.getSaleAmount())) {
-				footer.setSaleAmount("0.00");
+			if (null == footer.getSaleAmount()) {
+				footer.setSaleAmount(BigDecimal.ZERO);
 			}
 			// 1、列表查询
 //			List<StockReportVo> exportList = stockReportService.queryList(qo);
@@ -169,8 +170,6 @@ public class StockReportController extends BaseController<StockReportController>
 				exportList = new ArrayList<StockReportVo>();
 			}
 			exportList.add(footer);
-			// 3、价格特殊处理
-			exportList = handlePrice(exportList);
 			// 过滤数据权限字段
 			cleanAccessData(exportList);
 			String fileName = "商品库存报表" + "_" + DateUtils.getCurrSmallStr();
@@ -218,42 +217,6 @@ public class StockReportController extends BaseController<StockReportController>
 		return qo;
 	}
 
-	private List<StockReportVo> handlePrice(List<StockReportVo> exportList) {
-		for (StockReportVo vo : exportList) {
-			// 库存
-			if (StringUtils.isNotBlank(vo.getActual())) {
-				java.math.BigDecimal actual = new java.math.BigDecimal(vo.getActual()).setScale(4,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setActual(String.valueOf(actual));
-			}
-			// 成本价
-			if (StringUtils.isNotBlank(vo.getCostPrice())) {
-				java.math.BigDecimal costPrice = new java.math.BigDecimal(vo.getCostPrice()).setScale(4,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setCostPrice(String.valueOf(costPrice));
-			}
-			// 库存金额
-			if (StringUtils.isNotBlank(vo.getCostAmount())) {
-				java.math.BigDecimal costAmount = new java.math.BigDecimal(vo.getCostAmount()).setScale(4,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setCostAmount(String.valueOf(costAmount));
-			}
-			// 售价
-			if (StringUtils.isNotBlank(vo.getSalePrice())) {
-				java.math.BigDecimal salePrice = new java.math.BigDecimal(vo.getSalePrice()).setScale(4,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setSalePrice(String.valueOf(salePrice));
-			}
-			// 售价金额
-			if (StringUtils.isNotBlank(vo.getSaleAmount())) {
-				java.math.BigDecimal saleAmount = new java.math.BigDecimal(vo.getSaleAmount()).setScale(4,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setSaleAmount(String.valueOf(saleAmount));
-			}
-		}
-		return exportList;
-	}
-	
 	/**
 	 * 把导出的请求分成多次，一次请求LIMIT_REQ_COUNT条数据
 	 * @param qo

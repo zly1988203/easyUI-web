@@ -131,8 +131,6 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 				// 2、汇总查询
 				SaleFlowReportVo saleFlowReportVo = saleFlowReportService.querySaleFlowReportSum(qo);
 				list.add(saleFlowReportVo);
-				// 3、价格特殊处理
-				list = handlePrice(list);
 				String fileName = "销售流水报表" + "_" + DateUtils.getCurrSmallStr();
 				String templateName = ExportExcelConstant.SALEFLOWREPORT;
 				exportListForXLSX(response, list, fileName, templateName);
@@ -146,77 +144,6 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 			return json;
 		}
 		return null;
-	}
-
-	// 价格特殊处理
-	private List<SaleFlowReportVo> handlePrice(List<SaleFlowReportVo> exportList) {
-		for (SaleFlowReportVo vo : exportList) {
-			// 时间格式
-			if (StringUtils.isNotBlank(vo.getTime())) {
-				vo.setTime(DateUtils.formatDate(DateUtils.parse(vo.getTime(), DateUtils.DATE_FULL_STR),
-						DateUtils.DATE_FULL_STR));
-			}
-			// 业务类型处理
-//			if (StringUtils.isNotBlank(vo.getBusinessType())) {
-//				vo.setBusinessType(BusinessTypeEnum.enumValueOf(vo.getBusinessType()) == null ? ""
-//						: BusinessTypeEnum.enumValueOf(vo.getBusinessType()).getDesc());
-//			}
-			// 订单来源
-//			if (StringUtils.isNotBlank(vo.getOrderType())) {
-//				Integer orderType = Integer.valueOf(vo.getOrderType());
-//				vo.setOrderType(OrderResourceEnum.enumValueOf(orderType) == null ? ""
-//						: OrderResourceEnum.enumValueOf(orderType).getDesc());
-//			}
-			// 数量
-			if (StringUtils.isNotBlank(vo.getNum())) {
-				java.math.BigDecimal num = new java.math.BigDecimal(vo.getNum()).setScale(2,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setNum(String.valueOf(num));
-			}
-			// 销售价
-			if (StringUtils.isNotBlank(vo.getSalePrice())) {
-				java.math.BigDecimal salePrice = new java.math.BigDecimal(vo.getSalePrice()).setScale(2,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setSalePrice(String.valueOf(salePrice));
-			}
-			// 销售金额
-			if (StringUtils.isNotBlank(vo.getSaleAmount())) {
-				java.math.BigDecimal saleAmount = new java.math.BigDecimal(vo.getSaleAmount()).setScale(2,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setSaleAmount(String.valueOf(saleAmount));
-			}
-			// 原价
-			if (StringUtils.isNotBlank(vo.getOriginalPrice())) {
-				java.math.BigDecimal originalPrice = new java.math.BigDecimal(vo.getOriginalPrice()).setScale(2,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setOriginalPrice(String.valueOf(originalPrice));
-			}
-			// 原价金额
-			if (StringUtils.isNotBlank(vo.getTotalAmount())) {
-				java.math.BigDecimal totalAmount = new java.math.BigDecimal(vo.getTotalAmount()).setScale(2,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setAmount(String.valueOf(totalAmount));
-			}
-			// 折扣
-			if (StringUtils.isNotBlank(vo.getDiscount())) {
-				java.math.BigDecimal discount = new java.math.BigDecimal(vo.getDiscount()).setScale(2,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setDiscount(String.valueOf(discount));
-			}
-			// 进价
-			if (StringUtils.isNotBlank(vo.getPurchasePrice())) {
-				java.math.BigDecimal purchasePrice = new java.math.BigDecimal(vo.getPurchasePrice()).setScale(2,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setPurchasePrice(String.valueOf(purchasePrice));
-			}
-			// 进货金额
-			if (StringUtils.isNotBlank(vo.getPurchaseAmount())) {
-				java.math.BigDecimal purchaseAmount = new java.math.BigDecimal(vo.getPurchaseAmount()).setScale(2,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setPurchaseAmount(String.valueOf(purchaseAmount));
-			}
-		}
-		return exportList;
 	}
 
 	// start by lijy02
