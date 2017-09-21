@@ -112,7 +112,8 @@ function initDatagridStockReimburse(){
                     }
                     
                     if(!value||value==""){
-                        row["largeNum"] = parseFloat(value||0).toFixed(2);
+                        row['largeNum'] = "0.0000";
+                        value = "0.00";
                     }
                     
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -134,8 +135,8 @@ function initDatagridStockReimburse(){
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     if(!value||value==""||parseFloat(value)==0.0){
-                    	row["realNum"] = row["dealNum"];
-                  	  value = row["realNum"];
+                        row['realNum'] = "0.0000";
+                        value = "0.00";
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
@@ -486,7 +487,7 @@ function saveStockReimburse(){
    var isCheckResult = true;
    $.each(rows,function(i,v){
 	   v["rowNo"] = i+1;
-    	if(!v["skuCode"]){
+    	if($_jxc.isStringNull(v["skuCode"])){
              $_jxc.alert("第"+(i+1)+"行，货号不能为空");
              isCheckResult = false;
              return false;
@@ -497,16 +498,29 @@ function saveStockReimburse(){
         	isCheckResult = false;
           	return false;
         }*/
-   });
-    
-    
-    $.each(rows,function(i,v){
-   	 if(!v["realNum"]){
-            $_jxc.alert("第"+(i+1)+"行，数量不能为空");
+
+       if($_jxc.isStringNull(v["largeNum"])){
+           $_jxc.alert("第"+(i+1)+"行，箱数不能为空");
+           isCheckResult = false;
+           return false;
+       }
+
+       if($_jxc.isStringNull(v["realNum"])){
+           $_jxc.alert("第"+(i+1)+"行，数量不能为空");
+           isCheckResult = false;
+           return false;
+       }
+
+        if(v["largeNum"]<=0){
+            $_jxc.alert("第"+(i+1)+"行，箱数必须大于0");
             isCheckResult = false;
             return false;
-        };
-     
+        }
+        if(v["realNum"]<=0){
+            $_jxc.alert("第"+(i+1)+"行，数量必须大于0");
+            isCheckResult = false;
+            return false;
+        }
    });
     
     if(!isCheckResult){

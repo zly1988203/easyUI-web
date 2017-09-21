@@ -17,10 +17,9 @@ $(function () {
 
 var gridName = "gridRecordList";
 var gridRecordHandle = new GridClass();
-var dg;
 function initgridRecord() {
     gridRecordHandle.setGridName(gridName);
-    dg = $("#"+gridName).datagrid({
+     $("#"+gridName).datagrid({
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
         singleSelect:true,  //单选  false多选
@@ -59,36 +58,31 @@ function initgridRecord() {
 }
 
 function queryRecord() {
+    $("#startCount").val("");
+    $("#endCount").val("");
     var fromObjStr = $('#queryForm').serializeObject();
     $("#"+gridName).datagrid("options").method = "post";
     $("#"+gridName).datagrid('options').url = contextPath +'/pos/prize/record/load/list';
     $("#"+gridName).datagrid('load', fromObjStr);
-    $("#startCount").attr("value",null);
-    $("#endCount").attr("value",null);
 }
 
 /**
  * 导出
  */
 function exportData(){
-    var length = $("#"+gridName).datagrid('getData').rows.length;
+    var length = $('#'+gridName).datagrid('getData').rows.length;
     if(length == 0){
         $_jxc.alert("无数据可导");
         return;
     }
-    $('#exportWin').window({
-        top:($(window).height()-300) * 0.5,
-        left:($(window).width()-500) * 0.5
+
+    var param = {
+        datagridId:gridName
+    }
+    publicExprotService(param,function (data) {
+        $("#startCount").val(data.startCount);
+        $("#endCount").val(data.endCount);
+        $("#queryForm").attr("action",contextPath+"/pos/prize/record/exports");
+        $("#queryForm").submit();
     });
-    $("#exportWin").show();
-    $("#totalRows").html(dg.datagrid('getData').total);
-    $("#exportWin").window("open");
-}
-
-function exportExcel(){
-    $("#exportWin").hide();
-    $("#exportWin").window("close");
-
-    $("#queryForm").attr("action",contextPath+"/pos/prize/record/exports");
-    $("#queryForm").submit();
 }

@@ -4,8 +4,8 @@
  */
 $(function(){
 	//开始和结束时间
-	//2.7_P01 20682 【需求优化】店铺销售排行界面默认查询当天的数据
-    toChangeDate(0);
+	//2.7_P01 20682 【需求优化】店铺销售排行界面默认查询当天的数据(2.8.0优化延时一天查询数据，默认查询昨天的数据)
+    toChangeDate(1);
 	$("#branchCompleCode").val(sessionBranchCompleCode);
     initDatagridRequireOrders();
     branchId = $("#branchId").val();

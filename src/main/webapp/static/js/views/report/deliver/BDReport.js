@@ -61,8 +61,8 @@ function initDatagridRequireOrders(){
 
 //查询要货单
 function queryForm(){
-    $("#startCount").val('');
-    $("#endCount").val('');
+    $("#startCount").val("");
+    $("#endCount").val("");
 	$("#deliverType").val('DI');
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#deliverFormList").datagrid("options").method = "post";

@@ -122,7 +122,7 @@ public class LogisticsGoodsBarcodeController extends BaseController<LogisticsGoo
 			}
 			qo.setBranchCompleCode(getCurrBranchCompleCode());
 			List<Map<String,Object>> exportList = goodsBarcodeService.queryReportLists(qo);
-			String fileName = "SPTM" + "_" + DateUtils.formatDate(DateUtils.getCurrDate(), DateUtils.DATE_KEY_STR);
+			String fileName = "商品条码_" + DateUtils.formatDate(DateUtils.getCurrDate(), DateUtils.DATE_KEY_STR);
 			String templateName = ExportExcelConstant.GOODS_BARCODE_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {

@@ -177,7 +177,7 @@ public class LogisticsGoodsCategoryController extends
 				qo.setCategoryNameOrCode("");
 			}
 			List<GoodsCategory> exportList = goodsCategoryService.queryExportCategory(qo);
-			String fileName = "SPLB" + "_" + DateUtils.formatDate(DateUtils.getCurrDate(), DateUtils.DATE_KEY_STR);
+			String fileName = "商品类别_" + DateUtils.formatDate(DateUtils.getCurrDate(), DateUtils.DATE_KEY_STR);
 			String templateName = ExportExcelConstant.GOODS_CATEGORY_LOGISTICS_REPORT;
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {

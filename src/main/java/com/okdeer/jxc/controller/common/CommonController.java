@@ -94,15 +94,28 @@ public class CommonController extends BaseController<CommonController> {
 		return RespJson.success(branchList, "success");
 	}
 
-		/**
-    	 *
-    	 * @Description: 图片上传
-    	 * @return String
-    	 * @author Reyn
-    	 * @date 2018年8月22日
-    	 */
-    	@RequestMapping(value = "giftGoods")
-    	public String giftGoodsView(HttpServletRequest req, Model model) {
-    		return "component/publicGiftGoods";
-    	}
+	/**
+	 *
+	 * @Description: 图片上传
+	 * @return String
+	 * @author Reyn
+	 * @date 2018年8月22日
+	 */
+	@RequestMapping(value = "giftGoods")
+	public String giftGoodsView(HttpServletRequest req, Model model) {
+		return "component/publicGiftGoods";
+	}
+	
+	/**
+	 * 
+	 * @Description: 图片上传
+	 * @return String  
+	 * @author Reyn
+	 * @date 2017年9月14日
+	 */
+	@RequestMapping(value = "exportChose")
+	public String exportChoseView(HttpServletRequest req, Model model) {
+		return "component/publicExportChose";
+	}
+	
 }

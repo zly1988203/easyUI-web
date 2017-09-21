@@ -97,12 +97,12 @@ public class OrderEdiInController {
 	/**
 	 * 采购入库单（卡萨版）
 	 */
-	public static final int[] KASA_PI_INDEX = new int[] { 5, 13, 16, 25, 26 };
+	public static final int[] KASA_PI_INDEX = new int[] { 5, 11, 13, 16, 25, 26 };
 
 	/**
 	 * 销售出库单（卡萨版）
 	 */
-	public static final int[] KASA_DO_INDEX = new int[] { 13, 29, 33, 39, 40 };
+	public static final int[] KASA_DO_INDEX = new int[] { 13, 28, 29, 33, 39, 40 };
 
 	/**
 	 * 对照字段（标准版）
@@ -113,7 +113,7 @@ public class OrderEdiInController {
 	/**
 	 * 对照字段
 	 */
-	public static final String[] MAPPING_FIELDS = new String[] { "formNo", "skuCode", "barCode", "giftNum", "num" };
+	public static final String[] MAPPING_FIELDS = new String[] { "formNo", "rowNo", "skuCode", "barCode", "giftNum", "num" };
 
 	/**
 	 * LOG
@@ -211,7 +211,7 @@ public class OrderEdiInController {
 			// 文件流
 			InputStream is = file.getInputStream();
 			// 解析Excel
-			List<ImportEntity> xlsList = ExcelReaderUtil.readXlsx(is, 1, 0, STD_DO_INDEX, MAPPING_FIELDS,
+			List<ImportEntity> xlsList = ExcelReaderUtil.readXlsx(is, 1, 0, STD_DO_INDEX, STD_MAPPING_FIELDS,
 					new ImportEntity());
 			// 保存配送出库单
 			saveDoForm(xlsList, result);
@@ -427,7 +427,6 @@ public class OrderEdiInController {
 			// 采购入库单
 			PurchaseForm piForm = createPi(paForm);
 			// 采购收货单明细
-			int rowNo = 0;
 			BigDecimal totalNum = BigDecimal.ZERO;
 			BigDecimal amount = BigDecimal.ZERO;
 			List<PurchaseFormDetail> piDetailList = new ArrayList<PurchaseFormDetail>();
@@ -441,7 +440,7 @@ public class OrderEdiInController {
 					PurchaseFormDetailPO paDetail = paDetailMap.get(skuCode + "_" + "0");
 					if (null != paDetail) {
 						// 采购入库单明细
-						PurchaseFormDetail formDetail = createPiDetail(piForm.getId(), paDetail, entity, 0, ++rowNo,
+						PurchaseFormDetail formDetail = createPiDetail(piForm.getId(), paDetail, entity, 0, entity.getRowNo(),
 								user.getId());
 						// 添加到列表
 						piDetailList.add(formDetail);
@@ -456,7 +455,7 @@ public class OrderEdiInController {
 					PurchaseFormDetailPO paDetail = paDetailMap.get(skuCode + "_" + "1");
 					if (null != paDetail) {
 						// 采购入库单明细
-						PurchaseFormDetail formDetail = createPiDetail(piForm.getId(), paDetail, entity, 1, ++rowNo,
+						PurchaseFormDetail formDetail = createPiDetail(piForm.getId(), paDetail, entity, 1, entity.getRowNo(),
 								user.getId());
 						// 添加到列表
 						piDetailList.add(formDetail);
@@ -508,7 +507,6 @@ public class OrderEdiInController {
 			DeliverFormVo doForm = createDo(daForm);
 
 			// 配送出库单明细
-			int rowNo = 0;
 			BigDecimal totalNum = BigDecimal.ZERO;
 			BigDecimal amount = BigDecimal.ZERO;
 			List<DeliverFormListVo> detailList = new ArrayList<DeliverFormListVo>();
@@ -519,12 +517,12 @@ public class OrderEdiInController {
 				ImportEntity entity = entryEntity.getValue();
 				entity.setNum(entity.getNum().subtract(entity.getGiftNum()));
 
-				// 采购入库正常商品明细
+				// 配送出库商品明细
 				if (entity.getNum().compareTo(BigDecimal.ZERO) > 0) {
 					DeliverFormList daDetail = daDetailMap.get(skuCode + "_" + "0");
 					if (null != daDetail) {
-						// 采购入库单明细
-						DeliverFormListVo formDetail = createDoDetail(doForm, daDetail, entity, 0, ++rowNo,
+						// 配送出库单明细
+						DeliverFormListVo formDetail = createDoDetail(doForm, daDetail, entity, 0, entity.getRowNo(),
 								user.getId());
 						// 添加到列表
 						detailList.add(formDetail);
@@ -534,12 +532,12 @@ public class OrderEdiInController {
 					}
 				}
 
-				// 采购入库赠品明细
+				// 配送出库赠品明细
 				if (entity.getGiftNum().compareTo(BigDecimal.ZERO) > 0) {
 					DeliverFormList daDetail = daDetailMap.get(skuCode + "_" + "1");
 					if (null != daDetail) {
-						// 采购入库单明细
-						DeliverFormListVo formDetail = createDoDetail(doForm, daDetail, entity, 1, ++rowNo,
+						// 配送出库单明细
+						DeliverFormListVo formDetail = createDoDetail(doForm, daDetail, entity, 1, entity.getRowNo(),
 								user.getId());
 						// 添加到列表
 						detailList.add(formDetail);

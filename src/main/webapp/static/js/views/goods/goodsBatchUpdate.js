@@ -598,9 +598,9 @@ function changeBranchType(branchType){
 			break;
 		//分公司仅可修改：是否参与促销、是否直送商品、分店调价、安全库存系数、修改主供应商(物流中心暂当分公司处理)、进货规格、配送规格
 		case 1:
-		case 2:
 			$("#allowActivityChecked,#fastDeliverChecked,#allowAdjustChecked,#safetyCoefficientChecked,#supplierChecked,#purchaseChecked,#distributionChecked,#allowGiftChecked").removeAttr("disabled");
 			break;
+		case 2:
 		//门店仅可修改：安全库存系数、修改主供应商
 		case 3:
 		case 4:

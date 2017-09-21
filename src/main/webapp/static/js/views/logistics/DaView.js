@@ -26,11 +26,12 @@ function initDatagridViewRequireOrder(){
 		height:'100%',
         columns:[[
             {field:'formNo',title:'订单号',width:'150px',align:'left'},
+			{field:'rowNo',title:'序号',width:'80px',align:'center'},
             {field:'skuCode',title:'商品代号',width:'100px',align:'left'},
             {field:'barCode',title:'国际条码',width:'130px',align:'left'},
 			{field:'targetBranchCode',title:'配送点代号',width:'80px',align:'left'},
-			{field:'applyNum',title:'预订数量',width:'90px',align:'left'},
-            {field:'giftNum',title:'赠品数量',width:'80px',align:'left'},
+			{field:'applyNum',title:'预订数量',width:'90px',align:'right'},
+            {field:'giftNum',title:'赠品数量',width:'80px',align:'right'},
             {field:'price',title:'商品零售价',width:'80px',align:'right',
 				formatter : function(value, row, index) {
 					if(row.isFooter){

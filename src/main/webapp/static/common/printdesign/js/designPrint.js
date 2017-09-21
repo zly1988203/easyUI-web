@@ -353,7 +353,7 @@
                 id: "A4",
                 name: "A4",
                 isSYS: true,
-                size: { width: 210, height: 297 }                
+                size: { width: 210, height: 297 }
             },
             margin: { left: 10, top: 10, right: 10, bottom: 10 },
             unit: "mm"

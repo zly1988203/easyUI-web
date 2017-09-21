@@ -497,6 +497,7 @@ function initDatagridEditRequireOrder(){
 	        //pagination:true,
 	        columns:[[
                 {field:'check',checkbox:true},
+                {field:'id',title:'id',hidden:true},
 	            {field:'skuId',title:'skuId',hidden:true},
 	            {field:'barCode',title:'商品条码',width: '120px',align:'left',
 					formatter:function(value,row,index){
@@ -642,9 +643,7 @@ function saveBarCode(){
 	var map = {}; // Map map = new HashMap();
 
 	 var data = $("#dgPrice").datagrid("getRows");
-	 var newData ={
-         barCodelist:[]
-	 } ;
+	 var newData =[] ;
 	 var skuId= $("#id").val();
 	 var skuCode= $("#skuCode").val();
 	 for(var i = 0;i < data.length;i++){
@@ -654,17 +653,21 @@ function saveBarCode(){
 		 }
 		 map[data[i].barCode] = data[i].barCode;
 		 var temp = {
+				 	id:data[i].id,
 		    		skuId : skuId,
 		    		barCode : data[i].barCode,
 		    		skuCode : skuCode
 		    	}
-			newData.barCodelist[i] = temp;
+		 		newData[i] = temp;
 	 }
-	 
+	 var reqObj = {
+			 skuId : skuId,
+			 barCodelist:newData
+	 };
 	 $_jxc.ajax({
 	        url:contextPath+"/goods/goodsBarcode/saveSkuBarCode",
 	        contentType:"application/json",
-	        data:JSON.stringify(newData)
+	        data:JSON.stringify(reqObj)
 	    },function(result){
             if(result['code'] == 0){
                 $_jxc.alert("操作成功！");

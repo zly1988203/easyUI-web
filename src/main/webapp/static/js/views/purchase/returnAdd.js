@@ -4,8 +4,13 @@
 var isEdit = true;
 //过滤price priceBack 标示 
 var loadFilterFlag = false;
-
+//是否赠品是否可选择
+var isGiftFlag = false;
 $(function(){
+    var referenceId = $("#refFormId").val();
+    if (referenceId) {	
+    	isGiftFlag = true;
+    }
 	//初始化默认条件
     initConditionParams();
     
@@ -26,7 +31,9 @@ $(function(){
     //2.7.1-------------------------start
     
     $('input[name="refFormNoType"]').on('change',function(){
+    	isGiftFlag = false;
     	$('#refFormNo').val('');
+    	$('#refFormId').val('');
     	gridHandel.setLoadData([$.extend({},gridDefault)]);
     })
     
@@ -212,6 +219,7 @@ function initDatagridEditOrder(){
                         valueField: 'id',
                         textField: 'text',
                         editable:false,
+                        disabled:isGiftFlag,
                         required:true,
                         data: [{
                             "id":'1',
@@ -457,7 +465,10 @@ var _tempGift;
 
 //监听是否赠品
 function onSelectIsGift(data){
-	
+	// 如果引用单据时，是否赠品不可修改
+	if(isGiftFlag){
+		$(gridHandel.getFieldTarget('isGift')).combobox('readonly', isGiftFlag);
+	}
 	_tempGift = data;
 	
     var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
@@ -921,6 +932,7 @@ function selectForm(){
         }
 
 		new publicPurchaseFormService(param,function(data){
+			isGiftFlag = true;
 			$("#refFormNo").val(data.form.formNo);
 			//根据选择的采购单，带出采购单的信息
 	        var keyNames = {
@@ -954,6 +966,7 @@ function selectForm(){
             targetBranchId:$('#branchId').val()
         }
 		new publicDeliverFormService(param,function(data){
+			isGiftFlag = true;
 			var referenceId = "";
 			referenceId = data.id;
 			$("#refFormId").val(referenceId);

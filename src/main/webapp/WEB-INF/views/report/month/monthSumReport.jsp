@@ -15,7 +15,7 @@
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 	                <div class="ubtns-item" onclick="exportData()">导出</div>
-	                <div class="ubtns-item" onclick="printReport()">打印</div>
+	                <!-- <div class="ubtns-item" onclick="printReport()">打印</div> -->
 	                <input type="hidden" id="startCount" name="startCount" />
 							<input type="hidden" id="endCount" name="endCount" />
 	                <div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>

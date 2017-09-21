@@ -51,7 +51,7 @@
 						<div class="ub ub-ver ub-f1 uw uh ufs-14 uc-black">
 							<div class="ub upad-4">
 								<div class="ub ub-ac uw-320">
-									<div class="umar-r10 uw-136 ut-r">机构名称:</div>
+									<div class="umar-r10 uw-150 ut-r">机构名称:</div>
 									<div class="ub ub-ac umar-r10">
 										<input class="uinp" type="hidden" id="specBranchId"
 											name="specBranchId" /> <input class="ub" type="hidden"
@@ -64,7 +64,7 @@
 
 							<div class="ub upad-4">
 								<div class="ub ub-ac uw-320">
-									<div class="umar-r10 uw-136 ut-r">小票电话设置:</div>
+									<div class="umar-r10 uw-150 ut-r">小票电话设置:</div>
 									<div class="ub ub-ac umar-r10">
 										<input class="uinp" type="text" id="receiptMobile"
 											name="receiptMobile" />
@@ -73,12 +73,24 @@
 							</div>
 							
 							<div class="ub ub-ac">
-								<div class="umar-r10 uw-140 ut-r">使用手机号登录会员:</div>
+								<div class="umar-r10 uw-150 ut-r">使用手机号登录会员:</div>
 								<div class="ub uw-110 ub-ac umar-r10">
 									<label><input type="radio" id="isAllowMobileLogin0" name="isAllowMobileLogin" value="0" /><span>启用</span></label>
 								</div>
 								<div class="ub uw-110 ub-ac umar-r10">
 									<label> <input type="radio" id="isAllowMobileLogin1" name="isAllowMobileLogin" value="1" /><span>不启用</span></label>
+								</div>
+							</div>
+							
+							<div class="ub upad-4">
+								<div class="ub ub-ac uw-320">
+									<div class="umar-r10 uw-150 ut-r">扫码购允许负库存销售:</div>
+									<div class="ub uw-110 ub-ac umar-r10">
+										<label><input class="" type="radio" id="isSelfpayAllowMinusStock1" name="isSelfpayAllowMinusStock" value="1" /><span>启用</span></label>
+									</div>
+									<div class="ub uw-110 ub-ac umar-r10">
+										<label><input class="" type="radio" id="isSelfpayAllowMinusStock0" name="isSelfpayAllowMinusStock" value="0" /><span>不启用</span></label>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -115,6 +127,7 @@
 		//获取值
 		var centComputeType = data.centComputeType;
 		var receivingSetting = data.receivingSetting;
+		var isSelfpayAllowMinusStock = data.isSelfpayAllowMinusStock;
 		$("#branchId").val(data.branchId);
 		//页面赋值
 		if (centComputeType == 0) {
@@ -127,6 +140,12 @@
 			$("#receivingSetting0").attr("checked","true");
 		}else{
 			$("#receivingSetting1").attr("checked","true");
+		}
+		
+		if(isSelfpayAllowMinusStock == 1){
+			$("#isSelfpayAllowMinusStock1").attr("checked","true");
+		}else{
+			$("#isSelfpayAllowMinusStock0").attr("checked","true");
 		}
 		indexTab = 0;
 	}
@@ -160,6 +179,12 @@
 			obj.isAllowMobileLogin = $('input[name="isAllowMobileLogin"]:checked').val();
 			obj.branchId = specBranchId;
 			obj.receiptMobile = receiptMobile;
+			if($('#isSelfpayAllowMinusStock0').is(':checked')) {
+				obj.isSelfpayAllowMinusStock = 0;
+			}else{
+				obj.isSelfpayAllowMinusStock = 1;
+			}
+			
 			url = contextPath
 					+ "/pos/posReceiptSetting/saveOrUpdatePosReceiptSetting";
 		}
@@ -215,6 +240,11 @@
 							$("#isAllowMobileLogin0").prop("checked", "true");
 						} else {
 							$("#isAllowMobileLogin1").prop("checked", "true");
+						}
+						if(result.isSelfpayAllowMinusStock == 1){
+							$("#isSelfpayAllowMinusStock1").prop("checked","checked");								
+						}else{
+							$("#isSelfpayAllowMinusStock0").prop("checked","checked");
 						}
 					},
 					error : function(result) {

@@ -133,8 +133,8 @@ function initDatagridRequireOrders(){
 
 //查询要货单
 function queryForm(){
-    $("#startCount").val('');
-    $("#endCount").val('');
+    $("#startCount").val("");
+    $("#endCount").val("");
 	var startDate = $("#txtStartDate").val();
 	var endDate = $("#txtEndDate").val();
 	if(!(startDate && endDate)){

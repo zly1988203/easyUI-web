@@ -582,7 +582,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		try {
 			PurchaseForm form = purchaseFormServiceApi.get(formId);
 			List<PurchaseFormDetailPO> list = null;
-			if (FormType.PA.equals(form.getFormType())) {
+            if (form != null && FormType.PA.equals(form.getFormType())) {
 				String branchId = form.getBranchId();
 				Branches branch = branchesServiceApi.getBranchInfoById(branchId);
 
