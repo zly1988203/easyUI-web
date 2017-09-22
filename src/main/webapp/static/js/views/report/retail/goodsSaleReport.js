@@ -248,8 +248,6 @@ function initDatagridRequire(){
 
 //查询入库单
 function queryForm(){
-    $("#startCount").val("");
-    $("#endCount").val("");
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#storeSale").datagrid("options").method = "post";
 	$("#storeSale").datagrid('options').url = contextPath + '/goodsSale/report/getGoodsSaleList';
@@ -290,29 +288,21 @@ var resetForm = function() {
 	 $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
 	 $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 };
-var dg;
 /**
  * 导出
  */
 function exportData(){
-    var param = {
-        datagridId:"storeSale"
+    var length = $("#storeSale").datagrid('getData').total;
+    if(length == 0){
+        $_jxc.alert("没有数据");
+        return;
     }
-    publicExprotService(param,function (data) {
-        exportExcel(data);
-    });
+
+    var param = {
+        datagridId:"storeSale",
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/goodsSale/report/exportList"
+    }
+    publicExprotService(param);
 }
-/**
- * 导出
- */
-function exportExcel(data){
-	var length = $("#storeSale").datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("没有数据");
-		return;
-	}
-    $("#startCount").val(data.startCount);
-    $("#endCount").val(data.endCount);
-	$("#queryForm").attr("action",contextPath+"/goodsSale/report/exportList");
-	$("#queryForm").submit();
-}
+

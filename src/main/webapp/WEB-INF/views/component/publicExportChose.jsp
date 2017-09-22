@@ -64,7 +64,8 @@
 			icon="icon-cancel" onclick="toCancel()">取消</a>
 			</div>
 		</div>
-
+			<input type="hidden" id="startCount" name="startCount" />
+			<input type="hidden" id="endCount" name="endCount" />
 		</form>
 	</div>
 </div>

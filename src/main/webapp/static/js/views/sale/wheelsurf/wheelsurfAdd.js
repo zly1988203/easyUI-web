@@ -84,6 +84,24 @@ function initgridAddPosAct() {
         width:'100%',
         columns:[[
             {field:'id',title:'id',align:'left',hidden:true},
+            // {field:'status',title:'Status',width:50,align:'center',
+            //     formatter:function(value,row){
+            //        var str = "";
+            //        if(value == "true"){
+            //            str = "是";
+            //        }else{
+            //            str = "否";
+            //        }
+            //         return str;
+            //     },
+            //     editor:{
+            //         type:'checkbox',
+            //         options:{
+            //             on: "true",
+            //             off: "false"
+            //         }
+            //     }
+            // },
             {field:'skuId',title:'skuId',align:'left',hidden:true,editor:'textbox'},
             {field:'prizeType',title:'奖品类型',width:'100px',align:'left',
                 formatter:function(value,row){
