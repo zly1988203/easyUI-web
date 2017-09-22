@@ -118,7 +118,7 @@ public interface ExportExcelConstant {
 	/**
 	 * @Fields STOCK_LEAD_GOODS : 领用查询导出模板-商品汇总
 	 */
-	String STOCK_LEAD_GOODS = "StockLeadFoods.xlsx";
+	String STOCK_LEAD_GOODS = "StockLeadGoods.xlsx";
 	
 	/**
 	 * @Fields STOCK_LEAD_FIRST_CATEGORY : 领用查询导出模板-一级类别
@@ -153,7 +153,7 @@ public interface ExportExcelConstant {
 	/**
 	 * @Fields STOCK_REIMBURSE_GOODS : 报损查询导出模板-商品汇总
 	 */
-	String STOCK_REIMBURSE_GOODS = "StockReimburseFoods.xlsx";
+	String STOCK_REIMBURSE_GOODS = "StockReimburseGoods.xlsx";
 	
 	/**
 	 * @Fields STOCK_REIMBURSE_FIRST_CATEGORY : 报损查询导出模板-一级类别

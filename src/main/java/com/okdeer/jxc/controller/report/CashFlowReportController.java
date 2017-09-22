@@ -93,15 +93,12 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 
 			// 3、价格保留两位小数特殊处理
 			PageUtils<CashFlowReportVo> page = cashFlowReportService.queryPageList(qo);
-			page.setList(handlePrice(page.getList()));
 
 			// 4、查询汇总
 			CashFlowReportVo cashFlowReportVo = cashFlowReportService.queryCashFlowReportSum(qo);
 			cashFlowReportVo.setBranchCode("<b>" + cashFlowReportVo.getBranchCode() + "</b>");
 			List<CashFlowReportVo> footer = new ArrayList<CashFlowReportVo>();
 			footer.add(cashFlowReportVo);
-			// 5、合计价格保留两位小数特殊处理
-			footer = handlePrice(footer);
 			page.setFooter(footer);
 			return page;
 		} catch (Exception e) {
@@ -173,12 +170,10 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 				// 2、查询汇总
 				CashFlowReportVo cashFlowReportVo = cashFlowReportService.queryCashFlowReportSum(qo);
 				exportList.add(cashFlowReportVo);
-				// 3、导出数据特殊处理
-				List<CashFlowReportVo> list = handleCashFlowReport(exportList);
 
 				String fileName = "收银流水报表" + "_" + DateUtils.getCurrSmallStr();
 				String templateName = ExportExcelConstant.CASHFLOWREPORT;
-				exportListForXLSX(response, list, fileName, templateName);
+				exportListForXLSX(response, exportList, fileName, templateName);
 			} else {
 				RespJson json = RespJson.error("无数据可导");
 				return json;
@@ -225,77 +220,5 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 			LOG.error(PrintConstant.CASH_DAILY_PRINT_ERROR, e);
 		}
 		return null;
-	}
-
-	// 价格保留两位特殊处理
-	private List<CashFlowReportVo> handlePrice(List<CashFlowReportVo> exportList) {
-		for (CashFlowReportVo vo : exportList) {
-			/*
-			 * if (StringUtils.isBlank(vo.getSaleAmount())) {
-			 * vo.setSaleAmount("0.00"); }
-			 */
-			if (StringUtils.isBlank(vo.getPayAmount())) {
-				vo.setPayAmount("0.00");
-			}
-			// 销售金额
-			/*
-			 * if (StringUtils.isNotBlank(vo.getSaleAmount())) {
-			 * java.math.BigDecimal saleAmount = new
-			 * java.math.BigDecimal(vo.getSaleAmount()).setScale(2,
-			 * java.math.BigDecimal.ROUND_HALF_UP);
-			 * vo.setSaleAmount(String.valueOf(saleAmount)); }
-			 */
-			// 付款金额
-			if (StringUtils.isNotBlank(vo.getPayAmount())) {
-				java.math.BigDecimal payAmount = new java.math.BigDecimal(vo.getPayAmount()).setScale(2,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setPayAmount(String.valueOf(payAmount));
-			}
-		}
-		return exportList;
-	}
-
-	// 导出数据特殊处理
-	private List<CashFlowReportVo> handleCashFlowReport(List<CashFlowReportVo> exportList) {
-		for (CashFlowReportVo vo : exportList) {
-			if (StringUtils.isBlank(vo.getPayAmount())) {
-				vo.setPayAmount("0.00");
-			}
-			// 销售金额
-			if (StringUtils.isNotBlank(vo.getSaleAmount())) {
-				java.math.BigDecimal saleAmount = new java.math.BigDecimal(vo.getSaleAmount()).setScale(2,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setSaleAmount(String.valueOf(saleAmount));
-			}
-			// 付款金额
-			if (StringUtils.isNotBlank(vo.getPayAmount())) {
-				java.math.BigDecimal payAmount = new java.math.BigDecimal(vo.getPayAmount()).setScale(2,
-						java.math.BigDecimal.ROUND_HALF_UP);
-				vo.setPayAmount(String.valueOf(payAmount));
-			}
-			// 销售时间
-			if (StringUtils.isNotBlank(vo.getSaleTime())) {
-				String saleTime = DateUtils.formatDate(DateUtils.parse(vo.getSaleTime(), DateUtils.DATE_FULL_STR),
-						DateUtils.DATE_FULL_STR);
-				vo.setSaleTime(saleTime);
-			}
-			// 业务类型
-			// if (StringUtils.isNotBlank(vo.getBusinessType())) {
-			// String code = vo.getBusinessType();
-			// String businessType = BusinessTypeEnum.enumValueOf(code) == null
-			// ? ""
-			// : BusinessTypeEnum.enumValueOf(code).getName();
-			// vo.setBusinessType(businessType);
-			// }
-			// 订单类型
-			// if (StringUtils.isNotBlank(vo.getOrderType())) {
-			// String code = vo.getOrderType();
-			// String orderType =
-			// OrderResourceEnum.enumValueOf(Integer.valueOf(code)) == null ? ""
-			// : OrderResourceEnum.enumValueOf(Integer.valueOf(code)).getName();
-			// vo.setOrderType(orderType);
-			// }
-		}
-		return exportList;
 	}
 }
