@@ -77,12 +77,9 @@ function exportData(){
     }
 
     var param = {
-        datagridId:gridName
+        datagridId:gridName,
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/pos/prize/record/exports"
     }
-    publicExprotService(param,function (data) {
-        $("#startCount").val(data.startCount);
-        $("#endCount").val(data.endCount);
-        $("#queryForm").attr("action",contextPath+"/pos/prize/record/exports");
-        $("#queryForm").submit();
-    });
+    publicExprotService(param);
 }

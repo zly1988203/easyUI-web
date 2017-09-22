@@ -8,12 +8,24 @@ $(function(){
 var exprotGridId = "";
 function initExportChoseParam(param) {
     exprotGridId = param.datagridId;
+    url = param.url;
     $("#totalRows").html($("#"+exprotGridId).datagrid('getData').total);
+    createForm(param.formObj)
 }
 
 var exportChoseCallBack = null;
 function initExportChoseCallBack(cb) {
     exportChoseCallBack = cb;
+}
+
+function createForm(formObj){
+        if(formObj){
+            //根据参数序列化到dom结构中
+            for(key in formObj){
+                    var _inpStr = "<input type='hidden' name='"+key+"' id='"+key+"' value='"+(formObj[key]||"")+"' />";
+                    $('#exportDataForm').append(_inpStr);
+            }
+        }
 }
 
 function sureExportExcel(){
@@ -73,7 +85,13 @@ function sureExportExcel(){
         startCount :stratRow - 1,
         endCount:endRow - (stratRow - 1)
     }
-    exportChoseCallBack(data);
+    // exportChoseCallBack(data);
+
+    $("#startCount").val(data.startCount);
+    $("#endCount").val(data.endCount);
+    $("#exportDataForm").attr("action",url);
+    $("#exportDataForm").submit();
+
     $('#exportChose').panel('destroy');
 
 

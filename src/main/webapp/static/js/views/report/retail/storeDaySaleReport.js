@@ -1284,27 +1284,14 @@ function exportData(){
 		$_jxc.alert("无数据可导");
 		return;
 	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
+    var param = {
+        datagridId:"storeDaySale",
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/storeDaySale/report/exportList"
+    }
+    publicExprotService(param);
 }
-/**
- * 导出
- */
-function exportExcel(){
-	var length = $("#storeDaySale").datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("没有数据");
-		return;
-	}
 
-	$("#queryForm").attr("action",contextPath+"/storeDaySale/report/exportList");
-	$("#queryForm").submit();
-}
 
 /**
  * 重置

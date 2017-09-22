@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>类别销售汇总</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
+<%--<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>--%>
 <script src="${ctx}/static/js/views/report/retail/categorySaleReport.js?V=${versionNo}4"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
@@ -22,8 +22,6 @@
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="categorySaleReport:export">
-	            <input type="hidden" id="startCount" name="startCount" />
-				<input type="hidden" id="endCount" name="endCount" />
 	                <div class="ubtns-item" onclick="exportData()">导出</div>
 	            </shiro:hasPermission>
 	              	<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
