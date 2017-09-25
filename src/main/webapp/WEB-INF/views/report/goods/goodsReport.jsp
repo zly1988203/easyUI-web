@@ -133,12 +133,8 @@
 				</div>
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">商品状态:</div>
-					<select name="status" id="status" class="uselect" style="width: 204px;">
-                        <option value="">全部</option>
-                        <option value="NORMAL">正常</option>
-                        <option value="STOPSELLING">停售</option>
-                        <option value="STOPBUYING">停购</option>
-                    </select>
+                    <input name="statusList" id="statusList" type="hidden">  
+                    <input name="statu" id="statu" style="width: 150px;"  class="easyui-combobox" >  
 				</div>
 			</div>
 		</form>
