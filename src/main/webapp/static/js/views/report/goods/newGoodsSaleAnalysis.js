@@ -11,6 +11,15 @@ $(function() {
 	
 	$("#branchName").val(sessionBranchCodeName);
 	
+	//供应商选择
+	$('#supplierComponent').supplierSelect({
+		//数据过滤
+		loadFilter:function(data){
+			data.supplierId = data.id;
+			return data;
+		}
+	});
+	
 });
 
 var datagridName = 'newgoodsTotalAnalysi';
