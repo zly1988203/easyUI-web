@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>进销存-类别管理</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
+
     <script  src="${ctx}/static/js/views/categoryManager/categoryList.js?V=${versionNo}"></script>
 </head>
 
@@ -49,8 +49,6 @@
                     <div class="umar-r10  ut-r">关键字:</div>
                     <input type="hidden" name="parentId" id="parentId" value="0">
                     <input type="hidden" name="level" id="level" value="">
-                    <input type="hidden" name="startCount" id="startCount" value="">
-                    <input type="hidden" name="endCount" id="endCount" value="">
                     <input class="uinp uw-400" type="text" name="categoryNameOrCode" maxlength="50" id="categoryNameOrCode" placeholder="输入编号、名称进行查询">
                 </div>
             </div>

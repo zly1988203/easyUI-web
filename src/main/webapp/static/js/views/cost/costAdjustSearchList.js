@@ -104,36 +104,20 @@ var resetForm = function() {
 	 $("#queryForm").form('clear');
 };
 
-var dg;
 /**
  * 导出
  */
 function exportData(){
-	dg = gridList;
-	var length = gridList.datagrid('getData').total;
+
+	var length = $("#"+datagridId).datagrid('getData').total;
 	if(length == 0){
 		$_jxc.alert("无数据可导");
 		return;
 	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(gridList.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
-
-/**
- * 导出
- */
-function exportExcel(){
-	var length = gridList.datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("没有数据");
-		return;
-	}
-	$("#queryForm").attr("action",contextPath+"/cost/costAdjustSearch/export");
-	
-	$("#queryForm").submit();
+    var param = {
+        datagridId:datagridId,
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/cost/costAdjustSearch/export"
+    }
+    publicExprotService(param);
 }

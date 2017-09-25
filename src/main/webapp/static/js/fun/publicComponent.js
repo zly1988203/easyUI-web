@@ -1440,8 +1440,16 @@ function GridClass(){
     this.setFieldFocus = function(obj){
     	if(null == obj) return;
         setTimeout(function(){
-            $(obj).textbox('textbox').focus();
-            $(obj).textbox('textbox').select();
+            if(typeof($(obj).textbox()) !=  "undefined") {
+                $(obj).textbox('textbox').focus();
+                $(obj).textbox('textbox').select();
+            }
+           else if($(obj).combobox()){
+                $(obj).combobox('textbox').focus();
+                // $(obj).combobox('showPanel')
+                // $(obj).combobox('textbox').select();
+            }
+
         },10);
     }
     /**

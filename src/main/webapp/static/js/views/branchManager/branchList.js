@@ -57,11 +57,11 @@ function zTreeOnClick(event, treeId, treeNode) {
     $("#branchCompleCode").val(treeNode.code);
     queryBranch();
 }
-var dg;
+
 function initDatagridBranchList() {
 	var updatePermission = $.trim($("#updatePermission").html());
     gridHandel.setGridName(gridName);
-    dg = $("#"+gridName).datagrid({
+    $("#"+gridName).datagrid({
         method:'post',
         align:'center',
         url:contextPath+'/archive/branch/getBranchList',
@@ -139,9 +139,6 @@ function closeDialogHandel() {
  * 搜索
  */
 function queryBranch(){
-	//搜索需要将左侧查询条件清除
-	$("#startCount").val('');
-	$("#endCount").val('');
     var formData = $('#formList').serializeObject();
     $("#"+gridName).datagrid("options").queryParams = formData;
     $("#"+gridName).datagrid("options").method = "post";
@@ -162,24 +159,10 @@ function editBranch() {
  * 导出
  */
 function exportData(){
-	var length = $("#"+gridName).datagrid('getData').rows.length;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
-// 调用导出方法
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-
-	$("#formList").attr("action",contextPath+"/archive/branch/exportHandel");
-	$("#formList").submit();
+    var param = {
+        datagridId:gridName,
+        formObj:$("#formList").serializeObject(),
+        url:contextPath+"/archive/branch/exportHandel"
+    }
+    publicExprotService(param);
 }
