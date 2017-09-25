@@ -46,6 +46,14 @@
 						type="text" maxlength="50">
 					<div class="uinp-more" onclick="selectSupplier()">...</div>
 				</div>
+			</div>
+			<div class="ub umar-t8">
+                <div class="ub ub-ac umar-r40" id="branchComponent">
+                    <div class="umar-r10 uw-60 ut-r">收货机构:</div>
+                    <input class="uinp" name="branchId" id="branchId" type="hidden">
+                    <input class="uinp" id="branchName" type="text" maxlength="50">
+                    <div class="uinp-more">...</div>
+                </div>
 				<div class="ub ub-ac umar-r40" id="operatorComponent">
 					<div class="umar-r10 uw-60 ut-r">操作员:</div>
 					<input class="uinp" name="operateUserId" id="operateUserId"
@@ -53,8 +61,6 @@
 						name="operateUserName" type="text" maxlength="50">
 					<div class="uinp-more">...</div>
 				</div>
-			</div>
-			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">审核状态:</div>
 					<div class="ub ub-ac umar-r10">
@@ -74,7 +80,17 @@
 							id="status_all" value="" /><label for="status_all">全部</label>
 					</div>
 				</div>
-				<div class="ub ub-ac umar-l20">
+			</div>
+			<div class="ub umar-t8">
+				<div class="ub ub-ac uw-610" style="width: 584px;">
+					<div class="umar-r10 uw-60 ut-r">备注:</div>
+					<input class="uinp ub ub-f1" name="remark" id="remark" type="text"
+						onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
+						onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
+						oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
+						maxlength="100">
+				</div>
+				<div class="ub ub-ac umar-l40">
 					<div class="umar-r10 uw-60 ut-r">单据状态:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="dealStatus" id="deal0"
@@ -95,16 +111,6 @@
 						<input class="radioItem" type="radio" name="dealStatus" id="deal4"
 							value="" checked="checked" /><label for="deal4">全部 </label>
 					</div>
-				</div>
-			</div>
-			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-610" style="width: 624px;">
-					<div class="umar-r10 uw-60 ut-r">备注:</div>
-					<input class="uinp ub ub-f1" name="remark" id="remark" type="text"
-						onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-						onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-						oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
-						maxlength="100">
 				</div>
 			</div>
 		</form>
