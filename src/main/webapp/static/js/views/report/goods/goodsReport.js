@@ -70,8 +70,16 @@ $(function(){
 	localStorageUtil.clearStorageItem();
     //机构选择初始化 发货机构
     $('#branchTemp').branchSelect();
+    // 初始化商品状态 
+    initCombobox('statu',dataItems);
 });
 
+var dataItems = [
+{"name": "正常","code": "NORMAL"},
+{"name": "停售","code": "STOPSELLING"},
+{"name": "停购","code": "STOPBUYING"},
+{"name": "淘汰","code": "OBSOLETE"}
+];
 
 function initView(){
     $('#goodsType').combobox({
@@ -417,6 +425,8 @@ function query(){
 	
 	//将左侧查询条件设置缓存中
 	setLocalStorage();
+	// 赋值单据类型选择
+	$("#statusList").val($("#statu").val());	
 	
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
