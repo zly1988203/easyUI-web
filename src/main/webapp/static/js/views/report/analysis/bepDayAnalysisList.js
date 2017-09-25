@@ -74,10 +74,10 @@ function initGridDayAnalysis() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-            {field:'profitLossAmount',title:'盈亏金额',width:"120px",align:'right',
+            {field:'profitLossAmount',title:'盈亏金额',width:"100px",align:'right',
             	formatter : function(value, row, index) {
-            		if(row.isFooter){
-            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
+            			return '';
             		}
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	},
