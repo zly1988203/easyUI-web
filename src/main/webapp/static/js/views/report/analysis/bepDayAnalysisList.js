@@ -74,6 +74,14 @@ function initGridDayAnalysis() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
+            {field:'profitLossAmount',title:'盈亏金额',width:"120px",align:'right',
+            	formatter : function(value, row, index) {
+            		if(row.isFooter){
+            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		}
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	},
+            },
 			{field:'dayTotalAmount',title:'当天销售金额',width:"120px",align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
