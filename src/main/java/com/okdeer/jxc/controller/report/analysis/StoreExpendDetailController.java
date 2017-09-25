@@ -150,9 +150,17 @@ public class StoreExpendDetailController extends BaseController<StoreExpendDetai
 
 			String data = JacksonUtil.toJson(columns);
 			data = data.replaceAll("\".separator.", "").replaceAll(".separator.\"", "");
+			
+			boolean flg = false;
+			
+			// 如果超过20个，要弹框提示
+			if(storeList.size() > 20){
+				flg = true;
+			}
 
 			RespJson respJson = RespJson.success();
 			respJson.setData(data);
+			respJson.put("flg", flg);
 
 			return respJson;
 		} catch (Exception e) {
