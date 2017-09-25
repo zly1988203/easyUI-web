@@ -22,8 +22,29 @@ $(function(){
             return data;
         }
     })
-
+    initCombobox('fType',dataItems);
 });
+
+var dataItems = [
+//			{"name": "全部","code": ""},
+			{"name": "采购收货","code": "PI"},
+			{"name": "采购退货","code": "PR"},
+			{"name": "配送入库","code": "DI"},
+			{"name": "配送出库","code": "DO"},
+			{"name": "销售","code": "XS"},
+			{"name": "销售退货","code": "XT"},
+			{"name": "库存调整","code": "IO"},
+			{"name": "礼品兑换","code": "LP"},
+			{"name": "组合拆分","code": "IX"},
+			{"name": "报损单","code": "ID"},
+			{"name": "领用单","code": "IU"},
+			{"name": "盘点单","code": "PD"},
+			{"name": "直送收货","code": "PM"},
+			{"name": "成本调价","code": "IP"},
+        ];
+
+
+
 var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequire(){
@@ -253,6 +274,8 @@ function initDatagridRequire(){
 function queryForm(){
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
+	// 赋值单据类型选择
+	$("#formTypes").val($("#fType").val());	
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#goodsOutInDetail").datagrid("options").method = "post";
 	$("#goodsOutInDetail").datagrid('options').url = contextPath + '/goods/goodsDetail/getGoodsOutInDetailList';
