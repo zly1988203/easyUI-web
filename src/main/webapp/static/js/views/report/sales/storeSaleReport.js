@@ -91,6 +91,8 @@ function initDatagridStoreSale(){
 
 // 查询
 function queryForm() {
+	 $("#startCount").val("");
+	 $("#endCount").val("");
     var fromObjStr = $('#queryForm').serializeObject();
     //2.7精确查询
     fromObjStr.branchName = "";

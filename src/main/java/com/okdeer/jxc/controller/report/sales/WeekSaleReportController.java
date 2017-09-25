@@ -24,7 +24,7 @@ public class WeekSaleReportController extends BaseReportController<WeekSaleRepor
 
 	@Override
 	protected Model getModel(Model model) {
-		model.addAttribute("maxReportType",6);
+		model.addAttribute(MAX_REPORT_TYPE,6);
 		return model;
 	}
 
