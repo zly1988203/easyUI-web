@@ -62,24 +62,8 @@
 	      <div class="ub umar-t8">
                   <div class="ub ub-ac uselectw">
                     <div class="umar-r10 uw-80 ut-r">出入库类型:</div>
-                       <!--select-->
-				        <select class="easyui-combobox uselect" name="formType" id="formType" data-options="editable:false">
-								<option value="">全部</option> 
-								<option value="PI">采购收货</option> 
-								<option value="PR">采购退货</option> 
-								<option value="DI">配送入库</option> 
-								<option value="DO">配送出库</option> 
-								<option value="XS">销售</option> 
-								<option value="XT">销售退货</option> 
-								<option value="IO">库存调整</option>
-								<option value="LP">礼品兑换</option>
-								<option value="IX">组合拆分</option>
-								<option value="ID">报损单</option>
-								<option value="IU">领用单</option>
-								<option value="PD">盘点单</option>
-								<option value="PM">直送收货</option>
-								<option value="IP">成本调价</option>
-				        </select>
+                    <input name="formTypes" id="formTypes" type="hidden">  
+                    <input name="fType" id="fType" style="width: 150px;"  class="easyui-combobox" >  
                 </div>
                 <div class="ub ub-ac umar-l20" id="supplierSelect">
                     <div class="umar-r10 uw-70 ut-r">供应商:</div>
