@@ -71,6 +71,12 @@
 			        	<input type="text" name="categoryName" id="categoryName" class="uinp " readonly="readonly" maxlength="50" />
 					    <div class="uinp-more" id="categorySelect" onclick="searchCategory()">...</div>
 				   </div>
+	                <div class="ub ub-ac umar-l20" id="supplierComponent">
+	                    <div class="umar-r10 uw-60 ut-r">供应商:</div>
+	                    <input class="uinp" name="supplierId" id="supplierId" type="hidden">
+	                    <input class="uinp" id="supplierName" type="text" maxlength="50">
+	                    <div class="uinp-more">...</div>
+	                </div>
                    <div class="ub ub-ac  umar-l20">
 	                    <div class="umar-r10 uw-30 ut-r">最近</div>
 	                    <input class="uinp uw-30 easyui-numberbox" type="text" data-options="min:1" name="dayNum" id="dayNum" value="7">
