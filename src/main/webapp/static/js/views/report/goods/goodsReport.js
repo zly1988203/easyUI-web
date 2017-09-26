@@ -72,9 +72,12 @@ $(function(){
     $('#branchTemp').branchSelect();
     // 初始化商品状态 
     initCombobox('statu',dataItems);
+    // 默认选择中全部
+    $('#statu').combobox('select', dataItems[0].code);
 });
 
 var dataItems = [
+{"name": "全部","code": "NORMAL,STOPSELLING,STOPBUYING,OBSOLETE"},
 {"name": "正常","code": "NORMAL"},
 {"name": "停售","code": "STOPSELLING"},
 {"name": "停购","code": "STOPBUYING"},
