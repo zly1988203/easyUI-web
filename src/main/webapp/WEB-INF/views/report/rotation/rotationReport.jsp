@@ -69,7 +69,10 @@
 						<label> <input class="radioItem" type="radio"  value="2" name="rotationType">成本周转率 </label>
 					</div>
 				</div>
-				
+				<div class="ub ub-ac umar-l10">
+					<div class="umar-r10 uw-70 ut-r">公式说明：</div>
+					<div class="ub ub-ac umar-r10" id="divTips" ></div>
+				</div>
 			</div>
 		</form>
 		<div class="ub ub-f1 umar-t20">
