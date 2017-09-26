@@ -2,7 +2,7 @@
  * Created by zhaoly on 2017/5/26.
  */
 
-var  costTitle = '开店成本(每月均摊)';
+var  costTitle = '开店成本(均摊含折旧)';
 $(function () {
     initGridDayAnalysis();
     toChangeDate(1);
@@ -11,11 +11,11 @@ $(function () {
 
 //单据状态切换
 function changeStatus(){
-    $(".radioItem").change(function(){
+    $(".radioItem.costType").change(function(){
         if($(this).val() === "0"){
-            costTitle = '开店成本(含折旧)';
+            costTitle = '开店成本(均摊含折旧)';
         }else{
-            costTitle = '开店成本(不含折旧)';
+            costTitle = '开店成本(均摊不含折旧)';
         }
         $("#"+gridName).datagrid('loadData', { total: 0, rows: [] }); 
         $("#"+gridName).datagrid("options").url = "";

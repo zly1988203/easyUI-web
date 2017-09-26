@@ -54,12 +54,12 @@
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">费用类型:</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="costType"
+						<input class="radioItem costType" type="radio" name="costType"
 							id="status_no" value="0" checked="checked" /><label
 							for="status_no">含折旧费用 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="costType"
+						<input class="radioItem costType" type="radio" name="costType"
 							id="status_yes" value="1" /><label for="status_yes">不含折旧费用
 						</label>
 					</div>

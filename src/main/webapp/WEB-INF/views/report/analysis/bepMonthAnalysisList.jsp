@@ -74,12 +74,12 @@
 
 				<div class="ub ub-ac umar-r40">
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="costType"
+						<input class="radioItem costType" type="radio" name="costType"
 							id="status_no" value="0" checked="checked" /><label
 							for="status_no">含折旧费用 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="costType"
+						<input class="radioItem costType" type="radio" name="costType"
 							id="status_yes" value="1" /><label for="status_yes">不含折旧费用
 						</label>
 					</div>
@@ -94,7 +94,7 @@
 						
 						<div class="ub ub-ac  uh-36">
 							<label class="umar-r10"> <input class=" radioItem"
-								id="OWN_STORE" type="radio" checked="checked" name="branchesType" value="3" />直营店
+								id="OWN_STORE" type="radio" checked="checked" name="branchType" value="3" />直营店
 							</label>
 						</div>
 						<div class="ub ub-ac umar-r10">
