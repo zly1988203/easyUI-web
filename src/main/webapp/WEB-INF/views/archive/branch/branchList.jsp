@@ -9,7 +9,6 @@
 <title>机构信息</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script src="${ctx}/static/js/views/branchManager/branchList.js?V=${versionNo}"></script>
 	<style>

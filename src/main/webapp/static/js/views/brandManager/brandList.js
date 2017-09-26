@@ -11,10 +11,10 @@ $(function(){
     initDataGrid();
 });
 var gridHandel = new GridClass();
-var dg;
+
 function initDataGrid() {
 	var updatePermission = $("#updatePermission").html().trim();
-	dg = $("#dataList").datagrid({
+	$("#dataList").datagrid({
         //title:'普通表单-用键盘操作',
         method: 'post',
         align: 'center',
@@ -56,28 +56,16 @@ function exportData(){
         $_jxc.alert("无数据可导");
 		return;
 	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
+    var param = {
+        datagridId:"dataList",
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/common/brand/exportList"
+    }
+    publicExprotService(param);
 }
-
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-
-	$("#queryForm").attr("action",contextPath+"/common/brand/exportList");
-	$("#queryForm").submit();
-}
-
 
 //查询
 function query(){
-	$("#startCount").val('');
-	$("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	$("#dataList").datagrid("options").queryParams = formData;
 	$("#dataList").datagrid("options").method = "post";
