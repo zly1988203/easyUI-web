@@ -1,9 +1,9 @@
 /**
  * Created by zhaoly on 2017/8/18.
  */
-
+var isdisabled = false;
 $(function () {
-    initgridAddPosAct();
+
     //机构选择初始化
     initBranchGroup();
     if($("#pageStatus").val() === "add"){
@@ -20,14 +20,18 @@ $(function () {
             $("#gridAddPosAct").datagrid("loadData",data.detail);
         });
     }else{
+        disabledElement();
         $_jxc.ajax({url:contextPath+"/pos/wheelsurf/form/edit/detail/"+$("#formId").val()},function (data) {
             $("#gridAddPosAct").datagrid("loadData",data.detail);
         });
     }
 
+    initgridAddPosAct();
+
 })
 
 function disabledElement(){
+    isdisabled = true;
     $("#beginTime").prop("disabled",true);
     $("#overTime").prop("disabled",true);
     $("#validOverTime").prop("disabled",true);
@@ -96,6 +100,7 @@ function initgridAddPosAct() {
                         textField: 'text',
                         editable:false,
                         // required:true,
+                        disabled:isdisabled,
                         data: [{
                             "id":'1',
                             "text":"商品",
@@ -115,7 +120,13 @@ function initgridAddPosAct() {
                     }
                 }
             },
-            {field:'prizeShortName',title:'奖品简称',width:'200px',align:'left',editor:'textbox',
+            {field:'prizeShortName',title:'奖品简称',width:'200px',align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        disabled:isdisabled,
+                    }
+                }
             },
             {field:'rowNo',title:'顺序',width:'100px',align:'right',
                 formatter : function(value, row, index) {
@@ -136,6 +147,7 @@ function initgridAddPosAct() {
                         min:0,
                         precision:0,
                         max:999999,
+                        disabled:isdisabled,
                     }
                 },
             },
@@ -157,6 +169,7 @@ function initgridAddPosAct() {
                         min:1,
                         precision:0,
                         max:999999,
+                        disabled:isdisabled,
                     }
                 },
             },
@@ -178,6 +191,7 @@ function initgridAddPosAct() {
                         min:0,
                         precision:0,
                         max:999999,
+                        disabled:isdisabled,
                     }
                 },
             },
@@ -198,6 +212,7 @@ function initgridAddPosAct() {
                     options:{
                         min:0.00,
                         precision:2,
+                        disabled:isdisabled,
                     }
                 },
             },
