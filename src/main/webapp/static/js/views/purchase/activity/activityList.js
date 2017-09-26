@@ -129,6 +129,20 @@ function exportExcel(){
     $("#queryForm").submit();
 }
 
+var copy = function () {
+    //var rows = $("#gridActivityList").datagrid("getChecked");
+    var length = $("#gridActivityList").datagrid("getChecked").length;
+    if (length <= 0) {
+        $_jxc.alert('请选中一行进行复制！');
+        return null;
+    } else if (length > 1) {
+        $_jxc.alert('只能选中一行进行复制！');
+        return null;
+    } else {
+        window.parent.addTab('复制采购促销活动', contextPath + '/purchase/activity/copy/' + $("#gridActivityList").datagrid("getSelected").id);
+    }
+
+};
 
 //删除
 function del() {
