@@ -43,7 +43,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -324,27 +323,12 @@ public class PurchaseActivityController extends BaseController<PurchaseActivityC
 
                         @Override
                         public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
-                            for (JSONObject obj : excelListSuccessData) {
-                                try {
-                                    String newPurPrice = obj.getString("newPurPrice");
-                                    Double.parseDouble(newPurPrice);
-                                } catch (Exception e) {
-                                    obj.element("newPurPrice", 0);
-                                }
-                            }
+
                         }
 
                         @Override
                         public void formatter(List<? extends GoodsSelect> list, List<JSONObject> excelListSuccessData,
                                               List<JSONObject> excelListErrorData) {
-                            for (GoodsSelect objGoods : list) {
-                                ActivityGoodsImportVo obj = (ActivityGoodsImportVo) objGoods;
-
-                                BigDecimal price = obj.getNewPurPrice();
-                                if (price == null) {
-                                    obj.setPrice(obj.getNewPurPrice());
-                                }
-                            }
                         }
 
                         /**
@@ -373,9 +357,9 @@ public class PurchaseActivityController extends BaseController<PurchaseActivityC
     private String[] buildFields(String type) {
         String[] field = null;
         if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-            field = new String[]{"skuCode", "newPurPrice"};
+            field = new String[]{"skuCode"};
         } else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-            field = new String[]{"barCode", "newPurPrice"};
+            field = new String[]{"barCode"};
 
         }
         return field;
@@ -388,11 +372,11 @@ public class PurchaseActivityController extends BaseController<PurchaseActivityC
         String[] headers = null;
         String[] columns = null;
         if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {// 货号
-            columns = new String[]{"skuCode", "newPurPrice"};
-            headers = new String[]{"货号", "活动进货价"};
+            columns = new String[]{"skuCode"};
+            headers = new String[]{"货号"};
         } else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {// 条码
-            columns = new String[]{"barCode", "newPurPrice"};
-            headers = new String[]{"条码", "活动进货价"};
+            columns = new String[]{"barCode"};
+            headers = new String[]{"条码"};
         }
         goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
     }

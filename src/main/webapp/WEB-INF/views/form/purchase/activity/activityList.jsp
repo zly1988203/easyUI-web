@@ -26,6 +26,9 @@
                 <shiro:hasPermission name="purchaseActivity:search">
                     <div class="ubtns-item" onclick="query()">查询</div>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="purchaseActivity:copy">
+                    <div class="ubtns-item" onclick="copy()">复制</div>
+                </shiro:hasPermission>
                 <shiro:hasPermission name="purchaseActivity:append">
                     <div class="ubtns-item" onclick="add()">新增</div>
                 </shiro:hasPermission>
