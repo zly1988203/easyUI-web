@@ -36,6 +36,7 @@ function initdefaultElement() {
    /* $("#skuName").prop("disabled",true);
     $("#skuCode").prop("disabled",true);
     $("#categoryType").combobox({disabled:true});*/
+    $("#categoryType").combobox({disabled:true});
 }
 
 // 单据状态切换
