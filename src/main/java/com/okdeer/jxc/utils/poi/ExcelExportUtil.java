@@ -590,6 +590,8 @@ public class ExcelExportUtil {
 			// int rowIndex = 1;
 			// 记录每列合并单元格的起始位置
 			Map<String, String> mergeValue = new HashMap<>();
+			// 记录每列合并的单元格，新起合并时取上一个合并配置进行单元格合并
+			Map<String, CellRangeAddress> mergeIndex = new HashMap<>();
 			for (JSONObject data : dataList) {
 				rowIndex++;
 				row = sheet.createRow(rowIndex);
@@ -605,18 +607,32 @@ public class ExcelExportUtil {
 					// 判断是否合并
 					if (mergeColumns.contains(fieldName)) {
 						if (mergeValue.containsKey(fieldName) && mergeValue.get(fieldName).equals(textValue)) {
-							// 与上一行数据一致，需要合并
-							sheet.addMergedRegion(new CellRangeAddress(rowIndex - 1, rowIndex, columnIndex, columnIndex));
+							// 与上一行数据一致，记录合并
+							mergeIndex.get(fieldName).setLastRow(rowIndex);
 						} else {
-							// 与上一行数据不一致，另起合并
-							mergeValue.put(fieldName, textValue);
-							// 同时将子列的合并重置
-							for (int i = mergeColumns.indexOf(fieldName) + 1; i < mergeColumns.size(); i++) {
+							// 与上一行数据不一致，需要另起合并
+							// 同时将当前列和子列的合并重置
+							for (int i = mergeColumns.indexOf(fieldName); i < mergeColumns.size(); i++) {
+								if (mergeIndex.containsKey(mergeColumns.get(i))) {
+									sheet.addMergedRegion(mergeIndex.get(mergeColumns.get(i)));
+								}
 								mergeValue.remove(mergeColumns.get(i));
+								mergeIndex.remove(mergeColumns.get(i));
 							}
+							// 合并后重新计算当前列的合并数据
+							mergeValue.put(fieldName, textValue);
+							mergeIndex.put(fieldName, new CellRangeAddress(rowIndex, rowIndex, columnIndex, columnIndex));
 						}
 					}
 				}
+			}
+			// 循环后判断是否还有需要合并的行
+			for (int i = 0; i < mergeColumns.size(); i++) {
+				if (mergeIndex.containsKey(mergeColumns.get(i))) {
+					sheet.addMergedRegion(mergeIndex.get(mergeColumns.get(i)));
+				}
+				mergeValue.remove(mergeColumns.get(i));
+				mergeIndex.remove(mergeColumns.get(i));
 			}
 		}
 	}

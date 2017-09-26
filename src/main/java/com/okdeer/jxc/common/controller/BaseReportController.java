@@ -39,6 +39,10 @@ import net.sf.json.JSONObject;
 public abstract class BaseReportController<Q extends BaseReportQo, V> extends BaseController<V> {
 
 	/**
+	 * @Fields MAX_REPORT_TYPE : 报表最大分类查询类型数
+	 */
+	public static String MAX_REPORT_TYPE="maxReportType";
+	/**
 	 * 
 	 * @Description: 获取跳转路径
 	 * @return String  

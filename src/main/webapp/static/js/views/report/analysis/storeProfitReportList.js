@@ -58,6 +58,12 @@ function queryForm(){
         	if(!result.data){
         		return;
         	}
+        	
+        	var flg = result.flg;
+        	if(flg === true){
+        		$_jxc.alert("店铺数据较多，只展示20个店铺数据，如需查看所有请导出excel查看。");
+        	}
+        	
         	queryColumns = eval("(" + result.data + ")");
         	
         	initDataStoreExpendDetailReport();

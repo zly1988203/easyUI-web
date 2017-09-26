@@ -98,15 +98,15 @@ public class PeriodSaleContrastController extends BaseController<PeriodSaleContr
 			handlerParam(qo);
 			List<PeriodSaleContrastResult> list = periodSaleContrastFacade.queryPeriodSaleContrastResultPage(qo);
 
-			String fileName = "时段销售对比分析" + "_" + DateUtils.getCurrSmallStr();;
+			String fileName = "时段销售对比分析" + "_" + DateUtils.getCurrSmallStr();
 
-			String[] headers = { "项目/时段", "", "月均销售", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月",
-					"12月", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" };
+			String[] headers = { "项目/时段", "", "月均销售", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月",
+					"11月", "12月", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" };
 
-			String[] columns = new String[] { "bizType", "classesStr", "avgSale", "thisOne", "thisTwo", "thisThree", "thisFour", "thisFive", "thisSix", "thisSeven",
-					"thisEight", "thisNine", "thisTen", "thisEleven", "thisTwelve", "lastOne", "lastTwo", "lastThree",
-					"lastFour", "lastFive", "lastSix", "lastSeven", "lastEight", "lastNine", "lastTen", "lastEleven",
-					"lastTwelve" };
+			String[] columns = new String[] { "bizType", "classesStr", "avgSale", "thisOne", "thisTwo", "thisThree",
+					"thisFour", "thisFive", "thisSix", "thisSeven", "thisEight", "thisNine", "thisTen", "thisEleven",
+					"thisTwelve", "lastOne", "lastTwo", "lastThree", "lastFour", "lastFive", "lastSix", "lastSeven",
+					"lastEight", "lastNine", "lastTen", "lastEleven", "lastTwelve" };
 
 			List<JSONObject> jsonList = new ArrayList<JSONObject>();
 			for (PeriodSaleContrastResult data : list) {
