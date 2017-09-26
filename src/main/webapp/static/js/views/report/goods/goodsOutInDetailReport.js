@@ -22,11 +22,14 @@ $(function(){
             return data;
         }
     })
+    // 初始化
     initCombobox('fType',dataItems);
+    // 默认选择中全部
+    $('#fType').combobox('select', dataItems[0].code);
 });
 
 var dataItems = [
-//			{"name": "全部","code": ""},
+			{"name": "全部","code": "PI,PR,DI,DO,XS,XT,IO,LP,IX,ID,IU,PD,PM,IP"},
 			{"name": "采购收货","code": "PI"},
 			{"name": "采购退货","code": "PR"},
 			{"name": "配送入库","code": "DI"},
