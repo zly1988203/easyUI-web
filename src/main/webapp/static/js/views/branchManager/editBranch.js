@@ -39,6 +39,13 @@ function getBranchInfo(){
                                     $("#statusStr").val("已关闭");
                                 }
                             }
+                            
+                            // 加价率，要乘以 100
+                            if(key === "markupRate"){
+                            	if(value){
+                            		value = parseFloat(value) * 100;
+                            	}
+                            }
 
                             $("#formEdit #"+key).val(value);
                         }
@@ -81,7 +88,7 @@ function getBranchInfo(){
                             $('#formEdit #selectGoodsSpec').combobox('select', value.toString());
                         }
                     }
-
+                    
                     $("#formEdit #"+key+" option").each(function(i,n){
                         if($(n).val() == value || $(n).val()==value.name){
                             $(n).attr("selected",true);

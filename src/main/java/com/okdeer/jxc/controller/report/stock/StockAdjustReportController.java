@@ -43,7 +43,8 @@ public class StockAdjustReportController extends BaseReportController<StockAdjus
 
 	@Override
 	protected Model getModel(Model model) {
-		model.addAttribute("maxReportType", 4);
+		model.addAttribute(MAX_REPORT_TYPE, 4);
+		//库存调整数据字典
 		List<Dict> dict = dictServiceApi.getDictByType("ADJUST_REASON");
 		model.addAttribute("ADJUST_REASON", dict);
 		return model;
@@ -54,7 +55,8 @@ public class StockAdjustReportController extends BaseReportController<StockAdjus
 		if(StringUtils.isEmpty(qo.getBranchCompleCode())){
 			qo.setBranchCompleCode(getCurrBranchCompleCode());
 		}
-		if(qo.getCategoryType()!=null&&qo.getCategoryType()>3){
+		//如果类别被选择，报表类型设置为类别所选中的值
+		if(qo.getCategoryType()!=null&&StockAdjustReportFacade.REPORT_TYPE_LEVEL_1.equals(qo.getReportType())  ){
 			qo.setReportType(qo.getCategoryType());
 		}
 		return qo;

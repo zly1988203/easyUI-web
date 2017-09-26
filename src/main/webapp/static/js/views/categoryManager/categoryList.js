@@ -140,8 +140,6 @@ function queryList(){
     var formParams = $("#formGoodsCategory").serializeObject();
     $("#parentId").val('');
     $("#level").val('');
-    $("#startCount").val('');
-    $("#endCount").val('');
     $("#gridArchives").datagrid('options').url=contextPath+'/common/category/queryChildrenCategryList';
     gridReload("gridArchives", formParams);
     
@@ -156,21 +154,12 @@ function exportData(){
         $_jxc.alert("无数据可导");
 		return;
 	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
-
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-
-	$("#formGoodsCategory").attr("action",contextPath+"/common/category/exportList");
-	$("#formGoodsCategory").submit();
+    var param = {
+        datagridId:"gridArchives",
+        formObj:$("#formGoodsCategory").serializeObject(),
+        url:contextPath+"/common/category/exportList"
+    }
+    publicExprotService(param);
 }
 
 //重置

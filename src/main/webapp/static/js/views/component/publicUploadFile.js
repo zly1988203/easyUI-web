@@ -4,7 +4,7 @@
  */
 var uploadFileParams;
 var uploadFileCallBack ;
-var maxRows = 1000; //最大能导入的数量
+var maxRows = 3000; //最大能导入的数量
 var maxRowsed; //已导入数量 
 //初始化回调函数
 function initUploadFileCallBack(cb,params){

@@ -1342,7 +1342,7 @@ function selectSourceBranch(){
                 // 刷新起订金额
                 getSourceMinAmount(data.stockMinAmount);
                 
-                deliverPriceSpecFlg = data.deliverPriceSpec == 3 ? true : false;
+                deliverPriceSpecFlg = data.deliverPriceSpec == 1 || data.deliverPriceSpec == 3 ? true : false;
                 
                 initDatagridRequireOrder();
                 
@@ -1360,7 +1360,7 @@ function selectSourceBranch(){
                 // 刷新起订金额
                 getSourceMinAmount(data.stockMinAmount);
                 
-                deliverPriceSpecFlg = data.deliverPriceSpec == 3 ? true : false;
+                deliverPriceSpecFlg = data.deliverPriceSpec == 1 || data.deliverPriceSpec == 3 ? true : false;
                 
                 initDatagridRequireOrder();
                 

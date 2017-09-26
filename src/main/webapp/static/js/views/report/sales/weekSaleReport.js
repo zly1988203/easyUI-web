@@ -138,6 +138,8 @@ function onChangeSelect() {
 
 // 查询
 function queryForm() {
+	 $("#startCount").val("");
+	 $("#endCount").val("");
     var fromObjStr = $('#queryForm').serializeObject();
     //2.7精确查询
     fromObjStr.branchName = "";
@@ -168,6 +170,23 @@ function exportLeadSearchList(){
 
 //调用导出方法
 function exportExcel(){
+    
+    var length = $('#'+datagridID).datagrid('getData').rows.length;
+	if(length == 0){
+		$_jxc.alert("没有数据");
+		return;
+	}
+	var fromObjStr = $('#queryForm').serializeObject();
+	
+	$("#queryForm").form({
+		success : function(data){
+			if(data==null){
+				$_jxc.alert("导出数据成功！");
+			}else{
+				$_jxc.alert(JSON.parse(data).message);
+			}
+		}
+	});
     $("#exportWin").hide();
     $("#exportWin").window("close");
 
