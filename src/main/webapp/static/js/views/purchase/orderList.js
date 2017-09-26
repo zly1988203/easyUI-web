@@ -11,7 +11,8 @@ $(function(){
     }
     //单据状态切换
     changeStatus();
-
+	//机构选择
+	$('#branchComponent').branchSelect();
     //选择初始化
     $('#operatorComponent').operatorSelect({
         //数据过滤

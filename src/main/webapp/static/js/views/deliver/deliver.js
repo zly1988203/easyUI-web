@@ -166,6 +166,84 @@ function initDatagridRequireOrder(){
                     return str;
                 }
             },
+            {field:'largeNum',title:'箱数',width:'80px',align:'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		}
+            		
+            		if(!value){
+            			row["largeNum"] = parseFloat(value||0).toFixed(2);
+            		}
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	},
+            	editor:{
+            		type:'numberbox',
+            		options:{
+            			min:0,
+            			precision:0,
+            			onChange: onChangeLargeNum,
+            		}
+            	}
+            },
+            {field:'applyNum',title:'数量',width:'80px',align:'right',
+            	formatter:function(value,row,index){
+            		if(row.isFooter){
+            			return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            		}
+            		if(!value){
+            			row["applyNum"] = parseFloat(value||0).toFixed(2);
+            		}
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	},
+            	editor:{
+            		type:'numberbox',
+            		options:{
+            			min:0,
+            			precision:0,
+            			onChange: onChangeRealNum,
+            		}
+            	}
+            },
+            {field:'unit',title:'单位',width:'60px',align:'left'},
+            {field:'spec',title:'规格',width:'90px',align:'left'},
+            /*{field:'twoCategoryCode',title:'类别编号',width:'90px',align:'left'},
+            {field:'twoCategoryName',title:'类别名称',width:'90px',align:'left'},*/
+            {field:'distributionSpec',title:'配送规格',width:'90px',align:'left'},
+            {field:'purchaseSpec',title:'进货规格',width:'90px',align:'left'},
+
+            {field: 'daySaleNum', title: '周销售量', width: '80px', align: 'right',
+                formatter: function (value, row, index) {
+                    if (row.isFooter) {
+                        return
+                    }
+                    if (!row.daySaleNum) {
+                        row.daySaleNum = parseFloat(value || 0).toFixed(2);
+                    }
+                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
+                }
+            },
+            {field: 'monthSaleNum', title: '月销售量', width: '80px', align: 'right',
+                formatter: function (value, row, index) {
+                    if (row.isFooter) {
+                        return
+                    }
+                    if (!row.daySaleNum) {
+                        row.daySaleNum = parseFloat(value || 0).toFixed(2);
+                    }
+                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
+                }
+            },
+
+            {field:'suggestNum',title:'建议订货数量',width:'90px',align:'right',hidden:!$('#suggestBtn').attr('data-role')?true:false,
+            	formatter:function(value,row,index){
+            		if(!value){
+            			row['suggestNum'] = 0;
+            		}
+            		//return value||0;
+            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+            	}
+            },
             {field:'sourceStock',title:'发货机构库存',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -221,84 +299,6 @@ function initDatagridRequireOrder(){
                         row.carryNum = parseFloat(value || 0).toFixed(2);
                     }
                     return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
-                }
-            },
-            {field:'unit',title:'单位',width:'60px',align:'left'},
-            {field:'spec',title:'规格',width:'90px',align:'left'},
-            /*{field:'twoCategoryCode',title:'类别编号',width:'90px',align:'left'},
-            {field:'twoCategoryName',title:'类别名称',width:'90px',align:'left'},*/
-            {field:'distributionSpec',title:'配送规格',width:'90px',align:'left'},
-            {field:'purchaseSpec',title:'进货规格',width:'90px',align:'left'},
-
-            {field: 'daySaleNum', title: '周销售量', width: '80px', align: 'right',
-                formatter: function (value, row, index) {
-                    if (row.isFooter) {
-                        return
-                    }
-                    if (!row.daySaleNum) {
-                        row.daySaleNum = parseFloat(value || 0).toFixed(2);
-                    }
-                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
-                }
-            },
-            {field: 'monthSaleNum', title: '月销售量', width: '80px', align: 'right',
-                formatter: function (value, row, index) {
-                    if (row.isFooter) {
-                        return
-                    }
-                    if (!row.daySaleNum) {
-                        row.daySaleNum = parseFloat(value || 0).toFixed(2);
-                    }
-                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
-                }
-            },
-
-            {field:'suggestNum',title:'建议订货数量',width:'90px',align:'right',hidden:!$('#suggestBtn').attr('data-role')?true:false,
-            	formatter:function(value,row,index){
-            		if(!value){
-            			row['suggestNum'] = 0;
-            		}
-            		//return value||0;
-            		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-            	}
-            },
-            {field:'largeNum',title:'箱数',width:'80px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-
-                    if(!value){
-                        row["largeNum"] = parseFloat(value||0).toFixed(2);
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        precision:0,
-                        onChange: onChangeLargeNum,
-                    }
-                }
-            },
-            {field:'applyNum',title:'数量',width:'80px',align:'right',
-                formatter:function(value,row,index){
-                    if(row.isFooter){
-                        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                    }
-                    if(!value){
-                        row["applyNum"] = parseFloat(value||0).toFixed(2);
-                    }
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        precision:0,
-                        onChange: onChangeRealNum,
-                    }
                 }
             },
             {field:'price',title:'单价',width:'80px',align:'right',

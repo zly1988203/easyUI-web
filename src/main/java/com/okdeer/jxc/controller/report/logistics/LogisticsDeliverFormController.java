@@ -129,7 +129,9 @@ public class LogisticsDeliverFormController extends BaseController<LogisticsDeli
 		// 返回状态
 		if (DeliverStatusEnum.STOPPED.getName().equals(form.getDealStatus())) {
 			model.addAttribute("status", Constant.DEAL_STATUS);
-		} else {
+        } else if (DeliverStatusEnum.REFUSE.getName().equals(form.getDealStatus())) {
+            model.addAttribute("status", DeliverStatusEnum.REFUSE.getName());
+        }else {
 			model.addAttribute("status", Constant.STATUS);
 		}
 		// 已审核，不能修改
