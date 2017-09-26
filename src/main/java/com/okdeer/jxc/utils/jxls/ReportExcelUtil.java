@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -191,6 +190,16 @@ public class ReportExcelUtil {
 		}
 		context.putVar("reportList", reportList);
 		reportToContext(response, is, reportFileName, reportSuffix, context);*/		
+		
+		if(CollectionUtils.isEmpty(reportList)){
+			Context context = new Context();
+			if (null != param) {
+				context = new Context(param);
+			}
+			context.putVar("reportList", reportList);
+			reportToContext(response, is, reportFileName, reportSuffix, context);
+			return;
+		}
 		
 		// 设置响应
 		response.setHeader(REPORT_HEADER, REPORT_HEADER_TWO + URLEncoder.encode(reportFileName + reportSuffix, "UTF-8"));
