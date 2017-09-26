@@ -24,9 +24,11 @@ $(function(){
 		}
 	});
 });
-
+var rotationTips;
 function getFiledsList(){
 	if(rotaType == 1){
+		rotationTips = "库存周转率=期间销售金额/期间平均销售金额*100%</br>库存周转天数=期间天数/库存周转率";
+		$('#divTips').html(rotationTips);
 		return [ [ {
 			field : 'branchCode',
 			title : '机构编号',
@@ -118,6 +120,8 @@ function getFiledsList(){
 			}
 		} ] ]
 	}else{
+		rotationTips = "库存周转率=期间成本销售金额/期间平均库存金额*100%</br>库存周转天数=期间天数/库存周转率";
+		$('#divTips').html(rotationTips);
 		return [ [ {
 			field : 'branchCode',
 			title : '机构编号',

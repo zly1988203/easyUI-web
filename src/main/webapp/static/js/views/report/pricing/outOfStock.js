@@ -444,6 +444,15 @@ function getColumnsByType(){
                     }
 
                 },
+                {field: 'skuLackRate', title: 'SKU缺货率', width: '85px', align: 'right',
+                	formatter : function(value, row, index) {
+                		if(row.skuLackRate||row.skuLackRate==0){
+                			return '<b>'+(parseFloat(value||0)*100).toFixed(2)+'%</b>';
+                		}
+                		return '';
+                	}
+                
+                },
                 {field: 'outFormNo', title: '出库单号', width: '150px', align: 'left',
                     formatter:function(value,row,index){
                         if(row.outFormId){
