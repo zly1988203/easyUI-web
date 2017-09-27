@@ -26,6 +26,9 @@ $(function() {
 	});
 });
 
+var gridHandel = new GridClass();
+var datagridID = "leadSearchList";
+
 function initdefaultElement() {
     // 开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev", 30));
@@ -70,11 +73,7 @@ function changeStatus() {
 
 function onChangeSelect() {
     initDatagridRequire();
-    $("#"+datagridID).datagrid("loadData",[]);
 }
-
-var gridHandel = new GridClass();
-var datagridID = "leadSearchList";
 
 var dg;
 // 初始化表格
@@ -97,6 +96,8 @@ function initDatagridRequire() {
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    $("#"+datagridID).datagrid("loadData",[]);
+    $("#"+datagridID).datagrid('reloadFooter',[]);
 }
 
 function getColumns(){
