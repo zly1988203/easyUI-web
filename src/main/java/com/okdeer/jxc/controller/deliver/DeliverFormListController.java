@@ -290,7 +290,6 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 			vo.setPageSize(999999);
 			LOG.debug("vo:{}", vo.toString());
 			PageUtils<DeliverFormList> deliverFormLists = queryDeliverFormListServiceApi.importDelverList(vo.getDeliverFormId());
-			LOG.debug("page:{}", deliverFormLists.toString());
 			return deliverFormLists;
 		} catch (Exception e) {
 			LOG.error("要货单查询明细数据出现异常", e);
