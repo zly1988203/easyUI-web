@@ -114,6 +114,10 @@ public class GoodsCategoryController extends
 			if("categoryTotal".equals(categoryType)) {
 				qo.setCategoryLevel("1");
 			}
+			// 新增档案只允许添加商品到三，四级目录（商品档案、新品申请、运营商品档案、运营新品申请）
+			if("addArchives".equals(categoryType)) {
+			    qo.setCategoryLevelList(Arrays.asList("3","4"));
+			}
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
 			PageUtils<GoodsCategory> suppliers = goodsCategoryService.queryLists(qo);
