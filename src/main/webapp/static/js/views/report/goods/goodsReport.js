@@ -71,13 +71,13 @@ $(function(){
     //机构选择初始化 发货机构
     $('#branchTemp').branchSelect();
     // 初始化商品状态 
-    initCombobox('statu',dataItems);
+    initCombobox('statu',dataItems,"NORMAL,STOPSELLING,STOPBUYING");
     // 默认选择中全部
-    $('#statu').combobox('select', dataItems[0].code);
+    // $('#statu').combobox('select', dataItems[0].code);
 });
 
 var dataItems = [
-{"name": "全部","code": "NORMAL,STOPSELLING,STOPBUYING,OBSOLETE"},
+{"name": "全部","code": "ALL"},
 {"name": "正常","code": "NORMAL"},
 {"name": "停售","code": "STOPSELLING"},
 {"name": "停购","code": "STOPBUYING"},
