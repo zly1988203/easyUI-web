@@ -1281,6 +1281,9 @@ function getSourceBranch(branchesId) {
             $("#spanMinAmount").html('起订金额：' + result['minAmount']);
             $("#minAmount").val(result['minAmount']);
             $("#isMinAmount").val(result['isMinAmount']);
+            deliverPriceSpecFlg = result.deliverPriceSpec == 1 || result.deliverPriceSpec == 3 ? true : false;
+            initDatagridRequireOrder();
+            gridHandel.setLoadData([$.extend({},gridDefault)]);
 		}else{
 			$_jxc.alert(result['message']);
 		}
