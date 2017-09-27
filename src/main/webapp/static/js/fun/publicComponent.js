@@ -2909,22 +2909,57 @@ function initCombobox(id,dataItems,defValue){
 			})  
 		},  
 		onSelect: function (row) { //选中一个选项时调用  
-			var opts = $(this).combobox('options');  
-			//获取选中的值的values  
-			$("#"+id).val($(this).combobox('getValues'));  
-			
-			//设置选中值所对应的复选框为选中状态  
-			var el = opts.finder.getEl(this, row[opts.valueField]);  
-			el.find('input.combobox-checkbox')._propAttr('checked', true);  
-		},  
+			var opts = $(this).combobox('options');
+            var target = this;
+            //设置选中值所对应的复选框为选中状态
+            var isChecked = false;
+
+			if(row[opts.valueField] === "ALL"){
+               $.each(opts.data,function (index,item) {
+                   var el = opts.finder.getEl(target, item[opts.valueField]);
+                   el.find('input.combobox-checkbox')._propAttr('checked', true);
+                   el.addClass("combobox-item-selected").removeClass("combobox-item-hover");
+               })
+            }else {
+                var el = opts.finder.getEl(target, row[opts.valueField]);
+                el.find('input.combobox-checkbox')._propAttr('checked', true);
+
+                $.each(opts.data,function (index,item) {
+                    if(item[opts.valueField] != "ALL"){
+                        var el = opts.finder.getEl(target, item[opts.valueField]);
+                        isChecked = el.find('input.combobox-checkbox')._propAttr('checked')==true?true:false;
+                    }
+                })
+                if(isChecked){
+                    var el = opts.finder.getEl(target, "ALL");
+                    el.find('input.combobox-checkbox')._propAttr('checked', true);
+                    el.addClass("combobox-item-selected").removeClass("combobox-item-hover");
+                }
+
+            }
+
+            //获取选中的值的values
+            $("#"+id).val($(this).combobox('getValues'));
+        },
 		onUnselect: function (row) {//不选中一个选项时调用  
-			var opts = $(this).combobox('options');  
-			//获取选中的值的values  
-			$("#"+id).val($(this).combobox('getValues'));  
-			
-			var el = opts.finder.getEl(this, row[opts.valueField]);  
-			el.find('input.combobox-checkbox')._propAttr('checked', false);  
-		}  
+			var opts = $(this).combobox('options');
+            var target = this;
+            if(row[opts.valueField] === "ALL"){
+                $.each(opts.data,function (index,item) {
+                    var el = opts.finder.getEl(target, item[opts.valueField]);
+                    el.find('input.combobox-checkbox')._propAttr('checked', false);
+                    el.removeClass("combobox-item-selected").addClass("combobox-item-hover");
+                })
+            }else {
+                var el = opts.finder.getEl(target, row[opts.valueField]);
+                el.find('input.combobox-checkbox')._propAttr('checked', false);
+                var allEl = opts.finder.getEl(target, "ALL");
+                allEl.find('input.combobox-checkbox')._propAttr('checked', false);
+                allEl.removeClass("combobox-item-selected").addClass("combobox-item-hover");
+            }
+            //获取选中的值的values
+            $("#"+id).val($(this).combobox('getValues'));
+        }
 	});  
 }  
 /*----------------jxc component js end  ---------------------------*/
