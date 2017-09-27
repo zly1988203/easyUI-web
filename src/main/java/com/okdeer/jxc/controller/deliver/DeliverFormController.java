@@ -760,6 +760,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 						.getSourceBranchValidityNumDays()));
 		respJson.put("salesman", branchesGrow.getSalesman());
 		respJson.put("minAmount", branchesGrow.getMinAmount());
+		Branches sourceBranch = branchesServiceApi.getBranchInfoById(branchesGrow.getSourceBranchId());
+		respJson.put("deliverPriceSpec", sourceBranch.getDeliverPriceSpec());
 		return respJson;
 	}
 

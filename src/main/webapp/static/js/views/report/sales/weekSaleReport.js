@@ -52,6 +52,7 @@ function changeStatus() {
           /*  $("#categoryButon").attr("onclick","getGoodsType()");*/
             $("#categoryCodeName").removeClass("uinp-no-more");
             $("#categoryCodeName").removeAttr("readonly");
+            $("#categoryType").combobox({disabled:true});
         }else if(reportType == "2"){
         	 $("#skuName").prop("disabled",true);
              $("#skuCode").prop("disabled",true);
@@ -62,6 +63,7 @@ function changeStatus() {
             $("#categoryCodeName").prop("readonly","readonly");
             $("#categoryCodeName").addClass("uinp-no-more");
             $("#categoryButon").removeAttr("onclick");
+            $("#categoryType").combobox({disabled:true});
         }
         else if(reportType == '3'){
             $("#skuName").prop("disabled",true);
