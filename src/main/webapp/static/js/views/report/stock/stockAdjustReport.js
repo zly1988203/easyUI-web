@@ -10,12 +10,19 @@ $(function() {
     // 单据状态切换
     changeStatus();
 
-    //机构组件初始化
-    $('#branchSelect').branchSelect({
-        loadFilter:function(data){
-            return data;
-        }
-    });
+    //机构选择初始化
+	$('#branchSelect').branchSelect({
+		//ajax参数
+		param:{
+			scope:1
+		},
+		//数据过滤
+		loadFilter:function(data){
+			data.isContainChildren = data.allBranch;
+			return data;
+		}
+	});
+    
 
     //操作员组件初始化
     $('#categorySelect').categorySelect({
