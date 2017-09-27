@@ -2883,13 +2883,14 @@ function publicExprotService(param,callback) {
 /*----------------------------------------------------------------------*/
 
 //参数：id  控件id   dataItems 选项列表
-function initCombobox(id,dataItems){  
+function initCombobox(id,dataItems,defValue){  
 	var value = "";  
 	//加载下拉框复选框  
 	$('#'+id).combobox({  
 		//url:'${base}/ht/getComboboxData.action?dictionaryCode='+code, //后台获取下拉框数据的url
 		//method:'post',  
 		data:dataItems,
+		value:defValue,
 		panelHeight:200,//设置为固定高度，combobox出现竖直滚动条  
 		valueField:'code',  
 		textField:'name',  
