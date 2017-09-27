@@ -91,7 +91,7 @@ function initGridActivity() {
         method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect:false,  //单选  false多选
+        singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination: true,    //分页
         fitColumns:true,    //每列占满
@@ -261,6 +261,13 @@ function saveForm() {
         formObj: JSON.stringify(formObj),
         list: JSON.stringify(gridActHandel.getRows())
     };
+
+    // var param = {
+    //     formObj: formObj,
+    //     list: gridActHandel.getRows()
+    // };
+
+    // var req = JSON.stringify(param);
 
     $_jxc.ajax({
         url: contextPath + '/purchase/activity/save',
