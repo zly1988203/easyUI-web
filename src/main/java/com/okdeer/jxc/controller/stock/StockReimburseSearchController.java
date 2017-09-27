@@ -74,6 +74,10 @@ public class StockReimburseSearchController extends BaseController<StockReimburs
 			vo.setBranchCompleCode(getCurrBranchCompleCode());
 		}
 
+		if (StringUtils.isNotBlank(vo.getEndTime())) {
+			vo.setEndTime(DateUtils.getSmallRStr(DateUtils.getDayAfter(DateUtils.parse(vo.getEndTime(),"yyyy-MM-dd"))));
+		}
+
 		// 类别汇总查询时将二级类别查询设置为第四种查询
 		if (vo.getType() == 3 && vo.getCategoryType() == 2) {
 			vo.setType(4);

@@ -74,6 +74,10 @@ public class StockLeadSearchController extends BaseController<StockLeadSearchCon
 			vo.setBranchCompleCode(getCurrBranchCompleCode());
 		}
 
+		if (StringUtils.isNotBlank(vo.getEndTime())) {
+			vo.setEndTime(DateUtils.getSmallRStr(DateUtils.getDayAfter(DateUtils.parse(vo.getEndTime(),"yyyy-MM-dd"))));
+		}
+
 		// 类别汇总查询时将二级类别查询设置为第四种查询
 		if (vo.getType() == 3 && vo.getCategoryType() == 2) {
 			vo.setType(4);
@@ -102,7 +106,6 @@ public class StockLeadSearchController extends BaseController<StockLeadSearchCon
 				footer.add(sum);
 			}
 			reportList.setFooter(footer);
-			LOG.debug(LogConstant.PAGE, reportList.toString());
 			// 过滤数据权限字段
 			cleanAccessData(reportList);
 			return reportList;
