@@ -217,6 +217,12 @@ function saveStoreCharge() {
     	$_jxc.alert("机构只能选择店铺类型！");
     	return;
     }
+
+    var chargeMonth = $("#chargeMonth").val();
+    if(!chargeMonth){
+        $_jxc.alert("月份不能为空!");
+        return;
+    }
     
     var rows = gridHandel.getRowsWhere({costTypeCode:1});
     if(rows.length==0){

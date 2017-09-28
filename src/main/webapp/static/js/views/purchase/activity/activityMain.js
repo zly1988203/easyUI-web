@@ -64,7 +64,7 @@ $(function () {
     }
 
 })
-
+var isdisabled = false;
 function disabledElement(){
     isdisabled = true;
     $("#supplierName").prop("disabled",true);
