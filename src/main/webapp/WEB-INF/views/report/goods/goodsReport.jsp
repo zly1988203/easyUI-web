@@ -134,7 +134,7 @@
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">商品状态:</div>
                     <input name="statusList" id="statusList" type="hidden">  
-                    <input name="statu" id="statu" style="width: 204px;" class="easyui-combobox">  
+					<select  name="statu" id="statu" class="easyui-combotree"></select>
 				</div>
 			</div>
 		</form>

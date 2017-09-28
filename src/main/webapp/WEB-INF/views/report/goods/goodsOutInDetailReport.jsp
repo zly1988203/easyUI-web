@@ -62,8 +62,8 @@
 	      <div class="ub umar-t8">
                   <div class="ub ub-ac uselectw">
                     <div class="umar-r10 uw-80 ut-r">出入库类型:</div>
-                    <input name="formTypes" id="formTypes" type="hidden">  
-                    <input name="fType" id="fType" style="width: 150px;"  class="easyui-combobox" >  
+                    <input name="formTypes" id="formTypes" type="hidden">
+                    <select  name="fType" id="fType" class="easyui-combotree"></select>
                 </div>
                 <div class="ub ub-ac umar-l20" id="supplierSelect">
                     <div class="umar-r10 uw-70 ut-r">供应商:</div>
