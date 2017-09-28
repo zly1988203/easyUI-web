@@ -157,7 +157,7 @@ function getBarCode(pricingType,skuCode){
 //商品分类
 function getGoodsType(){
 	var param = {
-			categoryType:'goodsTotal'
+			categoryType:'addArchives'
 	}
 	new publicCategoryService(function(data){
 		//console.log("商品分类==",data);

@@ -82,6 +82,7 @@ function initDatagridAddRequireOrder(){
                     }
                 },
             },
+            {field:'salePrice',title:'零售价',hidden:true},
             {field:'stockNum',title:'当前库存',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){

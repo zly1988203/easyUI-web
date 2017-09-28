@@ -6,7 +6,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>成本调价查询</title>
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/cost/costAdjustSearchList.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -17,8 +16,6 @@
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 					<shiro:hasPermission name="JxcCostSearch:export">
-		                <input type="hidden" id="startCount" name="startCount" />
-						<input type="hidden" id="endCount" name="endCount" />
 	                	<div class="ubtns-item" onclick="exportData()">导出</div>
 	                </shiro:hasPermission>
 	                <div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>

@@ -26,12 +26,13 @@ $(function() {
 	});
 });
 
+var gridHandel = new GridClass();
+var datagridID = "leadSearchList";
+
 function initdefaultElement() {
     // 开始和结束时间
     $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev", 30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-    $("#skuName").prop("disabled",true);
-    $("#skuCode").prop("disabled",true);
     $("#categoryType").combobox({disabled:true});
 }
 
@@ -41,28 +42,24 @@ function changeStatus() {
 		var accountType = $('input[type="radio"][name="type"]:checked').val();
 		if(accountType == "1"){
             $("#formNo").prop("disabled",false);
-            $("#skuName").prop("disabled",true);
-            $("#skuName").val("");
-            $("#skuCode").prop("disabled",true);
-            $("#skuCode").val("");
+            $("#skuName").prop("disabled",false);
+            $("#skuCode").prop("disabled",false);
             $("#categoryType").combobox({disabled:true});
-
 		}else if(accountType == "2"){
 			$("#formNo").prop("disabled",true);
 			$("#formNo").val("");
             $("#skuName").prop("disabled",false);
             $("#skuCode").prop("disabled",false);
             $("#categoryType").combobox({disabled:true});
-
         }
 		else if(accountType == '3'){
             $("#formNo").prop("disabled",true);
 			$("#formNo").val("");
-            $("#skuname").prop("disabled",false);
-            $("#skuCode").prop("disabled",false);
+            $("#skuName").prop("disabled",true);
+            $("#skuName").val("");
+            $("#skuCode").prop("disabled",true);
+            $("#skuCode").val("");
             $("#categoryType").combobox({disabled:false});
-
-
         }
         initDatagridRequire();
 	});
@@ -70,11 +67,7 @@ function changeStatus() {
 
 function onChangeSelect() {
     initDatagridRequire();
-    $("#"+datagridID).datagrid("loadData",[]);
 }
-
-var gridHandel = new GridClass();
-var datagridID = "leadSearchList";
 
 var dg;
 // 初始化表格
@@ -97,6 +90,8 @@ function initDatagridRequire() {
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    $("#"+datagridID).datagrid("loadData",[]);
+    $("#"+datagridID).datagrid('reloadFooter',[]);
 }
 
 function getColumns(){
