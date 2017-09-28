@@ -93,7 +93,6 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 					.getDiffSearchList(vo);
 			// 过滤数据权限字段
             cleanAccessData(stocktakingBatchList);
-			LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
 			return stocktakingBatchList;
 		} catch (Exception e) {
 			LOG.error("盘点申请查询列表信息异常:{}", e);
@@ -175,7 +174,7 @@ public class StocktakingDiffSearchController extends BaseController<StocktakingD
 			if ("3".equals(diffVo.getRotationType())) {
 				path = PrintConstant.DIFF_SEARCH_CATEGORY_SUM;
 			}
-			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> map = new HashMap<>();
 			map.put("startDate", diffVo.getStartTime() == null ? "" : DateUtils.formatDate(diffVo.getStartTime(), DateUtils.DATE_SMALL_STR_R));
 			map.put("endDate", diffVo.getEndTime() == null ? "" : DateUtils.formatDate(diffVo.getEndTime(), DateUtils.DATE_SMALL_STR_R));
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
