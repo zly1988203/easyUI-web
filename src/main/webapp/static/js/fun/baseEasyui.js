@@ -951,7 +951,7 @@ function formatTwoDecimal(decimal){
 }
 
 function getTwoDecimalB(decimal){
-	if(decimal == null || decimal == '' || decimal == undefined){
+	if(decimal == null || decimal === '' || decimal == undefined){
 		return null;
 	}
 	return '<b>'+formatTwoDecimal(decimal)+'</b>';
