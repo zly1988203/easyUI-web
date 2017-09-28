@@ -13,7 +13,6 @@ $(function () {
         }
     });
 
-
     //供应商组件初始化
     $('#supplierSelect').supplierSelect({
         loadFilter:function(data){
@@ -31,16 +30,16 @@ function initConditionParams(){
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 }
 
-var dg;
+
 var gridListId = "gridActivityList";
 var gridHandel = new GridClass();
 function initGridActivityList() {
     gridHandel.setGridName(gridListId);
-    dg = $("#" + gridListId).datagrid({
+   $("#" + gridListId).datagrid({
         method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
-        singleSelect:false,  //单选  false多选
+        singleSelect:true,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页
         fitColumns:true,    //每列占满
@@ -54,7 +53,7 @@ function initGridActivityList() {
             {field: 'id', title: 'id', width: '85px', align: 'left', hidden: true},
             {field:'formNo',title:'单号',width:'140px',align:'left',
                 formatter:function(value,row,index){
-                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购促销单\',\'' + contextPath + '/purchase/activity/edit/' + row.id + '\')">' + value + '</a>';
+                    var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购进价单\',\'' + contextPath + '/purchase/activity/edit/' + row.id + '\')">' + value + '</a>';
                 return strHtml;
                 }
             },
@@ -99,7 +98,7 @@ function query(){
 }
 
 function add() {
-    toAddTab("新增采购促销活动",contextPath + "/purchase/activity/add");
+    toAddTab("新增促销进价单",contextPath + "/purchase/activity/add");
 }
 
 
@@ -112,22 +111,16 @@ function exportData(){
         $_jxc.alert("无数据可导");
         return;
     }
-    $('#exportWin').window({
-        top:($(window).height()-300) * 0.5,
-        left:($(window).width()-500) * 0.5
-    });
-    $("#exportWin").show();
-    $("#totalRows").html($('#'+gridListId).datagrid('getData').total);
-    $("#exportWin").window("open");
+    //导出文件
+//使用此公共组件 页面不需要导入 exportChose.jsp  不需要 startCount endCount隐藏表单
+    var param = {
+        datagridId:gridListId,
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/purchase/activity/export/list"
+    }
+    publicExprotService(param);
 }
-// 调用导出方法
-function exportExcel(){
-    $("#exportWin").hide();
-    $("#exportWin").window("close");
 
-    $("#queryForm").attr("action", contextPath + "/purchase/activity/export/list");
-    $("#queryForm").submit();
-}
 
 var copy = function () {
     //var rows = $("#gridActivityList").datagrid("getChecked");
@@ -139,7 +132,7 @@ var copy = function () {
         $_jxc.alert('只能选中一行进行复制！');
         return null;
     } else {
-        window.parent.addTab('复制采购促销活动', contextPath + '/purchase/activity/copy/' + $("#gridActivityList").datagrid("getSelected").id);
+        window.parent.addTab('复制促销进价单', contextPath + '/purchase/activity/copy/' + $("#gridActivityList").datagrid("getSelected").id);
     }
 
 };
