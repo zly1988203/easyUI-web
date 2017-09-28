@@ -86,10 +86,8 @@ public class StocktakingApplyController extends BaseController<StocktakingApplyC
 			if (vo.getEndTime() != null) {
 				vo.setEndTime(DateUtils.getDayAfter(vo.getEndTime()));
 			}
-			LOG.debug(LogConstant.OUT_PARAM, vo.toString());
-			PageUtils<StocktakingBatchVo> stocktakingBatchList = stocktakingApplyServiceApi.getStocktakingBatchList(vo);
-			LOG.debug(LogConstant.PAGE, stocktakingBatchList.toString());
-			return stocktakingBatchList;
+			LOG.debug(LogConstant.OUT_PARAM, vo);
+			return stocktakingApplyServiceApi.getStocktakingBatchList(vo);
 		} catch (Exception e) {
 			LOG.error("盘点申请查询列表信息异常:{}", e);
 		}

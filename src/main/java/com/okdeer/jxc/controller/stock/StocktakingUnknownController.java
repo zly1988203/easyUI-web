@@ -29,14 +29,14 @@ import java.util.List;
 /**
  *
  * @ClassName: StocktakingUnknownController
- * @Description: TODO
+ * @Description: StocktakingUnknownController
  * @project okdeer-jxc-
  * @author songwj
  * @date 2017年07月14 16:46
  * =================================================================================================
  *     Task ID            Date               Author           Description
  * ----------------+----------------+-------------------+-------------------------------------------
- *     V2.7          2017年07月14   songwj             TODO
+ *     V2.7          2017年07月14   songwj             StocktakingUnknownController
  */
 @RestController
 @RequestMapping("/stocktaking/unknown/sku")
@@ -64,9 +64,7 @@ public class StocktakingUnknownController extends BaseController<StocktakingUnkn
                 vo.setEndTime(DateUtils.getDayAfter(vo.getEndTime()));
             }
             LOG.debug(LogConstant.OUT_PARAM, vo);
-            PageUtils<StocktakingFormVo> stocktakingFormList = stocktakingOperateServiceApi.getStocktakingFormUnknownList(vo);
-            LOG.debug(LogConstant.PAGE, stocktakingFormList.toString());
-            return stocktakingFormList;
+            return stocktakingOperateServiceApi.getStocktakingFormUnknownList(vo);
         } catch (Exception e) {
             LOG.error("存货盘点查询列表信息异常:{}", e);
         }
@@ -107,7 +105,7 @@ public class StocktakingUnknownController extends BaseController<StocktakingUnkn
     @ResponseBody
     public List<ImPdUnknownSKU> stocktakingFormDetailList(String formId) {
         LOG.debug(LogConstant.OUT_PARAM, formId);
-        List<ImPdUnknownSKU> detailList = new ArrayList<ImPdUnknownSKU>();
+        List<ImPdUnknownSKU> detailList = new ArrayList<>();
         try {
             detailList = stocktakingOperateServiceApi.getStocktakingUnknownByFormId(formId);
         } catch (Exception e) {

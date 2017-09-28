@@ -227,7 +227,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			}
 			// 过滤数据权限字段
 			cleanAccessData(printList);
-			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> map = new HashMap<>();
 			map.put("startDate", StringUtils.isBlank(vo.getCreateTime()) ? "" : vo.getCreateTime());
 			map.put("endDate", StringUtils.isBlank(vo.getCreateTime()) ? "" : vo.getCreateTime());
 			map.put("batchNo", StringUtils.isBlank(vo.getBatchNo()) ? "" : vo.getBatchNo());
@@ -266,7 +266,7 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 		}
 		try {
 			if (StringUtils.isBlank(data)) {
-				respJson = RespJson.error("保存数据不能为空！");
+				respJson = RespJson.error("保存差异详情数据不能为空！");
 				return respJson;
 			}
 			StocktakingBatchVo vo = JSON.parseObject(data, StocktakingBatchVo.class);
@@ -314,10 +314,10 @@ public class StocktakingDiffDisposeController extends BaseController<Stocktaking
 			vo.setValidTime(DateUtils.getCurrFullStr());
 			return stocktakingOperateServiceApi.auditDiffDispose(vo);
 		} catch (RpcException e) {
-            LOG.error("审核差异处理信息异常:{}", e);
-            respJson = RespJson.error("审核差异处理信息异常");
+            LOG.error("审核差异处理信息Rpc异常:{}", e);
+            respJson = RespJson.error("审核差异处理信息异常!");
         } catch (RuntimeException e) {
-			LOG.error("审核差异处理信息异常:{}", e);
+			LOG.error("审核差异处理信息Run异常:{}", e);
             respJson = RespJson.error(StringUtils.isBlank(e.getMessage()) ? "审核差异处理信息异常" : e.getMessage());
 		} catch (Exception e) {
             LOG.error("审核差异处理信息异常:{}", e);

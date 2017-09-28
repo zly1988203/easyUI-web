@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
@@ -85,10 +86,7 @@ public class SupplierAccountCurrentController extends BaseController<SupplierAcc
 			qo.setPageSize(pageSize);
 			qo.setBranchCompleCode(getCurrBranchCompleCode());
 			LOG.debug(LogConstant.OUT_PARAM, qo);
-			PageUtils<SupplierAccountCurrentVo> advanceList = supplierAccountCurrentService
-					.getAccountCurrentPageList(qo, Boolean.TRUE);
-			LOG.debug(LogConstant.PAGE, advanceList.toString());
-			return advanceList;
+            return supplierAccountCurrentService.getAccountCurrentPageList(qo, Boolean.TRUE);
 		} catch (Exception e) {
 			LOG.error("供应商往来账款列表信息异常:{}", e);
 		}
@@ -100,11 +98,10 @@ public class SupplierAccountCurrentController extends BaseController<SupplierAcc
 		try {
 			Optional<SupplierAccountCurrentQo> optional = Optional.ofNullable(qo);
 			qo = optional.orElse(new SupplierAccountCurrentQo());
-			// String branchCompleCode = request.getParameter("branchCompleCode");
 			PageUtils<SupplierAccountCurrentVo> suppliers = supplierAccountCurrentService.getAccountCurrentPageList(qo,
 					Boolean.FALSE);
 			List<SupplierAccountCurrentVo> list = suppliers.getList();
-			if (!list.isEmpty() && list.size() > 0) {
+			if (CollectionUtils.isNotEmpty(list)) {
 				String fileName = null;
 				String templateName = null;
 
@@ -137,8 +134,7 @@ public class SupplierAccountCurrentController extends BaseController<SupplierAcc
 			}
 		} catch (Exception e) {
 			logger.error("一开通账户管理导出异常:", e);
-			RespJson json = RespJson.error("导出失败");
-			return json;
+			return RespJson.error("导出失败");
 		}
 		return null;
 	}

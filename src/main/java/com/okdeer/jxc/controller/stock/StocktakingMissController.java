@@ -202,7 +202,7 @@ public class StocktakingMissController extends BaseController<StocktakingMissCon
 				return "<script>alert('打印最大行数不能超过" + PrintConstant.PRINT_MAX_ROW + "行');top.closeTab();</script>";
 			}
 			String path = PrintConstant.STOCK_TAKING_MISS_GOODS;
-			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> map = new HashMap<>();
 			map.put("startDate", DateUtils.getSmallRStr(qo.getStartTime()));
 			map.put("endDate", DateUtils.getSmallRStr(qo.getEndTime()));
 			map.put("printName", getCurrentUser().getUserName());
