@@ -25,7 +25,7 @@
 	                	<div class="ubtns-item" onclick="exportData()">导出</div>
 	                </shiro:hasPermission>
 					<shiro:hasPermission name="JxcReportFinance:print">
-	                	<div class="ubtns-item" onclick="printReport()">打印</div>
+	                	<div class="ubtns-item-disabled">打印</div>
 	                </shiro:hasPermission>
 	                <div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
 	                <div class="ubtns-item" onclick="toClose()">关闭</div>
