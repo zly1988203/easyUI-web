@@ -84,6 +84,8 @@ function queryForm(){
         $_jxc.alert("请选择机构或输入条码");
         return;
     } 
+	$('#startCount').val('');
+	$('#endCount').val('');
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#"+datagridId).datagrid("options").method = "post";
 	$("#"+datagridId).datagrid('options').url = contextPath + '/report/month/finance/list';
