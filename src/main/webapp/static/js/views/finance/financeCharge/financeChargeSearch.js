@@ -116,6 +116,8 @@ function selectListBranches(){
 }
 
 function queryCharge() {
+	$("#startCount").val("");
+	$("#endCount").val("");
 	$("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridName).datagrid("options").method = "POST";
     $("#"+gridName).datagrid("options").url = contextPath+'/finance/financeChargeSearch/reportListPage';
