@@ -367,6 +367,7 @@ function saveGoodsArchives(){
 	
 	if(!isValid){
 		$('#saveGoodsArchives').removeAttr("disabled");
+		$_jxc.alert("请完善商品必填信息");
 		return;
 	}
 
@@ -376,11 +377,17 @@ function saveGoodsArchives(){
         return;
     }
 	
+    if($('#categoryCode').val().trim()===""){
+    	$('#saveGoodsArchives').removeAttr("disabled");
+    	$_jxc.alert("请选择商品类别");
+    	return;
+    }
+    
 	var salePriceV = $("#salePrice").numberbox("getValue");
     var vipPrice = $("#vipPrice").numberbox("getValue");
-	if(parseFloat(salePriceV || 0) <= 0){
-		$('#saveGoodsArchives').removeAttr("disabled");
-        $_jxc.alert("零售价必须大于0!");
+    if(!salePriceV || parseFloat(salePriceV) < 0){
+    	$('#saveGoodsArchives').removeAttr("disabled");
+		$_jxc.alert("零售价不能为空!");
 		return;
 	}
     if(parseFloat(vipPrice || 0) <= 0){
@@ -419,12 +426,27 @@ function saveGoodsArchives(){
 		async:false
 	},function(result){
 		if(result.code == 0){
-			submitForm();
+			submitFormValidate(salePriceV);
 		}else{
 			$('#saveGoodsArchives').removeAttr("disabled");
 			$_jxc.alert(result.message,"提示");
 		}
 	});
+}
+
+function submitFormValidate(salePriceV) {
+	if (parseFloat(salePriceV) == 0) {
+		$_jxc.confirm('商品零售价为0，是否继续保存？',
+				function(data) {
+					if (data) {
+						submitForm();
+					}else{
+						$('#saveGoodsArchives').removeAttr("disabled");
+					}
+				});
+	} else {
+		submitForm();
+	}
 }
 
 //提交表单
