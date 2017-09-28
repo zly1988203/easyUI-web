@@ -8,7 +8,6 @@
     <title>采购促销活动列表</title>
 
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <%@ include file="/WEB-INF/views/system/exportChose.jsp" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
     <script src="${ctx}/static/js/views/purchase/activity/activityList.js?V=${versionNo}"></script>
@@ -44,8 +43,6 @@
                 <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
                 <div class="ubtns-item" onclick="toClose()">关闭</div>
             </div>
-            <input type="hidden" name="startCount" id="startCount" value="">
-            <input type="hidden" name="endCount" id="endCount" value="">
             <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
         </div>
 

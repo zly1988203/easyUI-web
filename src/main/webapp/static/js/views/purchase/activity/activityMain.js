@@ -60,10 +60,19 @@ $(function () {
                 $_jxc.alert(result.message)
             }
         });
-        // disabledElement();
+        disabledElement();
     }
 
 })
+
+function disabledElement(){
+    isdisabled = true;
+    $("#supplierName").prop("disabled",true);
+    $("#txtStartDate").prop("disabled",true);
+    $("#txtEndDate").prop("disabled",true);
+    $("#remark").prop("disabled",true);
+    $("#branchName").prop("disabled",true);
+}
 
 //初始化默认条件
 function initConditionParams(){
@@ -116,7 +125,14 @@ function initGridActivity() {
                 }
             },
             {field:'skuId',title:'skuId',width:'85px',align:'left',hidden:true},
-            {field:'skuCode',title:'货号',width:'70px',align:'left',editor:'textbox'},
+            {field:'skuCode',title:'货号',width:'70px',align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        disabled:isdisabled,
+                    }
+                }
+            },
             {field:'skuName',title:'商品名称',width:'200px',align:'left'},
             {field:'barCode',title:'条码',width:'130px',align:'left'},
             {field: 'categoryName', title: '商品类别', width: '60px', align: 'left'},
@@ -140,6 +156,11 @@ function initGridActivity() {
                     if(row.isFooter){
                         return ;
                     }
+                    if(!value){
+                        row['newPurPrice'] = row['oldPurPrice'];
+                        value = row['oldPurPrice'];
+                    }
+
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
                 editor:{
@@ -147,11 +168,19 @@ function initGridActivity() {
                     options:{
                         min:0,
                         precision:4,
+                        disabled:isdisabled,
                     }
                 },
             },
 
-            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
+            {field:'remark',title:'备注',width:'200px',align:'left',
+                editor:{
+                    type:'textbox',
+                    options:{
+                        disabled:isdisabled,
+                    }
+                }
+            }
         ]],
         onClickCell:function(rowIndex,field,value){
             gridActHandel.setBeginRow(rowIndex);

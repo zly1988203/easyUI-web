@@ -373,6 +373,7 @@ function initDatagridRequireOrder(){
                         editable:false,
                         required:true,
                         readonly:deliverPriceSpecFlg,
+                        disabled:deliverPriceSpecFlg,
                         data: [{
                             "id":'1',
                             "text":"是",
