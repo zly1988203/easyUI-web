@@ -87,6 +87,10 @@ public class NonExpendController extends BaseController<NonExpendController> {
 		}
 
 		StoreChargePo po = storeChargeService.getStoreChargeById(formId);
+		
+		if(po == null){
+			return super.toErrorPage("单据不存在，请刷新后重试！");
+		}
 
 		ModelAndView mv = new ModelAndView("finance/nonExpend/expendEdit");
 		mv.addObject("form", po);

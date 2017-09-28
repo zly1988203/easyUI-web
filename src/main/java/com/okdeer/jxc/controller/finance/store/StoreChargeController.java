@@ -87,6 +87,10 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 		}
 
 		StoreChargePo po = storeChargeService.getStoreChargeById(formId);
+		
+		if(po == null){
+			return super.toErrorPage("单据不存在，请刷新后重试！");
+		}
 
 		ModelAndView mv = new ModelAndView("finance/storeCharge/storeChargeEdit");
 		mv.addObject("form", po);
