@@ -363,7 +363,7 @@ function initDatagridRequireOrder(){
                         return;
                     }
                     row.isGift = row.isGift?row.isGift:0;
-                    return value=='1'?'是':(value=='0'?'否':'请选择');
+                    return value=='1'?'是': (value=='0'?'否':'请选择');
                 },
                 editor:{
                     type:'combobox',

@@ -1024,7 +1024,8 @@ function GridClass(){
             keyCtr : function (jq) {
                 return jq.each(function () {
                     var grid = $(this);
-                    grid.datagrid('getPanel').panel('panel').attr('tabindex', 1).bind('keydown', function (e) {
+                    grid.datagrid('getPanel').panel('panel').attr('tabindex', 1).bind('keydown',
+                        function (e) {
                         switch (e.keyCode) {
                             case 37: //左键
                                 var field = getLRFiledName('left');
@@ -1042,11 +1043,11 @@ function GridClass(){
                                 }
                                 break;
                             case 13: //回车键
+                                e.keyCode=9
                                 if(getLRFiledName('right')=="isGift"){
-
+                                    _this.setSelectFieldName(field);
                                     var field = getLRFiledName('right');
                                     _this.setSelectFieldName(field);
-                                    field = getLRFiledName('right');
                                     var target = _this.getFieldTarget(field);
                                     if(target){
                                         _this.setFieldFocus(target);
@@ -1094,13 +1095,18 @@ function GridClass(){
                                         	}
                                         	_this.setSelectFieldName(field);
                                             field = getLRFiledName('right');
-                                        	target = _this.getFieldTarget(field);
+                                            if(field=="isGift"){
+                                                _this.setSelectFieldName(field);
+                                                field = getLRFiledName('right');
+                                                _this.setSelectFieldName(field);
+                                            }
+                                            target = _this.getFieldTarget(field);
                                         }
                                         if(target){
                                     		_this.setFieldFocus(target);
                                     		_this.setSelectFieldName(field);
                                         }
-                                        
+
                                     }
                                 }
                                 break;
@@ -2911,32 +2917,9 @@ function initCombobox(id,dataItems,defValue){
 		onSelect: function (row) { //选中一个选项时调用  
 			var opts = $(this).combobox('options');
             var target = this;
-            //设置选中值所对应的复选框为选中状态
-            var isChecked = false;
 
-			if(row[opts.valueField] === "ALL"){
-               $.each(opts.data,function (index,item) {
-                   var el = opts.finder.getEl(target, item[opts.valueField]);
-                   el.find('input.combobox-checkbox')._propAttr('checked', true);
-                   el.addClass("combobox-item-selected").removeClass("combobox-item-hover");
-               })
-            }else {
                 var el = opts.finder.getEl(target, row[opts.valueField]);
                 el.find('input.combobox-checkbox')._propAttr('checked', true);
-
-                $.each(opts.data,function (index,item) {
-                    if(item[opts.valueField] != "ALL"){
-                        var el = opts.finder.getEl(target, item[opts.valueField]);
-                        isChecked = el.find('input.combobox-checkbox')._propAttr('checked')==true?true:false;
-                    }
-                })
-                if(isChecked){
-                    var el = opts.finder.getEl(target, "ALL");
-                    el.find('input.combobox-checkbox')._propAttr('checked', true);
-                    el.addClass("combobox-item-selected").removeClass("combobox-item-hover");
-                }
-
-            }
 
             //获取选中的值的values
             $("#"+id).val($(this).combobox('getValues'));
@@ -2944,24 +2927,36 @@ function initCombobox(id,dataItems,defValue){
 		onUnselect: function (row) {//不选中一个选项时调用  
 			var opts = $(this).combobox('options');
             var target = this;
-            if(row[opts.valueField] === "ALL"){
-                $.each(opts.data,function (index,item) {
-                    var el = opts.finder.getEl(target, item[opts.valueField]);
-                    el.find('input.combobox-checkbox')._propAttr('checked', false);
-                    el.removeClass("combobox-item-selected").addClass("combobox-item-hover");
-                })
-            }else {
+
                 var el = opts.finder.getEl(target, row[opts.valueField]);
                 el.find('input.combobox-checkbox')._propAttr('checked', false);
-                var allEl = opts.finder.getEl(target, "ALL");
-                allEl.find('input.combobox-checkbox')._propAttr('checked', false);
-                allEl.removeClass("combobox-item-selected").addClass("combobox-item-hover");
-            }
+                el.removeClass("combobox-item-selected");
+
+
             //获取选中的值的values
-            $("#"+id).val($(this).combobox('getValues'));
+            var comVal = $(this).combobox('getValues');
+            $("#"+id).val(comVal);
         }
 	});  
 }  
 /*----------------jxc component js end  ---------------------------*/
 
+function initCombotree(id,dataItems,defValue){
+    $('#'+id).combotree({
+        cascadeCheck: true,
+        //onlyLeafCheck: true,
+        checkbox: true,
+        data: dataItems,
+        width: 200,
+        height: 32,
+        panelHeight: 400,
+        multiple: true,
+        onChange :function(){
+            $val =  $("#"+id).combotree('getValue');
+        },
+        onLoadSuccess:function(node,data){
+            $("#"+id).combotree('setValue',defValue);
 
+        }
+    })
+}
