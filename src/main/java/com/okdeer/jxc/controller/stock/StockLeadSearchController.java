@@ -100,12 +100,6 @@ public class StockLeadSearchController extends BaseController<StockLeadSearchCon
 			vo.setPageSize(pageSize);
 			buildParam(vo);
 			PageUtils<StockAdjustSearchVo> reportList = stockAdjustSearchService.getSearchList(vo);
-			StockAdjustSearchVo sum = stockAdjustSearchService.getSearchListSum(vo);
-			List<StockAdjustSearchVo> footer = new ArrayList<>();
-			if (sum != null) {
-				footer.add(sum);
-			}
-			reportList.setFooter(footer);
 			// 过滤数据权限字段
 			cleanAccessData(reportList);
 			return reportList;

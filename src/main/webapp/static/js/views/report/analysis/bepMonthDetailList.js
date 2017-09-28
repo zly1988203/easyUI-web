@@ -63,7 +63,7 @@ function loadData(data) {
     td.appendTo(header_tr);
 
     $.each(data,function (i,item) {
-        if(typeof(item.childs) != 'undefined' && item.childs.length > 0){
+        if(typeof(item.childs) != 'undefined' && item.childs != null && item.childs.length > 0){
             var tr = $("<tr></tr>");
             tr.appendTo($("#tb"));
             var tdConut = item.childs.length+1;
@@ -85,7 +85,7 @@ function loadData(data) {
             tr.appendTo($("#tb"));
             var td = $("<td colspan='3'>合计:</td>");
             td.appendTo(tr);
-            var td = $("<td class='td-amount'>"+parseFloat(item.total).toFixed(2)+"</td>");
+            var td = $("<td class='td-amount'>"+parseFloat(item.amount).toFixed(2)+"</td>");
             td.appendTo(tr);
             var td = $("<td></td>");
             td.appendTo(tr);
@@ -95,7 +95,11 @@ function loadData(data) {
             tr.appendTo($("#tb"));
             var td = $("<td colspan='3'>"+item.dictType+"</td>");
             td.appendTo(tr);
-            var td = $("<td class='td-amount'>"+parseFloat(item.total).toFixed(2)+"</td>");
+            if(item.dictType == '门店商品销售毛利率'){            	
+            	var td = $("<td class='td-amount'>"+parseFloat(item.amount*100).toFixed(2)+"%"+"</td>");
+            }else{            	
+            	var td = $("<td class='td-amount'>"+parseFloat(item.amount).toFixed(2)+"</td>");
+            }
             td.appendTo(tr);
             var td = $("<td></td>");
             td.appendTo(tr);

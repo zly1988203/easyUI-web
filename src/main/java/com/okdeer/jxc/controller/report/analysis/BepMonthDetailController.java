@@ -17,12 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.report.analysis.po.BepMonthDetailPo;
 import com.okdeer.jxc.report.analysis.qo.BepMonthDetailQo;
 import com.okdeer.jxc.report.analysis.service.BepMonthDetailService;
 
@@ -105,8 +104,8 @@ public class BepMonthDetailController extends BaseController<BepMonthDetailContr
 
 			RespJson respJson = bepMonthDetailService.getDetailList(qo);
 			if (respJson.isSuccess()) {
-				JSONArray data = (JSONArray) respJson.getData();
-				List<JSONObject> dataList = data.toJavaList(JSONObject.class);
+				@SuppressWarnings("unchecked")
+				List<BepMonthDetailPo> dataList = (List<BepMonthDetailPo>) respJson.getData();
 				exportListForXLSX(response, dataList, reportFileName, templateName);
 			}
 		} catch (Exception e) {
