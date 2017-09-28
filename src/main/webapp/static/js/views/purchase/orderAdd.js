@@ -915,6 +915,12 @@ function selectSupplier(){
 		isAllowPurchase:1
 	}
     new publicSuppliersService(param, function(data){
+        //供应商交货期限
+        var diliveCycle = parseInt(data.diliveCycle||7)-1;
+        //如果供应商送货周期不会空，则交货期限需要加上送货周期
+        var deliverTime = new Date(new Date().getTime() + 24*60*60*1000*diliveCycle);
+        $("#deliverTime").val(new Date(deliverTime).format('yyyy-MM-dd'));
+        
     	if('NO' == data)return;
         var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
         if( data.id != $("#supplierId").val() && nowRows.length > 0){
