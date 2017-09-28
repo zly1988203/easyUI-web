@@ -132,10 +132,8 @@ public class SupplierCheckController extends BasePrintController<SupplierCheckCo
             vo.setPageNumber(pageNumber);
             vo.setPageSize(pageSize);
             vo.setBranchCompleCode(getCurrBranchCompleCode());
-            LOG.debug(LogConstant.OUT_PARAM, vo.toString());
-            PageUtils<SupplierCheckVo> checkList = supplierCheckService.getCheckPageList(vo);
-            LOG.debug(LogConstant.PAGE, checkList.toString());
-            return checkList;
+            LOG.debug(LogConstant.OUT_PARAM, vo);
+            return supplierCheckService.getCheckPageList(vo);
         } catch (Exception e) {
             LOG.error("供应商对账列表信息异常:{}", e);
         }
@@ -153,7 +151,7 @@ public class SupplierCheckController extends BasePrintController<SupplierCheckCo
     @RequestMapping(value = "/checkFormDetailList", method = RequestMethod.POST)
     public List<SupplierCheckDetailVo> checkFormDetailList(SupplierCheckVo vo) {
         LOG.debug(LogConstant.OUT_PARAM, vo);
-        List<SupplierCheckDetailVo> detailList = new ArrayList<SupplierCheckDetailVo>();
+        List<SupplierCheckDetailVo> detailList = new ArrayList<>();
         try {
             detailList = supplierCheckService.getCheckFormDetailList(vo);
         } catch (Exception e) {
@@ -171,8 +169,8 @@ public class SupplierCheckController extends BasePrintController<SupplierCheckCo
      */
     @RequestMapping(value = "/saveCheckForm", method = RequestMethod.POST)
     public RespJson saveCheckForm(String data) {
-        RespJson respJson = RespJson.success();
-        LOG.debug("保存供应商对账单 ：data{}" + data);
+        RespJson respJson = null;
+        LOG.debug("保存供应商对账单 ：data{}" , data);
         SysUser user = UserUtil.getCurrentUser();
         if (user == null) {
             respJson = RespJson.error("用户不能为空！");
@@ -217,7 +215,7 @@ public class SupplierCheckController extends BasePrintController<SupplierCheckCo
     public RespJson auditCheckForm(String data) {
         RespJson respJson = RespJson.success();
         try {
-            LOG.debug("审核供应商对账单详情 ：data{}" + data);
+            LOG.debug("审核供应商对账单详情 ：data{}" , data);
             SysUser user = UserUtil.getCurrentUser();
             if (user == null) {
                 respJson = RespJson.error("用户不能为空！");
@@ -317,7 +315,7 @@ public class SupplierCheckController extends BasePrintController<SupplierCheckCo
      */
     @Override
     protected Map<String, Object> getPrintReplace(String formId) {
-        Map<String, Object> replaceMap = new HashMap<String, Object>();
+        Map<String, Object> replaceMap = new HashMap<>();
         SupplierCheckVo vo = supplierCheckService.getSupplierCheckVoById(formId);
         if (null != vo) {
             replaceMap.put("_订单编号", vo.getFormNo());

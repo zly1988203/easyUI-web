@@ -147,7 +147,7 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 	@ResponseBody
 	public List<StocktakingFormDetailVo> stocktakingFormDetailList(String formId) {
 		LOG.debug(LogConstant.OUT_PARAM, formId);
-		List<StocktakingFormDetailVo> detailList = new ArrayList<StocktakingFormDetailVo>();
+		List<StocktakingFormDetailVo> detailList = new ArrayList<>();
 		try {
 			detailList = stocktakingOperateServiceApi.getStocktakingFormDetailList(formId);
 		} catch (Exception e) {

@@ -53,6 +53,7 @@ public class SupplierChargeController extends BasePrintController<SupplierCharge
     @Reference(version = "1.0.0", check = false)
     private SupplierChargeService supplierChargeService;
 
+    private static final String KEYSTR = "chargeVo";
     /**
      * 
      * @Description: 供应商预付列表页
@@ -84,10 +85,8 @@ public class SupplierChargeController extends BasePrintController<SupplierCharge
             vo.setPageNumber(pageNumber);
             vo.setPageSize(pageSize);
             vo.setBranchCompleCode(getCurrBranchCompleCode());
-            LOG.debug(LogConstant.OUT_PARAM, vo.toString());
-            PageUtils<SupplierChargeVo> chargeList = supplierChargeService.getChargePageList(vo);
-            LOG.debug(LogConstant.PAGE, chargeList.toString());
-            return chargeList;
+            LOG.debug(LogConstant.OUT_PARAM, vo);
+            return supplierChargeService.getChargePageList(vo);
         } catch (Exception e) {
             LOG.error("供应商费用列表信息异常:{}", e);
         }
@@ -118,7 +117,7 @@ public class SupplierChargeController extends BasePrintController<SupplierCharge
     @RequestMapping(value = "advanceEdit")
     public ModelAndView advanceEdit(Model model, String id) {
         SupplierChargeVo chargeVo = supplierChargeService.getSupplierChargeVoById(id);
-        model.addAttribute("chargeVo", chargeVo);
+        model.addAttribute(KEYSTR, chargeVo);
         if (FormStatus.CHECK_SUCCESS.getValue().equals(chargeVo.getAuditStatus())) {
             return new ModelAndView("settle/supplier/advance/advanceView");
         }
@@ -136,7 +135,7 @@ public class SupplierChargeController extends BasePrintController<SupplierCharge
     @RequestMapping(value = "/chargeFormDetailList", method = RequestMethod.GET)
     public List<SupplierChargeDetailVo> chargeFormDetailList(String formId) {
         LOG.debug(LogConstant.OUT_PARAM, formId);
-        List<SupplierChargeDetailVo> detailList = new ArrayList<SupplierChargeDetailVo>();
+        List<SupplierChargeDetailVo> detailList = new ArrayList<>();
         try {
             detailList = supplierChargeService.getChargeFormDetailList(formId);
         } catch (Exception e) {
@@ -154,8 +153,8 @@ public class SupplierChargeController extends BasePrintController<SupplierCharge
      */
     @RequestMapping(value = "/saveChargeForm", method = RequestMethod.POST)
     public RespJson saveChargeForm(String data) {
-        RespJson respJson = RespJson.success();
-        LOG.debug("保存供应商预付，费用 ：data{}" + data);
+        RespJson respJson = null;
+        LOG.debug("保存供应商预付，费用 ：data{}" , data);
         SysUser user = UserUtil.getCurrentUser();
         if (user == null) {
             respJson = RespJson.error("用户不能为空！");
@@ -200,7 +199,7 @@ public class SupplierChargeController extends BasePrintController<SupplierCharge
     public RespJson auditChargeForm(String data) {
         RespJson respJson = RespJson.success();
         try {
-            LOG.debug("审核供应商预付，费用详情 ：data{}" + data);
+            LOG.debug("审核供应商预付，费用详情 ：data{}" , data);
             SysUser user = UserUtil.getCurrentUser();
             if (user == null) {
                 respJson = RespJson.error("用户不能为空！");
@@ -256,7 +255,7 @@ public class SupplierChargeController extends BasePrintController<SupplierCharge
     @RequestMapping(value = "advanceView")
     public ModelAndView advanceView(Model model, String id) {
         SupplierChargeVo chargeVo = supplierChargeService.getSupplierChargeVoById(id);
-        model.addAttribute("chargeVo", chargeVo);
+        model.addAttribute(KEYSTR, chargeVo);
         return new ModelAndView("settle/supplier/advance/advanceView");
     }
 
@@ -300,7 +299,7 @@ public class SupplierChargeController extends BasePrintController<SupplierCharge
         if(chargeVo == null){
             return new ModelAndView("/error/500");
         }
-        model.addAttribute("chargeVo", chargeVo);
+        model.addAttribute(KEYSTR, chargeVo);
         return new ModelAndView("settle/supplier/charge/chargeEdit");
     }
 
@@ -315,7 +314,7 @@ public class SupplierChargeController extends BasePrintController<SupplierCharge
     @RequestMapping(value = "chargeView")
     public ModelAndView chargeView(Model model, String id) {
         SupplierChargeVo chargeVo = supplierChargeService.getSupplierChargeVoById(id);
-        model.addAttribute("chargeVo", chargeVo);
+        model.addAttribute(KEYSTR, chargeVo);
         return new ModelAndView("settle/supplier/charge/chargeView");
     }
 
@@ -326,7 +325,7 @@ public class SupplierChargeController extends BasePrintController<SupplierCharge
      */
     @Override
     protected Map<String, Object> getPrintReplace(String formId) {
-        Map<String, Object> replaceMap = new HashMap<String, Object>();
+        Map<String, Object> replaceMap = new HashMap<>();
         SupplierChargeVo vo = supplierChargeService.getSupplierChargeVoById(formId);
         if (null != vo) {
             replaceMap.put("_订单编号", vo.getFormNo());

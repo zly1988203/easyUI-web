@@ -53,6 +53,10 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
     @Reference(version = "1.0.0", check = false)
     private SupplierSettleService supplierSettleService;
 
+    private static final String KEYSTR = "settleVo";
+    
+    private static final String VIEW_URL = "settle/supplier/settle/settleView";
+    
     /**
      * 
      * @Description: 供应商结算列表页
@@ -93,9 +97,9 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
         if(settleVo == null){
             return new ModelAndView("/error/500");
         }
-        model.addAttribute("settleVo", settleVo);
+        model.addAttribute(KEYSTR, settleVo);
         if (FormStatus.CHECK_SUCCESS.getValue().equals(settleVo.getAuditStatus())) {
-            return new ModelAndView("settle/supplier/settle/settleView");
+            return new ModelAndView(VIEW_URL);
         }
         return new ModelAndView("settle/supplier/settle/settleEdit");
     }
@@ -111,8 +115,8 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
     @RequestMapping(value = "settleView")
     public ModelAndView settleView(Model model, String id) {
         SupplierSettleVo settleVo = supplierSettleService.getSupplierSettleVoById(id);
-        model.addAttribute("settleVo", settleVo);
-        return new ModelAndView("settle/supplier/settle/settleView");
+        model.addAttribute(KEYSTR, settleVo);
+        return new ModelAndView(VIEW_URL);
     }
     
     /**
@@ -126,8 +130,8 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
     @RequestMapping(value = "settleViewByNo")
     public ModelAndView settleViewByNo(Model model, String formNo) {
         SupplierSettleVo settleVo = supplierSettleService.getSupplierSettleVoByFormNo(formNo);
-        model.addAttribute("settleVo", settleVo);
-        return new ModelAndView("settle/supplier/settle/settleView");
+        model.addAttribute(KEYSTR, settleVo);
+        return new ModelAndView(VIEW_URL);
     }
 
     /**
@@ -148,10 +152,8 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
             vo.setPageNumber(pageNumber);
             vo.setPageSize(pageSize);
             vo.setBranchCompleCode(getCurrBranchCompleCode());
-            LOG.debug(LogConstant.OUT_PARAM, vo.toString());
-            PageUtils<SupplierSettleVo> settleList = supplierSettleService.getSettlePageList(vo);
-            LOG.debug(LogConstant.PAGE, settleList.toString());
-            return settleList;
+            LOG.debug(LogConstant.OUT_PARAM, vo);
+            return supplierSettleService.getSettlePageList(vo);
         } catch (Exception e) {
             LOG.error("供应商结算列表信息异常:{}", e);
         }
@@ -170,7 +172,7 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
     @ResponseBody
     public List<SupplierSettleDetailVo> settleFormDetailList(SupplierSettleVo vo) {
         LOG.debug(LogConstant.OUT_PARAM, vo);
-        List<SupplierSettleDetailVo> detailList = new ArrayList<SupplierSettleDetailVo>();
+        List<SupplierSettleDetailVo> detailList = new ArrayList<>();
         try {
             detailList = supplierSettleService.getSettleFormDetailList(vo);
         } catch (Exception e) {
@@ -189,8 +191,8 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
     @RequestMapping(value = "/saveSettleForm", method = RequestMethod.POST)
     @ResponseBody
     public RespJson saveSettleForm(String data) {
-        RespJson respJson = RespJson.success();
-        LOG.debug("保存供应商结算单 ：data{}" + data);
+        RespJson respJson = null;
+        LOG.debug("保存供应商结算单 ：data{}" , data);
         SysUser user = UserUtil.getCurrentUser();
         if (user == null) {
             respJson = RespJson.error("用户不能为空！");
@@ -236,7 +238,7 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
     public RespJson auditSettleForm(String data) {
         RespJson respJson = RespJson.success();
         try {
-            LOG.debug("审核供应商结算单详情 ：data{}" + data);
+            LOG.debug("审核供应商结算单详情 ：data{}" , data);
             SysUser user = UserUtil.getCurrentUser();
             if (user == null) {
                 respJson = RespJson.error("用户不能为空！");
@@ -312,7 +314,7 @@ public class SupplierSettleController extends BasePrintController<SupplierSettle
      */
     @Override
     protected Map<String, Object> getPrintReplace(String formId) {
-        Map<String, Object> replaceMap = new HashMap<String, Object>();
+        Map<String, Object> replaceMap = new HashMap<>();
         SupplierSettleVo vo = supplierSettleService.getSupplierSettleVoById(formId);
         if (null != vo) {
             replaceMap.put("_订单编号", vo.getFormNo());

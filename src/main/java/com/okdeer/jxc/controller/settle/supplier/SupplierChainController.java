@@ -131,10 +131,8 @@ public class SupplierChainController extends BasePrintController<SupplierChainCo
             vo.setPageNumber(pageNumber);
             vo.setPageSize(pageSize);
             vo.setBranchCompleCode(getCurrBranchCompleCode());
-            LOG.debug(LogConstant.OUT_PARAM, vo.toString());
-            PageUtils<SupplierChainVo> chainList = supplierChainService.getChainPageList(vo);
-            LOG.debug(LogConstant.PAGE, chainList.toString());
-            return chainList;
+            LOG.debug(LogConstant.OUT_PARAM, vo);
+            return supplierChainService.getChainPageList(vo);
         } catch (Exception e) {
             LOG.error("供应商联营账单列表信息异常:{}", e);
         }
@@ -152,7 +150,7 @@ public class SupplierChainController extends BasePrintController<SupplierChainCo
     @RequestMapping(value = "/chainFormDetailList", method = RequestMethod.POST)
     public List<SupplierChainDetailVo> chainFormDetailList(SupplierChainVo vo) {
         LOG.debug(LogConstant.OUT_PARAM, vo);
-        List<SupplierChainDetailVo> detailList = new ArrayList<SupplierChainDetailVo>();
+        List<SupplierChainDetailVo> detailList = new ArrayList<>();
         try {
             detailList = supplierChainService.getChainFormDetailList(vo);
         } catch (Exception e) {
@@ -170,8 +168,8 @@ public class SupplierChainController extends BasePrintController<SupplierChainCo
      */
     @RequestMapping(value = "/saveChainForm", method = RequestMethod.POST)
     public RespJson saveChainForm(String data) {
-        RespJson respJson = RespJson.success();
-        LOG.debug("保存供应商联营账单 ：data{}" + data);
+        RespJson respJson = null;
+        LOG.debug("保存供应商联营账单 ：data{}", data);
         SysUser user = UserUtil.getCurrentUser();
         if (user == null) {
             respJson = RespJson.error("用户不能为空！");
@@ -216,7 +214,7 @@ public class SupplierChainController extends BasePrintController<SupplierChainCo
     public RespJson auditChainForm(String data) {
         RespJson respJson = RespJson.success();
         try {
-            LOG.debug("审核供应商联营账单详情 ：data{}" + data);
+            LOG.debug("审核供应商联营账单详情 ：data{}" , data);
             SysUser user = UserUtil.getCurrentUser();
             if (user == null) {
                 respJson = RespJson.error("用户不能为空！");
@@ -284,7 +282,7 @@ public class SupplierChainController extends BasePrintController<SupplierChainCo
      */
     @Override
     protected Map<String, Object> getPrintReplace(String formId) {
-        Map<String, Object> replaceMap = new HashMap<String, Object>();
+        Map<String, Object> replaceMap = new HashMap<>();
         SupplierChainVo vo = supplierChainService.getSupplierChainVoById(formId);
         if (null != vo) {
             replaceMap.put("_订单编号", vo.getFormNo());
