@@ -103,7 +103,7 @@ public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuCon
 			GoodsSkuQo qo,String categoryCode1,String brandId1,String supplierId1,
 			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.debug("qo:" + qo.toString());
+		LOG.debug("根据类目查询商品列表qo:{}" , qo);
 		if (!qo.isOutGoods()) {// 淘汰商品
 			qo.setStatus(GoodsStatusEnum.OBSOLETE.ordinal());
 		}
@@ -118,9 +118,7 @@ public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuCon
 		}
 		qo.setPageNumber(pageNumber);
 		qo.setPageSize(pageSize);
-		PageUtils<GoodsSku> page = goodsSkuService.queryOperateSkuByPage(qo);
-		LOG.debug("page" + page.toString());
-		return page;
+		return goodsSkuService.queryOperateSkuByPage(qo);
 	}
 
 	/**
@@ -237,8 +235,7 @@ public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuCon
 			jesp.put("_data", sku);
 			return jesp;
 		} else {
-			RespJson jesp = RespJson.error("商品id为空");
-			return jesp;
+		    return RespJson.error("商品id为空");
 		}
 	}
 
@@ -282,9 +279,9 @@ public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuCon
 			return RespJson.error("零售价不能为空");
 		}
 		BigDecimal price = BigDecimal.ZERO;
-		if(salePrice.compareTo(price) == 0) {
+		/**if(salePrice.compareTo(price) == 0) {
 			return RespJson.error("零售价必须大于0");
-		}
+		}*/
 		
 		
 		try {
@@ -315,8 +312,7 @@ public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuCon
 			sku.setUpdateUserId(UserUtil
 					.getCurrentUser().getId());
 			sku.setDisabled(3);
-			RespJson json = goodsSkuService.addGoodsSku(sku, UserUtil.getCurrentUser().getId());
-			return json;
+			return goodsSkuService.addGoodsSku(sku, UserUtil.getCurrentUser().getId());
 		} catch (Exception e) {
 			LOG.error("新增商品异常:", e);
 			return RespJson.error("新增商品异常");
@@ -346,9 +342,9 @@ public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuCon
 			return RespJson.error("零售价不能为空");
 		}
 		BigDecimal price = BigDecimal.ZERO;
-		if(salePrice.compareTo(price) == 0) {
+		/**if(salePrice.compareTo(price) == 0) {
 			return RespJson.error("零售价必须大于0");
-		}
+		}*/
 		
 		try {
 			sku.setBarCode(sku.getBarCode().replace(" ", ""));
@@ -465,9 +461,8 @@ public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuCon
 	public String getSkuCode(String pricingType, String categoryCode) {
 		PricingTypeEnum type = PricingTypeEnum.enumNameOf(pricingType);
 		goodsSkuService.getSkuCodeByPricingType(type, categoryCode);
-		String code = goodsSkuService.getSkuCodeByPricingType(type,
+		return goodsSkuService.getSkuCodeByPricingType(type,
 				categoryCode);
-		return code;
 	}
 
 	/**
@@ -481,10 +476,9 @@ public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuCon
 	 */
 	@RequestMapping(value = "getBarCode", method = RequestMethod.POST)
 	@ResponseBody
-	public String getBarCode(String pricingType, String SkuCode) {
+	public String getBarCode(String pricingType, String skuCode) {
 		PricingTypeEnum type = PricingTypeEnum.enumNameOf(pricingType);
-		String barCode = goodsSkuService.getBarCode(type, SkuCode);
-		return barCode;
+		return goodsSkuService.getBarCode(type, skuCode);
 	}
 
 	/**
@@ -517,9 +511,8 @@ public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuCon
  			List<GoodsSku> list = goodsSkuService.querySkuByParams(qo);
 			if (CollectionUtils.isNotEmpty(list)) {
 				if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
-					RespJson json = RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
+				    return RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
 							+ "条数据");
-					return json;
 				}
 				// 导出文件名称，不包括后缀名
 				String fileName = "商品档案列表" + "_" + DateUtils.getCurrSmallStr();
@@ -530,13 +523,11 @@ public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuCon
 				list = handleDateReport(list);
 				exportListForXLSX(response, list, fileName, templateName);
 			} else {
-				RespJson json = RespJson.error("无数据可导");
-				return json;
+			    return RespJson.error("无数据可导");
 			}
 		} catch (Exception e) {
 			LOG.error("导出商品失败", e);
-			RespJson json = RespJson.error("导出失败");
-			return json;
+			return RespJson.error("导出失败");
 		}
 		return null;
 	}
@@ -544,7 +535,7 @@ public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuCon
 	// 导出数据特殊处理
 	private List<GoodsSku> handleDateReport(List<GoodsSku> exportList) {
 		for (GoodsSku vo : exportList) {
-			if(vo.getSalePrice()!=null && vo.getSalePrice().compareTo(BigDecimal.ZERO) ==1 && vo.getPurchasePrice()!=null){
+			if(vo.getSalePrice()!=null && vo.getSalePrice().compareTo(BigDecimal.ZERO) > 0 && vo.getPurchasePrice()!=null){
 				BigDecimal marginTax = vo.getSalePrice().subtract(vo.getPurchasePrice());
 				marginTax = marginTax.multiply(new BigDecimal(100));
 				BigDecimal val =marginTax.divide(vo.getSalePrice(),2,BigDecimal.ROUND_HALF_UP);

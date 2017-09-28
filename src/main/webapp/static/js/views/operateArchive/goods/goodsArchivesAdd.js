@@ -385,6 +385,7 @@ function saveGoodsArchives(){
 	
 	if(!isValid){
 		$('#saveGoodsArchives').removeAttr("disabled");
+		$_jxc.alert("请完善商品必填信息");
 		return;
 	}
 
@@ -393,7 +394,12 @@ function saveGoodsArchives(){
         $_jxc.alert("请输入商品名称");
         return;
     }
-	
+    if($('#categoryCode').val().trim()===""){
+    	$('#saveGoodsArchives').removeAttr("disabled");
+    	$_jxc.alert("请选择商品类别");
+    	return;
+    }
+    
 	if($('#purchaseSpec').val()=="0.00"){
 		$('#saveGoodsArchives').removeAttr("disabled");
 		$_jxc.alert("进货规格不能为0!");
@@ -403,6 +409,13 @@ function saveGoodsArchives(){
 	if($("#distributionSpec").val()=== '0.00'){
 		$('#saveGoodsArchives').removeAttr("disabled");
 		$_jxc.alert("配送规格不能为0");
+		return;
+	}
+
+	var salePriceV = $("#salePrice").numberbox("getValue");
+	if(!salePriceV || parseFloat(salePriceV) < 0){
+		$('#saveGoodsArchives').removeAttr("disabled");
+        $_jxc.alert("零售价不能为空!");
 		return;
 	}
 	
@@ -423,13 +436,28 @@ function saveGoodsArchives(){
 			async:false
 		},function(result){
 			if(result.code == 0){
-				submitForm();
+				submitFormValidate(salePriceV);
 			}else{
 				$('#saveGoodsArchives').removeAttr("disabled");
                 $_jxc.alert(result.message);
 			}
 		});
 	}else{
+		submitFormValidate(salePriceV);
+	}
+}
+
+function submitFormValidate(salePriceV) {
+	if (parseFloat(salePriceV) == 0) {
+		$_jxc.confirm('商品零售价为0，是否继续保存？',
+				function(data) {
+					if (data) {
+						submitForm();
+					}else{
+						$('#saveGoodsArchives').removeAttr("disabled");
+					}
+				});
+	} else {
 		submitForm();
 	}
 }
