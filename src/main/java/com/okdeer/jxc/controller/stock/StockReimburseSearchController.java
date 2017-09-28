@@ -100,13 +100,6 @@ public class StockReimburseSearchController extends BaseController<StockReimburs
 			vo.setPageSize(pageSize);
 			buildParam(vo);
 			PageUtils<StockAdjustSearchVo> reportList = stockAdjustSearchService.getSearchList(vo);
-			StockAdjustSearchVo sum = stockAdjustSearchService.getSearchListSum(vo);
-			List<StockAdjustSearchVo> footer = new ArrayList<>();
-			if (sum != null) {
-				footer.add(sum);
-			}
-			reportList.setFooter(footer);
-			LOG.debug(LogConstant.PAGE, reportList.toString());
 			// 过滤数据权限字段
 			cleanAccessData(reportList);
 			return reportList;

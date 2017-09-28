@@ -75,6 +75,7 @@ var dg;
 function initDatagridRequire() {
     gridHandel.setGridName(datagridID);
 	dg = $("#"+datagridID).datagrid({
+		url:'',
         align:'center',
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
@@ -91,6 +92,8 @@ function initDatagridRequire() {
 			gridHandel.setDatagridHeader("center");
 		}
     });
+    $("#"+datagridID).datagrid("loadData",[]);
+    $("#"+datagridID).datagrid('reloadFooter',[]);
 }
 
 function getColumns(){
@@ -100,7 +103,14 @@ function getColumns(){
 	
 	if(accountType == '1'){		
 		defaultColumns =defaultColumns.concat([
-		            {field: 'branchName', title: '机构名称', width: '120px', align: 'left'},
+		            {field: 'branchName', title: '机构名称', width: '120px', align: 'left',
+		            	formatter: function(value, row, index) {
+		            		if($_jxc.isStringNull(value)){
+		            			return '合计';
+		            		}
+		            		return value;
+		            	}
+		            },
 					{field: 'formNo',title:'单号',width:'150px',align:'left'},
 					{field: 'validTime', title: '报损时间', width: '150px', align: 'left',
 						formatter: function (value, row, index) {
@@ -115,7 +125,14 @@ function getColumns(){
 	
 	if(accountType == '1' || accountType == '2'){
 		defaultColumns =defaultColumns.concat([
-		            {field: 'skuCode',title:'货号',width:'150px',align:'left'},
+		            {field: 'skuCode',title:'货号',width:'150px',align:'left',
+		            	formatter: function(value, row, index) {
+		            		if(accountType == '2' && $_jxc.isStringNull(value)){
+		            			return '合计';
+		            		}
+		            		return value;
+		            	}
+		            },
 		            {field: 'skuName',title:'商品名称',width:'150px',align:'left'},
 		            {field: 'barCode',title:'条码',width:'150px',align:'left'},
 		            {field: 'unit',title:'单位',width:'80px',align:'left'},
@@ -123,7 +140,16 @@ function getColumns(){
 		            ])
 	}
 	
-	defaultColumns =defaultColumns.concat([{field: 'firstCategory',title:'一级类别',width:'150px',align:'left'}]);
+	defaultColumns =defaultColumns.concat([
+	    {field: 'firstCategory',title:'一级类别',width:'150px',align:'left',
+	    	formatter: function(value, row, index) {
+	    		if(accountType == '3' && $_jxc.isStringNull(value)){
+	    			return '合计';
+	    		}
+	    		return value;
+	    	}
+	    }
+	]);
 	
 	if(accountType == '1' || accountType == '2' || (accountType == '3' && categoryType == '2')){		
 		defaultColumns =defaultColumns.concat([{field: 'secondCategory',title:'二级类别',width:'150px',align:'left'}]);
@@ -138,6 +164,9 @@ function getColumns(){
 	if(accountType == '1' || accountType == '2'){
 		defaultColumns =defaultColumns.concat([{field: 'price', title: '成本价', width: '80px', align: 'right',
 			formatter: function (value, row, index) {
+				 if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
+                     return '';
+                 }
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 			}
 		}]);
@@ -152,6 +181,9 @@ function getColumns(){
 	if(accountType == '1' || accountType == '2'){
 		defaultColumns =defaultColumns.concat([{field: 'salePrice', title: '零售价', width: '80px', align: 'right',
 			formatter: function (value, row, index) {
+				 if((parseFloat(value) != 0) &&(value == null || typeof value == 'undefined' || value == '') ){
+                     return '';
+                 }
 				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
 			}
 		}]);
@@ -169,6 +201,8 @@ function getColumns(){
 
 // 查询
 function queryForm() {
+	$('#startCount').val('');
+	$('#endCount').val('');
 	var fromObjStr = $('#queryForm').serializeObject();
 	//2.7精确查询
 	fromObjStr.branchName = "";
