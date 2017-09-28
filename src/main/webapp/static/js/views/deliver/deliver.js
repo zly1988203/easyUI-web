@@ -1238,6 +1238,7 @@ function delDeliverForm(){
  * 要货机构
  */
 var branchCode = '';
+var deliverPriceSpecFlg = false; 
 function selectTargetBranch(){
 	var targetBranchType = $("#targetBranchType").val();
 	if(targetBranchTypeTemp != '0' && targetBranchTypeTemp != '1'){
@@ -1264,6 +1265,10 @@ function selectTargetBranch(){
         	$("#sourceBranchId").val('');
             $("#sourceBranchName").val('');
         }
+        
+        deliverPriceSpecFlg = data.deliverPriceSpec == 1 || data.deliverPriceSpec == 3 ? true : false;
+        initDatagridRequireOrder();
+        gridHandel.setLoadData([$.extend({},gridDefault)]);
 	},'DA','');
 }
 
@@ -1282,9 +1287,6 @@ function getSourceBranch(branchesId) {
             $("#spanMinAmount").html('起订金额：' + result['minAmount']);
             $("#minAmount").val(result['minAmount']);
             $("#isMinAmount").val(result['isMinAmount']);
-            deliverPriceSpecFlg = result.deliverPriceSpec == 1 || result.deliverPriceSpec == 3 ? true : false;
-            initDatagridRequireOrder();
-            gridHandel.setLoadData([$.extend({},gridDefault)]);
 		}else{
 			$_jxc.alert(result['message']);
 		}
@@ -1332,7 +1334,6 @@ function getSourceMinAmount(sourceMinAmount){
 /**
  * 发货机构
  */
-var deliverPriceSpecFlg = false; 
 function selectSourceBranch(){
 	var targetBranchType = $("#targetBranchType").val();
 	if(targetBranchType != '0'){
@@ -1345,12 +1346,6 @@ function selectSourceBranch(){
                 //alert(data.stockMinAmount);
                 // 刷新起订金额
                 getSourceMinAmount(data.stockMinAmount);
-                
-                deliverPriceSpecFlg = data.deliverPriceSpec == 1 || data.deliverPriceSpec == 3 ? true : false;
-                
-                initDatagridRequireOrder();
-                
-                gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
         },'DZ',$("#targetBranchId").val(),'',1);
 	} else {
@@ -1363,12 +1358,6 @@ function selectSourceBranch(){
                 //alert(data.stockMinAmount);
                 // 刷新起订金额
                 getSourceMinAmount(data.stockMinAmount);
-                
-                deliverPriceSpecFlg = data.deliverPriceSpec == 1 || data.deliverPriceSpec == 3 ? true : false;
-                
-                initDatagridRequireOrder();
-                
-                gridHandel.setLoadData([$.extend({},gridDefault)]);
             }
         },'DA',$("#targetBranchId").val(),'',1);
     }

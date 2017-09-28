@@ -26,7 +26,6 @@ import org.springframework.stereotype.Component;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONArray;
 import com.okdeer.base.common.exception.ServiceException;
-import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.utils.JSONUtils;
 import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.system.entity.SysDict;

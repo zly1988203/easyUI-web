@@ -87,6 +87,10 @@ public class NonIncomeController extends BaseController<NonIncomeController> {
 		}
 
 		StoreChargePo po = storeChargeService.getStoreChargeById(formId);
+		
+		if(po == null){
+			return super.toErrorPage("单据不存在，请刷新后重试！");
+		}
 
 		ModelAndView mv = new ModelAndView("finance/nonIncome/incomeEdit");
 		mv.addObject("form", po);
