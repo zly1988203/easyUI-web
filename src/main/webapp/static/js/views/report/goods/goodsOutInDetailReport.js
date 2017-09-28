@@ -23,11 +23,11 @@ $(function(){
         }
     })
     // 初始化
-    initCombotree('fType',dataItems,"ALL");
+    initCombotree('fType',dataItems,"");
 });
 
 var dataItems = [
-			{"text": "全部","id": "ALL",iconCls:"combotree-p",
+			{"text": "全部","id": "",iconCls:"combotree-p",
 				children:[
                 {"text": "采购收货","id": "PI",iconCls:"combotree-c"},
                 {"text": "采购退货","id": "PR",iconCls:"combotree-c"},
@@ -278,7 +278,7 @@ function queryForm(){
 	$("#startCount").attr("value",null);
 	$("#endCount").attr("value",null);
 	// 赋值单据类型选择
-	$("#formTypes").val($("#fType").val());	
+	$("#formTypes").val($("#fType").combotree('getValues'));
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#goodsOutInDetail").datagrid("options").method = "post";
 	$("#goodsOutInDetail").datagrid('options').url = contextPath + '/goods/goodsDetail/getGoodsOutInDetailList';

@@ -2949,10 +2949,10 @@ function initCombotree(id,dataItems,defValue){
         data: dataItems,
         width: 200,
         height: 32,
-        panelHeight: 400,
+        panelHeight: 300,
         multiple: true,
         onChange :function(){
-            $val =  $("#"+id).combotree('getValue');
+            $val =  $("#"+id).combotree('getValues');
         },
         onLoadSuccess:function(node,data){
             $("#"+id).combotree('setValue',defValue);
