@@ -19,12 +19,12 @@
 			<div class="ub ub-ac">
 	            <div class="ubtns">
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
-					<shiro:hasPermission name="JxcLeadSearch:export">
+					<shiro:hasPermission name="JxcReportFinance:export">
 		                <input type="hidden" id="startCount" name="startCount" />
 						<input type="hidden" id="endCount" name="endCount" />
 	                	<div class="ubtns-item" onclick="exportData()">导出</div>
 	                </shiro:hasPermission>
-					<shiro:hasPermission name="JxcLeadSearch:export">
+					<shiro:hasPermission name="JxcReportFinance:print">
 	                	<div class="ubtns-item" onclick="printReport()">打印</div>
 	                </shiro:hasPermission>
 	                <div class="ubtns-item" id="set" onclick="gFunRefresh()">重置</div>
