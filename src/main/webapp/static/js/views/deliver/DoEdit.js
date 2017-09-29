@@ -817,17 +817,19 @@ function check(){
         return;
     }
     var msg = "是否审核通过？";
-    var content = "以下商品的配送出库单价或者数量为0，确认是否审核（审核时会删除数量为0的商品记录）？<br/>";
+    var content = "确认是否审核（审核时会删除数量为0的商品记录）？<br/>";
+    var checkNum = 0;
     $.each(rows,function(i,v){
         if ((parseFloat(v["price"]) <= 0 && v["isGift"] == 0 ) || v["dealNum"]<=0) {
         	content += v["skuCode"] +"--"+ v["skuName"] +"<br>";
+        	checkNum++;
         }
         v["rowNo"] = i+1;
     });
     
 	if(content){
 		var param = {
-				msg:content
+				msg:(checkNum > 0 ?"以下商品的配送出库单价或者数量为0，":"") + content
 		}
 		publicMessageService(param,function(data){
 			if (data == 1){
@@ -835,8 +837,6 @@ function check(){
 			}
 		});
 
-	}else{
-		checkValid();
 	}
 }
 
