@@ -226,6 +226,9 @@ public class PurchaseActivityController extends BaseController<PurchaseActivityC
     public RespJson exportList(HttpServletResponse response, PurchaseActivityVo vo) {
         RespJson resp = RespJson.success();
         try {
+            if (StringUtils.isBlank(vo.getBranchId())) {
+                vo.setBranchId(getCurrBranchId());
+            }
             List<PurchaseActivityVo> purchaseActivityVos = purchaseActivityService.getPurchaseActivityLists(vo);
             String fileName = "采购促销单_" + DateUtils.getCurrSmallStr();
             String templateName = ExportExcelConstant.PURCHASE_ACTIVITYL_FORM;
