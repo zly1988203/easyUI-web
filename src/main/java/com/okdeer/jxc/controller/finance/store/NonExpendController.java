@@ -276,11 +276,6 @@ public class NonExpendController extends BaseController<NonExpendController> {
 			// 获取文件名
 			String fileName = file.getOriginalFilename();
 
-			// // 文件流
-			// InputStream tempIs = file.getInputStream();
-			// 获取标题
-			// List<String> firstColumn = ExcelReaderUtil.readXlsxTitle(tempIs);
-
 			String[] fields = ImportExcelConstant.STORE_CHARGE_FIELDS;
 
 			ChargeImportBusinessValid businessValid = new ChargeImportBusinessValid();
@@ -326,7 +321,6 @@ public class NonExpendController extends BaseController<NonExpendController> {
 	 */
 	@RequestMapping(value = "exportTemp")
 	public void exportTemp(HttpServletResponse response) {
-		LOG.debug("导出营业外支出导入模板请求参数");
 		try {
 			String fileName = "营业外支出详情导入模板";
 			String templateName = ExportExcelConstant.STORE_CHARGE_MAIN_IMPORT_TEMPLATE;

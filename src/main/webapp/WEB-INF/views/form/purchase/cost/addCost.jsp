@@ -30,15 +30,16 @@
 				<div class="ub umar-t8">
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">收货单号:</div>
-						<input class="uinp" readonly="readonly" id="refFormNo" type="text" onclick="selectSupplier()">
+						<input name="refFormId" id="refFormId" type="hidden" value="${form.id}">
+						<input class="uinp" readonly="readonly" id="refFormNo" type="text" onclick="selectSupplier()" value="${form.formNo}">
 						<div class="uinp-more" onclick="selectSupplier()">...</div>
 					</div>
 
 
 					<div class="ub ub-ac umar-r80">
 					<div class="umar-r10 uw-60 ut-r">收货机构:</div>
-					<input class="uinp" name="branchId" id="branchId" type="hidden">
-					<input id="branchName" class="uinp uinp-no-more" readonly="readonly" type="text" disabled>
+					<input class="uinp" name="branchId" id="branchId" type="hidden" value="${form.branchId}">
+					<input id="branchName" class="uinp uinp-no-more" readonly="readonly" type="text" value="${form.branchName}" disabled>
 
 					</div>
 
@@ -55,14 +56,14 @@
 
 				<div class="ub ub-ac umar-r80">
 				<div class="umar-r10 uw-60 ut-r">供应商:</div>
-				<input class="uinp" name="supplierId" id="supplierId"type="hidden">
-				<input class="uinp uinp-no-more" readonly="readonly" id="supplierName" type="text" disabled>
+				<input class="uinp" name="supplierId" id="supplierId"type="hidden" value="${form.supplierId}">
+				<input class="uinp uinp-no-more" readonly="readonly" id="supplierName" type="text" value="${form.supplierName}" disabled>
 				</div>
 
 					<div class="ub ub-ac umar-r80">
 						<div class="umar-r10 uw-60 ut-r">经营方式:</div>
-						<input class="uinp" name="saleWay" id="saleWay" type="hidden">
-						<input class="uinp uinp-no-more" id="saleWayName" name="saleWayName"
+						<input class="uinp" name="saleWay" id="saleWay" type="hidden" value="${form.saleWay}">
+						<input class="uinp uinp-no-more" id="saleWayName" name="saleWayName" value="${form.saleWayStr}"
 							type="text" readonly="readonly" disabled>
 					</div>
 					<div class="ub ub-ac umar-r80">

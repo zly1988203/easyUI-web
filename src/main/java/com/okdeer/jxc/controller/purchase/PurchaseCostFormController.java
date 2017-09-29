@@ -8,6 +8,25 @@
  */
 package com.okdeer.jxc.controller.purchase;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
@@ -17,18 +36,14 @@ import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.form.purchase.qo.PurchaseFormDetailPO;
+import com.okdeer.jxc.form.purchase.qo.PurchaseFormPO;
 import com.okdeer.jxc.form.purchase.service.PurchaseCostFormService;
+import com.okdeer.jxc.form.purchase.service.PurchaseFormServiceApi;
 import com.okdeer.jxc.form.purchase.vo.PurchaseCostFormVo;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
 
 /**
  * @author songwj
@@ -47,6 +62,9 @@ public class PurchaseCostFormController extends BaseController<PurchaseCostFormC
 
     @Reference(version = "1.0.0", check = false)
     private PurchaseCostFormService purchaseCostFormService;
+    
+    @Reference(version = "1.0.0", check = false)
+	private PurchaseFormServiceApi purchaseFormService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView list() {
@@ -208,9 +226,17 @@ public class PurchaseCostFormController extends BaseController<PurchaseCostFormC
     }
 
     @RequestMapping(value = "/add")
-    public ModelAndView add() {
-        Map<String, String> model = Maps.newHashMap();
-        return new ModelAndView("form/purchase/cost/addCost", model);
+    public ModelAndView add(String formId, Model model) {
+    	
+    	ModelAndView mv = new ModelAndView("form/purchase/cost/addCost");
+    	
+    	if(StringUtils.isNotBlank(formId)){
+    		PurchaseFormPO form = purchaseFormService.selectPOById(formId);
+    		cleanAccessData(form);
+    		mv.addObject("form", form);
+    	}
+    	
+        return mv;
     }
 
     @RequestMapping(value = "/edit")
