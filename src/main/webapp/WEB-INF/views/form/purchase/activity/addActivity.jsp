@@ -82,7 +82,7 @@
                            value="<fmt:formatDate value="${form.startTime}" pattern="yyyy-MM-dd" />"/>至
                     <input id="txtEndDate" name="endTime" class="Wdate newWdate"
                            type="text"
-                           onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+                           onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'txtStartDate\')}'})"
                            value="<fmt:formatDate value="${form.endTime}" pattern="yyyy-MM-dd" />"/>
                 </div>
 

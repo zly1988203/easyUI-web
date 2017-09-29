@@ -6,8 +6,6 @@ var gridActHandel = new GridClass();
 var gridDefault = {newPurPrice: 0};
 $(function () {
     //initConditionParams();
-
-
     //机构选择初始化 收货机构
     $('#targetBranch').branchSelect({
         //ajax请求参数
@@ -31,8 +29,7 @@ $(function () {
     })
 
     if($("#pageStatus").val() === "add"){
-        $("#beginTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
-        $("#overTime").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+        initConditionParams();
     }else if ($("#pageStatus").val() == "copy"){
         $_jxc.ajax({url: contextPath + "/purchase/activity/detail/list/" + $("#copyId").val()}, function (data) {
             //$("#gridAddPosAct").datagrid("loadData",data.detail);
@@ -157,7 +154,7 @@ function initGridActivity() {
                     if(row.isFooter){
                         return ;
                     }
-                    if(!value){
+                    if(typeof(value) === "undefined" || value == null ){
                         row['newPurPrice'] = row['oldPurPrice'];
                         value = row['oldPurPrice'];
                     }
@@ -268,6 +265,7 @@ function selectGoods(searchKey) {
         $.each(newRows,function (index,item) {
             if(typeof(item.purchasePrice) != 'undefined'){
                 item.oldPurPrice = item.purchasePrice;
+                item.newPurPrice = item.purchasePrice;
             }
         })
 
@@ -286,7 +284,6 @@ function selectGoods(searchKey) {
 function saveForm() {
     gridActHandel.endEditRow();
     if (!validform()) return;
-    $("#" + gridCostId).datagrid("endEdit", gridActHandel.getSelectRowIndex());
 
     var formObj = $("#formAdd").serializeObject();
     var param = {
@@ -315,6 +312,7 @@ function saveForm() {
     })
 }
 
+var flag = false;
 function validform() {
     var branchId = $("#branchId").val();
     if (!branchId) {
@@ -327,6 +325,27 @@ function validform() {
         $_jxc.alert("供应商不能为空");
         return false;
     }
+    var startDate = $("#txtStartDate").val();
+    var endDate = $("#txtEndDate").val();
+
+    if(!dateUtil.compareDate(startDate,endDate)){
+        $_jxc.alert("结束时间不能早于开始时间");
+        return false;
+    }
+
+    var rows =gridActHandel.getRowsWhere({skuCode:1});
+    if(rows.length <=0){
+        $_jxc.alert("列表数据不能为空");
+        return false;
+    }
+    $.each(rows,function (index,item) {
+        if(item['remark'].length > 50){
+            $_jxc.alert("第"+(index+1)+"行，备注长度大于了100个字符");
+            flag = true;
+        }
+    })
+
+    if(flag) return false;
 
     return true;
 }
@@ -409,7 +428,7 @@ function del() {
             }, function (result) {
                 if (result['code'] == 0) {
                     $_jxc.alert("删除成功", function () {
-                        gFunRefresh();
+                       toClose();
                     });
                 } else {
                     $_jxc.alert(result['message']);
