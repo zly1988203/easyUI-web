@@ -225,8 +225,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
             List<String> branchList = Lists.newArrayList();
 
             for (int i = 0, length = branchNames.length; i < length; ++i) {
-                if (StringUtils.endsWith(branchNames[i], "所有")) {
-					List<Branches> queryBranchIds = branchesService.queryChildById(branchIds.get(i));
+                if (StringUtils.isNotBlank(branchNames[i]) && branchNames[i].contains("所有")) {
+                    List<Branches> queryBranchIds = branchesService.queryChildById(branchIds.get(i));
 					for (Branches branches : queryBranchIds) {
 						branchIdList.add(branches.getBranchesId());
 					}
