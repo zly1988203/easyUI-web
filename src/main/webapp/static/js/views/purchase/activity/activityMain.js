@@ -286,6 +286,7 @@ function selectGoods(searchKey) {
 function saveForm() {
     gridActHandel.endEditRow();
     if (!validform()) return;
+    $("#" + gridCostId).datagrid("endEdit", gridActHandel.getSelectRowIndex());
 
     var formObj = $("#formAdd").serializeObject();
     var param = {
