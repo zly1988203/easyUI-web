@@ -40,6 +40,7 @@
 				<div class="ub ub-ac umar-r40" id="branchSelect">
 					<div class="umar-r10 uw-70 ut-r">机构:</div>
 					<input type="hidden" id="branchId" name="branchId" />
+	                <input type="hidden" id="isContainChildren" name="isContainChildren"/>
 					<input class="uinp ub ub-f1" type="text" id="branchName" maxlength="50" />
 					<div class="uinp-more">...</div>
 				</div>

@@ -9,7 +9,13 @@ $(function() {
 	
 	//机构组件初始化
 	$('#branchSelect').branchSelect({
+		//ajax参数
+		param:{
+			scope:1
+		},
+		//数据过滤
 		loadFilter:function(data){
+			data.isContainChildren = data.allBranch;
 			return data;
 		}
 	});
