@@ -109,6 +109,17 @@ function loadData(data) {
 
 //调用导出方法
 function exportExcel(){
+    var branchId = $('#branchId').val();
+    if($_jxc.isStringNull(branchId)){
+        $_jxc.alert("请选择机构");
+        return;
+    }
+    var month = $("#month").val();
+    if($_jxc.isStringNull(month)){
+        $_jxc.alert("请选择月份");
+        return;
+    }
+
 	var branchId = $('#branchId').val();
 	var month = $("#month").val();
 	if(branchId && month){		

@@ -30,6 +30,7 @@ import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.report.analysis.qo.StoreExpendDetailQo;
 import com.okdeer.jxc.report.analysis.service.StoreExpendDetailService;
+import com.okdeer.jxc.report.analysis.service.StoreProfitReportService;
 import com.okdeer.jxc.utils.poi.ExcelExportUtil;
 import com.okdeer.retail.common.entity.colsetting.GridColumn;
 import com.okdeer.retail.common.report.DataRecord;
@@ -88,6 +89,16 @@ public class StoreExpendDetailController extends BaseController<StoreExpendDetai
 			buildParams(qo);
 
 			LOG.debug("获取门店费用开支明细报表列数据查询条件：{}", qo);
+			
+			int count = storeExpendDetailService.getStoreCount(qo);
+			boolean flg = false;
+			
+			// 如果超过20个，要弹框提示
+			if(count > StoreProfitReportService.MAX_STORE_NUM){
+				flg = true;
+			}
+			
+			qo.setMaxNo(StoreProfitReportService.MAX_STORE_NUM);
 
 			List<DataRecord> storeList = storeExpendDetailService.getStoreList(qo);
 
@@ -108,7 +119,7 @@ public class StoreExpendDetailController extends BaseController<StoreExpendDetai
 
 			StringBuffer formatSb = new StringBuffer();
 			formatSb.append(".separator.function(value,row,index){");
-			formatSb.append("return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';");
+			formatSb.append("return getPriceFmtB(value);");
 			formatSb.append("}.separator.");
 
 			int i = 1;
@@ -151,13 +162,6 @@ public class StoreExpendDetailController extends BaseController<StoreExpendDetai
 			String data = JacksonUtil.toJson(columns);
 			data = data.replaceAll("\".separator.", "").replaceAll(".separator.\"", "");
 			
-			boolean flg = false;
-			
-			// 如果超过20个，要弹框提示
-			if(storeList.size() > 20){
-				flg = true;
-			}
-
 			RespJson respJson = RespJson.success();
 			respJson.setData(data);
 			respJson.put("flg", flg);
@@ -200,6 +204,7 @@ public class StoreExpendDetailController extends BaseController<StoreExpendDetai
 			// 导出文件名称，不包括后缀名
 			String reportFileName = "门店费用开支明细报表_" + timeStr;
 
+			qo.setMaxNo(1000);
 			List<DataRecord> storeList = storeExpendDetailService.getStoreList(qo);
 
 			List<String> headerList = new ArrayList<String>();

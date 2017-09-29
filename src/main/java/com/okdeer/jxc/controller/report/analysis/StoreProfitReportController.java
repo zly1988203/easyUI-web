@@ -89,6 +89,16 @@ public class StoreProfitReportController extends BaseController<StoreProfitRepor
 
 			LOG.debug("获取门店利润报表列数据查询条件：{}", qo);
 
+			int count = storeProfitReportService.getStoreCount(qo);
+			boolean flg = false;
+			
+			// 如果超过20个，要弹框提示
+			if(count > StoreProfitReportService.MAX_STORE_NUM){
+				flg = true;
+			}
+			
+			qo.setMaxNo(StoreProfitReportService.MAX_STORE_NUM);
+
 			List<DataRecord> storeList = storeProfitReportService.getStoreList(qo);
 
 			if (CollectionUtils.isEmpty(storeList)) {
@@ -99,12 +109,10 @@ public class StoreProfitReportController extends BaseController<StoreProfitRepor
 			List<GridColumn> storeInfoList = new ArrayList<GridColumn>();
 			List<GridColumn> storeAmountList = new ArrayList<GridColumn>();
 
+			// 是否加粗 格式，isBold 函数在JS文件中实现
 			StringBuffer boldFmt = new StringBuffer();
 			boldFmt.append(".separator.function(value,row,index){");
-			boldFmt.append("if(row.isBold === 1){");
-			boldFmt.append("return '<b>'+value+'</b>';");
-			boldFmt.append("}");
-			boldFmt.append("return value;");
+			boldFmt.append("return isBold(value, row, index);");
 			boldFmt.append("}.separator.");
 
 			// 构建 行号 列
@@ -133,9 +141,10 @@ public class StoreProfitReportController extends BaseController<StoreProfitRepor
 			totalColumn.setColspan(2); // 列合并
 			storeInfoList.add(totalColumn);
 
+			// 金额格式化，getPriceFmtB 函数在JS文件中实现
 			StringBuffer amountFmt = new StringBuffer();
 			amountFmt.append(".separator.function(value,row,index){");
-			amountFmt.append("return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';");
+			amountFmt.append("return getPriceFmtB(value);");
 			amountFmt.append("}.separator.");
 
 			// 构建 合计金额 列
@@ -171,13 +180,6 @@ public class StoreProfitReportController extends BaseController<StoreProfitRepor
 			String data = JacksonUtil.toJson(columns);
 			data = data.replaceAll("\".separator.", "").replaceAll(".separator.\"", "");
 			
-			boolean flg = false;
-			
-			// 如果超过20个，要弹框提示
-			if(storeList.size() > 20){
-				flg = true;
-			}
-
 			RespJson respJson = RespJson.success();
 			respJson.setData(data);
 			respJson.put("flg", flg);
@@ -253,6 +255,9 @@ public class StoreProfitReportController extends BaseController<StoreProfitRepor
 
 			// 导出文件名称，不包括后缀名
 			String reportFileName = "门店利润报表_" + timeStr;
+			
+			// 最多1000个店铺数据
+			qo.setMaxNo(1000);
 
 			List<DataRecord> storeList = storeProfitReportService.getStoreList(qo);
 
