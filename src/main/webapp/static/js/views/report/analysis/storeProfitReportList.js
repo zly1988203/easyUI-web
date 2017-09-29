@@ -95,3 +95,17 @@ function exportData(){
 	$("#queryForm").attr("action",contextPath+"/report/storeProfit/exportList");
 	$("#queryForm").submit();
 }
+
+/**
+ * 是否加粗
+ * @param value
+ * @param row
+ * @param index
+ * @returns
+ */
+function isBold(value, row, index){
+	if(row.isBold === 1){
+		return '<b>'+value+'</b>';
+	}
+	return value;
+}

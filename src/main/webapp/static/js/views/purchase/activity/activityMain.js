@@ -6,7 +6,7 @@ var gridActHandel = new GridClass();
 var gridDefault = {newPurPrice: 0};
 $(function () {
     initConditionParams();
-    initGridActivity();
+
 
     //机构选择初始化 收货机构
     $('#targetBranch').branchSelect({
@@ -62,6 +62,7 @@ $(function () {
         });
         disabledElement();
     }
+    initGridActivity();
 
 })
 var isdisabled = false;
@@ -283,6 +284,7 @@ function selectGoods(searchKey) {
 
 
 function saveForm() {
+    gridActHandel.endEditRow();
     if (!validform()) return;
     $("#" + gridCostId).datagrid("endEdit", gridActHandel.getSelectRowIndex());
 
@@ -352,6 +354,7 @@ function toImportproduct(type) {
 }
 
 function check() {
+    gridActHandel.endEditRow();
     $_jxc.confirm("确认审核通过？", function (res) {
         if (res) {
             $_jxc.ajax({
@@ -406,7 +409,7 @@ function del() {
             }, function (result) {
                 if (result['code'] == 0) {
                     $_jxc.alert("删除成功", function () {
-                        toClose();
+                        gFunRefresh();
                     });
                 } else {
                     $_jxc.alert(result['message']);

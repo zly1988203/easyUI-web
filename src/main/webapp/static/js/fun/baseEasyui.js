@@ -957,6 +957,10 @@ function getTwoDecimalB(decimal){
 	return '<b>'+formatTwoDecimal(decimal)+'</b>';
 }
 
+function getPriceFmtB(decimal){
+	return '<b>' + parseFloat(decimal || 0).toFixed(2) + '</b>';
+}
+
 /**
  * 格式化日期，返回格式化后的字符串
  * @param dateValue Date值
