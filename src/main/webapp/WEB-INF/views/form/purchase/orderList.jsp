@@ -93,6 +93,10 @@
 				<div class="ub ub-ac umar-l40">
 					<div class="umar-r10 uw-60 ut-r">单据状态:</div>
 					<div class="ub ub-ac umar-r10">
+						<input class="radioItem" type="radio" name="dealStatus" id="deal4"
+							value="" checked="checked" /><label for="deal4">全部 </label>
+					</div>
+					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="dealStatus" id="deal0"
 							value="0" /><label for="deal0">未处理 </label>
 					</div>
@@ -106,10 +110,6 @@
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="dealStatus" id="deal3"
 							value="3" /><label for="deal3">终止</label>
-					</div>
-					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="dealStatus" id="deal4"
-							value="" checked="checked" /><label for="deal4">全部 </label>
 					</div>
 				</div>
 			</div>
