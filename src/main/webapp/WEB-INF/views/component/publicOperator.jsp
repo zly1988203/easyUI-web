@@ -21,6 +21,21 @@
 					<div class="ubtn umar-l20" onclick="cx()">查询</div>
 				</div>
 			</div>
+
+			<div class="ub ub-ac upad-10">
+			<div class="ub ub-ac">
+			<div class="umar-r10">机构状态:</div>
+			<label class="ub ub-ac umar-r40">
+			<input type="radio" class="ub ub-ac" name="offlineStatus" value="1" checked="checked"> <span>运营中</span>
+			</label>
+			<label class="ub ub-ac umar-r40">
+			<input type="radio" class="ub ub-ac" name="offlineStatus" value="0"> <span>已关闭</span>
+			</label >
+			<label class="ub ub-ac umar-r40">
+			<input type="radio" class="ub ub-ac" name="offlineStatus" value=""> <span>所有</span>
+			</label>
+			</div>
+			</div>
 		</form>
 
 		<div class="ub uw uh ub-f1">
