@@ -187,5 +187,6 @@ function exportDetail(param){
 
 // 成本调价
 function toCostAdjust() {
-    toAddTab("新增采购成本调价",contextPath + "/purchase/cost/form/add");
+	var formId = $("#formId").val();
+    toAddTab("新增采购成本调价",contextPath + "/purchase/cost/form/add?formId="+formId);
 }
