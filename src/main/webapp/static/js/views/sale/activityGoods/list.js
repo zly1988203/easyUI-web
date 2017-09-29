@@ -79,12 +79,21 @@ function columnList(){
             {field: 'timeSlot', title: '活动时段', width:140, align: 'left'},
             {field: 'limitAmount', title: '买满金额', width:80, align: 'right',
                 formatter:function(value,row,index){
-                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                    if(!value){
+                        return  '<strong>—</strong>';
+                    }else {
+                        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                    }
+
                 }
             },
             {field: 'limitCount', title: '买满数量', width:80, align: 'right',
                 formatter:function(value,row,index){
-                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                    if(!value){
+                        return  '<strong>—</strong>';
+                    }else {
+                        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                    }
                 }
             },
             {field: 'allowActivity', title: '促销商品是否参与', width:80, align: 'left'},
@@ -121,12 +130,20 @@ function columnList(){
             {field: 'timeSlot', title: '活动时段', width:140, align: 'left'},
             {field: 'limitAmount', title: '买满金额', width:80, align: 'right',
                 formatter:function(value,row,index){
-                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                    if(!value){
+                        return  '<strong>—</strong>';
+                    }else {
+                        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                    }
                 }
             },
             {field: 'limitCount', title: '买满数量', width:80, align: 'right',
                 formatter:function(value,row,index){
-                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                    if(!value){
+                        return  '<strong>—</strong>';
+                    }else {
+                        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                    }
                 }
             },
             {field: 'allowActivity', title: '促销商品是否参与', width:80, align: 'left'},
@@ -161,12 +178,20 @@ function columnList(){
             {field: 'timeSlot', title: '活动时段', width:140, align: 'left'},
             {field: 'limitAmount', title: '买满金额', width:80, align: 'right',
                 formatter:function(value,row,index){
-                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                    if(!value){
+                        return  '<strong>—</strong>';
+                    }else {
+                        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                    }
                 }
             },
             {field: 'limitCount', title: '买满数量', width:80, align: 'right',
                 formatter:function(value,row,index){
-                    return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                    if(!value){
+                        return  '<strong>—</strong>';
+                    }else {
+                        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>'
+                    }
                 }
             },
             {field: 'allowActivity', title: '促销商品是否参与', width:80, align: 'left'},
