@@ -5,7 +5,7 @@ var gridCostId = "gridActivity";
 var gridActHandel = new GridClass();
 var gridDefault = {newPurPrice: 0};
 $(function () {
-    initConditionParams();
+    //initConditionParams();
 
 
     //机构选择初始化 收货机构
