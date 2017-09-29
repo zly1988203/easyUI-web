@@ -2888,6 +2888,59 @@ function publicExprotService(param,callback) {
 }
 /*----------------------------------------------------------------------*/
 
+/*--------------------------导出--------------------------------*/
+/*
+ * param  {
+ *   datagridId:""
+ *
+ * }
+ *
+ * */
+function publicMessageService(param,callback) {
+
+    var msgObj = {
+            href: contextPath + "/common/messageDialog",
+            width:400,
+            height:300,
+            title: "提示",
+            closable:true,
+            resizable:true,
+            onClose: function(){
+                $(this).dialog('destroy');
+                messageDialog = null;
+            },
+            modal: true,
+            onLoad: function () {
+                initMessageParam(param);
+//                initMessageCallBack(messageCallBack)
+            },
+        }
+    
+	msgObj["buttons"] = [{
+        text:'确定',
+        handler:function(){
+        	messageCallBack(1);
+        }
+    },{
+        text:'取消',
+        handler:function(){
+        	messageCallBack(0);
+            $(messageDialog).panel('destroy');
+            messageDialog = null;
+        }
+    }];
+    
+    var messageDialog = $('<div id="messageDialog"/>').dialog(msgObj);
+
+    function messageCallBack(data){
+        callback(data);
+        $(messageDialog).panel('destroy');
+        messageDialog = null;
+    }
+}
+/*----------------------------------------------------------------------*/
+
+
 //参数：id  控件id   dataItems 选项列表
 function initCombobox(id,dataItems,defValue){  
 	var value = "";  
