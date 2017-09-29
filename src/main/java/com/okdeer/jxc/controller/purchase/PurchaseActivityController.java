@@ -297,11 +297,11 @@ public class PurchaseActivityController extends BaseController<PurchaseActivityC
 
             List<String> branchIdList = Lists.newArrayList();
 
-            if (branchIds.contains(",") && branchIds.contains("所有")) {
+            if (branchName.contains("所有")) {
                 String[] branches = StringUtils.splitByWholeSeparatorPreserveAllTokens(branchIds, ",");
                 String[] branchNames = StringUtils.splitByWholeSeparatorPreserveAllTokens(branchName, ",");
                 for (int i = 0, length = branchNames.length; i < length; ++i) {
-                    if (StringUtils.endsWith(branchNames[i], "所有")) {
+                    if (StringUtils.isNotBlank(branchNames[i]) && branchNames[i].contains("所有")) {
                         List<Branches> queryBranchIds = branchesService.queryChildById(branches[i]);
                         for (Branches branches1 : queryBranchIds) {
                             branchIdList.add(branches1.getBranchesId());
