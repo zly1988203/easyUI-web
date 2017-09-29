@@ -10,6 +10,9 @@ $(function () {
     if(id){
         initQueryData(id);
     }
+    
+    // 自动加载采购收货的数据信息
+    getGridData()
 })
 
 function initQueryData(id) {
@@ -269,7 +272,29 @@ function initGridCost() {
 
 }
 
-//合计
+// 自动加载grid数据
+function getGridData(){
+	
+	var refFormId = $("#refFormId").val();
+	if(!refFormId){
+		return;
+	}
+	
+	$_jxc.ajax({
+        url:contextPath+'/form/purchaseSelect/getPurchaseForm?formId='+refFormId,
+        type:'get'
+    },function(result){
+        if(result.code == 0){
+        	//根据选择的采购单，带出采购单的信息
+            loadReceiptRows(result);
+        }else{
+            $_jxc.alert(result.message);
+        }
+    })
+	
+}
+
+// 合计
 function updateFooter(){
     var fields = {amount:0,newAmount:0,totalMoney:0};
     var argWhere = {name:'isGift',value:""}
@@ -310,34 +335,39 @@ function selectSupplier(){
     }
     new publicPurchaseFormService(param,function(data){
         $("#refFormNo").val(data.form.formNo);
+        
         //根据选择的采购单，带出采购单的信息
-        var keyNames = {
-            realNum:'maxRealNum',
-        };
-
-        var newRows = gFunUpdateKey(data.list,keyNames);
-
-        var keylargeNum = {
-            largeNum:'maxlargeNum',
-        };
-
-        var newRows = gFunUpdateKey(newRows,keylargeNum);
-
-        $("#gridCost").datagrid("loadData",newRows);
-        //供应商
-        $("#supplierId").val(data.form.supplierId);
-        $("#supplierName").val(data.form.supplierName);
-        //经营方式
-        $("#saleWay").val(data.form.saleWay);
-        $("#saleWayName").val(data.form.saleWayStr);
-        //收货机构
-        $("#branchId").val(data.form.branchId);
-        $("#branchName").val(data.form.branchName);
-        //采购员
-        $("#salesmanId").val(data.form.salesmanId);
-        $("#operateUserName").val(data.form.salesmanName);
-        $("#refFormId").val(data.form.id);
+        loadReceiptRows(data);
+        
     });
+}
+
+// 加载采购收货单数据行
+function loadReceiptRows(data){
+	var keyNames = {
+        realNum:'maxRealNum',
+    };
+
+    var newRows = gFunUpdateKey(data.list, keyNames);
+
+    var keylargeNum = {
+        largeNum:'maxlargeNum',
+    };
+
+    newRows = gFunUpdateKey(newRows, keylargeNum);
+
+    $("#"+gridCostId).datagrid("loadData", newRows);
+    
+    //供应商
+    $("#supplierId").val(data.form.supplierId);
+    $("#supplierName").val(data.form.supplierName);
+    //经营方式
+    $("#saleWay").val(data.form.saleWay);
+    $("#saleWayName").val(data.form.saleWayStr);
+    //收货机构
+    $("#branchId").val(data.form.branchId);
+    $("#branchName").val(data.form.branchName);
+
 }
 
 
