@@ -71,7 +71,7 @@
 				</div>
 				<div class="ub ub-ac umar-l10">
 					<div class="umar-r10 uw-70 ut-r">公式说明：</div>
-					<div class="ub ub-ac umar-r10" id="divTips" ></div>
+					<div class="ub ub-ac umar-r10" id="divTips" style="color: red;font-size: 10px;" ></div>
 				</div>
 			</div>
 		</form>
