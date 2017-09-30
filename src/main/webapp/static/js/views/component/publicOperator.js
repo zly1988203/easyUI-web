@@ -6,6 +6,7 @@
 $(function(){
     var type=$("#type").val();
     var check=$("#hiddenCheck").val();
+    offlineStatus = $('input[type="radio"][name="offlineStatus"]:checked').val();
     if(type=="operate"){
         initDatagridOperator();
     }else if(type=="branchArea"){
@@ -18,12 +19,18 @@ $(function(){
         initDatagridBranchCheck();
     }
     gFunSetEnterKey(cx);
+    $("input[name='offlineStatus']").change(function () {
+        $('#gridOperator').datagrid('clearSelections');
+        $('#gridOperator').datagrid('clearChecked');
+        cx();
+    })
 })
 
 var operatorCallBack ;
 var branchAreaCallBack ;
 var branchCallBack ;
 var dictCallBack;
+var offlineStatus = "1";
 
 //初始化回调函数
 function initOperatorCallBack(cb){
@@ -259,3 +266,4 @@ function publicOperatorGetCheck(cb){
     var row =  $("#gridOperator").datagrid("getChecked");
     cb(row);
 }
+

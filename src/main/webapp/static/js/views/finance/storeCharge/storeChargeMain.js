@@ -7,7 +7,7 @@ var url = "";
 var isdisabled = false;
 var formId = "";
 var selbranchType = sessionBranchType;
-
+var oldData = {};
 $(function () {
     chargeStatus = $('#chargeStatus').val();
     
@@ -21,6 +21,9 @@ $(function () {
     	}
         $("#chargeMonth").val(dateUtil.getPreMonthDate("prev",1).format("yyyy-MM"));
     }else if(chargeStatus === "edit"){
+        oldData = {
+            remark:$("#remark").val()                  // 备注
+        }
         $('#already-examine').css('display','none');
         url = contextPath + "/finance/storeCharge/getDetailList";
         var month = $("#month").val().substr(0,4)+"-"+$("#month").val().substr(4,5)
@@ -60,7 +63,6 @@ function initGridStoreCharge() {
             }
         },
     })
-
 
     $("#"+gridName).datagrid({
         align:'center',
@@ -147,6 +149,11 @@ function initGridStoreCharge() {
             }
         },
         onLoadSuccess : function(data) {
+            if(chargeStatus === "edit" && !oldData["grid"]){
+                oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+                    return $.extend(true,{},obj);//返回对象的深拷贝
+                });
+            }
             gridHandel.setDatagridHeader("center");
             updateFooter();
         }
@@ -361,6 +368,17 @@ function chargeDelete() {
 }
 
 function  chargeCheck() {
+    var newData = {
+        remark:$("#remark").val(),                  // 备注
+        grid:gridHandel.getRows(),
+    }
+
+    if(!gFunComparisonArray(oldData,newData)){
+        $_jxc.alert("数据已修改，请先保存再审核");
+        return;
+    }
+
+
     var param = {
         url :contextPath+"/finance/storeCharge/checkStoreCharge",
         data:{
@@ -368,13 +386,17 @@ function  chargeCheck() {
         }
     }
 
-    $_jxc.ajax(param,function (result) {
-        if(result['code'] == 0){
-            $_jxc.alert("操作成功！",function(){
-                location.href = contextPath +"/finance/storeCharge/toEdit?formId=" + formId;
-            });
-        }else{
-            $_jxc.alert(result['message']);
+    $_jxc.confirm("是否审核通过?",function (data) {
+        if(data){
+            $_jxc.ajax(param,function (result) {
+                if(result['code'] == 0){
+                    $_jxc.alert("操作成功！",function(){
+                        location.href = contextPath +"/finance/storeCharge/toEdit?formId=" + formId;
+                    });
+                }else{
+                    $_jxc.alert(result['message']);
+                }
+            })
         }
     })
 }

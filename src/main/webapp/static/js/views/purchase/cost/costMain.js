@@ -42,6 +42,7 @@ function del() {
             },function(result){
                 if(result['code'] == 0){
                     $_jxc.alert("删除成功",function(){
+                        toRefreshIframeDataGrid("purchase/cost/form/list","gridCostList");
                         toClose();
                     });
                 }else{
@@ -179,7 +180,7 @@ function initGridCost() {
                         return ;
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
+                },
             },
             {field:'amount',title:'原采购金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
@@ -187,7 +188,7 @@ function initGridCost() {
                         return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
-                }
+                },
             },
             {field:'newAmount',title:'实际采购金额',width:'80px',align:'right',
                 formatter : function(value, row, index) {
@@ -221,14 +222,14 @@ function initGridCost() {
                     }
                 }
             },
-            {
-                field: 'salePrice', title: '销售价', width: '80px', align: 'right',
-                formatter: function (value, row, index) {
-                    if (row.isFooter) {
-                        return;
+            {field:'salePrice',title:'销售价',width:'80px',align:'right',
+                formatter : function(value, row, index) {
+
+                    if(row.isFooter){
+                        return ;
                     }
-                    return '<b>' + parseFloat(value || 0).toFixed(2) + '</b>';
-                }
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
             },
             {field:'tax',title:'税率',width:'80px',align:'right',
                 formatter : function(value, row, index) {
