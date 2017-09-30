@@ -201,7 +201,33 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 					suppliers = queryPurchaseGoods(vo);
 				} else {
 					suppliers = goodsSelectServiceApi.queryLists(vo);
-				}
+                    if (FormType.PA.name().equals(vo.getFormType())) {
+                        List<GoodsSelect> goodsSelects = suppliers.getList();
+                        List<String> skus = Lists.newArrayList();
+
+                        for (GoodsSelect goodsSelect : goodsSelects) {
+                            skus.add(goodsSelect.getId());
+                        }
+
+                        //查询促销商品价格
+                        List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skus, new Date());
+
+                        if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
+                            for (PurchaseActivityDetailVo purchaseActivityDetailVo : purchaseActivityDetailVos) {
+                                for (int i = 0, length = goodsSelects.size(); i < length; ++i) {
+                                    GoodsSelect goodsSelect = goodsSelects.get(i);
+                                    if (StringUtils.equals(purchaseActivityDetailVo.getSkuId(), goodsSelect.getSkuId())
+                                            && StringUtils.isNotBlank(purchaseActivityDetailVo.getBranchId())
+                                            && purchaseActivityDetailVo.getBranchId().indexOf(branchId) != -1) {
+                                        goodsSelect.setPurchasePrice(purchaseActivityDetailVo.getNewPurPrice());
+                                        goodsSelects.set(i, goodsSelect);
+                                    }
+                                }
+                            }
+                        }
+                        suppliers.setList(goodsSelects);
+                    }
+                }
 			} else {
 				suppliers = goodsSelectServiceApi.queryLists(vo);
 			}
