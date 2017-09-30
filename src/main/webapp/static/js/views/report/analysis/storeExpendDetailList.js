@@ -1,10 +1,5 @@
 /*----------门店费用开支明细报表-------------------*/
 $(function(){
-	// 门店默认显示当前机构
-	if(sessionBranchType == 3 || sessionBranchType == 4 || sessionBranchType == 5) {
-		$("#branchCompleCode").val(sessionBranchCompleCode);
-		$("#branchCodeName").val(sessionBranchCodeName);
-	}
 	//开始和结束时间
     $("#rptDate").val(dateUtil.getPreMonthDate().format("yyyy-MM"));
     
