@@ -126,6 +126,8 @@ function  initGridList() {
 }
 
 function query(){
+    $("#startCount").val('');
+    $("#endCount").val('');
     $("#"+gridListId).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridListId).datagrid("options").method = "post";
     $("#"+gridListId).datagrid("options").url = contextPath+'/report/purchase/cost/form/list';
