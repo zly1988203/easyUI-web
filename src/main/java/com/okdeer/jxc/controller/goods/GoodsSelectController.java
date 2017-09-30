@@ -372,7 +372,33 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 						paramVo.setSupplierId(null);
 					}
 					suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
-				}
+
+                    if (FormType.PA.name().equals(type)) {
+                        List<GoodsSelect> goodsSelects = suppliers;
+                        List<String> skus = Lists.newArrayList();
+
+                        for (GoodsSelect goodsSelect : goodsSelects) {
+                            skus.add(goodsSelect.getId());
+                        }
+
+                        //查询促销商品价格
+                        List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skus, new Date());
+                        if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
+                            for (PurchaseActivityDetailVo purchaseActivityDetailVo : purchaseActivityDetailVos) {
+                                for (int i = 0, length = goodsSelects.size(); i < length; ++i) {
+                                    GoodsSelect goodsSelect = goodsSelects.get(i);
+                                    if (StringUtils.equals(purchaseActivityDetailVo.getSkuId(), goodsSelect.getSkuId())
+                                            && StringUtils.isNotBlank(purchaseActivityDetailVo.getBranchId())
+                                            && purchaseActivityDetailVo.getBranchId().indexOf(branchId) != -1) {
+                                        goodsSelect.setPurchasePrice(purchaseActivityDetailVo.getNewPurPrice());
+                                        goodsSelects.set(i, goodsSelect);
+                                    }
+                                }
+                            }
+                        }
+                        suppliers = goodsSelects;
+                    }
+                }
 			}
 			LOG.debug("根据货号查询商品:{}", suppliers.toString());
 			// 用查询条件的国际码替换主条码
