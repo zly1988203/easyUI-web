@@ -231,7 +231,6 @@ function initGridCost() {
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
             },
-
             {field:'tax',title:'税率',width:'80px',align:'right',
                 formatter : function(value, row, index) {
 
