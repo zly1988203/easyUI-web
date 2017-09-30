@@ -10,7 +10,11 @@
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <script src="${ctx}/static/js/views/purchase/cost/costMain.js?V=${versionNo}"></script>
-
+	<style>
+	.datagrid-header-row .datagrid-cell {
+	text-align: center !important;
+	}
+	</style>
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
     <input type='hidden' id="pageStatus" value="add">
