@@ -12,6 +12,11 @@
 	<script src="${ctx}/static/js/views/purchase/cost/costMain.js?V=${versionNo}"></script>
 	<%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
+            <style>
+            .datagrid-header-row .datagrid-cell {
+            text-align: center !important;
+            }
+            </style>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
 <input type='hidden' id="pageStatus" value="{form.status}">
     <div class="ub ub-ver ub-f1 umar-4  ubor">
