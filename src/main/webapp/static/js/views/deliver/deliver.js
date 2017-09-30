@@ -12,6 +12,7 @@ var gridDefault = {
 	    applyNum:0,
 	    largeNum:0,
 	    isGift:0,
+        giftTxt:"否"
 	}
 //列表数据查询url
 var url = "";
@@ -311,15 +312,15 @@ function initDatagridRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-//                        onChange: onChangePrice,
-                    }
-                },
+//                 editor:{
+//                     type:'numberbox',
+//                     options:{
+//                         disabled:true,
+//                         min:0,
+//                         precision:4,
+// //                        onChange: onChangePrice,
+//                     }
+//                 },
             
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
@@ -357,13 +358,28 @@ function initDatagridRequireOrder(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
             },
-            {field:'isGift',title:'赠送',width:'80px',align:'left',
+            {field:'isGift',title:'赠送',width:'80px',hidden:true,
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:0,
+                    }
+                }
+            },
+            {field:'giftTxt',title:'赠送',width:'80px',align:'cenger',sortable: true,
                 formatter:function(value,row){
                     if(row.isFooter){
                         return;
                     }
-                    row.isGift = row.isGift?row.isGift:0;
-                    return row.isGift=='1'?'是':(row.isGift=='0'?'否':'请选择');
+                    var str = "否"
+                    if(row.isGift === "1"){
+                        str = "是"
+                    }else{
+                        str = "否"
+                    }
+                    value = str;
+                    return str;
                 },
                 editor:{
                     type:'combobox',
@@ -371,9 +387,8 @@ function initDatagridRequireOrder(){
                         valueField: 'id',
                         textField: 'text',
                         editable:false,
-                        // required:true,
-                        readonly:deliverPriceSpecFlg,
                         disabled:deliverPriceSpecFlg,
+                        readonly:deliverPriceSpecFlg,
                         data: [{
                             "id":'1',
                             "text":"是",
@@ -532,7 +547,7 @@ function onChangeLargeNum(newV,oldV){
     }
 
     //金额 = 规格 * 单价 * 箱数
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var _tempAmount = parseFloat(purchaseSpecValue*priceValue*newV);
     gridHandel.setFieldValue('amount',_tempAmount.toFixed(4));
     
@@ -596,7 +611,7 @@ function onChangeRealNum(newV,oldV) {
         gridHandel.setFieldFocus(gridHandel.getFieldTarget('applyNum'));        return;
     }
     
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var _tempAmount = priceValue*newV;
     gridHandel.setFieldValue('amount',_tempAmount);
                    //金额=数量*单价
@@ -647,7 +662,7 @@ function onSelectIsGift(data){
         }
         updateFooter();
     }else{
-        var targetIsGift = gridHandel.getFieldTarget('isGift');
+        var targetIsGift = gridHandel.getFieldTarget('giftTxt');
         $(targetIsGift).combobox('select', data.id=='1'?'0':'1');
         $_jxc.alert(data.id=='1'?'已存在相同赠品':'已存在相同商品');
     }
