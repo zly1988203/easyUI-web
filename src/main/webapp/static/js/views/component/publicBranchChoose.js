@@ -9,9 +9,16 @@ $(function(){
 	}
 	initDatagridBranchCheck(url);
     gFunSetEnterKey(cx);
+
+    $("input[name='offlineStatus']").change(function () {
+        $('#gridOperator').datagrid('clearSelections');
+        $('#gridOperator').datagrid('clearChecked');
+        cx();
+    })
 })
 
 var branchCallBack ;
+var offlineStatus = "1";
 
 //初始化回调函数
 function initBranchCallBack(cb){

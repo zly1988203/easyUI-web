@@ -8,6 +8,7 @@ var gridDefault = {
 	    applyNum:0,
 	    largeNum:0,
 	    isGift:0,
+        giftTxt:"否"
 	}
 //列表数据查询url
 var url = "";
@@ -15,6 +16,7 @@ var oldData = {};
 var gridName = "gridRequireOrder";
 var deliverStatus = "add";
 var editRowData = null;
+
 $(function(){
     deliverStatus = $('#deliverStatus').val();
 	if(deliverStatus === 'add'){
@@ -255,14 +257,14 @@ function initDatagridRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        disabled:true,
-                        min:0,
-                        precision:4,
-                    }
-                },
+                // editor:{
+                //     type:'numberbox',
+                //     options:{
+                //         disabled:true,
+                //         min:0,
+                //         precision:4,
+                //     }
+                // },
             
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
@@ -286,13 +288,29 @@ function initDatagridRequireOrder(){
                     }
                 }
             },
-            {field:'isGift',title:'赠送',width:'80px',align:'left',
+            {field:'isGift',title:'赠送',width:'80px',hidden:true,
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:0,
+                    }
+                }
+            },
+            {field:'giftTxt',title:'赠送',width:'80px',align:'center',
                 formatter:function(value,row){
+                    var str = "否";
                     if(row.isFooter){
                         return;
                     }
-                    row.isGift = row.isGift?row.isGift:0;
-                    return value=='1'?'是':(value=='0'?'否':'请选择');
+
+                    if(row.isGift === "1"){
+                        str = "是"
+                    }else{
+                        str = "否"
+                    }
+                    value = str;
+                    return str;
                 },
                 editor:{
                     type:'combobox',
@@ -300,7 +318,7 @@ function initDatagridRequireOrder(){
                         valueField: 'id',
                         textField: 'text',
                         editable:false,
-                        required:true,
+                        // required:true,
                         data: [{
                             "id":'1',
                             "text":"是",
@@ -469,7 +487,7 @@ function onChangeLargeNum(newV,oldV){
     var newRealNum = parseFloat(_tempNewRealNum).toFixed(4);
     
     n = 1;
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var _tempAmount = parseFloat(priceValue*_tempNewRealNum).toFixed(4);
     gridHandel.setFieldValue('amount',_tempAmount);//金额=数量*单价
     
@@ -529,7 +547,7 @@ function onChangeRealNum(newV,oldV) {
     }
     m=1;
     
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var _tempAmount = priceValue*newV;
     gridHandel.setFieldValue('amount',_tempAmount);   
     //金额=数量*单价
