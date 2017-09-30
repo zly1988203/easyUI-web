@@ -233,9 +233,9 @@ function saveStoreCharge() {
         return;
     }
     
-    var rows = gridHandel.getRowsWhere({costTypeCode:1});
+    var rows = gridHandel.getRowsWhere({costTypeLabel:1});
     if(rows.length==0){
-        $_jxc.alert("表格不能为空");
+        $_jxc.alert("表格数据不完整或者为空");
         return;
     }
     

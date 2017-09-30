@@ -328,7 +328,7 @@ function validform() {
     var startDate = $("#txtStartDate").val();
     var endDate = $("#txtEndDate").val();
 
-    if(!dateUtil.compareDate(startDate,endDate)){
+    if(dateUtil.compareDate(startDate,endDate)){
         $_jxc.alert("结束时间不能早于开始时间");
         return false;
     }
