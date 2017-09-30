@@ -62,7 +62,7 @@
             </div>
             <div class="ub ub-ac umar-r40">
                 <div class="umar-r10 uw-80 ut-r">货号/条码:</div>
-                <input class="uinp" name="skuNo" id="skuNo" type="text">
+                <input class="uinp" name="skuCode" id="skuCode" type="text">
             </div>
             <div class="ub ub-ac umar-r40" id="supplierSelect">
                 <div class="umar-r10 uw-70 ut-r">供应商:</div>
