@@ -377,7 +377,7 @@ function  chargeCheck() {
                 location.href = contextPath +"/finance/financeCharge/toEdit?formId=" + formId;
             });
         }else{
-            $_jxc.alert("审核失败");
+            $_jxc.alert(result['message']);
         }
     })
 }

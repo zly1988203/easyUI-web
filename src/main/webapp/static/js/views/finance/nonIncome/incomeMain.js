@@ -380,7 +380,7 @@ function  chargeCheck() {
                 location.href = contextPath +"/finance/nonIncome/toEdit?formId=" + formId;
             });
         }else{
-            $_jxc.alert("审核失败");
+            $_jxc.alert(result['message']);
         }
     })
 }
