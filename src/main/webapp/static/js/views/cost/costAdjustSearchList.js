@@ -14,7 +14,7 @@ $(function(){
 
 function initdefaultElement() {
     // 开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	$("#formNo").prop("disabled",true);
 	$("#auditUserName").prop("disabled",true);

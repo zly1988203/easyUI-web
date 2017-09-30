@@ -501,7 +501,7 @@ var dateUtil = {
         var d1 = new Date(startDate.replace(/\-/g, "\/"));
         var d2 = new Date(endDate.replace(/\-/g, "\/"));
 
-        if(startDate!=""&&endDate!=""&&d1 >=d2)
+        if(startDate!=""&&endDate!=""&&d1 >d2)
         {
             return true;
         }

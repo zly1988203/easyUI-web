@@ -363,7 +363,7 @@ function initDatagridRequireOrder(){
                         return;
                     }
                     row.isGift = row.isGift?row.isGift:0;
-                    return value=='1'?'是':(value=='0'?'否':'请选择');
+                    return row.isGift=='1'?'是':(row.isGift=='0'?'否':'请选择');
                 },
                 editor:{
                     type:'combobox',
@@ -371,7 +371,7 @@ function initDatagridRequireOrder(){
                         valueField: 'id',
                         textField: 'text',
                         editable:false,
-                        required:true,
+                        // required:true,
                         readonly:deliverPriceSpecFlg,
                         disabled:deliverPriceSpecFlg,
                         data: [{
