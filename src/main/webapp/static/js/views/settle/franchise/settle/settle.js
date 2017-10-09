@@ -53,7 +53,7 @@ $(function(){
 		$('#branchComponent').branchSelect({
 			//ajax请求参数
 			param:{
-				branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+				branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B
 			},
 			//选择完成之后
 			onAfterRender:function(data){
