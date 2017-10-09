@@ -45,9 +45,10 @@ $(function(){
     
     //乙方公司
     $('#companyB').branchSelect({
-    	param:{
-    		branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B+','+$_jxc.branchTypeEnum.FRANCHISE_STORE_C
-    	},
+		//ajax参数
+		param:{
+			branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B
+		},
     	onShowBefore:function(){
     		this.param.branchCompleCode = $('#branchCompleCode').val();
     		if(!$('#targetBranchId').val()){
