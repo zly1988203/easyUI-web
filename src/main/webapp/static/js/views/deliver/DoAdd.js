@@ -72,6 +72,7 @@ var gridDefault = {
 	dealNum:0,
     //largeNum:0,
     isGift:0,
+    // giftTxt:"否"
 }
 var gridHandel = new GridClass();
 var gridName = "gridEditOrder";
@@ -196,15 +197,15 @@ function initDatagridAddRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        disabled:true,
-                        precision:4,
-//                        onChange: onChangePrice,
-                    }
-                },
+//                 editor:{
+//                     type:'numberbox',
+//                     options:{
+//                         min:0,
+//                         disabled:true,
+//                         precision:4,
+// //                        onChange: onChangePrice,
+//                     }
+//                 },
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -225,7 +226,6 @@ function initDatagridAddRequireOrder(){
 //                        onChange: onChangeAmount,
                     }
                 },
-
             },
             {field:'isGift',title:'赠送',width:'65px',align:'left',
                 formatter:function(value,row){
@@ -427,7 +427,7 @@ function onChangeLargeNum(newV,oldV){
         return;
     }
     
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
     var _tempAmount = purchaseSpecValue*priceValue*newV;
 
@@ -496,7 +496,7 @@ function onChangeRealNum(newV,oldV) {
     //    gridHandel.setFieldFocus(gridHandel.getFieldTarget('dealNum'));
     //    return;
     //}
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
 	var _tempAmount = priceValue*newV;
     gridHandel.setFieldValue('amount',_tempAmount.toFixed(4));             //金额=数量*单价
