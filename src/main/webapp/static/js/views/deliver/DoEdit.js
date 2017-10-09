@@ -180,15 +180,15 @@ function initDatagridEditRequireOrder(){
                     
                     return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                    	disabled:true,
-                        min:0,
-                        precision:4,
-//                        onChange: onChangePrice,
-                    }
-                },
+//                 editor:{
+//                     type:'numberbox',
+//                     options:{
+//                     	disabled:true,
+//                         min:0,
+//                         precision:4,
+// //                        onChange: onChangePrice,
+//                     }
+//                 },
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -403,7 +403,7 @@ function onChangeLargeNum(newV,oldV){
         return;
     }
     
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
     var _tempAmount = purchaseSpecValue*priceValue*newV;
 
@@ -465,7 +465,7 @@ function onChangeRealNum(newV,oldV) {
         gridHandel.setFieldValue('defectNum',defectNumVal);
     }
 
-    var priceValue = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'price');
+    var priceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'price');
     var salePriceValue = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'salePrice');
     gridHandel.setFieldValue('amount',(priceValue*newV).toFixed(4));             //金额=数量*单价
 
