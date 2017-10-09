@@ -33,7 +33,7 @@ function changeType(){
 		flushFlg = true;
     	var a = $(this).val();
     	dg=$("#purReportTotal").datagrid("options").url = "";
-    	if (a=="goodsTotal") {
+    	if (a=="formNoTotal") {
     		initPurReportTotalGrid();
 		}else if (a=="supplierTotal") {
 			initPurReportSupplierGrid();
