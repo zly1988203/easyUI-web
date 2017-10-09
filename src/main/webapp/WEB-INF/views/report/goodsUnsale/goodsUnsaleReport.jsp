@@ -35,11 +35,18 @@
 
 	            <div class="ub uline umar-t8"></div>
 	            <div class="ub umar-t8">
-                    <div class="ub ub-ac uw-300 ">
-	                    <div class="umar-r10 uw-70 ut-r">机构名称:</div>
+                    <div class="ub ub-ac uw-300 "id="branchSelect">
+	                   <!--  <div class="umar-r10 uw-70 ut-r">机构名称:</div>
 	                    <input type="hidden" id="branchId" name="branchId" />
 	                    <input class="uinp ub ub-f1" type="text" id="branchName" name="branchName"/>
-	                    <div class="uinp-more" onclick="selectBranches()" >...</div>
+	                    <div class="uinp-more" onclick="selectBranches()" >...</div> -->
+	                    
+	                  <div class="umar-r10 uw-70 ut-r" >机构:</div>
+					 <input class="uinp" type="hidden" id="branchCompleCode" name="branchCompleCode">
+					<!-- <input type="hidden" id="branchId" name="branchId" /> -->
+					 <input
+						class="uinp ub ub-f1" type="text" id="branchName" maxlength="50" />
+					<div class="uinp-more">...</div>
 	                </div>
                     <div class="ub ub-ac  umar-l20">
                         <div class="umar-r10 uw-120 ut-r">销售小于或等于</div>

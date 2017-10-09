@@ -19,6 +19,8 @@ import com.okdeer.jxc.report.qo.GoodsUnsaleReportQo;
 import com.okdeer.jxc.report.service.GoodsUnsaleReportService;
 import com.okdeer.jxc.report.vo.GoodsUnsaleReportVo;
 import com.okdeer.jxc.utils.UserUtil;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,6 +88,9 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
+			if(StringUtils.isEmpty(vo.getBranchCompleCode())){
+				vo.setBranchCompleCode(UserUtil.getCurrBranchCompleCode());
+			}
 			goodsUnsaleReportService.getGoodsUnsaleReportList(vo);
 			Future<PageUtils<GoodsUnsaleReportVo>> listFuture = RpcContext.getContext().getFuture();
 			goodsUnsaleReportService.queryGoodsUnsaleReportSum(vo);
@@ -93,6 +99,7 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			PageUtils<GoodsUnsaleReportVo> list = listFuture.get();
 
 			GoodsUnsaleReportVo reportVo = unsaleReportVoFuture.get();
+			list.setTotal(reportVo.getCount());
 			List<GoodsUnsaleReportVo> footer = new ArrayList<GoodsUnsaleReportVo>();
 			if(reportVo !=null){
 				// 过滤数据权限字段
