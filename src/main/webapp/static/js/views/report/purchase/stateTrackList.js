@@ -56,7 +56,14 @@ function initPurReportTotalGrid() {
 	       {field: 'branchName', title: '机构名称', width: 185, align: 'left'},
 			{field: 'supplierCode', title: '供应商编号', width: 100, align: 'left'},
 			{field: 'supplierName', title: '供应商名称', width: 185, align: 'left'},
-			{field: 'paFormNo', title: '采购订单编号', width:150, align: 'left'},
+			{field: 'paFormNo', title: '采购订单编号', width:150, align: 'left',
+				formatter:function(value,row,index){
+	            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购详细\',\''+contextPath+'/form/purchase/orderEdit?formId='+row.id+'\')">' + value + '</a>';
+	    		   if($_jxc.isStringNull(value)){
+	    			   strHtml =''
+	    		   }
+	    		   return strHtml;
+	            }},
             {field: 'amount', title: '采购订单金额', width:100, align: 'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -66,7 +73,14 @@ function initPurReportTotalGrid() {
                 }
             },
             {field: 'dealStatus', title: '采购订单状态', width:80, align: 'right'},
-            {field: 'piFormNo', title: '采购订单编号', width:150, align: 'left'},
+            {field: 'piFormNo', title: '采购收货单编号', width:150, align: 'left',
+				formatter:function(value,row,index){
+	            	var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.piId+'\')">' + value + '</a>';
+	    		   if($_jxc.isStringNull(value)){
+	    			   strHtml =''
+	    		   }
+	    		   return strHtml;
+	            }},
             {field: 'salesmanUserName', title: '采购员', width:100, align: 'left'},
             {field: 'createUserName', title: '制单人', width:100, align: 'left'},
             {field: 'createTime', title: '制单日期', width:150, align: 'left'},
