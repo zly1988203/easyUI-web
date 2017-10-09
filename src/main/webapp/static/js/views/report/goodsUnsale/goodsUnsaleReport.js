@@ -2,6 +2,12 @@
  * Created by huangj02 on 2016/8/9.
  */
 $(function(){
+	   //机构组件初始化
+    $('#branchSelect').branchSelect({
+        loadFilter:function(data){
+            return data;
+        }
+    });
     //初始化默认条件
     initConditionParams();
     initDatagridGoodsUnsale();
@@ -82,6 +88,7 @@ function initDatagridGoodsUnsale(){
     				    if(value){
     				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
     				    }
+    				    return '<b>0.00</b>';
     				},
                 	editor:{
                         type:'numberbox',
@@ -96,6 +103,7 @@ function initDatagridGoodsUnsale(){
         				    if(value){
         				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
         				    }
+        				    return '<b>0.00</b>';
         				},
                     	editor:{
                             type:'numberbox',
