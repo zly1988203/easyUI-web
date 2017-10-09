@@ -713,6 +713,8 @@ function selectGoods(searchKey){
 
     new publicGoodsServiceTem(param,function(data){
     	if(searchKey){
+    	    var row = $('#'+gridName).datagrid("getSelected");
+    	    if(null == row) return;
             $('#'+gridName).datagrid("deleteRow", gridHandel.getSelectRowIndex());
             $('#'+gridName).datagrid("acceptChanges");
 	    }
