@@ -1043,10 +1043,9 @@ function GridClass(){
                                 break;
                             case 13: //回车键
                                 if(getLRFiledName('right')=="isGift"){
-
+                                    _this.setSelectFieldName(field);
                                     var field = getLRFiledName('right');
                                     _this.setSelectFieldName(field);
-                                    field = getLRFiledName('right');
                                     var target = _this.getFieldTarget(field);
                                     if(target){
                                         _this.setFieldFocus(target);
@@ -1094,13 +1093,18 @@ function GridClass(){
                                         	}
                                         	_this.setSelectFieldName(field);
                                             field = getLRFiledName('right');
-                                        	target = _this.getFieldTarget(field);
+                                            if(field=="isGift"){
+                                                _this.setSelectFieldName(field);
+                                                field = getLRFiledName('right');
+                                                _this.setSelectFieldName(field);
+                                            }
+                                            target = _this.getFieldTarget(field);
                                         }
                                         if(target){
                                     		_this.setFieldFocus(target);
                                     		_this.setSelectFieldName(field);
                                         }
-                                        
+
                                     }
                                 }
                                 break;
@@ -1440,16 +1444,8 @@ function GridClass(){
     this.setFieldFocus = function(obj){
     	if(null == obj) return;
         setTimeout(function(){
-            if(typeof($(obj).textbox()) !=  "undefined") {
-                $(obj).textbox('textbox').focus();
-                $(obj).textbox('textbox').select();
-            }
-           else if($(obj).combobox()){
-                $(obj).combobox('textbox').focus();
-                // $(obj).combobox('showPanel')
-                // $(obj).combobox('textbox').select();
-            }
-
+            $(obj).textbox('textbox').focus();
+            $(obj).textbox('textbox').select();
         },10);
     }
     /**

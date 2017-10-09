@@ -13,7 +13,7 @@
     var oldBtype='${branchesGrow.targetBranchType}';
     var oldBname='${branchesGrow.targetBranchName}';
     </script>
-	<script src="${ctx}/static/js/views/deliver/DoAdd.js?V=V2.6.3"></script>
+	<script src="${ctx}/static/js/views/deliver/DoAdd.js?V=V2.8.1"></script>
 	<%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
