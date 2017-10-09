@@ -6,6 +6,8 @@
  */    
 package com.okdeer.jxc.controller.report.analysis;  
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.okdeer.jxc.branch.service.BranchCostService;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -45,7 +48,9 @@ public class BepMonthAnalysisController extends BaseController<BepMonthAnalysisC
 	
 	@Reference(version = "1.0.0", check = false)
 	private BepAnalysisService bepDayAnalysisService;
-	
+
+	@Reference(version = "1.0.0", check = false)
+	private BranchCostService branchCostService;
 	
 	/**
 	 * 跳转到列表
@@ -87,12 +92,25 @@ public class BepMonthAnalysisController extends BaseController<BepMonthAnalysisC
 	 */
 	private void buildParams(BepAnalysisQo qo) {
 		// 默认当前机构
-		if(StringUtils.isBlank(qo.getBranchCompleCode())){
+		if (StringUtils.isBlank(qo.getBranchCompleCode())) {
 			qo.setBranchCompleCode(super.getCurrBranchCompleCode());
 		}
-		
+
 		qo.setStartTime(DateUtils.parseJfp(qo.getTxtStartDate()));
 		qo.setEndTime(DateUtils.addMonths(DateUtils.parseJfp(qo.getTxtEndDate()), 1));
+
+		// 构建所选月份列表，用于计算机构费用平摊
+		if (null != qo.getStartTime() && null != qo.getEndTime() && qo.getStartTime().compareTo(qo.getEndTime()) < 0) {
+			Date firstTime = branchCostService.getFirstCostTime();
+			int startMonth = Integer.parseInt(DateUtils.formatDate(firstTime, "yyyyMM"));
+			int endMonth = Integer.parseInt(DateUtils.formatDate(qo.getEndTime(), "yyyyMM"));
+			List<String> monthStrList = new ArrayList<>();
+			do {
+				monthStrList.add(Integer.toString(startMonth));
+				startMonth++;
+			} while (startMonth < endMonth);
+			qo.setMonthStrList(monthStrList);
+		}
 	}
 	
 	@RequestMapping(value = "exportExcelList", method = RequestMethod.POST)
