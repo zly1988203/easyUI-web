@@ -922,4 +922,17 @@ public interface ExportExcelConstant {
 	 * 采购促销活动条码导入模板
 	 */
 	String PURCHASE_ACTIVITYL_GOODS_BARCODE_TEMPLATE = "purchaseActivitylGoodsBarCodeTemplate.xlsx";
+	
+	   /**
+     * @Fields PUR_EXPIRE_FORM_BY_SUPPLIER : 供应商过期订单查询  汇总（供应商）
+     */
+    String PUR_EXPIRE_FORM_BY_SUPPLIER = "PurExpireFormBySupplier.xlsx";
+    /**
+     * @Fields PUR_EXPIRE_FORM_BY_FORM : 供应商过期订单查询  汇总（单据）
+     */
+    String PUR_EXPIRE_FORM_BY_FORMNO = "PurExpireFormByFormNo.xlsx";
+    /**
+     * @Fields PUR_STATE_TRACK : 采购订单状态跟踪
+     */
+    String PUR_STATE_TRACK = "PurStateTrack.xlsx";
 }

@@ -350,11 +350,11 @@ function saveGoodsArchives(){
         $_jxc.alert("零售价不能为空!");
 		return;
 	}
-    if(parseFloat(vipPrice || 0) <= 0){
+    /*if(parseFloat(vipPrice || 0) <= 0){
         $('#saveGoodsArchives').removeAttr("disabled");
         $_jxc.alert("会员价必须大于0!");
         return;
-    }
+    }*/
 	
 	if($("#purchaseSpec").val()=== '0.00'){
 		$('#updateGoodsArchives').removeAttr("disabled");

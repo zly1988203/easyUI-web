@@ -12,9 +12,10 @@ $(function() {
 	initDatagridRequire();
 	//机构组件初始化
 	$('#branchSelect').branchSelect({
-    	param:{
-    		branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B+','+$_jxc.branchTypeEnum.FRANCHISE_STORE_C
-    	},
+		//ajax参数
+		param:{
+			branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B
+		},
     	onAfterRender:function(data){
     		$('#branchId').val(data.branchId);
     	}

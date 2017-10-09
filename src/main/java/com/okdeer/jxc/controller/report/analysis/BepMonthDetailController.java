@@ -7,7 +7,9 @@
 
 package com.okdeer.jxc.controller.report.analysis;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -56,9 +58,9 @@ public class BepMonthDetailController extends BaseController<BepMonthDetailContr
 	}
 
 	private void buildParams(BepMonthDetailQo qo) {
-		// 默认当前机构
+		// 不选择机构，默认为空
 		if (StringUtils.isBlank(qo.getBranchId())) {
-			qo.setBranchId(getCurrBranchId());
+			qo.setBranchId("");
 		}
 		if (StringUtils.isNotBlank(qo.getMonth())) {
 			qo.setMonth(qo.getMonth().replace("-", ""));
@@ -106,7 +108,15 @@ public class BepMonthDetailController extends BaseController<BepMonthDetailContr
 			if (respJson.isSuccess()) {
 				@SuppressWarnings("unchecked")
 				List<BepMonthDetailPo> dataList = (List<BepMonthDetailPo>) respJson.getData();
-				exportListForXLSX(response, dataList, reportFileName, templateName);
+
+				// 获取数值后移除最后两行
+				Map<String, Object> params = new HashMap<>();
+				params.put("profit", dataList.get(dataList.size() - 2).getAmount());
+				params.put("balance", dataList.get(dataList.size() - 1).getAmount());
+				dataList.remove(dataList.size() - 1);
+				dataList.remove(dataList.size() - 1);
+
+				exportParamListForXLSX(response, dataList, params, reportFileName, templateName);
 			}
 		} catch (Exception e) {
 			LOG.error("门店月盈亏平衡明细分析导出失败", e);

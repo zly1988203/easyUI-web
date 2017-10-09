@@ -21,8 +21,7 @@ $(function(){
 	$('#branchComponent').branchSelect({
 		//ajax参数
 		param:{
-			branchTypesStr:$_jxc.branchTypeEnum.HEAD_QUARTERS + ',' + $_jxc.branchTypeEnum.BRANCH_COMPANY
-			+ ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + $_jxc.branchTypeEnum.FRANCHISE_STORE_C
+			branchTypesStr:$_jxc.branchTypeEnum.FRANCHISE_STORE_B
 		},
 		loadFilter:function(data){
 			data.franchiseBranchId = data.branchesId;

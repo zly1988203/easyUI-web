@@ -57,12 +57,12 @@
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label> <input class="radioItem" id='FRANCHISE_STORE_B'
-							type="radio" name="branchType" value="4" />B加盟店
+							type="radio" name="branchType" value="4" />加盟店
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<label> <input class="radioItem" id='FRANCHISE_STORE_C'
-							type="radio" name="branchType" value="5" />C加盟店
+							type="radio" name="branchType" value="5" />合作店
 						</label>
 					</div>
 					<div class="ub ub-ac umar-r10">
