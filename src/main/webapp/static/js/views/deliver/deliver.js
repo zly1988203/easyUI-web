@@ -4,7 +4,7 @@
  */
 
 var targetBranchTypeTemp = "";
-
+var deliverPriceSpecFlg = false;
 //过滤price priceBack 标示 
 var loadFilterFlag = false;
 
@@ -12,7 +12,7 @@ var gridDefault = {
 	    applyNum:0,
 	    largeNum:0,
 	    isGift:0,
-        giftTxt:"否"
+        // giftTxt:"否"
 	}
 //列表数据查询url
 var url = "";
@@ -358,28 +358,55 @@ function initDatagridRequireOrder(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
             },
-            {field:'isGift',title:'赠送',width:'80px',hidden:true,
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        precision:0,
-                    }
-                }
-            },
-            {field:'giftTxt',title:'赠送',width:'80px',align:'cenger',sortable: true,
+            // {field:'isGift',title:'赠送',width:'80px',hidden:true,
+            //     editor:{
+            //         type:'numberbox',
+            //         options:{
+            //             min:0,
+            //             precision:0,
+            //         }
+            //     }
+            // },
+            // {field:'giftTxt',title:'赠送',width:'80px',align:'cenger',sortable: true,
+            //     formatter:function(value,row){
+            //         if(row.isFooter){
+            //             return;
+            //         }
+            //         var str = "否"
+            //         if(row.isGift === "1"){
+            //             str = "是"
+            //         }else{
+            //             str = "否"
+            //         }
+            //         value = str;
+            //         return str;
+            //     },
+            //     editor:{
+            //         type:'combobox',
+            //         options:{
+            //             valueField: 'id',
+            //             textField: 'text',
+            //             editable:false,
+            //             disabled:deliverPriceSpecFlg,
+            //             readonly:deliverPriceSpecFlg,
+            //             data: [{
+            //                 "id":'1',
+            //                 "text":"是",
+            //             },{
+            //                 "id":'0',
+            //                 "text":"否",
+            //             }],
+            //             onSelect:onSelectIsGift
+            //         }
+            //     }
+            // },
+            {field:'isGift',title:'赠送',width:'80px',align:'left',
                 formatter:function(value,row){
                     if(row.isFooter){
                         return;
                     }
-                    var str = "否"
-                    if(row.isGift === "1"){
-                        str = "是"
-                    }else{
-                        str = "否"
-                    }
-                    value = str;
-                    return str;
+                    row.isGift = row.isGift?row.isGift:0;
+                    return value=='1'?'是':(value=='0'?'否':'请选择');
                 },
                 editor:{
                     type:'combobox',
@@ -388,7 +415,6 @@ function initDatagridRequireOrder(){
                         textField: 'text',
                         editable:false,
                         disabled:deliverPriceSpecFlg,
-                        readonly:deliverPriceSpecFlg,
                         data: [{
                             "id":'1',
                             "text":"是",
@@ -400,6 +426,9 @@ function initDatagridRequireOrder(){
                     }
                 }
             },
+
+
+
             {field:'inputTax',title:'税率',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
@@ -633,6 +662,11 @@ function onChangeRealNum(newV,oldV) {
 
 //监听是否赠品
 function onSelectIsGift(data){
+    if(deliverPriceSpecFlg){
+        $(gridHandel.getFieldTarget('isGift')).combobox('readonly', deliverPriceSpecFlg);
+        return;
+    }
+
 	var _skuName = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'skuName');
     if(!_skuName)return;
 
@@ -662,7 +696,7 @@ function onSelectIsGift(data){
         }
         updateFooter();
     }else{
-        var targetIsGift = gridHandel.getFieldTarget('giftTxt');
+        var targetIsGift = gridHandel.getFieldTarget('isGift');
         $(targetIsGift).combobox('select', data.id=='1'?'0':'1');
         $_jxc.alert(data.id=='1'?'已存在相同赠品':'已存在相同商品');
     }
@@ -1255,7 +1289,7 @@ function delDeliverForm(){
  * 要货机构
  */
 var branchCode = '';
-var deliverPriceSpecFlg = false; 
+
 function selectTargetBranch(){
 	var targetBranchType = $("#targetBranchType").val();
 	if(targetBranchTypeTemp != '0' && targetBranchTypeTemp != '1'){

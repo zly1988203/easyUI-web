@@ -196,15 +196,15 @@ function initDatagridAddRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-                editor:{
-                    type:'numberbox',
-                    options:{
-                        min:0,
-                        disabled:true,
-                        precision:4,
-//                        onChange: onChangePrice,
-                    }
-                },
+//                 editor:{
+//                     type:'numberbox',
+//                     options:{
+//                         min:0,
+//                         disabled:true,
+//                         precision:4,
+// //                        onChange: onChangePrice,
+//                     }
+//                 },
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter:function(value,row,index){
@@ -243,7 +243,6 @@ function initDatagridAddRequireOrder(){
                         editable:false,
                         required:true,
                         disabled:isGiftFlag,
-                        readonly:isGiftFlag,
                         data: [{
                             "id":'1',
                             "text":"是",
