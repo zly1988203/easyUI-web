@@ -53,10 +53,10 @@
 						<input class="radioItem" type="radio" name="branchesType" id="OWN_STORE" value="3"><label for="OWN_STORE">直营店 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="branchesType" id="FRANCHISE_STORE_B" value="4"><label for="FRANCHISE_STORE_B">B加盟店 </label>
+						<input class="radioItem" type="radio" name="branchesType" id="FRANCHISE_STORE_B" value="4"><label for="FRANCHISE_STORE_B">加盟店 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
-						<input class="radioItem" type="radio" name="branchesType" id="FRANCHISE_STORE_C" value="5"><label for="FRANCHISE_STORE_C">C加盟店</label>
+						<input class="radioItem" type="radio" name="branchesType" id="FRANCHISE_STORE_C" value="5"><label for="FRANCHISE_STORE_C">合作店</label>
 					</div>
 				</div>
             </div>
