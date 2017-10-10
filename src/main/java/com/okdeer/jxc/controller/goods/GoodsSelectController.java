@@ -284,7 +284,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
             } else {
                 vo.setParentId(branchId);
             }
-            suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+			vo.setSupplier(StringUtils.isBlank(supplierId));
+			suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
             List<GoodsSelect> goodsSelects = suppliers.getList();
             List<String> skus = Lists.newArrayList();
 
