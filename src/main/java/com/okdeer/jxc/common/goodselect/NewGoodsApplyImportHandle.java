@@ -208,7 +208,7 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 			}
 			
 			//零售价非空校验
-			boolean salePriceFlag = checkRequiredCommonPrice(obj, "salePrice", "零售价只能为数字", "零售价为空","零售价需大于0,小于9999999999");
+			boolean salePriceFlag = checkRequiredCommonPrice(obj, "salePrice", "零售价只能为数字", "零售价为空","零售价只能为0~9999999999之间数字");
 			if(!salePriceFlag){
 				continue;
 			}
@@ -339,10 +339,8 @@ public class NewGoodsApplyImportHandle implements GoodsSelectImportHandle {
 				return false;
 			}else{
 				try {
-					Double.parseDouble(price);
-					if(price.compareTo("0.00")==0 
-					|| price.compareTo("0.00") <0 
-					|| price.compareTo("9999999999") > 0) {
+					double tempPrice = Double.parseDouble(price);
+					if(tempPrice < 0 || tempPrice > 9999999999.0) {
 						obj.element("error", msg3);
 						return false;
 					}
