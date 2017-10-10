@@ -118,10 +118,10 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 			vo.setSupplierName(vo.getSupplierName().substring(vo.getSupplierName().indexOf("]") + 1));
 		}
 	}
-	
+
 	/**
-	 * 
-	 * @Description: 导出
+     *
+     * @Description: 导出
 	 * @param response
 	 * @param vo
 	 * @return
@@ -138,27 +138,25 @@ public class GoodsSaleController extends BaseController<GoodsSaleController> {
 			//List<GoodsSaleReportVo> exportList =
 			goodsSaleReportServiceApi.exportList(vo);
 			Future<List<GoodsSaleReportVo>> exportListFuture = RpcContext.getContext().getFuture();
-
 			//GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
 			goodsSaleReportServiceApi.queryGoodsSaleCountSum(vo);
 			Future<GoodsSaleReportVo> goodsSaleReportVoFuture = RpcContext.getContext().getFuture();
-
 			GoodsSaleReportVo goodsSaleReportVo = goodsSaleReportVoFuture.get();
-
-			goodsSaleReportVo.setBranchName("合计：");
 			List<GoodsSaleReportVo> exportList = exportListFuture.get();
-			exportList.add(goodsSaleReportVo);
-			String fileName = "商品销售汇总表";
-
+            if (goodsSaleReportVo != null) {
+                goodsSaleReportVo.setBranchName("合计：");
+                exportList.add(goodsSaleReportVo);
+            }
+            String fileName = "商品销售汇总表";
 			String templateName = ExportExcelConstant.GOODS_SALE_REPORT;
-
 			cleanAccessData(exportList);
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("导出库存调整商品异常：{}", e);
-			resp = RespJson.error("导出库存调整商品异常");
-		}
+            LOG.error("导出商品销售汇总异常：{}", e);
+            resp = RespJson.error("导出商品销售汇总异常");
+        }
 		return resp;
 	}
-	
+
+
 }
