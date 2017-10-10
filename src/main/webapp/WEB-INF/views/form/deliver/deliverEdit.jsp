@@ -46,6 +46,7 @@
                     <input class="uinp" name="targetBranchId" id="targetBranchId" type="hidden" value="${form.targetBranchId}">
                     <input type="hidden" id="minAmount" name="minAmount" value="${minAmount}"  />
                     <input type="hidden" id="targetBranchType" name="targetBranchType" value="${targetBranchType}"  />
+                    <input type="hidden" id="targetDeliverPriceSpec" name="targetDeliverPriceSpec" value="${targetDeliverPriceSpec}"  />
                     <input type="hidden" id="isMinAmount" name="isMinAmount" value="${isMinAmount}"  />
                     <input class="uinp" id="targetBranchName" name="targetBranchName" type="text" readonly="readonly" value="${form.targetBranchName}" />
                     <div class="uinp-more" >...</div>

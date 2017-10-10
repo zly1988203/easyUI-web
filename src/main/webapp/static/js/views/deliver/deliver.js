@@ -38,15 +38,18 @@ $(function(){
         var formId = $("#formId").val();
 		url = contextPath+"/form/deliverFormList/getDeliverFormListsById";
         $_jxc.ajax({
-                type:"POST",
-                url:url,
-                data:{
-                    deliverFormId : formId,
-                    deliverType : 'DA'
-                }
-            },function(result){
-                selectStockAndPrice(result.list);
-            })
+            type:"POST",
+            url:url,
+            data:{
+                deliverFormId : formId,
+                deliverType : 'DA'
+            }
+        },function(result){
+            selectStockAndPrice(result.list);
+        })
+        
+        var targetDeliverPriceSpec = parseInt($("#targetDeliverPriceSpec").val());
+        deliverPriceSpecFlg = targetDeliverPriceSpec == 1 || targetDeliverPriceSpec == 3 ? true : false;
 		initDatagridRequireOrder();
 	    $("div").delegate("button","click",function(){
 	    	$("p").slideToggle();

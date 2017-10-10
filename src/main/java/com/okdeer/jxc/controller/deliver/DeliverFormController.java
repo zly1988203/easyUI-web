@@ -342,6 +342,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				Branches branches = branchesServiceApi.getBranchInfoById(form.getTargetBranchId());
 				model.addAttribute("minAmount", form.getMinAmount());
 				model.addAttribute("targetBranchType", branches.getType());
+				model.addAttribute("targetDeliverPriceSpec", branches.getDeliverPriceSpec());
 				model.addAttribute("salesman", branches.getSalesman() == null ? "" : branches.getSalesman());
 				return "form/deliver/deliverEdit";
 			} else if (FormType.DO.toString().equals(form.getFormType())) {
