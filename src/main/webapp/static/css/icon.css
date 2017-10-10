@@ -37,6 +37,11 @@
 .icon-warn2:before { content: "\e610"; }
 .icon-control-line:before { content: "\e611"; }
 .icon-jiantou1:before { content: "\e612"; }
-
+.combotree-p {
+background: url('../images/parent.png') no-repeat  0;
+}
+.combotree-c {
+  background: url('../images/child.png') no-repeat  0;
+}
 
 

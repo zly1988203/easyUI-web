@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,10 @@ import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.form.purchase.qo.PurchaseFormDetailPO;
 import com.okdeer.jxc.form.purchase.qo.PurchaseFormPO;
 import com.okdeer.jxc.form.purchase.service.PurchaseFormServiceApi;
+import com.okdeer.jxc.goods.entity.GoodsSelect;
+import com.okdeer.jxc.goods.service.GoodsSelectServiceApi;
+import com.okdeer.jxc.goods.vo.GoodsSkuVo;
+import com.okdeer.jxc.goods.vo.GoodsStockVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.jxc.utils.poi.ExcelReaderUtil;
@@ -70,6 +75,9 @@ public class OrderEdiInController {
 
 	@Reference(version = "1.0.0", check = false)
 	private QueryDeliverFormListServiceApi queryDeliverFormListServiceApi;
+	
+	@Reference(version = "1.0.0", check = false)
+	private GoodsSelectServiceApi goodsSelectServiceApi;
 
 	@Autowired
 	private OrderNoUtils orderNoUtils;
@@ -489,9 +497,16 @@ public class OrderEdiInController {
 			String daFormNo = entry.getKey();
 			// 要货申请单
 			DeliverForm daForm = deliverFormServiceApi.queryDeliverFormByFormNo(daFormNo);
+            if (daForm == null) {
+                continue;
+            }            
 			// 要货申请单明细
 			List<DeliverFormList> daDetailList = queryDeliverFormListServiceApi.getDeliverListByFormNo(daFormNo);
+            if (CollectionUtils.isEmpty(daDetailList)) {
+                continue;
+            }
 
+			List<GoodsSkuVo> goodsSkuVos = new ArrayList<>();
 			// 要货申请单明细按“货号_是否赠品”转换为map，方便查询
 			Map<String, DeliverFormList> daDetailMap = new HashMap<String, DeliverFormList>();
 			for (DeliverFormList detail : daDetailList) {
@@ -501,8 +516,13 @@ public class OrderEdiInController {
 				Integer isGift = Integer.valueOf(detail.getIsGift());
 				// KEY：货号_是否赠品，VALUE：采购申请单明细
 				daDetailMap.put(skuCode + "_" + isGift, detail);
+				GoodsSkuVo gsVo = new GoodsSkuVo();
+				gsVo.setId(detail.getSkuId());
+				goodsSkuVos.add(gsVo);
 			}
 
+			// 重新按出库单配置获取商品配送价格
+			setDoFormDetailPrice(daForm,goodsSkuVos,daDetailList);
 			// 配送出库单
 			DeliverFormVo doForm = createDo(daForm);
 
@@ -560,6 +580,44 @@ public class OrderEdiInController {
 			}
 		}
 	}
+
+	/** 
+	 * {
+     * "branchId":"080b1000156211e689240050569e21f2",
+     * "stockBranchId":"8a284fd056c2991b0156d4fa4a230836",
+     * "type":"DO","fieldName":"id",
+     * "goodsSkuVo":[
+     * {"id":"2c9380af59f5836e015a089b7e561965"},
+     * {"id":"2c9380af59f5836e015a089c2df01968"},
+     * {"id":"2c9380af59f5836e015a089d2a28196e"}]}
+	 * @Description: 重新按出库单配置获取商品配送价格
+	 * @author xuyq
+	 * @date 2017年9月27日
+	 */
+    private void setDoFormDetailPrice(DeliverForm daForm, List<GoodsSkuVo> goodsSkuVos,
+            List<DeliverFormList> daDetailList) {
+        GoodsStockVo goodsStockVos = new GoodsStockVo();
+        goodsStockVos.setBranchId(daForm.getSourceBranchId());
+        goodsStockVos.setStockBranchId(daForm.getTargetBranchId());
+        goodsStockVos.setType("DO");
+        goodsStockVos.setFieldName("id");
+        goodsStockVos.setGoodsSkuVo(goodsSkuVos);
+        List<GoodsSelect> goodsList = goodsSelectServiceApi.queryByBrancheAndSkuIdsToDo(goodsStockVos);
+        if (CollectionUtils.isEmpty(goodsList)) {
+            return;
+        }
+        Map<String, GoodsSelect> goodsMap = new HashMap<>();
+        for (GoodsSelect goods : goodsList) {
+            goodsMap.put(goods.getSkuId(), goods);
+        }
+        if (goodsMap.size() == 0) {
+            return;
+        }
+        // 替换价格
+        for (DeliverFormList detail : daDetailList) {
+            detail.setPrice(goodsMap.get(detail.getSkuId()).getDistributionPrice());
+        }
+    }
 
 	/**
 	 * 

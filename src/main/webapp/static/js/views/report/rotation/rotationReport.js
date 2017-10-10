@@ -120,7 +120,7 @@ function getFiledsList(){
 			}
 		} ] ]
 	}else{
-		rotationTips = "库存周转率=期间成本销售金额/期间平均库存金额*100%</br>库存周转天数=期间天数/库存周转率";
+		rotationTips = "库存周转率=期间销售成本金额/期间平均库存金额*100%</br>库存周转天数=期间天数/库存周转率";
 		$('#divTips').html(rotationTips);
 		return [ [ {
 			field : 'branchCode',

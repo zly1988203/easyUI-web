@@ -76,7 +76,7 @@ var dateUtil = {
         return new Date(newResult);
     },
     /**
-     * 添加开始时间
+     * 添加结束时间
      */
     addEndTime:function(date){
         var result = new Date(date);
@@ -690,36 +690,6 @@ function alertTip(data, refreshDgMethod, closeDMethod) {
 	      return false;
 	  }
 	}
-
-/**
-* ajax返回提示
-* @param data    返回的数据
-* @param dg datagrid
-* @param d    弹窗
-* @returns {Boolean} ajax是否成功
-*/
-function successTipExt(data, dg, d) {
-  if (data.status == '0') {
-      $.messager.show({
-          title: "提示",
-          msg: "操作成功！",
-          position: "topCenter",
-          timeout: 1500,
-          showType: 'slide'
-      });
-      if (dg != null) {
-          dg.datagrid('reload');
-      }
-      if (d != null) {
-          d.panel('close');
-      }
-      return true;
-  } else {
-      $.messager.alert("提示", data.message);
-      return false;
-  }
-}
-
 
 /**
 * ajax返回提示
