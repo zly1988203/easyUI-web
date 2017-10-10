@@ -488,6 +488,7 @@ function validform() {
         $_jxc.alert("顺序不能数字重复")
         return false;
     }
+    totalRate = parseFloat(totalRate).toFixed(2);
     if(totalRate > 100 || totalRate < 100){
         $_jxc.alert("中奖概率总和应为100%,目前为："+totalRate+"%")
         return false;
