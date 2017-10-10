@@ -110,41 +110,7 @@ function onChangeSelect(){
 	    return;
     }
     var priceVal=$("#activityType").combobox('getValue');
-    var changeType = function(){
-	    gVarLastActivityType = priceVal;
-        $("#dvVip").addClass("umar-l30")
-	    switch(priceVal)
-	    {
-	 	    case "1":
-			    selectOptionSpecial();
-			    break;
-		    case "2": //折扣
-			    selectOptionzk();
-			    break;
-		    case "3":
-			    selectOptionOdd();
-			    break;
-		    case "4":
-			    optionHide();
-			    $("#consaleadd").removeClass("unhide");
-			    initDatagridRedemption();
-			    disableGoods('','GoodsType');
-			    break;
-		    case "5":
-			    selectOptionMj();
-			    break;
-		    case "6":
-			    optionHide();
-			    $("#consaleadd").removeClass("unhide");
-			    initDatagridCompose();
-			    disableGoods('','GoodsType');
-			    break;
-		    case "10": //买满送
-                $("#dvVip").addClass("umar-l100")//这个类型排版奇葩
-		    	selectOptionmms();
-			    break;
-	    }
-	};
+
 	$("#saleMangeadd").datagrid("endEdit", gridHandel.getSelectRowIndex());
 	var rows = [];
 	var setrows = [];
@@ -222,18 +188,55 @@ function onChangeSelect(){
 	}
 	
 	if(rows.length==0 && setrows.length ==0){
-		changeType();
+		changeType(priceVal);
 	}else{
 		$_jxc.confirm("更换活动类型将清空当前列表信息，是否更换？",function(b){
-			if(!b) {
-				gVarAutoSelect = true;
-				$("#activityType").combobox('select',gVarLastActivityType);
-				return;
-			};
-			changeType();
+			if(b) {
+                changeType(priceVal);
+			}else{
+                gVarAutoSelect = true;
+                $("#activityType").combobox('select',gVarLastActivityType);
+			}
+
 		});
 	}
 }
+
+var changeType = function(priceVal){
+    gVarLastActivityType = priceVal;
+    $("#dvVip").addClass("umar-l30")
+    switch(priceVal)
+    {
+        case "1":
+            selectOptionSpecial();
+            break;
+        case "2": //折扣
+            selectOptionzk();
+            break;
+        case "3":
+            selectOptionOdd();
+            break;
+        case "4":
+            optionHide();
+            $("#consaleadd").removeClass("unhide");
+            initDatagridRedemption();
+            disableGoods('','GoodsType');
+            break;
+        case "5":
+            selectOptionMj();
+            break;
+        case "6":
+            optionHide();
+            $("#consaleadd").removeClass("unhide");
+            initDatagridCompose();
+            disableGoods('','GoodsType');
+            break;
+        case "10": //买满送
+            $("#dvVip").addClass("umar-l100")//这个类型排版奇葩
+            selectOptionmms();
+            break;
+    }
+};
 
 var cheFlag = false;
 //选择买满金额 买满数量
@@ -1289,7 +1292,7 @@ function initDatagridSpecial(){
     if(hasPurchasePrice==false){
         priceGrantUtil.grantPurchasePrice("saleMangeadd",["purchasePrice","oldSaleRate","newSaleRate"])
     }
-    gridHandel.setLoadData([{}]) 
+    gridHandel.setLoadData([$.extend({},gridDefault)])
 }
 
 // 初始化表格-类别折扣
