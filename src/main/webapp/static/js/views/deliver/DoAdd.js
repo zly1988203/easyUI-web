@@ -548,12 +548,14 @@ function onSelectIsGift(data){
         var targetPrice = gridHandel.getFieldTarget('price');
         if(data.id=="1"){
             $(targetPrice).numberbox('setValue',0);
+            gridHandel.setFieldsData({price:0});//单价
             gridHandel.setFieldValue('amount',0);//总金额
             gridHandel.setFieldValue('taxAmount',0);//税额
         }else{
             var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'priceBack');
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
+                gridHandel.setFieldsData({price:oldPrice});//单价
             }
         	var priceVal = oldPrice||0;
             var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'dealNum');
