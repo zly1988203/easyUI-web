@@ -1024,7 +1024,8 @@ function GridClass(){
             keyCtr : function (jq) {
                 return jq.each(function () {
                     var grid = $(this);
-                    grid.datagrid('getPanel').panel('panel').attr('tabindex', 1).bind('keydown', function (e) {
+                    grid.datagrid('getPanel').panel('panel').attr('tabindex', 1).bind('keydown',
+                        function (e) {
                         switch (e.keyCode) {
                             case 37: //左键
                                 var field = getLRFiledName('left');
@@ -1042,6 +1043,7 @@ function GridClass(){
                                 }
                                 break;
                             case 13: //回车键
+                                e.keyCode=9
                                 if(getLRFiledName('right')=="isGift"){
                                     _this.setSelectFieldName(field);
                                     var field = getLRFiledName('right');
@@ -2933,14 +2935,68 @@ function publicExprotService(param,callback) {
 }
 /*----------------------------------------------------------------------*/
 
+/*--------------------------导出--------------------------------*/
+/*
+ * param  {
+ *   datagridId:""
+ *
+ * }
+ *
+ * */
+function publicMessageService(param,callback) {
+
+    var msgObj = {
+            href: contextPath + "/common/messageDialog",
+            width:400,
+            height:300,
+            title: "提示",
+            closable:true,
+            resizable:true,
+            onClose: function(){
+                $(this).dialog('destroy');
+                messageDialog = null;
+            },
+            modal: true,
+            onLoad: function () {
+                initMessageParam(param);
+//                initMessageCallBack(messageCallBack)
+            },
+        }
+    
+	msgObj["buttons"] = [{
+        text:'确定',
+        handler:function(){
+        	messageCallBack(1);
+        }
+    },{
+        text:'取消',
+        handler:function(){
+        	messageCallBack(0);
+            $(messageDialog).panel('destroy');
+            messageDialog = null;
+        }
+    }];
+    
+    var messageDialog = $('<div id="messageDialog"/>').dialog(msgObj);
+
+    function messageCallBack(data){
+        callback(data);
+        $(messageDialog).panel('destroy');
+        messageDialog = null;
+    }
+}
+/*----------------------------------------------------------------------*/
+
+
 //参数：id  控件id   dataItems 选项列表
-function initCombobox(id,dataItems){  
+function initCombobox(id,dataItems,defValue){  
 	var value = "";  
 	//加载下拉框复选框  
 	$('#'+id).combobox({  
 		//url:'${base}/ht/getComboboxData.action?dictionaryCode='+code, //后台获取下拉框数据的url
 		//method:'post',  
 		data:dataItems,
+		value:defValue,
 		panelHeight:200,//设置为固定高度，combobox出现竖直滚动条  
 		valueField:'code',  
 		textField:'name',  
@@ -2959,22 +3015,47 @@ function initCombobox(id,dataItems){
 			})  
 		},  
 		onSelect: function (row) { //选中一个选项时调用  
-			var opts = $(this).combobox('options');  
-			//获取选中的值的values  
-			$("#"+id).val($(this).combobox('getValues'));  
-			
-			//设置选中值所对应的复选框为选中状态  
-			var el = opts.finder.getEl(this, row[opts.valueField]);  
-			el.find('input.combobox-checkbox')._propAttr('checked', true);  
-		},  
+			var opts = $(this).combobox('options');
+            var target = this;
+
+                var el = opts.finder.getEl(target, row[opts.valueField]);
+                el.find('input.combobox-checkbox')._propAttr('checked', true);
+
+            //获取选中的值的values
+            $("#"+id).val($(this).combobox('getValues'));
+        },
 		onUnselect: function (row) {//不选中一个选项时调用  
-			var opts = $(this).combobox('options');  
-			//获取选中的值的values  
-			$("#"+id).val($(this).combobox('getValues'));  
-			
-			var el = opts.finder.getEl(this, row[opts.valueField]);  
-			el.find('input.combobox-checkbox')._propAttr('checked', false);  
-		}  
+			var opts = $(this).combobox('options');
+            var target = this;
+
+                var el = opts.finder.getEl(target, row[opts.valueField]);
+                el.find('input.combobox-checkbox')._propAttr('checked', false);
+                el.removeClass("combobox-item-selected");
+
+
+            //获取选中的值的values
+            var comVal = $(this).combobox('getValues');
+            $("#"+id).val(comVal);
+        }
 	});  
 }  
 /*----------------jxc component js end  ---------------------------*/
+function initCombotree(id,dataItems,defValue){
+    $('#'+id).combotree({
+        cascadeCheck: true,
+        //onlyLeafCheck: true,
+        checkbox: true,
+        data: dataItems,
+        width: 200,
+        height: 32,
+        panelHeight: 300,
+        multiple: true,
+        onChange :function(){
+            $val =  $("#"+id).combotree('getValues');
+        },
+        onLoadSuccess:function(node,data){
+            $("#"+id).combotree('setValue',defValue);
+
+        }
+    })
+}

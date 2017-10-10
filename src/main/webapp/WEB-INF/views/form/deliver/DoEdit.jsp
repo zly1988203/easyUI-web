@@ -12,6 +12,12 @@
 	<script src="${ctx}/static/js/views/deliver/DoEdit.js?V=${versionNo}"></script>
     <script src="${ctx}/static/js/views/deliver/deliverExport.js?V=${versionNo}"></script>
     <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
+    <style>
+	.dialog-button{
+	    padding-right: 100px;
+	    width:auto !important;
+	}
+	</style>
 </head>
 <body class="ub ub-ver uw uh ufs-14 uc-black">
     <div class="ub ub-ver ub-f1 umar-4  ubor">

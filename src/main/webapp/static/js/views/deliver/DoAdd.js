@@ -72,6 +72,7 @@ var gridDefault = {
 	dealNum:0,
     //largeNum:0,
     isGift:0,
+    // giftTxt:"否"
 }
 var gridHandel = new GridClass();
 var gridName = "gridEditOrder";
@@ -225,7 +226,6 @@ function initDatagridAddRequireOrder(){
 //                        onChange: onChangeAmount,
                     }
                 },
-
             },
             {field:'isGift',title:'赠送',width:'65px',align:'left',
                 formatter:function(value,row){

@@ -70,18 +70,20 @@ $(function(){
 	localStorageUtil.clearStorageItem();
     //机构选择初始化 发货机构
     $('#branchTemp').branchSelect();
-    // 初始化商品状态 
-    initCombobox('statu',dataItems);
-    // 默认选择中全部
-    $('#statu').combobox('select', dataItems[0].code);
+
+    initCombotree('statu',dataItems,["NORMAL","STOPSELLING","STOPBUYING"]);
+
 });
 
 var dataItems = [
-{"name": "全部","code": "NORMAL,STOPSELLING,STOPBUYING,OBSOLETE"},
-{"name": "正常","code": "NORMAL"},
-{"name": "停售","code": "STOPSELLING"},
-{"name": "停购","code": "STOPBUYING"},
-{"name": "淘汰","code": "OBSOLETE"}
+{"text": "全部","id": "",iconCls:"combotree-p",
+    children:[{"text": "正常","id": "NORMAL",iconCls:"combotree-c"},
+        {"text": "停售","id": "STOPSELLING",iconCls:"combotree-c"},
+        {"text": "停购","id": "STOPBUYING",iconCls:"combotree-c"},
+        {"text": "淘汰","id": "OBSOLETE",iconCls:"combotree-c"}]
+},
+
+
 ];
 
 function initView(){
@@ -429,7 +431,7 @@ function query(){
 	//将左侧查询条件设置缓存中
 	setLocalStorage();
 	// 赋值单据类型选择
-	$("#statusList").val($("#statu").val());	
+	$("#statusList").val($("#statu").combotree('getValues'));
 	
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');

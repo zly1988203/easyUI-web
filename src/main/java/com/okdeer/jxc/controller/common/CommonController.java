@@ -118,4 +118,16 @@ public class CommonController extends BaseController<CommonController> {
 		return "component/publicExportChose";
 	}
 	
+	   /**
+     * 
+     * @Description: 图片上传
+     * @return String  
+     * @author Reyn
+     * @date 2017年9月14日
+     */
+    @RequestMapping(value = "messageDialog")
+    public String MessageDialogView(HttpServletRequest req, Model model) {
+        return "component/publicMessageDialog";
+    }
+	
 }

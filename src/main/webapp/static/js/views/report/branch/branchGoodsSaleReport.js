@@ -74,8 +74,10 @@ $(function(){
 	branchId = $("#branchId").val();
 	//开始和结束时间
 	//toChangeDate(10);
-	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+	var startTime = dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",30)).format("yyyy-MM-dd hh:mm");
+    var endTime = dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm");
+	$("#txtStartDate").val(startTime);
+    $("#txtEndDate").val(endTime);
 
 });
 

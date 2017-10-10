@@ -23,27 +23,27 @@ $(function(){
         }
     })
     // 初始化
-    initCombobox('fType',dataItems);
-    // 默认选择中全部
-    $('#fType').combobox('select', dataItems[0].code);
+    initCombotree('fType',dataItems,"");
 });
 
 var dataItems = [
-			{"name": "全部","code": "PI,PR,DI,DO,XS,XT,IO,LP,IX,ID,IU,PD,PM,IP"},
-			{"name": "采购收货","code": "PI"},
-			{"name": "采购退货","code": "PR"},
-			{"name": "配送入库","code": "DI"},
-			{"name": "配送出库","code": "DO"},
-			{"name": "销售","code": "XS"},
-			{"name": "销售退货","code": "XT"},
-			{"name": "库存调整","code": "IO"},
-			{"name": "礼品兑换","code": "LP"},
-			{"name": "组合拆分","code": "IX"},
-			{"name": "报损单","code": "ID"},
-			{"name": "领用单","code": "IU"},
-			{"name": "盘点单","code": "PD"},
-			{"name": "直送收货","code": "PM"},
-			{"name": "成本调价","code": "IP"},
+			{"text": "全部","id": "",iconCls:"combotree-p",
+				children:[
+                {"text": "采购收货","id": "PI",iconCls:"combotree-c"},
+                {"text": "采购退货","id": "PR",iconCls:"combotree-c"},
+                {"text": "配送入库","id": "DI",iconCls:"combotree-c"},
+                {"text": "配送出库","id": "DO",iconCls:"combotree-c"},
+                {"text": "销售","id": "XS",iconCls:"combotree-c"},
+                {"text": "销售退货","id": "XT",iconCls:"combotree-c"},
+                {"text": "库存调整","id": "IO",iconCls:"combotree-c"},
+                {"text": "礼品兑换","id": "LP",iconCls:"combotree-c"},
+                {"text": "组合拆分","id": "IX",iconCls:"combotree-c"},
+                {"text": "报损单","id": "ID",iconCls:"combotree-c"},
+                {"text": "领用单","id": "IU",iconCls:"combotree-c"},
+                {"text": "盘点单","id": "PD",iconCls:"combotree-c"},
+                {"text": "直送收货","id": "PM",iconCls:"combotree-c"},
+                {"text": "成本调价","id": "IP",iconCls:"combotree-c"},
+			]},
         ];
 
 
@@ -278,7 +278,7 @@ function queryForm(){
     $("#startCount").val('');
     $("#endCount").val('');
 	// 赋值单据类型选择
-	$("#formTypes").val($("#fType").val());	
+	$("#formTypes").val($("#fType").combotree('getValues'));
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#goodsOutInDetail").datagrid("options").method = "post";
 	$("#goodsOutInDetail").datagrid('options').url = contextPath + '/goods/goodsDetail/getGoodsOutInDetailList';
