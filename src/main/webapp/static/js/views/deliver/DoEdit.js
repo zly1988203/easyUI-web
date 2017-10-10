@@ -180,15 +180,15 @@ function initDatagridEditRequireOrder(){
                     
                     return "<b>"+parseFloat(value||0).toFixed(2)+ "<b>";
                 },
-//                 editor:{
-//                     type:'numberbox',
-//                     options:{
-//                     	disabled:true,
-//                         min:0,
-//                         precision:4,
-// //                        onChange: onChangePrice,
-//                     }
-//                 },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                    	disabled:true,
+                        min:0,
+                        precision:4,
+//                        onChange: onChangePrice,
+                    }
+                },
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
                 formatter:function(value,row,index){
