@@ -203,6 +203,7 @@ public class ReportExcelUtil {
 		
 		// 设置响应
 		response.setHeader(REPORT_HEADER, REPORT_HEADER_TWO + URLEncoder.encode(reportFileName + reportSuffix, "UTF-8"));
+		response.setCharacterEncoding("UTF-8");
 		// 设置输出流，这里使用response对象的输出流，提供web下载
 		OutputStream os = response.getOutputStream();
 
@@ -358,6 +359,7 @@ public class ReportExcelUtil {
 			String reportSuffix, Context reportContext) throws IOException {
 		// 设置响应
 		response.setHeader(REPORT_HEADER, REPORT_HEADER_TWO + URLEncoder.encode(reportFileName + reportSuffix, "UTF-8"));
+		response.setCharacterEncoding("UTF-8");
 		// 设置输出流，这里使用response对象的输出流，提供web下载
 		OutputStream os = response.getOutputStream();
 		JxlsHelper.getInstance().processTemplate(is, os, reportContext);
