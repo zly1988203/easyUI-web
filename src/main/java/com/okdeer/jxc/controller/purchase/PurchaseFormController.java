@@ -625,8 +625,8 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 		}
 
 		//查询促销商品价格
-		List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skuIds, new Date());
-		boolean bool = false;
+        List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skuIds, formVo.getSupplierId());
+        boolean bool = false;
 		StringBuilder message = new StringBuilder();
 		int count = 1;
 		if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
@@ -1166,8 +1166,8 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			}
 
 			//查询促销商品价格
-			List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skuIds, new Date());
-			boolean bool = false;
+            List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skuIds, po.getSupplierId());
+            boolean bool = false;
 			StringBuilder message = new StringBuilder();
 			int count = 1;
 			if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
