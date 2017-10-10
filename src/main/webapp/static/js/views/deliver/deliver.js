@@ -27,6 +27,7 @@ $(function(){
 		  initDatagridRequireOrder();
 		    targetBranchTypeTemp = $("#targetBranchType").val();
 	}else if(deliverStatus === 'edit'){
+        // deliverPriceSpecFlg = data.deliverPriceSpec == 1 || data.deliverPriceSpec == 3 ? true : false;
         oldData = {
             targetBranchId:$("#targetBranchId").val(), // 要活分店id
             sourceBranchId:$("#sourceBranchId").val(), //发货分店id
@@ -312,15 +313,15 @@ function initDatagridRequireOrder(){
                     }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                 },
-//                 editor:{
-//                     type:'numberbox',
-//                     options:{
-//                         disabled:true,
-//                         min:0,
-//                         precision:4,
-// //                        onChange: onChangePrice,
-//                     }
-//                 },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        disabled:true,
+                        min:0,
+                        precision:4,
+//                        onChange: onChangePrice,
+                    }
+                },
             
             },
             {field:'amount',title:'金额',width:'80px',align:'right',
@@ -358,48 +359,6 @@ function initDatagridRequireOrder(){
             		return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
             	}
             },
-            // {field:'isGift',title:'赠送',width:'80px',hidden:true,
-            //     editor:{
-            //         type:'numberbox',
-            //         options:{
-            //             min:0,
-            //             precision:0,
-            //         }
-            //     }
-            // },
-            // {field:'giftTxt',title:'赠送',width:'80px',align:'cenger',sortable: true,
-            //     formatter:function(value,row){
-            //         if(row.isFooter){
-            //             return;
-            //         }
-            //         var str = "否"
-            //         if(row.isGift === "1"){
-            //             str = "是"
-            //         }else{
-            //             str = "否"
-            //         }
-            //         value = str;
-            //         return str;
-            //     },
-            //     editor:{
-            //         type:'combobox',
-            //         options:{
-            //             valueField: 'id',
-            //             textField: 'text',
-            //             editable:false,
-            //             disabled:deliverPriceSpecFlg,
-            //             readonly:deliverPriceSpecFlg,
-            //             data: [{
-            //                 "id":'1',
-            //                 "text":"是",
-            //             },{
-            //                 "id":'0',
-            //                 "text":"否",
-            //             }],
-            //             onSelect:onSelectIsGift
-            //         }
-            //     }
-            // },
             {field:'isGift',title:'赠送',width:'80px',align:'left',
                 formatter:function(value,row){
                     if(row.isFooter){
@@ -679,12 +638,14 @@ function onSelectIsGift(data){
 		var targetPrice = gridHandel.getFieldTarget('price');
 		if(data.id=="1"){
 	        $(targetPrice).numberbox('setValue',0);
+            gridHandel.setFieldsData({price:0});//单价
             gridHandel.setFieldValue('amount',0);//总金额
             gridHandel.setFieldValue('taxAmount',0);//税额
         }else{
 			var oldPrice = gridHandel.getFieldData(gridHandel.getSelectRowIndex(),'priceBack');
             if(oldPrice){
                 $(targetPrice).numberbox('setValue',oldPrice);
+                gridHandel.setFieldsData({price:oldPrice});//单价
             }
         	var priceVal = oldPrice||0;
             var applNum = gridHandel.getFieldValue(gridHandel.getSelectRowIndex(),'applyNum');
