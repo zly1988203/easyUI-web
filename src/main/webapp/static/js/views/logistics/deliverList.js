@@ -84,7 +84,15 @@ function initDatagridRequireOrders(){
                 }
 			},
             {field: 'sourceBranchName', title: '发货机构', width: '200px', align: 'left'},
-            {field: 'createUserName', title: '制单人员', width: '130px', align: 'left'},
+            {field: 'createUserName', title: '制单人', width: '130px', align: 'left'},
+			{field: 'createTime', title: '制单时间', width: '120px', align: 'center',
+				formatter: function (value, row, index) {
+					if (value) {
+						return new Date(value).format('yyyy-MM-dd hh:mm');
+					}
+					return "";
+				}
+			},
             {field: 'validityTime', title: '有效期限', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
@@ -94,9 +102,7 @@ function initDatagridRequireOrders(){
 				}
 			},
 			{field: 'validUserName', title: '审核人员', width: '130px', align: 'left'},
-			{field: 'remark', title: '备注', width: '200px', align: 'left'},
-			{field: 'updateUserName', title: '操作人员', width: '130px', align: 'left'},
-            {field: 'updateTime', title: '操作时间', width: '120px', align: 'center',
+			{field: 'validTime', title: '审核时间', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
 					if (value) {
 						return new Date(value).format('yyyy-MM-dd hh:mm');
@@ -104,6 +110,7 @@ function initDatagridRequireOrders(){
 					return "";
 				}
 			},
+			{field: 'remark', title: '备注', width: '200px', align: 'left'},
 			{field: 'stopUserName', title: '终止人', width: '130px', align: 'left'},
 			{field: 'stopTime', title: '终止时间', width: '120px', align: 'center',
 				formatter: function (value, row, index) {
