@@ -64,18 +64,18 @@
 	                <div class="umar-r10 uw-60 ut-r">引用单号:</div>
 	                <input class="uinp" name="refFormNo" id="refFormNo" type="text">
 	            </div>
-	            <!--<div class="ub ub-ac umar-r40">
+	            <div class="ub ub-ac umar-r40">
 	                <div class="umar-r10 uw-60 ut-r">审核状态:</div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="radioItem" type="radio" name="status" id="status_no" value="0" checked="checked"/><label for="status_no">未审核 </label>
+	                    <input class="radioItem" type="radio" name="status" id="status_no" value="0" /><label for="status_no">未审核 </label>
 	                </div>
 	                <div class="ub ub-ac umar-r10">
-	                    <input class="radioItem" type="radio" name="status" id="status_yes" value="1"/><label for="status_yes">已审核 </label>
+	                    <input class="radioItem" type="radio" name="status" id="status_yes" value="1" checked="checked"/><label for="status_yes">已审核 </label>
 	                </div>
 	                <div class="ub ub-ac umar-r10">
 	                    <input class="radioItem" type="radio" name="status" id="status_all" value=""/><label for="status_all">全部</label>
 	                </div>
-	            </div> -->
+	            </div>
 	        </div>
         </form>
         <div class="ub umar-t8 ub-f1">
