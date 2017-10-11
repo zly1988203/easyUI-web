@@ -56,10 +56,8 @@ function initDatagridGoodsUnsale(){
             {field:'spec',title:'规格',width:'80px',align:'left'},
             {field:'unit',title:'单位',width:'80px',align:'center'},
             {field:'costPrice',title:'成本价',width:100,align:'right',formatter:function(value,row,index){
-			    if(value){
+            	if(value){
 			    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
-			    }else{
-			    	return '<b>0.00</b>';
 			    }
 			}},
             {field:'goodsStock',title:'库存',width:100,align:'right',
@@ -67,6 +65,7 @@ function initDatagridGoodsUnsale(){
 				    if(value){
 				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
 				    }
+				    return '<b>0.00</b>';
 				},
             	editor:{
                     type:'numberbox',
