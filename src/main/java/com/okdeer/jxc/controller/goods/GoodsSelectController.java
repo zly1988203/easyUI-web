@@ -210,7 +210,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
                         }
 
                         //查询促销商品价格
-                        List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skus, vo.getSupplierId());
+						List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skus, vo.getActivitySupplierId());
 
                         if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
                             for (PurchaseActivityDetailVo purchaseActivityDetailVo : purchaseActivityDetailVos) {
@@ -294,7 +294,7 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
             }
 
             //查询促销商品价格
-            List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skus, supplierId);
+			List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skus, StringUtils.isBlank(vo.getActivitySupplierId()) ? supplierId : vo.getActivitySupplierId());
 
             if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
                 for (PurchaseActivityDetailVo purchaseActivityDetailVo : purchaseActivityDetailVos) {
@@ -409,8 +409,8 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
                         }
 
                         //查询促销商品价格
-                        List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skus, paramVo.getSupplierId());
-                        if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
+						List<PurchaseActivityDetailVo> purchaseActivityDetailVos = purchaseActivityService.getNewPurPriceBySkuIds(skus, StringUtils.isBlank(paramVo.getActivitySupplierId()) ? paramVo.getSupplierId() : paramVo.getActivitySupplierId());
+						if (CollectionUtils.isNotEmpty(purchaseActivityDetailVos)) {
                             for (PurchaseActivityDetailVo purchaseActivityDetailVo : purchaseActivityDetailVos) {
                                 for (int i = 0, length = goodsSelects.size(); i < length; ++i) {
                                     GoodsSelect goodsSelect = goodsSelects.get(i);
