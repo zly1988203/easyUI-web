@@ -354,7 +354,9 @@ $(function () {
                     // $("#gridGoods").datagrid("options").queryParams = {'categoryId':categoryId,'goodsInfo':goodsInfo,'formType':'${type}','sourceBranchId':'${sourceBranchId}','targetBranchId':'${targetBranchId}'};
                     // 梁利 提出左边树与右边的查询无关系
                     var queryParams=_searchParam;
-                    
+                    if (queryParams.type == 'PA') {
+                        queryParams.activitySupplierId = _searchParam.supplierId;
+                    }
                     if(text!='供应商'){
                     	queryParams.supplierId = "";
                     }
