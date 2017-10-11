@@ -153,9 +153,7 @@ function initDatagridRequire(){
 			},
 			{field: 'price', title: '单价', width: '60', align: 'right',
 				formatter:function(value,row,index){
-				    if(value){
-				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
-				    }
+					return getTwoDecimalB(value);
 				},
 				editor:{
 					type:'numberbox',
@@ -185,9 +183,7 @@ function initDatagridRequire(){
 			},
 			{field: 'salePrice', title: '售价', width: '60', align: 'right',
 				formatter:function(value,row,index){
-				    if(value){
-				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
-				    }
+					return getTwoDecimalB(value);
 				},
 				editor:{
 					type:'numberbox',
@@ -217,9 +213,7 @@ function initDatagridRequire(){
 			},
 			{field: 'costPrice', title: '成本价', width: '60', align: 'right',
 				formatter:function(value,row,index){
-				    if(value){
-				    	return '<b>'+parseFloat(value).toFixed(2)+'</b>';
-				    }
+					return getTwoDecimalB(value);
 				},
 				editor:{
 					type:'numberbox',
