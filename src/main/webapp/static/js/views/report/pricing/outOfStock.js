@@ -52,6 +52,7 @@ function changeType(){
         initDataGrid();
 		$("#marketWater").datagrid('loadData', { total: 0, rows: [] });
     	$('#marketWater').datagrid({showFooter:false});
+        $("#"+gridName).datagrid("options").url = "";
 	});
 }
 
@@ -554,8 +555,8 @@ function queryForm(){
     fromObjStr.sourceBranchName = fromObjStr.sourceBranchName.substring(fromObjStr.sourceBranchName.lastIndexOf(']')+1)
     fromObjStr.categoryName = fromObjStr.categoryName.substring(fromObjStr.categoryName.lastIndexOf(']')+1)
 	$("#marketWater").datagrid("options").queryParams = fromObjStr;
-	$('#marketWater').datagrid({showFooter:true});
-	$("#marketWater").datagrid("options").method = "post";
+	// $('#marketWater').datagrid({showFooter:true});
+	$("#marketWater").datagrid("options").method = "POST";
 	$("#marketWater").datagrid('options').url = contextPath + '/report/outOfStock/reportListPage';
 	$("#marketWater").datagrid('load');
 	

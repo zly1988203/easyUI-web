@@ -388,9 +388,6 @@ function initDatagridRequireOrder(){
                     }
                 }
             },
-
-
-
             {field:'inputTax',title:'税率',width:'80px',align:'right',
                 formatter:function(value,row,index){
                     if(row.isFooter){
