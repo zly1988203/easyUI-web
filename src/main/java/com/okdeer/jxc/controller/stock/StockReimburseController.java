@@ -45,6 +45,7 @@ import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.goods.entity.GoodsSelectByStockAdjust;
@@ -316,7 +317,7 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 						@Override
 						public void businessValid(List<JSONObject> excelListSuccessData, String[] excelField) {
 							for (JSONObject obj : excelListSuccessData) {
-								if (obj.get("realNum") != null) {
+								if (StringUtils.isNotBlank(obj.getString("realNum"))) {
 									try {
 										double realNum = Double.parseDouble(obj.getString("realNum"));
 										if (realNum == 0) {
@@ -326,7 +327,7 @@ public class StockReimburseController extends BasePrintController<StockReimburse
 										obj.element("error", "数量必须为数字");
 									}
 								}
-								if (obj.get("largeNum") != null) {
+								if (StringUtils.isNotBlank(obj.getString("largeNum"))) {
 									try {
 										double largeNum = Double.parseDouble(obj.getString("largeNum"));
 										if (largeNum == 0) {
