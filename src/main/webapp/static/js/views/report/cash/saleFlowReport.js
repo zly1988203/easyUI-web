@@ -45,40 +45,20 @@ function initMarketWaterGrid() {
             {field: 'goodsTypeStr', title: '商品类型', width: 150, align: 'center'},
             {field: 'saleWayStr', title: '经营方式', width: 150, align: 'center'},
             {field: 'businessTypeStr', title: '业务类型', width: 150, align: 'center'},
-            {field: 'num', title: '数量', width: 120, align: 'right',formatter : function(num){
-    			if(num){
-    				num = parseFloat(num);
-    				return num.toFixed(2);
-    			}
-    			return null;
+            {field: 'num', title: '数量', width: 120, align: 'right',formatter : function(value,row,index){
+                return formatTwoDecimal(value) ;
     		}},
-            {field: 'salePrice', title: '销售价', width: 80, align: 'right',formatter : function(salePrice){
-    			if(salePrice){
-    				salePrice = parseFloat(salePrice);
-    				return salePrice.toFixed(2);
-    			}
-    			return null;
+            {field: 'salePrice', title: '销售价', width: 80, align: 'right',formatter : function(value,row,index){
+                return formatTwoDecimal(value) ;
     		}},
-            {field: 'saleAmount', title: '销售金额', width: 120, align: 'right',formatter : function(saleAmount){
-    			if(saleAmount){
-    				saleAmount = parseFloat(saleAmount);
-    				return saleAmount.toFixed(2);
-    			}
-    			return null;
+            {field: 'saleAmount', title: '销售金额', width: 120, align: 'right',formatter : function(value,row,index){
+                return formatTwoDecimal(value) ;
     		}},
-            {field: 'originalPrice', title: '原价', width: 80, align: 'right',formatter : function(originalPrice){
-    			if(originalPrice){
-    				originalPrice = parseFloat(originalPrice);
-    				return originalPrice.toFixed(2);
-    			}
-    			return null;
+            {field: 'originalPrice', title: '原价', width: 80, align: 'right',formatter : function(value,row,index){
+                return formatTwoDecimal(value) ;
     		}},
-            {field: 'totalAmount', title: '原价金额', width: 120, align: 'right',formatter : function(totalAmount){
-    			if(totalAmount){
-    				totalAmount = parseFloat(totalAmount);
-    				return totalAmount.toFixed(2);
-    			}
-    			return null;
+            {field: 'totalAmount', title: '原价金额', width: 120, align: 'right',formatter : function(value,row,index){
+                return formatTwoDecimal(value) ;
     		}},
             {field: 'categoryCode', title: '类别编码', width: 100, align: 'left'},
             {field: 'categoryName', title: '类别名称', width: 150, align: 'left'},
