@@ -8,25 +8,6 @@
  */
 package com.okdeer.jxc.controller.purchase;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Maps;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
@@ -44,6 +25,13 @@ import com.okdeer.jxc.form.purchase.qo.PurchaseFormPO;
 import com.okdeer.jxc.form.purchase.service.PurchaseCostFormService;
 import com.okdeer.jxc.form.purchase.service.PurchaseFormServiceApi;
 import com.okdeer.jxc.form.purchase.vo.PurchaseCostFormVo;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 /**
  * @author songwj
@@ -191,7 +179,7 @@ public class PurchaseCostFormController extends BaseController<PurchaseCostFormC
     public RespJson audit(String formId) {
         try {
             PurchaseCostFormVo vo = purchaseCostFormService.getPurchaseCostById(formId);
-            if (DisabledEnum.YES.getIndex()==Integer.valueOf(vo.getDisabled())) {
+            if (DisabledEnum.YES.getIndex() == vo.getDisabled()) {
                 return RespJson.error("该采购成本调整单已被删除,无法审核!");
             } else if (AuditStatusEnum.OVER.getCode().equals(vo.getStatus())) {
                 return RespJson.error("该采购成本调整单已终止,无需审核!");
