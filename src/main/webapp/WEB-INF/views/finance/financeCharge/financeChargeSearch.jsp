@@ -9,7 +9,6 @@
 <title>门店财务费用查询</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
 	src="${ctx}/static/js/views/finance/financeCharge/financeChargeSearch.js?V=${versionNo}"></script>
@@ -38,9 +37,6 @@
 
 				<div class="ub ub-ac umar-r40">
 					<div class="umar-r10 uw-60 ut-r">机构:</div>
-					
-					<input type="hidden" id="startCount" name="startCount" />
-					<input type="hidden" id="endCount" name="endCount" />
 					
 					<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
 					<input type="hidden" id="branchId" name="branchId" />

@@ -159,6 +159,12 @@ function editBranch() {
  * 导出
  */
 function exportData(){
+    var length = $('#'+gridName).datagrid('getData').rows.length;
+    if(length == 0){
+        $_jxc.alert("无数据可导");
+        return;
+    }
+
     var param = {
         datagridId:gridName,
         formObj:$("#formList").serializeObject(),
