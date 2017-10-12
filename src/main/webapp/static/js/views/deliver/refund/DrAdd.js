@@ -1123,7 +1123,7 @@ function checkHandel(){
             }
         },function(result){
             if(result['code'] == 0){
-                $_jxc.alert("操作成功！",function(){
+                $_jxc.alert("操作成功！下一步请做配送出库操作",function(){
                     location.href = contextPath +"/form/deliverForm/deliverEdit?deliverFormId=" + result["formId"];
                 });
             }else{

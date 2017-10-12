@@ -116,8 +116,6 @@ function selectListBranches(){
 }
 
 function queryCharge() {
-	$("#startCount").val("");
-	$("#endCount").val("");
 	$("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridName).datagrid("options").method = "POST";
     $("#"+gridName).datagrid("options").url = contextPath+'/finance/financeChargeSearch/reportListPage';
@@ -125,25 +123,16 @@ function queryCharge() {
 }
 
 function exportData(){
-    var length = dg.datagrid('getData').rows.length;
+    var length = $('#'+gridName).datagrid('getData').rows.length;
     if(length == 0){
         $_jxc.alert("无数据可导");
         return;
     }
-    $('#exportWin').window({
-        top:($(window).height()-300) * 0.5,
-        left:($(window).width()-500) * 0.5
-    });
-    $("#exportWin").show();
-    $("#totalRows").html(dg.datagrid('getData').total);
-    $("#exportWin").window("open");
-}
 
-//调用导出方法
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-
-	$("#queryForm").attr("action",contextPath+"/finance/financeChargeSearch/exportExcelList");
-	$("#queryForm").submit();
+    var param = {
+        datagridId:gridName,
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/finance/financeChargeSearch/exportExcelList"
+    }
+    publicExprotService(param);
 }
