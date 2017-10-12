@@ -54,7 +54,7 @@
             </div>
 	        	 
                 <!-- 引入时间选择控件 -->
-	            <%@ include file="/WEB-INF/views/component/dateSelectHour.jsp"%> 
+	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
         </div>
         
             <div class="ub umar-t4">
