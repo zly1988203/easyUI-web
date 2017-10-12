@@ -67,11 +67,11 @@ function zTreeOnClick(event, treeId, treeNode) {
     queryFinanceCode();
 }
 
-var dg;
+
 function initGridFinanceList() {
 	var updatePermission = $.trim($("#updatePermission").html()||'');
     gridHandel.setGridName(gridName);
-    dg = $("#"+gridName).datagrid({
+    $("#"+gridName).datagrid({
         method:'post',
         align:'center',
         // url:contextPath+'/archive/financeCode/getDictList',
@@ -263,8 +263,6 @@ function closeFinanceDialog() {
  */
 function queryFinanceCode(){
 	//搜索需要将左侧查询条件清除
-	$("#startCount").val('');
-	$("#endCount").val('');
     var formData = $('#formFinanceList').serializeObject();
     formData.typeCode = selectNode.code;
     $("#"+gridName).datagrid("options").queryParams = formData;
@@ -330,19 +328,10 @@ function exportData(){
 		$_jxc.alert("无数据可导");
 		return;
 	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
-// 调用导出方法
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-
-	$("#formFinanceList").attr("action",contextPath+"/archive/financeCode/exportHandel");
-	$("#formFinanceList").submit();
+    var param = {
+        datagridId:gridName,
+        formObj:$("#formFinanceList").serializeObject(),
+        url:contextPath+"/archive/financeCode/exportHandel"
+    }
+    publicExprotService(param);
 }

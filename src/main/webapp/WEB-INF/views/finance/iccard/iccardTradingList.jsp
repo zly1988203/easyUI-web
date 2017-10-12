@@ -9,7 +9,6 @@
 <title>一卡通交易查询</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
- <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/finance/iccard/icCardTradingList.js?V=${versionNo}"></script>
 <%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
     <style>
@@ -25,8 +24,6 @@
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="exportData()">导出</div>
 						<div class="ubtns-item" onclick="toPrint()">打印</div>
-						 <input type="hidden" id="startCount" name="startCount" />
-						<input type="hidden" id="endCount" name="endCount" />
 					<div class="ubtns-item-disabled">设置</div>
 					<div class="ubtns-item" onclick="toClose()">关闭</div>
 				</div>

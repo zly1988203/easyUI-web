@@ -33,11 +33,11 @@ function changeStoreStatus() {
 
 var gridName = "gridNonIncomeSearch";
 var gridHandel = new GridClass();
-var dg;
+
 var url = contextPath+'/finance/nonIncomeSearch/reportListPage';
 function initGridChargeSearchList() {
     gridHandel.setGridName(gridName);
-    dg=$("#"+gridName).datagrid({
+    $("#"+gridName).datagrid({
         align:'center',
         rownumbers:true,    //序号
         pagination:true,    //分页
@@ -129,8 +129,6 @@ function selectListBranches(){
 }
 
 function queryCharge() {
-	$("#startCount").val("");
-	$("#endCount").val("");
 	$("#"+gridName).datagrid("options").queryParams = $("#queryForm").serializeObject();
     $("#"+gridName).datagrid("options").method = "POST";
     $("#"+gridName).datagrid("options").url = contextPath+'/finance/nonIncomeSearch/reportListPage';
@@ -138,24 +136,15 @@ function queryCharge() {
 }
 
 function exportData(){
-    var length = dg.datagrid('getData').rows.length;
+    var length = $("#"+gridName).datagrid('getData').rows.length;
     if(length == 0){
         $_jxc.alert("无数据可导");
         return;
     }
-    $('#exportWin').window({
-        top:($(window).height()-300) * 0.5,
-        left:($(window).width()-500) * 0.5
-    });
-    $("#exportWin").show();
-    $("#totalRows").html(dg.datagrid('getData').total);
-    $("#exportWin").window("open");
-}
-
-//调用导出方法
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-	$("#queryForm").attr("action",contextPath+"/finance/nonIncomeSearch/exportExcelList");
-	$("#queryForm").submit();
+    var param = {
+        datagridId:gridName,
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/finance/nonIncomeSearch/exportExcelList"
+    }
+    publicExprotService(param);
 }
