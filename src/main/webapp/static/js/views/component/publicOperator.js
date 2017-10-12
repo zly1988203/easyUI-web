@@ -174,18 +174,16 @@ function initDatagridBranchArea(){
 
 //初始化表格(机构)
 function initDatagridBranch(){
-  var isOpenStock=$("#isOpenStock").val();
-  var formType=$("#formType").val();
+//  var isOpenStock=$("#isOpenStock").val();
+//  var formType=$("#formType").val();
+  var _formObj = $('#formOperator').serializeObject();
   $("#gridOperator").datagrid({
 
       //title:'普通表单-用键盘操作',
       method:'post',
       align:'center',
       url:contextPath+'/common/branches/getComponentList',
-      queryParams:{
-    	  isOpenStock:isOpenStock,
-    	  formType:formType
-      },
+      queryParams:_formObj,
       //toolbar: '#tb',     //工具栏 id为tb
       singleSelect:true,  //单选  false多选
       rownumbers:true,    //序号

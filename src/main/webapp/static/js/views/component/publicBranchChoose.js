@@ -41,10 +41,12 @@ function branchClickRow(rowIndex, rowData){
 
 //初始化表格 
 function initDatagridBranchCheck(url){
+	var _formObj = $('#formOperator').serializeObject();
   $("#gridOperator").datagrid({
       method:'post',
       align:'center',
       url:url,
+      queryParams:_formObj,
       singleSelect:false,  //单选  false多选
       rownumbers:true,    //序号
       pagination:true,    //分页

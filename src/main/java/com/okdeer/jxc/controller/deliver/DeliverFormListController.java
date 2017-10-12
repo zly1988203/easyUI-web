@@ -280,6 +280,15 @@ public class DeliverFormListController extends BaseController<DeliverFormListCon
 		return itemList;
 	}
 	
+	/**
+	 * @Description: 出库引用单据时获取单据商品列表
+	 * @param vo
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 * @author liwb
+	 * @date 2017年10月12日
+	 */
 	@RequestMapping(value = "importDelverList", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<DeliverFormList> importDelverList(QueryDeliverFormVo vo,
