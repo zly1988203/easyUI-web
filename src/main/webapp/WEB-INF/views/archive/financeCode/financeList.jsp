@@ -8,7 +8,6 @@
 <title>机构信息</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <script src="${ctx}/static/js/views/financeCode/financeList.js?V=${versionNo}11"></script>
 </head>
@@ -52,8 +51,6 @@
 							id="dictKeyword" placeholder="输入编号、名称进行查询">
 							
 						<input type="hidden" name="typeCode" id="typeCode" />
-						<input type="hidden" id="startCount" name="startCount" >
-						<input type="hidden" id="endCount" name="endCount" >
 					</div>
 				</div>
 			</form>

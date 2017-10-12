@@ -9,7 +9,6 @@
 <title>门店费用查询</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
 	src="${ctx}/static/js/views/finance/storeCharge/storeChargeSearch.js?V=${versionNo}"></script>
@@ -27,8 +26,6 @@
 				<div class="ubtns">
 					<div class="ubtns-item" onclick="queryCharge()">查询</div>
 					<shiro:hasPermission name="JxcStoreChargeSearch:export">
-						<input type="hidden" id="startCount" name="startCount" />
-						<input type="hidden" id="endCount" name="endCount" />
 						<div class="ubtns-item" onclick="exportData()">导出</div>
 					</shiro:hasPermission>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>

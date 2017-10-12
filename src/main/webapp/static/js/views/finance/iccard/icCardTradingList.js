@@ -154,9 +154,6 @@ function initGridCardTrading() {
 }
 
 function query() {
-	$("#startCount").val("");
-	$("#endCount").val("");
-	
 	var fromObjStr = $('#queryForm').serializeObject();
 	// 去除编码
     fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']')+1);
@@ -195,37 +192,20 @@ function selectOperator(){
  * 导出
  */
 function exportData(){
-	$("#startCount").val('');
-	$("#endCount").val('');
-
 	var length = $("#"+gridName).datagrid('getData').total;
 	if(length == 0){
 		$_jxc.alert("无数据可导");
 		return;
 	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
+
+    var param = {
+        datagridId:gridName,
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/iccard/trading/exports"
+    }
+    publicExprotService(param);
 }
 
-/**
- * 导出
- */
-function exportExcel(){
-	var length = $("#"+gridName).datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert('提示',"没有数据");
-		return;
-	}
-
-	$("#queryForm").attr("action",contextPath + '/iccard/trading/exports');
-	
-	$("#queryForm").submit();
-}
 
 var toPrint = function(){
 	var length = $("#"+gridName).datagrid('getData').total;
