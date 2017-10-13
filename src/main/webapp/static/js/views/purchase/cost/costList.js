@@ -22,6 +22,11 @@ $(function () {
             return data;
         }
     })
+    
+    $("input[type='radio'][name='status']").change(function () {
+        query();
+    })
+    query();
 })
 //初始化默认条件
 function initConditionParams(){
