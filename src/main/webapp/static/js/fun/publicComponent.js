@@ -2632,7 +2632,7 @@ function publicOperatorsService(param,callback,cbDom){
 function publicOperatorsServiceHandel(param,callback,cbDom){
 
     var dialogDiv = {
-        href: contextPath + "/system/user/views?type=operate",
+        href: contextPath + "/common/personDialog",
         width: 680,
         height: dialogHeight,
         title: "选择操作员",
@@ -2647,15 +2647,15 @@ function publicOperatorsServiceHandel(param,callback,cbDom){
     }
 
     dialogDiv["onLoad"] = function () {
-    	initOperatorView(param);
-        initOperatorCallBack(callBackHandel);
+        initPersonView(param);
+        initPersonCallBack(callBackHandel);
     };
     
     if(param.selectType==1){
         dialogDiv["buttons"] = [{
             text:'确定',
             handler:function(){
-                publicOperatorGetCheck(callBackHandel);
+                publicPersonGetCheck(callBackHandel);
             }
         },{
             text:'取消',
