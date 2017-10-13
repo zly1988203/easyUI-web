@@ -422,11 +422,13 @@ function selectGoods(searchKey){
     var param = {
         type:'',
         key:searchKey,
+        statusList:'0,1,2',
         isRadio:0,
         sourceBranchId:"",
         targetBranchId:"",
         branchId:branchId,
         supplierId:'',
+        isManagerStock:1,
         flag:'0',
     }
     new publicGoodsServiceTem(param,function(data){
