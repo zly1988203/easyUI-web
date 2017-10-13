@@ -7,7 +7,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>会员消费查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/report/cash/memberOrderReport.js?V=${versionNo}"></script>
 <style>
 .datagrid-header-row .datagrid-cell{text-align: center!important;}
@@ -39,8 +38,6 @@
           <div class="ub umar-t8">
                <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">机构:</div>
-                   <input type="hidden" name="startCount" id="startCount" value="" />
-				   <input type="hidden" name="endCount" id="endCount" value="" />
                    <input class="uinp" type="hidden" id="branchCode" name="branchCode" />
                    <input class="uinp" type="hidden" id="branchId" name="branchId" value="${branchId}" />
                    <input class="uinp" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="clearBranchCode()" />

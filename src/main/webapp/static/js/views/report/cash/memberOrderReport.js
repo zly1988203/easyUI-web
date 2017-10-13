@@ -152,8 +152,6 @@ function initMemberOrderListGrid() {
 //查询
 function query(){
 	$("#memberOrderData").datagrid("options").url =  "";
-	$("#startCount").val('');
-	$("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
 	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){
@@ -209,29 +207,19 @@ function exportData(){
 		$_jxc.alert("无数据可导");
 		return;
 	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
+    var param = {
+        datagridId:"memberOrderData",
+        formObj:$("#queryForm").serializeObject(),
+        url:""
+    }
 
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-
-	var formData = $("#queryForm").serializeObject();
-	formData.branchNameOrCode = formData.branchNameOrCode.substring(formData.branchNameOrCode.lastIndexOf(']')+1)
-	$("#branchNameOrCode").val(formData.branchNameOrCode);
-	var radioValue = $('input:radio:checked').val();
-	if (radioValue == 'memberOrderAll') {
-		$("#queryForm").attr("action",contextPath+"/memberOrder/report/memberOrderAllExportList");
-	} else if (radioValue == 'memberOrderList') {
-		$("#queryForm").attr("action",contextPath+"/memberOrder/report/memberOrderListExportList");
-	}
-	$("#queryForm").submit();
+    var radioValue = $('input[type="radio"][name="queryType"]:checked').val();
+    if (radioValue == 'memberOrderAll') {
+        param.url=contextPath+"/memberOrder/report/memberOrderAllExportList";
+    } else if (radioValue == 'memberOrderList') {
+        param.url= contextPath+"/memberOrder/report/memberOrderListExportList";
+    }
+    publicExprotService(param);
 }
 
 //合计
@@ -248,8 +236,6 @@ function printReport(){
 		$_jxc.alert("无数据可打印");
 		return;
 	}
-	$("#startCount").val('');
-	$("#endCount").val('');
 	var queryType=$('input:radio[name="queryType"]:checked').val();
 
 	var formData = $("#queryForm").serializeObject();
