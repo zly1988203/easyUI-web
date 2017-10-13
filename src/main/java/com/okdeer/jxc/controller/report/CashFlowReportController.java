@@ -143,6 +143,10 @@ public class CashFlowReportController extends BaseController<CashFlowReportContr
 			// 会员自助
 			qo.setOrderType("2");
 			qo.setSource(3);
+		} else if ("5".equals(qo.getOrderType())) {
+			// 微信小程序扫码购
+			qo.setOrderType("2");
+			qo.setSource(4);
 		}
 
 		return qo;
