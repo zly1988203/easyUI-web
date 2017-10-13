@@ -23,7 +23,7 @@
 		<div class="ub umar-20">
 		<div class="umar-r10  ut-r">
 			<label>
-			<input type="radio" name="chose" value="0" />导出当前页
+			<input type="radio" name="chose" value="0" checked/>导出当前页
 			</label>
 		</div>
 		</div>
