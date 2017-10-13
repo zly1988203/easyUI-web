@@ -551,7 +551,7 @@ function publicOperatorService(callback,param) {
 
     //公有属性
     var dialogDiv = {
-        href: contextPath + "/system/user/views?type=operate",
+        href: contextPath + "/common/personDialog",
         width: 680,
         height: dialogHeight,
         title: "选择操作员",
@@ -562,6 +562,11 @@ function publicOperatorService(callback,param) {
         },
         modal: true,
     }
+
+    dialogDiv["onLoad"] = function () {
+        initPersonView(param);
+        initPersonCallBack(callBackHandel);
+    };
 
     if(param.type==1){
         dialogDiv["buttons"] = [{
@@ -575,10 +580,6 @@ function publicOperatorService(callback,param) {
                 $(dalogTemp).panel('destroy');
             }
         }];
-    }else{
-        dialogDiv["onLoad"] = function () {
-            initOperatorCallBack(callBackHandel)
-        };
     }
 
     dalogTemp = $('<div/>').dialog(dialogDiv);
