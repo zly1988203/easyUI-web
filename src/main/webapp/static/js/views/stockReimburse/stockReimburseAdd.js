@@ -344,6 +344,7 @@ function selectGoods(searchKey){
 
     var param = {
         type:'',
+        statusList:'0,1,2',
         key:searchKey,
         isRadio:0,
         sourceBranchId:"",
@@ -352,7 +353,6 @@ function selectGoods(searchKey){
         supplierId:'',
         isManagerStock:1,
         flag:'0',
-        statuses : '0,1,2'//包括正常、停售、停购的商品
     }
     new publicGoodsServiceTem(param,function(data){
         if(searchKey){
