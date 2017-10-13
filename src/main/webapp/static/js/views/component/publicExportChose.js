@@ -62,14 +62,14 @@ function sureExportExcel(){
     }
     //手动填写范围
     if(choose=="2"){
-        stratRow = $("#startRow").val();
-        endRow = $("#endRow").val();
+        stratRow = parseInt($("#startRow").val());
+        endRow = parseInt($("#endRow").val());
         if ((endRow - stratRow + 1) > 20000) {
             $_jxc.alert("最大导出20000条");
             return;
         }
         if(!stratRow || !endRow ){
-            $_jxc.alert("请填写页面范围");
+            $_jxc.alert("请填写正确页面范围");
             return;
         }else if(parseInt(endRow) < parseInt(stratRow)){
             $_jxc.alert("请输入正确的页面范围");
