@@ -102,10 +102,6 @@ function initDatagridOperator(){
         queryParams:{
             nameOrCode:$("#formOperator :text[name=nameOrCode]").val()
         },
-        //toolbar: '#tb',     //工具栏 id为tb
-        queryParams:{
-            nameOrCode:$("#formOperator :text[name=nameOrCode]").val()
-        },
         singleSelect:false,  //单选  false多选
         rownumbers:true,    //序号
         pagination:true,    //分页

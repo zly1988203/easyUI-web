@@ -129,5 +129,17 @@ public class CommonController extends BaseController<CommonController> {
     public String MessageDialogView(HttpServletRequest req, Model model) {
         return "component/publicMessageDialog";
     }
+    
+		   /**
+	  * 
+	  * @Description: 选择人员
+	  * @return String  
+	  * @author Reyn
+	  * @date 2017年10月13日
+	  */
+	 @RequestMapping(value = "personDialog")
+	 public String personDialogView(HttpServletRequest req, Model model) {
+	     return "component/publicPerson";
+	 }
 	
 }
