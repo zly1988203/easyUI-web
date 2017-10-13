@@ -171,6 +171,11 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			// 要货单商品资料查询、价格查询
 			if (FormType.DA.name().equals(vo.getFormType()) || FormType.DD.name().equals(vo.getFormType())
 					|| FormType.DY.name().equals(vo.getFormType())) {
+			    // 0正常1停售2停购3淘汰
+			    vo.setStatusList(Arrays.asList(0,1));
+			    if(FormType.DD.name().equals(vo.getFormType())){
+			        vo.setStatusList(Arrays.asList(0,1,2));
+			    }
 				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
 				return replaceBarCode(goodsSelects, vo);
 			}
