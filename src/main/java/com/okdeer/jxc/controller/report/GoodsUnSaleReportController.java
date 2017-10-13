@@ -99,12 +99,12 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
 			PageUtils<GoodsUnsaleReportVo> list = listFuture.get();
 
 			GoodsUnsaleReportVo reportVo = unsaleReportVoFuture.get();
-			list.setTotal(reportVo.getCount());
 			List<GoodsUnsaleReportVo> footer = new ArrayList<GoodsUnsaleReportVo>();
 			if(reportVo !=null){
 				// 过滤数据权限字段
 				cleanAccessData(reportVo);
 				footer.add(reportVo);
+				list.setTotal(reportVo.getCount());
 			}
 			list.setFooter(footer);
 			// 过滤数据权限字段
