@@ -422,7 +422,6 @@ function selectGoods(searchKey){
         type:'',
         statusList:'0,1,2',
         key:searchKey,
-        statusList:'0,1,2',
         isRadio:0,
         sourceBranchId:"",
         targetBranchId:"",
