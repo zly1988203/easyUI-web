@@ -1191,48 +1191,6 @@ function calcSaleRate(rows){
     });
 }
 
-/**
- * 区域选择公共组件
- */
-function selectBranchArea() {
-    new publicBranchAreaService(function(data) {
-        $("#areaInput").val(data.branchAreaId);// id
-        $("#areaName").val("["+data.areaCode+"]"+data.areaName);
-        // 带出分店列表数据
-        $_jxc.ajax({
-            url : contextPath + "/common/branches/getComponentList",
-            data : {
-                "branchAreaId" : data.branchAreaId
-            }
-        },function(data){
-            if (data != null || data != '') {
-                var branchName = "";
-                var branchesId = "";
-                var branchCode= "";
-                var showBranch = "";
-                for (var i = 0; i < data.list.length; i++) {
-                    branchesId += data.list[i].branchesId + ",";
-                    if(data.list[i].branchCode&&data.list[i].branchName){
-                        showBranch += "["+data.list[i].branchCode+"]"+data.list[i].branchName+",";
-                    }
-
-                }
-                var reg = /\,$/;
-                branchName = branchName.replace(reg,"");
-                branchesId= branchesId.replace(reg,"");
-                branchCode = branchCode.replace(reg,"");
-                showBranch = showBranch.replace(reg,"");
-                $("#branchId").val(branchesId);
-                $("#branchShopName").val(showBranch);
-                //清空列表数据
-                $('#addModifyPriceGrid').datagrid('loadData', {total: 0, rows:  [$.extend({},gridDefault)]});
-
-            }
-
-        });
-    });
-}
-
 //导出
 function exportData(){
     var length = $("#addModifyPriceGrid").datagrid('getData').total;
