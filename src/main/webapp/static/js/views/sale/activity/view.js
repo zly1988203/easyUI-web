@@ -679,26 +679,21 @@ function disableGoods(idone,idtow){
 	if(idone=="SelectGoods"&&idtow==""){
 	 $('#SelectGoods').addClass("uinp-no-more")
 	 $('#SelectGoods').removeAttr('onclick');
-	 $('#GoodsType').removeClass("uinp-no-more")
-	 $('#GoodsType').attr('onclick','getGoodsType()');
 	}
 	else if(idone==""&&idtow=="GoodsType"){
-	 $('#GoodsType').addClass("uinp-no-more")
-	 $('#GoodsType').removeAttr('onclick');
+
 	 $('#SelectGoods').removeClass("uinp-no-more")
      $('#SelectGoods').attr('onclick','selectGoods()');
 	}
 	else if(idone=="SelectGoods"&&idtow=="GoodsType"){
 	 $('#SelectGoods').addClass("uinp-no-more")
 	 $('#SelectGoods').removeAttr('onclick');
-	 $('#GoodsType').addClass("uinp-no-more")
-	 $('#GoodsType').removeAttr('onclick');
+
 	}
 	else if(idtow==""&&idone==""){
 	 $('#SelectGoods').removeClass("uinp-no-more")
      $('#SelectGoods').attr('onclick','selectGoods()');
-	 $('#GoodsType').removeClass("uinp-no-more")
-	 $('#GoodsType').attr('onclick','getGoodsType()');
+
 	}
 }
 
@@ -1997,49 +1992,7 @@ function StrweekCheckDay(weekstr){
 	})
 	
 }
-/**
- * 分店列表 0 单选,1 多选
- */
 
-function selectBranch() {
-	new publicBranchService(function(data) {
-		var branchesId="";
-		var branchName="";
-		$.each(data,function(i,k){
-			branchesId=k.branchesId+","+branchesId;
-			branchName+="["+k.branchCode+"]"+k.branchName+",";
-		})
-		branchesId = branchesId.substring(0,branchesId.length - 1);
-		branchName = branchName.substring(0,branchName.length - 1);
-		$("#branchIds").val(branchesId);// id
-		$("#branchName").val(branchName);
-		$("#areaName").val("自定义");
-		$("#areaInput").val("");
-		// 清空列表数据
-		$('#addModifyPriceGrid').datagrid('loadData', {total: 0, rows:  [$.extend({},gridDefault)]});  
-	},1);
-}
-
-// 类别选择
-function getGoodsType(){
-	var param = {
-			categoryType:"",
-			type:1
-	}
-	new publicCategoryService(function(data){
-		var nowRows = gridHandel.getRowsWhere({categoryCode:'1'});
-		
-        var addDefaultData  = gridHandel.addDefault(data,[{}]);
-    	var keyNames = {
-    			categoryCode:'goodsCategoryCode'
-        };
-        var rows = gFunUpdateKey(addDefaultData,keyNames);
-        var argWhere ={categoryCode:1};  // 验证重复性
-        var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere);
-        $('#'+datagridId).datagrid("loadData",newRows);
-		
-	},param);
-}
 // 返回列表页面
 function back(){
 	location.href = contextPath +"/sale/activity/list";

@@ -1,44 +1,30 @@
 //区域机构 ，机构公共,字典组件公用jsp
 // 2017-10-13 Reyn 修改
-// 选择操作员功能以剥离，最新为publicPerson 此处代码暂时保留，
+// 选择操作员功能以剥离，最新为publicPerson ，
+// 2017-10-16 选择机构功能剥离,
 /**
  * Created by huangj02 on 2016/8/11.
- * 公共组件-操作员选择
+ * 公共组件
  */
 $(function(){
     var type=$("#type").val();
-    var check=$("#hiddenCheck").val();
     offlineStatus = $('input[type="radio"][name="offlineStatus"]:checked').val();
     if(type=="branchArea"){
         initDatagridBranchArea();
-    }else if(type=="branch"&&check==0){
-        initDatagridBranch();
     }else if(type=="dict"){
         initDatagridDict();
-    }else if(type=="branch"&&check==1){
-        initDatagridBranchCheck();
     }
     gFunSetEnterKey(cx);
-    $("input[name='offlineStatus']").change(function () {
-        $('#gridOperator').datagrid('clearSelections');
-        $('#gridOperator').datagrid('clearChecked');
-        cx();
-    })
 })
 
 var branchAreaCallBack ;
-var branchCallBack ;
 var dictCallBack;
-var offlineStatus = "1";
 
 //初始化回调函数
 function initBranchAreaCallBack(cb){
 	branchAreaCallBack = cb;
 }
-//初始化回调函数
-function initBranchCallBack(cb){
-	branchCallBack = cb;
-}
+
 //初始化回调函数
 function initDictCallBack(cb){
 	branchCallBack = cb;
@@ -62,69 +48,13 @@ function branchAreaClickRow(rowIndex, rowData){
     	branchAreaCallBack(rowData);
     }
 }
-//选择单行
-function branchClickRow(rowIndex, rowData){
-    if(branchCallBack){
-    	branchCallBack(rowData);
-    }
-}
+
 //选择单行
 function dictClickRow(rowIndex, rowData){
     if(dictClickRowCallBack){
     	dictCallBack(rowData);
     }
 }
-
-//初始化表格 操作员
-function initDatagridOperator(){
-	var ope_datagridObj = {
-		//title:'普通表单-用键盘操作',
-        method:'post',
-        align:'center',
-        url:contextPath+'/system/user/getOperator',
-        queryParams:{
-            nameOrCode:$("#formOperator :text[name=nameOrCode]").val()
-        },
-        singleSelect:false,  //单选  false多选
-        rownumbers:true,    //序号
-        pagination:true,    //分页
-        fitColumns:true,    //每列占满
-        //fit:true,            //占满
-        showFooter:true,
-        height:'100%',
-        width:'100%',
-        idField:'userCode',
-        columns:[[
-            {field:'id',checkbox:true,hidden:_ope_selectType==1?false:true},
-            {field:'userCode',title:'操作员编号',width:100,align:'left'},
-            {field:'userName',title:'操作员名称',width:100,align:'left'},
-        ]],
-        onLoadSuccess : function() {
-        	$('.datagrid-header').find('div.datagrid-cell').css('text-align','center');
-        }
-	}
-
-	//单选 兼容就方法
-	if(_ope_selectType != 1){
-		ope_datagridObj['singleSelect'] = true;
-		ope_datagridObj['onClickRow'] = operatorClickRow;
-	}else{
-		//多选
-		ope_datagridObj['singleSelect'] = false;
-		delete ope_datagridObj.onClickRow;
-	}
-
-
-    var _opeDatagridObj = $("#gridOperator").datagrid(ope_datagridObj);
-
-    //多选
-	if(_ope_selectType == 1){
-		console.log($(_opeDatagridObj).datagrid('options'));
-		$(_opeDatagridObj).datagrid('options').onClickRow = function(){}
-		$(_opeDatagridObj).datagrid('options').singleSelect = false;
-	}
-}
-
 
 //初始化表格(区域机构)
 function initDatagridBranchArea(){
@@ -148,68 +78,6 @@ function initDatagridBranchArea(){
         ]],
         onClickRow:branchAreaClickRow,
     });
-}
-
-
-//初始化表格(机构)
-function initDatagridBranch(){
-//  var isOpenStock=$("#isOpenStock").val();
-//  var formType=$("#formType").val();
-  var _formObj = $('#formOperator').serializeObject();
-  $("#gridOperator").datagrid({
-
-      //title:'普通表单-用键盘操作',
-      method:'post',
-      align:'center',
-      url:contextPath+'/common/branches/getComponentList',
-      queryParams:_formObj,
-      //toolbar: '#tb',     //工具栏 id为tb
-      singleSelect:true,  //单选  false多选
-      rownumbers:true,    //序号
-      pagination:true,    //分页
-      fitColumns:true,    //每列占满
-      //fit:true,            //占满
-      showFooter:true,
-      height:'100%',
-      width:'100%',
-      columns:[[
-          {field:'branchCode',title:'编码',width:100,align:'center'},
-          {field:'branchName',title:'机构名称',width:220,align:'center'},
-      ]],
-      onClickRow:branchClickRow,
-  });
-}
-
-//初始化表格 
-function initDatagridBranchCheck(){
-  var isOpenStock=$("#isOpenStock").val();
-  var formType=$("#formType").val();
-  $("#gridOperator").datagrid({
-      //title:'普通表单-用键盘操作',
-      method:'post',
-      align:'center',
-      url:contextPath+'/common/branches/getComponentList',
-      queryParams:{
-    	  isOpenStock:isOpenStock,
-    	  formType:formType
-      },
-      //toolbar: '#tb',     //工具栏 id为tb
-      singleSelect:false,  //单选  false多选
-      rownumbers:true,    //序号
-      pagination:true,    //分页
-      fitColumns:true,    //每列占满
-      //fit:true,            //占满
-      showFooter:true,
-      height:'100%',
-      width:'100%',
-
-      idField:'branchCode',
-      columns:[[
-          {field:'id',checkbox:true},
-          {field:'branchCode',title:'编码',width:100,align:'center'},
-          {field:'branchName',title:'名称',width:100,align:'center'},
-      ]],
-  });
 }
 
 //初始化表格 字典

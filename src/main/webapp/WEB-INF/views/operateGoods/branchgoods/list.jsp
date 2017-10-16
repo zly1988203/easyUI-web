@@ -50,7 +50,6 @@
 	                <shiro:hasPermission name="JxcOperateGoodsIntro:enabled">
 	                	<div class="ubtns-item ub-enable" id="important_div" onclick="enable()">引入</div>
 	                </shiro:hasPermission>
-					<%--  <div class="ubtns-item ub-enable" id="selectBranches" onclick="selectBranches()">机构批量引入</div> --%>
 					<shiro:hasPermission name="JxcOperateGoodsIntro:eliminate">
 					   <div class="ubtns-item ub-eliminate" id="eliminate_div" onclick="eliminate()">淘汰</div>
 					</shiro:hasPermission>

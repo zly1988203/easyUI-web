@@ -17,14 +17,21 @@ var offlineStatus = "1";
 function initAgencyView(param){
 
 	nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
-	formType=$("#formAgency :hidden[name=deliverFormType]").val();
-	branchId=$("#formAgency :hidden[name=branchId]").val();
-	branchType=$("#formAgency :hidden[name=branchType]").val();
-	isOpenStock=$("#formAgency :hidden[name=isOpenStock]").val();
-	scope=$("#formAgency :hidden[name=scope]").val();
     offlineStatus = $('input[type="radio"][name="offlineStatus"]:checked').val();
 	//新组件方法会传此参数 
 	if(param){
+		if(param.formType){
+            formType = param.formType;
+		}
+
+        if(param.branchId){
+            branchId = param.branchId;
+        }
+
+        if(param.branchType){
+            branchType = param.branchType;
+        }
+
 		if(param.nameOrCode){
 			nameOrCode = param.nameOrCode;
 			$("#formAgency :text[name=nameOrCode]").val(nameOrCode);
@@ -37,12 +44,11 @@ function initAgencyView(param){
 		}
 		if(param.isOpenStock){
 			isOpenStock = param.isOpenStock;
-			$("#formAgency :hidden[name=isOpenStock]").val(isOpenStock);
 		}
 		if(param.scope){
 			scope = param.scope;
-			$("#formAgency :hidden[name=scope]").val(scope);
 		}
+
 		selectType = param.selectType;
 		//扩展的publicBranchesServiceHandel initAgencyView(param) 
 		//param=空,param.type=空,param.type=NOTREE下  初始化左边的树

@@ -34,23 +34,6 @@ $(function(){
 var oldData = {
 
 }
-function selectBranch(){
-    //初始化机构ID
-    var branchId = sessionBranchId;
-
-    publicBranchService(function(data){
-        var branchesId="";
-        var branchName="";
-        $.each(data,function(i,k){
-            branchesId=k.branchesId+","+branchesId;
-            branchName+="["+k.branchCode+"]"+k.branchName+",";
-        })
-        branchesId = branchesId.substring(0,branchesId.length - 1);
-        branchName = branchName.substring(0,branchName.length - 1);
-        $("#receiveBranchIds").val(branchesId);// id
-        $("#branchName").val(branchName);
-    },1);
-}
 
 function saveNotice(){
     var receiveBranchIds = $("#receiveBranchIds").val();
