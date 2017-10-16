@@ -5,20 +5,20 @@
 var gridHandel = new GridClass();
 
 $(function(){
-    initTreeArchives('');
+    initTreeArchivess('');
     initDatagridsupplierList();
 });
 
 //左侧树条件搜索
 function searchTree(){
 	var codeOrName = $("#supplierNameSearch").val();
-	initTreeArchives(codeOrName)
+	initTreeArchivess(codeOrName)
 }
 
 /**
  * 初始树
  */
-function initTreeArchives(codeOrName){
+function initTreeArchivess(codeOrName){
     var args = {codeOrName:codeOrName};
     var httpUrl = contextPath+"/supplierBranchGoods/getBranchSupplierToTree";
     $.post(httpUrl,args,function(data){
