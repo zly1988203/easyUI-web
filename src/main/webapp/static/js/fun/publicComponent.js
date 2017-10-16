@@ -589,38 +589,6 @@ function publicDictService(dictType,callback) {
   //});
 }
 
-
-
-//公共组件-选择机构区域
-function publicBranchAreaService(callback) {
-    //公有属性
-    var dalogTemp = $('<div/>').dialog({
-        href: contextPath + "/system/user/views?type=branchArea",
-        width: 680,
-        height: dialogHeight,
-        title: "选择机构区域",
-        closable: true,
-        resizable: true,
-        onClose: function () {
-            $(dalogTemp).panel('destroy');
-        },
-        modal: true,
-        onLoad: function () {
-        	initBranchAreaCallBack(callBackHandel)
-        },
-    });
-    function callBackHandel(data){
-        callback(data);
-        $(dalogTemp).panel('destroy');
-    }
-    //调用方式
-    //new publicStoreService(function(data){
-    //    console.log(data);
-    //});
-}
-
-
-
 //公共组件-单据选择(采购单)
 /*   type PA PI PR
 * param {
