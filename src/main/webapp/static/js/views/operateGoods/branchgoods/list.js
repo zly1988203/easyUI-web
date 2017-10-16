@@ -374,24 +374,6 @@ function selectBranch() {
 	}, 0);
 }
 
-/**
- * 多机构引入选择机构
- */
-function selectBranches() {
-	new publicBranchService(function(data) {
-		var branchesId="";
-		$.each(data,function(i,k){
-			branchesId=k.branchesId+","+branchesId;
-		})
-		branchesId = branchesId.substring(0,branchesId.length - 1);
-		$_jxc.confirm('是否引入所选机构未引入的商品?', function(data) {
-			if (data) {
-				branchesLeadInto(branchesId);
-			}
-		});
-	},1);
-}
-
 function branchesLeadInto(branchesId){
 	var skuIds = getSkuIds();
 	if (skuIds == ''){

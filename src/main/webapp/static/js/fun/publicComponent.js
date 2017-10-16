@@ -260,7 +260,7 @@ function publicRoleService(callback, branchCompleCode, branchType){
 
 
 //公共组件-机构选择
-function publicAgencyService(callback,formType,branchId, branchType,isOpenStock,scope){
+function publicAgencyService(callback,formType,branchId, branchType,isOpenStock,scope,isNoTree){
 	if(!formType){
 		formType="";
 	}
@@ -274,12 +274,23 @@ function publicAgencyService(callback,formType,branchId, branchType,isOpenStock,
 		isOpenStock="";
 	}
 	if(!scope){
-		scope="";
-	}
+        scope="";
+    }
+    if(!isNoTree){
+        isNoTree="";
+    }
+
+	var param = {
+        formType:formType,
+        branchId:branchId,
+        branchType:branchType,
+        isOpenStock:isOpenStock,
+        scope:scope,
+        type:isNoTree
+    }
     //公有属性
     var  dalogTemp = $('<div/>').dialog({
-    	href:contextPath + "/common/branches/viewComponent?formType="+ 
-    		formType + "&branchId=" +branchId+ "&branchType="+branchType + "&isOpenStock="+isOpenStock+ "&scope="+scope,
+    	href:contextPath + "/common/branches/viewComponent",
         width:680,
         height:$(window).height()*(2/3),
         title:"机构选择",
@@ -290,7 +301,7 @@ function publicAgencyService(callback,formType,branchId, branchType,isOpenStock,
         },
         modal:true,
         onLoad:function(){
-            initAgencyView();
+            initAgencyView(param);
             initAgencyCallBack(callBackHandel)
         },
     });
@@ -304,51 +315,11 @@ function publicAgencyService(callback,formType,branchId, branchType,isOpenStock,
 /**
  * 公共组件-选择机构
  * @param callback
- * @param type  0是单选  1是多选
+ * @param type  都是0 ，没有多选
  */
 function publicBranchService(callback,type,isOpenStock, formType) {
-	if(!isOpenStock){
-		isOpenStock = "";
-	}
-    var dalogObj = {
-        href: contextPath + "/system/user/views?type=branch&check="+type+"&isOpenStock="+isOpenStock+"&formType="+formType,
-        width: 680,
-        height: dialogHeight,
-        title: "选择机构",
-        closable: true,
-        resizable: true,
-        onClose: function () {
-            $(dalogTemp).panel('destroy');
-        },
-        modal: true,
-    }
-    if(type==1){
-        dalogObj["buttons"] = [{
-            text:'确定',
-            handler:function(){
-                publicOperatorGetCheck(callBackHandel);
-            }
-        },{
-            text:'取消',
-            handler:function(){
-                $(dalogTemp).panel('destroy');
-            }
-        }];
-    }else{
-        dalogObj["onLoad"] = function () {
-            initBranchCallBack(callBackHandel);
-        };
-    }
-    //公有属性
-    var dalogTemp = $('<div/>').dialog(dalogObj);
-    function callBackHandel(data){
-        callback(data);
-        $(dalogTemp).panel('destroy');
-    }
-    //调用方式
-    //new publicStoreService(function(data){
-    //    console.log(data);
-    //});
+    //type 不用传递  无用参数
+    publicAgencyService(callback,formType,"","",isOpenStock,"","NOTREE");
 }
 
 /**********************礼品兑换机构选择 start*******************************/

@@ -1232,28 +1232,7 @@ function selectBranchArea() {
         });
     });
 }
-/**
- * 分店列表 0 单选,1  多选
- */
 
-function selectBranch() {
-    new publicBranchService(function(data) {
-        var branchesId="";
-        var branchName="";
-        $.each(data,function(i,k){
-            branchesId=k.branchesId+","+branchesId;
-            branchName+="["+k.branchCode+"]"+k.branchName+",";
-        })
-        branchesId = branchesId.substring(0,branchesId.length - 1);
-        branchName = branchName.substring(0,branchName.length - 1);
-        $("#branchId").val(branchesId);// id
-        $("#branchShopName").val(branchName);
-        $("#areaName").val("自定义");
-        $("#areaInput").val("");
-        //清空列表数据
-        $('#addModifyPriceGrid').datagrid('loadData', {total: 0, rows:  [$.extend({},gridDefault)]});
-    },1);
-}
 //导出
 function exportData(){
     var length = $("#addModifyPriceGrid").datagrid('getData').total;
