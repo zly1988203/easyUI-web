@@ -176,7 +176,7 @@
 
 				<div id="dvVip" class="ub ub-ac umar-l30">
 					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" /><label for="isVip">会员独享</label>
+						<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" /><label for="memberExclusive">会员独享</label>
 					</div>
 				</div>
 

@@ -1089,7 +1089,7 @@ function initmmsDom(){
 	//初始化 倍数送 促销商品参与
 	$("input[name='mmsofactType']").prop('checked',false);
 	//初始化活动条件
-	$("#activitymmsType").combobox('setValue',0)
+	// $("#activitymmsType").combobox('setValue',0)
 	
 	choosemmsTab(2);
 }
