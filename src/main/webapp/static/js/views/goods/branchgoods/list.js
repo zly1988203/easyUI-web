@@ -355,16 +355,6 @@ function query() {
 	$("#gridOrders").datagrid("load");
 }
 
-function selectBranch() {
-	new publicBranchService(function(data) {
-		$("#branchId").val(data.branchesId);
-		$("#branchName").val("[" + data.branchCode + "]" + data.branchName);
-		$("#branchType").val(data.type);
-		query();
-
-	}, 0);
-}
-
 /**
  * 多机构引入选择机构
  */

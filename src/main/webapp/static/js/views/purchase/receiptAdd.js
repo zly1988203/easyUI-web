@@ -790,12 +790,7 @@ function selectOperator(){
 		$("#operateUserName").val(data.userName);
 	});
 }
-function selectBranch(){
-	new publicBranchService(function(data){
-		$("#branchId").val(data.branchesId);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},0);
-}
+
 
 function selectPurchaseForm(){
     var param = {

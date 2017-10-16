@@ -141,12 +141,6 @@ function selectOperator(){
 //		$("#operateUserName").val("["+data.userCode+"]"+data.userName);
 	});
 }
-function selectBranch(){
-	new publicBranchService(function(data){
-//		$("#branchId").val(data.branchesId);
-		$("#branchName").val("["+data.branchCode+"]"+data.branchName);
-	},0);
-}
 
 /**
  * 重置
