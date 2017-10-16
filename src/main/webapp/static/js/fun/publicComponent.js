@@ -561,34 +561,6 @@ function publicOperatorService(callback,param) {
     }
 }
 
-//公共组件-字典
-function publicDictService(dictType,callback) {
-  //公有属性
-  var dalogTemp = $('<div/>').dialog({
-      href: contextPath + "/common/dict/views/dict?dictType="+dictType,
-      width: 680,
-      height: dialogHeight,
-      title: "选择字典",
-      closable: true,
-      resizable: true,
-      onClose: function () {
-          $(dalogTemp).panel('destroy');
-      },
-      modal: true,
-      onLoad: function () {
-          initDictCallBack(callBackHandel)
-      },
-  });
-  function callBackHandel(data){
-      callback(data);
-      $(dalogTemp).panel('destroy');
-  }
-  //调用方式
-  //new publicDictService(function(data){
-  //    console.log(data);
-  //});
-}
-
 //公共组件-单据选择(采购单)
 /*   type PA PI PR
 * param {
