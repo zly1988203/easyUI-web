@@ -152,10 +152,10 @@ public class StoreGoodsReportController extends BaseController<StoreGoodsReportC
 			// 构建默认参数
 			qo = buildDefaultParams(qo);
 			// 1、列表查询
-//			List<StockReportVo> exportList = storeGoodsReportService.queryList(qo);
+			/**List<StockReportVo> exportList = storeGoodsReportService.queryList(qo);*/
 			List<StockReportVo> exportList = queryListPartition(qo);
 			// 2、汇总查询
-			StockReportVo footer = storeGoodsReportService.queryStockReportSum(qo);
+			/**StockReportVo footer = storeGoodsReportService.queryStockReportSum(qo);
 			if (null == footer.getActual()) {
 				footer.setActual(BigDecimal.ZERO);
 			}
@@ -164,11 +164,11 @@ public class StoreGoodsReportController extends BaseController<StoreGoodsReportC
 			}
 			if (null == footer.getSaleAmount()) {
 				footer.setSaleAmount(BigDecimal.ZERO);
-			}
+			}*/
 			if (CollectionUtils.isEmpty(exportList)) {
 				exportList = new ArrayList<StockReportVo>();
 			}
-			exportList.add(footer);
+			/**exportList.add(footer);*/
 			// 过滤数据权限字段
 			cleanAccessData(exportList);
 			String fileName = "仓库商品" + "_" + DateUtils.getCurrSmallStr();
