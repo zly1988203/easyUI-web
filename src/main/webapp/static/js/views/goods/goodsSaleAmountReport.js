@@ -10,7 +10,7 @@ var gridHandel = new GridClass();
 //初始化表格
 function initDatagridRequire(){
 	gridHandel.setGridName("goodsSaleAmountReport");
-	dg = $("#goodsSaleAmountReport").datagrid({
+	$("#goodsSaleAmountReport").datagrid({
         method:'post',
         align:'center',
         //toolbar: '#tb',     //工具栏 id为tb
@@ -130,8 +130,7 @@ function queryForm(){
        $_jxc.alert("请选择机构名称");
         return;
     }
-    $("#startCount").val("");
-    $("#endCount").val("");
+
 	var fromObjStr = $('#queryForm').serializeObject();
 	
 	// 去除编码
@@ -154,7 +153,6 @@ function selectBranches(){
         $("#branchName").val("["+data.branchCode+"]"+baranchesId);
 	},'BF','');
 }
-var dg;
 /**
  * 导出
  */
@@ -164,26 +162,12 @@ function exportData(){
 		$_jxc.alert("无数据可导");
 		return;
 	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
-/**
- * 导出
- */
-function exportExcel(){
-	var length = $("#goodsSaleAmountReport").datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert('提示',"没有数据");
-		return;
-	}
-
-	$("#queryForm").attr("action",contextPath+"/goods/goodsSaleAmount/exportList");
-	$("#queryForm").submit();
+    var param = {
+        datagridId:'goodsSaleAmountReport',
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/goods/goodsSaleAmount/exportList"
+    }
+    publicExprotService(param);
 }
 
 /**
