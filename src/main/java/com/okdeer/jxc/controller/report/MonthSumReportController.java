@@ -2,6 +2,11 @@ package com.okdeer.jxc.controller.report;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -13,9 +18,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.controller.BaseReportController;
+import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
+import com.okdeer.jxc.utils.PriceGrantUtil;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.retail.common.page.EasyUIPageInfo;
+import com.okdeer.retail.common.price.DataAccessParser;
+import com.okdeer.retail.common.util.GridExportPrintUtils;
 import com.okdeer.retail.facade.report.facade.BaseReportFacade;
 import com.okdeer.retail.facade.report.facade.MonthSumReportFacade;
 import com.okdeer.retail.facade.report.qo.MonthSumReportQo;
@@ -41,7 +50,7 @@ public class MonthSumReportController extends BaseReportController<MonthSumRepor
 	 */
 	@Reference(version = "1.0.0", check = false)
 	private MonthSumReportFacade monthSumReportFacade;
-	
+
 	@Override
 	protected String getViewName() {
 		return "/report/month/monthSumReport";
@@ -57,9 +66,9 @@ public class MonthSumReportController extends BaseReportController<MonthSumRepor
 	public EasyUIPageInfo<MonthSumReportVo> getReportList(MonthSumReportQo qo, @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
 			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
 		return super.getReportList(qo, pageNumber, pageSize);
-		
+
 	}
-	
+
 	@Override
 	protected Model getModel(Model model) {
 		model.addAttribute("startTime",
@@ -88,6 +97,70 @@ public class MonthSumReportController extends BaseReportController<MonthSumRepor
 	@Override
 	protected BaseReportFacade<MonthSumReportQo, MonthSumReportVo> getReportFade() {
 		return monthSumReportFacade;
-	}
+	}	
+	@RequestMapping(value = "/export", method = RequestMethod.POST)
+	@ResponseBody
+	public RespJson exportList(HttpServletResponse response, MonthSumReportQo qo) {
+		RespJson resp = RespJson.success();
+		try {
+			getQueryObject(qo);
+			// 导出的数据列表
+			List<MonthSumReportVo> exportList = new ArrayList<MonthSumReportVo>();
 
+			// 限制导出数据的起始数量
+			int startCount = limitStartCount(qo.getStartCount());
+			// 限制导出数据的总数量
+			int endCount = limitEndCount(qo.getEndCount());
+
+			// 商，按2K条数据一次查询拆分，可以拆分为多少次查询
+			int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
+			// 余数，按2K拆分后，剩余的数据
+			int modIndex = endCount % LIMIT_REQ_COUNT;
+
+			// 每2K条数据一次查询
+
+			for(int i = 0; i < resIndex; i++){
+				//如果行数是2000整倍数，最后一次查询
+				if(modIndex==0&&i==resIndex){
+					qo.setTotal(true);
+					qo.setTotalStartCount(startCount);
+					qo.setTotalStartCount(endCount);
+				}
+
+				int newStart = (i * LIMIT_REQ_COUNT) + startCount;
+				qo.setStartCount(newStart);
+				qo.setEndCount(LIMIT_REQ_COUNT);
+				List<MonthSumReportVo> tempList = getReportFade().queryList(qo);
+				exportList.addAll(tempList);
+
+			}
+
+			// 存在余数时，查询剩余的数据
+			if(modIndex > 0){
+				int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
+				int newEnd = modIndex;
+				qo.setStartCount(newStart);
+				qo.setEndCount(newEnd);
+				
+				qo.setTotal(true);
+				qo.setTotalStartCount(startCount);
+				qo.setTotalEndCount(endCount);
+				List<MonthSumReportVo> tempList = getReportFade().queryList(qo);
+				exportList.addAll(tempList);
+			}
+
+			// 无权限访问的字段
+			Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
+			DataAccessParser parser = new DataAccessParser(getViewObjectClass(), forbiddenSets);
+			forbiddenSets = parser.getAllForbiddenSets();
+
+			// 导出
+			GridExportPrintUtils.exportAccessExcel(getViewObjectClass(), exportList, forbiddenSets, response,
+					qo.getReportType());
+		} catch (Exception e) {
+			LOG.error("导出列表信息异常:{}", e);
+			resp = RespJson.error("导出列表信息异常");
+		}
+		return resp;
+	}
 }
