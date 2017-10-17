@@ -58,7 +58,7 @@ function initAgencyView(param){
     gFunSetEnterKey(agencySearch);
     if((param && type != 'NOTREE') || !param){
     	$('#treeAgencyArea').removeClass('unhide');
-    	initTreeAgency(); //初始树
+    	initTreePublicAgency(); //初始树
     }else{
     	$('#treeAgencyArea').addClass('unhide');
     }
@@ -84,7 +84,7 @@ function agencyClickRow(rowIndex, rowData){
     }
 }
 //初始树
-function initTreeAgency(){
+function initTreePublicAgency(){
 	var args = { }
 	$.post(contextPath + "/common/branchArea/getBranchAreaToTree", args,function(data){
 	    var setting = {
@@ -95,7 +95,7 @@ function initTreeAgency(){
 	            }
 	        },
 	        callback: {
-	    		onClick: zTreeOnClick
+	    		onClick: publicAgencyTreeOnClick
 	    	}
 
 	    };
@@ -112,7 +112,7 @@ function initTreeAgency(){
  * 树点击事件
  */
 var branchAreaCode=null;
-function zTreeOnClick(event, treeId, treeNode) {
+function publicAgencyTreeOnClick(event, treeId, treeNode) {
 	branchAreaCode=treeNode.code;
     nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
     offlineStatus = $('input[type="radio"][name="offlineStatus"]:checked').val();
