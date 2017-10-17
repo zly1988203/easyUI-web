@@ -175,6 +175,9 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 		RespJson resp = RespJson.success();
 		try {
 			getQueryObject(qo);
+			//查询合计
+			V total=getReportFade().queryListTotal(qo);
+			
 			// 导出的数据列表
 			List<V> exportList = new ArrayList<V>();
 			
@@ -207,6 +210,8 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 				exportList.addAll(tempList);
 			}
 			
+			
+			exportList.add(total);
 			// 无权限访问的字段
 			Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 			DataAccessParser parser = new DataAccessParser(getViewObjectClass(), forbiddenSets);
