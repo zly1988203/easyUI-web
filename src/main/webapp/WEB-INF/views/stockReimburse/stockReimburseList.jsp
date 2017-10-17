@@ -8,6 +8,7 @@
 <title>报损单</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <script src="${ctx}/static/js/views/stockReimburse/stockReimburseList.js?V=${versionNo}"></script>
+<%@ include file="/WEB-INF/views/component/publicPrintChoose.jsp"%>
 <style>
 .datagrid-header .datagrid-cell {
 	text-align: center !important;
@@ -28,7 +29,7 @@
 						<div class="ubtns-item" onclick="deleteStockReimburse()">删除</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockReimburse:print">
-						<div class="ubtns-item" onclick="printList()">打印</div>
+						<div class="ubtns-item" onclick="printPreview()">打印</div>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="JxcStockReimburse:setting">
 						<div class="ubtns-item-disabled">设置</div>

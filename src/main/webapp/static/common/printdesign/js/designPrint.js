@@ -193,8 +193,12 @@
                             val = fmt(row[field], row);
                         }                        
                     }
-                    if(col.title=="箱数"||col.title=="数量"||col.title=="金额"||col.title=="税率"||col.title=="税额"||col.title=="单价"||col.title=="成本价"){
-                        val = parseFloat(val||0).toFixed(2);
+                    if(col.title=="箱数"||col.title=="数量"||col.title=="金额"||col.title=="税率"||col.title=="税额"||col.title=="单价"){
+                    	val = parseFloat(val||0).toFixed(2);  
+                    }
+                    if(col.title=="成本价" && (i < row.length - 1 || val != null)){
+                    	// 最后一条记录为空，认为是空的合计数据，不做格式化
+                    	val = parseFloat(val||0).toFixed(2);                    	
                     }
                     if(col.title=="进价"){
                     	var page = $.helper.getUrlVar('page');

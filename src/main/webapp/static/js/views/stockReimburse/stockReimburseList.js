@@ -236,6 +236,15 @@ function printList() {
 	parent.addTabPrint("StockReimbursePrint","报损单列表打印",contextPath+"/stock/reimburse/print?"+fromObjStr);
 }
 
+function printPreview() {
+    var rows = $("#stockReimburseList").datagrid('getSelections');
+    if(rows.length == 1){
+        toPrintPreview('ID','/stock/reimburse/','stockReimburseList');
+    }else{
+        $_jxc.alert('请选择一行数据.')
+    }
+}
+
 /**
  * 重置
  */

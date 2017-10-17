@@ -239,6 +239,15 @@ function printList() {
 	parent.addTabPrint("StockLeadPrint","领用单列表打印",contextPath+"/stock/lead/print?"+fromObjStr);
 }
 
+function printPreview() {
+    var rows = $("#stockLeadList").datagrid('getSelections');
+    if(rows.length == 1){
+        toPrintPreview('ID','/stock/reimburse/','stockLeadList');
+    }else{
+        $_jxc.alert('请选择一行数据.')
+    }
+}
+
 /**
  * 重置
  */
