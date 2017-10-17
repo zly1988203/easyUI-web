@@ -24,7 +24,7 @@ function initDatagridStoreYHOrder(){
             {field:'skuCode',title:'商品代号',width:'100px',align:'left'},
             {field:'barCode',title:'国际条码',width:'130px',align:'left'},
             {field:'sourceBranchCode',title:'配送点代号',width:'80px',align:'left'},
-            {field:'applyNum',title:'退货数量',width:'90px',align:'right'},
+            {field:'dealNum',title:'退货数量',width:'90px',align:'right'},
             {field:'price',title:'商品零售价',width:'80px',align:'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
