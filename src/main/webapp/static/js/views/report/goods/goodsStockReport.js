@@ -3,8 +3,28 @@
  */
 var pageSize = 50;
 $(function(){
+
+    $('#targetBranch').branchSelect();
+
+    //类别选择初始化
+    $('#categorySelect').categorySelect({
+        onAfterRender:function(data){
+            $("#goodsCategoryId").val(data.goodsCategoryId);
+            $("#categoryCode").val(data.categoryCode);
+        }
+    });
+
+    $('#supplierSelect').supplierSelect({
+        onAfterRender:function(data){
+            $("#supplierId").val(data.id);
+        }
+    })
+
+
     //初始化列表
     initProductInquireGrid();
+
+
 });
 
 var gridHandel = new GridClass();
@@ -82,26 +102,6 @@ function initProductInquireGrid() {
 }
 
 /**
- * 机构列表下拉选
- */
-function searchBranch (){
-	new publicAgencyService(function(data){
-//		$("#branchId").val(data.branchesId);
-		$("#branchCode").val(data.branchCode);
-		$("#branchNameOrCode").val("["+data.branchCode+"]"+data.branchName);
-	},"","");
-}
-
-/**
- * 类别选择
- */
-function searchCategory(){
-	new publicCategoryService(function(data){
-		$("#categoryCode").val(data.categoryCode);
-		$("#categoryNameCode").val("["+data.categoryCode+"]"+data.categoryName);
-	});
-}
-/**
  * 商品状态加载完成
  */
 function comboboxGoodsStatus(data){
@@ -117,29 +117,19 @@ function exportData(){
 		$_jxc.alert("无数据可导");
 		return;
 	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
+	var formObj = $("#queryForm").serializeObject();
+    formObj.branchNameOrCode = "";
+    formObj.supplierName = "";
+    var param = {
+        datagridId:'productInquire',
+        formObj:formObj,
+        url:contextPath+"/stock/report/exportList"
+    }
+    publicExprotService(param);
 }
-
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-
-	$("#queryForm").attr("action",contextPath+"/stock/report/exportList");
-	$("#queryForm").submit();
-}
-
-
 
 //查询
 function query(){
-	$("#startCount").val('');
-	$("#endCount").val('');
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
 	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){
@@ -188,12 +178,4 @@ function reset(){
 	$("#branchCode").val('');
 	$("#branchId").val('');
 	$("#queryForm")[0].reset();
-}
-
-//选择供应商
-function selectSupplier(){
-	new publicSupplierService(function(data){
-//		$("#supplierId").val(data.id);
-		$("#supplierName").val("["+data.supplierCode+"]"+data.supplierName);
-	});
 }
