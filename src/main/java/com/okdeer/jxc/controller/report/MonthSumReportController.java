@@ -98,7 +98,7 @@ public class MonthSumReportController extends BaseReportController<MonthSumRepor
 	protected BaseReportFacade<MonthSumReportQo, MonthSumReportVo> getReportFade() {
 		return monthSumReportFacade;
 	}	
-	@RequestMapping(value = "/export", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/export", method = RequestMethod.POST)
 	@ResponseBody
 	public RespJson exportList(HttpServletResponse response, MonthSumReportQo qo) {
 		RespJson resp = RespJson.success();
@@ -162,5 +162,5 @@ public class MonthSumReportController extends BaseReportController<MonthSumRepor
 			resp = RespJson.error("导出列表信息异常");
 		}
 		return resp;
-	}
+	}*/
 }
