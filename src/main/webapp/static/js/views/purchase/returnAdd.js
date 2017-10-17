@@ -23,9 +23,9 @@ $(function(){
     initDatagridEditOrder();
 
     // 是否自动加载商品
-    if($("#cascadeGoods").val() == 'true'){
-        queryGoodsList();
-    }
+//    if($("#cascadeGoods").val() == 'true'){
+//        queryGoodsList();
+//    }
     
     
     //2.7.1-------------------------start
@@ -39,6 +39,23 @@ $(function(){
     
     
 });
+
+//获取机构设置
+function getBranchSetting(){
+	$_jxc.ajax({
+		url : contextPath + "/branchSetting/getBranchSettingByBranchId",
+		type: "POST",
+		data:{"branchId":$('#branchId').val()||''}
+	},function(result){
+		if(result.code == 0){
+			$('#cascadeGoods').val(result.data&&result.data.isSupplierCascadeGoodsPr);
+            // 是否自动加载商品
+            if($("#cascadeGoods").val() == 'true'  && $("#supplierId").val() != ""){
+                queryGoodsList();
+            }
+		}
+	});
+}
 
 //初始化默认条件
 function initConditionParams(){
@@ -849,10 +866,8 @@ function selectBranch(){
                     $("#branchType").val(data.type);
                     $("#branchName").val("["+data.branchCode+"]"+data.branchName);
                     gridHandel.setLoadData([$.extend({},gridDefault)]);
-                    // 是否自动加载商品
-                    if($("#cascadeGoods").val() == 'true'){
-                        queryGoodsList();
-                    }
+            		//获取机构设置
+            		getBranchSetting()
                 }
             })
 
@@ -861,10 +876,8 @@ function selectBranch(){
             $("#branchType").val(data.type);
             $("#branchName").val("["+data.branchCode+"]"+data.branchName);
             gridHandel.setLoadData([$.extend({},gridDefault)]);
-            // 是否自动加载商品
-            if($("#cascadeGoods").val() == 'true'){
-                queryGoodsList();
-            }
+    		//获取机构设置
+    		getBranchSetting()
         }
 	},0);
 }
