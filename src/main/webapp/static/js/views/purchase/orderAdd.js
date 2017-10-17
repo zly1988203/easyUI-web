@@ -370,7 +370,6 @@ function initDatagridEditOrder(){
         onLoadSuccess : function(data) {
             gridHandel.setDatagridHeader("center");
             if((data.rows).length <= 0)return;
-            gFunEndLoading();
             updateFooter();
         }
     });
