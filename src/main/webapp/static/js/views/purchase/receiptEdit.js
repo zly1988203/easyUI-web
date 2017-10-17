@@ -337,8 +337,14 @@ function getGridData(){
        	    };
    	    
    	    if(data && data.list.length > 0){
+   	        //防止规格改变，重新计算箱数和金额 bug21406
+            $.each(data.list,function (index,item) {
+                item.largeNum = parseFloat(item.realNum/item.purchaseSpec).toFixed(4);
+                // item.amount = parseFloat(item.realNum*item.price).toFixed(4);
+            })
    	        var newRows = gFunUpdateKey(data.list,keyrealNum);
    	        var newRows = gFunUpdateKey(newRows,keylargeNum);
+
    	        $("#gridEditOrder").datagrid("loadData",newRows);
    	    }
    });

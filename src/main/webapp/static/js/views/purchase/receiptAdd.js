@@ -356,6 +356,10 @@ function getGridData(){
     	    };
 	    
 	    if(data && data.list.length > 0){
+            $.each(data.list,function (index,item) {
+                item.largeNum = parseFloat(item.realNum/item.purchaseSpec).toFixed(4);
+                // item.amount = parseFloat(item.realNum*item.price).toFixed(4);
+            })
 	        var newRows = gFunUpdateKey(data.list,keyrealNum);
 	        var newRows = gFunUpdateKey(newRows,keylargeNum);
 	        $("#gridEditOrder").datagrid("loadData",newRows);
@@ -790,17 +794,22 @@ function selectPurchaseForm(){
 	new publicPurchaseFormService(param,function(data){
 		isGiftFlag = true;
 		$("#refFormNo").val(data.form.formNo);
+
+        //防止规格改变，重新计算箱数和金额 bug21406
+        $.each(data.list,function (index,item) {
+            item.largeNum = parseFloat(item.realNum/item.purchaseSpec).toFixed(4);
+            // item.amount = parseFloat(item.realNum*item.price).toFixed(4);
+        })
+
 		//根据选择的采购单，带出采购单的信息
         var keyNames = {
             realNum:'maxRealNum',
         };
-        
         var newRows = gFunUpdateKey(data.list,keyNames);
         
 	    var keylargeNum = {
 	    		largeNum:'maxlargeNum',
     	    };
-	    
         var newRows = gFunUpdateKey(newRows,keylargeNum);
         
         $("#gridEditOrder").datagrid("loadData",newRows);
