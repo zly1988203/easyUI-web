@@ -104,6 +104,9 @@
 	
 		//查询
 		function queryForm(){
+			//清除分页信息
+			 $("#startCount").val("");
+			 $("#endCount").val("");
 			if($("#branchName").val()=="" && $("#skuCodeOrBarCode").val()=="" ){
 		        $_jxc.alert("请选择机构或输入条码");
 		        return;

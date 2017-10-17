@@ -145,7 +145,7 @@ public class PosRegisterController extends BaseController<T>{
 		try{
 			return posRegisterServiceApi.relieveBind(id,UserUtil.getCurrUserId());
 		}catch(RuntimeException e){
-			LOG.error("删除成本调整单失败！:{}",e);
+			LOG.error("解除绑定操作失败!:{}",e);
 			return RespJson.error(e.getMessage());
 		}
 		catch(Exception e){
