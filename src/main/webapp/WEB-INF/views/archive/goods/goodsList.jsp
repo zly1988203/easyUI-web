@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>进销存-商品档案</title>
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 
     <script  src="${ctx}/static/js/views/goods/goodsArchives.js?V=${versionNo}"></script>
 </head>
@@ -51,8 +50,6 @@
                     <input type="hidden" name="level" id="level" value="">
                     <input type="hidden" name="brandId1" id="brandId1" value="">
                     <input type="hidden" name="supplierId1" id="supplierId1" value="">
-                    <input type="hidden" name="startCount" id="startCount" value="">
-                    <input type="hidden" name="endCount" id="endCount" value="">
                     <input class="uinp uw-400" type="text" name="goodsInfo" maxlength="50" id="goodsInfo" placeholder="输入货号、条码、商品名称进行查询">
                 </div>
                 <input type="button" class="ubtn  umar-r10" value="查询" onclick="goodsSearch()">

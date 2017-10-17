@@ -22,8 +22,6 @@
 	                <div class="ubtns-item" onclick="queryForm()">查询</div>
 	            </shiro:hasPermission>
 	            <shiro:hasPermission name="goodsSaleAmountRepor:export">
-	            <input type="hidden" id="startCount" name="startCount" />
-				<input type="hidden" id="endCount" name="endCount" />
 	                <div class="ubtns-item" onclick="exportData()">导出</div>
 	            </shiro:hasPermission>
 	              	<div class="ubtns-item" onclick="gFunRefresh()">重置</div>

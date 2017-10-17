@@ -273,7 +273,7 @@ function initDatagridEditOrder(){
                     type:'datebox',
                 },
             },
-            {field:'remark',title:'备注',width:'200px',align:'left'}
+            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'}
         ]],
         onClickCell:function(rowIndex,field,value){
             gridHandel.setBeginRow(rowIndex);
@@ -619,14 +619,12 @@ function saveItemHandel(){
         if(parseFloat(v["largeNum"])<=0){
         	$_jxc.alert("第"+(i+1)+"行，箱数要大于0");
             isCheckResult = false;
-            isChcekNum = true;
             return false;
         }
         //数量判断 bug 19886
         if(parseFloat(v["realNum"])<=0){
         	$_jxc.alert("第"+(i+1)+"行，数量要大于0");
             isCheckResult = false;
-            isChcekNum = true;
             return false;
         }
 
@@ -636,7 +634,12 @@ function saveItemHandel(){
             && parseFloat(_largeNum ).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)){
             $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
             isCheckResult = false;
-            isChcekNum = true;
+            return false;
+        }
+
+        if(v["remark"].length > 20){
+            $_jxc.alert("第"+(i+1)+"行，备注不能大于20个字符");
+            isCheckResult = false;
             return false;
         }
         

@@ -128,8 +128,6 @@ function zTreeOnClick(event, treeId, treeNode) {
          $("#categoryCode1").val('');
          $("#level").val('');
     }
-    $("#startCount").val('');
-	$("#endCount").val('');
     //var formParams = $("#formGoodsArchives").serializeObject();
     gridReload("gridArchives",goodsClass.treeParam,goodsClass.selectTypeName);
 };
@@ -160,9 +158,8 @@ function gridReload(gridName,httpParams,selectTypeName){
 var gridHandel = new GridClass();
 //初始化表格
 
-var dg;
 function initDatagridArchives(){
-	dg = $("#gridArchives").datagrid({
+	 $("#gridArchives").datagrid({
         //title:'普通表单-用键盘操作',
         align:'center',
         url:'',
@@ -317,8 +314,6 @@ function cleanLeftParam(){
 function goodsSearch(){
 	//去除左侧选中值
 	cleanLeftParam();
-	$("#startCount").val('');
-	$("#endCount").val('');
 	//去除左侧选中样式
 	$('.zTreeDemoBackground a').removeClass('curSelectedNode');
     var formParams = $("#formGoodsArchives").serializeObject();
@@ -434,21 +429,12 @@ function exportData(){
 		$_jxc.alert("无数据可导");
 		return;
 	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
-}
-
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-
-	$("#formGoodsArchives").attr("action",contextPath+"/common/goods/exportGoods");
-	$("#formGoodsArchives").submit();
+    var param = {
+        datagridId:'gridArchives',
+        formObj:$("#formGoodsArchives").serializeObject(),
+        url:contextPath+"/common/goods/exportGoods"
+    }
+    publicExprotService(param);
 }
 
 //重置
