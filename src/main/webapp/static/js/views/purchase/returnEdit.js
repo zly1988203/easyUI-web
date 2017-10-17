@@ -846,7 +846,7 @@ function selectBranch(){
                     $("#branchType").val(data.type);
                     $("#branchName").val("["+data.branchCode+"]"+data.branchName);
                     // 是否自动加载商品
-                    if($("#cascadeGoods").val() == 'true'){
+                    if($("#cascadeGoods").val() == 'true'  && $("#supplierId").val() != ""){
                         queryGoodsList();
                     }
                 }
@@ -857,7 +857,7 @@ function selectBranch(){
             $("#branchType").val(data.type);
             $("#branchName").val("["+data.branchCode+"]"+data.branchName);
             // 是否自动加载商品
-            if($("#cascadeGoods").val() == 'true'){
+            if($("#cascadeGoods").val() == 'true'  && $("#supplierId").val() != ""){
                 queryGoodsList();
             }
         }

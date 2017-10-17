@@ -19,9 +19,9 @@ $(function(){
     initDatagridEditOrder();
     
     // 是否自动加载商品
-    if($("#cascadeGoods").val() == 'true'){
-        queryGoodsList();
-    }
+//    if($("#cascadeGoods").val() == 'true'){
+//        queryGoodsList();
+//    }
     
     
 });
@@ -51,6 +51,23 @@ function initConditionParams(){
     	deliverTime = new Date(new Date().getTime() + 24*60*60*1000*diliveCycle);
     }
     $("#deliverTime").val(new Date(deliverTime).format('yyyy-MM-dd'));
+}
+
+//获取机构设置
+function getBranchSetting(){
+	$_jxc.ajax({
+		url : contextPath + "/branchSetting/getBranchSettingByBranchId",
+		type: "POST",
+		data:{"branchId":$('#branchId').val()||''}
+	},function(result){
+		if(result.code == 0){
+			$('#cascadeGoods').val(result.data&&result.data.isSupplierCascadeGoodsPa);
+			// 是否自动加载商品
+            if($("#cascadeGoods").val() == 'true' && $("#supplierId").val() != ""){
+                queryGoodsList();
+            }
+		}
+	});
 }
 
 var gridDefault = {
@@ -963,10 +980,8 @@ function selectBranch(){
                     $("#branchType").val(data.type);
                     $("#branchName").val("["+data.branchCode+"]"+data.branchName);
                     gridHandel.setLoadData([$.extend({},gridDefault)]);
-                    // 是否自动加载商品
-                    if($("#cascadeGoods").val() == 'true'){
-                        queryGoodsList();
-                    }
+                    //获取机构设置
+                    getBranchSetting()
                 }
             })
 
@@ -975,10 +990,8 @@ function selectBranch(){
             $("#branchType").val(data.type);
             $("#branchName").val("["+data.branchCode+"]"+data.branchName);
             gridHandel.setLoadData([$.extend({},gridDefault)]);
-            // 是否自动加载商品
-            if($("#cascadeGoods").val() == 'true'){
-                queryGoodsList();
-            }
+            //获取机构设置
+            getBranchSetting()
         }
 
     },0);

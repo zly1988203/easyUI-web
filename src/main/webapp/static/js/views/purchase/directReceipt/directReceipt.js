@@ -1073,10 +1073,6 @@ function selectBranch(){
 			getBranchSetting()
 			
 			gridHandel.setLoadData([$.extend({},gridDefault)]);
-			// 是否自动加载商品
-            if($("#cascadeGoods").val() == 'true' && $("#supplierId").val() != ""){
-                queryGoodsList();
-            }
 		},
 		//显示之前 判断
 		onShowBefore:function(component){
@@ -1105,11 +1101,15 @@ function getBranchSetting(){
 		data:{"branchId":$('#branchId').val()||''}
 	},function(result){
 		if(result.code == 0){
-			$('#cascadeGoods').val(result.data&&result.data.cascadeGoods);
+			$('#cascadeGoods').val(result.data&&result.data.isSupplierCascadeGoodsPm);
 			$('#isAllowPmRefPa').val(result.data&&result.data.isAllowPmRefPa);
 			isAllowPmRefPa = result.data&&result.data.isAllowPmRefPa;
 			//允许直送收货单不引用单据收货参数 
 			checkIsAllowPmRefPa(result.data&&result.data.isAllowPmRefPa);
+			// 是否自动加载商品
+            if($("#cascadeGoods").val() == 'true' && $("#supplierId").val() != ""){
+                queryGoodsList();
+            }
 		}else{
 			isAllowPmRefPa = 0;
 			//允许直送收货单不引用单据收货参数 
