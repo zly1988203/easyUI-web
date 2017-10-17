@@ -315,7 +315,7 @@ function publicAgencyService(callback,formType,branchId, branchType,isOpenStock,
 /**
  * 公共组件-选择机构
  * @param callback
- * @param type  都是0 ，没有多选
+ * @param type  不用传递  无用参数
  */
 function publicBranchService(callback,type,isOpenStock, formType) {
     //type 不用传递  无用参数

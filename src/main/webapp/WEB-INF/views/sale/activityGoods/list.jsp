@@ -71,7 +71,7 @@
 						  <option value="">全部</option>
 					</select>
 			    </div>
-			    <div class="ub ub-ac umar-l30">
+			    <div class="ub ub-ac umar-l30 uh">
 					<div class="umar-r10 uw-60 ut-r">促销类型:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="queryType" id="cx_status_1" value="goods" checked="checked"><label for="cx_status_1">商品促销 </label>
@@ -82,7 +82,7 @@
 					<div class="ub ub-ac umar-r10">
 						<input class="radioItem" type="radio" name="queryType" id="cx_status_3" value="fullReduction"><label for="cx_status_3">满减促销</label>
 					</div>
-					<div class="ub ub-ac umar-r10">
+					<div class="ub ub-ac umar-r10 uh-28">
 						<input class="radioItem" type="radio" name="queryType" id="cx_status_4" value="fullGive"><label for="cx_status_4">买满送</label>
 						<select class="uselect easyui-combobox" style="width:120px;" name="fullGiveScope" id="fullGiveType" data-options="editable:false,onChange:onChangeSelect">
 							<option value="0">商品买满送</option>
