@@ -108,7 +108,7 @@ function  initGridList() {
                 return strHtml;
             }},
             {field:'refFormNo',title:'引用单编号',width:'140px',align:'left',formatter:function(value,row,index){
-                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购收货单详细\',\''+contextPath+'/form/purchase/receiptEdit?formId='+row.refId+'\')">' + value + '</a>';
+                var strHtml = '<a style="text-decoration: underline;" href="#" onclick="toAddTab(\'查看采购收货单详细\',\'' + contextPath + '/form/purchase/receiptEdit?formType=FP&formId=' + row.refId + '\')">' + value + '</a>';
                 return strHtml;
             }},
 
