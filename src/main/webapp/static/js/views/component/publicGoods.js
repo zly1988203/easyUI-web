@@ -434,7 +434,7 @@ $(function () {
 function goodsArchives(){
     var type = $('#type').val();
 
-    if(type=='PA' || type=='PR'|| type=='PM'){
+    if(type=='PA' || type=='PR'|| type=='PM'|| type=='PL'){
         this.selectTypeName = "supplierId";
     }else{
         this.selectTypeName = "categoryCode";
