@@ -391,7 +391,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	@RequestMapping(value = "receiptEdit")
     public String receiptEdit(String formId, String report, HttpServletRequest request, String formType) {
         try {
-			PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
+            PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
 
 			if (form == null) {
 				LOG.error("采购订单数据为空：订单Id：{}", formId);
@@ -411,11 +411,11 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
                 }
             }
             request.setAttribute("form", form);
-			if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
-				request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
-				request.setAttribute("close", report);
-				return "form/purchase/receiptView";
-			}
+            if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
+                request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
+                request.setAttribute("close", report);
+                return "form/purchase/receiptView";
+            }
 
 			if (FormDealStatus.FINISH.getValue().equals(form.getDealStatus())) {// 处理完成，不能修改
 				request.setAttribute("status", FormDealStatus.FINISH.getLabel());
