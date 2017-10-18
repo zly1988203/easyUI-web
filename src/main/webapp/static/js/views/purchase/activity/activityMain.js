@@ -29,7 +29,7 @@ $(function () {
     })
 
     if($("#pageStatus").val() === "add"){
-        initConditionParams();
+        // initConditionParams();
     }else if ($("#pageStatus").val() == "copy"){
         $_jxc.ajax({url: contextPath + "/purchase/activity/detail/list/" + $("#copyId").val()}, function (data) {
             //$("#gridAddPosAct").datagrid("loadData",data.detail);
@@ -81,6 +81,8 @@ function initConditionParams(){
 function initGridActivity() {
     gridActHandel.setGridName(gridCostId);
     gridActHandel.initKey({
+        firstName:'skuCode',
+        enterName:'skuCode',
         enterCallBack:function(arg){
             if(arg&&arg=="add"){
                 gridActHandel.addRow(parseInt(gridActHandel.getSelectRowIndex())+1,gridDefault);
@@ -215,14 +217,12 @@ function delLineHandel(event){
     gridActHandel.delRow(index);
 }
 
-
 //合计
 function updateFooter(){
     var fields = {amount:0,newAmount:0,totalMoney:0};
     var argWhere = {name:'isGift',value:""}
     gridActHandel.updateFooter(fields,argWhere);
 }
-
 
 function selectGoods(searchKey) {
     var branchId = $("#branchId").val();
@@ -327,6 +327,10 @@ function validform() {
     }
     var startDate = $("#txtStartDate").val();
     var endDate = $("#txtEndDate").val();
+    if($_jxc.isStringNull(startDate) || $_jxc.isStringNull(endDate)){
+        $_jxc.alert("活动日期不完整，请填写完整");
+        return false;
+    }
 
     if(dateUtil.compareDate(startDate,endDate)){
         $_jxc.alert("结束时间不能早于开始时间");
