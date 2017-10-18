@@ -4,7 +4,7 @@
 		<form id="exportDataForm" method="post">
 			<table id="radioTable">
 				<tr style="height: 30px;"><td class="panel-title">请选择导出选项</td></tr>
-				<tr style="height: 30px;"><td><input type="radio" name="chose" value="0" />导出当前页</td></tr>
+				<tr style="height: 30px;"><td><input type="radio" name="chose" value="0" checked/>导出当前页</td></tr>
 				<tr style="height: 30px;"><td><input type="radio" name="chose" value="1" />全部页面（本次最大可导出条数为20000条）</td></tr>
 				<tr style="height: 30px;"><td><input type="radio" name="chose" value="2" />自定义页面（手动填写条数，最大20000条）当前搜索结果共<span id="totalRows"></span>条</td></tr>
 				<tr style="height: 20px;">
