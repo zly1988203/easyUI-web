@@ -187,6 +187,18 @@ function exportDetail(param){
 
 // 成本调价
 function toCostAdjust() {
-	var formId = $("#formId").val();
-    toAddTab("新增采购成本调价",contextPath + "/purchase/cost/form/add?formId="+formId);
+    $_jxc.ajax({
+        url: contextPath + "/form/purchase/ref/count",
+        data: {
+            formNo: $("#formNo").val()
+        }
+    }, function (data) {
+        if (data.code == 0) {
+            var formId = $("#formId").val();
+            toAddTab("新增采购成本调价", contextPath + "/purchase/cost/form/add?formId=" + formId);
+        } else {
+            $_jxc.alert("该单据已经调过价");
+        }
+    });
+
 }
