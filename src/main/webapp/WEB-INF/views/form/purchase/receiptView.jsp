@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.okdeer.jxc.utils.UserUtil" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>收货单-修改</title>
-    
+
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<script src="${ctx}/static/js/views/purchase/receiptView.js?V=${versionNo}"></script>
     <script src="${ctx}/static/js/views/purchase/purchaseExport.js?V=${versionNo}"></script>
@@ -21,7 +20,14 @@
             	<div class="ubtns-item"  id="addButton" onclick="receiptAdd()">新增</div>
             	</shiro:hasPermission>
             	<shiro:hasPermission name="JxcPurchaseReceipt:costAdjust">
-            	<div class="ubtns-item" onclick="toCostAdjust()">成本调价</div>
+                    <c:choose>
+                        <c:when test="${bool}">
+                            <div class="ubtns-item-disabled">成本调价</div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="ubtns-item" onclick="toCostAdjust()">成本调价</div>
+                        </c:otherwise>
+                    </c:choose>
             	</shiro:hasPermission>
             	<shiro:hasPermission name="JxcPurchaseReceipt:print">
                 <div class="ubtns-item" onclick="printChoose('PI','/form/purchase/')">打印</div>
