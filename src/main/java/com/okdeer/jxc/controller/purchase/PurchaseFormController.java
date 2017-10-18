@@ -35,6 +35,7 @@ import com.okdeer.jxc.form.purchase.qo.FormQueryQo;
 import com.okdeer.jxc.form.purchase.qo.PurchaseFormDetailPO;
 import com.okdeer.jxc.form.purchase.qo.PurchaseFormPO;
 import com.okdeer.jxc.form.purchase.service.PurchaseActivityService;
+import com.okdeer.jxc.form.purchase.service.PurchaseCostFormService;
 import com.okdeer.jxc.form.purchase.service.PurchaseFormServiceApi;
 import com.okdeer.jxc.form.purchase.vo.*;
 import com.okdeer.jxc.goods.entity.GoodsBranchPriceVo;
@@ -95,6 +96,9 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 
 	@Reference(version = "1.0.0", check = false)
 	private PurchaseActivityService purchaseActivityService;
+
+    @Reference(version = "1.0.0", check = false)
+    private PurchaseCostFormService purchaseCostFormService;
 
 	/**
 	 * 机构设置Dubbo接口
@@ -385,8 +389,8 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 	 * @date 2016年8月12日
 	 */
 	@RequestMapping(value = "receiptEdit")
-	public String receiptEdit(String formId, String report, HttpServletRequest request) {
-		try {
+    public String receiptEdit(String formId, String report, HttpServletRequest request, String formType) {
+        try {
 			PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
 
 			if (form == null) {
@@ -400,7 +404,13 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 				return "/error/500";
 			}
 
-			request.setAttribute("form", form);
+            if (StringUtils.equalsIgnoreCase("FP", formType)) {
+                int count = purchaseCostFormService.countPurchaseCostFormByRefFormNo(form.getFormNo());
+                if (count > 0) {
+                    request.setAttribute("bool", Boolean.TRUE);
+                }
+            }
+            request.setAttribute("form", form);
 			if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
 				request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
 				request.setAttribute("close", report);
