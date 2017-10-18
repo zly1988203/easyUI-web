@@ -380,15 +380,26 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 
 	}
 
-	/**
-	 * 跳转到收货单修改页面
-	 * @param formId
-	 * @param model
-	 * @return
-	 * @author xiaoj02
-	 * @date 2016年8月12日
-	 */
-	@RequestMapping(value = "receiptEdit")
+    @RequestMapping(value = "ref/count")
+    public @ResponseBody
+    RespJson refCount(String formNo) {
+        int count = purchaseCostFormService.countPurchaseCostFormByRefFormNo(formNo);
+        if (count == 0) {
+            return RespJson.success();
+        }
+        return RespJson.error();
+    }
+
+    /**
+     * 跳转到收货单修改页面
+     *
+     * @param formId
+     * @param model
+     * @return
+     * @author xiaoj02
+     * @date 2016年8月12日
+     */
+    @RequestMapping(value = "receiptEdit")
     public String receiptEdit(String formId, String report, HttpServletRequest request, String formType) {
         try {
             PurchaseFormPO form = purchaseFormServiceApi.selectPOById(formId);
@@ -402,14 +413,14 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			if (Disabled.INVALID.ordinal() == form.getDisabled().intValue()) {
 				LOG.error("采购订已删除：订单Id：{}", formId);
 				return "/error/500";
-			}
-
-            if (StringUtils.equalsIgnoreCase("FP", formType)) {
-                int count = purchaseCostFormService.countPurchaseCostFormByRefFormNo(form.getFormNo());
-                if (count > 0) {
-                    request.setAttribute("bool", Boolean.TRUE);
-                }
             }
+
+            //if (StringUtils.equalsIgnoreCase("FP", formType)) {
+            int count = purchaseCostFormService.countPurchaseCostFormByRefFormNo(form.getFormNo());
+            if (count > 0) {
+                request.setAttribute("bool", Boolean.TRUE);
+            }
+            //}
             request.setAttribute("form", form);
             if (FormStatus.CHECK_SUCCESS.getValue().equals(form.getStatus())) {// 已审核，不能修改
                 request.setAttribute("status", FormStatus.CHECK_SUCCESS.getLabel());
