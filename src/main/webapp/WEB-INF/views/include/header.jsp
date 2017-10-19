@@ -86,7 +86,7 @@ if(sessionSupplierCode && sessionSupplierName){
 	sessionSupplierCodeName = "["+sessionSupplierCode+"]"+sessionSupplierName;
 }
 var sessionSupplierDiliveCycle = '${sessionSupplier.diliveCycle}';
-
+var exportMaxRow = 20000; //导出最大记录数
 </script>
 <script src="${ctx}/static/js/fun/priceGrant.js"></script>
 <!-- 导入 -->
