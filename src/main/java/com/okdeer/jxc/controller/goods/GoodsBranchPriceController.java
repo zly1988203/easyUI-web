@@ -261,7 +261,7 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 			branchId = user.getBranchId();
 		}
 		try {
-			goodsBranchPriceService.enableOne(skuIds, branchId, user.getId());
+			goodsBranchPriceService.enableOne(null, skuIds, branchId, user.getId());
 		} catch (Exception e) {
 			return RespJson.error("导入失败");
 		}
