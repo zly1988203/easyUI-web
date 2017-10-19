@@ -419,8 +419,8 @@ function exportList(){
 		return;
 	}
 	
-	if(length>10000){
-		$_jxc.alert("当次导出数据不可超过1万条，现已超过，请重新调整导出范围！");
+	if(length > exportMaxRow){
+		$_jxc.alert("当次导出数据不可超过"+exportMaxRow+"条，现已超过，请重新调整导出范围！");
 		return;
 	}
 	location.href = contextPath +"/finance/nonExpend/exportList?formId=" + formId;
