@@ -262,13 +262,7 @@ function initDatagridEditOrder(){
                     type:'datebox',
                 },
             },
-            {field:'remark',title:'备注',width:'200px',align:'left',
-                editor:{
-                    type:'textbox',
-                    options:{
-                        validType:{maxLength:[20]},
-                    }
-                }
+            {field:'remark',title:'备注',width:'200px',align:'left',editor:'textbox'
             }
         ]],
         onClickCell:function(rowIndex,field,value){
@@ -651,6 +645,12 @@ function saveItemHandel(){
         if(parseFloat(_realNum).toFixed(4) != parseFloat(v["realNum"]).toFixed(4)
             && parseFloat(_largeNum ).toFixed(4) != parseFloat(v["largeNum"]).toFixed(4)){
             $_jxc.alert("第"+(i+1)+"行，箱数和数量的数据异常，请调整");
+            isCheckResult = false;
+            return false;
+        }
+
+        if(!$_jxc.isStringNull(v['remark']) && v['remark'].length > 20){
+            $_jxc.alert("第"+(i+1)+"行，备注不能大于20个字符");
             isCheckResult = false;
             return false;
         }

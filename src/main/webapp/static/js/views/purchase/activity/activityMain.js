@@ -343,8 +343,8 @@ function validform() {
         return false;
     }
     $.each(rows,function (index,item) {
-        if(item['remark'].length > 50){
-            $_jxc.alert("第"+(index+1)+"行，备注长度大于了100个字符");
+        if(!$_jxc.isStringNull(item['remark']) && item['remark'].length > 50){
+            $_jxc.alert("第"+(index+1)+"行，备注长度大于了50个字符");
             flag = true;
         }
     })
