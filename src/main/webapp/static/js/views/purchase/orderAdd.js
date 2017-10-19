@@ -854,6 +854,7 @@ function saveDataHandel(rows){
                 } else {
                     new publicErrorDialog({
                         "title": "保存失败",
+                        "width": 300,
                         "error": result['message']
                     });
                 }
@@ -873,6 +874,7 @@ function saveDataHandel(rows){
                         } else {
                             new publicErrorDialog({
                                 "title": "保存失败",
+                                "width": 300,
                                 "error": result['message']
                             });
                         }
