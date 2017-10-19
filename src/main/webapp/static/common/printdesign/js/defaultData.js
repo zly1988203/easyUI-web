@@ -102,7 +102,7 @@ var commonItems = [ {
 }, {
 	type : "holder",
 	text : "_审核日期"
-} ]
+}];
 
 // 打印项数据
 var defaultData = {
@@ -281,11 +281,17 @@ var defaultData = {
 			type : "holder",
 			text : "_备注"
 		}, {
-			type : "label",
-			text : "订单编号："
-		}, {
-			type : "holder",
-			text : "_订单编号"
+            type: "label",
+            text: "采购订单号："
+        }, {
+            type: "holder",
+            text: "_采购订单号"
+        }, {
+            type: "label",
+            text: "采购收货单号："
+        }, {
+            type: "holder",
+            text: "_采购收货单号"
 		},{
 			type : "label",
 			text : "原订单号："
@@ -316,7 +322,10 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "采购："
-		} ]
+        }, {
+            type: "label",
+            text: "自定义标签"
+        }]
 	} ],
 	// 采购退货单
 	PRSheet : [ /*{
@@ -388,11 +397,23 @@ var defaultData = {
 			type : "holder",
 			text : "_备注"
 		}, {
-			type : "label",
-			text : "订单编号："
-		}, {
-			type : "holder",
-			text : "_订单编号"
+            type: "label",
+            text: "采购订单号："
+        }, {
+            type: "holder",
+            text: "_采购订单号"
+        }, {
+            type: "label",
+            text: "采购收货单号："
+        }, {
+            type: "holder",
+            text: "_采购收货单号"
+        }, {
+            type: "label",
+            text: "采购退货单号："
+        }, {
+            type: "holder",
+            text: "_采购退货单号"
 		}, {
 			type : "label",
 			text : "人民币总金额大写："
@@ -417,7 +438,10 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "采购："
-		} ]
+        }, {
+            type: "label",
+            text: "自定义标签"
+        }]
 	} ],
 	// 调价单
 	CASheet : [ {
@@ -1360,5 +1384,5 @@ var defaultData = {
 			type : "label",
 			text : "司机："
 		} ]
-	} ],
-}
+     }]
+};
