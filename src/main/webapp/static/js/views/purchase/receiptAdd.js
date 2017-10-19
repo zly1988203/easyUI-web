@@ -667,7 +667,7 @@ function saveItemHandel(){
             return false;
         }
 
-        if(v["remark"].length > 20){
+        if(!$_jxc.isStringNull(v['remark']) && v['remark'].length > 20){
             $_jxc.alert("第"+(i+1)+"行，备注不能大于20个字符");
             isCheckResult = false;
             return false;

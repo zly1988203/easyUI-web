@@ -434,6 +434,7 @@ $(function () {
 function goodsArchives(){
     var type = $('#type').val();
 
+    // PA采购单 PR采购退货 PM直送收货单 PL促销进价单
     if(type=='PA' || type=='PR'|| type=='PM'|| type=='PL'){
         this.selectTypeName = "supplierId";
     }else{
