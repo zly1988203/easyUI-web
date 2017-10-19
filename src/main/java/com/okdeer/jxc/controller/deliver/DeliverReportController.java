@@ -7,20 +7,6 @@
 
 package com.okdeer.jxc.controller.deliver;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
@@ -37,6 +23,18 @@ import com.okdeer.jxc.report.vo.DeliverDaAndDoFormListVo;
 import com.okdeer.jxc.report.vo.DeliverFormVo;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ClassName: DeliverReportController 
@@ -90,6 +88,14 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 		model.addAttribute("branchesGrow", branchesGrow);
 		return "report/deliver/DeliverFormListReport";
 	}
+
+    @RequestMapping(value = "new/viewDeliverList")
+    public String newViewDeliverList(Model model) {
+        SysUser user = getCurrentUser();
+        Branches branchesGrow = branchesServiceApi.getBranchInfoById(user.getBranchId());
+        model.addAttribute("branchesGrow", branchesGrow);
+        return "report/deliver/deliverFormList";
+    }
 
 	/**
 	 * @Description: 要货单状态跟踪查询

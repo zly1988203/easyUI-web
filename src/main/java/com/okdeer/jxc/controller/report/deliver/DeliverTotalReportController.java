@@ -7,20 +7,6 @@
 
 package com.okdeer.jxc.controller.report.deliver;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
@@ -34,6 +20,18 @@ import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.retail.common.price.PriceConstant;
 import com.okdeer.retail.common.report.DataRecord;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("report/deliverTotalReport")
@@ -62,6 +60,15 @@ public class DeliverTotalReportController extends ReportController {
 
 		return "report/deliver/deliverTotalReport";
 	}
+
+    @RequestMapping("/new/view")
+    public String newView(Model model) {
+        SysUser user = getCurrentUser();
+        Branches branchesGrow = branchesServiceApi.getBranchInfoById(user.getBranchId());
+        model.addAttribute("branchesGrow", branchesGrow);
+
+        return "report/deliver/deliverTotal";
+    }
 
 	/**
 	 * @Description: 配送明细查询
@@ -94,71 +101,73 @@ public class DeliverTotalReportController extends ReportController {
 		return map;
 	}
 
-	@RequestMapping("reportListPage")
-	@ResponseBody
-	public PageUtils<DataRecord> reportListPage(HttpServletRequest request,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) Integer page,
-			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) Integer rows) {
-		PageUtils<DataRecord> list = getReportService().getListPage(getParam(request), page, rows);
-		for (DataRecord dataRecord : list.getList()) {
-			formatter(dataRecord);
-		}
+    @Override
+    @RequestMapping("reportListPage")
+    @ResponseBody
+    public PageUtils<DataRecord> reportListPage(HttpServletRequest request,
+                                                @RequestParam(value = "page", defaultValue = PAGE_NO) Integer page,
+                                                @RequestParam(value = "rows", defaultValue = PAGE_SIZE) Integer rows) {
+        PageUtils<DataRecord> list = getReportService().getListPage(getParam(request), page, rows);
+        for (DataRecord dataRecord : list.getList()) {
+            formatter(dataRecord);
+        }
 
-		cleanDataMaps(getPriceAccess(), list.getList());
-		cleanDataMaps(getPriceAccess(), list.getFooter());
-		return list;
-	}
+        cleanDataMaps(getPriceAccess(), list.getList());
+        cleanDataMaps(getPriceAccess(), list.getFooter());
+        return list;
+    }
 
-	@RequestMapping(value = "exportDeliverExcel")
-	public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
+    @Override
+    @RequestMapping(value = "exportDeliverExcel")
+    public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
 
-		Map<String, Object> map = getParam(request);
-		String reportFileName = "";
-		String templateName = "";
-		if (map.get("queryType") == null || StringUtils.isEmpty(map.get("queryType").toString())) {
-			return;
-		}
+        Map<String, Object> map = getParam(request);
+        String reportFileName = "";
+        String templateName = "";
+        if (map.get("queryType") == null || StringUtils.isEmpty(map.get("queryType").toString())) {
+            return;
+        }
 
-		// 机构名称默认为当前登录机构
-		String branchName = getCurrBranchName();
+        // 机构名称默认为当前登录机构
+        String branchName = getCurrBranchName();
 
-		// 机构名称取页面排版左上角第一个机构的机构名称, 目前都是取的入库机构Id
-		if (map.containsKey("targetBranchId")) {
-			String branchId = map.get("targetBranchId").toString();
-			branchName = branchesServiceApi.getBranchInfoById(branchId).getBranchName();
-		}
+        // 机构名称取页面排版左上角第一个机构的机构名称, 目前都是取的入库机构Id
+        if (map.containsKey("targetBranchId")) {
+            String branchId = map.get("targetBranchId").toString();
+            branchName = branchesServiceApi.getBranchInfoById(branchId).getBranchName();
+        }
 
-		if ("goods".equals(map.get("queryType"))) {
-			reportFileName = "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "商品查询";
-			templateName = "deliverTotalByGoods.xlsx";
-		} else if ("form".equals(map.get("queryType"))) {
-			reportFileName = "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "订单查询";
-			templateName = "deliverTotalByForm.xlsx";
-		} else if ("category".equals(map.get("queryType"))) {
-			reportFileName = "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "类别汇总查询";
-			templateName = "deliverTotalByCategory.xlsx";
-		} else if ("branch".equals(map.get("queryType"))) {
-			reportFileName = "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "往来汇总查询";
-			templateName = "deliverTotalBybranch.xlsx";
-		}
+        if ("goods".equals(map.get("queryType"))) {
+            reportFileName = "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "商品查询";
+            templateName = "deliverTotalByGoods.xlsx";
+        } else if ("form".equals(map.get("queryType"))) {
+            reportFileName = "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "订单查询";
+            templateName = "deliverTotalByForm.xlsx";
+        } else if ("category".equals(map.get("queryType"))) {
+            reportFileName = "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "类别汇总查询";
+            templateName = "deliverTotalByCategory.xlsx";
+        } else if ("branch".equals(map.get("queryType"))) {
+            reportFileName = "配送汇总" + "_" + DateUtils.getCurrSmallStr() + "-" + "往来汇总查询";
+            templateName = "deliverTotalBybranch.xlsx";
+        }
 
-		reportFileName = branchName + reportFileName;
+        reportFileName = branchName + reportFileName;
 
-		// 模板名称，包括后缀名
-		List<DataRecord> dataList = deliverTotalReportServiceApi.getList(map);
-		DataRecord data = deliverTotalReportServiceApi.getTotal(map);
-		dataList.add(data);
-		for (DataRecord dataRecord : dataList) {
-			formatter(dataRecord);
-		}
+        // 模板名称，包括后缀名
+        List<DataRecord> dataList = deliverTotalReportServiceApi.getList(map);
+        DataRecord data = deliverTotalReportServiceApi.getTotal(map);
+        dataList.add(data);
+        for (DataRecord dataRecord : dataList) {
+            formatter(dataRecord);
+        }
 
-		cleanDataMaps(getPriceAccess(), dataList);
+        cleanDataMaps(getPriceAccess(), dataList);
 
-		// 导出Excel
-		Map<String, Object> param = new HashMap<>();
-		param.put("branchName", branchName);
-		exportParamListForXLSX(response, dataList, param, reportFileName, templateName);
-	}
+        // 导出Excel
+        Map<String, Object> param = new HashMap<>();
+        param.put("branchName", branchName);
+        exportParamListForXLSX(response, dataList, param, reportFileName, templateName);
+    }
 
 	@Override
 	public String getFileName() {
