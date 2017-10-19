@@ -92,14 +92,13 @@ public interface PrintConstant {
 	 */
 	Integer PRINT_MAX_ROW = 3000;
 
-	/**
-	 * @Fields MEMBER_ORDER_ALL_REPORT : 会员消费汇总模版
-	 */
+	/*** 会员消费报表——汇总统计模版	 */
+	String MEMBER_TOTAL_ALL_REPORT = "MemberTotalAllReport.jrxml";
+	
+	/*** 会员消费报表——订单统计模版	 */
 	String MEMBER_ORDER_ALL_REPORT = "MemberOrderAllReport.jrxml";
 
-	/**
-	 * @Fields MEMBER_ORDER_LIST_REPORT : 会员消费明细模版
-	 */
+	/*** 会员消费报表——消费明细模版	 */
 	String MEMBER_ORDER_LIST_REPORT = "MemberOrderListReport.jrxml";
 
 	/** 

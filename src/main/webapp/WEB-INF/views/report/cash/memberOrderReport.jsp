@@ -27,7 +27,7 @@
 	                <div class="ubtns-item" onclick="exportData()">导出</div>
                 </shiro:hasPermission>
 	                <div class="ubtns-item" onclick="gFunRefresh()">重置</div>
-	                <div class="ubtns-item" onclick="toClose()">退出</div>
+	                <div class="ubtns-item" onclick="toClose()">关闭</div>
                 </div>
 	           	<!-- 引入时间选择控件 -->
 	            <%@ include file="/WEB-INF/views/component/dateSelect.jsp"%>
@@ -58,8 +58,12 @@
                 <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">汇总类型:</div>
                     <div class="ub ub-ac umar-r10 ">
-                        <input class="radioItem" id="buyerUserReport" type="radio" name="queryType" value="memberOrderAll" checked="checked"/>
-                        <label for="buyerUserReport">汇总统计</label>
+                        <input class="radioItem" id="buyerUserTotalReport" type="radio" name="queryType" value="memberTotalAll" checked="checked"/>
+                        <label for="buyerUserTotalReport">汇总统计</label>
+                    </div>
+                    <div class="ub ub-ac umar-r10 ">
+                        <input class="radioItem" id="buyerUserReport" type="radio" name="queryType" value="memberOrderAll"/>
+                        <label for="buyerUserReport">订单统计</label>
                     </div>
                     <div class="ub ub-ac umar-r10">
                         <input class="radioItem" id="buyerUserReportList" type="radio" name="queryType" value="memberOrderList"  />

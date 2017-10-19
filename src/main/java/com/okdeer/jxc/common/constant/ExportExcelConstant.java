@@ -648,10 +648,11 @@ public interface ExportExcelConstant {
 	 */
 	String NEW_GOODS_APPLY_TEMPLE = "NewGoodsApplyTemple.xlsx";
 
-	/**
-	 * @Fields MEMBER_ORDER_ALL : 会员消费汇总报表
-	 */
+	/*** 会员消费报表——订单统计   */
 	String MEMBER_ORDER_ALL = "memberOrderAll.xlsx";
+	
+	/*** 会员消费报表——汇总统计   */
+	String MEMBER_TOTAL_ALL = "memberTotalAll.xlsx";
 
 	/**
 	 * @Fields MEMBER_ORDER_LIST : 会员消费明细
