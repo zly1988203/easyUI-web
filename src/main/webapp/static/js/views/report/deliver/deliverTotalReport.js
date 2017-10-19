@@ -588,7 +588,7 @@ function query(){
 	
 	var queryType = $("input[name='queryType']:checked").val();
 	if(queryType == 'goods' || queryType == 'branch'){
-		var branchId = $("#targetBranchId").val();
+        var branchId = $("#targetBranchId").val() || $("#branchId").val();
 		if(!$.trim(branchId)){
 			$_jxc.alert("请选择查询机构");
 			return;
