@@ -543,7 +543,7 @@ function publicOperatorService(callback,param) {
         dialogDiv["buttons"] = [{
             text:'确定',
             handler:function(){
-                publicOperatorGetCheck(callBackHandel);
+                publicPersonGetCheck(callBackHandel);
             }
         },{
             text:'取消',
