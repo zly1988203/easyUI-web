@@ -79,14 +79,18 @@ function addUser(){
 	
 	var priceGrantStr = priceGrantArray.join(",");
 	reqObj.priceGrantStr = priceGrantStr;
-	
-	var url = contextPath + "/system/user/addUser";
-	var param = reqObj;
-	ajaxSubmit(url,param,function(result){
-        if(result){
-            $_jxc.alert(result.message,reloadDataGrid);
+
+    var url = contextPath + "/system/user/addUser";
+    $_jxc.ajax({url:url,
+        data:reqObj,
+    },function(result){
+        if(result['code'] == 0){
+            $_jxc.alert("操作成功");
+            reloadDataGrid();
+        }else {
+            $_jxc.alert(result.message);
         }
-	});
+    });
 }
 
 function initCheck() {
