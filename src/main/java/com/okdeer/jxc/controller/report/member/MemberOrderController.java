@@ -68,9 +68,89 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 		model.addAttribute("branchId", getCurrBranchId());
 		return "report/cash/memberOrderReport";
 	}
+	
+	/**
+	 * @Description: 会员消费——汇总统计
+	 * @param qo
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 * @author liwb
+	 * @date 2017年10月19日
+	 */
+	@RequestMapping(value = "/memberTotalAll")
+	@ResponseBody
+	public PageUtils<MemberOrderReportVo> memberTotalAll(MemberOrderReportQo qo,
+			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+		try {
+			qo.setPageNumber(pageNumber);
+			qo.setPageSize(pageSize);
+			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			LOG.debug(LogConstant.OUT_PARAM, qo.toString());
+			return memberOrderServiceApi.queryMemberTotalAll(qo);
+		} catch (Exception e) {
+			LOG.error("会员消费报表汇总统计查询异常:", e);
+		}
+		return PageUtils.emptyPage();
+	}
+
+	@RequestMapping(value = "memberTotalAllExportList")
+	public void memberTotalAllExportList(HttpServletResponse response, MemberOrderReportQo qo) {
+		LOG.debug(LogConstant.OUT_PARAM, qo.toString());
+		try {
+			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			List<MemberOrderReportVo> exportList = memberOrderServiceApi.queryMemberTotalAlls(qo);
+			MemberOrderReportVo vo = memberOrderServiceApi.queryMemberTotalAllSum(qo);
+			vo.setPhone("合计：");
+			exportList.add(vo);
+			String fileName = "会员消费汇总统计" + "_" + DateUtils.getCurrSmallStr();
+			String templateName = ExportExcelConstant.MEMBER_TOTAL_ALL;
+			// 导出Excel
+			exportListForXLSX(response, exportList, fileName, templateName);
+		} catch (Exception e) {
+			LOG.error("会员消费报表汇总统计导出异常: ", e);
+		}
+	}
+	
+	@RequestMapping(value = "memberTotalAllPrint", method = RequestMethod.GET)
+	@ResponseBody
+	public String memberTotalAllPrint(MemberOrderReportQo qo, HttpServletResponse response, 
+			HttpServletRequest request) {
+		try {
+			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			// 初始化默认参数
+			LOG.debug("会员消费汇总打印参数：{}", qo.toString());
+			// 查询条数
+			int lenght = memberOrderServiceApi.queryMemberTotalAllCount(qo);
+			if (lenght > PrintConstant.PRINT_MAX_ROW) {
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
+			
+			qo.setPageNumber(1);
+			qo.setPageSize(PrintConstant.PRINT_MAX_ROW);
+			
+			// 查询明细
+			List<MemberOrderReportVo> list = memberOrderServiceApi.queryMemberTotalAlls(qo);
+			// 查询合计
+			MemberOrderReportVo vo = memberOrderServiceApi.queryMemberTotalAllSum(qo);
+			vo.setPhone("合计：");
+			list.add(vo);
+			
+			String path = PrintConstant.MEMBER_TOTAL_ALL_REPORT;
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("startDate", DateUtils.formatDate(qo.getStartTime(), DateUtils.DATE_FULL_STR));
+			map.put("endDate", DateUtils.formatDate(qo.getEndTime(), DateUtils.DATE_FULL_STR));
+			map.put("printName", UserUtil.getCurrentUser().getUserName());
+			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
+		} catch (Exception e) {
+			LOG.error("会员消费报表订单汇总打印异常", e);
+		}
+		return null;
+	}
 
 	/**
-	 * @Description: 会员消费报表
+	 * @Description: 会员消费——订单统计
 	 * @param request
 	 * @param response
 	 * @return
@@ -96,13 +176,13 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			pages.setFooter(footer);
 			return pages;
 		} catch (Exception e) {
-			LOG.error("会员消费报表查询异常:", e);
+			LOG.error("会员消费报表订单统计查询异常:", e);
 		}
 		return PageUtils.emptyPage();
 	}
 
 	/**
-	 * @Description: 导出会员消费汇总
+	 * @Description: 导出会员消费订单统计
 	 * @param qo
 	 * @return
 	 * @author zhangchm
@@ -117,12 +197,12 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			MemberOrderReportVo vo = memberOrderServiceApi.queryMemberOrderAllSum(qo);
 			vo.setPhone("合计：");
 			exportList.add(vo);
-			String fileName = "会员消费汇总" + "_" + DateUtils.getCurrSmallStr();
+			String fileName = "会员消费订单统计" + "_" + DateUtils.getCurrSmallStr();
 			String templateName = ExportExcelConstant.MEMBER_ORDER_ALL;
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("MemberOrderController : memberOrderAllExportList : ", e);
+			LOG.error("会员消费报表订单统计导出异常: ", e);
 		}
 	}
 
@@ -179,12 +259,12 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			// 导出Excel
 			exportListForXLSX(response, exportList, fileName, templateName);
 		} catch (Exception e) {
-			LOG.error("MemberOrderController : memberOrderListExportList : ", e);
+			LOG.error("会员消费明细导出异常: ", e);
 		}
 	}
 
 	/**
-	 * @Description: 会员消费汇总报表打印
+	 * @Description: 会员消费订单汇总报表打印
 	 * @param qo
 	 * @param request
 	 * @param response
@@ -222,7 +302,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
 		} catch (Exception e) {
-			LOG.error(PrintConstant.CASH_FLOW_PRINT_ERROR, e);
+			LOG.error("会员消费报表订单汇总打印异常", e);
 		}
 		return null;
 	}
@@ -266,7 +346,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			map.put("printName", UserUtil.getCurrentUser().getUserName());
 			JasperHelper.exportmain(request, response, map, JasperHelper.PDF_TYPE, path, list, "");
 		} catch (Exception e) {
-			LOG.error(PrintConstant.CASH_FLOW_PRINT_ERROR, e);
+			LOG.error("会员消费报表明细打印异常", e);
 		}
 		return null;
 	}

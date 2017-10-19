@@ -9,7 +9,7 @@ $(function() {
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	// 初始化列表
-	initMemberOrderAllGrid();
+    initMemberTotalAllGrid();
 	//选择报表类型
 	changeType();
 });
@@ -17,22 +17,25 @@ $(function() {
 var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
-		flushFlg = true;
     	var a = $(this).val();
-    	if (a=="memberOrderAll") {
+    	if (a=="memberTotalAll") {
 			// 初始化列表汇总统计
+			initMemberTotalAllGrid();
+		} else if (a=="memberOrderAll") {
+			// 初始化列表订单统计
 			initMemberOrderAllGrid();
 		} else if (a=="memberOrderList") {
 			// 初始化列表消费明细
 			initMemberOrderListGrid();
 		}
+    	gridHandel.setLoadData([$.extend({},gridDefault)]);
     });
 }
 
 var gridHandel = new GridClass();
-// 汇总统计
+// 订单统计
 var dg;
-function initMemberOrderAllGrid() {
+function initMemberTotalAllGrid() {
 	gridHandel.setGridName('memberOrderData');
 	dg = $("#memberOrderData").datagrid({
         //title:'普通表单-用键盘操作',
@@ -58,16 +61,18 @@ function initMemberOrderAllGrid() {
 					return value;
 				}
 			},
-            {field: 'orderNo', title: '订单编号', width: 160, align: 'left'},
-			{field: 'saleType', title: '订单类型', width: 100, align: 'left'},
-            {field: 'expCreateTime', title: '消费时间', width: 150, align: 'center'},
-			{field: 'branchName', title: '消费机构', width: 100, align: 'left'},
-            {field: 'amount', title: '订单金额', width: 80, align: 'right',
+			{field: 'branchCode', title: '消费机构编号', width: 100, align: 'left'},
+			{field: 'branchName', title: '消费机构', width: 150, align: 'left'},
+			{field: 'orderNum', title: '消费订单笔数', width: 100, align: 'right',
+				formatter : function(value, row,index) {
+    				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+				}
+			},
+            {field: 'orderAmount', title: '消费订单金额', width: 100, align: 'right',
 				formatter : function(value, row,index) {
     				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
             },
-            {field: 'ticketNo', title: '小票号', width: 150, align: 'left'}
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -77,6 +82,52 @@ function initMemberOrderAllGrid() {
     if(flushFlg){
     	query();
     }
+}
+function initMemberOrderAllGrid() {
+	gridHandel.setGridName('memberOrderData');
+	dg = $("#memberOrderData").datagrid({
+		//title:'普通表单-用键盘操作',
+		method: 'post',
+		align: 'center',
+		url:'',
+		//url: "",
+		//toolbar: '#tb',     //工具栏 id为tb
+		singleSelect: false,  //单选  false多选
+		rownumbers: true,    //序号
+		pagination: true,    //分页
+		//fitColumns:true,    //占满
+		//showFooter:true,
+		pageSize : pageSize,
+		showFooter:true,
+		height:'100%',
+		columns: [[
+		           {field: 'phone', title: '会员手机号', width: 100, align: 'left',
+		        	   formatter:function(value,row,index){
+		        		   if(!value){
+		        			   return '<div class="ub ub-pc ufw-b">合计</div> '
+		        		   }
+		        		   return value;
+		        	   }
+		           },
+		           {field: 'orderNo', title: '订单编号', width: 160, align: 'left'},
+		           {field: 'saleType', title: '订单类型', width: 100, align: 'left'},
+		           {field: 'expCreateTime', title: '消费时间', width: 150, align: 'center'},
+		           {field: 'branchName', title: '消费机构', width: 100, align: 'left'},
+		           {field: 'amount', title: '订单金额', width: 80, align: 'right',
+		        	   formatter : function(value, row,index) {
+		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+		        	   }
+		           },
+		           {field: 'ticketNo', title: '小票号', width: 150, align: 'left'}
+		           ]],
+		           onLoadSuccess:function(data){
+		        	   gridHandel.setDatagridHeader("center");
+//			updateFooter();
+		           }
+	});
+	if(flushFlg){
+		query();
+	}
 }
 
 //消费明细
@@ -162,7 +213,9 @@ function query(){
 	$("#memberOrderData").datagrid("options").method = "post";
 
 	var radioValue = $('input[name="queryType"]:checked').val();
-	if (radioValue == 'memberOrderAll') {
+	if (radioValue == 'memberTotalAll') {
+		$("#memberOrderData").datagrid("options").url =  contextPath+"/memberOrder/report/memberTotalAll";
+	} else if (radioValue == 'memberOrderAll') {
 		$("#memberOrderData").datagrid("options").url =  contextPath+"/memberOrder/report/memberOrderAll";
 	} else if (radioValue == 'memberOrderList') {
 		$("#memberOrderData").datagrid("options").url =  contextPath+"/memberOrder/report/memberOrderList";
@@ -214,8 +267,10 @@ function exportData(){
     }
 
     var radioValue = $('input[type="radio"][name="queryType"]:checked').val();
-    if (radioValue == 'memberOrderAll') {
-        param.url=contextPath+"/memberOrder/report/memberOrderAllExportList";
+    if (radioValue == 'memberTotalAll') {
+        param.url=contextPath+"/memberOrder/report/memberTotalAllExportList";
+    } else if (radioValue == 'memberOrderAll') {
+    	param.url=contextPath+"/memberOrder/report/memberOrderAllExportList";
     } else if (radioValue == 'memberOrderList') {
         param.url= contextPath+"/memberOrder/report/memberOrderListExportList";
     }
@@ -248,7 +303,9 @@ function printReport(){
 	var branchId= $("#branchId").val();
 	var radioValue = $('input:radio:checked').val();
 	var urlTemp = "";
-	if (radioValue == 'memberOrderAll') {
+	if (radioValue == 'memberTotalAll') {
+		urlTemp = "/memberOrder/report/memberTotalAllPrint?";
+	} else if (radioValue == 'memberOrderAll') {
 		urlTemp = "/memberOrder/report/memberOrderAllPrint?";
 	} else if (radioValue == 'memberOrderList') {
 		urlTemp = "/memberOrder/report/memberOrderListPrint?";
