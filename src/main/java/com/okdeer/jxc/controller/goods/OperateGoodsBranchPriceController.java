@@ -328,7 +328,7 @@ public class OperateGoodsBranchPriceController extends BaseController<OperateGoo
 		}
 		try {
 			if (CollectionUtils.isNotEmpty(goodsBranchPriceList)) {
-				goodsSkuSyncServiceApi.recoveryGoodsStoreSkuToMq(goodsBranchPriceList);
+				goodsSkuSyncServiceApi.recoveryGoodsStoreSkuToMq(goodsBranchPriceList, null);
 			}
 		} catch (Exception e) {
 			return RespJson.error(e.getLocalizedMessage());
