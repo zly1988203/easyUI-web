@@ -79,7 +79,7 @@
                     <input class="uinp ub ub-f1"  maxLength="20" type="text" name="activityName" id="activityName" value="">
                 </div>
                 <i class="ub ub-ac uc-red">*</i>
-                <div class="ub ub-ac uselectw umar-r10">
+                <div class="ub ub-ac uselectw umar-r10 activityTypeDv">
                     <div class="umar-r10 uw-90 ut-r">活动类型:</div>
                        <!--select-->
 				        <select class="uselect easyui-combobox " name="activityType" id="activityType" data-options="editable:false,onChange:onChangeSelect">
@@ -92,7 +92,7 @@
 								<option value="10">买满送</option>
 				        </select>
                 </div>
-                <div class="ub ub-ac umar-l10  discountTypechoose unhide">
+                <div class="ub ub-ac umar-l20  discountTypechoose unhide">
                 		<div class="ub ub-ac umar-r10">
 	                        <label class="disradioLabel"><input class="radioItem disradio disstatusChange" type="radio" id="allZk" name="disstatus"  value="2"/><span>全场折扣</span></label>
 	                    </div>
@@ -104,7 +104,7 @@
 						</div>
 	                     <input class="uinp" type="hidden" id="activityScopedis" value="2"  name="activityScopedis">
 	            </div>
-                <div class="ub ub-ac umar-l10  mjTypechoose unhide">
+                <div class="ub ub-ac umar-l20  mjTypechoose unhide">
 						<div class="ub ub-ac umar-r10">
 							<label class="mjradioLabel"><input class="radioItem mjradio" type="radio" id="allMj" name="mjstatus"  value="2" /><span>全场</span></label>
 						</div>
@@ -117,7 +117,7 @@
 	                     <input class="uinp" type="hidden" id="activityScopemj" value="2"  name="activityScopemj">
 	            </div>
 	            <!--买满送-->
-	            <div class="ub ub-ac umar-l10  mmsTypechoose unhide">
+	            <div class="ub ub-ac umar-l20  mmsTypechoose unhide">
 					<div class="ub ub-ac umar-r10">
 						<label class="mmradioLabel"><input class="radioItem mmradio" type="radio"  name="mmsstatus"  value="2" checked="checked"/><span>全场</span></label>
 					</div>
@@ -129,58 +129,52 @@
 					</div>
                     <input class="uinp" type="hidden" id="activityScopemms" value="2"  name="activityScopemms">
 	            </div>
-	           
             </div>
 	         
-	          <div class="ub umar-t8">
+			<div class="ub umar-t8">
 	             <input class="uinp ub ub-f1" name="branchsFullName" type="hidden" id="branchsFullName"  value="${branchsFullName}">                   
-	             <div class="ub  ub-ac uw-384" id="branchComponent">
+	             <div class="ub  ub-ac uw-390" id="branchComponent">
 	                   <div class="umar-r10 uw-70 ut-r">活动分店:</div>
 	                   <input class="uinp ub ub-f1" type="hidden" id="branchIds" name="branchIds" value="">
                        <input class="uinp ub ub-f1" type="text" id="branchName" readonly="readonly" value="" name="branchName">
 	                   <div class="uinp-more" id="selectBranchMore">...</div>
+						<i class="ub ub-ac uc-red">*</i>
 	             </div>
-	             <i class="ub ub-ac uc-red">*</i>
-	              <div class="ub ub-ac uw-390 umar-l10 special">
+
+	              <div class="ub ub-ac uw-390 umar-l10 umar-r10 special">
 					<div class="umar-r10 uw-80 ut-r">批量特价:</div>
-					<input class="uinp easyui-numberbox" data-options="min:0,precision:2,onChange:changeSpecNum" type="text"  id="special">
-						<div class="umar-l10">元</div>
+					<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2,onChange:changeSpecNum" type="text"  id="special">
 				  </div>
-				   <div class="ub ub-ac uw-390 umar-l10 discount unhide">
-					<div class="umar-r10 uw-80 ut-r">批量折扣:</div>
-					<input class="uinp  easyui-numberbox" data-options="min:0,precision:2,onChange:changeDisNum" type="text" id="discount">
-						<div class="umar-l10">折</div>
-				  </div>
+
+					<div class="ub ub-ac uw-390 umar-l10 topMoney unhide">
+					<div class="umar-r10 uw-80 ut-r">最高优惠:</div>
+					<input class="uinp uw-304  easyui-numberbox" data-options="min:0,precision:2" type="text" id="topMoney">
+					</div>
 				  <div class="ub ub-ac uw-390 umar-l10 oddprice unhide">
 					<div class="umar-r10 uw-80 ut-r">批量偶数特价:</div>
-					<input class="uinp  easyui-numberbox" data-options="min:0,precision:2,onChange:changeOddprice" type="text"  id="batchcount">
-						<div class="umar-l10">元</div>
+					<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2,onChange:changeOddprice" type="text"  id="batchcount">
+						<%--<div class="umar-l10">元</div>--%>
 				   </div>
 				   
 				   <!--买满条件 -->
-				   <div class="ub ub-ac uw-390 uselectw umar-l10 mmstype unhide">
+				   <div class="ub ub-ac umar-l10 mmstype unhide">
 					<div class="umar-r10 uw-80 ut-r">活动条件:</div>
-					<select class="uselect easyui-combobox " name="activitymmsType" id="activitymmsType" data-options="editable:false,value:0,onChange:onChangemmsSelect">
+					<select class="easyui-combobox" style="width:302px" name="activitymmsType" id="activitymmsType" data-options="editable:false,value:0,onChange:onChangemmsSelect">
 						    <option value="0">买满金额</option> 
 							<option value="1">买满数量</option> 
 			        </select>
-			        <div class="ub ub-ac umar-l10 ">
-						<div class="ub ub-ac umar-r10">
-							<input class="ub mmradioAct" type="checkbox" id="mmsofactType1"  name="mmsofactType"  value="2" /><label for="mmsofactType1">促销商品参与</label>
-						</div>
-	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub mmradioAct" type="checkbox" id="mmsofactType2" name="mmsofactType" value="1" /><label for="mmsofactType2">倍数送</label>
-	                    </div>
-		            </div>
+
 	          	  </div>
 
-				<div id="dvVip" class="ub ub-ac umar-l30">
-					<div class="ub ub-ac umar-r10">
-						<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" /><label for="memberExclusive">会员独享</label>
-					</div>
-				</div>
-
 	        </div>
+
+			<div class="ub umar-t8">
+				<div class="ub ub-ac uw-390 umar-l10 discount unhide">
+				<div class="umar-r10 uw-80 ut-r">批量折扣:</div>
+				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2,onChange:changeDisNum" type="text" id="discount">
+				<%--<div class="umar-l10">折</div>--%>
+				</div>
+			</div>
        	</form>
            
       
