@@ -11,7 +11,7 @@ var dvVip = '<div id="dvVip" class="ub ub-ac umar-l20"> ' +
 	'</div>';
 var dvVipOne = '<div id="dvVipOne" class="ub ub-ac umar-l20"> ' +
 	'<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberOneExclusive"  name="memberOneExclusive"  value="1" /><label for="memberOneExclusive">会员每日独享一次</label>'+
+    '<input class="ub" type="checkbox" id="memberOneExclusive"  name="memberOneExclusive"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
     '</div> ' +
 	'</div>';
 
@@ -20,7 +20,7 @@ var dvzhspecial =  ' <div class="ub ub-ac umar-l30" id="dvzhspecial"> ' +
     '<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" /><label for="memberExclusive">会员独享</label>'+
     '</div> ' +
     '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberOneExclusive"  name="memberOneExclusive"  value="1" /><label for="memberOneExclusive">会员每日独享一次</label>'+
+    '<input class="ub" type="checkbox" id="memberOneExclusive"  name="memberOneExclusive"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
     '</div> ' +
     '</div>';
 
@@ -35,7 +35,7 @@ var dvmms = ' <div class="ub ub-ac umar-l30" id="dvmms"> ' +
     '<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" /><label for="memberExclusive">会员独享</label>'+
     '</div> ' +
     '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberOneExclusive"  name="memberOneExclusive"  value="1" /><label for="memberOneExclusive">会员每日独享一次</label>'+
+    '<input class="ub" type="checkbox" id="memberOneExclusive"  name="memberOneExclusive"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
     '</div> ' +
 	'</div>';
 
@@ -1260,7 +1260,8 @@ function initDatagridSpecial(){
 		                    }
 		                },
 		            },
-            {field: 'limitAmount', title: '整单商品限量', width: 150, align: 'right',
+            {
+                field: 'discountNum', title: '整单商品限量', width: 150, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;
@@ -1759,7 +1760,8 @@ function initDatagridOddtj(){
 			        }
 			    },
 			},
-            {field: 'limitAmount', title: '整单商品限量', width: 150, align: 'right',
+            {
+                field: 'discountNum', title: '整单商品限量', width: 150, align: 'right',
                 formatter : function(value, row, index) {
                     if(row.isFooter){
                         return;
@@ -2347,7 +2349,8 @@ function initDatagridCompose(){
 			        }
 			    },
 			},
-          {field: 'limitAmount', title: '整单商品限量', width: 150, align: 'right',
+          {
+              field: 'discountNum', title: '整单商品限量', width: 150, align: 'right',
               formatter : function(value, row, index) {
                   if(row.isFooter){
                       return;
