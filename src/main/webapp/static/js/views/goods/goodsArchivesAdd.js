@@ -73,7 +73,6 @@ function initGoodsView(data,flag){
 	}
 	
     // hidePageElement();
-
 }
 
 function hidePageElement() {
@@ -110,9 +109,11 @@ function getSelectionRow(data){
 
 var categoryCode="";
 function setInputValByObj(){
-	if(selectionRow!=null){
+	if(selectionRow){
 		
-		$.each(selectionRow[0]||selectionRow,function(key,value){
+		selectionRow = selectionRow[0]||selectionRow;
+		
+		$.each(selectionRow,function(key,value){
 			//普通的input
 			
 			if(key=="braCode"||key=="skuCode"){
@@ -128,6 +129,7 @@ function setInputValByObj(){
 					if(value){ //传到前端checkbox选中的值是true
 						$("#"+key).attr("checked","checked");
 					}
+					
 				}else{
 					//进项税、销项税、联营扣率要乘以100
 					if($("#"+key).attr("id") == "outputTax" || $("#"+key).attr("id") == "inputTax" || $("#"+key).attr("id") == "supplierRate"){
@@ -178,18 +180,34 @@ function setInputValByObj(){
 				
 			}
 		});
+		
+		// 订货周期
+		strweekCheckDay(selectionRow.deliveryCycle);
+		if(selectionRow.saleWay=='A'){
+			$('#supplierRate').numberbox('disable');
+		}else{
+			$('#supplierRate').numberbox('enable');
+		}
 	}
 	$("#skuCode").val(null);
 	$("#barCode").val($("#skuCode").val()); //货号
-	if(selectionRow.saleWay=='A'){
-		$('#supplierRate').numberbox('disable');
-	}else{
-		$('#supplierRate').numberbox('enable');
-	}
+	
 //	$("#skuCode").val("").removeAttr("readonly");
 	$("#createDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd hh:mm:ss"));
 	//生成毛利值，毛利率
 	setGrossProfit();
+	
+}
+
+/**
+ * 星期拆分字符串赋值checkbox  
+ */
+function strweekCheckDay(weekstr){
+	$(".ubcheckweek .radioItem").prop("checked", false);
+	var arrWeek = weekstr.split("");
+	$.each(arrWeek,function(i,val){
+		$("#weekcheckbox"+val).prop("checked", true);
+	})
 	
 }
 
@@ -470,7 +488,26 @@ function saveGoodsArchives(){
 	}
 }
 
+/**
+ * 订货周期 星期选择赋值
+ */
+function weekCheckDay(){
+  var len=$('#weekday .ubcheckweek').length;
+  var str="";
+  for(var i=0;i<len;i++){
+	 var elemt=$('#weekday .ubcheckweek').eq(i).find('.radioItem');
+	 var check= elemt.prop("checked");
+	  if(check){
+		str+=elemt.val()
+	   }
+    }
+  $('#deliveryCycle').val(str);
+}
+
 function submitFormValidate(salePriceV) {
+	//订货周期一周星期值
+	weekCheckDay();
+	
 	if (parseFloat(salePriceV) == 0) {
 		$_jxc.confirm('商品零售价为0，是否继续保存？',
 				function(data) {
