@@ -148,7 +148,8 @@
 
 					<div class="ub ub-ac uw-390 umar-l10 topMoney unhide">
 					<div class="umar-r10 uw-80 ut-r">最高优惠:</div>
-					<input class="uinp uw-304  easyui-numberbox" data-options="min:0,precision:2" type="text" id="topMoney">
+                        <input class="uinp uw-304  easyui-numberbox" data-options="min:0,precision:2" type="text"
+                               id="maxDiscountAmount" name="maxDiscountAmount">
 					</div>
 				  <div class="ub ub-ac uw-390 umar-l10 oddprice unhide">
 					<div class="umar-r10 uw-80 ut-r">批量偶数特价:</div>
