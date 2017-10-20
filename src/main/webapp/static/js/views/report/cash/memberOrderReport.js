@@ -8,10 +8,13 @@ $(function() {
 	//toChangeDate(10);
 	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30));
     $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
+    $("#orderNo").attr("readonly","readonly");
+    $("#orderNo").addClass('uinp-no-more');
 	// 初始化列表
     initMemberTotalAllGrid();
 	//选择报表类型
 	changeType();
+
 });
 
 var flushFlg = false;
@@ -19,14 +22,21 @@ function changeType(){
 	$(".radioItem").change(function(){
     	var a = $(this).val();
     	if (a=="memberTotalAll") {
+            $("#orderNo").attr("readonly","readonly");
+            $("#orderNo").addClass("uinp-no-more");
+            $("#orderNo").val("");
 			// 初始化列表汇总统计
 			initMemberTotalAllGrid();
 		} else if (a=="memberOrderAll") {
 			// 初始化列表订单统计
 			initMemberOrderAllGrid();
+            $("#orderNo").removeAttr("readonly");
+            $("#orderNo").removeClass("uinp-no-more");
 		} else if (a=="memberOrderList") {
 			// 初始化列表消费明细
 			initMemberOrderListGrid();
+            $("#orderNo").removeAttr("readonly");
+            $("#orderNo").removeClass("uinp-no-more");
 		}
     	gridHandel.setLoadData([$.extend({},gridDefault)]);
     });

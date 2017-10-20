@@ -42,17 +42,19 @@
                    <input class="uinp" type="text" id="branchNameOrCode" name="branchNameOrCode" onblur="clearBranchCode()" />
                    <div class="uinp-more" onclick="searchBranch()">...</div>
                </div>
-               <div class="ub ub-ac umar-r40">
-				<div class="umar-r10 uw-60 ut-r">会员:</div>
-				<input type="text" name="buyerUserName" id="buyerUserName" class="uinp" placeholder="输入手机号"/>
-			  </div>
+
 			  <div class="ub ub-ac umar-r40">
-			  	<div class="umar-r10 uw-60 ut-r">订单号:</div>
+			  	<div class="umar-r10 uw-70 ut-r">订单号:</div>
 				<input type="text" name="orderNo" id="orderNo" class="uinp" placeholder="输入订单号"/>
 			  </div>
             </div>
 
             <div class="ub umar-t8">
+
+                <div class="ub ub-ac">
+                <div class="umar-r10 uw-70 ut-r">会员:</div>
+                <input type="text" name="buyerUserName" id="buyerUserName" class="uinp" placeholder="输入手机号"/>
+                </div>
                 <!--input-checkbox-->
                 <div class="ub ub-ac">
                    <div class="umar-r10 uw-70 ut-r">汇总类型:</div>

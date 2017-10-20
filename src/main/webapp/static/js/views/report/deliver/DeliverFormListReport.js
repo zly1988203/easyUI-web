@@ -1,6 +1,6 @@
 /**
  * Created by zhanghuan on 2016/8/30.
- * 要货单
+ * 配送明显
  */
 $(function(){
 	//开始和结束时间
