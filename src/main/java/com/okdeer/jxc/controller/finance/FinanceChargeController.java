@@ -13,6 +13,7 @@ import com.okdeer.jxc.common.chargeImport.ChargeImportBusinessValid;
 import com.okdeer.jxc.common.chargeImport.ChargeImportVo;
 import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.enums.StoreChargeEnum;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
@@ -275,6 +276,8 @@ public class FinanceChargeController extends BaseController<FinanceChargeControl
                     super.getCurrUserId(), "/finance/financeCharge/downloadErrorFile", businessValid, SysConstant.DICT_TYPE_FINANCE_CHARGE_CODE);
 
             respJson.put("importInfo", importVo);
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
         } catch (IOException e) {
             respJson = RespJson.error("读取Excel流异常");
             LOG.error("读取Excel流异常", e);

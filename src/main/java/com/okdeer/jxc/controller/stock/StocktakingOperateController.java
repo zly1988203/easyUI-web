@@ -28,6 +28,7 @@ import com.google.common.io.Files;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.enums.OperateTypeEnum;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -399,7 +400,8 @@ public class StocktakingOperateController extends BaseController<StocktakingOper
 				staking.setAmount(result);
 			}
 			respJson.put("importInfo", vo);
-
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取TXT流异常");
 			LOG.error("读取TXT流异常:", e);

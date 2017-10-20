@@ -37,6 +37,7 @@ import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.StockAdjustEnum;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -355,7 +356,8 @@ public class StockLeadController extends BasePrintController<StockLeadController
 					});
 
 			respJson.put("importInfo", vo);
-
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常:", e);

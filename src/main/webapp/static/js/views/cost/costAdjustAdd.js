@@ -431,6 +431,7 @@ function toImportproduct(type){
         url:contextPath+"/cost/costAdjust/importList",
         tempUrl:contextPath+"/cost/costAdjust/exportTemp",
         type:type,
+        tipSign:1,
         branchId:branchId,
     }
     new publicUploadFileService(function(data){

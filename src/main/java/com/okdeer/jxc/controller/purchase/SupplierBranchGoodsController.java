@@ -35,6 +35,7 @@ import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -312,7 +313,8 @@ public class SupplierBranchGoodsController extends BaseController<SupplierBranch
 						}
 					}, null);
 			respJson.put("importInfo", vo);
-
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常:", e);

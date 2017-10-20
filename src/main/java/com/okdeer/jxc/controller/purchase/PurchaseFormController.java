@@ -8,6 +8,7 @@
 package com.okdeer.jxc.controller.purchase;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
@@ -769,10 +770,13 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 			}
 			LOG.debug(sw.prettyPrint());
 			return respJson;
-		} catch (Exception e) {
-			LOG.error("保存采购订单异常：", e);
-		}
-		return RespJson.error();
+        } catch (RpcException e) {
+            LOG.error("保存采购订单异常：", e);
+            return RespJson.error("保存采购订单服务超时");
+        } catch (Exception e) {
+            LOG.error("保存采购订单异常：", e);
+        }
+        return RespJson.error("保存采购订单服务异常");
 	}
 
 	@RequestMapping(value = "saveReturn", method = RequestMethod.POST)
@@ -1587,7 +1591,8 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 						}
 					}, null);
 			respJson.put("importInfo", vo);
-
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常:", e);

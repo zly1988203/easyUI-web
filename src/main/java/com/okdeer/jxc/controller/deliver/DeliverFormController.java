@@ -51,6 +51,7 @@ import com.okdeer.jxc.common.enums.DeliverStatusEnum;
 import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.enums.FormSourcesEnum;
 import com.okdeer.jxc.common.enums.IsReference;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -1153,6 +1154,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 
 					}, map);
 			respJson.put("importInfo", vo);
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常", e);
@@ -1399,6 +1402,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 						}
 					}, map);
 			respJson.put("importInfo", vo);
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常", e);

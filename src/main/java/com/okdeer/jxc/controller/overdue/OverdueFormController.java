@@ -46,6 +46,7 @@ import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.enums.StatusEnum;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -538,7 +539,8 @@ public class OverdueFormController extends BasePrintController<OverdueForm, Over
 						}
 					}, null);
 			respJson.put("importInfo", vo);
-
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			logger.error("读取Excel流异常:", e);

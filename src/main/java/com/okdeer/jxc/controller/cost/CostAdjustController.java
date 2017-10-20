@@ -27,6 +27,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportComponent;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportHandle;
@@ -47,7 +48,6 @@ import com.okdeer.jxc.goods.entity.GoodsSelectByCostPrice;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
 import com.okdeer.retail.common.exception.BizException;
-import com.okdeer.retail.facade.stock.exception.ValidationException;
 
 /**
  * ClassName: CostAdjustController 
@@ -452,7 +452,8 @@ public class CostAdjustController extends BaseController<StockCostForm> {
 						}
 					},map);
 			respJson.put("importInfo", vo);
-
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常:", e);

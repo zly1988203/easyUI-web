@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.enums.StoreChargeEnum;
+import com.okdeer.jxc.common.exception.BusinessException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -289,6 +290,8 @@ public class StoreChargeController extends BaseController<StoreChargeController>
 					super.getCurrUserId(), "/finance/storeCharge/downloadErrorFile", businessValid, SysConstant.DICT_TYPE_STORE_CHARGE_CODE);
 
 			respJson.put("importInfo", importVo);
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常", e);

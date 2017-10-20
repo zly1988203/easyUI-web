@@ -1006,6 +1006,7 @@ function toImportproduct(type){
         url:contextPath+"/form/deliverForm/reportList",
         tempUrl:contextPath+"/form/deliverForm/exportReport",
         type:type,
+        tipSign:1,
         branchId:sourceBranchId,
     }
     new publicUploadFileService(function(data){

@@ -603,7 +603,6 @@ function deleteStocktakingForm(){
 function importStocktakingForm(type){
 	var branchId = $("#branchId").val();
 	var batchId = $("#batchId").val();
-	var batchNo = $("#batchNo").val();
 	if(!branchId || !$.trim(branchId)){
 		$_jxc.alert("请选择机构");
 		return;
@@ -616,6 +615,7 @@ function importStocktakingForm(type){
         url:contextPath+"/stocktaking/operate/importStocktakingForm",
         tempUrl:contextPath+"/stocktaking/operate/export/templ",
         type:type,
+        tipSign:1,
         branchId:branchId,
         batchId:batchId,
         isBtnTemple:true

@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -32,6 +33,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.utils.NumberUtils;
 
 import net.sf.json.JSONArray;
@@ -124,16 +126,19 @@ public class ExcelReaderUtil {
 			LOG.warn("文件名 [{}] suffix is empty", fileName);
 			return Collections.emptyList();
 		}
-
+		List<T> importList = new ArrayList<>();
 		// xls(2003)格式
 		if (OFFICE_EXCEL_2003_POSTFIX.equals(postfix)) {
-			return readXls(is, fields, entity);
+		    importList = readXls(is, fields, entity);
 		} else if (OFFICE_EXCEL_2010_POSTFIX.equals(postfix)) {
 			// xlsx(2007)格式
-			return readXlsx(is, fields, entity);
+		    importList = readXlsx(is, fields, entity);
 		}
-		LOG.warn("文件[{}]后缀名错误, 后缀名为=[{}]", fileName, postfix);
-		return Collections.emptyList();
+		LOG.warn("文件[{}], 后缀名为=[{}]", fileName, postfix);
+        if (CollectionUtils.isNotEmpty(importList) && importList.size() > 1001) {
+            throw new BusinessException("导入文件不能大行1000行.");
+        }
+		return importList;
 	}
 
 	/**
@@ -158,15 +163,19 @@ public class ExcelReaderUtil {
 			return Collections.emptyList();
 		}
 
+		List<JSONObject> importList = new ArrayList<>();
 		// xls(2003)格式
 		if (OFFICE_EXCEL_2003_POSTFIX.equals(postfix)) {
-			return readXls(is, fields);
+		    importList = readXls(is, fields);
 		} else if (OFFICE_EXCEL_2010_POSTFIX.equals(postfix)) {
 			// xlsx(2007)格式
-			return readXlsx(is, fields);
+		    importList = readXlsx(is, fields);
 		}
-		LOG.warn("文件[{}]后缀名错误, 后缀名为=[{}]", fileName, postfix);
-		return Collections.emptyList();
+		LOG.warn("文件[{}], 后缀名为=[{}]", fileName, postfix);
+        if (CollectionUtils.isNotEmpty(importList) && importList.size() > 1001) {
+            throw new BusinessException("导入文件不能大行1000行.");
+        }
+		return importList;
 	}
 
 	/**
@@ -198,7 +207,7 @@ public class ExcelReaderUtil {
 			// xlsx(2007)格式
 			return readXlsxForFirstColumn(is, entity);
 		}
-		LOG.warn("文件[{}]后缀名错误, 后缀名为=[{}]", fileName, postfix);
+		LOG.warn("文件[{}], 后缀名为=[{}]", fileName, postfix);
 		return Collections.emptyList();
 	}
 
