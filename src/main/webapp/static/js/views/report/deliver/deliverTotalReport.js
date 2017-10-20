@@ -1,5 +1,6 @@
 /**
- * Created by wxl on 2016/08/17.
+ * Created by wxl on 2016/08/17.、
+ * 配送汇总
  */
 $(function() {
 	//选择报表类型

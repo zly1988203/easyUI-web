@@ -34,7 +34,9 @@ function getOriginTableRows(){
 	if(_tableDom && _tableDom.length < 1)return true;
 	var datagridId = $('#uploadFile').closest('body').find('table[class="datagrid-f"]').attr('id');
 	if(!datagridId)return true;
-	maxRowsed = $('#'+datagridId).datagrid('getRows').length;
+	var uploadGridHandel = new GridClass();
+    uploadGridHandel.setGridName(datagridId);
+	maxRowsed = uploadGridHandel.getRowsWhere({skuCode:'1'}).length;
 	if(maxRowsed > maxRows){
 		$_jxc.alert('已有'+maxRowsed+'条数据，超过最大导入数' + maxRows +'，请先保存');
 		return false;
@@ -88,7 +90,7 @@ function toUploadHandel(){
         	gFunEndLoading();
             if(data.code==0){
 				var dbLength = data.importInfo.list.length;
-				if (dbLength + maxRowsed > maxRows) {
+				if (dbLength + maxRowsed > maxRows && uploadFileParams.tipSign ) {
 					$_jxc.alert('已有' + maxRowsed + '条数据，导入' + dbLength + '条数据，超过最大导入数' + maxRows +'，请先保存');
 					return;
 				}
