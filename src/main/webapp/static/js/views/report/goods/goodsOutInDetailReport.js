@@ -95,19 +95,27 @@ function initDatagridRequire(){
 						hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.formId+'")';  
 						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 					}else if(row.formType=="组合拆分"){
-						return value
+						hrefStr='parent.addTab("详情","'+contextPath+'/stock/combineSplit/combineSplitView?id='+row.formId+'")';  
+						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 					}else if(row.formType=="销售"){
 						return value
 					}else if(row.formType=="礼品兑换"){
 						return value
 					}else if(row.formType=="领用"){
-						return value
+						hrefStr='parent.addTab("详情","'+contextPath+'/stock/lead/edit?id='+row.formId+'")';  
+						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 					}else if(row.formType=="报损"){
-						return value
+						hrefStr='parent.addTab("详情","'+contextPath+'/stock/reimburse/edit?id='+row.formId+'")';  
+						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 					}else if(row.formType=="盘点"){
-						return value
+						hrefStr='parent.addTab("详情","'+contextPath+'/stocktaking/diffDispose/stocktakingBatchView?id='+row.formId+'")';  
+						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 					}else if(row.formType=="直送收货"){
-						return value
+						hrefStr='parent.addTab("详情","'+contextPath+'/directReceipt/edit?formId='+row.formId+'")';  
+						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
+					}else if(row.formType=="成本调价"){
+						hrefStr='parent.addTab("详情","'+contextPath+'/cost/costAdjust/edit?id='+row.formId+'")';  
+						return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
 					}else{
 						return value
 					}
