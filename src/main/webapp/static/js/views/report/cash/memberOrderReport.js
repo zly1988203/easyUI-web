@@ -206,8 +206,7 @@ function query(){
 	var formData = $("#queryForm").serializeObject();
 	var branchNameOrCode = $("#branchNameOrCode").val();
 	if(branchNameOrCode && branchNameOrCode.indexOf("[")>=0 && branchNameOrCode.indexOf("]")>=0){
-		//formData.branchNameOrCode = null;
-		formData.branchNameOrCode = formData.branchNameOrCode.substring(formData.branchNameOrCode.lastIndexOf(']')+1)
+		formData.branchNameOrCode = null;
 	}
 	$("#memberOrderData").datagrid("options").queryParams = formData;
 	$("#memberOrderData").datagrid("options").method = "post";
@@ -228,7 +227,7 @@ function query(){
  */
 function searchBranch (){
 	new publicAgencyService(function(data){
-		$("#branchCode").val(data.branchCode);
+		$("#branchCompleCode").val(data.branchCompleCode);
 		$("#branchNameOrCode").val("["+data.branchCode+"]"+data.branchName);
 	},"","");
 }
@@ -238,7 +237,7 @@ function clearBranchCode(){
 	//如果修改名称
 	if(!branchNameOrCode || 
 			(branchNameOrCode && branchNameOrCode.indexOf("[")<0 && branchNameOrCode.indexOf("]")<0)){
-		$("#branchCode").val('');
+		$("#branchCompleCode").val('');
 	}
 }
 
@@ -294,13 +293,12 @@ function printReport(){
 	var queryType=$('input:radio[name="queryType"]:checked').val();
 
 	var formData = $("#queryForm").serializeObject();
-	formData.branchNameOrCode = formData.branchNameOrCode.substring(formData.branchNameOrCode.lastIndexOf(']')+1)
 
 	var startTime = $("#txtStartDate").val();
 	var endTime = $("#txtEndDate").val();
 	var branchNameOrCode= formData.branchNameOrCode;
 	var buyerUserName= $("#buyerUserName").val();
-	var branchId= $("#branchId").val();
+	var branchCompleCode= $("#branchCompleCode").val();
 	var radioValue = $('input:radio:checked').val();
 	var urlTemp = "";
 	if (radioValue == 'memberTotalAll') {
@@ -310,7 +308,7 @@ function printReport(){
 	} else if (radioValue == 'memberOrderList') {
 		urlTemp = "/memberOrder/report/memberOrderListPrint?";
 	}
-	parent.addTabPrint("reportPrint"+branchNameOrCode,"打印",contextPath + urlTemp + "branchId=" + branchId +
+	parent.addTabPrint("reportPrint"+branchNameOrCode,"打印",contextPath + urlTemp + "branchCompleCode=" + branchCompleCode +
 			"&startTime=" + startTime + "&endTime=" + endTime + "&branchNameOrCode="+branchNameOrCode +
 			"&buyerUserName=" + buyerUserName
 	);
