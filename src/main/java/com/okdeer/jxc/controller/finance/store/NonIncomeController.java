@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.okdeer.jxc.common.constant.SysConstant;
 import com.okdeer.jxc.common.enums.StoreChargeEnum;
+import com.okdeer.jxc.common.exception.BusinessException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -290,6 +291,8 @@ public class NonIncomeController extends BaseController<NonIncomeController> {
 					SysConstant.DICT_TYPE_NON_BUSINESS_INCOME_CODE);
 
 			respJson.put("importInfo", importVo);
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常", e);

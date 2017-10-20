@@ -877,6 +877,8 @@ public class DirectReceiptController extends BasePrintController<DirectReceiptCo
 						}
 					}, mapBranchid);
 			respJson.put("importInfo", vo);
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常:{}", e);

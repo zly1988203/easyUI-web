@@ -442,7 +442,39 @@ function saveDataHandel(rows){
 	});
 }
 
+//导入
+function toImportproduct(type){
+    var branchId = $("#branchId").val();
+    if(!branchId){
+        $_jxc.alert("请先选择机构名称");
+        return;
+    }
+    var param = {
+        url:contextPath+"/cost/costAdjust/importList",
+        tempUrl:contextPath+"/cost/costAdjust/exportTemp",
+        type:type,
+        tipSign:1,
+        branchId:branchId,
+    }
+    new publicUploadFileService(function(data){
+        updateListData(data);
+        
+    },param)
+}
+function updateListData(data){
+	    var nowRows = gridHandel.getRowsWhere({skuCode:'1'});
+	    var keyNames = {
+	        id:'skuId',
+	        costPrice:"oldCostPrice",
+	        newCostPrice:"costPrice"
+	    };
+	    var rows = gFunUpdateKey(data,keyNames);
+	    var argWhere ={skuCode:1};  //验证重复性
+	    var isCheck ={isGift:1 };   //只要是赠品就可以重复
+	    var newRows = gridHandel.checkDatagrid(nowRows,rows,argWhere,isCheck);
 
+	    $("#gridEditRequireOrder").datagrid("loadData",newRows);
+	}
 //审核
 function costcheck(type){
 	var checkBtn = $("#checkBtn");
