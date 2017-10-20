@@ -6,7 +6,7 @@
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/report/goods/goodsEdit.js?V=${versionNo}"></script>
+	src="${ctx}/static/js/views/report/goods/goodsEdit.js?V=${versionNo}1"></script>
 <style>
 .datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -344,30 +344,31 @@
 					<textarea id="remark" name="remark" class="uh-40 umar-r30 ubor"
 						maxlength="100" style="width: 800px;"></textarea>
 				</div>
-				<div class="ub umar-l32">
-					<div class="ub ub-ac umar-r40">
+				
+				<div class="ub upad-4 umar-l32">
+					<div class="ub ub-ac umar-r20">
 						<label> <input id="isManagerStock" name="isManagerStock"
 							type="checkbox" name="checkbox" disabled="disabled" /><span>是否管理库存</span>
 						</label>
 					</div>
-					<div class="ub ub-ac umar-r40">
+					<div class="ub ub-ac umar-r20">
 						<label> <input id="isHighValue" name="isHighValue"
 							type="checkbox" name="checkbox" disabled="disabled" /><span>是否高值商品</span>
 						</label>
 					</div>
-					<div class="ub ub-ac umar-r40">
+					<div class="ub ub-ac umar-r20">
 						<label> <input id="isAttention" name="isAttention"
 							id="attention" type="checkbox" name="checkbox"
 							disabled="disabled" /> <span>是否关注商品</span>
 						</label>
 					</div>
-					<div class="ub ub-ac umar-r40">
+					<div class="ub ub-ac umar-r20">
 						<label> <input id="isFastDeliver" name="fastDeliver"
 							type="checkbox" /> <span>是否直送商品</span>
 						</label>
 					</div>
 
-					<div class="ub ub-ac umar-r40">
+					<div class="ub ub-ac umar-r20">
 						<label> <input id="allowActivity" name="allowActivity"
 							type="checkbox" name="checkbox"
 							<c:if test="${branchType==3||branchType==4||branchType==5}">
@@ -376,7 +377,7 @@
 						</label>
 
 					</div>
-					<div class="ub ub-ac umar-r40">
+					<div class="ub ub-ac umar-r20">
 						<label> <input id="allowAdjust" name="allowAdjust"
 							type="checkbox" name="checkbox"
 							<c:if test="${branchType==3||branchType==4||branchType==5}">
@@ -385,13 +386,43 @@
 						</label>
 
 					</div>
-					<div class="ub ub-ac umar-r40">
+					<div class="ub ub-ac umar-r20">
 						<label> <input id="allowGift" name="allowGift"
 									   type="checkbox" name="checkbox" /><span>是否可为赠品</span>
 						</label>
 
 					</div>
 				</div>
+				
+				<div class="ub upad-4 uw-570 umar-r200"  id="weekday">
+					<div class="umar-r10 uw-60 ut-r">订货周期:</div>
+					<div class="ub ub-ac umar-r40">
+						<div class="ub ub-ac umar-l10 ubcheckweek">
+	                    	<label><input class="radioItem" type="checkbox" id="weekcheckbox1" name="weekcheckbox" value="1" /><span class="">一</span></label>
+	                   	</div>
+	                   	<div class="ub ub-ac umar-l10 ubcheckweek">
+	                        <label><input class="radioItem " type="checkbox" id="weekcheckbox2" name="weekcheckbox" value="2" /><span class="">二</span></label>
+	                   	</div>
+	                   	<div class="ub ub-ac umar-l10 ubcheckweek">
+	                        <label><input class="radioItem " type="checkbox" id="weekcheckbox3" name="weekcheckbox" value="3" /><span class="">三</span></label>
+	                   	</div>
+	                    <div class="ub ub-ac umar-l10 ubcheckweek">
+	                        <label><input class="radioItem " type="checkbox" id="weekcheckbox4" name="weekcheckbox" value="4" /><span class="">四</span></label>
+	                   	</div>
+	                    <div class="ub ub-ac umar-l10 ubcheckweek">
+	                        <label><input class="radioItem " type="checkbox" id="weekcheckbox5" name="weekcheckbox" value="5" /><span class="">五</span></label>
+	                   	</div>
+	                    <div class="ub ub-ac umar-l10 ubcheckweek">
+	                        <label><input class="radioItem " type="checkbox" id="weekcheckbox6" name="weekcheckbox" value="6" /><span class="">六</span></label>
+	                   	</div>
+	                    <div class="ub ub-ac umar-l10 ubcheckweek">
+	                        <label><input class="radioItem " type="checkbox" id="weekcheckbox7" name="weekcheckbox" value="7" /><span class="">日</span></label>
+	                   	</div>
+	                   	<input type="hidden" id="deliveryCycle" name="deliveryCycle" value="">
+					</div>
+				</div>
+				
+				
 			</div>
 		</form>
 	</div>

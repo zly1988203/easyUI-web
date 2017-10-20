@@ -349,7 +349,7 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 	 */
 	@RequestMapping(value = "updateGoods", method = RequestMethod.POST)
 	@ResponseBody
-	public RespJson copyGoods(@Valid GoodsSkuVo sku, BindingResult validate) {
+	public RespJson updateGoods(@Valid GoodsSkuVo sku, BindingResult validate) {
 		if (validate.hasErrors()) {
 			String errorMessage = validate.getFieldError().getDefaultMessage();
 			LOG.warn("validate errorMessage:", errorMessage);

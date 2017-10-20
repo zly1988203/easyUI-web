@@ -323,9 +323,24 @@ function getGoodsArchivesDetail(id){
 		var createTime = new Date(updateSku.createTime);    
 		$("#createTime").val(createTime.format("yyyy-MM-dd hh:mm:ss"));
 		setGrossProfit();
+		
+		// 初始化订货周期
+		strweekCheckDay(updateSku.deliveryCycle);
 	});
 
 
+}
+
+/**
+ * 订货周期 星期拆分字符串赋值checkbox  
+ */
+function strweekCheckDay(weekstr){
+	$(".ubcheckweek .radioItem").prop("checked", false);
+	var arrWeek = weekstr.split("");
+	$.each(arrWeek,function(i,val){
+		$("#weekcheckbox"+val).prop("checked", true);
+	})
+	
 }
 
 //判断普通商品条码是否重复
@@ -385,6 +400,9 @@ function saveGoodsArchives(){
 	var barCode = $("#barCode").val();
 	if(pricingType == "ORDINARY"){// 普通商品需要校验条码是否重复
 		var reqObj = reqObj = {"barCode":barCode, "id":$("#id").val()};
+		
+		//订货周期一周星期值
+		weekCheckDay();
 
 		$_jxc.ajax({
 			url:contextPath+"/common/goods/checkBarCodeByOrdinary",
@@ -405,6 +423,23 @@ function saveGoodsArchives(){
 
 
 }
+
+/**
+ * 订货周期 星期选择赋值
+ */
+function weekCheckDay(){
+  var len=$('#weekday .ubcheckweek').length;
+  var str="";
+  for(var i=0;i<len;i++){
+	 var elemt=$('#weekday .ubcheckweek').eq(i).find('.radioItem');
+	 var check= elemt.prop("checked");
+	  if(check){
+		str+=elemt.val()
+	   }
+    }
+  $('#deliveryCycle').val(str);
+}
+
 
 //提交表单
 function submitForm(){
