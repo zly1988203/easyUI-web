@@ -31,6 +31,7 @@ import com.okdeer.jxc.common.constant.PrintConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
 import com.okdeer.jxc.common.utils.DateUtils;
 import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.print.JasperHelper;
 import com.okdeer.jxc.controller.report.TradeOrderCountController;
 import com.okdeer.jxc.report.member.MemberOrderServiceApi;
@@ -68,7 +69,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 		model.addAttribute("branchId", getCurrBranchId());
 		return "report/cash/memberOrderReport";
 	}
-	
+
 	/**
 	 * @Description: 会员消费——汇总统计
 	 * @param qo
@@ -86,7 +87,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			buildSearchParams(qo);
 			LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 			return memberOrderServiceApi.queryMemberTotalAll(qo);
 		} catch (Exception e) {
@@ -99,7 +100,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 	public void memberTotalAllExportList(HttpServletResponse response, MemberOrderReportQo qo) {
 		LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 		try {
-			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			buildSearchParams(qo);
 			List<MemberOrderReportVo> exportList = memberOrderServiceApi.queryMemberTotalAlls(qo);
 			MemberOrderReportVo vo = memberOrderServiceApi.queryMemberTotalAllSum(qo);
 			vo.setPhone("合计：");
@@ -112,31 +113,30 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			LOG.error("会员消费报表汇总统计导出异常: ", e);
 		}
 	}
-	
+
 	@RequestMapping(value = "memberTotalAllPrint", method = RequestMethod.GET)
 	@ResponseBody
-	public String memberTotalAllPrint(MemberOrderReportQo qo, HttpServletResponse response, 
-			HttpServletRequest request) {
+	public String memberTotalAllPrint(MemberOrderReportQo qo, HttpServletResponse response, HttpServletRequest request) {
 		try {
-			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			buildSearchParams(qo);
 			// 初始化默认参数
 			LOG.debug("会员消费汇总打印参数：{}", qo.toString());
-			// 查询条数
-			int lenght = memberOrderServiceApi.queryMemberTotalAllCount(qo);
-			if (lenght > PrintConstant.PRINT_MAX_ROW) {
-				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
-			}
-			
-			qo.setPageNumber(1);
-			qo.setPageSize(PrintConstant.PRINT_MAX_ROW);
-			
-			// 查询明细
-			List<MemberOrderReportVo> list = memberOrderServiceApi.queryMemberTotalAlls(qo);
+
 			// 查询合计
 			MemberOrderReportVo vo = memberOrderServiceApi.queryMemberTotalAllSum(qo);
+			// 查询条数
+			int count = vo.getCount();
+			if (count > PrintConstant.PRINT_MAX_ROW) {
+				return "<script>alert('打印最大行数不能超过3000行');top.closeTab();</script>";
+			}
+
+			qo.setPageNumber(1);
+			qo.setPageSize(PrintConstant.PRINT_MAX_ROW);			// 查询明细
+			List<MemberOrderReportVo> list = memberOrderServiceApi.queryMemberTotalAlls(qo);
+
 			vo.setPhone("合计：");
 			list.add(vo);
-			
+
 			String path = PrintConstant.MEMBER_TOTAL_ALL_REPORT;
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("startDate", DateUtils.formatDate(qo.getStartTime(), DateUtils.DATE_FULL_STR));
@@ -147,6 +147,27 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 			LOG.error("会员消费报表订单汇总打印异常", e);
 		}
 		return null;
+	}
+
+	/**
+	 * @Description: 构建查询参数
+	 * @param qo
+	 * @author liwb
+	 * @date 2017年10月20日
+	 */
+	private void buildSearchParams(MemberOrderReportQo qo) {
+
+		// 默认当前机构
+		if (StringUtils.isBlank(qo.getBranchCompleCode())) {
+			qo.setBranchCompleCode(getCurrBranchCompleCode());
+		}
+
+		if (StringUtils.isNotBlank(qo.getBranchNameOrCode()) && qo.getBranchNameOrCode().contains("[")
+				&& qo.getBranchNameOrCode().contains("]")) {
+			qo.setBranchNameOrCode(null);
+		}
+
+		qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
 	}
 
 	/**
@@ -165,7 +186,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			buildSearchParams(qo);
 			LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 			PageUtils<MemberOrderReportVo> pages = memberOrderServiceApi.queryMemberOrderAll(qo);
 			List<MemberOrderReportVo> footer = new ArrayList<MemberOrderReportVo>();
@@ -192,7 +213,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 	public void memberOrderAllExportList(HttpServletResponse response, MemberOrderReportQo qo) {
 		LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 		try {
-			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			buildSearchParams(qo);
 			List<MemberOrderReportVo> exportList = memberOrderServiceApi.queryMemberOrderAlls(qo);
 			MemberOrderReportVo vo = memberOrderServiceApi.queryMemberOrderAllSum(qo);
 			vo.setPhone("合计：");
@@ -222,7 +243,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(pageSize);
-			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			buildSearchParams(qo);
 			LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 			PageUtils<MemberOrderListReportVo> pages = memberOrderServiceApi.queryMemberOrderList(qo);
 			List<MemberOrderListReportVo> footer = new ArrayList<MemberOrderListReportVo>();
@@ -249,7 +270,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 	public void memberOrderListExportList(HttpServletResponse response, MemberOrderReportQo qo) {
 		LOG.debug(LogConstant.OUT_PARAM, qo.toString());
 		try {
-			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			buildSearchParams(qo);
 			List<MemberOrderListReportVo> exportList = memberOrderServiceApi.queryMemberOrderLists(qo);
 			MemberOrderListReportVo vo = memberOrderServiceApi.queryMemberOrderListSum(qo);
 			vo.setPhone("合计：");
@@ -278,7 +299,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
-			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			buildSearchParams(qo);
 			// 初始化默认参数
 			LOG.debug("会员消费汇总打印参数：{}", qo.toString());
 			// 查询条数
@@ -322,7 +343,7 @@ public class MemberOrderController extends BasePrintController<TradeOrderCountCo
 		try {
 			qo.setPageNumber(pageNumber);
 			qo.setPageSize(PrintConstant.PRINT_MAX_LIMIT);
-			qo.setEndTime(DateUtils.getNextDay(qo.getEndTime()));
+			buildSearchParams(qo);
 			// 初始化默认参数
 			LOG.debug("会员消费明细打印参数：{}", qo.toString());
 			// 查询条数

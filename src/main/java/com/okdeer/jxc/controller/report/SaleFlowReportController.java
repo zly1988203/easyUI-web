@@ -121,19 +121,54 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 
 		LOG.debug("UserController.exportList start ,parameter vo=" + qo);
 		try {
+			//查询合计
+			SaleFlowReportVo saleFlowReportVo = saleFlowReportService.querySaleFlowReportSum(qo);
+			
 			qo.setPageNumber(Constant.ONE);
 			qo.setPageSize(Constant.MAX_EXPORT_NUM);
 			// 设置默认查询条件参数
 			qo = getDefultParmas(qo);
 			// 1、查询列表
-			List<SaleFlowReportVo> list = saleFlowReportService.querySaleList(qo);
-			if(CollectionUtils.isNotEmpty(list)){
+			
+			//查询合计
+			
+			// 导出的数据列表
+			List<SaleFlowReportVo> exportList = new ArrayList<SaleFlowReportVo>();
+			
+			// 限制导出数据的起始数量
+			int startCount = limitStartCount(qo.getStartCount());
+			// 限制导出数据的总数量
+			int endCount = limitEndCount(qo.getEndCount());
+			
+			// 商，按2K条数据一次查询拆分，可以拆分为多少次查询
+			int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
+			// 余数，按2K拆分后，剩余的数据
+			int modIndex = endCount % LIMIT_REQ_COUNT;
+			
+			// 每2K条数据一次查询
+			for(int i = 0; i < resIndex; i++){
+				int newStart = (i * LIMIT_REQ_COUNT) + startCount;
+				qo.setStartCount(newStart);
+				qo.setEndCount(LIMIT_REQ_COUNT);
+				List<SaleFlowReportVo> tempList = saleFlowReportService.querySaleList(qo);
+				exportList.addAll(tempList);
+			}
+			// 存在余数时，查询剩余的数据
+			if(modIndex > 0){
+				int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
+				int newEnd = modIndex;
+				qo.setStartCount(newStart);
+				qo.setEndCount(newEnd);
+				List<SaleFlowReportVo> tempList = saleFlowReportService.querySaleList(qo);
+				exportList.addAll(tempList);
+			}
+			
+			if(CollectionUtils.isNotEmpty(exportList)){
 				// 2、汇总查询
-				SaleFlowReportVo saleFlowReportVo = saleFlowReportService.querySaleFlowReportSum(qo);
-				list.add(saleFlowReportVo);
+				exportList.add(saleFlowReportVo);
 				String fileName = "销售流水报表" + "_" + DateUtils.getCurrSmallStr();
 				String templateName = ExportExcelConstant.SALEFLOWREPORT;
-				exportListForXLSX(response, list, fileName, templateName);
+				exportListForXLSX(response, exportList, fileName, templateName);
 			}else{
 				RespJson json = RespJson.error("无数据可导");
 				return json;
