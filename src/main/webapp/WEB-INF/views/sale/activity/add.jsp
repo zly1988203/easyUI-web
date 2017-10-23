@@ -177,8 +177,8 @@
 	        </div>
 
 			<div class="ub umar-t8">
-				<div class="ub ub-ac uw-390 umar-l10 discount unhide">
-				<div class="umar-r10 uw-80 ut-r">批量折扣:</div>
+				<div class="ub ub-ac uw-390 discount unhide">
+				<div class="umar-r10 uw-70 ut-r">批量折扣:</div>
 				<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2,onChange:changeDisNum" type="text" id="discount">
 				<%--<div class="umar-l10">折</div>--%>
 				</div>

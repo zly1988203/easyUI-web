@@ -83,7 +83,7 @@
                     <input class="uinp ub ub-f1" maxLength="20" type="text" name="activityName"  data-check="true" id="activityName" value="">
                 </div>
                 <i class="ub ub-ac uc-red">*</i>
-                <div class="ub ub-ac uselectw umar-r10">
+                <div class="ub ub-ac uselectw umar-r10 activityTypeDv">
                     <div class="umar-r10 uw-90 ut-r">活动类型:</div>
                        <!--select-->
 				        <select class="easyui-combobox uselect" name="activityType" id="activityType" data-options="editable:false">
@@ -122,7 +122,7 @@
 	            </div>
 	            
 	            <!--买满送-->
-	            <div class="ub ub-ac umar-l10  mmsTypechoose unhide">
+	            <div class="ub ub-ac umar-l20  mmsTypechoose unhide">
 					<div class="ub ub-ac umar-r10">
 						<label><input class="radioItem mmradio" type="radio"  name="mmsstatus"  value="2" checked="checked"/><span>全场</span></label>
 					</div>
@@ -139,57 +139,53 @@
 	         
 	          <div class="ub umar-t8">
                  <input class="uinp ub ub-f1" name="branchsFullName" type="hidden" id="branchsFullName"  value="${obj.branchsFullName}">                   
-	             <div class="ub  ub-ac uw-384" id="branchComponent">
+	             <div class="ub  ub-ac uw-390" id="branchComponent">
 	                   <div class="umar-r10 uw-70 ut-r">活动分店:</div>
 	                    <input class="uinp ub ub-f1" type="hidden" id="branchIds" data-check="true" name="branchIds" value=" ">
-                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" data-check="true" readonly="readonly" value="${obj.branchsName} name="branchName">
+                        <input class="uinp ub ub-f1 uw-400" type="text" id="branchName" data-check="true" readonly="readonly" value="${obj.branchsName}" name="branchName"/>
                    		<div class="uinp-more" id="selectBranch">...</div>
+						<i class="ub ub-ac uc-red">*</i>
 	             </div>
-	             <i class="ub ub-ac uc-red">*</i>
-	              <div class="ub ub-ac uw-390 umar-l10 special">
+
+	              <div class="ub ub-ac uw-390 umar-l10 umar-r10 special unhide">
 					<div class="umar-r10 uw-80 ut-r">批量特价:</div>
-					<%-- <input class="uinp ub ub-f1 deal" type="number" onkeyup="if(isNaN(value)||value<0)execCommand('undo')" onafterpaste="if(isNaN(value)||value<0)execCommand('undo')" id="special"> --%>
-					<input class="uinp easyui-numberbox" data-options="min:0,precision:2,onChange:changeSpecNum" type="text"  id="special">
-						<div class="umar-l10">元</div>
+					<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2,onChange:changeSpecNum" type="text"  id="special">
 				  </div>
-				   <div class="ub ub-ac uw-390 umar-l10 discount unhide">
-					<div class="umar-r10 uw-80 ut-r">批量折扣:</div>
-					<%-- <input class="uinp ub ub-f1 deal" type="number" onkeyup="if(isNaN(value)||value<0)execCommand('undo')" onafterpaste="if(isNaN(value)||value<0)execCommand('undo')" id="discount"> --%>
-					<input class="uinp  easyui-numberbox" data-options="min:0,precision:2,onChange:changeDisNum" type="text" id="discount">
-						<div class="umar-l10">折</div>
-				  </div>
+
+					<div class="ub ub-ac uw-390 umar-l10 topMoney unhide">
+					<div class="umar-r10 uw-80 ut-r">最高优惠:</div>
+					<input class="uinp uw-304  easyui-numberbox" data-options="min:0,precision:2" type="text"
+					id="maxDiscountAmount" name="maxDiscountAmount">
+					</div>
+
 				  <div class="ub ub-ac uw-390 umar-l10 oddprice unhide">
 					<div class="umar-r10 uw-80 ut-r">批量偶数特价:</div>
-					<%-- <input class="uinp ub ub-f1 deal" type="number" onkeyup="if(isNaN(value)||value<0)execCommand('undo')" onafterpaste="if(isNaN(value)||value<0)execCommand('undo')" id="batchcount"> --%>
-					<input class="uinp  easyui-numberbox" data-options="min:0,precision:2, onChange:changeOddprice" type="text"  id="batchcount">
-						<div class="umar-l10">元</div>
+					<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2, onChange:changeOddprice" type="text"  id="batchcount">
 				   </div>
+
+					<div class="ub ub-ac uw-400 umar-l10 limitCount unhide">
+					<div class="umar-r10 uw-80 ut-r">整单组合限量:</div>
+					<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2" type="text"  id="limitCount">
+					</div>
 				   
 				   <!--买满条件 -->
-				   <div class="ub ub-ac uw-390 uselectw umar-l10 mmstype unhide">
+				   <div class="ub ub-ac uw-390 umar-l10 mmstype unhide">
 					<div class="umar-r10 uw-80 ut-r">活动条件:</div>
-					<select class="uselect easyui-combobox " name="activitymmsType" id="activitymmsType" data-options="editable:false,disabled:true,value:0">
+					<select class=" easyui-combobox " style="width:302px" name="activitymmsType" id="activitymmsType" data-options="editable:false,disabled:true,value:0">
 						    <option value="0">买满金额</option> 
 							<option value="1">买满数量</option> 
 			        </select>
-			        <div class="ub ub-ac umar-l10 ">
-						<div class="ub ub-ac umar-r10">
-							<input class="ub mmradioAct" type="checkbox" id="mmsofactType1" readonly="readonly" name="mmsofactType"  value="2" /><label for="mmsofactType1">促销商品参与</label>
-						</div>
-	                    <div class="ub ub-ac umar-r10">
-	                        <input class="ub mmradioAct" type="checkbox" id="mmsofactType2"  name="mmsofactType" value="1" /><label for="mmsofactType2">倍数送</label>
-	                    </div>
-		            </div>
+
 	          	  </div>
 
-				<div id="dvVip" class="ub ub-ac umar-l30">
-				<div class="ub ub-ac umar-r10">
-				<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" /><label for="isVip">会员独享</label>
-				</div>
-				</div>
-
-	            
 	          </div>
+
+			<div class="ub umar-t8">
+			<div class="ub ub-ac uw-390 discount unhide">
+			<div class="umar-r10 uw-70 ut-r">批量折扣:</div>
+			<input class="uinp uw-300  easyui-numberbox" data-options="min:0,precision:2,onChange:changeDisNum" type="text" id="discount">
+			</div>
+			</div>
        	</form>
            
       
