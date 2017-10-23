@@ -1045,6 +1045,7 @@ function toImportproduct(type){
         type:type,
         targetBranchId : targetBranchId,
         sourceBranchId : sourceBranchId,
+        tipSign:1,
         formType:'DO'
     }
     new publicUploadFileService(function(data){

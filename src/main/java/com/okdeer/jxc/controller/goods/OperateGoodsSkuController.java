@@ -309,6 +309,7 @@ public class OperateGoodsSkuController extends BaseController<OperateGoodsSkuCon
 			if (sku.getLowestPrice()==null) {
 				sku.setLowestPrice(price);
 			}
+			sku.setDeliveryCycle("1234567");
 			sku.setUpdateUserId(UserUtil
 					.getCurrentUser().getId());
 			sku.setDisabled(3);

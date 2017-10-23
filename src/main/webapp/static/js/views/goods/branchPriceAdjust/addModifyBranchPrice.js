@@ -946,6 +946,7 @@ function toImportproduct(type){
         url:contextPath+"/goods/branchPriceAdjust/importList",
         tempUrl:contextPath+'/goods/branchPriceAdjust/exportTemp',
         type:type,
+        tipSign:1,
         branchId:branchId,
     }
     new publicUploadFileService(function(data){

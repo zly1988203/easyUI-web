@@ -63,7 +63,8 @@ function initGoodsInfo(skuId,branchId){
 				}
 			}
 		});
-		//门店禁止编辑配送规格、采购规格、
+		
+		//门店禁止编辑配送规格、采购规格、订货周期
 		isStore=data['isStore'];
 		if(isStore){
 		    //easyui 1.5.2 diable 方法会使表单form验证失败造成 无法提交表单 
@@ -73,7 +74,12 @@ function initGoodsInfo(skuId,branchId){
 			$("#formEdit #isFastDeliver").attr("disabled","disabled");
 			$("#formEdit #allowActivity").attr("disabled","disabled");
 			$("#formEdit #allowAdjust").attr("disabled","disabled");
+			
+			$("#formEdit #weekday").find(".radioItem").each(function() { 
+				$(this).attr("disabled", "disabled"); 
+			});
 		}
+		
 		
 		if(updateGoods.saleWay=='A' || updateGoods.saleWay=='B'){
             $('#formEdit #supplierRate').numberbox('readonly');
@@ -87,8 +93,23 @@ function initGoodsInfo(skuId,branchId){
 		var createTime = new Date(updateGoods.createTime);    
 		$("#createTime").val(createTime.format("yyyy-MM-dd hh:mm:ss"));
 		setGrossProfit();
+		
+		// 初始化订货周期
+		strweekCheckDay(updateGoods.deliveryCycle);
 	});
     hidePageElement();
+}
+
+/**
+ * 订货周期 星期拆分字符串赋值checkbox  
+ */
+function strweekCheckDay(weekstr){
+	$(".ubcheckweek .radioItem").prop("checked", false);
+	var arrWeek = weekstr.split("");
+	$.each(arrWeek,function(i,val){
+		$("#weekcheckbox"+val).prop("checked", true);
+	})
+	
 }
 
 function hidePageElement() {
@@ -231,8 +252,27 @@ function saveProp() {
 	}
 }
 
+/**
+ * 订货周期 星期选择赋值
+ */
+function weekCheckDay(){
+  var len=$('#weekday .ubcheckweek').length;
+  var str="";
+  for(var i=0;i<len;i++){
+	 var elemt=$('#weekday .ubcheckweek').eq(i).find('.radioItem');
+	 var check= elemt.prop("checked");
+	  if(check){
+		str+=elemt.val()
+	   }
+    }
+  $('#deliveryCycle').val(str);
+}
+
 
 function submitForm(){
+	//订货周期——周星期值
+	weekCheckDay();
+	
 	var formObj = $('#formEdit').serializeObject();
 	$_jxc.ajax({
 		url : contextPath + "/branch/goods/branchGoodsPropSave",

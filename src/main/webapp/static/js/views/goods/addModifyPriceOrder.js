@@ -1269,6 +1269,7 @@ function toImportproduct(type){
         url:contextPath+"/goods/priceAdjust/importList",
         tempUrl:contextPath+'/goods/priceAdjust/exportTemp',
         type:type,
+        tipSign:1,
         branchId:branchId,
     }
 

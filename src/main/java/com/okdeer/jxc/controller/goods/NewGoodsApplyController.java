@@ -46,6 +46,7 @@ import com.okdeer.jxc.common.enums.GoodsTypeEnum;
 import com.okdeer.jxc.common.enums.NewGoodsApplyEnum;
 import com.okdeer.jxc.common.enums.PricingTypeEnum;
 import com.okdeer.jxc.common.enums.SaleWayEnum;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportVo;
 import com.okdeer.jxc.common.goodselect.NewGoodsApplyImportComponent;
@@ -810,7 +811,8 @@ public class NewGoodsApplyController extends BaseController<NewGoodsApplyControl
 						}
 					}, null);
 			respJson.put("importInfo", vo);
-
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常:", e);

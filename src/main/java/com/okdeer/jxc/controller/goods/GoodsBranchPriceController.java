@@ -38,6 +38,7 @@ import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.enums.BranchTypeEnum;
 import com.okdeer.jxc.common.enums.GoodsStatusEnum;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.BranchGoodsImportComponent;
 import com.okdeer.jxc.common.goodselect.BranchGoodsImportVo;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
@@ -338,7 +339,7 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 		}
 		try {
 			if (CollectionUtils.isNotEmpty(goodsBranchPriceList)) {
-				goodsSkuSyncServiceApi.recoveryGoodsStoreSkuToMq(goodsBranchPriceList);
+				goodsSkuSyncServiceApi.recoveryGoodsStoreSkuToMq(goodsBranchPriceList, null);
 			}
 		} catch (Exception e) {
 			return RespJson.error(e.getLocalizedMessage());
@@ -440,6 +441,8 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 						}
 					}, null);
 			respJson.put("importInfo", vo);
+        } catch (BusinessException e) {
+            respJson = RespJson.error(e.getMessage());
 		} catch (IOException e) {
 			respJson = RespJson.error("读取Excel流异常");
 			LOG.error("读取Excel流异常:", e);

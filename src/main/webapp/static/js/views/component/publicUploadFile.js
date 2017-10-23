@@ -37,7 +37,7 @@ function getOriginTableRows(){
 	var uploadGridHandel = new GridClass();
     uploadGridHandel.setGridName(datagridId);
 	maxRowsed = uploadGridHandel.getRowsWhere({skuCode:'1'}).length;
-	if(maxRowsed > maxRows){
+	if(maxRowsed > maxRows  && uploadFileParams.tipSign ){
 		$_jxc.alert('已有'+maxRowsed+'条数据，超过最大导入数' + maxRows +'，请先保存');
 		return false;
 	}
@@ -103,7 +103,7 @@ function toUploadHandel(){
                 }
             }else{
                 $("#message").html(data.message);
-
+                $("#errorUrl").html("");
             }
         },
         error : function(responseStr) {
