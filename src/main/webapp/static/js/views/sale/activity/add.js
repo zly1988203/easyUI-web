@@ -11,7 +11,7 @@ var dvVip = '<div id="dvVip" class="ub ub-ac umar-l20"> ' +
 	'</div>';
 var dvVipOne = '<div id="dvVipOne" class="ub ub-ac umar-l20"> ' +
 	'<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberOneExclusive"  name="memberOneExclusive"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
+    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
     '</div> ' +
 	'</div>';
 
@@ -20,7 +20,7 @@ var dvzhspecial =  ' <div class="ub ub-ac umar-l30" id="dvzhspecial"> ' +
     '<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" /><label for="memberExclusive">会员独享</label>'+
     '</div> ' +
     '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberOneExclusive"  name="memberOneExclusive"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
+    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
     '</div> ' +
     '</div>';
 
@@ -35,7 +35,7 @@ var dvmms = ' <div class="ub ub-ac umar-l30" id="dvmms"> ' +
     '<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" /><label for="memberExclusive">会员独享</label>'+
     '</div> ' +
     '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberOneExclusive"  name="memberOneExclusive"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
+    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
     '</div> ' +
 	'</div>';
 
@@ -2363,8 +2363,8 @@ function initDatagridCompose(){
 			            precision:0,
 			        }
 			    },
-			},
-          {
+            }
+          /*,{
               field: 'discountNum', title: '整单商品限量', width: 150, align: 'right',
               formatter : function(value, row, index) {
                   if(row.isFooter){
@@ -2383,7 +2383,7 @@ function initDatagridCompose(){
                       precision:4,
                   }
               },
-          },
+          },*/
         ]],
 		onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
@@ -3155,6 +3155,12 @@ function saveDataHandel(rows,setrows){
   // 活动分店机构id
   var branchsName = $("#branchName").val();
   var branchsFullName = $("#branchsFullName").val();
+
+    //整单组合限量
+    var maxDiscountNum = $("#maxDiscountNum").numberbox("getValue");
+
+    //最高优惠
+    var maxDiscountAmount = $("#maxDiscountAmount").numberbox("getValue");
   
   // 活动状态为特价--偶数特价--换购
   if(activityType=="1"||activityType=="3"||activityType=="4"){
@@ -3171,13 +3177,15 @@ function saveDataHandel(rows,setrows){
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:0,
 	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
-	          detailList : []
+          memberExclusiveNum: $("#memberExclusiveNum").is(":checked") ? 1 : 0,
+          detailList: []
 	  };
 	  $.each(rows,function(i,data){
 	      var temp = {
 	    	  goodsSkuId: data.goodsSkuId,
 	    	  saleAmount:data.saleAmount,
-	    	  price:data.price
+              price: data.price,
+              discountNum: data.discountNum
 	      }
 	      reqObj.detailList[i] = temp;
 	  });
@@ -3196,7 +3204,9 @@ function saveDataHandel(rows,setrows){
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:0,
 	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
-	          detailList : []
+          memberExclusiveNum: $("#memberExclusiveNum").is(":checked") ? 1 : 0,
+          maxDiscountNum: maxDiscountNum,
+          detailList: []
 	  };
 	  $.each(rows,function(i,data){
 	      var temp = {
@@ -3226,7 +3236,9 @@ function saveDataHandel(rows,setrows){
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:activityScopedis,
 	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
-	          detailList : []
+          memberExclusiveNum: $("#memberExclusiveNum").is(":checked") ? 1 : 0,
+          maxDiscountAmount: maxDiscountAmount,
+          detailList: []
 	  };
 	  // 活动状态为折扣--单品折扣
 	   if(activityScopedis=="0"){
@@ -3277,6 +3289,7 @@ function saveDataHandel(rows,setrows){
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:activityScopemj,
 	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
+          memberExclusiveNum: $("#memberExclusiveNum").is(":checked") ? 1 : 0,
 	          detailList : []
 	  };
 	// 活动状态为满减 -商品
@@ -3372,7 +3385,8 @@ function saveDataHandel(rows,setrows){
 	          allowActivity:$("#mmsofactType1").is(":checked")?1:0,
 	          allowMultiple:$("#mmsofactType2").is(":checked")?1:0,
 	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
-	          detailList:setrows, //活动范围数据集合
+          memberExclusiveNum: $("#memberExclusiveNum").is(":checked") ? 1 : 0,
+          detailList: setrows, //活动范围数据集合
 	          gradientList:rows //梯度集合
 	  };
 	  
