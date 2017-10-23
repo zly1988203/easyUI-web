@@ -7,34 +7,6 @@
 
 package com.okdeer.jxc.controller.sale;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONObject;
-
-import org.apache.commons.lang3.StringUtils;
-import org.jfree.util.Log;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
@@ -53,11 +25,7 @@ import com.okdeer.jxc.form.enums.FormType;
 import com.okdeer.jxc.goods.entity.GoodsSelect;
 import com.okdeer.jxc.sale.activity.po.ActivityGoodsGiftPo;
 import com.okdeer.jxc.sale.activity.service.ActivityServiceApi;
-import com.okdeer.jxc.sale.activity.vo.ActivityDetailVo;
-import com.okdeer.jxc.sale.activity.vo.ActivityGoodsImportVo;
-import com.okdeer.jxc.sale.activity.vo.ActivityGradientVo;
-import com.okdeer.jxc.sale.activity.vo.ActivityListQueryVo;
-import com.okdeer.jxc.sale.activity.vo.ActivityVo;
+import com.okdeer.jxc.sale.activity.vo.*;
 import com.okdeer.jxc.sale.entity.ActivityBranch;
 import com.okdeer.jxc.sale.entity.ActivityDetail;
 import com.okdeer.jxc.sale.entity.ActivityGoodsGift;
@@ -66,6 +34,22 @@ import com.okdeer.jxc.sale.enums.ActivityStatus;
 import com.okdeer.jxc.sale.enums.ActivityType;
 import com.okdeer.jxc.system.entity.SysUser;
 import com.okdeer.jxc.utils.UserUtil;
+import net.sf.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
+import org.jfree.util.Log;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * ClassName: ActivityController 
@@ -198,8 +182,8 @@ public class ActivityController extends BaseController<ActivityController> {
 					String detailId = UUIDHexGenerator.generate();
 					activityDetail.setId(detailId);
 					activityDetail.setActivityId(main.getId());
-
-					detailList.add(activityDetail);
+                    activityDetail.setDiscountNum(activityDetailVo.getDiscountNum() != null ? activityDetailVo.getDiscountNum().intValue() : null);
+                    detailList.add(activityDetail);
 				}
 			}
 
