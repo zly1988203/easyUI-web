@@ -7,6 +7,7 @@ var branchId="";
 var isDirect = "";
 var isAllowPurchase = "";
 var supplierSelectType="";
+
 function initSupplierView(param){
 	
 	console.log('param',param)
@@ -33,7 +34,7 @@ function initSupplierView(param){
 
     supplierSelectType = param.supplierSelectType||"";
 
-    initTreeSupplier(); //初始树
+    pubSupTree.initTreeSupplier(); //初始树
     initDatagridSupplier(saleWayNot,isDirect,branchId, supplierCodeOrName); //初始化表格
 }
 var supplierCallBack ;
@@ -55,8 +56,14 @@ function supplierClickRow(rowIndex, rowData){
         supplierCallBack(rowData);
     }
 }
+
+function publicSupplierTree() {
+    
+}
+var pubSupTree = new publicSupplierTree();
+
 //初始树
-function initTreeSupplier(){
+publicSupplierTree.prototype.initTreeSupplier = function(){
 	var args = { }
     $.get(contextPath + "/common/supplierArea/getSupplierAreaToTree", args,function(data){
         var setting = {
@@ -67,7 +74,7 @@ function initTreeSupplier(){
                 }
             },
 	        callback: {
-	    		onClick: zTreeOnClick
+	    		onClick: pubSupTree.zTreeOnClick
 	    	}
         };
         $.fn.zTree.init($("#treeSupplier"), setting, JSON.parse(data));
@@ -83,7 +90,7 @@ function initTreeSupplier(){
  * 树点击事件
  */
 var supplierAreaCode=null;
-function zTreeOnClick(event, treeId, treeNode) {
+publicSupplierTree.prototype.zTreeOnClick = function(event, treeId, treeNode) {
 	supplierAreaCode=treeNode.code;
 	var supplierNameOrsupplierCode=$("#supplierNameOrsupplierCode").val();
    $("#gridSupplier").datagrid("options").queryParams = {

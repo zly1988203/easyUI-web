@@ -62,8 +62,9 @@ function initAgencyView(param){
     }else{
     	$('#treeAgencyArea').addClass('unhide');
     }
-    
-    initDatagridAgency(); //初始化表格
+
+    var publicAgency = new publicAgencyMain();
+    publicAgency.initDatagridAgency(); //初始化表格
 
 	$("input[name='offlineStatus']").change(function () {
         $('#gridAgency').datagrid('clearSelections');
@@ -136,8 +137,12 @@ function publicAgencyTreeOnClick(event, treeId, treeNode) {
     $("#gridAgency").datagrid("load");
 };
 
+function publicAgencyMain() {
+	
+}
+
 //初始化表格
-function initDatagridAgency(){
+publicAgencyMain.prototype.initDatagridAgency = function(){
 	
 	var datagridObj = {
 		method:'POST',

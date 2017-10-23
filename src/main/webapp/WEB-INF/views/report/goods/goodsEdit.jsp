@@ -38,7 +38,7 @@
 
 <div class="uh">
 	<div id="divTab">
-		<div class="ub ub-ac upad-4 umar-l10 upad-t10"
+		<div class="ub ub-ac upad-4 umar-l10"
 			style="padding-bottom: 1px;">
 			<button id="btnbase" class="tab-like" onclick="clickTab(1)">基本信息</button>
 			<button id="btnprice" class="tab-like umar-l4" onclick="clickTab(2)">分店价格</button>
@@ -394,7 +394,7 @@
 					</div>
 				</div>
 				
-				<div class="ub upad-4 uw-570 umar-r200"  id="weekday">
+				<div class="ub upad-4 umar-l32"  id="weekday">
 					<div class="umar-r10 uw-60 ut-r">订货周期:</div>
 					<div class="ub ub-ac umar-r40">
 						<div class="ub ub-ac umar-l10 ubcheckweek">
@@ -452,7 +452,6 @@
 			</div>
 		</div>
 	</div>
-
 
 	<div id="tab3">
 		<div class="ub ub-ver uh uw">
