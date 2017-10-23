@@ -463,7 +463,7 @@ function printReport(){
 
 //对话框
 var dialogTemp;
-var dialogHeight = 670;//$(window).height()*(4/5);
+var dialogHeight = 660;//$(window).height()*(4/5);
 var dialogWidth = 950;//$(window).width()*(5/9);
 //打开对话框
 function openDialog(argUrl, argTitle, skuId,branchId) {

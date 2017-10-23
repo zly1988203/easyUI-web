@@ -5,7 +5,7 @@
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script
-	src="${ctx}/static/js/views/goods/goodsArchivesEdit.js?V=${versionNo}"></script>
+	src="${ctx}/static/js/views/goods/goodsArchivesEdit.js?V=${versionNo}133"></script>
 <style>
 .datagrid-header-row .datagrid-cell {
 	text-align: center !important;
@@ -424,7 +424,7 @@
 					</div>
 				</div>
 				
-				<div class="ub upad-4 uw-570 umar-r200"  id="weekday">
+				<div class="ub upad-4  umar-l32"  id="weekday">
 					<div class="umar-r10 uw-60 ut-r">订货周期:</div>
 					<div class="ub ub-ac umar-r40">
 						<div class="ub ub-ac umar-l10 ubcheckweek">
