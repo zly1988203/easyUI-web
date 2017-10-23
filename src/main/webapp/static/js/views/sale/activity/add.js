@@ -242,31 +242,34 @@ var changeType = function(priceVal){
     switch(priceVal)
     {
         case "1":
+        	//特价
             selectOptionSpecial();
             break;
-        case "2": //折扣
+        case "2":
+        	//折扣
             selectOptionzk();
             break;
         case "3":
+        	//偶数特价
             selectOptionOdd();
             break;
         case "4":
+        	//换购
             optionHide();
             $("#consaleadd").removeClass("unhide");
             initDatagridRedemption();
             disableGoods('','GoodsType');
             break;
         case "5":
+        	//满减
             selectOptionMj();
             break;
         case "6":
-            optionHide();
-            $("#consaleadd").removeClass("unhide");
-            initDatagridCompose();
-            disableGoods('','GoodsType');
-            $("#branchComponent").after(dvzhspecial);
+            //组合特价
+          	selectOptionGroupSpecial();
             break;
-        case "10": //买满送
+        case "10":
+        	//买满送
             selectOptionmms();
             break;
     }
@@ -432,6 +435,19 @@ function selectOptionmms(){
 		gridHandelG.setLoadData([$.extend({},gridDefaultG)])
 	}
 	
+}
+
+//组合特价
+function selectOptionGroupSpecial(){
+    optionHide();
+    $("#consaleadd").removeClass("unhide");
+    initDatagridCompose();
+    disableGoods('','GoodsType');
+    $(".special").after(dvVipOne);
+    $(".activityTypeDv").after(dvVip);
+    // $("#branchComponent").after(dvzhspecial);
+    $('.limitCount').removeClass('unhide');
+    $('.limitCount').after(dvzhspecial);
 }
 
 
@@ -1117,6 +1133,7 @@ function optionHide(){
     $('#consolemms').addClass('unhide');
     $(".mmstype").addClass('unhide');
     $('.mmsTypechoose').addClass('unhide');
+    $('.limitCount').addClass('unhide');
 	
 	initmmsDom();	
 	
