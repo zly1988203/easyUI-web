@@ -157,7 +157,7 @@
 						<%--<div class="umar-l10">元</div>--%>
 				   </div>
 
-				<div class="ub ub-ac uw-390 umar-l10 limitCount unhide">
+				<div class="ub ub-ac uw-400 umar-l10 limitCount unhide">
 				<div class="umar-r10 uw-80 ut-r">整单组合限量:</div>
 				<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2" type="text"  id="limitCount">
 				<%--<div class="umar-l10">元</div>--%>

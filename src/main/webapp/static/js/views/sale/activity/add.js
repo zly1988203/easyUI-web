@@ -443,11 +443,9 @@ function selectOptionGroupSpecial(){
     $("#consaleadd").removeClass("unhide");
     initDatagridCompose();
     disableGoods('','GoodsType');
-    $(".special").after(dvVipOne);
     $(".activityTypeDv").after(dvVip);
-    // $("#branchComponent").after(dvzhspecial);
     $('.limitCount').removeClass('unhide');
-    $('.limitCount').after(dvzhspecial);
+    $('.limitCount').after(dvVipOne);
 }
 
 
