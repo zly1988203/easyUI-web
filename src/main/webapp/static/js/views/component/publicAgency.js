@@ -14,69 +14,75 @@ var scope=null;
 var type=null;     //NOTREE 左边没有树
 var selectType=null;//0 单选  1多选
 var offlineStatus = "1";
-function initAgencyView(param){
+function publicAgencyClass() {
 
-	nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
-    offlineStatus = $('input[type="radio"][name="offlineStatus"]:checked').val();
-	//新组件方法会传此参数 
-	if(param){
-		if(param.formType){
-            formType = param.formType;
-		}
+}
+    publicAgencyClass.prototype.initAgencyView = function(param){
 
-        if(param.branchId){
-            branchId = param.branchId;
+        nameOrCode=$("#formAgency :text[name=nameOrCode]").val();
+        offlineStatus = $('input[type="radio"][name="offlineStatus"]:checked').val();
+        //新组件方法会传此参数
+        if(param){
+            if(param.formType){
+                formType = param.formType;
+            }
+
+            if(param.branchId){
+                branchId = param.branchId;
+            }
+
+            if(param.branchType){
+                branchType = param.branchType;
+            }
+
+            if(param.nameOrCode){
+                nameOrCode = param.nameOrCode;
+                $("#formAgency :text[name=nameOrCode]").val(nameOrCode);
+            }
+            if(param.branchTypesStr){
+                branchTypesStr = param.branchTypesStr;
+            }
+            if(param.branchCompleCode){
+                branchCompleCode = param.branchCompleCode;
+            }
+            if(param.isOpenStock){
+                isOpenStock = param.isOpenStock;
+            }
+            if(param.scope){
+                scope = param.scope;
+            }
+
+            selectType = param.selectType;
+            //扩展的publicBranchesServiceHandel initAgencyView(param)
+            //param=空,param.type=空,param.type=NOTREE下  初始化左边的树
+            type = (param.type||'').toUpperCase();
         }
 
-        if(param.branchType){
-            branchType = param.branchType;
+        gFunSetEnterKey(agencySearch);
+        if((param && type != 'NOTREE') || !param){
+            $('#treeAgencyArea').removeClass('unhide');
+            initTreePublicAgency(); //初始树
+        }else{
+            $('#treeAgencyArea').addClass('unhide');
         }
 
-		if(param.nameOrCode){
-			nameOrCode = param.nameOrCode;
-			$("#formAgency :text[name=nameOrCode]").val(nameOrCode);
-		}
-		if(param.branchTypesStr){
-			branchTypesStr = param.branchTypesStr;
-		}
-		if(param.branchCompleCode){
-			branchCompleCode = param.branchCompleCode;
-		}
-		if(param.isOpenStock){
-			isOpenStock = param.isOpenStock;
-		}
-		if(param.scope){
-			scope = param.scope;
-		}
+        var publicAgency = new publicAgencyClass();
+        publicAgency.initDatagridAgency(); //初始化表格
 
-		selectType = param.selectType;
-		//扩展的publicBranchesServiceHandel initAgencyView(param) 
-		//param=空,param.type=空,param.type=NOTREE下  初始化左边的树
-		type = (param.type||'').toUpperCase();
-	}
-	
-    gFunSetEnterKey(agencySearch);
-    if((param && type != 'NOTREE') || !param){
-    	$('#treeAgencyArea').removeClass('unhide');
-    	initTreePublicAgency(); //初始树
-    }else{
-    	$('#treeAgencyArea').addClass('unhide');
+        $("input[name='offlineStatus']").change(function () {
+            $('#gridAgency').datagrid('clearSelections');
+            $('#gridAgency').datagrid('clearChecked');
+            agencySearch();
+        })
     }
 
-    var publicAgency = new publicAgencyMain();
-    publicAgency.initDatagridAgency(); //初始化表格
-
-	$("input[name='offlineStatus']").change(function () {
-        $('#gridAgency').datagrid('clearSelections');
-        $('#gridAgency').datagrid('clearChecked');
-        agencySearch();
-    })
-}
-var agencyCallBack ;
 //初始化回调函数
-function initAgencyCallBack(cb){
-    agencyCallBack = cb;
-}
+    publicAgencyClass.prototype.initAgencyCallBack = function(cb){
+        agencyCallBack = cb;
+    }
+
+var agencyCallBack ;
+
 //选择单行
 function agencyClickRow(rowIndex, rowData){
     if(agencyCallBack){
@@ -137,12 +143,9 @@ function publicAgencyTreeOnClick(event, treeId, treeNode) {
     $("#gridAgency").datagrid("load");
 };
 
-function publicAgencyMain() {
-	
-}
 
 //初始化表格
-publicAgencyMain.prototype.initDatagridAgency = function(){
+publicAgencyClass.prototype.initDatagridAgency = function(){
 	
 	var datagridObj = {
 		method:'POST',
@@ -194,7 +197,7 @@ publicAgencyMain.prototype.initDatagridAgency = function(){
 /*
  * 多选模式下 【确定】按钮回调
  */
-function publicBranchGetChecks(cb){
+publicAgencyClass.prototype.publicBranchGetChecks = function(cb){
     var row =  $("#gridAgency").datagrid("getChecked");
     cb(row);
 }

@@ -24,7 +24,7 @@ function initSupplierView(param){
 	if(!branchId){
 		branchId=$("#branchId").val();
 	}
-	
+
 	
     gFunSetEnterKey(supplierSearch);
     saleWayNot=$("#saleWayNot").val();
@@ -33,7 +33,7 @@ function initSupplierView(param){
     isAllowPurchase = param.isAllowPurchase ||"";
 
     supplierSelectType = param.supplierSelectType||"";
-
+    var pubSupTree = new publicSupplierTree();
     pubSupTree.initTreeSupplier(); //初始树
     initDatagridSupplier(saleWayNot,isDirect,branchId, supplierCodeOrName); //初始化表格
 }
@@ -42,14 +42,7 @@ var supplierCallBack ;
 function initSupplierCallBack(cb){
     supplierCallBack = cb;
 }
-//搜索
-function supplierSearch(){
-	var queryParams = $("#formSupplier").serializeObject();
-	queryParams.isAllowPurchase = isAllowPurchase;
-    $("#gridSupplier").datagrid("options").queryParams = queryParams;
-    $("#gridSupplier").datagrid("options").method = "post";
-    $("#gridSupplier").datagrid("load");
-}
+
 //选择单行
 function supplierClickRow(rowIndex, rowData){
     if(supplierCallBack){
@@ -60,10 +53,11 @@ function supplierClickRow(rowIndex, rowData){
 function publicSupplierTree() {
     
 }
-var pubSupTree = new publicSupplierTree();
+
 
 //初始树
 publicSupplierTree.prototype.initTreeSupplier = function(){
+    var pubSupTree = new publicSupplierTree();
 	var args = { }
     $.get(contextPath + "/common/supplierArea/getSupplierAreaToTree", args,function(data){
         var setting = {
