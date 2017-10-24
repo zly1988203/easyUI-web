@@ -3127,6 +3127,13 @@ function saveDataHandel(rows,setrows){
   // 活动分店机构id
   var branchsName = $("#branchName").val();
   var branchsFullName = $("#branchsFullName").val();
+
+    //整单组合限量
+    var maxDiscountNum = $("#maxDiscountNum").numberbox("getValue");
+
+    //最高优惠
+    var maxDiscountAmount = $("#maxDiscountAmount").numberbox("getValue");
+
   // 活动状态为特价--偶数特价--换购
   if(activityType=="1"||activityType=="3"||activityType=="4"){
 	  var reqObj = {
@@ -3170,6 +3177,7 @@ function saveDataHandel(rows,setrows){
 	          activityScope:0,
 	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
           memberExclusiveNum: $("#memberExclusiveNum").is(":checked") ? 1 : 0,
+          maxDiscountNum: maxDiscountNum,
           detailList: []
 	  };
 	  $.each(rows,function(i,data){
@@ -3201,6 +3209,7 @@ function saveDataHandel(rows,setrows){
 	          activityScope:activityScopedis,
 	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
           memberExclusiveNum: $("#memberExclusiveNum").is(":checked") ? 1 : 0,
+          maxDiscountAmount: maxDiscountAmount,
           detailList: []
 	  };
 	  // 活动状态为折扣--单品折扣
