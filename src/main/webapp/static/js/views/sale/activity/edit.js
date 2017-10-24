@@ -3142,7 +3142,9 @@ function saveDataHandel(rows,setrows){
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:0,
 	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
-	          detailList : []
+          memberExclusiveNum: $("#memberExclusiveNum").is(":checked") ? 1 : 0,
+
+          detailList: []
 	  };
 	  $.each(rows,function(i,data){
 	      var temp = {
@@ -3167,7 +3169,8 @@ function saveDataHandel(rows,setrows){
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:0,
 	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
-	          detailList : []
+          memberExclusiveNum: $("#memberExclusiveNum").is(":checked") ? 1 : 0,
+          detailList: []
 	  };
 	  $.each(rows,function(i,data){
 	      var temp = {
@@ -3197,7 +3200,8 @@ function saveDataHandel(rows,setrows){
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:activityScopedis,
 	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
-	          detailList : []
+          memberExclusiveNum: $("#memberExclusiveNum").is(":checked") ? 1 : 0,
+          detailList: []
 	  };
 	  // 活动状态为折扣--单品折扣
 	   if(activityScopedis=="0"){
@@ -3247,7 +3251,8 @@ function saveDataHandel(rows,setrows){
 	          weeklyActivityDay:weeklyActivityDay,
 	          activityScope:activityScopemj,
 	          memberExclusive:$("#memberExclusive").is(":checked")?1:0,
-	          detailList : []
+          memberExclusiveNum: $("#memberExclusiveNum").is(":checked") ? 1 : 0,
+          detailList: []
 	  };
 	// 活动状态为满减 -商品
 	  if(activityScopemj=="0"){
@@ -3343,7 +3348,8 @@ function saveDataHandel(rows,setrows){
 	          allowActivity:$("#mmsofactType1").is(":checked")?1:0,
 	          allowMultiple:$("#mmsofactType2").is(":checked")?1:0,
 	    	  memberExclusive:$("#memberExclusive").is(":checked")?1:0,
-	          detailList:setrows, //活动范围数据集合
+          memberExclusiveNum: $("#memberExclusiveNum").is(":checked") ? 1 : 0,
+          detailList: setrows, //活动范围数据集合
 	          gradientList:temRows //梯度集合
 	  };
 	  	  
