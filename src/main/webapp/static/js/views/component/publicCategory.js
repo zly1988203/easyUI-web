@@ -17,7 +17,7 @@ function initCategoryView(param){
 	isSingleSelect = param.type==1?false:true;
     amount = param.amount?param.amount:0;
     gFunSetEnterKey(categorySearch);
-    initTreeCategory(); //初始树
+    pubCategory.initTreeCategory(); //初始树
     initDatagridCategory(categoryType); //初始化表格
 }
 function publicCategoryGetCheck(cb){
@@ -34,6 +34,11 @@ function initCategoryCallBack(cb){
     categoryCallBack = cb;
 }
 
+function publicCategoryClass() {
+
+}
+var pubCategory = new publicCategoryClass();
+
 //选择单行
 function categoryClickRow(rowIndex, rowData){
     if(categoryCallBack&&isSingleSelect){
@@ -41,7 +46,7 @@ function categoryClickRow(rowIndex, rowData){
     }
 }
 //初始树
-function initTreeCategory(){
+publicCategoryClass.prototype.initTreeCategory = function(){
 	var args = { }
 	$.post(contextPath + "/common/category/getGoodsCategoryToTree", args,function(data){
 	    var setting = {
@@ -52,7 +57,7 @@ function initTreeCategory(){
 	            }
 	        },
 	        callback: {
-	    		onClick: zTreeOnClick
+	    		onClick: pubCategory.zTreeOnClick
 	    	}
 
 	    };
@@ -69,7 +74,7 @@ function initTreeCategory(){
  * 树点击事件
  */
 var categoryCode=null;
-function zTreeOnClick(event, treeId, treeNode) {
+publicCategoryClass.prototype.zTreeOnClick = function(event, treeId, treeNode) {
 	categoryCode=treeNode.code;
     $("#gridCategory").datagrid("options").queryParams = {categoryCode:categoryCode,categoryType:categoryType};
     $("#gridCategory").datagrid("options").method = "post";
