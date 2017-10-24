@@ -251,7 +251,6 @@ public class UserRealm extends CasRealm {
 			Set<String> roles = new HashSet<String>();
 			roles.add(role.getRoleCode());
 			info.setRoles(roles);
-			LOG.debug("授权查询回调函数信息：{}", info);
 			return info;
 		} catch (Exception e) {
 			LOG.error("赋予权限出错{}", e);
