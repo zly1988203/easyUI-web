@@ -5,48 +5,53 @@
 
 /*var nameOrCode=null;*/
 var selectType=null;//0 单选  1多选
-function initAgencyView(param){
-	//console.log('param',param);
-	if(param){
-		selectType = param.selectType;
-		//根据参数序列化到dom结构中
-		for(key in param){
-			//去除 组件内用参数
-			if(key == 'type' || key == 'view' || key=='selectType') continue;
-			//nameOrCode赋值
-			if(key == 'nameOrCode'){
-				$('#nameOrCode').val(param.nameOrCode);
-			}else{
-				var _inpStr = "<input type='hidden' name='"+key+"' value='"+(param[key]||"")+"' />";
-				$('#domInner').append(_inpStr);
-			}
-		}
-	}
-	
-	//切换类型执行搜索
-	$('input[name="groupType"]').on('change',function(){
-		$('#gridBranchGroupList').datagrid('clearSelections');
-		$('#gridBranchGroupList').datagrid('clearChecked');
-		agencySearch();
-	})
+function publicBranchGroupClass() {
 
-    $('input[name="offlineStatus"]').on('change',function(){
-        $('#gridBranchGroupList').datagrid('clearSelections');
-        $('#gridBranchGroupList').datagrid('clearChecked');
-        agencySearch();
-    })
-	
-    gFunSetEnterKey(agencySearch);
-    initDatagridBranchGroupList(); //初始化表格
 }
 
+    publicBranchGroupClass.prototype.initAgencyView = function(param){
+        //console.log('param',param);
+        if(param){
+            selectType = param.selectType;
+            //根据参数序列化到dom结构中
+            for(key in param){
+                //去除 组件内用参数
+                if(key == 'type' || key == 'view' || key=='selectType') continue;
+                //nameOrCode赋值
+                if(key == 'nameOrCode'){
+                    $('#nameOrCode').val(param.nameOrCode);
+                }else{
+                    var _inpStr = "<input type='hidden' name='"+key+"' value='"+(param[key]||"")+"' />";
+                    $('#domInner').append(_inpStr);
+                }
+            }
+        }
+
+        //切换类型执行搜索
+        $('input[name="groupType"]').on('change',function(){
+            $('#gridBranchGroupList').datagrid('clearSelections');
+            $('#gridBranchGroupList').datagrid('clearChecked');
+            agencySearch();
+        })
+
+        $('input[name="offlineStatus"]').on('change',function(){
+            $('#gridBranchGroupList').datagrid('clearSelections');
+            $('#gridBranchGroupList').datagrid('clearChecked');
+            agencySearch();
+        })
+
+        gFunSetEnterKey(agencySearch);
+        initDatagridBranchGroupList(); //初始化表格
+    }
+
+//初始化回调函数
+    publicBranchGroupClass.prototype.initAgencyCallBack = function(cb){
+        agencyCallBack = cb;
+    }
 
 
 var agencyCallBack ;
-//初始化回调函数
-function initAgencyCallBack(cb){
-    agencyCallBack = cb;
-}
+
 //选择单行
 function agencyClickRow(rowIndex, rowData){
     if(agencyCallBack){
@@ -98,7 +103,7 @@ function initDatagridBranchGroupList(){
 /*
  * 多选模式下 【确定】按钮回调
  */
-function publicBranchGetChecks(cb){
+publicBranchGroupClass.prototype.publicBranchGetChecks = function(cb){
     var row =  $("#gridBranchGroupList").datagrid("getChecked");
     cb(row);
 }

@@ -259,7 +259,7 @@ function publicRoleService(callback, branchCompleCode, branchType){
 }
 
 
-//公共组件-机构选择
+//公共组件-机构选择 component/publicAgency
 function publicAgencyService(callback,formType,branchId, branchType,isOpenStock,scope,isNoTree){
 	if(!formType){
 		formType="";
@@ -301,8 +301,9 @@ function publicAgencyService(callback,formType,branchId, branchType,isOpenStock,
         },
         modal:true,
         onLoad:function(){
-            initAgencyView(param);
-            initAgencyCallBack(callBackHandel)
+            var publicAgency = new publicAgencyClass();
+            publicAgency.initAgencyView(param);
+            publicAgency.initAgencyCallBack(callBackHandel)
         },
     });
     function callBackHandel(data){
@@ -2162,11 +2163,13 @@ function publicGetBranchGroupDetail(arg,cb){
 }
 
 function publicBranchesServiceHandel(param,callback,cbDom){
+
 	var _href = contextPath + "/common/branches/viewComponent?formType="+ (param.formType||'') + "&branchId=" +(param.branchId||'')+ "&branchType="+(param.branchType||'') + "&isOpenStock="+(param.isOpenStock||'')+ "&scope="+(param.scope||'');
 	//机构分组
 	if(param.view && param.view == 'group'){
 		_href = contextPath+'/branch/branchGroupSelect/view';
 	}
+
 	//公有属性
 	var dialogObj = {
 		href:_href,
@@ -2182,8 +2185,14 @@ function publicBranchesServiceHandel(param,callback,cbDom){
         },
         modal:true,
         onLoad:function(){
-            initAgencyView(param);
-            initAgencyCallBack(callBackHandel)
+            var pubBranch = null;
+            if(param.view && param.view == 'group'){
+                pubBranch = new publicBranchGroupClass();
+            }else{
+                 pubBranch = new publicAgencyClass();
+            }
+            pubBranch.initAgencyView(param);
+            pubBranch.initAgencyCallBack(callBackHandel)
         }
 	}
 	
@@ -2192,7 +2201,13 @@ function publicBranchesServiceHandel(param,callback,cbDom){
 		dialogObj["buttons"] = [{
             text:'确定',
             handler:function(){
-            	publicBranchGetChecks(callBackHandel);
+                var pubBranch = null;
+                if(param.view && param.view == 'group'){
+                    pubBranch = new publicBranchGroupClass();
+                }else{
+                    pubBranch = new publicAgencyClass();
+                }
+                pubBranch.publicBranchGetChecks(callBackHandel);
             }
         },{
             text:'取消',
