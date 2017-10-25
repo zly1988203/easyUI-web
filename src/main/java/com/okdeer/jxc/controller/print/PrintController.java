@@ -646,10 +646,10 @@ public class PrintController extends BaseController<PrintController> {
     public void downBranchQrCodeImage(HttpServletResponse response) {
         try {
             String info = MessageFormat.format(qrCodeUrl + "?type=1&branchId={0}", this.getCurrBranchId());
-            BufferedImage bufferedImage = com.okdeer.jxc.controller.print.QRCodeUtil.encoderQRCoder(info, 1000, 1000);
+            BufferedImage bufferedImage = com.okdeer.jxc.controller.print.QRCodeUtil.encoderQRCoder(info, 1000, 1000,200,200);
             response.setContentType("image/jpeg");
             response.setHeader("content-disposition", "attachment;filename="
-                    + URLEncoder.encode("店铺二维码.png", "UTF-8"));
+                    + URLEncoder.encode(this.getCurrBranchName()+"店铺二维码.png", "UTF-8"));
 
             ImageIO.write(bufferedImage, "png", response.getOutputStream());
         } catch (Exception e) {
