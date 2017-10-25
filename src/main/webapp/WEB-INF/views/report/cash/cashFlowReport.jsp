@@ -100,7 +100,7 @@
 				            <option value="2">POS订单</option>
 				            <option value="3">扫码购</option>
 							<option value="4">会员自助</option>
-							<option value="5">微信扫码购</option>
+							<option value="5">小程序</option>
 				        </select>
                 </div>
                 <div class="ub ub-ac umar-l20">
