@@ -1364,7 +1364,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
             replaceMap.put("_采购退货单号", form.getFormNo() != null ? form.getFormNo() : "");
             replaceMap.put("_采购收货单号", form.getFormNo() != null ? form.getFormNo() : "");
             replaceMap.put("formNo", form.getFormNo() != null ? form.getFormNo() : "");
-			replaceMap.put("_原订单号", form.getFormNo() != null ? form.getRefFormNo() : "");
+            replaceMap.put("_原订单号", form.getFormNo() != null ? form.getRefFormNo() : "");
             replaceMap.put("_引用单号", form.getFormNo() != null ? form.getRefFormNo() : "");
             PurchaseFormPO refForm = purchaseFormServiceApi.selectPOByFormNo(form.getRefFormNo());
             if (refForm != null && StringUtils.isBlank(refForm.getRefFormNo())) {
@@ -1373,12 +1373,12 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
                 replaceMap.put("_采购订单号", refForm.getFormNo() != null ? refForm.getRefFormNo() : "");
             }
             replaceMap.put("refFormNo", form.getRefFormNo() != null ? form.getRefFormNo() : "");
-			// 供应商
-			replaceMap.put("_供应商名称", form.getSupplierName() != null ? form.getSupplierName() : "");
-			replaceMap.put("supplierName",
-					form.getSupplierName() != null ? "[" + form.getSupplierCode() + "]" + form.getSupplierName() : "");
-			// 制单人员
-			replaceMap.put("_制单人员", form.getCreateUserName() != null ? form.getCreateUserName() : "");
+            // 供应商
+            replaceMap.put("_供应商名称", form.getSupplierName() != null ? form.getSupplierName() : "");
+            replaceMap.put("supplierName",
+                    form.getSupplierName() != null ? "[" + form.getSupplierCode() + "]" + form.getSupplierName() : "");
+            // 制单人员
+            replaceMap.put("_制单人员", form.getCreateUserName() != null ? form.getCreateUserName() : "");
 			replaceMap.put("createUserName", form.getCreateUserName() != null ? form.getCreateUserName() : "");
 			// 机构名称
 			replaceMap.put("_机构名称", form.getBranchName() != null ? form.getBranchName() : "");
