@@ -210,7 +210,10 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "_交货期限"
-		} ]
+        }, {
+            type: "label",
+            text: "自定义标签"
+        }]
 	} ],
 	// 采购收货单
 	PISheet : [ /*
@@ -404,10 +407,10 @@ var defaultData = {
             text: "_采购订单号"
         }, {
             type: "label",
-            text: "采购收货单号："
+            text: "引用单号："
         }, {
             type: "holder",
-            text: "_采购收货单号"
+            text: "_引用单号"
         }, {
             type: "label",
             text: "采购退货单号："
@@ -482,7 +485,10 @@ var defaultData = {
 		}, {
 			type : "holder",
 			text : "_调价设置"
-		} ]
+        }, {
+            type: "label",
+            text: "自定义标签"
+        }]
 	} ],
 	// 要货单
 	DASheet : [ /*
@@ -570,7 +576,10 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "审核："
-		} ]
+        }, {
+            type: "label",
+            text: "自定义标签"
+        }]
 	} ],
 	// 直送要货单
 	DYSheet : [ /*
@@ -658,7 +667,10 @@ var defaultData = {
 		 }, {
 			 type : "label",
 			 text : "审核："
-		 } ]
+         }, {
+             type: "label",
+             text: "自定义标签"
+         }]
 	 } ],
 	// 入库单
 	DISheet : [ /*
@@ -779,7 +791,10 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "司机："
-		} ]
+        }, {
+            type: "label",
+            text: "自定义标签"
+        }]
 	} ],
 	// 配送出库单
 	DOSheet : [/*
@@ -906,7 +921,10 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "司机："
-		}]
+        }, {
+            type: "label",
+            text: "自定义标签"
+        }]
 	} ],
 	//店间配送申请单
 	DDSheet : [/*
@@ -1027,7 +1045,10 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "司机："
-		} ]
+        }, {
+            type: "label",
+            text: "自定义标签"
+        }]
 	} ],
 	// 领用单
 	IUSheet : [/*
@@ -1091,7 +1112,10 @@ var defaultData = {
 		}, {
 			type : "holder",
 			text : "_审核时间"
-		} ]
+        }, {
+            type: "label",
+            text: "自定义标签"
+        }]
 	} ],
 	// 报损单
 	IDSheet : [/*
@@ -1155,7 +1179,10 @@ var defaultData = {
 		}, {
 			type : "holder",
 			text : "_审核时间"
-		} ]
+        }, {
+            type: "label",
+            text: "自定义标签"
+        }]
 	} ],
 	// 直送收货单
 	PMSheet : [ /*
@@ -1261,7 +1288,10 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "采购："
-		} ]
+        }, {
+            type: "label",
+            text: "自定义标签"
+        }]
 	} ],
 	
 	// 配送退货单
@@ -1383,6 +1413,9 @@ var defaultData = {
 		}, {
 			type : "label",
 			text : "司机："
-		} ]
+        }, {
+            type: "label",
+            text: "自定义标签"
+        }]
      }]
 };
