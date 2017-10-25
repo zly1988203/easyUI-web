@@ -1,9 +1,7 @@
 //全局变量
 var datagridId = "saleMangeadd";
-var activtype="";
-var activityType="";
-var activityScopedis="";
-var activityScopemj="";
+// var activtype="";
+// var activityType="";
 var gridDefault = {
     oldSaleRate:"0.00%",
     newSaleRate:"0.00%"
@@ -159,13 +157,9 @@ function  editstart(){
 	    			return;
 	    		}  
 	    		     //select 状态切换
-	    		    activtype=listinfo.activityType;
+	    		   var activtype=listinfo.activityType;
 	    		     //radio 状态切换
 	    		    activScope=listinfo.activityScope;
-	    		    //特价 特价 单品折扣和 偶数特价 显示 导入功能
-	    		    if(activtype == '1' || (activtype=='2'&& activScope=='0') || activtype == '3'){
-	    		    	$(".importGood").removeClass('unhide');
-	    		    }
 	    		    
 		    		//活动名称
 		    		$('#activityName').val(data.obj.activityName);
@@ -235,26 +229,12 @@ function  editstart(){
   		    		}
 	  		    	//满减类型赋值
 					if(activtype==5){		
-						activityScopemj=listinfo.activityScope;
                         var param = {
                             activityScopemj:listinfo.activityScope,
                             memberExclusive:listinfo.memberExclusive,
                             memberExclusiveNum:listinfo.memberExclusiveNum
                         }
-						radioSetmj(param);
-						if(activityScopemj == 0){
-							initmjOneDatagrid(activityId);
-							initmjTowDatagrid(activityId);
-							disableGoods('','GoodsType');
-						}else if(activityScopemj == 1){
-							initmjOneDatagrid(activityId);
-							initmjTowDatagrid(activityId);
-							disableGoods('SelectGoods','');
-						}else if(activityScopemj == 2){
-							initmjFullDatagrid(activityId);
-							disableGoods('SelectGoods','GoodsType');
-						}
-
+                        selectOptionMj(param);
 						//买满送
 					  }else if(activtype==10){
 
@@ -275,9 +255,10 @@ function  editstart(){
                             activityId:activityId,
                             activityScopedis:listinfo.activityScope,
                             memberExclusive:listinfo.memberExclusive,
-                            memberExclusiveNum:listinfo.memberExclusiveNum
+                            memberExclusiveNum:listinfo.memberExclusiveNum,
+                            maxDiscountAmount:listinfo.maxDiscountAmount
 						}
-			    		   radioSetdis(param);
+                        selectOptionzk(param);
 
 			    		}else if(activtype==1){
 							var param = {
@@ -297,7 +278,8 @@ function  editstart(){
 							var param = {
                                 activityId:activityId,
 								memberExclusive:listinfo.memberExclusive,
-								memberExclusiveNum:listinfo.memberExclusiveNum
+								memberExclusiveNum:listinfo.memberExclusiveNum,
+                                maxDiscountNum:listinfo.maxDiscountNum
 							}
                         selectOptionGroupSpecial(param);
 			    		}
@@ -315,6 +297,7 @@ function selectOptionGroupSpecial(param) {
     $('.limitCount').after(dvVipOne);
     $("#memberExclusive").prop('checked',param.memberExclusive == 1?true:false);
     $("#memberExclusiveNum").prop('checked',param.memberExclusiveNum == 1?true:false);
+    $("#maxDiscountNum").numberbox("setValue",param.maxDiscountNum);
     //组合特价
     initDatagridCompose();
     initmangeDatagrid(param.activityId);
@@ -343,7 +326,7 @@ function selectOptionOdd(param){
 }
 
 //折扣状态状态radio 赋值
-function radioSetdis(param){
+function selectOptionzk(param){
 	var radioVal = param.activityScopedis;
 	$('.disradio').prop('checked',false);
 	$('#disradio'+radioVal).prop('checked',true);
@@ -352,6 +335,7 @@ function radioSetdis(param){
     $(".topMoney").after(dvzhspecial);
     $("#memberExclusive").prop('checked',param.memberExclusive == 1?true:false);
     $("#memberExclusiveNum").prop('checked',param.memberExclusiveNum == 1?true:false);
+    $("#maxDiscountAmount").numberbox("setValue",param.maxDiscountAmount);//最高优惠
 	//类别折扣
 	if(radioVal=="1"){
   	  initDatagridsortZk();
@@ -375,7 +359,7 @@ function radioSetdis(param){
 
 }
 //满减状态radio 赋值
-function radioSetmj(param){
+function selectOptionMj(param){
     var radioVal = param.activityScopemj;
 	$('.mjradio').prop('checked',false);
 	$('#mjradio'+radioVal).prop('checked',true); 
@@ -385,6 +369,9 @@ function radioSetmj(param){
     $("#memberExclusiveNum").prop('checked',param.memberExclusiveNum == 1?true:false);
 	
 	if(radioVal=="2"){
+        $("#consaleadd").addClass('ub-f1');
+        $('#consaleadd').removeClass('unhide');
+        $('#consalesetmj').addClass('unhide');
 	  	initDatagridallMj(); 
 		initDatagridsortSet();
 	}
@@ -400,8 +387,14 @@ function radioSetmj(param){
   	    initDatagridshopMj();
   	    initDatagridsortSet();
     }
-}
 
+    if(radioVal == 0 || radioVal == 1){
+        initmjOneDatagrid(activityId);
+        initmjTowDatagrid(activityId);
+    }else if(radioVal == 2){
+        initmjFullDatagrid(activityId);
+    }
+}
 
 //数据清空
 function cleardata(){
@@ -1788,6 +1781,12 @@ function initDatagridOddtj(){
 
               })
               gridHandel.setLoadData(data.list);
+
+              if(!oldData["grid"]){
+                  oldData["grid"] = $.map(gridHandel.getRows(), function(obj){
+                      return $.extend(true,{},obj);//返回对象的深拷贝
+                  });
+              }
           }
 			gridHandel.setDatagridHeader("center");
 				
@@ -2693,8 +2692,6 @@ function saveActivity(){
   // 打折活动类型
   var activityScopedis=$("#activityScopedis").val();
   // 满减活动类型
-  var activityScopemj=$("#activityScopemj").val();
-  //满减活动类型
   var activityScopemj=$("#activityScopemj").val();
 
   if(rows.length==0){
