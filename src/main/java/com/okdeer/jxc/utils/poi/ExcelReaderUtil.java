@@ -136,7 +136,7 @@ public class ExcelReaderUtil {
 		}
 		LOG.warn("文件[{}], 后缀名为=[{}]", fileName, postfix);
         if (CollectionUtils.isNotEmpty(importList) && importList.size() > 1001) {
-            throw new BusinessException("最多只能导入1000条数据，请修改导入文件数据后，重新导入.");
+            throw new BusinessException("每次最多只能导入1000条数据，请修改导入文件数据后，重新导入.");
         }
 		return importList;
 	}
@@ -173,7 +173,7 @@ public class ExcelReaderUtil {
 		}
 		LOG.warn("文件[{}], 后缀名为=[{}]", fileName, postfix);
         if (CollectionUtils.isNotEmpty(importList) && importList.size() > 1001) {
-            throw new BusinessException("最多只能导入1000条数据，请修改导入文件数据后，重新导入.");
+            throw new BusinessException("每次最多只能导入1000条数据，请修改导入文件数据后，重新导入.");
         }
 		return importList;
 	}
