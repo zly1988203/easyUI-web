@@ -1361,10 +1361,18 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
 					break;
 			}
 			// 订单编号
-			replaceMap.put("_订单编号", form.getFormNo() != null ? form.getFormNo() : "");
-			replaceMap.put("formNo", form.getFormNo() != null ? form.getFormNo() : "");
+            replaceMap.put("_采购退货单号", form.getFormNo() != null ? form.getFormNo() : "");
+            replaceMap.put("_采购收货单号", form.getFormNo() != null ? form.getFormNo() : "");
+            replaceMap.put("formNo", form.getFormNo() != null ? form.getFormNo() : "");
 			replaceMap.put("_原订单号", form.getFormNo() != null ? form.getRefFormNo() : "");
-			replaceMap.put("refFormNo", form.getRefFormNo() != null ? form.getRefFormNo() : "");
+            replaceMap.put("_引用单号", form.getFormNo() != null ? form.getRefFormNo() : "");
+            PurchaseFormPO refForm = purchaseFormServiceApi.selectPOByFormNo(form.getRefFormNo());
+            if (refForm != null && StringUtils.isBlank(refForm.getRefFormNo())) {
+                replaceMap.put("_采购订单号", refForm.getFormNo() != null ? refForm.getFormNo() : "");
+            } else {
+                replaceMap.put("_采购订单号", refForm.getFormNo() != null ? refForm.getRefFormNo() : "");
+            }
+            replaceMap.put("refFormNo", form.getRefFormNo() != null ? form.getRefFormNo() : "");
 			// 供应商
 			replaceMap.put("_供应商名称", form.getSupplierName() != null ? form.getSupplierName() : "");
 			replaceMap.put("supplierName",
