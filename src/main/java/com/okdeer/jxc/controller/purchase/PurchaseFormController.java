@@ -1370,7 +1370,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
             if (refForm != null && StringUtils.isBlank(refForm.getRefFormNo())) {
                 replaceMap.put("_采购订单号", refForm.getFormNo() != null ? refForm.getFormNo() : "");
             } else {
-                replaceMap.put("_采购订单号", refForm.getFormNo() != null ? refForm.getRefFormNo() : "");
+                replaceMap.put("_采购订单号", "");
             }
             replaceMap.put("refFormNo", form.getRefFormNo() != null ? form.getRefFormNo() : "");
             // 供应商
@@ -1379,7 +1379,7 @@ public class PurchaseFormController extends BasePrintController<PurchaseForm, Pu
                     form.getSupplierName() != null ? "[" + form.getSupplierCode() + "]" + form.getSupplierName() : "");
             // 制单人员
             replaceMap.put("_制单人员", form.getCreateUserName() != null ? form.getCreateUserName() : "");
-			replaceMap.put("createUserName", form.getCreateUserName() != null ? form.getCreateUserName() : "");
+            replaceMap.put("createUserName", form.getCreateUserName() != null ? form.getCreateUserName() : "");
 			// 机构名称
 			replaceMap.put("_机构名称", form.getBranchName() != null ? form.getBranchName() : "");
 			replaceMap.put("branchName",
