@@ -692,7 +692,7 @@ function initDatagridSpecial(){
 //		pageSize:50,
 		width:'100%',
         columns:[[
-					{field:'ck',checkbox:true},
+					// {field:'ck',checkbox:true},
 					{field:'skuCode',title:'货号',width:'85px',align:'left'},
 					{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 					{field:'barCode',title:'条码',width:'150px',align:'left'},
@@ -732,6 +732,19 @@ function initDatagridSpecial(){
 		                    }
 		                },
 		            },
+            {
+                field: 'discountNum', title: '整单商品限量', width: 150, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+                    if(!value){
+                        row["discountNum"] = parseFloat(value||0).toFixed(2);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
         ]],
       onLoadSuccess:function(data){
 		gridHandel.setDatagridHeader("center");
@@ -819,7 +832,7 @@ function initDatagridsortZk(){
 //		pageSize:50,
 		width:'100%',
         columns:[[
-					{field:'ck',checkbox:true},
+					// {field:'ck',checkbox:true},
 					{field:'goodsCategoryCode',title:'类别编码',width:'200px',align:'left'},
 					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
 					 {field:'discount',title:'折扣',width:'80px',align:'right',
@@ -881,7 +894,7 @@ function initDatagridoneZk(){
 //		pageSize:50,
 		width:'100%',
         columns:[[
-			{field:'ck',checkbox:true},
+			// {field:'ck',checkbox:true},
 			{field:'skuCode',title:'货号',width:'85px',align:'left'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
@@ -962,7 +975,7 @@ function initDatagridOddtj(){
 //		pageSize:50,
 		width:'100%',
         columns:[[
-			{field:'ck',checkbox:true},
+			// {field:'ck',checkbox:true},
 			{field:'skuCode',title:'货号',width:'85px',align:'left'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
@@ -985,6 +998,19 @@ function initDatagridOddtj(){
 			        return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    }
 			},
+            {
+                field: 'discountNum', title: '整单商品限量', width: 150, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+                    if(!value){
+                        row["discountNum"] = parseFloat(value||0).toFixed(2);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
           ]],
       onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -1028,7 +1054,7 @@ function initDatagridRedemption(){
 //		pageSize:50,
 		width:'100%',
       columns:[[
-			{field:'ck',checkbox:true},
+			// {field:'ck',checkbox:true},
 			{field:'skuCode',title:'货号',width:'85px',align:'left'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
@@ -1092,7 +1118,7 @@ function initDatagridallMj(){
 //		pageSize:50,
 		width:'100%',
         columns:[[
-					{field:'ck',checkbox:true},
+					// {field:'ck',checkbox:true},
 					{field:'limitAmount',title:'买满金额',width:'80px',align:'right',
 		                formatter:function(value,row,index){
 		                    if(row.isFooter){
@@ -1134,7 +1160,8 @@ function initDatagridsortMj(){
 //		pageSize:50,
 		width:'100%',
         columns:[[
-					{field:'ck',checkbox:true},
+					// {field:'ck',checkbox:true},
+            		{field:'categoryCode',title:'类别编码',width:'200px',align:'left'},
 					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
           ]],
            onLoadSuccess:function(data){
@@ -1161,7 +1188,7 @@ function initDatagridsortSet(){
 //		pageSize:50,
 		width:'100%',
         columns:[[
-					{field:'ck',checkbox:true},
+					// {field:'ck',checkbox:true},
 					{field: 'limitAmount', title: '买满金额', width: '100px', align: 'right',
 					    formatter : function(value, row, index) {
 					        if(row.isFooter){
@@ -1231,7 +1258,7 @@ function initDatagridshopMj(){
 //		pageSize:50,
 		width:'100%',
       columns:[[
-			{field:'ck',checkbox:true},
+			// {field:'ck',checkbox:true},
 			{field:'skuCode',title:'货号',width:'85px',align:'left'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},
@@ -1289,7 +1316,7 @@ function initDatagridCompose(){
 //		pageSize:50,
 		width:'100%',
       columns:[[
-			{field:'ck',checkbox:true},
+			// {field:'ck',checkbox:true},
 			{field:'skuCode',title:'货号',width:'85px',align:'left'},
 			{field:'skuName',title:'商品名称',width:'200px',align:'left'},
 			{field:'barCode',title:'条码',width:'150px',align:'left'},

@@ -20,7 +20,7 @@ var dvVip = '<div id="dvVip" class="ub ub-ac umar-l20"> ' +
     '</div>';
 var dvVipOne = '<div id="dvVipOne" class="ub ub-ac umar-l20"> ' +
     '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
+    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" disabled/><label for="memberExclusiveNum">会员每日独享一次</label>' +
     '</div> ' +
     '</div>';
 
@@ -29,7 +29,7 @@ var dvzhspecial =  ' <div class="ub ub-ac umar-l50" id="dvzhspecial"> ' +
     '<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" /><label for="memberExclusive">会员独享</label>'+
     '</div> ' +
     '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
+    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" disabled/><label for="memberExclusiveNum">会员每日独享一次</label>' +
     '</div> ' +
     '</div>';
 
@@ -44,7 +44,7 @@ var dvmms = ' <div class="ub ub-ac umar-l30" id="dvmms"> ' +
     '<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" /><label for="memberExclusive">会员独享</label>'+
     '</div> ' +
     '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
+    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" disabled/><label for="memberExclusiveNum">会员每日独享一次</label>' +
     '</div> ' +
     '</div>';
 
@@ -61,12 +61,12 @@ $(function(){
 		$("#branchName").prop('disabled','disabled');
 		$("#branchName").unbind("click");
 	}
-	
+
     optionHide();
     //禁止按钮点击事件
     disableGoods('','GoodsType');
 	editstart();
-    
+
 	//一周星期获取和初始化
 	//weekCheckDay();
 	$(document).on('click','#weekday .ubcheckweek',function(){
@@ -113,6 +113,17 @@ $(function(){
 	});
 
 });
+
+function initCheck(){
+    $("#memberExclusive").on("click",function () {
+        if($("#memberExclusive").is(":checked")){
+            $("#memberExclusiveNum").removeProp("disabled");
+        }else{
+            $("#memberExclusiveNum").removeProp("checked")
+            $("#memberExclusiveNum").prop("disabled","disabled");
+        }
+    })
+}
 
 //回车处理逻辑 bug20207 2.6.5
 function checkenter(){
@@ -288,6 +299,7 @@ function  editstart(){
 	             
 	            	  $_jxc.alert(data['message']);
 	          }
+        initCheck();
 	  });
 }
 
@@ -367,23 +379,36 @@ function selectOptionMj(param){
     $("#branchComponent").after(dvzhspecial);
     $("#memberExclusive").prop('checked',param.memberExclusive == 1?true:false);
     $("#memberExclusiveNum").prop('checked',param.memberExclusiveNum == 1?true:false);
-	
+    // 禁止按钮点击事件
+    disableGoods('SelectGoods','GoodsType');
+
 	if(radioVal=="2"){
         $("#consaleadd").addClass('ub-f1');
         $('#consaleadd').removeClass('unhide');
         $('#consalesetmj').addClass('unhide');
+        $('#activityScopemj').val('2');
+        //禁止按钮点击事件
+        disableGoods('SelectGoods','GoodsType');
 	  	initDatagridallMj(); 
 		initDatagridsortSet();
 	}
     else if(radioVal=="1"){
-      $("#consaleadd").removeClass('ub-f1');
-      $("#consalesetmj").removeClass('unhide');	
+        $("#consaleadd").addClass('ub-f1');
+        $('#consaleadd').removeClass('unhide');
+        $('#consalesetmj').removeClass('unhide');
+        $('#activityScopemj').val('1');
+        //禁止按钮点击事件
+        disableGoods('SelectGoods','');
   	  initDatagridsortMj();
   	  initDatagridsortSet();
     }
     else {
-    	$("#consaleadd").removeClass('ub-f1');
-        $("#consalesetmj").removeClass('unhide');	
+        $("#consaleadd").removeClass('ub-f1');
+        $('#consaleadd').removeClass('unhide');
+        $('#consalesetmj').removeClass('unhide');
+        $('#activityScopemj').val('0');
+        //禁止按钮点击事件
+        disableGoods('','GoodsType');
   	    initDatagridshopMj();
   	    initDatagridsortSet();
     }
@@ -1154,6 +1179,26 @@ function initDatagridSpecial(){
 		                },
 		            },
             {
+                field: 'discountNum', title: '整单商品限量', width: 150, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+                    if(!value){
+                        row["discountNum"] = parseFloat(value||0).toFixed(2);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                    }
+                },
+            },
+            {
                 field : 'oldSaleRate',
                 title : '原毛利率',
                 width : '120px',
@@ -1715,6 +1760,26 @@ function initDatagridOddtj(){
 			        }
 			    },
 			},
+            {
+                field: 'discountNum', title: '整单商品限量', width: 150, align: 'right',
+                formatter : function(value, row, index) {
+                    if(row.isFooter){
+                        return;
+                    }
+                    if(!value){
+                        row["discountNum"] = parseFloat(value||0).toFixed(2);
+                    }
+
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+                editor:{
+                    type:'numberbox',
+                    options:{
+                        min:0,
+                        precision:4,
+                    }
+                },
+            },
 
             {
                 field : 'oldSaleRate',
@@ -2048,7 +2113,7 @@ function initDatagridsortMj(){
 					        return str;
 					    },
 					},
-					{field:'categoryCode',title:'类别编码',width:'200px',align:'left',hidden:true},
+					{field:'categoryCode',title:'类别编码',width:'200px',align:'left'},
 					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
           ]],
            onLoadSuccess:function(data){
@@ -2076,7 +2141,7 @@ function initDatagridsortSet(){
         rownumbers:true,    //序号
 //        pagination:true,    //分页
         fitColumns:true,    //每列占满
-//        fit:true,            //占满
+       fit:true,            //占满
 //        showFooter:true,
 		height:'100%',
 //		pageSize:50,
