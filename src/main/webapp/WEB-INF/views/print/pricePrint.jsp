@@ -65,7 +65,8 @@
 						<option value="17">二维码价签无底(60*32mm 3*9)</option>
 						<option value="19">二维码价签无底(60*30mm 3*9)</option>
 						<option value="21">二维码价签无底(合肥60*30mm 3*9)</option>
-                        <option value="23">二维码价签无底(50*28mm 4*9)</option>
+                        <option value="25">二维码价签无底(50*28mm 4*9)</option>
+                        <option value="23">二维码价签无底2(50*28mm 4*9)</option>
 					</select>
 				</div>
 
