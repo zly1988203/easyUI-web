@@ -37,7 +37,7 @@
 	              </div>
 	              <i class="ub ub-ac uc-red">*</i>
 	              <div class="ub ub-ac">
-	             	<div class="umar-r10 uw-90 ut-r">活动时段:</div>
+	             	<div class="umar-r10 uw-110 ut-r">活动时段:</div>
 	              	<input class="Wdate newWdate"  readonly="readonly" name="dailyStartTime" id="dailyStartTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'00:00:00',maxDate:'#F{$dp.$D(\'dailyEndTime\');}'})" />&nbsp;至&nbsp;
                     <input class="Wdate newWdate"  readonly="readonly" name="dailyEndTime" id="dailyEndTime" onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'dailyStartTime\');}'})" /> 
 	              </div>
@@ -80,7 +80,7 @@
                 </div>
                 <i class="ub ub-ac uc-red">*</i>
                 <div class="ub ub-ac uselectw umar-r10 activityTypeDv">
-                    <div class="umar-r10 uw-90 ut-r">活动类型:</div>
+                    <div class="umar-r10 uw-110 ut-r">活动类型:</div>
                        <!--select-->
 				        <select class="uselect easyui-combobox " name="activityType" id="activityType" data-options="editable:false,onChange:onChangeSelect">
 							    <option value="1">特价</option> 
@@ -141,24 +141,24 @@
 						<i class="ub ub-ac uc-red">*</i>
 	             </div>
 
-	              <div class="ub ub-ac uw-390 umar-l10 umar-r10 special">
-					<div class="umar-r10 uw-80 ut-r">批量特价:</div>
+	              <div class="ub ub-ac uw-410 umar-l10 umar-r10 special">
+					<div class="umar-r10 uw-100 ut-r">批量特价:</div>
 					<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2,onChange:changeSpecNum" type="text"  id="special">
 				  </div>
 
-					<div class="ub ub-ac uw-390 umar-l10 topMoney unhide">
-					<div class="umar-r10 uw-80 ut-r">最高优惠:</div>
+					<div class="ub ub-ac uw-410 umar-l10 topMoney unhide">
+					<div class="umar-r10 uw-100 ut-r">最高优惠:</div>
                         <input class="uinp uw-304  easyui-numberbox" data-options="min:0,precision:2" type="text"
                                id="maxDiscountAmount" name="maxDiscountAmount">
 					</div>
-				  <div class="ub ub-ac uw-390 umar-l10 oddprice unhide">
-					<div class="umar-r10 uw-80 ut-r">批量偶数特价:</div>
+				  <div class="ub ub-ac uw-410 umar-l10 oddprice unhide">
+					<div class="umar-r10 uw-100 ut-r">批量偶数特价:</div>
 					<input class="uinp uw-300 easyui-numberbox" data-options="min:0,precision:2,onChange:changeOddprice" type="text"  id="batchcount">
 						<%--<div class="umar-l10">元</div>--%>
 				   </div>
 
-				<div class="ub ub-ac uw-400 umar-l10 limitCount unhide">
-				<div class="umar-r10 uw-80 ut-r">整单组合限量:</div>
+				<div class="ub ub-ac uw-424 umar-l10 limitCount unhide">
+				<div class="umar-r10 uw-100 ut-r">整单组合限量:</div>
 					<input class="uinp uw-300 easyui-numberbox" data-options="min:0" type="text"
 						   id="maxDiscountNum" name="maxDiscountNum">
 				<%--<div class="umar-l10">元</div>--%>
@@ -166,7 +166,7 @@
 				   
 				   <!--买满条件 -->
 				   <div class="ub ub-ac umar-l10 mmstype unhide">
-					<div class="umar-r10 uw-80 ut-r">活动条件:</div>
+					<div class="umar-r10 uw-100 ut-r">活动条件:</div>
 					<select class="easyui-combobox" style="width:302px" name="activitymmsType" id="activitymmsType" data-options="editable:false,value:0,onChange:onChangemmsSelect">
 						    <option value="0">买满金额</option> 
 							<option value="1">买满数量</option> 
