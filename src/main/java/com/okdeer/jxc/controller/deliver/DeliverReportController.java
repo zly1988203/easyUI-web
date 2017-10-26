@@ -221,9 +221,9 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	@RequestMapping(value = "getDeliverFormList", method = RequestMethod.POST)
 	@ResponseBody
 	public PageUtils<DeliverDaAndDoFormListVo> getDeliverFormList(DeliverFormReportQo vo,
-			@RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
-			@RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-		LOG.debug(LogConstant.OUT_PARAM, vo.toString());
+                                                                  @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
+                                                                  @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
+        LOG.debug(LogConstant.OUT_PARAM, vo.toString());
 		try {
 			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
 				vo.setBranchId(UserUtil.getCurrBranchId());
