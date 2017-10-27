@@ -152,6 +152,7 @@ public class OrderEdiInController {
 	@RequestMapping(value = "importList")
 	@ResponseBody
 	public RespJson importExcel(@RequestParam("file") MultipartFile[] files) {
+		LOG.info("==============================【调试】进入物流EDI导入");
 		// 导入结果
 		Set<String> result = new HashSet<String>();
 		try {
@@ -162,6 +163,7 @@ public class OrderEdiInController {
 					if (fileName.contains("采购单")) {
 						savePiFormKasa(file, result);
 					} else if (fileName.contains("销售单")) {
+						LOG.info("==============================【调试】处理卡萨销售单");
 						// 卡萨物流导入销售单(配送出库单)
 						saveDoFormKasa(file, result);
 					} else if (fileName.contains("采购入库单")) {
@@ -182,6 +184,7 @@ public class OrderEdiInController {
 				}
 			}
 		} catch (IOException e) {
+			LOG.error("==============================【调试】物流EDI导入失败：{}", e);
 			if (result.isEmpty()) {
 				return RespJson.error("导入失败。");
 			} else {
@@ -331,13 +334,16 @@ public class OrderEdiInController {
 	 */
 	private void saveDoFormKasa(MultipartFile file, Set<String> result) throws IOException {
 		try {
+			LOG.info("==============================【调试】开始解析Excel，文件名：" + file.getOriginalFilename());
 			// 文件流
 			InputStream is = file.getInputStream();
 			// 解析Excel
 			List<ImportEntity> xlsList = ExcelReaderUtil.readXls(is, 3, 1, KASA_DO_INDEX, MAPPING_FIELDS,
 					new ImportEntity());
+			LOG.info("==============================【调试】解析Excel成功");
 			saveDoForm(xlsList, result);
 		} catch (IOException e) {
+			LOG.error("==============================【调试】物流EDI导入失败：{}", e);
 			result.add(file.getOriginalFilename() + "导入失败。");
 			LOG.error("{}导入失败。", file.getOriginalFilename());
 		}
@@ -420,12 +426,14 @@ public class OrderEdiInController {
 	}
 
 	private void saveDoForm(List<ImportEntity> xlsList, Set<String> result) {
+		LOG.info("==============================【调试】解析数据按订单号分类");
 		// 当前用户
 		SysUser user = UserUtil.getCurrentUser();
 		// 按订单分类，Key：采购申请单单号，Value：解析的值
 		Map<String, Map<String, ImportEntity>> formMap = convertToMap(xlsList);
 		// 遍历
 		for (Map.Entry<String, Map<String, ImportEntity>> entry : formMap.entrySet()) {
+			LOG.info("==============================【调试】查找要货申请单");
 			// 要货申请单单号
 			String daFormNo = entry.getKey();
 			// 要货申请单
@@ -433,11 +441,14 @@ public class OrderEdiInController {
 			if (daForm == null) {
 				continue;
 			}
+			LOG.info("==============================【调试】查找要货申请单明细");
 			// 要货申请单明细
 			List<DeliverFormList> daDetailList = queryDeliverFormListServiceApi.getDeliverListByFormNo(daFormNo);
 			if (CollectionUtils.isEmpty(daDetailList)) {
 				continue;
 			}
+			
+			LOG.info("==============================【调试】处理活活申请明细赠品数据");
 			List<GoodsSkuVo> goodsSkuVos = new ArrayList<>();
 			// 要货申请单明细按“货号_是否赠品”转换为map，方便查询
 			Map<String, DeliverFormList> daDetailMap = new HashMap<String, DeliverFormList>();
@@ -452,8 +463,12 @@ public class OrderEdiInController {
 				gsVo.setId(detail.getSkuId());
 				goodsSkuVos.add(gsVo);
 			}
+			
+			LOG.info("==============================【调试】重新按出库单配置获取商品配送价格");
 			// 重新按出库单配置获取商品配送价格
 			setDoFormDetailPrice(daForm, goodsSkuVos, daDetailList);
+			
+			LOG.info("==============================【调试】创建配送出库单对象");
 			// 配送出库单
 			DeliverFormVo doForm = createDeliverForm(daForm, FormType.DO.name());
 			// 配送出库单明细
@@ -466,6 +481,8 @@ public class OrderEdiInController {
 				// 导入实体类
 				ImportEntity entity = entryEntity.getValue();
 				entity.setNum(entity.getNum().subtract(entity.getGiftNum()));
+				
+				LOG.info("==============================【调试】创建配送出库商品明细对象");
 				// 配送出库商品明细
 				if (entity.getNum().compareTo(BigDecimal.ZERO) > 0) {
 					DeliverFormList daDetail = daDetailMap.get(skuCode + "_" + "0");
@@ -479,6 +496,7 @@ public class OrderEdiInController {
 						amount = amount.add(formDetail.getAmount());
 					}
 				}
+				LOG.info("==============================【调试】创建配送出库赠品明细对象");
 				// 配送出库赠品明细
 				if (entity.getGiftNum().compareTo(BigDecimal.ZERO) > 0) {
 					DeliverFormList daDetail = daDetailMap.get(skuCode + "_" + "1");
@@ -496,6 +514,7 @@ public class OrderEdiInController {
 			doForm.setTotalNum(totalNum);
 			doForm.setAmount(amount);
 			doForm.setDeliverFormListVo(detailList);
+			LOG.info("==============================【调试】调用配送出库API");
 			RespJson resp = deliverFormServiceApi.insertForm(doForm);
 			if (resp.isSuccess()) {
 				result.add("配送出库单【" + daFormNo + "】导入成功。</br>");
