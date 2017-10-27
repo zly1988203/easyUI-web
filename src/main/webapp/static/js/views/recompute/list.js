@@ -9,8 +9,6 @@ var logId;
 var pageIndex;
 // 每页大小
 var pageSize;
-// 定时器
-var interval;
 /**
  * 库存重算
  */
@@ -33,7 +31,7 @@ function handler() {
 		$_jxc.alert('重算日期不能为空');
 		return false;
 	}
-	
+
 	var skuIdList = [];
 	skuIds.split(',').forEach(function(item, index) {
 		skuIdList.push(item);
@@ -58,9 +56,6 @@ function handler() {
 			pageIndex = 0;
 			pageSize = 20;
 			$("#resultLog").val("");
-			interval = window.setInterval(function() {
-				refreshLog();
-			}, 3000);
 			$_jxc.alert("开始重算库存");
 			refreshLog();
 		} else {
@@ -80,15 +75,17 @@ function refreshLog() {
 			}
 		}, function(result) {
 			if (result['code'] == 0) {
+				var getNext = true;
 				result['data'].forEach(function(log, index) {
 					$("#resultLog").val($("#resultLog").val() + log + "\n");
 					// 结算刷新
-					if(log.indexOf('库存重算结束') > 0){
-						window.clearInterval(interval);
+					if (log.indexOf('库存重算结束') > 0) {
+						getNext = false;
 					}
 				});
-				if(result['data'].length > 0){
+				if (getNext) {
 					pageIndex++;
+					window.setTimeout(refreshLog, 3000);
 				}
 			}
 		});
