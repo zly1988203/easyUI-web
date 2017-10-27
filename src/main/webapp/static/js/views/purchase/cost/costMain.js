@@ -200,7 +200,7 @@ function initGridCost() {
                 editor:{
                     type:'numberbox',
                     options:{
-                        min:0.0001,
+                        min:0,
                         max:999999,
                         precision:4,
                         onChange: onChangeNewAmount
