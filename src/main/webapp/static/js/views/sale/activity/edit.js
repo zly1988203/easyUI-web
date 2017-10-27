@@ -3205,7 +3205,8 @@ function saveDataHandel(rows,setrows){
 	      var temp = {
 	    	  goodsSkuId: data.goodsSkuId,
 	    	  saleAmount:data.saleAmount,
-	    	  price:data.price
+	    	  price:data.price,
+              discountNum: data.discountNum
 	      }
 	      reqObj.detailList[i] = temp;
 	  });
@@ -3234,7 +3235,7 @@ function saveDataHandel(rows,setrows){
 	    	  limitCount: data.limitCount,
 	    	  saleAmount:data.saleAmount,
 	    	  groupNum:data.groupNum,
-	    	  price:data.price
+	    	  price:data.price,
 	      }
 	      reqObj.detailList[i] = temp;
 	  });

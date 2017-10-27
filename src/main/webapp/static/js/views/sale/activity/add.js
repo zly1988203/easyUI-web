@@ -68,7 +68,8 @@ $(function(){
 	
 	//机构选择初始化 分组
 	initBranchGroup();
-    initCheck();
+    //初始化复选框事件
+    initCheck()
 });
 
 function initCheck(){
@@ -284,6 +285,8 @@ var changeType = function(priceVal){
             selectOptionmms();
             break;
     }
+    //初始化复选框事件
+    initCheck()
 };
 
 var cheFlag = false;
@@ -3189,6 +3192,7 @@ function saveDataHandel(rows,setrows){
 	      var temp = {
 	    	  goodsSkuId: data.goodsSkuId,
 	    	  saleAmount:data.saleAmount,
+              groupNum:data.groupNum,
               price: data.price,
               discountNum: data.discountNum
 	      }

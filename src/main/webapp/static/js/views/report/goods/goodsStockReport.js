@@ -20,10 +20,8 @@ $(function(){
         }
     })
 
-
     //初始化列表
     initProductInquireGrid();
-
 
 });
 
@@ -175,7 +173,8 @@ function cleanCategoryCode(){
 
 //重置
 function reset(){
-	$("#branchCode").val('');
-	$("#branchId").val('');
-	$("#queryForm")[0].reset();
+    gFunRefresh();
+	// $("#branchCode").val('');
+	// $("#branchId").val('');
+	// $("#queryForm")[0].reset();
 }
