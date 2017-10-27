@@ -101,7 +101,38 @@ public class CategorySaleController extends BaseController<CategorySaleControlle
 		RespJson resp = RespJson.success();
 		try {
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
-			List<CategorySaleReportVo> exportList = categorySaleReportServiceApi.exportList(vo);
+			/*List<CategorySaleReportVo> exportList = categorySaleReportServiceApi.exportList(vo);*/
+			// 导出的数据列表
+			List<CategorySaleReportVo> exportList = new ArrayList<CategorySaleReportVo>();
+			
+			// 限制导出数据的起始数量
+			int startCount = limitStartCount(vo.getStartCount());
+			// 限制导出数据的总数量
+			int endCount = limitEndCount(vo.getEndCount());
+			
+			// 商，按2K条数据一次查询拆分，可以拆分为多少次查询
+			int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
+			// 余数，按2K拆分后，剩余的数据
+			int modIndex = endCount % LIMIT_REQ_COUNT;
+			
+			// 每2K条数据一次查询
+			for(int i = 0; i < resIndex; i++){
+				int newStart = (i * LIMIT_REQ_COUNT) + startCount;
+				vo.setStartCount(newStart);
+				vo.setEndCount(LIMIT_REQ_COUNT);
+				List<CategorySaleReportVo> tempList = categorySaleReportServiceApi.exportList(vo);
+				exportList.addAll(tempList);
+			}
+			
+			// 存在余数时，查询剩余的数据
+			if(modIndex > 0){
+				int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
+				int newEnd = modIndex;
+				vo.setStartCount(newStart);
+				vo.setEndCount(newEnd);
+				List<CategorySaleReportVo> tempList = categorySaleReportServiceApi.exportList(vo);
+				exportList.addAll(tempList);
+			}
 			String fileName = "类别销售分析表";
 			String templateName = ExportExcelConstant.CATEGORY_SALE_REPORT;
 
