@@ -403,7 +403,7 @@ function addGoodsView(){
 }
 
 //打开Dialog
-var  dalogTemp;
+var dalogTemp
 var dialogHeight = 590;//$(window).height()*(4/5)
 var dialogWidth = 950;//$(window).width()*(5/9)
 function openDialog(argUrl,argTitle,argType,params) {
@@ -416,6 +416,7 @@ function openDialog(argUrl,argTitle,argType,params) {
         resizable: true,
         onClose: function () {
             $(dalogTemp).panel('destroy');
+            dalogTemp = null;
         },
         modal: true,
         onLoad: function () {
@@ -432,6 +433,7 @@ function openDialog(argUrl,argTitle,argType,params) {
 
 function closeDialog(){
     $(dalogTemp).panel('destroy');
+    dalogTemp = null;
 }
 
 //复制
