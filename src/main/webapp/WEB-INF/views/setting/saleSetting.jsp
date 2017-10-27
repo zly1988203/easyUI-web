@@ -73,6 +73,16 @@
 							</div>
 							
 							<div class="ub ub-ac">
+								<div class="umar-r10 uw-156 ut-r">是否启用第三方配送：</div>
+								<div class="ub uw-110 ub-ac umar-r10">
+									<label><input type="radio" id="isThirdPartyDeliver1" name="isThirdPartyDeliver" value="1" /><span>启用</span></label>
+								</div>
+								<div class="ub uw-110 ub-ac umar-r10">
+									<label> <input type="radio" id="isThirdPartyDeliver0" name="isThirdPartyDeliver" value="0" /><span>不启用</span></label>
+								</div>
+							</div>
+							
+							<div class="ub upad-4">
 								<div class="umar-r10 uw-150 ut-r">使用手机号登录会员:</div>
 								<div class="ub uw-110 ub-ac umar-r10">
 									<label><input type="radio" id="isAllowMobileLogin0" name="isAllowMobileLogin" value="0" /><span>启用</span></label>
@@ -148,6 +158,8 @@
 			$("#isSelfpayAllowMinusStock0").attr("checked","true");
 		}
 		indexTab = 0;
+		
+		
 	}
 
 	//禁用保存
@@ -183,6 +195,11 @@
 				obj.isSelfpayAllowMinusStock = 0;
 			}else{
 				obj.isSelfpayAllowMinusStock = 1;
+			}
+			if($('#isThirdPartyDeliver0').is(':checked')) {
+				obj.isThirdPartyDeliver = 0;
+			}else{
+				obj.isThirdPartyDeliver = 1;
 			}
 			
 			url = contextPath
@@ -231,9 +248,11 @@
 					success : function(result) {
 						var isAllowMobileLogin = 0;
 						var receiptMobile = '';
+						var isThirdPartyDeliver = 0;
 						if (!$_jxc.isStringNull(result)) {
 							receiptMobile = result.receiptMobile;
 							isAllowMobileLogin = result.isAllowMobileLogin;
+							isThirdPartyDeliver = result.isThirdPartyDeliver;
 						}
 						$("#receiptMobile").val(receiptMobile);
 						if (isAllowMobileLogin == 0) {
@@ -242,9 +261,14 @@
 							$("#isAllowMobileLogin1").prop("checked", "true");
 						}
 						if(result.isSelfpayAllowMinusStock == 1){
-							$("#isSelfpayAllowMinusStock1").prop("checked","checked");								
+							$("#isSelfpayAllowMinusStock1").prop("checked","true");								
 						}else{
-							$("#isSelfpayAllowMinusStock0").prop("checked","checked");
+							$("#isSelfpayAllowMinusStock0").prop("checked","true");
+						}
+						if(isThirdPartyDeliver  == 0){
+							$("#isThirdPartyDeliver0").prop("checked","true");
+						}else{
+							$("#isThirdPartyDeliver1").prop("checked","true");
 						}
 					},
 					error : function(result) {
