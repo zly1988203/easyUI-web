@@ -83,8 +83,10 @@ function refreshLog() {
 						getNext = false;
 					}
 				});
-				if (getNext) {
+				if (result['data'].length > 0) {
 					pageIndex++;
+				}
+				if (getNext) {
 					window.setTimeout(refreshLog, 3000);
 				}
 			}

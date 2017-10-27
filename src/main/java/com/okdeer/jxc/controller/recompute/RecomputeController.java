@@ -7,12 +7,12 @@
 
 package com.okdeer.jxc.controller.recompute;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -111,10 +111,11 @@ public class RecomputeController {
 			if (StringUtils.isBlank(logId)) {
 				return RespJson.error("logId不能为空");
 			}
+
 			List<String> list = stockRcFacade.findRcLogByPage(logId, pageIndex, pageSize);
 
-			if (CollectionUtils.isEmpty(list)) {
-				return RespJson.error("查询数据为空");
+			if (list == null) {
+				list = new ArrayList<>();
 			}
 			respJson.setData(list);
 		} catch (Exception e) {
