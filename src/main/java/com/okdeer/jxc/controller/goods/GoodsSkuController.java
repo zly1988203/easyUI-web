@@ -8,6 +8,7 @@
 package com.okdeer.jxc.controller.goods;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -535,7 +536,8 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 				return json;
 			}*/
 			
- 			List<GoodsSku> list = goodsSkuService.querySkuByParams(qo);
+ 			/**List<GoodsSku> list = goodsSkuService.querySkuByParams(qo);*/
+ 			List<GoodsSku> list = queryListPartition(qo);
 			if (CollectionUtils.isNotEmpty(list)) {
 				if (list.size() > ExportExcelConstant.EXPORT_MAX_SIZE) {
 				    return RespJson.error("最多只能导出" + ExportExcelConstant.EXPORT_MAX_SIZE
@@ -576,4 +578,46 @@ public class GoodsSkuController extends BaseController<GoodsSkuController> {
 		return exportList;
 	}
 
+    /**
+    * 把导出的请求分成多次，一次请求LIMIT_REQ_COUNT条数据
+    * @param qo
+    * @return
+    */
+    private List<GoodsSku> queryListPartition(GoodsSkuQo qo) {
+        List<GoodsSku> voList = new ArrayList<>();
+        int startCount = limitStartCount(qo.getStartCount());
+        int endCount = limitEndCount(qo.getEndCount());
+
+        LOG.info("GoodsSkuController.queryListPartition商品档案导出startCount和endCount参数：{}, {}", startCount, endCount);
+
+        int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
+        int modIndex = endCount % LIMIT_REQ_COUNT;
+        LOG.info("GoodsSkuController.queryListPartition商品档案导出resIndex和modIndex参数：{}, {}", resIndex, modIndex);
+        if (resIndex > 0) {
+            for (int i = 0; i < resIndex; i++) {
+                int newStart = (i * LIMIT_REQ_COUNT) + startCount;
+                qo.setStartCount(newStart);
+                qo.setEndCount(LIMIT_REQ_COUNT);
+                LOG.info("GoodsSkuController.queryListPartition for商品档案导出i、startCount、endCount参数：{}, {}, {}", i,
+                        newStart, LIMIT_REQ_COUNT);
+                List<GoodsSku> tempList = goodsSkuService.querySkuByParams(qo);
+                voList.addAll(tempList);
+            }
+            if (modIndex > 0) {
+                int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
+                int newEnd = modIndex;
+                qo.setStartCount(newStart);
+                qo.setEndCount(newEnd);
+                LOG.info("GoodsSkuController.queryListPartition商品档案导出mod、startCount、endCount参数:{}, {}", newStart,
+                        newEnd);
+                List<GoodsSku> tempList = goodsSkuService.querySkuByParams(qo);
+                voList.addAll(tempList);
+            }
+        } else {
+            List<GoodsSku> tempList = goodsSkuService.querySkuByParams(qo);
+            LOG.info("GoodsSkuController.queryListPartition商品档案导出不超过:{}", LIMIT_REQ_COUNT);
+            voList.addAll(tempList);
+        }
+        return voList;
+    }
 }
