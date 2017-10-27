@@ -16,6 +16,7 @@
 
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
 		<form id="queryForm" action="" method="post">
+            <input name="type" id="type" value="1" type="hidden"/>
 			<div class="ub ub-ac">
 				<div class="ubtns">
 					<shiro:hasPermission name="JxcDeliverList:search">

@@ -67,9 +67,9 @@ function initMemberTotalAllGrid() {
         columns: [[
             {field: 'phone', title: '会员手机号', width: 100, align: 'left',
 				formatter:function(value,row,index){
-					if(row.isFooter){
-						return '<div class="ub ub-pc ufw-b">合计</div> '
-					}
+					if(!value){
+						return '<div class="ub ub-pc ufw-b">合计</div> ';
+                    }
 					return value;
 				}
 			},
@@ -120,9 +120,9 @@ function initMemberOrderAllGrid() {
 		columns: [[
 		           {field: 'phone', title: '会员手机号', width: 100, align: 'left',
 		        	   formatter:function(value,row,index){
-                           if(row.isFooter){
-		        			   return '<div class="ub ub-pc ufw-b">合计</div> '
-		        		   }
+		        		   if(!value){
+								return '<div class="ub ub-pc ufw-b">合计</div> ';
+		                    }
 		        		   return value;
 		        	   }
 		           },
@@ -167,9 +167,9 @@ function initMemberOrderListGrid() {
         columns: [[
 			{field: 'phone', title: '会员手机号', width: 100, align: 'left',
 				formatter:function(value,row,index){
-                    if(row.isFooter){
-						return '<div class="ub ub-pc ufw-b">合计</div> '
-					}
+					if(!value){
+						return '<div class="ub ub-pc ufw-b">合计</div> ';
+                    }
 					return value;
 				}
 			},

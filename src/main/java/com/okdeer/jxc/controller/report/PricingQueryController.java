@@ -29,6 +29,7 @@ import com.okdeer.retail.common.report.DataRecord;
 
 @Controller
 @RequestMapping("report/pricingQuery")
+@SuppressWarnings("deprecation")
 public class PricingQueryController extends ReportController {
 
 	/**
@@ -76,8 +77,9 @@ public class PricingQueryController extends ReportController {
 			Map<String, Object> map = getParam(request);
 			map.put("startCount", Integer.parseInt(map.get("startCount").toString()));
 			map.put("endCount", Integer.parseInt(map.get("endCount").toString()));
-			LOG.debug("调价单导出查询参数:{}" + map.toString());
-			List<DataRecord> reportList = pricingQueryServiceApi.getList(map);
+			LOG.debug("调价单导出查询参数:{}" , map);
+			/** List<DataRecord> reportList = pricingQueryServiceApi.getList(map);*/
+			List<DataRecord> reportList = queryListPartition(map);
 			String fileName = "调价查询" + map.get("startTime").toString().replaceAll("-", "") + '-'
 					+ map.get("endTime").toString().replaceAll("-", "");
 			String templateName = ExportExcelConstant.PRICING_QUERY;
@@ -94,19 +96,16 @@ public class PricingQueryController extends ReportController {
 
 	@Override
 	public String getFileName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String[] getHeaders() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String[] getColumns() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
