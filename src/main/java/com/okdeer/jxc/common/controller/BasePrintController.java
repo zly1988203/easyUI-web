@@ -7,19 +7,6 @@
 
 package com.okdeer.jxc.common.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.branch.vo.BranchSpecVo;
 import com.okdeer.jxc.common.exception.BusinessException;
@@ -28,6 +15,17 @@ import com.okdeer.jxc.common.utils.StringUtils;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.IOStreamUtils;
 import com.okdeer.jxc.utils.jxls.ReportExcelUtil;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ClassName: BasePrintController 
@@ -131,9 +129,10 @@ public abstract class BasePrintController<T, P> extends BaseController<T> {
 				}
 				is = IOStreamUtils.getExcelExportPathInputStream(page + ".xlsx");
 			}
-			
-			String fileName = replaceMap.get("_订单编号").toString();
-			ReportExcelUtil.reportExcelToMapAndList(response, is, fileName,
+
+            Object formNo = replaceMap.get("_订单编号");
+            String fileName = formNo != null ? formNo.toString() : "采购订单";
+            ReportExcelUtil.reportExcelToMapAndList(response, is, fileName,
 					ReportExcelUtil.REPORT_XLSX, replaceMap, detailList);
 		} catch (Exception e) {
 			LOG.error("导出失败：{}", e);
