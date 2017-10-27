@@ -1,6 +1,5 @@
 package com.okdeer.jxc.controller.logistics;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -183,7 +182,7 @@ public class OrderEdiInController {
 					}
 				}
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			LOG.error("==============================【调试】物流EDI导入失败：{}", e);
 			if (result.isEmpty()) {
 				return RespJson.error("导入失败。");
@@ -211,7 +210,7 @@ public class OrderEdiInController {
 			List<ImportEntity> xlsList = ExcelReaderUtil.readXls(is, 2, 0, KASA_DI_INDEX, MAPPING_DI_FIELDS,
 					new ImportEntity());
 			saveDiForm(xlsList, result);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			result.add(file.getOriginalFilename() + "导入失败。");
 			LOG.error("{}导入失败。", file.getOriginalFilename());
 		}
@@ -234,7 +233,7 @@ public class OrderEdiInController {
 			List<ImportEntity> xlsList = ExcelReaderUtil.readXlsx(is, 1, 0, STD_DI_INDEX, STD_MAPPING_DI_FIELDS,
 					new ImportEntity());
 			saveDiForm(xlsList, result);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			result.add(file.getOriginalFilename() + "导入失败。");
 			LOG.error("{}导入失败。", file.getOriginalFilename());
 		}
@@ -249,7 +248,7 @@ public class OrderEdiInController {
 	 * @author zhangq
 	 * @date 2017年9月5日
 	 */
-	private void savePiFormStd(MultipartFile file, Set<String> result) throws IOException {
+	private void savePiFormStd(MultipartFile file, Set<String> result) throws Exception {
 		try {
 			// 文件流
 			InputStream is = file.getInputStream();
@@ -258,7 +257,7 @@ public class OrderEdiInController {
 					new ImportEntity());
 			// 保存采购入库单
 			savePiForm(xlsList, result);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			result.add(file.getOriginalFilename() + "导入失败。");
 			LOG.error("{}导入失败。", file.getOriginalFilename());
 		}
@@ -273,7 +272,7 @@ public class OrderEdiInController {
 	 * @author zhangq
 	 * @date 2017年9月5日
 	 */
-	private void saveDoFormStd(MultipartFile file, Set<String> result) throws IOException {
+	private void saveDoFormStd(MultipartFile file, Set<String> result) throws Exception {
 		try {
 			// 文件流
 			InputStream is = file.getInputStream();
@@ -282,7 +281,7 @@ public class OrderEdiInController {
 					new ImportEntity());
 			// 保存配送出库单
 			saveDoForm(xlsList, result);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			result.add(file.getOriginalFilename() + "导入失败。");
 			LOG.error("{}导入失败。", file.getOriginalFilename());
 		}
@@ -304,7 +303,7 @@ public class OrderEdiInController {
 	 * 
 	 * @Description: 保存采购单（卡萨版）
 	 * @param file
-	 * @throws IOException   
+	 * @throws Exception   
 	 * @return void  
 	 * @author zhangq
 	 * @date 2017年8月23日
@@ -318,7 +317,7 @@ public class OrderEdiInController {
 					new ImportEntity());
 			// 保存采购入库单
 			savePiForm(xlsList, result);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			result.add(file.getOriginalFilename() + "导入失败。");
 			LOG.error("{}导入失败。", file.getOriginalFilename());
 		}
@@ -332,7 +331,7 @@ public class OrderEdiInController {
 	 * @author zhangq
 	 * @date 2017年8月23日
 	 */
-	private void saveDoFormKasa(MultipartFile file, Set<String> result) throws IOException {
+	private void saveDoFormKasa(MultipartFile file, Set<String> result) throws Exception {
 		try {
 			LOG.info("==============================【调试】开始解析Excel，文件名：" + file.getOriginalFilename());
 			// 文件流
@@ -342,7 +341,7 @@ public class OrderEdiInController {
 					new ImportEntity());
 			LOG.info("==============================【调试】解析Excel成功");
 			saveDoForm(xlsList, result);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			LOG.error("==============================【调试】物流EDI导入失败：{}", e);
 			result.add(file.getOriginalFilename() + "导入失败。");
 			LOG.error("{}导入失败。", file.getOriginalFilename());
