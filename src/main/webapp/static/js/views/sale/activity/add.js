@@ -11,7 +11,7 @@ var dvVip = '<div id="dvVip" class="ub ub-ac umar-l20"> ' +
 	'</div>';
 var dvVipOne = '<div id="dvVipOne" class="ub ub-ac umar-l20"> ' +
 	'<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
+    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" disabled/><label for="memberExclusiveNum">会员每日独享一次</label>' +
     '</div> ' +
 	'</div>';
 
@@ -20,7 +20,7 @@ var dvzhspecial =  ' <div class="ub ub-ac umar-l50" id="dvzhspecial"> ' +
     '<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" /><label for="memberExclusive">会员独享</label>'+
     '</div> ' +
     '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
+    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" disabled/><label for="memberExclusiveNum">会员每日独享一次</label>' +
     '</div> ' +
     '</div>';
 
@@ -35,7 +35,7 @@ var dvmms = ' <div class="ub ub-ac umar-l30" id="dvmms"> ' +
     '<input class="ub" type="checkbox" id="memberExclusive"  name="memberExclusive"  value="1" /><label for="memberExclusive">会员独享</label>'+
     '</div> ' +
     '<div class="ub ub-ac umar-r10"> ' +
-    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" /><label for="memberExclusiveNum">会员每日独享一次</label>' +
+    '<input class="ub" type="checkbox" id="memberExclusiveNum"  name="memberExclusiveNum"  value="1" disabled/><label for="memberExclusiveNum">会员每日独享一次</label>' +
     '</div> ' +
 	'</div>';
 
@@ -68,8 +68,19 @@ $(function(){
 	
 	//机构选择初始化 分组
 	initBranchGroup();
-	
+    initCheck();
 });
+
+function initCheck(){
+    $("#memberExclusive").on("click",function () {
+		if($("#memberExclusive").is(":checked")){
+			$("#memberExclusiveNum").removeProp("disabled");
+		}else{
+            $("#memberExclusiveNum").removeProp("checked")
+            $("#memberExclusiveNum").prop("disabled","disabled");
+		}
+    })
+}
 
 function initBranchGroup(){
 	$('#branchComponent').branchSelect({
@@ -1282,7 +1293,7 @@ function initDatagridSpecial(){
                         return;
                     }
                     if(!value){
-                        row["limitAmount"] = parseFloat(value||0).toFixed(2);
+                        row["discountNum"] = parseFloat(value||0).toFixed(2);
                     }
 
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
@@ -1782,7 +1793,7 @@ function initDatagridOddtj(){
                         return;
                     }
                     if(!value){
-                        row["limitAmount"] = parseFloat(value||0).toFixed(2);
+                        row["discountNum"] = parseFloat(value||0).toFixed(2);
                     }
 
                     return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
