@@ -115,6 +115,11 @@ $(function(){
 });
 
 function initCheck(){
+
+	if($("#memberExclusive").is(":checked")){
+        $("#memberExclusiveNum").removeProp("disabled");
+	}
+
     $("#memberExclusive").on("click",function () {
         if($("#memberExclusive").is(":checked")){
             $("#memberExclusiveNum").removeProp("disabled");
@@ -299,6 +304,7 @@ function  editstart(){
 	             
 	            	  $_jxc.alert(data['message']);
 	          }
+
         initCheck();
 	  });
 }
