@@ -646,6 +646,8 @@ public class OrderEdiInController {
 	 */
 	private void setDoFormDetailPrice(DeliverForm daForm, List<GoodsSkuVo> goodsSkuVos,
 			List<DeliverFormList> daDetailList) {
+		LOG.info("==============================【调试】daForm:{}",daForm);
+		LOG.info("==============================【调试】daDetailList:{}",daDetailList);
 		GoodsStockVo goodsStockVos = new GoodsStockVo();
 		goodsStockVos.setBranchId(daForm.getSourceBranchId());
 		goodsStockVos.setStockBranchId(daForm.getTargetBranchId());
@@ -653,6 +655,7 @@ public class OrderEdiInController {
 		goodsStockVos.setFieldName("id");
 		goodsStockVos.setGoodsSkuVo(goodsSkuVos);
 		List<GoodsSelect> goodsList = goodsSelectServiceApi.queryByBrancheAndSkuIdsToDo(goodsStockVos);
+		LOG.info("==============================【调试】goodsList:{}",goodsList);
 		if (CollectionUtils.isEmpty(goodsList)) {
 			return;
 		}
@@ -663,8 +666,10 @@ public class OrderEdiInController {
 		if (goodsMap.size() == 0) {
 			return;
 		}
+		LOG.info("==============================【调试】goodsMap:{}",goodsMap);
 		// 替换价格
 		for (DeliverFormList detail : daDetailList) {
+			LOG.info("==============================【调试】detail:{}",detail);
 			detail.setPrice(goodsMap.get(detail.getSkuId()).getDistributionPrice());
 		}
 	}
