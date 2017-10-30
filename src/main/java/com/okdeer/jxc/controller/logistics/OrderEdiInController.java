@@ -458,12 +458,8 @@ public class OrderEdiInController {
 				gsVo.setSkuCode(skuCode);
 				goodsSkuVos.add(gsVo);
 			}
-			
-			LOG.info("==============================【调试】重新按出库单配置获取商品配送价格");
 			// 重新按出库单配置获取商品配送价格
 			setDoFormDetailPrice(daForm, goodsSkuVos, daDetailList,result);
-			
-			LOG.info("==============================【调试】创建配送出库单对象");
 			// 配送出库单
 			DeliverFormVo doForm = createDeliverForm(daForm, FormType.DO.name());
 			// 配送出库单明细
@@ -644,9 +640,7 @@ public class OrderEdiInController {
 		goodsStockVos.setType("DO");
 		goodsStockVos.setFieldName("id");
 		goodsStockVos.setGoodsSkuVo(goodsSkuVos);
-		LOG.info("==============================【调试】调用queryByBrancheAndSkuIdsToDo:{}",goodsStockVos);
 		List<GoodsSelect> goodsList = goodsSelectServiceApi.queryByBrancheAndSkuIdsToDo(goodsStockVos);
-		LOG.info("==============================【调试】goodsList:{}",goodsList);
 		StringBuffer buffer = new StringBuffer();
 		for (GoodsSkuVo goodsSkuVo : goodsSkuVos) {
 			buffer.append(goodsSkuVo.getSkuCode()+",");
@@ -658,10 +652,6 @@ public class OrderEdiInController {
 		Map<String, GoodsSelect> goodsMap = new HashMap<>();
 		for (GoodsSelect goods : goodsList) {
 			goodsMap.put(goods.getSkuId(), goods);
-		}
-		if (goodsMap.size() == 0) {
-			result.add("商品货号为:" + buffer.toString() + "商品配送价格获取失败!");
-			throw new BusinessException("商品货号为:" + buffer.toString() + "商品配送价格获取失败!");
 		}
 		// 替换价格
 		for (DeliverFormList detail : daDetailList) {
