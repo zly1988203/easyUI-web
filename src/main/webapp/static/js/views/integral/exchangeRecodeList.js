@@ -58,33 +58,23 @@ function searchBranch (){
  * 导出
  */
 function exportData(){
-	var length = $('#goodsTab').datagrid('getData').rows.length;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
+    var length = $("#goodsTab").datagrid('getData').total;
+    if(length == 0){
+        $_jxc.alert("无数据可导");
+        return;
+    }
+    var param = {
+        datagridId:'goodsTab',
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/integral/giftExchangeRecode/exportList"
+    }
+    publicExprotService(param);
 }
 
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
-	
-	//导出记录上一次查询条件
-	$("#queryForm").attr("action",contextPath+"/integral/giftExchangeRecode/exportList");
-	$("#queryForm").submit(); 
-}
+
 
 //查询
 function query(){
-	$("#startCount").val('');
-	$("#endCount").val('');
 	var params = $("#queryForm").serializeObject();
 	params.branchName = params.branchName.substring(params.branchName.lastIndexOf(']')+1)
 	$("#goodsTab").datagrid("options").queryParams = params;

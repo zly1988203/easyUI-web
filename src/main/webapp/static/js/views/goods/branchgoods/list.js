@@ -197,12 +197,11 @@ function changeGridColumn(a){
 var gridHandel = new GridClass();
 
 var gridName = "gridOrders";
-var dg;
 
 // 初始化表格
 function initDatagridOrders() {
 	gridHandel.setGridName("gridOrders");
-	dg = $("#"+gridName).datagrid({
+	 $("#"+gridName).datagrid({
 		// title:'普通表单-用键盘操作',
 		method : 'post',
 		align : 'center',
@@ -340,9 +339,6 @@ function cleanLeftParam() {
 }
 
 function query() {
-	//搜索需要将左侧查询条件清除
-	$("#startCount").val('');
-	$("#endCount").val('');
 	// 去除左侧选中值
 	cleanLeftParam();
 	// 去除左侧选中样式
@@ -655,25 +651,17 @@ function toImportproduct(type){
  * 导出
  */
 function exportData(){
-	var length = $("#"+gridName).datagrid('getData').rows.length;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
+    var length = $("#"+gridName).datagrid('getData').total;
+    if(length == 0){
+        $_jxc.alert("无数据可导");
+        return;
+    }
+    var param = {
+        datagridId:'goodsSaleProfit',
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/branch/goods/exportHandel"
+    }
+    publicExprotService(param);
 }
-// 调用导出方法
-function exportExcel(){
-	$("#exportWin").hide();
-	$("#exportWin").window("close");
 
-	$("#queryForm").attr("action",contextPath+"/branch/goods/exportHandel");
-	$("#queryForm").submit();
-}
 
