@@ -675,7 +675,7 @@ public class OrderEdiInController {
 		if (goodsMap.size() == 0) {
 			throw new BusinessException("商品货号为:" + buffer.toString() + "商品配送价格获取失败!");
 		}
-		LOG.info("==============================【调试】goodsMap:{}",goodsMap);
+		LOG.info("==============================【调试】goodsMap:{}",goodsMap );
 		// 替换价格
 		for (DeliverFormList detail : daDetailList) {
 			LOG.info("==============================【调试】detail:{}",detail);
