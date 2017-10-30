@@ -26,6 +26,7 @@ import com.okdeer.jxc.common.enums.DeliverAuditStatusEnum;
 import com.okdeer.jxc.common.enums.DeliverStatusEnum;
 import com.okdeer.jxc.common.enums.FormSourcesEnum;
 import com.okdeer.jxc.common.enums.IsReference;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
 import com.okdeer.jxc.common.utils.UUIDHexGenerator;
@@ -341,10 +342,12 @@ public class OrderEdiInController {
 					new ImportEntity());
 			LOG.info("==============================【调试】解析Excel成功");
 			saveDoForm(xlsList, result);
+		} catch (BusinessException e) {
+			LOG.error("==============================【调试】BusinessException 物流EDI导入失败：{}", e);
 		} catch (Exception e) {
-			LOG.error("==============================【调试】物流EDI导入失败：{}", e);
 			result.add(file.getOriginalFilename() + "导入失败。");
-			LOG.error("{}导入失败。", file.getOriginalFilename());
+			LOG.error("{}Exception导入失败。", file.getOriginalFilename());
+			LOG.error("{}Exception失败原因。", e);
 		}
 	}
 
@@ -460,6 +463,7 @@ public class OrderEdiInController {
 				daDetailMap.put(skuCode + "_" + isGift, detail);
 				GoodsSkuVo gsVo = new GoodsSkuVo();
 				gsVo.setId(detail.getSkuId());
+				gsVo.setSkuCode(skuCode);
 				goodsSkuVos.add(gsVo);
 			}
 			
@@ -654,23 +658,32 @@ public class OrderEdiInController {
 		goodsStockVos.setType("DO");
 		goodsStockVos.setFieldName("id");
 		goodsStockVos.setGoodsSkuVo(goodsSkuVos);
+		LOG.info("==============================【调试】调用queryByBrancheAndSkuIdsToDo:{}",goodsStockVos);
 		List<GoodsSelect> goodsList = goodsSelectServiceApi.queryByBrancheAndSkuIdsToDo(goodsStockVos);
 		LOG.info("==============================【调试】goodsList:{}",goodsList);
+		StringBuffer buffer = new StringBuffer();
+		for (GoodsSkuVo goodsSkuVo : goodsSkuVos) {
+			buffer.append(goodsSkuVo.getSkuCode()+",");
+		}
 		if (CollectionUtils.isEmpty(goodsList)) {
-			return;
+			throw new BusinessException("商品货号为:" + buffer.toString() + "商品配送价格获取失败!");
 		}
 		Map<String, GoodsSelect> goodsMap = new HashMap<>();
 		for (GoodsSelect goods : goodsList) {
 			goodsMap.put(goods.getSkuId(), goods);
 		}
 		if (goodsMap.size() == 0) {
-			return;
+			throw new BusinessException("商品货号为:" + buffer.toString() + "商品配送价格获取失败!");
 		}
 		LOG.info("==============================【调试】goodsMap:{}",goodsMap);
 		// 替换价格
 		for (DeliverFormList detail : daDetailList) {
 			LOG.info("==============================【调试】detail:{}",detail);
-			detail.setPrice(goodsMap.get(detail.getSkuId()).getDistributionPrice());
+			if (goodsMap.get(detail.getSkuId()) == null) {
+				throw new BusinessException("商品货号为：" + detail.getSkuCode() + "商品配送价格获取失败!");
+			} else {
+				detail.setPrice(goodsMap.get(detail.getSkuId()).getDistributionPrice());
+			}
 		}
 	}
 
