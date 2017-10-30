@@ -41,10 +41,8 @@
 	            </div>
 	       </div>
 	       <div class="ub umar-t8">
-               <div class="ub ub-ac" style="width: 935px;">
-                    <div class="umar-r10 uw-60 ut-r">skuId:</div>
-                    <input class="uinp ub ub-f1" name="skuIds" id="skuIds" type="text" maxlength="100">
-	           </div>
+                <div class="umar-r10 uw-60 ut-r">skuId:</div>
+                <textarea style="width: 90%; display: block;" name="skuIds" id="skuIds" rows="5"></textarea>
             </div>
         </form>
         <div class="ub uw umar-t8 ub-f1">

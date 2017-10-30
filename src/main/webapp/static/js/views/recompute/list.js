@@ -23,12 +23,15 @@ function handler() {
 		$_jxc.alert('机构信息不能为空');
 		return false;
 	}
-	if (!$.trim(formNo)) {
-		$_jxc.alert('单据编号不能为空');
-		return false;
-	}
+	/*
+	 * if (!$.trim(formNo)) { $_jxc.alert('单据编号不能为空'); return false; }
+	 */
 	if (!$.trim(startDate)) {
 		$_jxc.alert('重算日期不能为空');
+		return false;
+	}
+	if (!$.trim(skuIds)) {
+		$_jxc.alert('skuId不能为空');
 		return false;
 	}
 
@@ -83,6 +86,8 @@ function refreshLog() {
 						getNext = false;
 					}
 				});
+				// 自动滚动到底部
+				$("#resultLog").scrollTop($("#resultLog")[0].scrollHeight);
 				if (result['data'].length > 0) {
 					pageIndex++;
 				}
