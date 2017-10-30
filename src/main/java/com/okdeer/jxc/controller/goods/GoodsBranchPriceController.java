@@ -262,7 +262,7 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 			branchId = user.getBranchId();
 		}
 		try {
-			goodsBranchPriceService.enableOne(null, skuIds, branchId, user.getId());
+			goodsBranchPriceService.enableOne(skuIds, branchId, user.getId());
 		} catch (Exception e) {
 			return RespJson.error("导入失败");
 		}
@@ -339,7 +339,7 @@ public class GoodsBranchPriceController extends BaseController<GoodsBranchPriceC
 		}
 		try {
 			if (CollectionUtils.isNotEmpty(goodsBranchPriceList)) {
-				goodsSkuSyncServiceApi.recoveryGoodsStoreSkuToMq(goodsBranchPriceList, null);
+				goodsSkuSyncServiceApi.recoveryGoodsStoreSkuToMq(goodsBranchPriceList);
 			}
 		} catch (Exception e) {
 			return RespJson.error(e.getLocalizedMessage());
