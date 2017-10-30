@@ -336,6 +336,7 @@ public class ActivityController extends BaseController<ActivityController> {
 
 					activityDetail.setId(detailId);
 					activityDetail.setActivityId(main.getId());
+					activityDetail.setDiscountNum(activityDetailVo.getDiscountNum().intValue());
 
 					detailList.add(activityDetail);
 				}

@@ -81,7 +81,6 @@ $(function(){
 
 });
 
-
 function initView(){
     $('#goodsType').combobox({
         valueField:'id',
