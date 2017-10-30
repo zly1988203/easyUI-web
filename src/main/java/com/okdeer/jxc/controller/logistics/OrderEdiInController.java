@@ -25,6 +25,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.enums.DeliverAuditStatusEnum;
 import com.okdeer.jxc.common.enums.DeliverStatusEnum;
 import com.okdeer.jxc.common.enums.FormSourcesEnum;
+import com.okdeer.jxc.common.enums.IsGiftEnum;
 import com.okdeer.jxc.common.enums.IsReference;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
@@ -443,7 +444,6 @@ public class OrderEdiInController {
 				continue;
 			}
 			
-			List<GoodsSkuVo> goodsSkuVos = new ArrayList<>();
 			// 要货申请单明细按“货号_是否赠品”转换为map，方便查询
 			Map<String, DeliverFormList> daDetailMap = new HashMap<String, DeliverFormList>();
 			for (DeliverFormList detail : daDetailList) {
@@ -453,13 +453,8 @@ public class OrderEdiInController {
 				Integer isGift = Integer.valueOf(detail.getIsGift());
 				// KEY：货号_是否赠品，VALUE：采购申请单明细
 				daDetailMap.put(skuCode + "_" + isGift, detail);
-				GoodsSkuVo gsVo = new GoodsSkuVo();
-				gsVo.setId(detail.getSkuId());
-				gsVo.setSkuCode(skuCode);
-				goodsSkuVos.add(gsVo);
 			}
-			// 重新按出库单配置获取商品配送价格
-			setDoFormDetailPrice(daForm, goodsSkuVos, daDetailList,result);
+			
 			// 配送出库单
 			DeliverFormVo doForm = createDeliverForm(daForm, FormType.DO.name());
 			// 配送出库单明细
@@ -499,6 +494,18 @@ public class OrderEdiInController {
 					}
 				}
 			}
+			// 重新按出库单配置获取商品配送价格
+			List<GoodsSkuVo> goodsSkuVos = new ArrayList<>();
+			for (DeliverFormListVo deliverFormListVo : detailList) {
+				GoodsSkuVo gsVo = new GoodsSkuVo();
+				gsVo.setId(deliverFormListVo.getSkuId());
+				gsVo.setSkuCode(deliverFormListVo.getSkuCode());
+				goodsSkuVos.add(gsVo);
+			}
+			if (!setDoFormDetailPrice(daForm, goodsSkuVos, detailList,result)) {
+				return;
+			}
+			
 			doForm.setTotalNum(totalNum);
 			doForm.setAmount(amount);
 			doForm.setDeliverFormListVo(detailList);
@@ -632,8 +639,8 @@ public class OrderEdiInController {
 	 * @author xuyq
 	 * @date 2017年9月27日
 	 */
-	private void setDoFormDetailPrice(DeliverForm daForm, List<GoodsSkuVo> goodsSkuVos,
-			List<DeliverFormList> daDetailList,Set<String> result) {
+	private boolean setDoFormDetailPrice(DeliverForm daForm, List<GoodsSkuVo> goodsSkuVos,
+			List<DeliverFormListVo> daDetailList,Set<String> result) {
 		GoodsStockVo goodsStockVos = new GoodsStockVo();
 		goodsStockVos.setBranchId(daForm.getSourceBranchId());
 		goodsStockVos.setStockBranchId(daForm.getTargetBranchId());
@@ -641,27 +648,38 @@ public class OrderEdiInController {
 		goodsStockVos.setFieldName("id");
 		goodsStockVos.setGoodsSkuVo(goodsSkuVos);
 		List<GoodsSelect> goodsList = goodsSelectServiceApi.queryByBrancheAndSkuIdsToDo(goodsStockVos);
-		StringBuffer buffer = new StringBuffer();
-		for (GoodsSkuVo goodsSkuVo : goodsSkuVos) {
-			buffer.append(goodsSkuVo.getSkuCode()+",");
-		}
 		if (CollectionUtils.isEmpty(goodsList)) {
+			StringBuffer buffer = new StringBuffer();
+			for (GoodsSkuVo goodsSkuVo : goodsSkuVos) {
+				buffer.append(goodsSkuVo.getSkuCode()+",");
+			}
 			result.add("商品货号为:" + buffer.toString() + "商品配送价格获取失败!");
-			throw new BusinessException("商品货号为:" + buffer.toString() + "商品配送价格获取失败!");
+			return false;
 		}
 		Map<String, GoodsSelect> goodsMap = new HashMap<>();
 		for (GoodsSelect goods : goodsList) {
 			goodsMap.put(goods.getSkuId(), goods);
 		}
 		// 替换价格
-		for (DeliverFormList detail : daDetailList) {
+		StringBuffer error = new StringBuffer();
+		for (DeliverFormListVo detail : daDetailList) {
 			if (goodsMap.get(detail.getSkuId()) == null) {
-				result.add("商品货号为:" + buffer.toString() + "商品配送价格获取失败!");
-				throw new BusinessException("商品货号为：" + detail.getSkuCode() + "商品配送价格获取失败!");
+				error.append(detail.getSkuCode() + ",");
+				continue;
 			} else {
-				detail.setPrice(goodsMap.get(detail.getSkuId()).getDistributionPrice());
+				// 不是赠品的赋值
+				if (IsGiftEnum.NO.getIndex().equals(detail.getIsGift())) {
+					detail.setPrice(goodsMap.get(detail.getSkuId()).getDistributionPrice());
+				} else {
+					detail.setPrice(BigDecimal.ZERO);
+				}
 			}
 		}
+		if (error.length() > 0) {
+			result.add("<font color='red'>配送出库单【" + daForm.getFormNo() + "】导入失败，失败原因商品货号为:" + error.toString() + "的商品查询不到配送价格</font></br>");
+			return false;
+		}
+		return true;
 	}
 
 	/**
