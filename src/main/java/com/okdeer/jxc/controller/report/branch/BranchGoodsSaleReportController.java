@@ -3,20 +3,8 @@
  *@Author: zhangchm
  *@Date: 2017年6月6日 
  *@Copyright: ©2014-2020 www.yschome.com Inc. All rights reserved. 
- */    
-package com.okdeer.jxc.controller.report.branch;  
-
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+ */
+package com.okdeer.jxc.controller.report.branch;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
@@ -34,6 +22,17 @@ import com.okdeer.jxc.report.branch.service.BranchGoodsSaleReportApi;
 import com.okdeer.jxc.report.qo.GoodsReportQo;
 import com.okdeer.jxc.report.vo.BranchGoodsSaleReportVo;
 import com.okdeer.jxc.system.entity.SysUser;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ClassName: BranchGoodsSaleReportController 
@@ -136,15 +135,15 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
 				LOG.error("店铺为空");
 				return RespJson.error("店铺为空");
 			}
-			
-			PageUtils<BranchGoodsSaleReportVo> pageList = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo);
-			List<BranchGoodsSaleReportVo> list = pageList.getList();
-			list.add(pageList.getFooter().get(0));
-			
-			if(CollectionUtils.isNotEmpty(list)){
-			    // 过滤数据权限字段
-			    cleanAccessData(list);
-				String fileName = "分公司商品查询分析" + "_" + DateUtils.getCurrSmallStr();
+
+            //PageUtils<BranchGoodsSaleReportVo> pageList = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo);
+            List<BranchGoodsSaleReportVo> list = queryListPartition(qo);
+            list.add(branchGoodsSaleReportApi.queryBranchGoodsSaleReportSum(qo));
+
+            if (CollectionUtils.isNotEmpty(list)) {
+                // 过滤数据权限字段
+                cleanAccessData(list);
+                String fileName = "分公司商品查询分析" + "_" + DateUtils.getCurrSmallStr();
 				String templateName = ExportExcelConstant.BRANCHGOODSSALEREPORT;
 				exportListForXLSX(response, list, fileName, templateName);
 			} else {
@@ -158,4 +157,47 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
 		}
 		return null;
 	}
+
+
+    /**
+     * 把导出的请求分成多次，一次请求1000条数据
+     *
+     * @param qo
+     * @return
+     */
+    private List<BranchGoodsSaleReportVo> queryListPartition(GoodsReportQo qo) {
+        List<BranchGoodsSaleReportVo> voList = new ArrayList<>();
+        int startCount = limitStartCount(qo.getStartCount());
+        int endCount = limitEndCount(qo.getEndCount());
+
+        LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出startCount和endCount参数：{}, {}", startCount, endCount);
+
+        int resIndex = (int) (endCount / 1000);
+        int modIndex = endCount % 1000;
+        LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出resIndex和modIndex参数：{}, {}", resIndex, modIndex);
+        if (resIndex > 0) {
+            for (int i = 0; i < resIndex; i++) {
+                int newStart = (i * 1000) + startCount;
+                qo.setStartCount(newStart);
+                qo.setEndCount(1000);
+                LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport for商品库存导出i、startCount、endCount参数：{}, {}, {}", i, newStart, 1000);
+                List<BranchGoodsSaleReportVo> tempList = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo).getList();
+                voList.addAll(tempList);
+            }
+            if (modIndex > 0) {
+                int newStart = (resIndex * 1000) + startCount;
+                int newEnd = modIndex;
+                qo.setStartCount(newStart);
+                qo.setEndCount(newEnd);
+                LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出mod、startCount、endCount参数:{}, {}", newStart, newEnd);
+                List<BranchGoodsSaleReportVo> tempList = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo).getList();
+                voList.addAll(tempList);
+            }
+        } else {
+            List<BranchGoodsSaleReportVo> tempList = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo).getList();
+            LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出不超过:{}", 1000);
+            voList.addAll(tempList);
+        }
+        return voList;
+    }
 }
