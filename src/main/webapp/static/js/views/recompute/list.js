@@ -16,6 +16,7 @@ function handler() {
 	var branchId = $('#branchId').val();
 	var formNo = $('#formNo').val();
 	var startDate = $('#startDate').val();
+	var isTest = $('input[type="radio"][name="isTest"]:checked').val();
 	var skuIds = $('#skuIds').val();
 
 	// 判断必填
@@ -44,7 +45,8 @@ function handler() {
 		branchId : branchId,
 		formNo : formNo,
 		startDate : startDate || '',
-		skuIdList : skuIdList
+		skuIdList : skuIdList,
+		isTest : isTest
 	}
 
 	$_jxc.ajax({
