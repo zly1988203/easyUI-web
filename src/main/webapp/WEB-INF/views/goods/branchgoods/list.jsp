@@ -7,7 +7,6 @@
     <title>商品引入</title>
     
     <%@ include file="/WEB-INF/views/include/header.jsp"%>
-    <%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
  
 	<script src="${ctx}/static/js/views/goods/branchgoods/list.js?V=${versionNo}13"></script>
     <style>
@@ -69,8 +68,6 @@
 		                <!-- 隐藏类别编号 -->
 		                <input class="uinp" name="categoryCode" id="categoryCode" type="hidden">
 		                <input class="uinp" name="supplierId" id="supplierId" type="hidden">
-		                <input type="hidden" id="startCount" name="startCount" >
-						<input type="hidden" id="endCount" name="endCount" >
 		                
 		                <div class="ub ub-ac" id="branchGroupComponent">
 		                	<div class="umar-r10 uw-60 ut-r">机构:</div>

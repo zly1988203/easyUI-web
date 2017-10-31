@@ -74,13 +74,12 @@ $(function(){
 	branchId = $("#branchId").val();
 	//开始和结束时间
 	//toChangeDate(10);
-	var startTime = dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",30)).format("yyyy-MM-dd hh:mm");
-    var endTime = dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd hh:mm");
+	var startTime = dateUtil.addStartTime(dateUtil.getCurrDayPreOrNextDay("prev",30)).format("yyyy-MM-dd");
+    var endTime = dateUtil.addEndTime(dateUtil.getCurrentDate()).format("yyyy-MM-dd");
 	$("#txtStartDate").val(startTime);
     $("#txtEndDate").val(endTime);
 
 });
-
 
 function initView(){
     $('#goodsType').combobox({
@@ -467,7 +466,7 @@ function query(){
 	setLocalStorage();
 	
 	var formData = $("#queryForm").serializeObject();
-	
+
 	formData.startTime = formData.startTime + " 00:00";
 	formData.endTime = formData.endTime + " 00:00";
 	

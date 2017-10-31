@@ -7,7 +7,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>商品查询</title>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<%@ include file="/WEB-INF/views/system/exportChose.jsp"%>
 <script src="${ctx}/static/js/views/integral/exchangeRecodeList.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
@@ -31,8 +30,6 @@
 			
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-r40">
-					<input type="hidden" name="startCount" id="startCount" class="uinp" />
-					<input type="hidden" name="endCount" id="endCount" class="uinp" />
 					<div class="ub ub-ac">
 	                    <div class="umar-r10 uw-70 ut-r">货号/条码:</div>
 	                    <input class="uinp" name="skuCode" type="text" maxlength="20">
