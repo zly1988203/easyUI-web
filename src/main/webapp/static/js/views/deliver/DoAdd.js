@@ -689,10 +689,6 @@ function saveOrder(){
         $_jxc.alert("表格不能为空");
         return;
     }
-	if(rows.length>1000){
-		$_jxc.alert("保存数据不能超过1000条");
-		return;
-	}
     var isCheckResult = true;
     var num=0;
     $.each(rows,function(i,v){
