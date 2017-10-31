@@ -39,6 +39,19 @@
 	                   <input id="startDate" name="startDate" class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" pattern="yyyy-MM-dd"/>
 	                </div>
 	            </div>
+	            <div class="ub ub-ac umar-l60">
+	                <div class="umar-r10 uw-60 ut-r">调试模式:</div>
+	                <div class="ub ub-ac umar-r10">
+						<label>
+						<input class="radioItem" type="radio" name="isTest" value="true" checked="checked" /><span>是</span>
+						</label>
+					</div>
+	                <div class="ub ub-ac umar-r10">
+						<label>
+						<input class="radioItem" type="radio" name="isTest" value="false" /><span>否</span>
+						</label>
+					</div>
+	            </div>
 	       </div>
 	       <div class="ub umar-t8">
                 <div class="umar-r10 uw-60 ut-r">skuId:</div>
