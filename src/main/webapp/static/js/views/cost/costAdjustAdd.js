@@ -310,6 +310,10 @@ function addsaveOrder(){
         $_jxc.alert("表格不能为空");
         return;
     }
+	if(rows.length>1000){
+		$_jxc.alert("保存数据不能超过1000条");
+		return;
+	}
     var isCheckResult = true;
     var isChcekPrice = false;
     $.each(rows,function(i,v){
@@ -356,12 +360,7 @@ function saveDataHandel(rows){
     var adjustReason=$("#adjustReason").combobox('getValue');
     // 备注
     var remark = $("#remark").val();
-    var rows = gridHandel.getRows();
-	if(rows.length>1000){
-		$_jxc.alert("保存数据不能超过1000条");
-		gFunEndLoading();
-		return;
-	}
+
     //验证表格数据
     var footerRows = $("#gridEditOrder").datagrid("getFooterRows");
     if(footerRows){
