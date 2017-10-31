@@ -160,7 +160,7 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
 
 
     /**
-     * 把导出的请求分成多次，一次请求LIMIT_REQ_COUNT条数据
+     * 把导出的请求分成多次，一次请求1000条数据
      *
      * @param qo
      * @return
@@ -172,20 +172,20 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
 
         LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出startCount和endCount参数：{}, {}", startCount, endCount);
 
-        int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
-        int modIndex = endCount % LIMIT_REQ_COUNT;
+        int resIndex = (int) (endCount / 1000);
+        int modIndex = endCount % 1000;
         LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出resIndex和modIndex参数：{}, {}", resIndex, modIndex);
         if (resIndex > 0) {
             for (int i = 0; i < resIndex; i++) {
-                int newStart = (i * LIMIT_REQ_COUNT) + startCount;
+                int newStart = (i * 1000) + startCount;
                 qo.setStartCount(newStart);
-                qo.setEndCount(LIMIT_REQ_COUNT);
-                LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport for商品库存导出i、startCount、endCount参数：{}, {}, {}", i, newStart, LIMIT_REQ_COUNT);
+                qo.setEndCount(1000);
+                LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport for商品库存导出i、startCount、endCount参数：{}, {}, {}", i, newStart, 1000);
                 List<BranchGoodsSaleReportVo> tempList = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo).getList();
                 voList.addAll(tempList);
             }
             if (modIndex > 0) {
-                int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
+                int newStart = (resIndex * 1000) + startCount;
                 int newEnd = modIndex;
                 qo.setStartCount(newStart);
                 qo.setEndCount(newEnd);
@@ -195,7 +195,7 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
             }
         } else {
             List<BranchGoodsSaleReportVo> tempList = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo).getList();
-            LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出不超过:{}", LIMIT_REQ_COUNT);
+            LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出不超过:{}", 1000);
             voList.addAll(tempList);
         }
         return voList;
