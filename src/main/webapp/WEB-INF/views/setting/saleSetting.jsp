@@ -73,16 +73,6 @@
 							</div>
 							
 							<div class="ub ub-ac">
-								<div class="umar-r10 uw-150 ut-r">是否启用第三方配送:</div>
-								<div class="ub uw-110 ub-ac umar-r10">
-									<label><input type="radio" id="isThirdPartyDelivery0" name="isThirdPartyDelivery" value="0" /><span>启用</span></label>
-								</div>
-								<div class="ub uw-110 ub-ac umar-r10">
-									<label> <input type="radio" id="isThirdPartyDelivery1" name="isThirdPartyDelivery" value="1" /><span>不启用</span></label>
-								</div>
-							</div>
-							
-							<div class="ub ub-ac">
 								<div class="umar-r10 uw-150 ut-r">使用手机号登录会员:</div>
 								<div class="ub uw-110 ub-ac umar-r10">
 									<label><input type="radio" id="isAllowMobileLogin0" name="isAllowMobileLogin" value="0" /><span>启用</span></label>
@@ -137,6 +127,7 @@
 		//获取值
 		var centComputeType = data.centComputeType;
 		var receivingSetting = data.receivingSetting;
+		var isSelfpayAllowMinusStock = data.isSelfpayAllowMinusStock;
 		$("#branchId").val(data.branchId);
 		//页面赋值
 		if (centComputeType == 0) {
@@ -151,6 +142,11 @@
 			$("#receivingSetting1").attr("checked","true");
 		}
 		
+		if(isSelfpayAllowMinusStock == 1){
+			$("#isSelfpayAllowMinusStock1").attr("checked","true");
+		}else{
+			$("#isSelfpayAllowMinusStock0").attr("checked","true");
+		}
 		indexTab = 0;
 	}
 
@@ -187,12 +183,6 @@
 				obj.isSelfpayAllowMinusStock = 0;
 			}else{
 				obj.isSelfpayAllowMinusStock = 1;
-			}
-			
-			if($('#isThirdPartyDelivery0').is(':checked')) {
-				obj.isThirdPartyDelivery = 1;
-			}else{
-				obj.isThirdPartyDelivery = 0;
 			}
 			
 			url = contextPath
@@ -255,12 +245,6 @@
 							$("#isSelfpayAllowMinusStock1").prop("checked","checked");								
 						}else{
 							$("#isSelfpayAllowMinusStock0").prop("checked","checked");
-						}
-						
-						if(result.isThirdPartyDelivery == 1){
-							$("#isThirdPartyDelivery0").prop("checked","checked");								
-						}else{
-							$("#isThirdPartyDelivery1").prop("checked","checked");
 						}
 					},
 					error : function(result) {
