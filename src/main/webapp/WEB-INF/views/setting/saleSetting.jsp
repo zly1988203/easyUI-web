@@ -73,16 +73,16 @@
 							</div>
 							
 							<div class="ub ub-ac">
-								<div class="umar-r10 uw-156 ut-r">是否启用第三方配送：</div>
+								<div class="umar-r10 uw-150 ut-r">是否启用第三方配送:</div>
 								<div class="ub uw-110 ub-ac umar-r10">
-									<label><input type="radio" id="isThirdPartyDeliver1" name="isThirdPartyDeliver" value="1" /><span>启用</span></label>
+									<label><input type="radio" id="isThirdPartyDelivery0" name="isThirdPartyDelivery" value="0" /><span>启用</span></label>
 								</div>
 								<div class="ub uw-110 ub-ac umar-r10">
-									<label> <input type="radio" id="isThirdPartyDeliver0" name="isThirdPartyDeliver" value="0" /><span>不启用</span></label>
+									<label> <input type="radio" id="isThirdPartyDelivery1" name="isThirdPartyDelivery" value="1" /><span>不启用</span></label>
 								</div>
 							</div>
 							
-							<div class="ub upad-4">
+							<div class="ub ub-ac">
 								<div class="umar-r10 uw-150 ut-r">使用手机号登录会员:</div>
 								<div class="ub uw-110 ub-ac umar-r10">
 									<label><input type="radio" id="isAllowMobileLogin0" name="isAllowMobileLogin" value="0" /><span>启用</span></label>
@@ -137,7 +137,6 @@
 		//获取值
 		var centComputeType = data.centComputeType;
 		var receivingSetting = data.receivingSetting;
-		var isSelfpayAllowMinusStock = data.isSelfpayAllowMinusStock;
 		$("#branchId").val(data.branchId);
 		//页面赋值
 		if (centComputeType == 0) {
@@ -152,14 +151,7 @@
 			$("#receivingSetting1").attr("checked","true");
 		}
 		
-		if(isSelfpayAllowMinusStock == 1){
-			$("#isSelfpayAllowMinusStock1").attr("checked","true");
-		}else{
-			$("#isSelfpayAllowMinusStock0").attr("checked","true");
-		}
 		indexTab = 0;
-		
-		
 	}
 
 	//禁用保存
@@ -196,10 +188,11 @@
 			}else{
 				obj.isSelfpayAllowMinusStock = 1;
 			}
-			if($('#isThirdPartyDeliver0').is(':checked')) {
-				obj.isThirdPartyDeliver = 0;
+			
+			if($('#isThirdPartyDelivery0').is(':checked')) {
+				obj.isThirdPartyDelivery = 1;
 			}else{
-				obj.isThirdPartyDeliver = 1;
+				obj.isThirdPartyDelivery = 0;
 			}
 			
 			url = contextPath
@@ -248,11 +241,9 @@
 					success : function(result) {
 						var isAllowMobileLogin = 0;
 						var receiptMobile = '';
-						var isThirdPartyDeliver = 0;
 						if (!$_jxc.isStringNull(result)) {
 							receiptMobile = result.receiptMobile;
 							isAllowMobileLogin = result.isAllowMobileLogin;
-							isThirdPartyDeliver = result.isThirdPartyDeliver;
 						}
 						$("#receiptMobile").val(receiptMobile);
 						if (isAllowMobileLogin == 0) {
@@ -261,14 +252,15 @@
 							$("#isAllowMobileLogin1").prop("checked", "true");
 						}
 						if(result.isSelfpayAllowMinusStock == 1){
-							$("#isSelfpayAllowMinusStock1").prop("checked","true");								
+							$("#isSelfpayAllowMinusStock1").prop("checked","checked");								
 						}else{
-							$("#isSelfpayAllowMinusStock0").prop("checked","true");
+							$("#isSelfpayAllowMinusStock0").prop("checked","checked");
 						}
-						if(isThirdPartyDeliver  == 0){
-							$("#isThirdPartyDeliver0").prop("checked","true");
+						
+						if(result.isThirdPartyDelivery == 1){
+							$("#isThirdPartyDelivery0").prop("checked","checked");								
 						}else{
-							$("#isThirdPartyDeliver1").prop("checked","true");
+							$("#isThirdPartyDelivery1").prop("checked","checked");
 						}
 					},
 					error : function(result) {
