@@ -140,10 +140,10 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
             List<BranchGoodsSaleReportVo> list = queryListPartition(qo);
             list.add(branchGoodsSaleReportApi.queryBranchGoodsSaleReportSum(qo));
 
-            if(CollectionUtils.isNotEmpty(list)){
-			    // 过滤数据权限字段
-			    cleanAccessData(list);
-				String fileName = "分公司商品查询分析" + "_" + DateUtils.getCurrSmallStr();
+            if (CollectionUtils.isNotEmpty(list)) {
+                // 过滤数据权限字段
+                cleanAccessData(list);
+                String fileName = "分公司商品查询分析" + "_" + DateUtils.getCurrSmallStr();
 				String templateName = ExportExcelConstant.BRANCHGOODSSALEREPORT;
 				exportListForXLSX(response, list, fileName, templateName);
 			} else {
