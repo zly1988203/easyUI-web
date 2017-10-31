@@ -657,7 +657,7 @@ function exportData(){
         return;
     }
     var param = {
-        datagridId:'goodsSaleProfit',
+        datagridId:'gridOrders',
         formObj:$("#queryForm").serializeObject(),
         url:contextPath+"/branch/goods/exportHandel"
     }

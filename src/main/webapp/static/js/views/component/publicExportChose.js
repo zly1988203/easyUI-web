@@ -9,7 +9,7 @@ var exprotGridId = "";
 function initExportChoseParam(param) {
     exprotGridId = param.datagridId;
     url = param.url;
-    $("#totalRows").html($("#"+exprotGridId).datagrid('getData').total);
+    $("#totalRows").html("<strong>"+$("#"+exprotGridId).datagrid('getData').total+"</strong>");
     createForm(param.formObj)
 }
 
