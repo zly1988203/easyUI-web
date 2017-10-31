@@ -247,7 +247,7 @@ function columnList(){
                 formatter:function(value,row,index){
                     var str = "";
                     if(isNaN(value)){
-                        str = '<b>'+value+'</b>';
+                       return str;
                     }else{
                         str = '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
                     }
