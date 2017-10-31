@@ -148,9 +148,9 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
                     vo.setBranchIds(Arrays.asList(branchId.split(",")));
                 } else if (FormType.PL.name().equals(vo.getFormType())) {
                     vo.setBranchId("");
-                    vo.setBranchIds(Arrays.asList(new String[]{branchId}));
+                    vo.setBranchIds(Arrays.asList(branchId));
                 }
-			}
+            }
 
 			// 多商品状态查询
 			if (StringUtils.isNotBlank(vo.getStatuses())) {
@@ -406,9 +406,37 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 					suppliers = queryPurchaseGoods(paramVo).getList();
 				} else {
 					// 采购订单，采购退货输入货号或条码时，只匹配机构自己引入的商品
-					if (FormType.PA.name().equals(type) || FormType.PR.name().equals(type)) {
-						paramVo.setSupplierId(null);
-					}
+                    if (FormType.PA.name().equals(type) || FormType.PR.name().equals(type)) {
+                        paramVo.setSupplierId(null);
+                    } else if (FormType.PL.name().equals(type)) {//采购促销单
+                        paramVo.setBranchId("");
+                        if (branchId.contains(",")) {
+                            paramVo.setBranchIds(Arrays.asList(branchId.split(",")));
+                        } else {
+                            branchIds = Collections.singletonList(branchId);
+                        }
+                        String[] branchNames = StringUtils.splitByWholeSeparatorPreserveAllTokens(paramVo.getBranchName(), ",");
+
+                        List<String> branchIdList = Lists.newArrayList();
+                        List<String> branchList = Lists.newArrayList();
+
+                        for (int i = 0, length = branchNames.length; i < length; ++i) {
+                            if (StringUtils.isNotBlank(branchNames[i]) && branchNames[i].contains("所有")) {
+                                List<Branches> queryBranchIds = branchesService.queryChildById(branchIds.get(i));
+                                for (Branches branches : queryBranchIds) {
+                                    branchIdList.add(branches.getBranchesId());
+                                }
+                            } else {
+                                branchList.add(branchIds.get(i));
+                            }
+                        }
+
+
+                        paramVo.setBranchIdStrs(Joiner.on(",").join(branchList));
+                        paramVo.setBranchIds(branchIdList);
+                        //suppliers = goodsSelectServiceApi.queryPurchaseGoodsLists(vo);
+
+                    }
 					suppliers = goodsSelectServiceApi.queryByCodeListsByVo(paramVo);
 
                     if (FormType.PA.name().equals(type)) {
