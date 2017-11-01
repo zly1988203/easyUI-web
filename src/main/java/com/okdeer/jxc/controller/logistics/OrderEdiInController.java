@@ -1,6 +1,5 @@
 package com.okdeer.jxc.controller.logistics;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -26,7 +25,9 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.common.enums.DeliverAuditStatusEnum;
 import com.okdeer.jxc.common.enums.DeliverStatusEnum;
 import com.okdeer.jxc.common.enums.FormSourcesEnum;
+import com.okdeer.jxc.common.enums.IsGiftEnum;
 import com.okdeer.jxc.common.enums.IsReference;
+import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.common.utils.OrderNoUtils;
 import com.okdeer.jxc.common.utils.UUIDHexGenerator;
@@ -181,7 +182,8 @@ public class OrderEdiInController {
 					}
 				}
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
+			LOG.error("==============================【调试】物流EDI导入失败：{}", e);
 			if (result.isEmpty()) {
 				return RespJson.error("导入失败。");
 			} else {
@@ -208,7 +210,7 @@ public class OrderEdiInController {
 			List<ImportEntity> xlsList = ExcelReaderUtil.readXls(is, 2, 0, KASA_DI_INDEX, MAPPING_DI_FIELDS,
 					new ImportEntity());
 			saveDiForm(xlsList, result);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			result.add(file.getOriginalFilename() + "导入失败。");
 			LOG.error("{}导入失败。", file.getOriginalFilename());
 		}
@@ -231,7 +233,7 @@ public class OrderEdiInController {
 			List<ImportEntity> xlsList = ExcelReaderUtil.readXlsx(is, 1, 0, STD_DI_INDEX, STD_MAPPING_DI_FIELDS,
 					new ImportEntity());
 			saveDiForm(xlsList, result);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			result.add(file.getOriginalFilename() + "导入失败。");
 			LOG.error("{}导入失败。", file.getOriginalFilename());
 		}
@@ -246,7 +248,7 @@ public class OrderEdiInController {
 	 * @author zhangq
 	 * @date 2017年9月5日
 	 */
-	private void savePiFormStd(MultipartFile file, Set<String> result) throws IOException {
+	private void savePiFormStd(MultipartFile file, Set<String> result) throws Exception {
 		try {
 			// 文件流
 			InputStream is = file.getInputStream();
@@ -255,7 +257,7 @@ public class OrderEdiInController {
 					new ImportEntity());
 			// 保存采购入库单
 			savePiForm(xlsList, result);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			result.add(file.getOriginalFilename() + "导入失败。");
 			LOG.error("{}导入失败。", file.getOriginalFilename());
 		}
@@ -270,7 +272,7 @@ public class OrderEdiInController {
 	 * @author zhangq
 	 * @date 2017年9月5日
 	 */
-	private void saveDoFormStd(MultipartFile file, Set<String> result) throws IOException {
+	private void saveDoFormStd(MultipartFile file, Set<String> result) throws Exception {
 		try {
 			// 文件流
 			InputStream is = file.getInputStream();
@@ -279,7 +281,7 @@ public class OrderEdiInController {
 					new ImportEntity());
 			// 保存配送出库单
 			saveDoForm(xlsList, result);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			result.add(file.getOriginalFilename() + "导入失败。");
 			LOG.error("{}导入失败。", file.getOriginalFilename());
 		}
@@ -301,7 +303,7 @@ public class OrderEdiInController {
 	 * 
 	 * @Description: 保存采购单（卡萨版）
 	 * @param file
-	 * @throws IOException   
+	 * @throws Exception   
 	 * @return void  
 	 * @author zhangq
 	 * @date 2017年8月23日
@@ -315,7 +317,7 @@ public class OrderEdiInController {
 					new ImportEntity());
 			// 保存采购入库单
 			savePiForm(xlsList, result);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			result.add(file.getOriginalFilename() + "导入失败。");
 			LOG.error("{}导入失败。", file.getOriginalFilename());
 		}
@@ -329,7 +331,7 @@ public class OrderEdiInController {
 	 * @author zhangq
 	 * @date 2017年8月23日
 	 */
-	private void saveDoFormKasa(MultipartFile file, Set<String> result) throws IOException {
+	private void saveDoFormKasa(MultipartFile file, Set<String> result) throws Exception {
 		try {
 			// 文件流
 			InputStream is = file.getInputStream();
@@ -337,9 +339,12 @@ public class OrderEdiInController {
 			List<ImportEntity> xlsList = ExcelReaderUtil.readXls(is, 3, 1, KASA_DO_INDEX, MAPPING_FIELDS,
 					new ImportEntity());
 			saveDoForm(xlsList, result);
-		} catch (IOException e) {
+		} catch (BusinessException e) {
+			LOG.error("==============================【调试】BusinessException 物流EDI导入失败：{}", e);
+		} catch (Exception e) {
 			result.add(file.getOriginalFilename() + "导入失败。");
-			LOG.error("{}导入失败。", file.getOriginalFilename());
+			LOG.error("{}Exception导入失败。", file.getOriginalFilename());
+			LOG.error("{}Exception失败原因。", e);
 		}
 	}
 
@@ -438,7 +443,7 @@ public class OrderEdiInController {
 			if (CollectionUtils.isEmpty(daDetailList)) {
 				continue;
 			}
-			List<GoodsSkuVo> goodsSkuVos = new ArrayList<>();
+			
 			// 要货申请单明细按“货号_是否赠品”转换为map，方便查询
 			Map<String, DeliverFormList> daDetailMap = new HashMap<String, DeliverFormList>();
 			for (DeliverFormList detail : daDetailList) {
@@ -448,12 +453,8 @@ public class OrderEdiInController {
 				Integer isGift = Integer.valueOf(detail.getIsGift());
 				// KEY：货号_是否赠品，VALUE：采购申请单明细
 				daDetailMap.put(skuCode + "_" + isGift, detail);
-				GoodsSkuVo gsVo = new GoodsSkuVo();
-				gsVo.setId(detail.getSkuId());
-				goodsSkuVos.add(gsVo);
 			}
-			// 重新按出库单配置获取商品配送价格
-			setDoFormDetailPrice(daForm, goodsSkuVos, daDetailList);
+			
 			// 配送出库单
 			DeliverFormVo doForm = createDeliverForm(daForm, FormType.DO.name());
 			// 配送出库单明细
@@ -493,6 +494,18 @@ public class OrderEdiInController {
 					}
 				}
 			}
+			// 重新按出库单配置获取商品配送价格
+			List<GoodsSkuVo> goodsSkuVos = new ArrayList<>();
+			for (DeliverFormListVo deliverFormListVo : detailList) {
+				GoodsSkuVo gsVo = new GoodsSkuVo();
+				gsVo.setId(deliverFormListVo.getSkuId());
+				gsVo.setSkuCode(deliverFormListVo.getSkuCode());
+				goodsSkuVos.add(gsVo);
+			}
+			if (!setDoFormDetailPrice(daForm, goodsSkuVos, detailList,result)) {
+				return;
+			}
+			
 			doForm.setTotalNum(totalNum);
 			doForm.setAmount(amount);
 			doForm.setDeliverFormListVo(detailList);
@@ -626,8 +639,8 @@ public class OrderEdiInController {
 	 * @author xuyq
 	 * @date 2017年9月27日
 	 */
-	private void setDoFormDetailPrice(DeliverForm daForm, List<GoodsSkuVo> goodsSkuVos,
-			List<DeliverFormList> daDetailList) {
+	private boolean setDoFormDetailPrice(DeliverForm daForm, List<GoodsSkuVo> goodsSkuVos,
+			List<DeliverFormListVo> daDetailList,Set<String> result) {
 		GoodsStockVo goodsStockVos = new GoodsStockVo();
 		goodsStockVos.setBranchId(daForm.getSourceBranchId());
 		goodsStockVos.setStockBranchId(daForm.getTargetBranchId());
@@ -636,19 +649,37 @@ public class OrderEdiInController {
 		goodsStockVos.setGoodsSkuVo(goodsSkuVos);
 		List<GoodsSelect> goodsList = goodsSelectServiceApi.queryByBrancheAndSkuIdsToDo(goodsStockVos);
 		if (CollectionUtils.isEmpty(goodsList)) {
-			return;
+			StringBuffer buffer = new StringBuffer();
+			for (GoodsSkuVo goodsSkuVo : goodsSkuVos) {
+				buffer.append(goodsSkuVo.getSkuCode()+",");
+			}
+			result.add("商品货号为:" + buffer.toString() + "商品配送价格获取失败!");
+			return false;
 		}
 		Map<String, GoodsSelect> goodsMap = new HashMap<>();
 		for (GoodsSelect goods : goodsList) {
 			goodsMap.put(goods.getSkuId(), goods);
 		}
-		if (goodsMap.size() == 0) {
-			return;
-		}
 		// 替换价格
-		for (DeliverFormList detail : daDetailList) {
-			detail.setPrice(goodsMap.get(detail.getSkuId()).getDistributionPrice());
+		StringBuffer error = new StringBuffer();
+		for (DeliverFormListVo detail : daDetailList) {
+			if (goodsMap.get(detail.getSkuId()) == null) {
+				error.append(detail.getSkuCode() + ",");
+				continue;
+			} else {
+				// 不是赠品的赋值
+				if (IsGiftEnum.NO.getIndex().equals(detail.getIsGift())) {
+					detail.setPrice(goodsMap.get(detail.getSkuId()).getDistributionPrice());
+				} else {
+					detail.setPrice(BigDecimal.ZERO);
+				}
+			}
 		}
+		if (error.length() > 0) {
+			result.add("<font color='red'>配送出库单【" + daForm.getFormNo() + "】导入失败，失败原因商品货号为:" + error.toString() + "的商品查询不到配送价格</font></br>");
+			return false;
+		}
+		return true;
 	}
 
 	/**
