@@ -394,6 +394,7 @@ function updateListData(data){
 	}
 //停购（type：0）、停售（type：1）、淘汰（type：2）、恢复（type：3）
 function update(type,obj){
+	var branchId = $("#branchId").val();
 	if($(obj).hasClass('ubtns-item-disabled'))return;
 	var rows = $('#goodsStatus').datagrid('getChecked');
 	if(rows.length == 0){
@@ -422,7 +423,8 @@ function update(type,obj){
 		    	url:contextPath+"/goods/status/updateGoodsStatus",
 		    	data:{
 		    		ids:ids,
-		    		type:type
+		    		type:type,
+		    		branchId:branchId
 		    	}
 		    },function(result){
 	    		
