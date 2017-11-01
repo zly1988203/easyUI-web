@@ -171,11 +171,6 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 			// 要货单商品资料查询、价格查询
 			if (FormType.DA.name().equals(vo.getFormType()) || FormType.DD.name().equals(vo.getFormType())
 					|| FormType.DY.name().equals(vo.getFormType())) {
-			    // 0正常1停售2停购3淘汰
-			    vo.setStatusList(Arrays.asList(0,1));
-			    if(FormType.DD.name().equals(vo.getFormType())){
-			        vo.setStatusList(Arrays.asList(0,1,2));
-			    }
 				PageUtils<GoodsSelect> goodsSelects = goodsSelectServiceApi.getGoodsListDA(vo);
 				return replaceBarCode(goodsSelects, vo);
 			}
@@ -361,12 +356,6 @@ public class GoodsSelectController extends BaseController<GoodsSelectController>
 				vo.setFormType(type);
 				vo.setStatusList(paramVo.getStatusList());
 				PageUtils<GoodsSelect> goodsSelects = PageUtils.emptyPage();
-                // 0正常1停售2停购3淘汰
-                if (FormType.DA.name().equals(vo.getFormType()) || FormType.DY.name().equals(vo.getFormType())) {
-                    vo.setStatusList(Arrays.asList(0,1));
-                } else {
-                    vo.setStatusList(Arrays.asList(0, 1, 2));
-                }
 				if (FormType.DR.name().equals(type)) {
 					goodsSelects = goodsSelectServiceApi.getGoodsListDR(vo);
 				} else {
