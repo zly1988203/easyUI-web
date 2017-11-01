@@ -309,14 +309,14 @@ public class GoodsStatusController extends BaseController<GoodsStatusController>
 	 */
 	@RequestMapping(value = "updateGoodsStatus")
 	@ResponseBody
-	public RespJson updateGoodsStatus(String ids,Integer type){
+	public RespJson updateGoodsStatus(String ids,Integer type,String branchId){
 		RespJson respJson = RespJson.success();
 		try {
 			if(StringUtils.isBlank(ids)){
 				return RespJson.error("未选择店铺商品");
 			}
 			String[] idArray = ids.split(",");
-			return goodsStatusService.updateGoodsStatus(Arrays.asList(idArray), type, UserUtil.getCurrBranchType(), super.getCurrUserId());
+			return goodsStatusService.updateGoodsStatus(Arrays.asList(idArray), type, branchId, super.getCurrUserId());
 		} catch (Exception e) {
 			respJson = RespJson.error("更新店铺商品状态异常");
 			LOG.error("更新店铺商品状态异常:", e);
