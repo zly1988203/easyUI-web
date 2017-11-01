@@ -1,8 +1,8 @@
 /** 
  *@Project: okdeer-jxc-web 
  *@Author: zhangchm
- *@Date: 2017年6月6日 
- *@Copyright: ©2014-2020 www.yschome.com Inc. All rights reserved. 
+ *@Date: 2017年6月6日
+ *@Copyright: ©2014-2020 www.yschome.com Inc. All rights reserved.
  */
 package com.okdeer.jxc.controller.report.branch;
 
@@ -33,6 +33,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Supplier;
 
 /**
  * ClassName: BranchGoodsSaleReportController 
@@ -55,6 +60,9 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
 	
 	@Reference(version = "1.0.0", check = false)
 	BranchGoodsSaleReportApi branchGoodsSaleReportApi;
+
+	ExecutorService excutor = Executors.newFixedThreadPool(20);
+
 	/**
 	 * @Description: 跳转分公司商品查询分析页面
 	 * @param model
@@ -101,6 +109,9 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
 				return PageUtils.emptyPage();
 			}
 			PageUtils<BranchGoodsSaleReportVo> bgsReportPage = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo);
+			List<BranchGoodsSaleReportVo> footer = new ArrayList<>();
+			footer.add(branchGoodsSaleReportApi.queryBranchGoodsSaleReportSum(qo));
+			bgsReportPage.setFooter(footer);
 			// 过滤数据权限字段
             cleanAccessData(bgsReportPage);
 			return bgsReportPage;
@@ -138,7 +149,7 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
 
             //PageUtils<BranchGoodsSaleReportVo> pageList = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo);
             List<BranchGoodsSaleReportVo> list = queryListPartition(qo);
-            list.add(branchGoodsSaleReportApi.queryBranchGoodsSaleReportSum(qo));
+			//list.add(branchGoodsSaleReportApi.queryBranchGoodsSaleReportSum(qo));
 
             if (CollectionUtils.isNotEmpty(list)) {
                 // 过滤数据权限字段
@@ -160,44 +171,43 @@ public class BranchGoodsSaleReportController extends BaseController<GoodsReportC
 
 
     /**
-     * 把导出的请求分成多次，一次请求1000条数据
-     *
-     * @param qo
-     * @return
-     */
-    private List<BranchGoodsSaleReportVo> queryListPartition(GoodsReportQo qo) {
-        List<BranchGoodsSaleReportVo> voList = new ArrayList<>();
-        int startCount = limitStartCount(qo.getStartCount());
-        int endCount = limitEndCount(qo.getEndCount());
+	 * 把导出的请求分成多次，一次请求2000条数据
+	 *
+	 * @param qo
+	 * @return
+	 */
+	private List<BranchGoodsSaleReportVo> queryListPartition(GoodsReportQo qo) throws ExecutionException, InterruptedException {
+		int startCount = limitStartCount(qo.getStartCount());
+		int endCount = limitEndCount(qo.getEndCount());
 
         LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出startCount和endCount参数：{}, {}", startCount, endCount);
 
-        int resIndex = (int) (endCount / 1000);
-        int modIndex = endCount % 1000;
-        LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出resIndex和modIndex参数：{}, {}", resIndex, modIndex);
-        if (resIndex > 0) {
-            for (int i = 0; i < resIndex; i++) {
-                int newStart = (i * 1000) + startCount;
-                qo.setStartCount(newStart);
-                qo.setEndCount(1000);
-                LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport for商品库存导出i、startCount、endCount参数：{}, {}, {}", i, newStart, 1000);
-                List<BranchGoodsSaleReportVo> tempList = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo).getList();
-                voList.addAll(tempList);
-            }
-            if (modIndex > 0) {
-                int newStart = (resIndex * 1000) + startCount;
-                int newEnd = modIndex;
-                qo.setStartCount(newStart);
-                qo.setEndCount(newEnd);
-                LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出mod、startCount、endCount参数:{}, {}", newStart, newEnd);
-                List<BranchGoodsSaleReportVo> tempList = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo).getList();
-                voList.addAll(tempList);
-            }
-        } else {
-            List<BranchGoodsSaleReportVo> tempList = branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo).getList();
-            LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出不超过:{}", 1000);
-            voList.addAll(tempList);
-        }
-        return voList;
-    }
+		int resIndex = (endCount / 5000);
+		int modIndex = endCount % 5000;
+		LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出resIndex和modIndex参数：{}, {}", resIndex, modIndex);
+		CompletableFuture<List<BranchGoodsSaleReportVo>> future = null;
+
+		if (resIndex > 0) {
+			for (int i = 0; i < resIndex; i++) {
+				int newStart = (i * 5000) + startCount;
+				qo.setStartCount(newStart);
+				qo.setEndCount(5000);
+				LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport for商品库存导出i、startCount、endCount参数：{}, {}, {}", i, newStart, 5000);
+				future = CompletableFuture.supplyAsync((Supplier<List<BranchGoodsSaleReportVo>>) branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo)::getList, excutor);
+			}
+			if (modIndex > 0) {
+				int newStart = (resIndex * 5000) + startCount;
+				int newEnd = modIndex;
+				qo.setStartCount(newStart);
+				qo.setEndCount(newEnd);
+				LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出mod、startCount、endCount参数:{}, {}", newStart, newEnd);
+				future = CompletableFuture.supplyAsync((Supplier<List<BranchGoodsSaleReportVo>>) branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo)::getList, excutor);
+			}
+		} else {
+			LOG.info("BranchGoodsSaleReportController.queryBranchGoodsSaleReport商品库存导出不超过:{}", 5000);
+			future = CompletableFuture.supplyAsync((Supplier<List<BranchGoodsSaleReportVo>>) branchGoodsSaleReportApi.queryBranchGoodsSaleReport(qo)::getList, excutor);
+		}
+		return future.get();
+
+	}
 }
