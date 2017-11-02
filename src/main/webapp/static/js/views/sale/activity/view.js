@@ -508,7 +508,7 @@ function initDatagridmmsGOOD(){
     $("#mmsgoodList").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
         fitColumns:true,    // 每列占满
         fit:true, //占满
@@ -563,7 +563,7 @@ function initDatagridmmjComLB(activityId){
       align:'center',
       url:contextPath+"/sale/activity/getDetailFullGive?activityId="+activityId,
       // toolbar: '#tb', //工具栏 id为tb
-      singleSelect:false,  // 单选 false多选
+      singleSelect:true,  // 单选 false多选
       rownumbers:true,    // 序号
       //fitColumns:false,    // 每列占满
       fit:true, //占满
@@ -592,7 +592,7 @@ function initDatagridmmjComLG(activityId){
       align:'center',
       url:contextPath+"/sale/activity/getDetailFullGive?activityId="+activityId,
       // toolbar: '#tb', //工具栏 id为tb
-      singleSelect:false,  // 单选 false多选
+      singleSelect:true,  // 单选 false多选
       rownumbers:true,    // 序号
       //fitColumns:false,    // 每列占满
       fit:true, //占满
@@ -682,7 +682,7 @@ function initDatagridSpecial(){
     datagridObj = $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
 //        pagination:true,    // 分页
         fitColumns:true,    // 每列占满
@@ -760,7 +760,7 @@ function initDatagridallZk(){
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
         fitColumns:true,    // 每列占满
         // fit:true, //占满
@@ -822,7 +822,7 @@ function initDatagridsortZk(){
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
 //        pagination:true,    // 分页
         fitColumns:true,    // 每列占满
@@ -884,7 +884,7 @@ function initDatagridoneZk(){
    $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
 //        pagination:true,    // 分页
         fitColumns:true,    // 每列占满
@@ -965,7 +965,7 @@ function initDatagridOddtj(){
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
 //        pagination:true,    // 分页
         fitColumns:true,    // 每列占满
@@ -1044,7 +1044,7 @@ function initDatagridRedemption(){
   $("#saleMangeadd").datagrid({
       align:'center',
       // toolbar: '#tb', //工具栏 id为tb
-      singleSelect:false,  // 单选 false多选
+      singleSelect:true,  // 单选 false多选
       rownumbers:true,    // 序号
 //      pagination:true,    // 分页
       fitColumns:true,    // 每列占满
@@ -1108,7 +1108,7 @@ function initDatagridallMj(){
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
 //        pagination:true,    // 分页
         fitColumns:true,    // 每列占满
@@ -1150,7 +1150,7 @@ function initDatagridsortMj(){
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
 //        pagination:true,    // 分页
         fitColumns:true,    // 每列占满
@@ -1178,7 +1178,7 @@ function initDatagridsortSet(){
     $("#salesetmj").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
 //        pagination:true,    // 分页
         fitColumns:true,    // 每列占满
@@ -1248,7 +1248,7 @@ function initDatagridshopMj(){
   $("#saleMangeadd").datagrid({
       align:'center',
       // toolbar: '#tb', //工具栏 id为tb
-      singleSelect:false,  // 单选 false多选
+      singleSelect:true,  // 单选 false多选
       rownumbers:true,    // 序号
 //      pagination:true,    // 分页
       fitColumns:true,    // 每列占满
@@ -1306,7 +1306,7 @@ function initDatagridCompose(){
   $("#saleMangeadd").datagrid({
       align:'center',
       // toolbar: '#tb', //工具栏 id为tb
-      singleSelect:false,  // 单选 false多选
+      singleSelect:true,  // 单选 false多选
       rownumbers:true,    // 序号
 //      pagination:true,    // 分页
       fitColumns:true,    // 每列占满

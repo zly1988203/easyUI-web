@@ -90,7 +90,9 @@ $(function(){
 		
 		//获取机构设置信息
 		if(!$('#refFormNo').val() && $('#branchId').val()){
-			getBranchSetting();
+			getBranchSetting(function () {
+                
+            });
 		}
 		
 	}else if(directStatus === '1'){
@@ -166,13 +168,12 @@ function initDirectDataGrid(){
        method:'post',
    	   url:url,
        align:'center',
-       singleSelect:false,  // 单选 false多选
+       singleSelect:true,  // 单选 false多选
        rownumbers:true,    // 序号
        showFooter:true,
        height:'100%',
        width:'100%',
           columns:[[
-			{field:'ck',checkbox:true,hidden:isdisabled},
 			{field:'cz',title:'操作',width:'60px',align:'center',hidden:isdisabled,
 			    formatter : function(value, row,index) {
 			        var str = "";
@@ -1070,7 +1071,12 @@ function selectBranch(){
 			$('#saleWayName').val('');
 			
 			//获取机构设置
-			getBranchSetting()
+			getBranchSetting(function () {
+                // 是否自动加载商品
+                if($("#cascadeGoods").val() == 'true' && $("#supplierId").val() != ""){
+                    queryGoodsList();
+                }
+            })
 			
 			gridHandel.setLoadData([$.extend({},gridDefault)]);
 		},
@@ -1094,7 +1100,7 @@ function selectBranch(){
 }
 
 //获取机构设置
-function getBranchSetting(){
+function getBranchSetting(callback){
 	$_jxc.ajax({
 		url : contextPath + "/branchSetting/getBranchSettingByBranchId",
 		type: "POST",
@@ -1106,10 +1112,8 @@ function getBranchSetting(){
 			isAllowPmRefPa = result.data&&result.data.isAllowPmRefPa;
 			//允许直送收货单不引用单据收货参数 
 			checkIsAllowPmRefPa(result.data&&result.data.isAllowPmRefPa);
-			// 是否自动加载商品
-            if($("#cascadeGoods").val() == 'true' && $("#supplierId").val() != ""){
-                queryGoodsList();
-            }
+            callback();
+
 		}else{
 			isAllowPmRefPa = 0;
 			//允许直送收货单不引用单据收货参数 

@@ -520,7 +520,7 @@ function initDatagridmmjComLB(){
     $("#mmscommonList").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
         fitColumns:true,    // 每列占满
         fit:true, //占满
@@ -529,7 +529,6 @@ function initDatagridmmjComLB(){
 		pageSize:50,
 		width:'100%',
 		columns:[[
-					{field:'ck',checkbox:true},
 					{field:'cz',title:'操作',width:'60px',align:'center',
 					    formatter : function(value, row,index) {
 					        var str = "";
@@ -583,7 +582,7 @@ function initDatagridmmjComLG(){
     $("#mmscommonList").datagrid({
       align:'center',
       // toolbar: '#tb', //工具栏 id为tb
-      singleSelect:false,  // 单选 false多选
+      singleSelect:true,  // 单选 false多选
       rownumbers:true,    // 序号
       fitColumns:true,    // 每列占满
       fit:true, //占满
@@ -591,7 +590,6 @@ function initDatagridmmjComLG(){
 		pageSize:50,
 		width:'100%',
 		columns:[[
-                  {field:'ck',checkbox:true},
                   {field:'cz',title:'操作',width:'60px',align:'center',
 					    formatter : function(value, row,index) {
 					        var str = "";
@@ -685,7 +683,6 @@ function initDatagridmmsTJ(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-        			{field:'ck',checkbox:true},
 					{field:'cz',title:'操作',width:'60px',align:'center',
 					    formatter : function(value, row,index) {
 					        var str = "";
@@ -805,7 +802,7 @@ function initDatagridmmsGOOD(){
     $("#mmsgoodList").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
         fitColumns:true,    // 每列占满
         fit:true, //占满
@@ -814,7 +811,6 @@ function initDatagridmmsGOOD(){
 //		pageSize:50,
 		width:'100%',
         columns:[[
-                    {field:'ck',checkbox:true},
                     {field:'cz',title:'操作',width:'60px',align:'center',
 					    formatter : function(value, row,index) {
 					        var str = "";
@@ -1216,7 +1212,7 @@ function initDatagridSpecial(){
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
         fitColumns:true,    // 每列占满
         // fit:true, //占满
@@ -1225,7 +1221,6 @@ function initDatagridSpecial(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-					{field:'ck',checkbox:true},
 					{field:'cz',title:'操作',width:'60px',align:'center',
 					    formatter : function(value, row,index) {
 					        var str = "";
@@ -1376,9 +1371,11 @@ function initDatagridSpecial(){
 		},
 		
       onLoadSuccess:function(data){
-			gridHandel.setDatagridHeader("center");
+
 	  }
     });
+
+    gridHandel.setDatagridHeader("center");
     if(hasPurchasePrice==false){
         priceGrantUtil.grantPurchasePrice("saleMangeadd",["purchasePrice","oldSaleRate","newSaleRate"])
     }
@@ -1408,7 +1405,7 @@ function initDatagridsortZk(){
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
         fitColumns:true,    // 每列占满
         // fit:true, //占满
@@ -1417,7 +1414,6 @@ function initDatagridsortZk(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-					{field:'ck',checkbox:true},
 					{field:'cz',title:'操作',width:'60px',align:'center',
 					    formatter : function(value, row,index) {
 					        var str = "";
@@ -1472,7 +1468,7 @@ function initDatagridallZk(){
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
         fitColumns:true,    // 每列占满
         // fit:true, //占满
@@ -1542,7 +1538,7 @@ function initDatagridoneZk(){
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
         fitColumns:true,    // 每列占满
         // fit:true, //占满
@@ -1551,7 +1547,6 @@ function initDatagridoneZk(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-			{field:'ck',checkbox:true},
 			{field:'cz',title:'操作',width:'60px',align:'center',
 			    formatter : function(value, row,index) {
 			        var str = "";
@@ -1715,7 +1710,7 @@ function initDatagridOddtj(){
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
         fitColumns:true,    // 每列占满
         // fit:true, //占满
@@ -1724,7 +1719,6 @@ function initDatagridOddtj(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-			{field:'ck',checkbox:true},
 			{field:'cz',title:'操作',width:'60px',align:'center',
 			    formatter : function(value, row,index) {
 			        var str = "";
@@ -1895,7 +1889,7 @@ function initDatagridRedemption(){
   $("#saleMangeadd").datagrid({
       align:'center',
       // toolbar: '#tb', //工具栏 id为tb
-      singleSelect:false,  // 单选 false多选
+      singleSelect:true,  // 单选 false多选
       rownumbers:true,    // 序号
       fitColumns:true,    // 每列占满
       // fit:true, //占满
@@ -1904,7 +1898,6 @@ function initDatagridRedemption(){
 		pageSize:50,
 		width:'100%',
       columns:[[
-			{field:'ck',checkbox:true},
 			{field:'cz',title:'操作',width:'60px',align:'center',
 			    formatter : function(value, row,index) {
 			        var str = "";
@@ -2001,7 +1994,7 @@ function initDatagridallMj(){
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
         fitColumns:true,    // 每列占满
         // fit:true, //占满
@@ -2010,7 +2003,6 @@ function initDatagridallMj(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-					{field:'ck',checkbox:true},
 					{field:'cz',title:'操作',width:'60px',align:'center',
 					    formatter : function(value, row,index) {
 					        var str = "";
@@ -2080,7 +2072,7 @@ function initDatagridsortMj(){
     $("#saleMangeadd").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
         fitColumns:true,    // 每列占满
         // fit:true, //占满
@@ -2089,7 +2081,6 @@ function initDatagridsortMj(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-					{field:'ck',checkbox:true},
 					{field:'cz',title:'操作',width:'60px',align:'center',
 					    formatter : function(value, row,index) {
 					        var str = "";
@@ -2129,7 +2120,7 @@ function initDatagridsortSet(){
     $("#salesetmj").datagrid({
         align:'center',
         // toolbar: '#tb', //工具栏 id为tb
-        singleSelect:false,  // 单选 false多选
+        singleSelect:true,  // 单选 false多选
         rownumbers:true,    // 序号
         fitColumns:true,    // 每列占满
         // fit:true, //占满
@@ -2138,7 +2129,6 @@ function initDatagridsortSet(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-					{field:'ck',checkbox:true},
 					{field:'cz',title:'操作',width:'60px',align:'center',
 					    formatter : function(value, row,index) {
 					        var str = "";
@@ -2208,7 +2198,7 @@ function initDatagridshopMj(){
   $("#saleMangeadd").datagrid({
       align:'center',
       // toolbar: '#tb', //工具栏 id为tb
-      singleSelect:false,  // 单选 false多选
+      singleSelect:true,  // 单选 false多选
       rownumbers:true,    // 序号
       fitColumns:true,    // 每列占满
       // fit:true, //占满
@@ -2217,7 +2207,6 @@ function initDatagridshopMj(){
 		pageSize:50,
 		width:'100%',
       columns:[[
-			{field:'ck',checkbox:true},
 			{field:'cz',title:'操作',width:'60px',align:'center',
 			    formatter : function(value, row,index) {
 			        var str = "";
@@ -2288,7 +2277,7 @@ function initDatagridCompose(){
   $("#saleMangeadd").datagrid({
       align:'center',
       // toolbar: '#tb', //工具栏 id为tb
-      singleSelect:false,  // 单选 false多选
+      singleSelect:true,  // 单选 false多选
       rownumbers:true,    // 序号
       fitColumns:true,    // 每列占满
       // fit:true, //占满
@@ -2297,7 +2286,6 @@ function initDatagridCompose(){
 		pageSize:50,
 		width:'100%',
       columns:[[
-			{field:'ck',checkbox:true},
 			{field:'cz',title:'操作',width:'60px',align:'center',
 			    formatter : function(value, row,index) {
 			        var str = "";
@@ -2399,6 +2387,19 @@ function initDatagridCompose(){
               },
           },*/
         ]],
+      onBeforeEdit:function (rowIndex, rowData) {
+          editRowData = $.extend(true,{},rowData);
+      },
+      onAfterEdit:function(rowIndex, rowData, changes){
+          if(typeof(rowData.id) === 'undefined'){
+              // $("#"+gridName).datagrid('acceptChanges');
+          }else{
+              if(editRowData.skuCode != changes.skuCode){
+                  rowData.skuCode = editRowData.skuCode;
+                  gridHandel.setFieldTextValue('skuCode',editRowData.skuCode);
+              }
+          }
+      },
 		onClickCell : function(rowIndex, field, value) {
 			gridHandel.setBeginRow(rowIndex);
 			gridHandel.setSelectFieldName(field);
