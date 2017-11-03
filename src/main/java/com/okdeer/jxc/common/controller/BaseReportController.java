@@ -1,18 +1,7 @@
 
 package com.okdeer.jxc.common.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import com.google.common.collect.Lists;
 import com.okdeer.jxc.common.result.RespJson;
 import com.okdeer.jxc.controller.BaseController;
 import com.okdeer.jxc.utils.PriceGrantUtil;
@@ -21,8 +10,20 @@ import com.okdeer.retail.common.price.DataAccessParser;
 import com.okdeer.retail.common.util.GridExportPrintUtils;
 import com.okdeer.retail.facade.report.facade.BaseReportFacade;
 import com.okdeer.retail.facade.report.qo.BaseReportQo;
-
 import net.sf.json.JSONObject;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 
@@ -42,6 +43,9 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 	 * @Fields MAX_REPORT_TYPE : 报表最大分类查询类型数
 	 */
 	public static String MAX_REPORT_TYPE="maxReportType";
+
+	ExecutorService excutor = Executors.newFixedThreadPool(20);
+
 	/**
 	 * 
 	 * @Description: 获取跳转路径
@@ -176,8 +180,7 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 		try {
 			getQueryObject(qo);
 			//查询合计
-			V total=getReportFade().queryListTotal(qo);
-			
+			CompletableFuture<V> totalFuture = CompletableFuture.supplyAsync(() -> getReportFade().queryListTotal(qo), excutor);
 			// 导出的数据列表
 			List<V> exportList = new ArrayList<V>();
 			
@@ -190,14 +193,18 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 			int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
 			// 余数，按2K拆分后，剩余的数据
 			int modIndex = endCount % LIMIT_REQ_COUNT;
-			
+
+			List<CompletableFuture<List<V>>> futureList = Lists.newArrayList();
+
 			// 每2K条数据一次查询
 			for(int i = 0; i < resIndex; i++){
 				int newStart = (i * LIMIT_REQ_COUNT) + startCount;
 				qo.setStartCount(newStart);
 				qo.setEndCount(LIMIT_REQ_COUNT);
-				List<V> tempList = getReportFade().queryList(qo);
-				exportList.addAll(tempList);
+				//List<V> tempList = getReportFade().queryList(qo);
+				//exportList.addAll(tempList);
+				CompletableFuture<List<V>> future = CompletableFuture.supplyAsync(() -> getReportFade().queryList(qo), excutor);
+				futureList.add(future);
 			}
 			
 			// 存在余数时，查询剩余的数据
@@ -206,12 +213,22 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 				int newEnd = modIndex;
 				qo.setStartCount(newStart);
 				qo.setEndCount(newEnd);
-				List<V> tempList = getReportFade().queryList(qo);
-				exportList.addAll(tempList);
+				//List<V> tempList = getReportFade().queryList(qo);
+				//exportList.addAll(tempList);
+				CompletableFuture<List<V>> future = CompletableFuture.supplyAsync(() -> getReportFade().queryList(qo), excutor);
+				futureList.add(future);
 			}
-			
-			
-			exportList.add(total);
+
+
+			futureList.stream().forEach((future) -> {
+				try {
+					exportList.addAll(future.get());
+				} catch (Exception e) {
+					LOG.error("遍历获取异步数据异常", e);
+				}
+			});
+
+			exportList.add(totalFuture.get());
 			// 无权限访问的字段
 			Set<String> forbiddenSets = PriceGrantUtil.getNoPriceGrantSets();
 			DataAccessParser parser = new DataAccessParser(getViewObjectClass(), forbiddenSets);
