@@ -77,7 +77,6 @@
 				            <option value="WZF">微支付</option>
 				            <option value="YQB">云钱包</option>
 				            <option value="DJQ">代金券</option>
-				            <option value="OFFDJQ">线下代金券</option>
 				            <option value="YFQ">运费代金券</option>
 				            <option value="PDF">平台垫付</option>
 				            <option value="PBT">平台补贴</option>
@@ -101,7 +100,7 @@
 				            <option value="2">POS订单</option>
 				            <option value="3">扫码购</option>
 							<option value="4">会员自助</option>
-							<option value="5">微信扫码购</option>
+							<option value="5">小程序</option>
 				        </select>
                 </div>
                 <div class="ub ub-ac umar-l20">

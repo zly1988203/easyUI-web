@@ -121,9 +121,6 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 
 		LOG.debug("UserController.exportList start ,parameter vo=" + qo);
 		try {
-			//查询合计
-			SaleFlowReportVo saleFlowReportVo = saleFlowReportService.querySaleFlowReportSum(qo);
-			
 			qo.setPageNumber(Constant.ONE);
 			qo.setPageSize(Constant.MAX_EXPORT_NUM);
 			// 设置默认查询条件参数
@@ -131,6 +128,7 @@ public class SaleFlowReportController extends BaseController<SaleFlowReportContr
 			// 1、查询列表
 			
 			//查询合计
+			SaleFlowReportVo saleFlowReportVo = saleFlowReportService.querySaleFlowReportSum(qo);
 			
 			// 导出的数据列表
 			List<SaleFlowReportVo> exportList = new ArrayList<SaleFlowReportVo>();

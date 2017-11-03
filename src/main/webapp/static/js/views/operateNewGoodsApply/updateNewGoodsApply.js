@@ -67,7 +67,8 @@ function getMemoryCode(){
 	var reqObj = {"skuName":$("#skuName").val()};
 	$_jxc.ajax({
 		url:contextPath+"/goods/operateNewGoodsApply/getMemoryCode",
-		data:reqObj
+		data:reqObj,
+		dataType:'text'
 	},function(result){
 		$("#memoryCode").val(result); //助记码
 	});
@@ -102,56 +103,6 @@ function getSkuCodeVal(){
 
 	}
 }
-
-/**
- * 商品自动生成货号
- * pricingType:计价方式
- * categoryCode:商品类别
- */
-function getSkuCode(pricingType,categoryCode){
-	var reqObj = {"pricingType":pricingType,"categoryCode":categoryCode};
-	$_jxc.ajax({
-		url:contextPath+"/goods/operateNewGoodsApply/getSkuCode",
-		data:reqObj
-	},function(result){
-		console.log("货号==",result);
-		$("#skuCode").val(result); //货号
-
-		//计价/计重商品自动生成条码
-		getBarCodeVal(pricingType, result);
-	});
-}
-
-
-//计价/计重商品自动生成条码
-function getBarCodeVal(pricingType, skuCode){
-	//var pricingType = $('#pricingType option:selected').val(); //计价方式
-	//var skuCode = $("#skuCode").val(); //商品货号
-	//计件方式为“普通”，手动输入条码，不自动生成条码
-	if(pricingType == "" || skuCode == "" || pricingType == "ordinary"){
-		$("#barCode").removeAttr("readonly");
-		return false;
-	}else{
-		getBarCode(pricingType,skuCode);
-	}
-}
-
-/**
- * 计价/计重商品自动生成条码
- * pricingType:计价方式
- * skuCode:商品货号
- */
-function getBarCode(pricingType,skuCode){
-	var reqObj = {"pricingType":pricingType,"SkuCode":skuCode};
-	$_jxc.ajax({
-		url:contextPath+"/goods/operateNewGoodsApply/getBarCode",
-		data:reqObj
-	},function(result){
-		console.log("条码==",result);
-		$("#barCode").val(result).attr("readonly","readonly");  //条码
-	});
-}
-
 
 //监听方法
 //商品分类

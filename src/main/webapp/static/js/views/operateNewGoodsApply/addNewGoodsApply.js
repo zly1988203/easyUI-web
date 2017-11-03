@@ -208,66 +208,6 @@ function getSkuCodeVal(){
 	}
 }
 
-/**
- * 商品自动生成货号
- * pricingType:计价方式
- * categoryCode:商品类别
- */
-function getSkuCode(pricingType,categoryCode){
-//	var reqObj = {"pricingType":pricingType,"categoryCode":categoryCode};
-//	$.ajax({
-//		url:contextPath+"/common/goods/getSkuCode",
-//		type:"POST",
-//		data:reqObj,
-//		success:function(result){
-//			console.log("货号==",result);
-//			$("#skuCode").val(result); //货号
-//			//计价/计重商品自动生成条码
-//			getBarCodeVal(pricingType, result);
-//		},
-//		error:function(result){
-//			
-//		}
-//	});
-}
-
-
-//计价/计重商品自动生成条码
-function getBarCodeVal(pricingType, skuCode){
-	//var pricingType = $('#pricingType option:selected').val(); //计价方式
-	//var skuCode = $("#skuCode").val(); //商品货号
-	//计件方式为“普通”，手动输入条码，不自动生成条码
-//	if(pricingType == "" || skuCode == "" || pricingType == "ORDINARY"){
-//		$("#barCode").removeAttr("readonly");
-//		return false;
-//	}else{
-//		getBarCode(pricingType,skuCode);
-//	}
-}
-
-/**
- * 计价/计重商品自动生成条码
- * pricingType:计价方式
- * skuCode:商品货号
- */
-function getBarCode(pricingType,skuCode){
-//	var reqObj = {"pricingType":pricingType,"SkuCode":skuCode};
-//	$.ajax({
-//		url:contextPath+"/common/goods/getBarCode",
-//		type:"POST",
-//		data:reqObj,
-//		success:function(result){
-//			console.log("条码==",result);
-//			//黄江 2016年9月14日11:53:47 待定
-//			//$("#barCode").val(result).attr("readonly","readonly");  //条码
-//		},
-//		error:function(result){
-//			
-//		}
-//	});
-}
-
-
 //监听方法
 //商品分类
 function getGoodsType(){

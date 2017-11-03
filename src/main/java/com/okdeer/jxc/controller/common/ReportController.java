@@ -37,7 +37,7 @@ import com.okdeer.retail.common.report.DataRecord;
 
 /**
  * ClassName: ReportController 
- * @Description: TODO
+ * @Description: ReportController
  * @author xiaoj02
  * @date 2016年10月26日
  *
@@ -46,7 +46,7 @@ import com.okdeer.retail.common.report.DataRecord;
  * ----------------+----------------+-------------------+-------------------------------------------
  *	v1.2.0				2016-10-26		xiaoj02				报表通用controller
  */
-
+@SuppressWarnings("deprecation")
 public abstract class ReportController extends BaseController<T> {
 
 	public abstract ReportService getReportService();
@@ -64,7 +64,8 @@ public abstract class ReportController extends BaseController<T> {
 	@RequestMapping("reportList")
 	@ResponseBody
 	public List<DataRecord> reportList(HttpServletRequest request) {
-		List<DataRecord> list = getReportService().getList(getParam(request));
+		/**List<DataRecord> list = getReportService().getList(getParam(request));*/
+		List<DataRecord> list = queryListPartition(getParam(request));
 		for(DataRecord dataRecord:list){
 			formatter(dataRecord);
 		}
@@ -90,7 +91,8 @@ public abstract class ReportController extends BaseController<T> {
 		String reportFileName = getFileName();
 		String[] headers = getHeaders();
 		String[] columns = getColumns();
-		List<DataRecord> dataList = getReportService().getList(getParam(request));
+		/**List<DataRecord> dataList = getReportService().getList(getParam(request));*/
+		List<DataRecord> dataList = queryListPartition(getParam(request));
 
 		List<JSONObject> jsonList = new ArrayList<JSONObject>();
 		for (DataRecord dataRecord : dataList) {
@@ -105,6 +107,43 @@ public abstract class ReportController extends BaseController<T> {
 		ExcelExportUtil.exportExcel(reportFileName, headers, columns, jsonList, response);
 	}
 
+    public List<DataRecord> queryListPartition(Map<String, Object> param) {
+        List<DataRecord> recordList = new ArrayList<>();
+        int startCount = limitStartCount(Integer.parseInt(String.valueOf(param.get("startCount"))));
+        int endCount = limitEndCount(Integer.parseInt(String.valueOf(param.get("endCount"))));
+
+        LOG.info("ReportController.queryListPartition查询记录数导出startCount和endCount参数：{}, {}", startCount, endCount);
+
+        int resIndex = (int) (endCount / LIMIT_REQ_COUNT);
+        int modIndex = endCount % LIMIT_REQ_COUNT;
+        LOG.info("ReportController.queryListPartition查询记录数导出resIndex和modIndex参数：{}, {}", resIndex, modIndex);
+        if (resIndex > 0) {
+            for (int i = 0; i < resIndex; i++) {
+                int newStart = (i * LIMIT_REQ_COUNT) + startCount;
+                param.put("startCount", newStart);
+                param.put("endCount", LIMIT_REQ_COUNT);
+                LOG.info("ReportController.queryListPartition for查询记录数导出i、startCount、endCount参数：{}, {}, {}", i, newStart,
+                        LIMIT_REQ_COUNT);
+                List<DataRecord> tempList = getReportService().getList(param);
+                recordList.addAll(tempList);
+            }
+            if (modIndex > 0) {
+                int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
+                int newEnd = modIndex;
+                param.put("startCount", newStart);
+                param.put("endCount", LIMIT_REQ_COUNT);
+                LOG.info("ReportController.queryListPartition查询记录数导出mod、startCount、endCount参数:{}, {}", newStart, newEnd);
+                List<DataRecord> tempList = getReportService().getList(param);
+                recordList.addAll(tempList);
+            }
+        } else {
+            List<DataRecord> tempList = getReportService().getList(param);
+            LOG.info("ReportController.queryListPartition查询记录数导出不超过:{}", LIMIT_REQ_COUNT);
+            recordList.addAll(tempList);
+        }
+        return recordList;
+    }
+    
 	public abstract String getFileName();
 
 	public abstract String[] getHeaders();

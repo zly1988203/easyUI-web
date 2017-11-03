@@ -138,19 +138,23 @@ public class UserRealm extends CasRealm {
 	 */
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		AuthenticationInfo info = super.doGetAuthenticationInfo(token);
+		LOG.info("token : " + token + "，info : " + info);
 		try {
 			if (info == null) {
+				LOG.error("token info 为空，请检查token是否存在, token:{}", token);
 				throw new IncorrectCredentialsException("登录账号或密码错误");
 			}
 			// 获取用户中心登录用户
 			String sysUserId = (String) token.getPrincipal();
 			SystemUserDto caUser = sysUserApi.loadSysUser(sysUserId);
 			if (null == caUser) {
+				LOG.error("根据sysUserId:{}找不到对应的系统用户，请检查！", sysUserId);
 				throw new IncorrectCredentialsException("登录账号或密码错误");
 			}
 
 			// 登录账号被禁用
 			if (caUser.getStatus().intValue() == Constant.ONE) {
+				LOG.error("sysUserId:{} 用户登录账号被禁用！", sysUserId);
 				throw new LockedAccountException("登录账号被禁用");
 			}
 
@@ -251,7 +255,6 @@ public class UserRealm extends CasRealm {
 			Set<String> roles = new HashSet<String>();
 			roles.add(role.getRoleCode());
 			info.setRoles(roles);
-			LOG.debug("授权查询回调函数信息：{}", info);
 			return info;
 		} catch (Exception e) {
 			LOG.error("赋予权限出错{}", e);

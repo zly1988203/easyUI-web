@@ -61,7 +61,7 @@ public class QRCodeUtil
 	 */ 
 	private static final int INNER_IMAGE_WIDTH = 50;  
 	private static final int INNER_IMAGE_HEIGHT = 50;  
-	private static final int IMAGE_HALF_WIDTH = INNER_IMAGE_WIDTH / 2;  
+//	private static final int IMAGE_HALF_WIDTH = INNER_IMAGE_WIDTH / 2;  
 	private static final int FRAME_WIDTH = 2;  
 
 	/** 
@@ -295,10 +295,17 @@ public class QRCodeUtil
 			int height, String srcImagePath) throws WriterException,  
 			IOException  
 	{  
+		return genBarcode(content, width, height, srcImagePath, INNER_IMAGE_WIDTH, INNER_IMAGE_HEIGHT);
+	}
+	
+	private static BufferedImage genBarcode(String content, int width,  
+			int height, String srcImagePath,int logoWidth,int logoHeight) throws WriterException,  
+			IOException  
+	{  
 		// 读取源图像  
-		BufferedImage scaleImage = scale(srcImagePath, INNER_IMAGE_WIDTH,  
-				INNER_IMAGE_HEIGHT, true);  
-		int[][] srcPixels = new int[INNER_IMAGE_WIDTH][INNER_IMAGE_HEIGHT];  
+		BufferedImage scaleImage = scale(srcImagePath, logoWidth,  
+				logoHeight, true);  
+		int[][] srcPixels = new int[logoHeight][logoHeight];  
 		for (int i = 0; i < scaleImage.getWidth(); i++)  
 		{  
 			for (int j = 0; j < scaleImage.getHeight(); j++)  
@@ -319,37 +326,38 @@ public class QRCodeUtil
 		int halfW = matrix.getWidth() / 2;  
 		int halfH = matrix.getHeight() / 2;  
 		int[] pixels = new int[width * height];  
-
+		int loginHalfWidth=logoWidth/2;
+		
 		for (int y = 0; y < matrix.getHeight(); y++)  
 		{  
 			for (int x = 0; x < matrix.getWidth(); x++)  
 			{  
 				// 读取图片  
-				if (x > halfW - IMAGE_HALF_WIDTH  
-						&& x < halfW + IMAGE_HALF_WIDTH  
-						&& y > halfH - IMAGE_HALF_WIDTH  
-						&& y < halfH + IMAGE_HALF_WIDTH)  
+				if (x > halfW - loginHalfWidth  
+						&& x < halfW + loginHalfWidth  
+						&& y > halfH - loginHalfWidth  
+						&& y < halfH + loginHalfWidth)  
 				{  
 					pixels[y * width + x] = srcPixels[x - halfW  
-					                                  + IMAGE_HALF_WIDTH][y - halfH + IMAGE_HALF_WIDTH];  
+					                                  + loginHalfWidth][y - halfH + loginHalfWidth];  
 				}  
 				// 在图片四周形成边框  
-				else if ((x > halfW - IMAGE_HALF_WIDTH - FRAME_WIDTH  
-						&& x < halfW - IMAGE_HALF_WIDTH + FRAME_WIDTH  
-						&& y > halfH - IMAGE_HALF_WIDTH - FRAME_WIDTH && y < halfH  
-						+ IMAGE_HALF_WIDTH + FRAME_WIDTH)  
-						|| (x > halfW + IMAGE_HALF_WIDTH - FRAME_WIDTH  
-								&& x < halfW + IMAGE_HALF_WIDTH + FRAME_WIDTH  
-								&& y > halfH - IMAGE_HALF_WIDTH - FRAME_WIDTH && y < halfH  
-								+ IMAGE_HALF_WIDTH + FRAME_WIDTH)  
-								|| (x > halfW - IMAGE_HALF_WIDTH - FRAME_WIDTH  
-										&& x < halfW + IMAGE_HALF_WIDTH + FRAME_WIDTH  
-										&& y > halfH - IMAGE_HALF_WIDTH - FRAME_WIDTH && y < halfH  
-										- IMAGE_HALF_WIDTH + FRAME_WIDTH)  
-										|| (x > halfW - IMAGE_HALF_WIDTH - FRAME_WIDTH  
-												&& x < halfW + IMAGE_HALF_WIDTH + FRAME_WIDTH  
-												&& y > halfH + IMAGE_HALF_WIDTH - FRAME_WIDTH && y < halfH  
-												+ IMAGE_HALF_WIDTH + FRAME_WIDTH))  
+				else if ((x > halfW - loginHalfWidth - FRAME_WIDTH  
+						&& x < halfW - loginHalfWidth + FRAME_WIDTH  
+						&& y > halfH - loginHalfWidth - FRAME_WIDTH && y < halfH  
+						+ loginHalfWidth + FRAME_WIDTH)  
+						|| (x > halfW + loginHalfWidth - FRAME_WIDTH  
+								&& x < halfW + loginHalfWidth + FRAME_WIDTH  
+								&& y > halfH - loginHalfWidth - FRAME_WIDTH && y < halfH  
+								+ loginHalfWidth + FRAME_WIDTH)  
+								|| (x > halfW - loginHalfWidth - FRAME_WIDTH  
+										&& x < halfW + loginHalfWidth + FRAME_WIDTH  
+										&& y > halfH - loginHalfWidth - FRAME_WIDTH && y < halfH  
+										- loginHalfWidth + FRAME_WIDTH)  
+										|| (x > halfW - loginHalfWidth - FRAME_WIDTH  
+												&& x < halfW + loginHalfWidth + FRAME_WIDTH  
+												&& y > halfH + loginHalfWidth - FRAME_WIDTH && y < halfH  
+												+ loginHalfWidth + FRAME_WIDTH))  
 				{  
 					pixels[y * width + x] = 0xfffffff;  
 				} 
@@ -372,6 +380,11 @@ public class QRCodeUtil
 	public static BufferedImage encoderQRCoder(String content,int width,int height) throws WriterException, IOException {  
 		String srcPath ="/template/excel/print/logo3.png";  
 		BufferedImage imsge = genBarcode(content, width, height, srcPath);
+		return imsge;
+	}
+	public static BufferedImage encoderQRCoder(String content,int width,int height,int logoWidth,int logoHeight) throws WriterException, IOException {  
+		String srcPath ="/template/excel/print/logoMax.png";  
+		BufferedImage imsge = genBarcode(content, width, height, srcPath, logoWidth, logoHeight);
 		return imsge;
 	}
 

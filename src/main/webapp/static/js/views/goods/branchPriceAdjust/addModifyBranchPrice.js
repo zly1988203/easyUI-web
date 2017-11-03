@@ -881,22 +881,22 @@ function selectBranch() {
 	},0);
 }
 //导出
-function exportData(){
-	var length = $("#addModifyBranchPriceGrid").datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("没有数据");
-		return;
-	}
-	if(length > exportMaxRow){
-		$_jxc.alert("当次导出数据不可超过"+exportMaxRow+"条，现已超过，请重新调整导出范围！");
-		return;
-	}
-	var formNo=$("#formNoInput").val();
-	$("#searchForm").attr("action",contextPath+'/goods/branchPriceAdjust/exportList?formNo='+formNo);
-	
-	$("#searchForm").submit();	
-
-}
+// function exportData(){
+// 	var length = $("#addModifyBranchPriceGrid").datagrid('getData').total;
+// 	if(length == 0){
+// 		$_jxc.alert("没有数据");
+// 		return;
+// 	}
+// 	if(length > exportMaxRow){
+// 		$_jxc.alert("当次导出数据不可超过"+exportMaxRow+"条，现已超过，请重新调整导出范围！");
+// 		return;
+// 	}
+// 	var formNo=$("#formNoInput").val();
+// 	$("#searchForm").attr("action",contextPath+'/goods/branchPriceAdjust/exportList?formNo='+formNo);
+//
+// 	$("#searchForm").submit();
+//
+// }
 
 //打印
 function printDesign(formNo){

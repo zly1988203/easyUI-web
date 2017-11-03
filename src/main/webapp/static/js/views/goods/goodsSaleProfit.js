@@ -145,32 +145,19 @@ var dg;
  * 导出
  */
 function exportData(){
-	var length = $('#goodsSaleProfit').datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert("无数据可导");
-		return;
-	}
-	$('#exportWin').window({
-		top:($(window).height()-300) * 0.5,   
-	    left:($(window).width()-500) * 0.5
-	});
-	$("#exportWin").show();
-	$("#totalRows").html(dg.datagrid('getData').total);
-	$("#exportWin").window("open");
+    var length = $('#goodsSaleProfit').datagrid('getData').total;
+    if(length == 0){
+        $_jxc.alert("无数据可导");
+        return;
+    }
+    var param = {
+        datagridId:'goodsSaleProfit',
+        formObj:$("#queryForm").serializeObject(),
+        url:contextPath+"/goods/goodsSaleProfit/exportList"
+    }
+    publicExprotService(param);
 }
-/**
- * 导出
- */
-function exportExcel(){
-	var length = $("#goodsSaleProfit").datagrid('getData').total;
-	if(length == 0){
-		$_jxc.alert('提示',"没有数据");
-		return;
-	}
 
-	$("#queryForm").attr("action",contextPath+"/goods/goodsSaleProfit/exportList");
-	$("#queryForm").submit();
-}
 
 /**
  * 重置

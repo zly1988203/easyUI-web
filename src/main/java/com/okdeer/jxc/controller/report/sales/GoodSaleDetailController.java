@@ -35,6 +35,7 @@ import com.okdeer.retail.common.report.DataRecord;
  
 @Controller
 @RequestMapping("report/sale/goodSaleDetailReport")
+@SuppressWarnings("deprecation")
 public class GoodSaleDetailController extends ReportController {
 
 	@Reference(version = "1.0.0", check = false)
@@ -112,13 +113,14 @@ public class GoodSaleDetailController extends ReportController {
 
 			String reportFileName = "商品销售明细分析" + timeStr;
 			String templateName = "GoodSaleDetail.xlsx";
+			DataRecord data = goodSaleDetailServiceApi.getTotal(map);
 			// 模板名称，包括后缀名
-			List<DataRecord> dataList = getReportService().getList(map);
+			/** List<DataRecord> dataList = getReportService().getList(map);*/
+			List<DataRecord> dataList = queryListPartition(map);
 			for (DataRecord dataRecord : dataList) {
 				formatter(dataRecord);
 			}
 			
-			DataRecord data = goodSaleDetailServiceApi.getTotal(map);
 			dataList.add(data);
 			cleanDataMaps(getPriceAccess(), dataList);
 			exportListForXLSX(response, dataList, reportFileName, templateName);

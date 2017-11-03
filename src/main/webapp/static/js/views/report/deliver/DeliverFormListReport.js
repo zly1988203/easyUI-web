@@ -192,16 +192,24 @@ function exportExcel(){
 	$("#exportWin").hide();
 	$("#exportWin").window("close");
 	var fromObjStr = $('#queryForm').serializeObject();
-    // 去除编码
-    fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1);
-    fromObjStr.sourceBranchName = fromObjStr.sourceBranchName.substring(fromObjStr.sourceBranchName.lastIndexOf(']')+1);
-    fromObjStr.categoryName = fromObjStr.categoryName.substring(fromObjStr.categoryName.lastIndexOf(']')+1)
 
-	$('#targetBranchName').val(fromObjStr.targetBranchName);
-    $('#sourceBranchName').val(fromObjStr.sourceBranchName);
+    // 去除编码
+    if (fromObjStr.targetBranchName) {
+        fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']') + 1);
+        $('#targetBranchName').val(fromObjStr.targetBranchName);
+    }
+    if (fromObjStr.sourceBranchName) {
+        fromObjStr.sourceBranchName = fromObjStr.sourceBranchName.substring(fromObjStr.sourceBranchName.lastIndexOf(']') + 1);
+        $('#sourceBranchName').val(fromObjStr.sourceBranchName);
+    }
+    if (fromObjStr.branchName) {
+        fromObjStr.branchName = fromObjStr.branchName.substring(fromObjStr.branchName.lastIndexOf(']') + 1);
+        $('#branchName').val(fromObjStr.branchName);
+    }
+    fromObjStr.categoryName = fromObjStr.categoryName.substring(fromObjStr.categoryName.lastIndexOf(']') + 1)
 	$('#categoryName').val(fromObjStr.categoryName);
 	
 	$("#queryForm").attr("action",contextPath+'/form/deliverReport/exportDeliverFormList')
 	$("#queryForm").submit();
-}
+};
 

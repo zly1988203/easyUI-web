@@ -20,6 +20,7 @@ $(function() {
 var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
+
     	var a = $(this).val();
     	if (a=="memberTotalAll") {
             $("#orderNo").attr("readonly","readonly");
@@ -38,7 +39,8 @@ function changeType(){
             $("#orderNo").removeAttr("readonly");
             $("#orderNo").removeClass("uinp-no-more");
 		}
-    	gridHandel.setLoadData([$.extend({},gridDefault)]);
+        $("#memberOrderData").datagrid("reloadFooter",[]);
+    	gridHandel.setLoadData([]);
     });
 }
 
@@ -66,8 +68,8 @@ function initMemberTotalAllGrid() {
             {field: 'phone', title: '会员手机号', width: 100, align: 'left',
 				formatter:function(value,row,index){
 					if(!value){
-						return '<div class="ub ub-pc ufw-b">合计</div> '
-					}
+						return '<div class="ub ub-pc ufw-b">合计</div> ';
+                    }
 					return value;
 				}
 			},
@@ -75,18 +77,23 @@ function initMemberTotalAllGrid() {
 			{field: 'branchName', title: '消费机构', width: 150, align: 'left'},
 			{field: 'orderNum', title: '消费订单笔数', width: 100, align: 'right',
 				formatter : function(value, row,index) {
+                    if(row.isFooter){
+                        return ;
+                    }
     				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
             {field: 'orderAmount', title: '消费订单金额', width: 100, align: 'right',
 				formatter : function(value, row,index) {
+                    if(row.isFooter){
+                        return;
+                    }
     				return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
             },
         ]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-//			updateFooter();
 		}
     });
     if(flushFlg){
@@ -114,8 +121,8 @@ function initMemberOrderAllGrid() {
 		           {field: 'phone', title: '会员手机号', width: 100, align: 'left',
 		        	   formatter:function(value,row,index){
 		        		   if(!value){
-		        			   return '<div class="ub ub-pc ufw-b">合计</div> '
-		        		   }
+								return '<div class="ub ub-pc ufw-b">合计</div> ';
+		                    }
 		        		   return value;
 		        	   }
 		           },
@@ -125,6 +132,9 @@ function initMemberOrderAllGrid() {
 		           {field: 'branchName', title: '消费机构', width: 100, align: 'left'},
 		           {field: 'amount', title: '订单金额', width: 80, align: 'right',
 		        	   formatter : function(value, row,index) {
+                           if(row.isFooter){
+                               return;
+                           }
 		        		   return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 		        	   }
 		           },
@@ -132,7 +142,6 @@ function initMemberOrderAllGrid() {
 		           ]],
 		           onLoadSuccess:function(data){
 		        	   gridHandel.setDatagridHeader("center");
-//			updateFooter();
 		           }
 	});
 	if(flushFlg){
@@ -159,8 +168,8 @@ function initMemberOrderListGrid() {
 			{field: 'phone', title: '会员手机号', width: 100, align: 'left',
 				formatter:function(value,row,index){
 					if(!value){
-						return '<div class="ub ub-pc ufw-b">合计</div> '
-					}
+						return '<div class="ub ub-pc ufw-b">合计</div> ';
+                    }
 					return value;
 				}
 			},
@@ -174,11 +183,17 @@ function initMemberOrderListGrid() {
 			{field: 'unit', title: '单位', width: 50, align: 'left'},
 			{field: 'saleNum', title: '数量', width: 80, align: 'right',
 				formatter : function(value, row,index) {
+                    if(row.isFooter){
+                        return;
+                    }
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
 			{field: 'salePrice', title: '销售价', width: 80, align: 'right',
 				formatter : function(value, row,index) {
+                    if(row.isFooter){
+                        return;
+                    }
 					if(!value && parseFloat(value) != 0){
 					    return ''
 					}
@@ -195,6 +210,9 @@ function initMemberOrderListGrid() {
 			},
 			{field: 'saleAmount', title: '金额', width: 80, align: 'right',
 				formatter : function(value, row,index) {
+                    if(row.isFooter){
+                        return;
+                    }
 					return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 				}
 			},
@@ -202,7 +220,6 @@ function initMemberOrderListGrid() {
 		]],
 		onLoadSuccess:function(data){
 			gridHandel.setDatagridHeader("center");
-//			updateFooter();
 		}
 	});
 	if(flushFlg){
@@ -286,12 +303,6 @@ function exportData(){
     publicExprotService(param);
 }
 
-//合计
-function updateFooter(){
-    var fields = {rmb:0,zer:0,yhk:0,zfb:0,wzf:0,yqb:0,djq:0,pdf:0,pbt:0,dxr:0,total:0};
-    var argWhere = {name:'isGift',value:''}
-    gridHandel.updateFooter(fields,argWhere);
-}
 
 //打印
 function printReport(){
