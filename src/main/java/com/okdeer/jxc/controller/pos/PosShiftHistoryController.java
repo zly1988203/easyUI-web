@@ -119,7 +119,7 @@ public class PosShiftHistoryController extends BaseController<T> {
 			//获取当前班次
 			/*PosShiftHistory shiftHistory= posShiftHistoryServiceApi.getShift(id);*/
 			//根据班次获取用户信息
-			PosLoginInfo logininfo= posLoginInfoServiceApi.getLoginInfoByShift(id);
+			PosLoginInfo logininfo= posLoginInfoServiceApi.getLoginInfoByShift( id);
 
 			RespJson json= posShiftHistoryServiceApi.changeShifts(id, UserUtil.getCurrBranchId(), UserUtil.getCurrUserId(),
 					ShiftTypeEnum.SHOPKEEPER.getValue());
