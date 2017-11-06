@@ -68,4 +68,11 @@
 		<dubbo:method name="getDgStockAnalysisPageList" async="true"></dubbo:method>
 		<dubbo:method name="getDgStockAnalysisListSum" async="true"></dubbo:method>
 	</dubbo:reference>
+
+	<dubbo:reference interface="com.okdeer.jxc.report.sale.GoodSaleDetailServiceApi" id="goodSaleDetailServiceApi"
+					 version="1.0.0"
+					 check="false">
+		<dubbo:method name="getListPage" async="true"></dubbo:method>
+		<dubbo:method name="getTotal" async="true"></dubbo:method>
+	</dubbo:reference>
 </beans>
