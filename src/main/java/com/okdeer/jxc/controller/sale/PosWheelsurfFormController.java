@@ -231,10 +231,10 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
             PosWheelsurfFormVo vo = JSON.parseObject(request.getParameter("formObj"), PosWheelsurfFormVo.class);
 
 
-            List<String> skuIds = posGroupKeys.parallelStream().map(PosWheelsurfFormDetail::getSkuId).collect(Collectors.toList());
+            List<String> skuIds = posGroupKeys.parallelStream().map(PosWheelsurfFormDetail::getSkuId).distinct().collect(Collectors.toList());
             if (
                     !posWheelsurfServiceApi.cleckGoods(Arrays.asList(StringUtils.splitByWholeSeparatorPreserveAllTokens(vo.getBranchIds(), ",")), skuIds)) {
-                return RespJson.error("所选商品在机构下没有,请重新选择!");
+                return RespJson.error("所选机构下没有所选商品,请重新选择!");
             }
 
             for (int i = 0, length = posGroupKeys.size(); i < length; ++i) {
@@ -260,10 +260,10 @@ public class PosWheelsurfFormController extends BaseController<PosWheelsurfFormC
 
             PosWheelsurfFormVo vo = JSON.parseObject(request.getParameter("formObj"), PosWheelsurfFormVo.class);
 
-            List<String> skuIds = posGroupKeys.parallelStream().map(PosWheelsurfFormDetail::getSkuId).collect(Collectors.toList());
+            List<String> skuIds = posGroupKeys.parallelStream().map(PosWheelsurfFormDetail::getSkuId).distinct().collect(Collectors.toList());
             if (
                     !posWheelsurfServiceApi.cleckGoods(Arrays.asList(StringUtils.splitByWholeSeparatorPreserveAllTokens(vo.getBranchIds(), ",")), skuIds)) {
-                return RespJson.error("所选商品在机构下没有,请重新选择!");
+                return RespJson.error("所选机构下没有所选商品,请重新选择!");
             }
 
             for (int i = 0, length = posGroupKeys.size(); i < length; ++i) {
