@@ -111,13 +111,13 @@ function initDatagridRequire(){
     		  maxRate= obj.totalRate.substring(0, obj.totalRate.length-2)/100;
     		  console.log(maxRate);
     	  }
-		gridHandel.setDatagridHeader("center");
+
 			
 	 },onBeforeLoad:function(params){
 		 if(maxRate ||maxRate == 0){
 			 params = $.extend(params,{maxRate:maxRate});
 		 }
-		 console.log(params);
+            gridHandel.setDatagridHeader("center");
 	 }
     });
 

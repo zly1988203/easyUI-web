@@ -8,16 +8,14 @@ $(function() {
 	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd"));
 	// 初始化列表
 	initCashDailyallGrid('data');
-	
+
 	//选择报表类型
 	changeType();
 
 });
 
-var flushFlg = false;
 function changeType(){
 	$(".radioItem").change(function(){
-		flushFlg = true;
     	var a = $(this).val();
     	if (a=="cashier") {
 			// 初始化列表按收银员汇总
@@ -167,9 +165,6 @@ function initCashDailyallGrid(queryType) {
 //			updateFooter();
 		}
     });
-    if(flushFlg){
-    	query();
-    }
 }
 
 //门店汇总
@@ -282,9 +277,6 @@ function initCashDailymdGrid(queryType) {
 //			updateFooter();
 		}
     });
-    if(flushFlg){
-    	query();
-    }
 }
 //日期汇总
 function initCashDailydateGrid(queryType) {
@@ -408,9 +400,6 @@ function initCashDailydateGrid(queryType) {
 //			updateFooter();
 		}
     });
-    if(flushFlg){
-    	query();
-    }
 }
 
 
