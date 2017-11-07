@@ -75,4 +75,10 @@
 		<dubbo:method name="getListPage" async="true"></dubbo:method>
 		<dubbo:method name="getTotal" async="true"></dubbo:method>
 	</dubbo:reference>
+
+	<dubbo:reference interface="com.okdeer.jxc.report.goods.service.NewGoodsSaleAnalysisService"
+					 id="newGoodsSaleAnalysisService" version="1.0.0" check="false">
+		<dubbo:method name="getListPage" async="true"></dubbo:method>
+		<dubbo:method name="getTotal" async="true"></dubbo:method>
+	</dubbo:reference>
 </beans>

@@ -24,19 +24,11 @@ function initDatagridRequire(){
 		pageSize:50,
 		width:'100%',
         columns:[[
-            // {field:'branchName',title:'机构名称',width:'220px',align:'left',
-            // 	formatter : function(value, row,index) {
-            //         var str = value;
-            //         if(!value){
-	         //            return '<div class="ub ub-pc ufw-b">合计</div> '
-	         //        }
-            //         return str;
-            //     }
-            // },
-            {field:'skuCode',title: '货号', width: '70px', align: 'left',
-                formatter : function(value, row,index) {
+            {
+                field: 'skuCode', title: '货号', width: '70px', align: 'left',
+                formatter: function (value, row, index) {
                     var str = value;
-                    if(!value){
+                    if (!value) {
                         return '<div class="ub ub-pc ufw-b">合计</div> '
                     }
                     return str;
