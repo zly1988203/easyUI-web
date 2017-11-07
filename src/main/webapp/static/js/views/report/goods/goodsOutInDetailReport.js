@@ -66,7 +66,7 @@ function initDatagridRequire(){
 		height:'100%',
 		width:'100%',
         columns:[[
-			{field:'branchCode',title:'店铺编号',width:'56',align:'left',
+			{field:'branchCode',title:'店铺编号',width:'70',align:'left',
 				formatter : function(value, row,index) {
                     var str = value;
                     if(!value){
