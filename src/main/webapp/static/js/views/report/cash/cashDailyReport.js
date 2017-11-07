@@ -9,7 +9,7 @@ $(function() {
 	// 初始化列表
 	initCashDailyallGrid('data');
 
-	//选择报表类型
+    //选择报表类型
 	changeType();
 
 });

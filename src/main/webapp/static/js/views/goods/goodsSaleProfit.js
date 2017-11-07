@@ -105,9 +105,9 @@ function initDatagridRequire(){
 					},
 					{field:'grade',title:'ABC等级',width:'80px',align:'left'},
             ]],
-		   onBeforeLoad:function () {
-			   gridHandel.setDatagridHeader("center");
-		   }
+       onBeforeLoad: function () {
+           gridHandel.setDatagridHeader("center");
+       }
     });
 
     if(hasCostPrice==false){

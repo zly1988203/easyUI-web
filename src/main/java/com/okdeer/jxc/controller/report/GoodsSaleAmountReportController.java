@@ -80,29 +80,29 @@ public class GoodsSaleAmountReportController extends BaseController<GoodsSaleAmo
                 vo.setBrancheType(Boolean.TRUE);
             }
             PageUtils<GoodsSaleAmountReportVo> goodsOutInfoDetailList = goodsSaleAmountReportServiceApi.goodsSaleAmountList(vo);
-			GoodsSaleAmountReportVo goodsSaleAmountReportVo = goodsSaleAmountReportServiceApi.queryGoodsSaleAmountSum(vo);
-			List<GoodsSaleAmountReportVo> footer = new ArrayList<GoodsSaleAmountReportVo>();
-			if(goodsSaleAmountReportVo !=null){
-				footer.add(goodsSaleAmountReportVo);
-			}
-			goodsOutInfoDetailList.setFooter(footer);
-			// 过滤数据权限字段
-			cleanAccessData(goodsOutInfoDetailList);
-			return goodsOutInfoDetailList;
-		} catch (Exception e) {
-			LOG.error("获取单品ABC销售额列表异常:{}", e);
-		}
-		return null;
-	}	
-	
+            GoodsSaleAmountReportVo goodsSaleAmountReportVo = goodsSaleAmountReportServiceApi.queryGoodsSaleAmountSum(vo);
+            List<GoodsSaleAmountReportVo> footer = new ArrayList<GoodsSaleAmountReportVo>();
+            if (goodsSaleAmountReportVo != null) {
+                footer.add(goodsSaleAmountReportVo);
+            }
+            goodsOutInfoDetailList.setFooter(footer);
+            // 过滤数据权限字段
+            cleanAccessData(goodsOutInfoDetailList);
+            return goodsOutInfoDetailList;
+        } catch (Exception e) {
+            LOG.error("获取单品ABC销售额列表异常:{}", e);
+        }
+        return null;
+    }
 
-	/**
-	 * 
-	 * @Description: 导出单品ABC销售额列表
-	 * @param response
-	 * @param vo 单品ABC销售额对象
-	 * @return
-	 * @author liux01
+
+    /**
+     *
+     * @Description: 导出单品ABC销售额列表
+     * @param response
+     * @param vo 单品ABC销售额对象
+     * @return
+     * @author liux01
 	 * @date 2016年11月11日
 	 */
 	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
@@ -116,20 +116,20 @@ public class GoodsSaleAmountReportController extends BaseController<GoodsSaleAmo
                 vo.setBrancheType(Boolean.TRUE);
             }
             List<GoodsSaleAmountReportVo> exportList = goodsSaleAmountReportServiceApi.exportList(vo);
-			GoodsSaleAmountReportVo goodsSaleAmountReportVo = goodsSaleAmountReportServiceApi.queryGoodsSaleAmountSum(vo);
-			goodsSaleAmountReportVo.setBranchName("合计:");
-			exportList.add(goodsSaleAmountReportVo);
-			// 过滤数据权限字段
-			cleanAccessData(exportList);
-			String fileName = "单品销售额ABC分析"+vo.getStartTime().replace("-", "")+"-"+vo.getEndTime().replace("-", "");
-			String templateName = ExportExcelConstant.GOODS_SALE_AMOUNT_REPORT;
-			exportListForXLSX(response, exportList, fileName, templateName);
-		} catch (Exception e) {
-			LOG.error("导出单品ABC销售额列表异常：{}", e);
-			resp = RespJson.error("导出单品ABC销售额列表异常");
-		}
-		return resp;
-	}
-	
-	
+            GoodsSaleAmountReportVo goodsSaleAmountReportVo = goodsSaleAmountReportServiceApi.queryGoodsSaleAmountSum(vo);
+            goodsSaleAmountReportVo.setBranchName("合计:");
+            exportList.add(goodsSaleAmountReportVo);
+            // 过滤数据权限字段
+            cleanAccessData(exportList);
+            String fileName = "单品销售额ABC分析" + vo.getStartTime().replace("-", "") + "-" + vo.getEndTime().replace("-", "");
+            String templateName = ExportExcelConstant.GOODS_SALE_AMOUNT_REPORT;
+            exportListForXLSX(response, exportList, fileName, templateName);
+        } catch (Exception e) {
+            LOG.error("导出单品ABC销售额列表异常：{}", e);
+            resp = RespJson.error("导出单品ABC销售额列表异常");
+        }
+        return resp;
+    }
+
+
 }
