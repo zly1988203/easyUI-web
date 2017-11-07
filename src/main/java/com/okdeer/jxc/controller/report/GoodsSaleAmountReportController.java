@@ -103,10 +103,10 @@ public class GoodsSaleAmountReportController extends BaseController<GoodsSaleAmo
      * @param vo 单品ABC销售额对象
      * @return
      * @author liux01
-	 * @date 2016年11月11日
-	 */
-	@RequestMapping(value = "/exportList", method = RequestMethod.POST)
-	@ResponseBody
+     * @date 2016年11月11日
+     */
+    @RequestMapping(value = "/exportList", method = RequestMethod.POST)
+    @ResponseBody
 	public RespJson exportList(HttpServletResponse response, GoodsSaleAmountReportVo vo) {
 		RespJson resp = RespJson.success();
 		try {
