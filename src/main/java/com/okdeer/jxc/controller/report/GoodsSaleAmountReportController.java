@@ -107,9 +107,9 @@ public class GoodsSaleAmountReportController extends BaseController<GoodsSaleAmo
      */
     @RequestMapping(value = "/exportList", method = RequestMethod.POST)
     @ResponseBody
-	public RespJson exportList(HttpServletResponse response, GoodsSaleAmountReportVo vo) {
-		RespJson resp = RespJson.success();
-		try {
+    public RespJson exportList(HttpServletResponse response, GoodsSaleAmountReportVo vo) {
+        RespJson resp = RespJson.success();
+        try {
 			vo.setSourceBranchId(UserUtil.getCurrBranchId());
             Branches branches = branchesServiceApi.getBranchInfoById(vo.getBranchId());
             if (branches.getType() == 0 || branches.getType() == 1) {//总部或者分公司
