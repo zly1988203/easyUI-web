@@ -7,14 +7,22 @@
 
 package com.okdeer.jxc.controller.common;
 
-import com.google.common.collect.Lists;
-import com.okdeer.jxc.common.report.ReportService;
-import com.okdeer.jxc.common.utils.PageUtils;
-import com.okdeer.jxc.controller.BaseController;
-import com.okdeer.jxc.utils.UserUtil;
-import com.okdeer.jxc.utils.poi.ExcelExportUtil;
-import com.okdeer.retail.common.report.DataRecord;
-import net.sf.json.JSONObject;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.ui.Model;
@@ -22,16 +30,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import com.okdeer.jxc.common.report.ReportService;
+import com.okdeer.jxc.common.utils.PageUtils;
+import com.okdeer.jxc.controller.BaseController;
+import com.okdeer.jxc.utils.UserUtil;
+import com.okdeer.jxc.utils.poi.ExcelExportUtil;
+import com.okdeer.retail.common.report.DataRecord;
+
+import net.sf.json.JSONObject;
 
 /**
  * ClassName: ReportController 
@@ -113,7 +119,6 @@ public abstract class ReportController extends BaseController<T> {
         int endCount = limitEndCount(Integer.parseInt(String.valueOf(param.get("endCount"))));
 
         LOG.info("ReportController.queryListPartition查询记录数导出startCount和endCount参数：{}, {}", startCount, endCount);
-		List<CompletableFuture<List<DataRecord>>> futureList = Lists.newArrayList();
 		int resIndex = (endCount / LIMIT_REQ_COUNT);
 		int modIndex = endCount % LIMIT_REQ_COUNT;
 		LOG.info("ReportController.queryListPartition查询记录数导出resIndex和modIndex参数：{}, {}", resIndex, modIndex);
@@ -124,11 +129,11 @@ public abstract class ReportController extends BaseController<T> {
 				param.put("endCount", LIMIT_REQ_COUNT);
 				LOG.info("ReportController.queryListPartition for查询记录数导出i、startCount、endCount参数：{}, {}, {}", i, newStart,
 						LIMIT_REQ_COUNT);
-				//List<DataRecord> tempList = getReportService().getList(param);
-				//recordList.addAll(tempList);
-
-				CompletableFuture<List<DataRecord>> totalFuture = CompletableFuture.supplyAsync(() -> getReportService().getList(param), excutor);
-				futureList.add(totalFuture);
+				List<DataRecord> tempList = getReportService().getList(param);
+				recordList.addAll(tempList);
+                if(CollectionUtils.isEmpty(tempList) || tempList.size() != LIMIT_REQ_COUNT){
+                    break;
+                }
 			}
 			if (modIndex > 0) {
 				int newStart = (resIndex * LIMIT_REQ_COUNT) + startCount;
@@ -136,22 +141,14 @@ public abstract class ReportController extends BaseController<T> {
 				param.put("startCount", newStart);
 				param.put("endCount", LIMIT_REQ_COUNT);
 				LOG.info("ReportController.queryListPartition查询记录数导出mod、startCount、endCount参数:{}, {}", newStart, newEnd);
-				CompletableFuture<List<DataRecord>> totalFuture = CompletableFuture.supplyAsync(() -> getReportService().getList(param), excutor);
-				futureList.add(totalFuture);
+                List<DataRecord> tempList = getReportService().getList(param);
+                recordList.addAll(tempList);
 			}
 		} else {
 			LOG.info("ReportController.queryListPartition查询记录数导出不超过:{}", LIMIT_REQ_COUNT);
-			CompletableFuture<List<DataRecord>> totalFuture = CompletableFuture.supplyAsync(() -> getReportService().getList(param), excutor);
-			futureList.add(totalFuture);
+            List<DataRecord> tempList = getReportService().getList(param);
+            recordList.addAll(tempList);
 		}
-
-		futureList.stream().forEach((future) -> {
-			try {
-				recordList.addAll(future.get());
-			} catch (Exception e) {
-				LOG.error("遍历获取异步数据异常", e);
-			}
-		});
 		return recordList;
 	}
 
