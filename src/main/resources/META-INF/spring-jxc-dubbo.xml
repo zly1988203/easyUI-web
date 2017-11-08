@@ -49,6 +49,7 @@
 		<dubbo:method name="queryGoodsUnsaleReportSum" async="true"></dubbo:method>
 		<dubbo:method name="getGoodsUnsaleReportList" async="true"></dubbo:method>
 		<dubbo:method name="exportList" async="true"></dubbo:method>
+		<dubbo:method name="getNewGoodsUnsaleReportList" async="true"></dubbo:method>
 	</dubbo:reference>
 
 	<dubbo:reference interface="com.okdeer.jxc.report.service.GoodsOutInDetailServiceApi" id="goodsOutInDetailServiceApi" version="1.0.0" check="false">
