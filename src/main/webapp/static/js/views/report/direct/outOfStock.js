@@ -130,7 +130,6 @@ function cleardata(){
 
 var gridHandel = new GridClass();
 // 明细表
-var dg;
 var gridName = "marketWater";
 
 function getColumnsByType(){
@@ -511,7 +510,7 @@ function getColumnsByType(){
 
 function initDataGrid() {
     gridHandel.setGridName("marketWater");
-    dg= $("#marketWater").datagrid({
+    $("#marketWater").datagrid({
         //title:'普通表单-用键盘操作',
         method:'post',
         align:'center',
@@ -528,7 +527,7 @@ function initDataGrid() {
         height:'100%',
         width:'100%',
         columns:getColumnsByType(),
-        onLoadSuccess:function(data){
+        onBeforeLoad:function(data){
             gridHandel.setDatagridHeader("center");
         }
     });
@@ -540,8 +539,6 @@ function initDataGrid() {
 
 //查询
 function queryForm(){
-    $("#startCount").val('');
-    $("#endCount").val('');
     var startDate = $("#txtStartDate").val();
     var endDate = $("#txtEndDate").val();
     if(!(startDate && endDate)){
@@ -578,18 +575,7 @@ function exportData(){
         $_jxc.alert("无数据可导");
         return;
     }
-    $('#exportWin').window({
-        top:($(window).height()-300) * 0.5,
-        left:($(window).width()-500) * 0.5
-    });
-    $("#exportWin").show();
-    $("#totalRows").html(dg.datagrid('getData').total);
-    $("#exportWin").window("open");
-}
-// 调用导出方法
-function exportExcel(){
-    $("#exportWin").hide();
-    $("#exportWin").window("close");
+
     var fromObjStr = $('#queryForm').serializeObject();
     fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1);
     fromObjStr.sourceBranchName = fromObjStr.sourceBranchName.substring(fromObjStr.sourceBranchName.lastIndexOf(']')+1);
@@ -599,8 +585,12 @@ function exportExcel(){
     $('#sourceBranchName').val(fromObjStr.sourceBranchName);
     $('#categoryName').val(fromObjStr.categoryName);
 
-    $("#queryForm").attr("action",contextPath+"/report/outOfStock/exportList");
-    $("#queryForm").submit();
+    var param = {
+        datagridId:gridName,
+        formObj:$("#queryForm").serializeObject(),
+        url:"/report/outOfStock/exportList"
+    }
+    publicExprotService(param);
 
 }
 
