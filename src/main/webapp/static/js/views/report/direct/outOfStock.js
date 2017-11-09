@@ -43,6 +43,30 @@ function initBranchSelect() {
     });
 }
 
+//查询
+function query() {
+    $("#startCount").val('');
+    $("#endCount").val('');
+    var startDate = $("#txtStartDate").val();
+    var endDate = $("#txtEndDate").val();
+    if (!(startDate && endDate)) {
+        $_jxc.alert('日期不能为空');
+        return;
+    }
+
+    var fromObjStr = $('#queryForm').serializeObject();
+    // 去除编码
+    fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']') + 1)
+    fromObjStr.sourceBranchName = fromObjStr.sourceBranchName.substring(fromObjStr.sourceBranchName.lastIndexOf(']') + 1)
+    fromObjStr.categoryName = fromObjStr.categoryName.substring(fromObjStr.categoryName.lastIndexOf(']') + 1)
+    $("#marketWater").datagrid("options").queryParams = fromObjStr;
+    // $('#marketWater').datagrid({showFooter:true});
+    $("#marketWater").datagrid("options").method = "POST";
+    $("#marketWater").datagrid('options').url = contextPath + '/report/direct/outOfStock/reportListPage';
+    $("#marketWater").datagrid('load');
+
+}
+
 function changeType(){
     $(".radioItem").change(function(){
         cleardata();
@@ -537,28 +561,6 @@ function initDataGrid() {
     }
 }
 
-//查询
-function queryForm(){
-    var startDate = $("#txtStartDate").val();
-    var endDate = $("#txtEndDate").val();
-    if(!(startDate && endDate)){
-        $_jxc.alert('日期不能为空');
-        return ;
-    }
-
-    var fromObjStr = $('#queryForm').serializeObject();
-    // 去除编码
-    fromObjStr.targetBranchName = fromObjStr.targetBranchName.substring(fromObjStr.targetBranchName.lastIndexOf(']')+1)
-    fromObjStr.sourceBranchName = fromObjStr.sourceBranchName.substring(fromObjStr.sourceBranchName.lastIndexOf(']')+1)
-    fromObjStr.categoryName = fromObjStr.categoryName.substring(fromObjStr.categoryName.lastIndexOf(']')+1)
-    $("#marketWater").datagrid("options").queryParams = fromObjStr;
-    // $('#marketWater').datagrid({showFooter:true});
-    $("#marketWater").datagrid("options").method = "POST";
-    $("#marketWater").datagrid('options').url = contextPath + '/report/outOfStock/reportListPage';
-    $("#marketWater").datagrid('load');
-
-}
-
 /**
  * 重置
  */
@@ -588,7 +590,7 @@ function exportData(){
     var param = {
         datagridId:gridName,
         formObj:$("#queryForm").serializeObject(),
-        url:"/report/outOfStock/exportList"
+        url: contextPath + "/report/direct/outOfStock/exportList"
     }
     publicExprotService(param);
 
