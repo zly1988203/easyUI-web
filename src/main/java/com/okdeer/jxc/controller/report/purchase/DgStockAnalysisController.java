@@ -1,6 +1,5 @@
 package com.okdeer.jxc.controller.report.purchase;
 
-import com.alibaba.dubbo.rpc.RpcContext;
 import com.google.common.collect.Lists;
 import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
@@ -19,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /***
  * 
@@ -89,18 +90,19 @@ public class DgStockAnalysisController extends BaseController<PurchaseReportCont
                 qo.setEndTime(time);
             }
 
-            purchaseReportService.getDgStockAnalysisPageList(qo);
+            /*purchaseReportService.getDgStockAnalysisPageList(qo);
             Future<PageUtils<DgStockAnalysisVo>> listFuture = RpcContext.getContext().getFuture();
             // 2、查询合计
             purchaseReportService.getDgStockAnalysisListSum(qo);
-            Future<DgStockAnalysisVo> voFuture = RpcContext.getContext().getFuture();
+            Future<DgStockAnalysisVo> voFuture = RpcContext.getContext().getFuture();*/
 
-            PageUtils<DgStockAnalysisVo> list = listFuture.get();
+            PageUtils<DgStockAnalysisVo> list = purchaseReportService.getNewDgStockAnalysisPageList(qo);
+            /*listFuture.get();
             DgStockAnalysisVo vo = voFuture.get();
 
             List<DgStockAnalysisVo> footer = new ArrayList<>();
             footer.add(vo);
-            list.setFooter(footer);
+            list.setFooter(footer);*/
             // 过滤数据权限字段
             cleanAccessData(list);
             return list;
@@ -132,7 +134,7 @@ public class DgStockAnalysisController extends BaseController<PurchaseReportCont
                 qo.setEndTime(time);
             }
             qo.setBranchId(Constant.DG_BRANCH_ID);
-            List<DgStockAnalysisVo> exportList = queryListPartition(qo);
+            List<DgStockAnalysisVo> exportList = purchaseReportService.getNewDgStockAnalysisList(qo);
             /*if(CollectionUtils.isNotEmpty(exportList)){
                 // 2、查询合计
                 DgStockAnalysisVo vo = purchaseReportService.getDgStockAnalysisListSum(qo);
