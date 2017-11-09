@@ -51,11 +51,11 @@
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioAudit" type="radio" name="dealStatus" id="deal2"
-							value="2" /><label for="deal2">按收银员统计 </label>
+							value="1" /><label for="deal2">按收银员统计 </label>
 					</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioAudit" type="radio" name="dealStatus" id="deal3"
-							value="3" /><label for="deal3">按日统计</label>
+							value="2" /><label for="deal3">按日统计</label>
 					</div>
 				</div>
 			</div>
