@@ -44,7 +44,7 @@
 			</div>
 			<div class="ub umar-t8">
 				<div class="ub ub-ac umar-l20">
-					<div class="umar-r10 uw-60 ut-r">查询类型:</div>
+					<div class="umar-r10 uw-70 ut-r">查询类型:</div>
 					<div class="ub ub-ac umar-r10">
 						<input class="radioAudit" type="radio" name="dealStatus" id="deal0"
 							value="0" /><label for="deal0">按店铺统计 </label>
