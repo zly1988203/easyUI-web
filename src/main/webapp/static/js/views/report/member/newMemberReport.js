@@ -1,6 +1,7 @@
 $(function () {
 
     initConditionParams();
+    initNewMemberGrid();
 
 //机构选择初始化 收货机构 一般数据
     $('#targetBranch').branchSelect();
@@ -21,7 +22,7 @@ $(function () {
 
 
 })
-var auditStatus = 1;
+var auditStatus = "0";
 
 //初始化默认条件 此条件放在表格初始化之前
 function initConditionParams(){
@@ -49,7 +50,7 @@ function initNewMemberGrid() {
         pageList : [20, 50, 100],
         height:'100%',
         width:'100%',
-        columns:getColumnsByType,
+        columns:getColumnsByType(),
         onBeforeLoad:function(data){
             gridHandel.setDatagridHeader("center");
         }
