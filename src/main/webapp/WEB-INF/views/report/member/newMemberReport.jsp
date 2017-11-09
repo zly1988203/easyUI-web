@@ -16,7 +16,7 @@
 		<form id="queryForm">
 			<div class="ub ub-ac">
 				<div class="ubtns">
-					<div class="ubtns-item" onclick="query()">查询</div>
+					<div class="ubtns-item" onclick="queryForm()">查询</div>
 					<div class="ubtns-item" onclick="exportData()">导出</div>
 					<div class="ubtns-item" onclick="gFunRefresh()">重置</div>
 					<div class="ubtns-item" onclick="toClose()">退出</div>

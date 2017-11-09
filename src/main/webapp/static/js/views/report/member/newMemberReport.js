@@ -87,3 +87,32 @@ function getColumnsByType() {
         ]]
     }
 }
+
+//查询
+function queryForm(){
+    var fromObjStr = $("#queryForm").serializeObject();
+    $("#"+gridName).datagrid("options").queryParams = fromObjStr;
+    $("#"+gridName).datagrid("options").method = "POST";
+    $("#"+gridName).datagrid('options').url = contextPath + '/report/member/reportList';
+    $("#"+gridName).datagrid('load');
+
+}
+
+/**
+ * 导出
+ */
+function exportData(){
+    var length = $('#'+gridName).datagrid('getData').rows.length;
+    if(length == 0){
+        $_jxc.alert("无数据可导");
+        return;
+    }
+
+    var param = {
+        datagridId:gridName,
+        formObj:$("#queryForm").serializeObject(),
+        url:"/report/member/exportList"
+    }
+    publicExprotService(param);
+
+}
