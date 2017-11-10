@@ -2125,7 +2125,7 @@ function initDatagridsortSet(){
         fitColumns:true,    // 每列占满
         // fit:true, //占满
         showFooter:true,
-		height:'300px',
+		height:'500px',
 		pageSize:50,
 		width:'100%',
         columns:[[
