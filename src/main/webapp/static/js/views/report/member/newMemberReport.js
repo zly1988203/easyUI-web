@@ -52,7 +52,7 @@ function initNewMemberGrid() {
         width:'100%',
         columns:getColumnsByType(),
         onBeforeLoad:function(data){
-            gridHandel.setDatagridHeader("center");
+            newMembGridHandle.setDatagridHeader("center");
         }
     })
 }
@@ -61,30 +61,66 @@ function getColumnsByType() {
     var type = auditStatus;
     if(type==="0"){
         return [[
-            {field: 'branchCode', title: '机构编码', width: '70px', align: 'left'},
-            {field: 'branchName',title:'机构名称',width:'150px',align:'left'},
-            {field: 'newMemberNum', title: '新会员数', width: '150px', align: 'right'},
-            {field: 'repeatMemberNum', title: '新会员重构数', width: '200px', align: 'right'},
-            {field: 'repeatMemberRate', title: '会员重构率', width: '200px', align: 'right'},
+            {field: 'branchCode', title: '机构编码', width: '80px', align: 'left'},
+            {field: 'branchName',title:'机构名称',width:'200px',align:'left'},
+            {field: 'newMemberNum', title: '新会员数', width: '150px', align: 'right',
+                formatter : function(value, row, index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'repeatMemberNum', title: '新会员重构数', width: '150px', align: 'right',
+                formatter : function(value, row, index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'repeatMemberRate', title: '会员重构率', width: '150px', align: 'right',
+                formatter : function(value, row, index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
         ]]
     }else if(type === "1"){
         return [[
-            {field: 'branchCode', title: '机构编码', width: '70px', align: 'left'},
-            {field: 'branchName',title:'机构名称',width:'150px',align:'left'},
+            {field: 'branchCode', title: '机构编码', width: '80px', align: 'left'},
+            {field: 'branchName',title:'机构名称',width:'200px',align:'left'},
             {field: 'cashierCode', title: '收银员编号', width: '120px', align: 'left'},
             {field: 'cashierName',title:'收银员名称',width:'150px',align:'left'},
-            {field: 'newMemberNum', title: '新会员数', width: '150px', align: 'right'},
-            {field: 'repeatMemberNum', title: '新会员重构数', width: '200px', align: 'right'},
-            {field: 'repeatMemberRate', title: '会员重构率', width: '200px', align: 'right'},
+            {field: 'newMemberNum', title: '新会员数', width: '150px', align: 'right',
+                formatter : function(value, row, index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'repeatMemberNum', title: '新会员重构数', width: '200px', align: 'right',
+                formatter : function(value, row, index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'repeatMemberRate', title: '会员重构率', width: '200px', align: 'right',
+                formatter : function(value, row, index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
         ]]
     }else {
         return [[
             {field: 'rptDateStr', title: '日期', width: '100px', align: 'left'},
-            {field: 'branchCode', title: '机构编码', width: '70px', align: 'left'},
-            {field: 'branchName',title:'机构名称',width:'140px',align:'left'},
-            {field: 'newMemberNum', title: '新会员数', width: '150px', align: 'right'},
-            {field: 'repeatMemberNum', title: '新会员重构数', width: '200px', align: 'right'},
-            {field: 'repeatMemberRate', title: '会员重构率', width: '200px', align: 'right'},
+            {field: 'branchCode', title: '机构编码', width: '80px', align: 'left'},
+            {field: 'branchName',title:'机构名称',width:'200px',align:'left'},
+            {field: 'newMemberNum', title: '新会员数', width: '150px', align: 'right',
+                formatter : function(value, row, index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'repeatMemberNum', title: '新会员重构数', width: '150px', align: 'right',
+                formatter : function(value, row, index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
+            {field: 'repeatMemberRate', title: '会员重构率', width: '150px', align: 'right',
+                formatter : function(value, row, index) {
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                },
+            },
         ]]
     }
 }
