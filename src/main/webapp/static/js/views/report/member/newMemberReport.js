@@ -6,11 +6,11 @@ $(function () {
 //机构选择初始化 收货机构 一般数据
     $('#targetBranch').branchSelect();
     //操作员组件初始化
-    $('#operateorSelect').operatorSelect({
+    $('#cashierSelect').operatorSelect({
         onAfterRender:function(data){
             branchName = data.branchName;
-            $("#createUserId").val(data.id);
-            $("#createUserName").val(data.userName);
+            $("#cashierId").val(data.id);
+            $("#cashierName").val(data.userName);
         }
     });
 
@@ -61,30 +61,30 @@ function getColumnsByType() {
     var type = auditStatus;
     if(type==="0"){
         return [[
-            {field: 'branchCode', title: '机构编码', width: '65px', align: 'left'},
-            {field:'branchName',title:'机构名称',width:'140px',align:'left'},
-            {field: 'newMemberCount', title: '新会员数', width: '150px', align: 'right'},
-            {field: 'repeatCost', title: '新会员重构数', width: '200px', align: 'right'},
-            {field: 'repeatCost', title: '会员重构率', width: '200px', align: 'right'},
+            {field: 'branchCode', title: '机构编码', width: '70px', align: 'left'},
+            {field: 'branchName',title:'机构名称',width:'150px',align:'left'},
+            {field: 'newMemberNum', title: '新会员数', width: '150px', align: 'right'},
+            {field: 'repeatMemberNum', title: '新会员重构数', width: '200px', align: 'right'},
+            {field: 'repeatMemberRate', title: '会员重构率', width: '200px', align: 'right'},
         ]]
     }else if(type === "1"){
         return [[
-            {field: 'branchCode', title: '机构编码', width: '65px', align: 'left'},
-            {field:'branchName',title:'机构名称',width:'140px',align:'left'},
-            {field: 'branchCode', title: '收银员编号', width: '65px', align: 'left'},
-            {field:'branchName',title:'收银员名称',width:'140px',align:'left'},
-            {field: 'newMemberCount', title: '新会员数', width: '150px', align: 'right'},
-            {field: 'repeatCost', title: '新会员重构数', width: '200px', align: 'right'},
-            {field: 'repeatCost', title: '会员重构率', width: '200px', align: 'right'},
+            {field: 'branchCode', title: '机构编码', width: '70px', align: 'left'},
+            {field: 'branchName',title:'机构名称',width:'150px',align:'left'},
+            {field: 'cashierCode', title: '收银员编号', width: '120px', align: 'left'},
+            {field: 'cashierName',title:'收银员名称',width:'150px',align:'left'},
+            {field: 'newMemberNum', title: '新会员数', width: '150px', align: 'right'},
+            {field: 'repeatMemberNum', title: '新会员重构数', width: '200px', align: 'right'},
+            {field: 'repeatMemberRate', title: '会员重构率', width: '200px', align: 'right'},
         ]]
     }else {
         return [[
-            {field: 'branchCode', title: '日期', width: '65px', align: 'left'},
-            {field: 'branchCode', title: '机构编码', width: '65px', align: 'left'},
-            {field:'branchName',title:'机构名称',width:'140px',align:'left'},
-            {field: 'newMemberCount', title: '新会员数', width: '150px', align: 'right'},
-            {field: 'repeatCost', title: '新会员重构数', width: '200px', align: 'right'},
-            {field: 'repeatCost', title: '会员重构率', width: '200px', align: 'right'},
+            {field: 'rptDateStr', title: '日期', width: '100px', align: 'left'},
+            {field: 'branchCode', title: '机构编码', width: '70px', align: 'left'},
+            {field: 'branchName',title:'机构名称',width:'140px',align:'left'},
+            {field: 'newMemberNum', title: '新会员数', width: '150px', align: 'right'},
+            {field: 'repeatMemberNum', title: '新会员重构数', width: '200px', align: 'right'},
+            {field: 'repeatMemberRate', title: '会员重构率', width: '200px', align: 'right'},
         ]]
     }
 }
@@ -94,7 +94,7 @@ function queryForm(){
     var fromObjStr = $("#queryForm").serializeObject();
     $("#"+gridName).datagrid("options").queryParams = fromObjStr;
     $("#"+gridName).datagrid("options").method = "POST";
-    $("#"+gridName).datagrid('options').url = contextPath + '/report/member/reportList';
+    $("#"+gridName).datagrid('options').url = contextPath + '/newMember/report/reportList';
     $("#"+gridName).datagrid('load');
 
 }
@@ -112,7 +112,7 @@ function exportData(){
     var param = {
         datagridId:gridName,
         formObj:$("#queryForm").serializeObject(),
-        url:"/report/member/exportList"
+        url:contextPath + "/newMember/report/exportList"
     }
     publicExprotService(param);
 

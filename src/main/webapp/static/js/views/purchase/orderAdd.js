@@ -48,7 +48,8 @@ function initConditionParams(){
     
     //如果供应商送货周期不会空，则交货期限需要加上送货周期
     if(diliveCycle){
-    	deliverTime = new Date(new Date().getTime() + 24*60*60*1000*diliveCycle);
+    	var deliverTime = new Date();
+    	deliverTime.setDate(deliverTime.getDate() + diliveCycle); 
     }
     $("#deliverTime").val(new Date(deliverTime).format('yyyy-MM-dd'));
 }
