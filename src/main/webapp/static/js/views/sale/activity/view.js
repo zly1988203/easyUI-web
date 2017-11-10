@@ -1161,7 +1161,7 @@ function initDatagridsortMj(){
 		width:'100%',
         columns:[[
 					// {field:'ck',checkbox:true},
-            		{field:'categoryCode',title:'类别编码',width:'200px',align:'left'},
+            		{field:'goodsCategoryCode',title:'类别编码',width:'200px',align:'left'},
 					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
           ]],
            onLoadSuccess:function(data){

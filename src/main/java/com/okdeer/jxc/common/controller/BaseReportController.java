@@ -204,9 +204,10 @@ public abstract class BaseReportController<Q extends BaseReportQo, V> extends Ba
 				qo.setEndCount(LIMIT_REQ_COUNT);
 				List<V> tempList = getReportFade().queryList(qo);
 				exportList.addAll(tempList);
-				if(CollectionUtils.isEmpty(tempList) || tempList.size() != LIMIT_REQ_COUNT){
-				    break;
-				}
+				// 如果实际只有100条数据，页面导出输入1-20000，查询到结果集不足每页最大时，不再执行后面的查询
+                if (CollectionUtils.isEmpty(tempList) || tempList.size() != LIMIT_REQ_COUNT) {
+                    break;
+                }
 			}
 			
 			// 存在余数时，查询剩余的数据
