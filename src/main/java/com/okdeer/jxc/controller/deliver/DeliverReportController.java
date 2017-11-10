@@ -223,17 +223,20 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
 	public PageUtils<DeliverDaAndDoFormListVo> getDeliverFormList(DeliverFormReportQo vo,
                                                                   @RequestParam(value = "page", defaultValue = PAGE_NO) int pageNumber,
                                                                   @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
-        LOG.debug(LogConstant.OUT_PARAM, vo.toString());
+        LOG.debug(LogConstant.OUT_PARAM, vo);
 		try {
-			if (StringUtils.isNullOrEmpty(vo.getBranchId())) {
-				vo.setBranchId(UserUtil.getCurrBranchId());
+			if (StringUtils.isBlank(vo.getSourceBranchId())) {
+				vo.setSourceBranchId(UserUtil.getCurrBranchId());
 			}
-			if (StringUtils.isNullOrEmpty(vo.getDeliverType())) {
+			if (StringUtils.isBlank(vo.getTargetBranchId())) {
+			    vo.setTargetBranchId(UserUtil.getCurrBranchId());
+			}
+			if (StringUtils.isBlank(vo.getBranchId())) {
+			    vo.setBranchId(UserUtil.getCurrBranchId());
+			}
+			if (StringUtils.isBlank(vo.getDeliverType())) {
 				vo.setDeliverType("");
 			}
-			// if(BranchTypeEnum.HEAD_QUARTERS.getCode().toString().equals(vo.getBranchId())) {
-			// vo.setBranchId(null);
-			// }
 			vo.setPageNumber(pageNumber);
 			vo.setPageSize(pageSize);
 			PageUtils<DeliverDaAndDoFormListVo> page = deliverFormReportServiceApi.queryDaAndDoFormList(vo);
