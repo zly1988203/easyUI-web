@@ -1934,15 +1934,6 @@ function initDatagridRedemption(){
 			        }
 			        return  '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
 			    },
-//			    editor:{
-//			        type:'numberbox',
-//			        options:{
-//			            disabled:true,
-//			            min:0,
-//			            precision:2,
-//			
-//			        }
-//			    },
 			},
 			{field: 'saleAmount', title: '换购价', width: 100, align: 'right',
 			    formatter : function(value, row, index) {
@@ -2108,7 +2099,7 @@ function initDatagridsortMj(){
 					        return str;
 					    },
 					},
-					{field:'categoryCode',title:'类别编码',width:'200px',align:'left'},
+					{field:'goodsCategoryCode',title:'类别编码',width:'200px',align:'left'},
 					{field:'categoryName',title:'商品类别',width:'200px',align:'left'},
           ]],
            onLoadSuccess:function(data){

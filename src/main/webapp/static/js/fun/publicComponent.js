@@ -2836,6 +2836,12 @@ function publicColumnSettingService(param,callback) {
  *
  * */
 function publicExprotService(param,callback) {
+    var length = $('#'+param.datagridId).datagrid('getData').rows.length;
+    if(length == 0){
+        $_jxc.alert("无数据可导");
+        return;
+    }
+
     var exportChoseTemp = $('<div id="exportChose"/>').dialog({
         href: contextPath + "/common/exportChose",
         width:400,
