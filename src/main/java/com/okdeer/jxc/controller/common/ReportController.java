@@ -131,6 +131,7 @@ public abstract class ReportController extends BaseController<T> {
 						LIMIT_REQ_COUNT);
 				List<DataRecord> tempList = getReportService().getList(param);
 				recordList.addAll(tempList);
+				// 如果实际只有100条数据，页面导出输入1-20000，查询到结果集不足每页最大时，不再执行后面的查询
                 if(CollectionUtils.isEmpty(tempList) || tempList.size() != LIMIT_REQ_COUNT){
                     break;
                 }
