@@ -208,7 +208,7 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
         int modIndex = endCount % 1000;
         LOG.info("GoodsUnSaleReportController.exportList商品滞销报表导出resIndex和modIndex参数：{}, {}", resIndex, modIndex);
         List<GoodsUnsaleReportVo> data = Lists.newArrayList();
-
+        List<Future<PageUtils<GoodsUnsaleReportVo>>> futures = Lists.newArrayList();
         if (resIndex > 0) {
             for (int i = 0; i < resIndex; i++) {
                 int newStart = (i * 1000) + startCount;
@@ -217,8 +217,13 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
                 LOG.info("GoodsUnSaleReportController.exportList for商品滞销报表导出i、startCount、endCount参数：{}, {}, {}", i, newStart, 1000);
                 goodsUnsaleReportService.getGoodsUnsaleReportList(qo);
                 Future<PageUtils<GoodsUnsaleReportVo>> listFuture = RpcContext.getContext().getFuture();
-                data.addAll(listFuture.get().getList());
+                //data.addAll(listFuture.get().getList());
+                futures.add(listFuture);
+                if (futures.size() % 3 == 0) {
+                    forEachFuture(data, futures);
+                }
             }
+            forEachFuture(data, futures);
             if (modIndex > 0) {
                 int newStart = (resIndex * 1000) + startCount;
                 int newEnd = modIndex;
@@ -236,8 +241,22 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
             LOG.info("GoodsUnSaleReportController.exportList商品滞销报表导出不超过:{}", 1000);
             goodsUnsaleReportService.getGoodsUnsaleReportList(qo);
             Future<PageUtils<GoodsUnsaleReportVo>> listFuture = RpcContext.getContext().getFuture();
+            forEachFuture(data, futures);
             data.addAll(listFuture.get().getList());
         }
         return data;
+    }
+
+    private void forEachFuture(List<GoodsUnsaleReportVo> data, List<Future<PageUtils<GoodsUnsaleReportVo>>> futures) {
+        if (!futures.isEmpty()) {
+            futures.stream().forEach((future) -> {
+                try {
+                    data.addAll(future.get().getList());
+                } catch (Exception e) {
+                    LOG.error("滯銷商品情況分析導出異常!", e);
+                }
+            });
+            futures.clear();
+        }
     }
 }
