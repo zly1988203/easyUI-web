@@ -937,11 +937,7 @@ function checkDirectForm(){
    	 	$_jxc.alert("采购商品数量全部为0");
 		return;
 	}else if(parseFloat(num)>0){
-<<<<<<< HEAD
-		$_jxc.confirm("审核会清除单据中数量为0的商品记录，是否确定审核？",function(data){
-=======
 		$_jxc.confirm("审核会清除单据中数量为0的商品记录，是否确定审核?",function(data){
->>>>>>> refs/remotes/origin/master
 	 		if(data){
 	 		    checkOrder();
 	 		}	
