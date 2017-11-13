@@ -17,6 +17,23 @@ $(function () {
     $(".radioAudit").change(function () {
         auditStatus = $(this).val(); //选中的值
         initNewMemberGrid();
+        $("#"+gridName).datagrid('loadData', { total: 0, rows: [] });
+        $("#"+gridName).datagrid("reloadFooter",[]);
+        if(auditStatus === "1"){
+            $("#cashierName").prop("readOnly","readOnly");
+            $('#cashierName').addClass('uinp-no-more');
+            $("#cashierName").val("");
+        }else{
+            $("#cashierName").removeProp("readOnly");
+            $('#cashierName').removeClass('uinp-no-more');
+            // $('#cashierSelect').operatorSelect({
+            //     onAfterRender:function(data){
+            //         branchName = data.branchName;
+            //         $("#cashierId").val(data.id);
+            //         $("#cashierName").val(data.userName);
+            //     }
+            // });
+        }
     })
 
 
