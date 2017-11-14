@@ -547,7 +547,7 @@ function initDataGrid() {
         //fit:true,            //占满
         showFooter:true,
         pageSize : 50,
-        pageList : [20, 50, 100],
+        // pageList : [20, 50, 100],
         height:'100%',
         width:'100%',
         columns:getColumnsByType(),
