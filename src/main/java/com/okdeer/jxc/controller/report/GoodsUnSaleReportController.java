@@ -219,7 +219,7 @@ public class GoodsUnSaleReportController extends BaseController<GoodsUnSaleRepor
                 Future<PageUtils<GoodsUnsaleReportVo>> listFuture = RpcContext.getContext().getFuture();
                 //data.addAll(listFuture.get().getList());
                 futures.add(listFuture);
-                if (futures.size() % 3 == 0) {
+                if (futures.size() % 5 == 0) {
                     forEachFuture(data, futures);
                 }
             }
