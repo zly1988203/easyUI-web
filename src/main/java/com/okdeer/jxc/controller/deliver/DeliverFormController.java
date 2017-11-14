@@ -1482,7 +1482,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 								try {
 									Double.parseDouble(num);
 								} catch (Exception e) {
-									obj.element(numKey, 0);
+//									obj.element(numKey, 0);
+									obj.element("error", "箱数/数量 填写有误");
 								}
 
 								try {
