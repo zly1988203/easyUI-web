@@ -45,8 +45,6 @@ function initBranchSelect() {
 
 //查询
 function query() {
-    $("#startCount").val('');
-    $("#endCount").val('');
     var startDate = $("#txtStartDate").val();
     var endDate = $("#txtEndDate").val();
     if (!(startDate && endDate)) {

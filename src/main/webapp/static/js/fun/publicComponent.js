@@ -2976,7 +2976,7 @@ function initCombobox(id,dataItems,defValue){
 function initCombotree(id,dataItems,defValue){
     $('#'+id).combotree({
         cascadeCheck: true,
-        //onlyLeafCheck: true,
+        // onlyLeafCheck: true,
         checkbox: true,
         data: dataItems,
         width: 200,
