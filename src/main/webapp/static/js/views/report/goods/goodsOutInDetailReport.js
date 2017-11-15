@@ -27,7 +27,7 @@ $(function(){
 });
 
 var dataItems = [
-			{"text": "全部","id": "",iconCls:"combotree-p",
+			{"text": "全部","id": "ALL",iconCls:"combotree-p",
 				children:[
                 {"text": "采购收货","id": "PI",iconCls:"combotree-c"},
                 {"text": "采购退货","id": "PR",iconCls:"combotree-c"},
@@ -279,8 +279,15 @@ function initDatagridRequire(){
 function queryForm(){
     $("#startCount").val('');
     $("#endCount").val('');
-	// 赋值单据类型选择
-	$("#formTypes").val($("#fType").combotree('getValues'));
+
+    // 赋值单据类型选择
+    var formTypes = $("#fType").combotree('getValues');
+    if(formTypes.indexOf("ALL")>-1){
+        $("#formTypes").val("");
+    }else {
+        $("#formTypes").val($("#fType").combotree('getValues'));
+    }
+
 	var fromObjStr = $('#queryForm').serializeObject();
 	$("#goodsOutInDetail").datagrid("options").method = "post";
 	$("#goodsOutInDetail").datagrid('options').url = contextPath + '/goods/goodsDetail/getGoodsOutInDetailList';
