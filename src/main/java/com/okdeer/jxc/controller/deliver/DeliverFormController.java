@@ -1482,7 +1482,8 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 								try {
 									Double.parseDouble(num);
 								} catch (Exception e) {
-									obj.element(numKey, 0);
+//									obj.element(numKey, 0);
+									obj.element("error", "箱数/数量 填写有误");
 								}
 
 								try {
@@ -1493,7 +1494,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 									} else if ("否".equals(isGift)) {
 										obj.element("isGift", "0");
 									} else {
-										obj.element("error", "是否赠品字段填写有误");
+										obj.element("isGift", "0"); //赠品默认为否
 									}
 								} catch (Exception e) {
 									obj.element("error", "是否赠品字段填写有误");
