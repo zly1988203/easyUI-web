@@ -50,6 +50,7 @@ import com.okdeer.jxc.common.enums.DeliverAuditStatusEnum;
 import com.okdeer.jxc.common.enums.DeliverStatusEnum;
 import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.enums.FormSourcesEnum;
+import com.okdeer.jxc.common.enums.IsGiftEnum;
 import com.okdeer.jxc.common.enums.IsReference;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
@@ -525,6 +526,14 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				if (deliverFormListVo.getPriceBack() == null) {
 					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
 				}
+                // 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
+                if (IsGiftEnum.NO.getIndex().equals(deliverFormListVo.getIsGift())
+                        && BigDecimal.ZERO.compareTo(deliverFormListVo.getPrice()) != 0
+                        && BigDecimal.ZERO.compareTo(deliverFormListVo.getApplyNum()) != 0
+                        && BigDecimal.ZERO.compareTo(deliverFormListVo.getAmount()) == 0) {
+                    BigDecimal amount = deliverFormListVo.getPrice().multiply(deliverFormListVo.getApplyNum());
+                    deliverFormListVo.setAmount(BigDecimalUtils.formatDecimal(amount, 4));
+                }
 			}
 			respJson = deliverFormServiceApi.insertForm(vo);
 			if (respJson.getStatus() != 0) {
@@ -622,6 +631,14 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				if (deliverFormListVo.getPriceBack() == null) {
 					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
 				}
+                // 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
+                if (IsGiftEnum.NO.getIndex().equals(deliverFormListVo.getIsGift())
+                        && BigDecimal.ZERO.compareTo(deliverFormListVo.getPrice()) != 0
+                        && BigDecimal.ZERO.compareTo(deliverFormListVo.getApplyNum()) != 0
+                        && BigDecimal.ZERO.compareTo(deliverFormListVo.getAmount()) == 0) {
+                    BigDecimal amount = deliverFormListVo.getPrice().multiply(deliverFormListVo.getApplyNum());
+                    deliverFormListVo.setAmount(BigDecimalUtils.formatDecimal(amount, 4));
+                }
 			}
 
 			respJson = deliverFormServiceApi.updateForm(vo);
@@ -1479,13 +1496,20 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 									numKey = "num";
 								}
 								String num = obj.getString(numKey);
-								try {
-									Double.parseDouble(num);
-								} catch (Exception e) {
-//									obj.element(numKey, 0);
-									obj.element("error", "箱数/数量 填写有误");
+								
+								// 如果为空时，默认为0
+								if(StringUtils.isBlank(num)){
+									num = "0";
+									obj.element(numKey, 0);
+								}else{
+									try {
+										Double.parseDouble(num);
+									} catch (Exception e) {
+//										obj.element(numKey, 0);
+										obj.element("error", "箱数/数量 填写有误");
+									}
 								}
-
+								
 								try {
 									String isGift = obj.getString("isGift");
 									if ("是".equals(isGift)) {// 如果是赠品，单价设置为0
@@ -1544,14 +1568,25 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 		String[] headers = null;
 		String[] columns = null;
 
-		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) {
-			// 货号
+		if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE)) { // 货号
+			
 			columns = ImportExcelConstant.DO_GOODS_SKUCODE_COLUMNS_LARGENUM;
 			headers = ImportExcelConstant.DO_GOODS_SKUCODE_HEADERS_LARGENUM;
 		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE)) {
 			// 条码
 			columns = ImportExcelConstant.DO_GOODS_BARCODE_COLUMNS_LARGENUM;
 			headers = ImportExcelConstant.DO_GOODS_BARCODE_HEADERS_LARGENUM;
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_SKU_CODE_NUM)) {
+			// 货号
+			columns = ImportExcelConstant.DO_GOODS_SKUCODE_COLUMNS_NUM;
+			headers = ImportExcelConstant.DO_GOODS_SKUCODE_HEADERS_NUM;
+		} else if (type.equals(GoodsSelectImportHandle.TYPE_BAR_CODE_NUM)) {
+			// 条码
+			columns = ImportExcelConstant.DO_GOODS_BARCODE_COLUMNS_NUM;
+			headers = ImportExcelConstant.DO_GOODS_BARCODE_HEADERS_NUM;
+		} else {
+			LOG.warn("导入类型错误");
+			return;
 		}
 		goodsSelectImportComponent.downloadErrorFile(code, reportFileName, headers, columns, response);
 	}
