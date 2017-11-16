@@ -20,12 +20,13 @@ $(function () {
         $("#"+gridName).datagrid('loadData', { total: 0, rows: [] });
         $("#"+gridName).datagrid("reloadFooter",[]);
         if(auditStatus === "1"){
+            $("#cashierName").removeProp("readOnly");
+            $('#cashierName').removeClass('uinp-no-more');
+        }else{
             $("#cashierName").prop("readOnly","readOnly");
             $('#cashierName').addClass('uinp-no-more');
             $("#cashierName").val("");
-        }else{
-            $("#cashierName").removeProp("readOnly");
-            $('#cashierName').removeClass('uinp-no-more');
+
             // $('#cashierSelect').operatorSelect({
             //     onAfterRender:function(data){
             //         branchName = data.branchName;
@@ -92,7 +93,7 @@ function getColumnsByType() {
             },
             {field: 'repeatMemberRate', title: '会员重构率', width: '150px', align: 'right',
                 formatter : function(value, row, index) {
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
                 },
             },
         ]]
@@ -114,7 +115,7 @@ function getColumnsByType() {
             },
             {field: 'repeatMemberRate', title: '会员重构率', width: '200px', align: 'right',
                 formatter : function(value, row, index) {
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
                 },
             },
         ]]
@@ -135,7 +136,7 @@ function getColumnsByType() {
             },
             {field: 'repeatMemberRate', title: '会员重构率', width: '150px', align: 'right',
                 formatter : function(value, row, index) {
-                    return '<b>'+parseFloat(value||0).toFixed(2)+'</b>';
+                    return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
                 },
             },
         ]]
