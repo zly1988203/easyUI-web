@@ -34,7 +34,7 @@
 				<div class="uinp-more">...</div>
 				</div>
 				<div class="ub ub-ac umar-r40" id="cashierSelect">
-					<div class="umar-r10 uw-60 ut-r">操作员:</div>
+					<div class="umar-r10 uw-60 ut-r">收银员:</div>
 					<input name="cashierId" id="cashierId" type="hidden">
 					<input class="uinp" id="cashierName" name="cashierName" type="text" maxlength="50" />
 					<div class="uinp-more">...</div>
