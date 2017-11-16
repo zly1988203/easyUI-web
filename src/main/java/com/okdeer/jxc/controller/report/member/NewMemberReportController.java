@@ -97,6 +97,9 @@ public class NewMemberReportController extends BaseController<NewMemberReportCon
 	@RequestMapping(value = "exportList")
 	public RespJson exportList(NewMemberReportQo qo, HttpServletResponse response) {
 		try {
+			
+			// 构建查询参数
+			buildSearchParams(qo);
 
 			LOG.debug("导出新会员统计报表：{}", qo);
 
