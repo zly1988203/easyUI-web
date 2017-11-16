@@ -85,7 +85,7 @@ function initDatagridStockReimburse(){
                     options:{
                     	disabled:true,
                         min:0,
-                        precision:2
+                        precision:4
                     }
                 },
             },
@@ -164,7 +164,7 @@ function initDatagridStockReimburse(){
                     options:{
                     	disabled:true,
                         min:0,
-                        precision:2
+                        precision:4
                     }
                 },
             },
