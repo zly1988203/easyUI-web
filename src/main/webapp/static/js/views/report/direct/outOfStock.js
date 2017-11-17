@@ -73,7 +73,7 @@ function changeType(){
 
         initDataGrid();
         $("#marketWater").datagrid('loadData', { total: 0, rows: [] });
-        $('#marketWater').datagrid({showFooter:false});
+        $("#" + gridName).datagrid('reloadFooter', []);
         $("#"+gridName).datagrid("options").url = "";
     });
 }
@@ -161,7 +161,7 @@ function getColumnsByType(){
         return [[
             {field: 'inFormNo', title: '要货单号', width: '150px', align: 'left',
                 formatter:function(value,row,index){
-                    if(!value || value == '合计'){
+                    if (!value || value === 'sum') {
                         return '<div class="ub ub-pc ufw-b">合计</div> '
                     }
                     var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.inFormId+'")';
@@ -264,7 +264,7 @@ function getColumnsByType(){
             [
                 {field: 'skuCode', title: '货号', width: '65px', align: 'left',
                     formatter:function(value,row,index){
-                        if(!value || value == '合计'){
+                        if (!value || value === 'sum') {
                             return '<div class="ub ub-pc ufw-b">合计</div> '
                         }
                         return row.skuCode;
@@ -346,7 +346,15 @@ function getColumnsByType(){
     }else if(val == '3'){
         return [
             [
-                {field: 'targetBranchName',title:'要货机构',width:'85px',align:'left'},
+                {
+                    field: 'targetBranchName', title: '要货机构', width: '85px', align: 'left',
+                    formatter: function (value, row, index) {
+                        if (!value || value === 'sum') {
+                            return '<div class="ub ub-pc ufw-b">合计</div> '
+                        }
+                        return row.targetBranchName;
+                    }
+                },
                 {field: 'sourceBranchName',title:'发货机构',width:'85px',align:'left'},
                 {field: 'inApplyNum', title: '要货数量', width: '85px', align: 'right',
                     formatter : function(value, row, index) {
@@ -405,7 +413,15 @@ function getColumnsByType(){
     }else if(val == '2'){
         return [
             [
-                {field: 'targetBranchName',title:'要货机构',width:'85px',align:'left'},
+                {
+                    field: 'targetBranchName', title: '要货机构', width: '85px', align: 'left',
+                    formatter: function (value, row, index) {
+                        if (!value || value === 'sum') {
+                            return '<div class="ub ub-pc ufw-b">合计</div> '
+                        }
+                        return row.targetBranchName;
+                    }
+                },
                 {field: 'sourceBranchName',title:'发货机构',width:'85px',align:'left'},
                 {field: 'inFormNo', title: '要货单号', width: '150px', align: 'left',
                     formatter:function(value,row,index){

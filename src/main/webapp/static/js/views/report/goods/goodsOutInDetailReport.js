@@ -1,7 +1,7 @@
 $(function(){
 	//开始和结束时间
-    $("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00:00");
-    $("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd")+ " 23:59:59");
+	$("#txtStartDate").val(dateUtil.getCurrDayPreOrNextDay("prev",30)+" 00:00");
+	$("#txtEndDate").val(dateUtil.getCurrentDate().format("yyyy-MM-dd")+" 23:59");
     initDatagridRequire();
 
     //机构选择初始化 收货机构

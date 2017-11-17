@@ -3,8 +3,18 @@ $(function () {
     initConditionParams();
     initNewMemberGrid();
 
-//机构选择初始化 收货机构 一般数据
-    $('#targetBranch').branchSelect();
+    //机构选择初始化 收货机构 一般数据
+    $('#targetBranch').branchSelect({
+    	param:{
+    		// 不包括仓库
+			branchTypesStr:	$_jxc.branchTypeEnum.HEAD_QUARTERS + ',' +
+							$_jxc.branchTypeEnum.BRANCH_COMPANY + ',' + 
+							$_jxc.branchTypeEnum.OWN_STORES + ',' + 
+							$_jxc.branchTypeEnum.FRANCHISE_STORE_B + ',' + 
+							$_jxc.branchTypeEnum.FRANCHISE_STORE_C
+		}
+    });
+    
     //操作员组件初始化
     $('#cashierSelect').operatorSelect({
         onAfterRender:function(data){

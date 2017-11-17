@@ -9,7 +9,7 @@
 <title>新会员统计报表</title>
 
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
-<script src="${ctx}/static/js/views/report/member/newMemberReport.js?V=${versionNo}4"></script>
+<script src="${ctx}/static/js/views/report/member/newMemberReport.js?V=${versionNo}"></script>
 </head>
 <body class="ub uw uh ufs-14 uc-black">
 	<div class="ub ub-ver ub-f1 umar-4 upad-4">
@@ -29,7 +29,7 @@
 			<div class="ub umar-t8">
 				<div class="ub  ub-ac umar-l20" id="targetBranch">
 				<div class="umar-r10 uw-70 ut-r">查询机构:</div>
-				<input class="uinp ub ub-f1" type="text" id="branchCodeName" name="branchCodeName" readonly="readonly" />
+				<input class="uinp ub ub-f1" type="text" id="branchCodeName" name="branchCodeName" />
 				<input type="hidden" id="branchCompleCode" name="branchCompleCode" />
 				<div class="uinp-more">...</div>
 				</div>
