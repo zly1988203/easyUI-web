@@ -103,6 +103,9 @@ function getColumnsByType() {
             },
             {field: 'repeatMemberRate', title: '会员重构率', width: '150px', align: 'right',
                 formatter : function(value, row, index) {
+                    if(row['branchCode'] === '合计'){
+                        return;
+                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
                 },
             },
@@ -125,6 +128,9 @@ function getColumnsByType() {
             },
             {field: 'repeatMemberRate', title: '会员重构率', width: '200px', align: 'right',
                 formatter : function(value, row, index) {
+                    if(row['branchCode'] === '合计'){
+                        return;
+                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
                 },
             },
@@ -146,6 +152,9 @@ function getColumnsByType() {
             },
             {field: 'repeatMemberRate', title: '会员重构率', width: '150px', align: 'right',
                 formatter : function(value, row, index) {
+                    if(row['branchCode'] === '合计'){
+                        return;
+                    }
                     return '<b>'+parseFloat(value||0).toFixed(2)+'%</b>';
                 },
             },
