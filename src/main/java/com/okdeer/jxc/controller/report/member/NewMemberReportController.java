@@ -132,6 +132,8 @@ public class NewMemberReportController extends BaseController<NewMemberReportCon
 					columns = DATE_REPORT_COLUMNS;
 					reportTypeStr = "按日统计";
 					break;
+				default:
+					return RespJson.businessError("报表类型错误！");
 			}
 
 			// 导出文件名称，不包括后缀名
