@@ -528,7 +528,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
                     itemNum = deliverFormListVo.getDealNum();
                 }
 				// 单价备份默认用单价
-				if (deliverFormListVo.getPriceBack() == null) {
+				if (deliverFormListVo.checkPirceBack()) {
 					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
 				}
 				// 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
@@ -634,7 +634,7 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
                     itemNum = deliverFormListVo.getDealNum();
                 }
 				// 单价备份默认用单价
-				if (deliverFormListVo.getPriceBack() == null) {
+				if (deliverFormListVo.checkPirceBack()) {
 					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
 				}
 				
