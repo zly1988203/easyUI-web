@@ -11,6 +11,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.okdeer.jxc.branch.entity.Branches;
 import com.okdeer.jxc.branch.service.BranchSpecServiceApi;
 import com.okdeer.jxc.branch.service.BranchesServiceApi;
+import com.okdeer.jxc.common.constant.Constant;
 import com.okdeer.jxc.common.constant.ExportExcelConstant;
 import com.okdeer.jxc.common.constant.LogConstant;
 import com.okdeer.jxc.common.controller.BasePrintController;
@@ -225,15 +226,20 @@ public class DeliverReportController extends BasePrintController<DeliverReportCo
                                                                   @RequestParam(value = "rows", defaultValue = PAGE_SIZE) int pageSize) {
         LOG.debug(LogConstant.OUT_PARAM, vo);
 		try {
-			if (StringUtils.isBlank(vo.getSourceBranchId())) {
-				vo.setSourceBranchId(UserUtil.getCurrBranchId());
-			}
-			if (StringUtils.isBlank(vo.getTargetBranchId())) {
-			    vo.setTargetBranchId(UserUtil.getCurrBranchId());
-			}
-			if (StringUtils.isBlank(vo.getBranchId())) {
-			    vo.setBranchId(UserUtil.getCurrBranchId());
-			}
+            if (Constant.INTEGER_ONE.equals(vo.getType())) {
+                // 多机构查询（配送明细查询）
+                // 没有机构查询条件时，以当前登录机构查询
+                if (StringUtils.isBlank(vo.getSourceBranchId()) && StringUtils.isBlank(vo.getTargetBranchId())) {
+                    vo.setSourceBranchId(UserUtil.getCurrBranchId());
+                    vo.setTargetBranchId(UserUtil.getCurrBranchId());
+                }
+            } else {
+                // 单机构查询（配送明细（按单机构查询））
+                // 没有机构查询条件时，以当前登录机构查询
+                if (StringUtils.isBlank(vo.getBranchId())) {
+                    vo.setBranchId(UserUtil.getCurrBranchId());
+                }
+            }
 			if (StringUtils.isBlank(vo.getDeliverType())) {
 				vo.setDeliverType("");
 			}
