@@ -521,14 +521,12 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 					deliverFormListVo.setDealNum(deliverFormListVo.getApplyNum());
 				}
 				BigDecimal itemNum;
-				if (FormType.DA.toString().equals(vo.getFormType())) {
-				    itemNum = deliverFormListVo.getApplyNum();
-				} else {
-				    itemNum = deliverFormListVo.getDealNum();
-				}
-				if(deliverFormListVo.checkFormZeroItem(itemNum)){
-				    return RespJson.error("非赠品商品，价格或数量不能为0，单据保存失败！");
-				}
+                if (FormType.DA.toString().equals(vo.getFormType())
+                        || FormType.DY.toString().equals(vo.getFormType())) {
+                    itemNum = deliverFormListVo.getApplyNum();
+                } else {
+                    itemNum = deliverFormListVo.getDealNum();
+                }
 				// 单价备份默认用单价
 				if (deliverFormListVo.getPriceBack() == null) {
 					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
@@ -629,13 +627,11 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				}
 				
                 BigDecimal itemNum;
-                if (FormType.DA.toString().equals(vo.getFormType())) {
+                if (FormType.DA.toString().equals(vo.getFormType())
+                        || FormType.DY.toString().equals(vo.getFormType())) {
                     itemNum = deliverFormListVo.getApplyNum();
                 } else {
                     itemNum = deliverFormListVo.getDealNum();
-                }
-				if(deliverFormListVo.checkFormZeroItem(itemNum)){
-                    return RespJson.error("非赠品商品，价格或数量不能为0，单据保存失败！");
                 }
 				// 单价备份默认用单价
 				if (deliverFormListVo.getPriceBack() == null) {
