@@ -425,6 +425,9 @@ function getColumnsByType(){
                 {field: 'sourceBranchName',title:'发货机构',width:'85px',align:'left'},
                 {field: 'inFormNo', title: '要货单号', width: '150px', align: 'left',
                     formatter:function(value,row,index){
+                        if (!value) {
+                            return '';
+                        }
                         var hrefStr='parent.addTab("详情","'+contextPath+'/form/deliverForm/deliverEdit?report=close&deliverFormId='+row.inFormId+'")';
                         return '<a style="text-decoration: underline;" href="#" onclick='+hrefStr+'>' + value + '</a>';
                     }
