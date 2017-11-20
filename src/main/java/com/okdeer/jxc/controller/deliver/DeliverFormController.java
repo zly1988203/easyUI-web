@@ -50,7 +50,6 @@ import com.okdeer.jxc.common.enums.DeliverAuditStatusEnum;
 import com.okdeer.jxc.common.enums.DeliverStatusEnum;
 import com.okdeer.jxc.common.enums.DisabledEnum;
 import com.okdeer.jxc.common.enums.FormSourcesEnum;
-import com.okdeer.jxc.common.enums.IsGiftEnum;
 import com.okdeer.jxc.common.enums.IsReference;
 import com.okdeer.jxc.common.exception.BusinessException;
 import com.okdeer.jxc.common.goodselect.GoodsSelectImportBusinessValid;
@@ -521,19 +520,19 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				if (FormType.DD.toString().equals(vo.getFormType())) {
 					deliverFormListVo.setDealNum(deliverFormListVo.getApplyNum());
 				}
-
+				BigDecimal itemNum;
+                if (FormType.DA.toString().equals(vo.getFormType())
+                        || FormType.DY.toString().equals(vo.getFormType())) {
+                    itemNum = deliverFormListVo.getApplyNum();
+                } else {
+                    itemNum = deliverFormListVo.getDealNum();
+                }
 				// 单价备份默认用单价
 				if (deliverFormListVo.getPriceBack() == null) {
 					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
 				}
-                // 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
-                if (IsGiftEnum.NO.getIndex().equals(deliverFormListVo.getIsGift())
-                        && BigDecimal.ZERO.compareTo(deliverFormListVo.getPrice()) != 0
-                        && BigDecimal.ZERO.compareTo(deliverFormListVo.getApplyNum()) != 0
-                        && BigDecimal.ZERO.compareTo(deliverFormListVo.getAmount()) == 0) {
-                    BigDecimal amount = deliverFormListVo.getPrice().multiply(deliverFormListVo.getApplyNum());
-                    deliverFormListVo.setAmount(BigDecimalUtils.formatDecimal(amount, 4));
-                }
+				// 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
+				deliverFormListVo.setZeroAmount(itemNum);
 			}
 			respJson = deliverFormServiceApi.insertForm(vo);
 			if (respJson.getStatus() != 0) {
@@ -626,19 +625,21 @@ public class DeliverFormController extends BasePrintController<DeliverFormContro
 				if (FormType.DD.toString().equals(vo.getFormType())) {
 					deliverFormListVo.setDealNum(deliverFormListVo.getApplyNum());
 				}
-
+				
+                BigDecimal itemNum;
+                if (FormType.DA.toString().equals(vo.getFormType())
+                        || FormType.DY.toString().equals(vo.getFormType())) {
+                    itemNum = deliverFormListVo.getApplyNum();
+                } else {
+                    itemNum = deliverFormListVo.getDealNum();
+                }
 				// 单价备份默认用单价
 				if (deliverFormListVo.getPriceBack() == null) {
 					deliverFormListVo.setPriceBack(deliverFormListVo.getPrice());
 				}
+				
                 // 如果页面传递非赠品 ，且价格不为0，数量不为0，但金额为0的明细，重新计算金额值
-                if (IsGiftEnum.NO.getIndex().equals(deliverFormListVo.getIsGift())
-                        && BigDecimal.ZERO.compareTo(deliverFormListVo.getPrice()) != 0
-                        && BigDecimal.ZERO.compareTo(deliverFormListVo.getApplyNum()) != 0
-                        && BigDecimal.ZERO.compareTo(deliverFormListVo.getAmount()) == 0) {
-                    BigDecimal amount = deliverFormListVo.getPrice().multiply(deliverFormListVo.getApplyNum());
-                    deliverFormListVo.setAmount(BigDecimalUtils.formatDecimal(amount, 4));
-                }
+				deliverFormListVo.setZeroAmount(itemNum);
 			}
 
 			respJson = deliverFormServiceApi.updateForm(vo);
