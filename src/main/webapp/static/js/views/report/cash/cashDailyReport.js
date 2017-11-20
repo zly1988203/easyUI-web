@@ -17,10 +17,12 @@ $(function() {
 function changeType(){
 	$(".radioItem").change(function(){
     	var type = $(this).val();
+
         initCashDailyGrid(type);
+        $("#cashDaily").datagrid("options").url = "";
         $("#cashDaily").datagrid('loadData', { total: 0, rows: [] });
         $('#cashDaily').datagrid({showFooter:false});
-        $("#cashDaily").datagrid("options").url = "";
+
     	if (type=="cashier") {
 			showCashier();
 		} else if (type=="branch") {
@@ -65,6 +67,7 @@ function initCashDailyGrid(queryType) {
         pageSize : pageSize,
         showFooter:true,
         height:'100%',
+        widht:'100%',
         columns: getCashDailyColumns(queryType),
 		onBeforeLoad:function(data){
 			gridHandel.setDatagridHeader("center");
@@ -422,6 +425,7 @@ function query(){
 	if(cashierNameOrCode && cashierNameOrCode.indexOf("[")>=0 && cashierNameOrCode.indexOf("]")>=0){
 		formData.cashierNameOrCode = null;
 	}
+    $('#cashDaily').datagrid({showFooter:true});
 	$("#cashDaily").datagrid("options").queryParams = formData;
 	$("#cashDaily").datagrid("options").method = "post";
 	$("#cashDaily").datagrid("options").url =  contextPath+"/cashDaily/report/getList";

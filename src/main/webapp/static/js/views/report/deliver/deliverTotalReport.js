@@ -179,7 +179,6 @@ function initCashDailyGrid(type) {
         //fitColumns:true,    //占满
         showFooter:true,
         pageSize : 50,
-        showFooter:true,
         height:'100%',
         width:'100%',
         columns:getColumnsfield(type),
