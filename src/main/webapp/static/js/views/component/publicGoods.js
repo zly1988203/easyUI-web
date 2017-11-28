@@ -80,6 +80,7 @@ $(function () {
              *
              * **/
             function zTreeOnClick(event, treeId, treeNode) {
+                debugger;
                 categoryCode=treeNode.code;
                 var goodsTypeVal =  $("#goodsType").combobox('getValue');
                 var type = $('#type').val();
@@ -88,17 +89,17 @@ $(function () {
                     brandId = "";
                     supplierId = "";
                     // 如果为直送收货，类别需求加入供商商条件，其他单据商品选择与供应商无关
-                    // if(type != 'PM' ){
-                    // 	_searchParam.supplierId = "";
-                    // }
+                    if(type != 'PM' ){
+                    	_searchParam.supplierId = "";
+                    }
 
                 }else if(goodsTypeVal === "brandId"){
                     brandId = treeNode.id;
                     supplierId = "";
                     // 如果为直送收货，品牌需求加入供商商条件，其他单据商品选择与供应商无关
-                    // if(type != 'PM'){
-                    // 	_searchParam.supplierId = "";
-                    // }
+                    if(type != 'PM'){
+                    	_searchParam.supplierId = "";
+                    }
                 }else if(goodsTypeVal === "supplierId"){
                     brandId = "";
                     supplierId = treeNode.id;

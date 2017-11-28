@@ -102,6 +102,12 @@ var commonItems = [ {
 }, {
 	type : "holder",
 	text : "_审核日期"
+}, {
+    type : "label",
+    text : "审核状态："
+}, {
+    type : "holder",
+    text : "_审核状态"
 }];
 
 // 打印项数据
@@ -213,6 +219,12 @@ var defaultData = {
         }, {
             type: "label",
             text: "自定义标签"
+        }, {
+            type : "label",
+            text : "审核状态："
+        }, {
+            type : "holder",
+            text : "_审核状态"
         }]
 	} ],
 	// 采购收货单

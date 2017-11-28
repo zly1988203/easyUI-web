@@ -26,6 +26,24 @@
 	background: gray;
 		<%--border:1px solid #ccc;--%>
 	}
+
+	.already-examine {
+	border: 2px solid #e23d3d;
+	box-shadow: 2px 2px 10px rgba(255, 0, 0, 0.3);
+	color: #e23d3d;
+	font-size: 20px;
+	font-weight: bold;
+	padding: 6px 2px;
+	position: absolute;
+	left: 60%;
+	top: 100px;
+	text-align: center;
+	line-height: 20px;
+	word-break: break-all;
+	z-index: 1;
+	border-radius: 5px;
+	-webkit-transform: rotate(-20deg);
+	}
 	</style>
 </head>
 <body>
@@ -35,7 +53,10 @@
         <!-- <input id="btnExport" class='noPrint' type='button' value='导出' /> -->
     </div>
     <div>
-        <div id="divPrint"></div>
+	<%--<div class="already-examine" id="already-examine"><span>已审核</span></div>--%>
+        <div id="divPrint">
+
+		</div>
     </div>    
     <script type="text/javascript">
     	var rootPath="${ctx}";

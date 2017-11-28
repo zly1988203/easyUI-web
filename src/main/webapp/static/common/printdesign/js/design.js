@@ -831,7 +831,8 @@ function initMainFrame() {
     $("#t").layout('add', {
         region: 'center',
         width: '85%',
-        content: "<div class='container' style='position: relative;overflow:auto;background-color:gray;height:100%;width:100%;'></div>"
+        content: "<div class='container' style='position: relative;overflow:auto;background-color:gray;height:100%;width:100%;'>" +
+        "</div>"
     });
 
     //绑定键盘按键事件
@@ -919,7 +920,7 @@ function initDroppable(templateType) {
             // div.css("font-family","微软雅黑");
             div.css("border-radius", "5px");
             //特别处理审核状态
-            if (div.hasClass(".holder") && div.html() == "_审核状态") {
+            if ($(div).hasClass('holder') && div.html() == "_审核状态") {
                 div.addClass("borderable");
             }
             bindDropElementEvent(div);
@@ -1087,7 +1088,7 @@ function setPaper(paperSetting, templateType) {
 
     var widthContainer = jqContainer.width();
     var heightContainer = jqContainer.height();
-    var top = (heightContainer - screenSize.heigth) / 2;
+    var top = (heightContainer - screenSize.height) / 2;
     var left = (widthContainer - screenSize.width) / 2;
     if (top < 0) top = 0;
     if (left < 0) left = 0;
